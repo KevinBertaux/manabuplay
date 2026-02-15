@@ -2,26 +2,18 @@
 
 Objectif: limiter a **1 deploy production par semaine** jusqu'au **9 mars 2026**.
 
-## Release en 5 minutes
+## Regles
 
-- [ ] `npm test` puis `npm run build` passent sans erreur
-- [ ] Version cible decidee (ex: `0.4.0`) + notes de release courtes pretes
-- [ ] Verification manuelle rapide: `/`, `/math`, `/vocab`, `/admin` (URL directe), pages legales
-- [ ] Push de la version a publier + declenchement du deploy unique de la semaine
-- [ ] Verification post-deploy sur URL publique + badge Netlify vert
+- Pas de deploy production hors fenetre hebdomadaire validee.
+- Les commits peuvent continuer sur le repo sans deploy prod systematique.
+- Un seul responsable valide le Go/No-Go final.
 
-## Regle simple
+## Fenetres de deploy cibles
 
-- [ ] Aucun deploy production hors fenetre hebdomadaire validee
-- [ ] Les commits peuvent continuer sur le repo sans deploy prod systematique
-- [ ] Un seul responsable valide le Go/No-Go final avant publication
-
-## Fenetres de deploy ciblees
-
-- [ ] Semaine du 16 fevrier 2026 (1 deploy max)
-- [ ] Semaine du 23 fevrier 2026 (1 deploy max)
-- [ ] Semaine du 2 mars 2026 (1 deploy max)
-- [ ] Revue du quota apres reset du 9 mars 2026
+- Semaine du 16 fevrier 2026 (1 deploy max)
+- Semaine du 23 fevrier 2026 (1 deploy max)
+- Semaine du 2 mars 2026 (1 deploy max)
+- Revue du quota apres reset du 9 mars 2026
 
 ## Pre-check local (obligatoire)
 
@@ -47,7 +39,7 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au **9 mars 2026**
 - [ ] Builds auto geres selon la strategie budget (pause/reprise)
 - [ ] Branche cible confirmee (`main`)
 - [ ] Variables d'environnement prod verifiees
-- [ ] Deploy preview (optionnel) valide si budget disponible
+- [ ] Deploy preview valide si budget disponible (optionnel)
 
 ## Publication
 
