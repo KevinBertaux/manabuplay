@@ -63,27 +63,14 @@ manabuplay/
 - Setup GitHub/Netlify/CMS: `docs/SETUP-GITHUB-NETLIFY-CMS.fr.md`
 - Checklist release hebdo: `docs/RELEASE-CHECKLIST.fr.md`
 - Securite secrets (ggshield): `docs/SECURITY-SECRETS.fr.md`
+- Git cheat sheet: `docs/GIT-CHEATSHEET.fr.md`
 
 ## Securite secrets
 
 - Scan GitGuardian active en CI via `.github/workflows/ggshield.yml`.
 - Ajouter le secret GitHub `GITGUARDIAN_API_KEY` pour activer le scan.
 - Guide rapide: `docs/SECURITY-SECRETS.fr.md`.
+
 ## Version
 
 - `0.3.0` - 13 fevrier 2026
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -155,6 +155,6 @@ Guide détaillé pas-à-pas :
 
 Projet libre d'utilisation pour usage personnel et éducatif.
 
+## 🔀 Workflow Git
 
-
-
+- Cheat sheet Git du projet: `docs/GIT-CHEATSHEET.fr.md`
