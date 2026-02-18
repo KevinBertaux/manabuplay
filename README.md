@@ -64,6 +64,7 @@ manabuplay/
 - Checklist release hebdo: `docs/RELEASE-CHECKLIST.fr.md`
 - Securite secrets (ggshield): `docs/SECURITY-SECRETS.fr.md`
 - Git cheat sheet: `docs/GIT-CHEATSHEET.fr.md`
+- Backend Laravel V2: `docs/BACKEND-LARAVEL-V2.fr.md`
 
 ## Securite secrets
 
@@ -74,3 +75,4 @@ manabuplay/
 ## Version
 
 - `0.3.0` - 13 fevrier 2026
+

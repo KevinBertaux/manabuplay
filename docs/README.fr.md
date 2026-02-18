@@ -158,3 +158,7 @@ Projet libre d'utilisation pour usage personnel et éducatif.
 ## 🔀 Workflow Git
 
 - Cheat sheet Git du projet: `docs/GIT-CHEATSHEET.fr.md`
+
+## Backend Laravel V2
+
+- Guide backend V2: `docs/BACKEND-LARAVEL-V2.fr.md`

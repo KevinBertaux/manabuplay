@@ -158,3 +158,7 @@ Free to use for personal and educational purposes.
 
 
 
+
+## Laravel Backend V2
+
+- Backend V2 guide (French): `docs/BACKEND-LARAVEL-V2.fr.md`

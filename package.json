@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:front": "vite",
+    "dev:api": "cd backend && php artisan serve --host=127.0.0.1 --port=8000",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:api": "cd backend && php artisan test",
+    "migrate:api": "cd backend && php artisan migrate:fresh --seed"
   },
   "dependencies": {
     "pinia": "^2.1.7",
@@ -20,4 +24,3 @@
     "vitest": "^2.1.8"
   }
 }
-
