@@ -3,7 +3,6 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   clearFailedAttempts,
-  getAdminSecurityConfig,
   getRateLimitInfo,
   isAdminSessionValid,
   registerFailedAttempt,
@@ -12,31 +11,37 @@ import {
 } from '@/features/admin/auth';
 
 const router = useRouter();
-const config = getAdminSecurityConfig();
 
 const username = ref('');
 const password = ref('');
 const statusMessage = ref('');
 const isSubmitting = ref(false);
-const remainingAttempts = ref(getRateLimitInfo().remainingAttempts);
 const blockedMs = ref(getRateLimitInfo().blockedMs);
+const blockLevel = ref(getRateLimitInfo().blockLevel);
 
 let intervalId;
 
 function refreshRateLimit() {
   const info = getRateLimitInfo();
-  remainingAttempts.value = info.remainingAttempts;
   blockedMs.value = info.blockedMs;
+  blockLevel.value = info.blockLevel;
 }
 
 const isBlocked = computed(() => blockedMs.value > 0);
 const blockedSeconds = computed(() => Math.ceil(blockedMs.value / 1000));
 
+function buildBlockedMessage(seconds, level) {
+  if (level === 'hard') {
+    return `Acces verrouille. Reessaie dans ${seconds}s.`;
+  }
+  return `Acces temporairement bloque. Reessaie dans ${seconds}s.`;
+}
+
 async function submitLogin() {
   refreshRateLimit();
 
   if (isBlocked.value) {
-    statusMessage.value = `Accès temporairement bloqué. Réessaie dans ${blockedSeconds.value}s.`;
+    statusMessage.value = buildBlockedMessage(blockedSeconds.value, blockLevel.value);
     return;
   }
 
@@ -47,13 +52,11 @@ async function submitLogin() {
     const valid = await verifyAdminCredentials(username.value, password.value);
     if (!valid) {
       const info = registerFailedAttempt();
-      remainingAttempts.value = info.remainingAttempts;
       blockedMs.value = info.blockedMs;
+      blockLevel.value = info.blockLevel;
 
       if (info.isBlocked) {
-        statusMessage.value = `Trop d'essais. Accès bloqué ${Math.ceil(info.blockedMs / 1000)}s.`;
-      } else {
-        statusMessage.value = `Identifiants invalides. Tentatives restantes: ${info.remainingAttempts}.`;
+        statusMessage.value = buildBlockedMessage(Math.ceil(info.blockedMs / 1000), info.blockLevel);
       }
       return;
     }
@@ -74,7 +77,12 @@ onMounted(async () => {
   }
 
   refreshRateLimit();
-  intervalId = window.setInterval(refreshRateLimit, 1000);
+  intervalId = window.setInterval(() => {
+    refreshRateLimit();
+    if (isBlocked.value) {
+      statusMessage.value = buildBlockedMessage(blockedSeconds.value, blockLevel.value);
+    }
+  }, 1000);
 });
 
 onUnmounted(() => {
@@ -87,9 +95,6 @@ onUnmounted(() => {
 <template>
   <section class="page-block auth-page">
     <div class="auth-card">
-      <h1>Espace interne</h1>
-      <p class="auth-subtitle">Accès restreint.</p>
-
       <form class="auth-form" @submit.prevent="submitLogin">
         <label for="studio-username">Nom d'utilisateur</label>
         <input
@@ -112,14 +117,11 @@ onUnmounted(() => {
         />
 
         <button class="btn btn-primary" type="submit" :disabled="isSubmitting || isBlocked">
-          {{ isSubmitting ? 'Vérification...' : 'Se connecter' }}
+          {{ isSubmitting ? 'Verification...' : 'Se connecter' }}
         </button>
       </form>
 
-      <p v-if="statusMessage" class="status status-error">{{ statusMessage }}</p>
-      <p v-else class="status status-muted">
-        Sécurité active: {{ config.maxAttempts }} essais max, blocage {{ Math.round(config.blockDurationMs / 60000) }} min.
-      </p>
+      <p v-if="isBlocked && statusMessage" class="status status-error">{{ statusMessage }}</p>
     </div>
   </section>
 </template>
@@ -135,15 +137,6 @@ onUnmounted(() => {
   border-radius: 14px;
   padding: 16px;
   background: #fbfdff;
-}
-
-.auth-card h1 {
-  margin: 0;
-}
-
-.auth-subtitle {
-  margin: 6px 0 12px;
-  color: #4b5f79;
 }
 
 .auth-form {
@@ -188,9 +181,5 @@ onUnmounted(() => {
 
 .status-error {
   color: #b33939;
-}
-
-.status-muted {
-  color: #4b5f79;
 }
 </style>
