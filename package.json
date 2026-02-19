@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:api": "cd backend && php artisan test",
-    "migrate:api": "cd backend && php artisan migrate:fresh --seed"
+    "migrate:api": "cd backend && php artisan migrate:fresh --seed",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "pinia": "^2.1.7",
@@ -19,6 +20,7 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@vitejs/plugin-vue": "^5.0.4",
     "vite": "^5.2.0",
     "vitest": "^2.1.8"

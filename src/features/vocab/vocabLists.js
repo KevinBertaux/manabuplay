@@ -87,7 +87,11 @@ export function getVocabList(listKey) {
     const sanitized = sanitizeListPayload(parsed, baseList);
 
     if (!currentRaw && legacyRaw) {
-      localStorage.setItem(getStorageKey(listKey), JSON.stringify(sanitized));
+      try {
+        localStorage.setItem(getStorageKey(listKey), JSON.stringify(sanitized));
+      } catch {
+        // Ignore migration write failures and keep serving legacy payload.
+      }
     }
 
     return sanitized;
@@ -103,8 +107,12 @@ export function saveVocabList(listKey, payload) {
   }
 
   const sanitized = sanitizeListPayload(payload, baseList);
-  localStorage.setItem(getStorageKey(listKey), JSON.stringify(sanitized));
-  return true;
+  try {
+    localStorage.setItem(getStorageKey(listKey), JSON.stringify(sanitized));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function resetVocabList(listKey) {
