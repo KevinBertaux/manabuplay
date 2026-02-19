@@ -2,8 +2,8 @@ const SESSION_KEY = 'manabuplay_admin_session_v1';
 const RATE_LIMIT_KEY = 'manabuplay_admin_rate_limit_v1';
 
 const DEFAULTS = {
-  username: 'manabuplay-owner',
-  passwordHash: '8cbd9bba110b472f24889dfacc9e234b889d91bc0aca412b51aa09a9e9d618d1',
+  username: 'kevinbertaux',
+  passwordHash: 'e99635f91e227f640d09218dc823f7a284fd9340648e291a599fdefdaf4dbeaf',
   sessionTtlMs: 30 * 60 * 1000,
   maxAttempts: 3,
   blockDurationMs: 30 * 60 * 1000,
@@ -210,3 +210,4 @@ export async function verifyAdminCredentials(username, password) {
   const hashedPassword = await sha256(typedPassword);
   return hashedPassword === config.passwordHash;
 }
+
