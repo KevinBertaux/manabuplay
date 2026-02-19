@@ -18,7 +18,7 @@ ManabuPlay est une SPA educative pour enfants (Vue 3 + Vite) orientee revision s
 
 - Module **Math**: quiz tables de multiplication (1-11 + mode toutes tables)
 - Module **Langues**: flashcards anglais (25 mots par liste), TTS en-US/en-GB
-- **Admin local V1**: edition des listes JSON via interface (`/admin`)
+- **Zone interne V1**: edition locale des listes JSON (acces restreint)
 - Architecture SPA evolutive vers nouveaux modules (ex: symetrie, division, espagnol)
 
 ## Captures
@@ -49,11 +49,11 @@ manabuplay/
   docs/
 ```
 
-## Protection Admin
+## Protection Zone Interne
 
-- La route `/admin` est protegee par mot de passe.
-- Configure ton mot de passe dans `.env` via `VITE_ADMIN_PASSWORD` (base: `.env.example`).
-- Si non configure, le mot de passe par defaut est `manabuplay-admin`.
+- L'acces interne est protege par identifiant + mot de passe (hash cote front).
+- Configure `.env` avec `VITE_ADMIN_USERNAME`, `VITE_ADMIN_PASSWORD_HASH`, `VITE_ADMIN_MAX_ATTEMPTS`, `VITE_ADMIN_BLOCK_MS`, `VITE_ADMIN_SESSION_TTL_MS`.
+- Le mode front-only reste une protection legere (pas equivalente a une auth serveur).
 
 ## Documentation
 
@@ -75,4 +75,6 @@ manabuplay/
 ## Version
 
 - `0.3.0` - 13 fevrier 2026
+
+
 

@@ -21,7 +21,7 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au **9 mars 2026**
 - [ ] `npm test` OK
 - [ ] `npm run build` OK
 - [ ] Verification rapide routes: `/`, `/math`, `/vocab`, `/legal/mentions-legales`, `/legal/confidentialite`
-- [ ] Verification acces `/admin` par URL + mot de passe
+- [ ] Verification acces zone interne (URL privee) + identifiants
 - [ ] Verification que le menu n'expose pas `Admin`
 - [ ] Verification favicon/logo/header
 - [ ] Verification captures/docs mises a jour si necessaire
@@ -53,3 +53,5 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au **9 mars 2026**
 - [ ] Tag Git cree (ex: `v0.4.0`)
 - [ ] `ROADMAP.md` mis a jour (fait/reste a faire)
 - [ ] Prochaine fenetre hebdo planifiee
+
+

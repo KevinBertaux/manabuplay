@@ -20,7 +20,7 @@ Educational web app (Vue 3 + Vite SPA) to help children practice math and vocabu
 - Arrow, keyboard, and mobile swipe navigation
 - English TTS with 🇺🇸/🇬🇧 accent selection
 
-### 🛠️ Local admin V1 (`/admin`)
+### 🛠️ Internal zone V1 (restricted access)
 - Edit list name/description/words
 - Add/remove words
 - Import JSON / export JSON / copy JSON
@@ -94,7 +94,7 @@ manabuplay/
 - `/` : Home
 - `/math` : Math module
 - `/vocab` : Vocabulary module
-- `/admin` : Local admin V1
+- Internal zone: local editing (undocumented URL)
 - `/legal/mentions-legales` : Legal notices (placeholder)
 - `/legal/confidentialite` : Privacy page (placeholder)
 
@@ -114,7 +114,7 @@ Static route:
 2. Commit/push
 
 ### Option C (quick local test)
-1. Use `/admin`
+1. Use the protected internal zone
 2. Save locally (localStorage)
 
 ## 🌐 Netlify deployment (Vue SPA)
@@ -147,7 +147,7 @@ Detailed step-by-step setup guide (French):
 
 ## ⚠️ Current limitations
 
-- `/admin` remains local to a device/browser (localStorage)
+- Internal zone stays local to one device/browser (localStorage)
 - No advanced role model (RBAC) for CMS yet
 - Legal pages are still placeholders in-app
 
@@ -162,3 +162,5 @@ Free to use for personal and educational purposes.
 ## Laravel Backend V2
 
 - Backend V2 guide (French): `docs/BACKEND-LARAVEL-V2.fr.md`
+
+

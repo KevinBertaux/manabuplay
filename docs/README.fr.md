@@ -20,7 +20,7 @@ Application web éducative (SPA Vue 3 + Vite) pour aider les enfants à réviser
 - Navigation par flèches, clavier et swipe mobile
 - TTS anglais avec accent 🇺🇸/🇬🇧
 
-### 🛠️ Admin local V1 (`/admin`)
+### 🛠️ Zone interne V1 (acces restreint)
 - Édition locale des listes (nom, description, mots)
 - Ajout/suppression de mots
 - Import JSON / export JSON / copie JSON
@@ -94,7 +94,7 @@ manabuplay/
 - `/` : Accueil
 - `/math` : Module Math
 - `/vocab` : Module vocabulaire
-- `/admin` : Admin local V1
+- Zone interne : edition locale (URL non documentee)
 - `/legal/mentions-legales` : Mentions légales (placeholder)
 - `/legal/confidentialite` : Confidentialité (placeholder)
 
@@ -114,7 +114,7 @@ Routes statiques:
 2. Commit/push
 
 ### Option C (test local rapide)
-1. Utiliser `/admin`
+1. Utiliser la zone interne protegee
 2. Sauvegarder localement (localStorage)
 
 ## 🌐 Déploiement Netlify (Vue SPA)
@@ -147,7 +147,7 @@ Guide détaillé pas-à-pas :
 
 ## ⚠️ Limites actuelles
 
-- `/admin` reste local à l'appareil (localStorage)
+- La zone interne reste locale a l'appareil (localStorage)
 - Pas encore de workflow de rôles avancé (RBAC) côté CMS
 - Pages légales encore en placeholders dans l'app
 
@@ -162,3 +162,5 @@ Projet libre d'utilisation pour usage personnel et éducatif.
 ## Backend Laravel V2
 
 - Guide backend V2: `docs/BACKEND-LARAVEL-V2.fr.md`
+
+

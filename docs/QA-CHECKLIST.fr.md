@@ -9,7 +9,7 @@
 ## Smoke tests
 
 1. Navigation:
-   - Vérifier les routes `/`, `/math`, `/vocab`, `/admin`
+   - Vérifier les routes `/`, `/math`, `/vocab`
    - Vérifier menu burger sur mobile
 2. Build:
    - Exécuter `npm run build` sans erreur
@@ -48,9 +48,9 @@
    - Changement accent US/UK pris en compte
    - Pas de message parasite lors d'interruption volontaire
 
-## Admin (`/admin`)
+## Zone interne (acces restreint)
 
-1. Modifier une liste et sauvegarder (local)
+1. Acceder a la zone interne avec identifiants puis modifier une liste et sauvegarder (local)
 2. Vérifier immédiatement le résultat dans `/vocab`
 3. Tester import JSON valide/invalide
 4. Tester copie JSON et téléchargement JSON
@@ -107,3 +107,5 @@
    - Accent TTS conservé
    - Overrides admin conservés (localStorage)
 2. Vérifier qu'aucune erreur JS n'apparaît dans la console
+
+
