@@ -1,5 +1,6 @@
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import {
   getVocabList,
   resetVocabList,
@@ -7,11 +8,15 @@ import {
   vocabListOptions,
 } from '@/features/vocab/vocabLists';
 import { buildVocabPayload } from '@/features/vocab/adminPayload';
+import { clearAdminSession, getAdminSessionRemainingMs } from '@/features/admin/auth';
 
+const router = useRouter();
 const selectedList = ref('');
 const statusType = ref('');
 const statusMessage = ref('');
 const englishInputRefs = ref([]);
+const sessionRemainingMs = ref(getAdminSessionRemainingMs());
+let sessionTimerId;
 
 function emptyWord() {
   return { english: '', french: '' };
@@ -54,6 +59,17 @@ function setStatus(type, message) {
 function clearStatus() {
   statusType.value = '';
   statusMessage.value = '';
+}
+
+const sessionRemainingMinutes = computed(() => Math.ceil(sessionRemainingMs.value / 60000));
+
+function refreshSessionRemaining() {
+  sessionRemainingMs.value = getAdminSessionRemainingMs();
+}
+
+async function logout() {
+  clearAdminSession();
+  await router.replace({ name: 'studio-ops-login' });
 }
 
 watch(selectedList, (newList) => {
@@ -100,7 +116,7 @@ function buildPayload() {
 
 function saveCurrentList() {
   if (!selectedList.value) {
-    setStatus('error', 'Choisis d’abord une liste à modifier.');
+    setStatus('error', 'Choisis d\'abord une liste a modifier.');
     return;
   }
 
@@ -117,18 +133,18 @@ function saveCurrentList() {
   }
 
   draft.value = createDraft(selectedList.value);
-  setStatus('success', 'Liste sauvegardée localement. La page /vocab utilise maintenant cette version.');
+  setStatus('success', 'Liste sauvegardee localement. Le module vocabulaire utilise maintenant cette version.');
 }
 
 function resetCurrentList() {
   if (!selectedList.value) {
-    setStatus('error', 'Choisis d’abord une liste à modifier.');
+    setStatus('error', 'Choisis d\'abord une liste a modifier.');
     return;
   }
 
   resetVocabList(selectedList.value);
   draft.value = createDraft(selectedList.value);
-  setStatus('success', 'Liste réinitialisée à la version par défaut.');
+  setStatus('success', 'Liste reinitialisee a la version par defaut.');
 }
 
 const previewJson = computed(() => {
@@ -141,7 +157,7 @@ const previewJson = computed(() => {
 
 async function copyJsonToClipboard() {
   if (!selectedList.value) {
-    setStatus('error', 'Choisis d’abord une liste à modifier.');
+    setStatus('error', 'Choisis d\'abord une liste a modifier.');
     return;
   }
 
@@ -152,21 +168,21 @@ async function copyJsonToClipboard() {
   }
 
   if (!navigator.clipboard?.writeText) {
-    setStatus('error', 'Copie non supportée par ce navigateur.');
+    setStatus('error', 'Copie non supportee par ce navigateur.');
     return;
   }
 
   try {
     await navigator.clipboard.writeText(JSON.stringify(result.payload, null, 2));
-    setStatus('success', 'JSON copié dans le presse-papiers.');
+    setStatus('success', 'JSON copie dans le presse-papiers.');
   } catch {
-    setStatus('error', 'Copie refusée par le navigateur.');
+    setStatus('error', 'Copie refusee par le navigateur.');
   }
 }
 
 function downloadJson() {
   if (!selectedList.value) {
-    setStatus('error', 'Choisis d’abord une liste à modifier.');
+    setStatus('error', 'Choisis d\'abord une liste a modifier.');
     return;
   }
 
@@ -185,12 +201,12 @@ function downloadJson() {
   link.download = fileName;
   link.click();
   URL.revokeObjectURL(link.href);
-  setStatus('success', `Fichier ${fileName} téléchargé.`);
+  setStatus('success', `Fichier ${fileName} telecharge.`);
 }
 
 async function importJson(event) {
   if (!selectedList.value) {
-    setStatus('error', 'Choisis d’abord une liste à modifier.');
+    setStatus('error', 'Choisis d\'abord une liste a modifier.');
     event.target.value = '';
     return;
   }
@@ -220,7 +236,7 @@ async function importJson(event) {
           : [emptyWord()],
     };
 
-    setStatus('success', 'Fichier JSON importé. Pense à sauvegarder pour l\'activer.');
+    setStatus('success', 'Fichier JSON importe. Pense a sauvegarder pour l\'activer.');
   } catch {
     setStatus('error', 'Import impossible: fichier JSON invalide.');
   } finally {
@@ -234,20 +250,39 @@ function onFrenchInputEnter(index) {
   }
   addWordAndFocus();
 }
+
+onMounted(() => {
+  sessionTimerId = window.setInterval(() => {
+    refreshSessionRemaining();
+    if (sessionRemainingMs.value <= 0) {
+      logout();
+    }
+  }, 1000);
+});
+
+onUnmounted(() => {
+  if (sessionTimerId) {
+    window.clearInterval(sessionTimerId);
+  }
+});
 </script>
 
 <template>
   <section class="page-block admin-page">
-    <h1>Administration - Listes de vocabulaire</h1>
+    <div class="admin-header">
+      <h1>Edition de listes de vocabulaire</h1>
+      <div class="admin-header-actions">
+        <span class="session-info">Session: ~{{ sessionRemainingMinutes }} min</span>
+        <button class="btn btn-danger" type="button" @click="logout">Deconnexion</button>
+      </div>
+    </div>
+
     <p class="intro">
-      V1: édite les listes localement dans ton navigateur, puis exporte en JSON pour versionner dans le repo.
-    </p>
-    <p class="intro muted">
-      Édition collaborative Netlify/Decap CMS disponible sur <a href="/cms/" target="_blank" rel="noreferrer">/cms/</a>.
+      V1: edite les listes localement dans ton navigateur, puis exporte en JSON pour versionner dans le repo.
     </p>
 
     <div class="admin-card">
-      <label for="listSelect">Liste à modifier</label>
+      <label for="listSelect">Liste a modifier</label>
       <select id="listSelect" v-model="selectedList">
         <option value="">-- Choisir une liste --</option>
         <option v-for="option in vocabListOptions" :key="option.key" :value="option.key">
@@ -264,7 +299,7 @@ function onFrenchInputEnter(index) {
       </template>
 
       <p v-else class="empty-state">
-        Sélectionne une liste pour commencer l’édition.
+        Selectionne une liste pour commencer l'edition.
       </p>
     </div>
 
@@ -276,7 +311,7 @@ function onFrenchInputEnter(index) {
 
       <div class="words-grid words-grid-head">
         <span>Anglais</span>
-        <span>Français</span>
+        <span>Francais</span>
         <span>Action</span>
       </div>
 
@@ -290,7 +325,7 @@ function onFrenchInputEnter(index) {
         <input
           v-model="word.french"
           type="text"
-          placeholder="Traduction française"
+          placeholder="Traduction francaise"
           @keydown.enter.prevent="onFrenchInputEnter(index)"
         />
         <button class="btn btn-danger" type="button" @click="removeWord(index)">Supprimer</button>
@@ -309,13 +344,13 @@ function onFrenchInputEnter(index) {
           Sauvegarder (local)
         </button>
         <button class="btn btn-secondary" type="button" @click="resetCurrentList">
-          Réinitialiser
+          Reinitialiser
         </button>
         <button class="btn btn-secondary" type="button" @click="copyJsonToClipboard">
           Copier JSON
         </button>
         <button class="btn btn-secondary" type="button" @click="downloadJson">
-          Télécharger JSON
+          Telecharger JSON
         </button>
       </div>
 
@@ -328,7 +363,7 @@ function onFrenchInputEnter(index) {
     </div>
 
     <div class="admin-card" v-if="selectedList && previewJson">
-      <h2>Aperçu JSON</h2>
+      <h2>Apercu JSON</h2>
       <pre>{{ previewJson }}</pre>
     </div>
   </section>
@@ -340,16 +375,31 @@ function onFrenchInputEnter(index) {
   margin-inline: auto;
 }
 
-.intro {
-  margin-top: 0;
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.muted {
+.admin-header h1 {
+  margin: 0;
+}
+
+.admin-header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.session-info {
   color: #4b5f79;
+  font-weight: 700;
 }
 
-.muted a {
-  text-decoration: underline;
+.intro {
+  margin-top: 10px;
 }
 
 .admin-card {

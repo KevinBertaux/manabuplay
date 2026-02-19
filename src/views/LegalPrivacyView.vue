@@ -19,8 +19,8 @@
     <h3>2.1 Données stockées localement sur votre appareil</h3>
     <ul>
       <li>Préférences d'accent de prononciation (module langues)</li>
-      <li>Listes de vocabulaire modifiées localement via /admin (localStorage)</li>
-      <li>État de session d'accès admin dans l'onglet en cours (sessionStorage)</li>
+      <li>Listes de vocabulaire modifiees localement via l'espace interne (localStorage)</li>
+      <li>Etat de session d'acces a l'espace interne dans l'onglet en cours (sessionStorage)</li>
     </ul>
     <p>
       Ces données restent dans votre navigateur et ne sont pas transmises automatiquement à l'éditeur.
@@ -58,7 +58,7 @@
     <h2>6. Durées de conservation</h2>
     <ul>
       <li>Données locales (localStorage) : jusqu'à suppression par l'utilisateur ou réinitialisation</li>
-      <li>Session admin (sessionStorage) : supprimée à la fermeture de l'onglet/navigateur</li>
+      <li>Session espace interne (sessionStorage) : supprimee a la fermeture de l'onglet/navigateur</li>
       <li>Journaux techniques d'hébergement : selon la politique de l'hébergeur</li>
     </ul>
 
@@ -137,3 +137,4 @@ a {
   text-decoration: underline;
 }
 </style>
+
