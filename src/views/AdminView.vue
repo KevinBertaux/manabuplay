@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   getVocabList,
@@ -60,8 +60,6 @@ function clearStatus() {
   statusType.value = '';
   statusMessage.value = '';
 }
-
-const sessionRemainingMinutes = computed(() => Math.ceil(sessionRemainingMs.value / 60000));
 
 function refreshSessionRemaining() {
   sessionRemainingMs.value = getAdminSessionRemainingMs();
@@ -147,13 +145,15 @@ function resetCurrentList() {
   setStatus('success', 'Liste reinitialisee a la version par defaut.');
 }
 
-const previewJson = computed(() => {
-  const result = buildPayload();
-  if (!result.ok) {
-    return '';
-  }
-  return JSON.stringify(result.payload, null, 2);
-});
+const previewJson = ref('');
+watch(
+  draft,
+  () => {
+    const result = buildPayload();
+    previewJson.value = result.ok ? JSON.stringify(result.payload, null, 2) : '';
+  },
+  { deep: true, immediate: true }
+);
 
 async function copyJsonToClipboard() {
   if (!selectedList.value) {
@@ -272,7 +272,6 @@ onUnmounted(() => {
     <div class="admin-header">
       <h1>Edition de listes de vocabulaire</h1>
       <div class="admin-header-actions">
-        <span class="session-info">Session: ~{{ sessionRemainingMinutes }} min</span>
         <button class="btn btn-danger" type="button" @click="logout">Deconnexion</button>
       </div>
     </div>
@@ -391,11 +390,6 @@ onUnmounted(() => {
   display: flex;
   gap: 10px;
   align-items: center;
-}
-
-.session-info {
-  color: #4b5f79;
-  font-weight: 700;
 }
 
 .intro {

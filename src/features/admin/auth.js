@@ -5,8 +5,9 @@ const DEFAULTS = {
   username: 'manabuplay-owner',
   passwordHash: '8cbd9bba110b472f24889dfacc9e234b889d91bc0aca412b51aa09a9e9d618d1',
   sessionTtlMs: 30 * 60 * 1000,
-  maxAttempts: 5,
-  blockDurationMs: 10 * 60 * 1000,
+  maxAttempts: 3,
+  blockDurationMs: 30 * 60 * 1000,
+  hardBlockDurationMs: 24 * 60 * 60 * 1000,
 };
 
 function getStringEnvValue(key) {
@@ -27,6 +28,7 @@ export function getAdminSecurityConfig() {
     sessionTtlMs: getNumberEnvValue('VITE_ADMIN_SESSION_TTL_MS', DEFAULTS.sessionTtlMs),
     maxAttempts: getNumberEnvValue('VITE_ADMIN_MAX_ATTEMPTS', DEFAULTS.maxAttempts),
     blockDurationMs: getNumberEnvValue('VITE_ADMIN_BLOCK_MS', DEFAULTS.blockDurationMs),
+    hardBlockDurationMs: getNumberEnvValue('VITE_ADMIN_HARD_BLOCK_MS', DEFAULTS.hardBlockDurationMs),
   };
 }
 
@@ -83,11 +85,23 @@ function clearKey(storage, key) {
   storage.removeItem(key);
 }
 
-function getRateLimitState() {
-  return readJson(getStorage(), RATE_LIMIT_KEY, {
+function createInitialRateLimitState() {
+  return {
     failedAttempts: 0,
     blockedUntilMs: 0,
-  });
+    escalationArmed: false,
+    blockLevel: 'none',
+  };
+}
+
+function getRateLimitState() {
+  const state = readJson(getStorage(), RATE_LIMIT_KEY, createInitialRateLimitState());
+  return {
+    failedAttempts: Number.isFinite(state.failedAttempts) ? state.failedAttempts : 0,
+    blockedUntilMs: Number.isFinite(state.blockedUntilMs) ? state.blockedUntilMs : 0,
+    escalationArmed: Boolean(state.escalationArmed),
+    blockLevel: state.blockLevel === 'hard' || state.blockLevel === 'soft' ? state.blockLevel : 'none',
+  };
 }
 
 function setRateLimitState(state) {
@@ -107,6 +121,7 @@ export function getRateLimitInfo() {
     remainingAttempts: Math.max(0, config.maxAttempts - state.failedAttempts),
     blockedMs: remainingMs,
     isBlocked: remainingMs > 0,
+    blockLevel: remainingMs > 0 ? state.blockLevel : 'none',
   };
 }
 
@@ -118,12 +133,24 @@ export function registerFailedAttempt() {
     return getRateLimitInfo();
   }
 
+  if (state.escalationArmed) {
+    setRateLimitState({
+      failedAttempts: 0,
+      blockedUntilMs: nowMs() + config.hardBlockDurationMs,
+      escalationArmed: false,
+      blockLevel: 'hard',
+    });
+    return getRateLimitInfo();
+  }
+
   const failedAttempts = state.failedAttempts + 1;
   const shouldBlock = failedAttempts >= config.maxAttempts;
 
   setRateLimitState({
     failedAttempts: shouldBlock ? 0 : failedAttempts,
     blockedUntilMs: shouldBlock ? nowMs() + config.blockDurationMs : 0,
+    escalationArmed: shouldBlock,
+    blockLevel: shouldBlock ? 'soft' : 'none',
   });
 
   return getRateLimitInfo();
@@ -183,4 +210,3 @@ export async function verifyAdminCredentials(username, password) {
   const hashedPassword = await sha256(typedPassword);
   return hashedPassword === config.passwordHash;
 }
-
