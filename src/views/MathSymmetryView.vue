@@ -2,6 +2,9 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { evaluateSymmetryAnswer, generateSymmetryQuestion } from '@/features/math/symmetryEngine';
 
+const BEST_STREAK_KEY = 'manabuplay_symmetry_best_streak_v1';
+const AUTO_NEXT_DELAY_MS = 2000;
+
 const currentQuestion = ref(generateSymmetryQuestion());
 const selectedOptionId = ref('');
 const hasChecked = ref(false);
@@ -9,11 +12,48 @@ const feedbackType = ref('');
 const feedbackMessage = ref('');
 const score = ref(0);
 const total = ref(0);
+const streak = ref(0);
+const bestStreak = ref(0);
+const nextQuestionTimeoutId = ref(null);
 
-const optionLabels = ['A', 'B', 'C', 'D'];
+const optionLabels = ['1', '2', '3', '4'];
 const canCheck = computed(() => !hasChecked.value);
 
+function readBestStreak() {
+  if (typeof window === 'undefined') {
+    return 0;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(BEST_STREAK_KEY);
+    const parsed = Number.parseInt(raw ?? '0', 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function saveBestStreak(value) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(BEST_STREAK_KEY, String(value));
+  } catch {
+    // Ignore localStorage failures (private mode/quota).
+  }
+}
+
+function clearNextQuestionTimeout() {
+  if (nextQuestionTimeoutId.value) {
+    clearTimeout(nextQuestionTimeoutId.value);
+    nextQuestionTimeoutId.value = null;
+  }
+}
+
 function nextQuestion() {
+  clearNextQuestionTimeout();
   currentQuestion.value = generateSymmetryQuestion();
   selectedOptionId.value = '';
   hasChecked.value = false;
@@ -43,9 +83,24 @@ function checkAnswer() {
 
   hasChecked.value = true;
   total.value += 1;
+
   if (result.isCorrect) {
     score.value += 1;
+    streak.value += 1;
+
+    if (streak.value > bestStreak.value) {
+      bestStreak.value = streak.value;
+      saveBestStreak(bestStreak.value);
+    }
+
+    nextQuestionTimeoutId.value = setTimeout(() => {
+      nextQuestionTimeoutId.value = null;
+      nextQuestion();
+    }, AUTO_NEXT_DELAY_MS);
+    return;
   }
+
+  streak.value = 0;
 }
 
 function optionStateClass(option) {
@@ -128,10 +183,12 @@ function onKeydown(event) {
 }
 
 onMounted(() => {
+  bestStreak.value = readBestStreak();
   window.addEventListener('keydown', onKeydown);
 });
 
 onUnmounted(() => {
+  clearNextQuestionTimeout();
   window.removeEventListener('keydown', onKeydown);
 });
 </script>
@@ -142,6 +199,8 @@ onUnmounted(() => {
 
     <div class="score-panel">
       <span>Score : {{ score }} / {{ total }}</span>
+      <span>🏆 Série : {{ streak }}</span>
+      <span>🥇 Meilleure série : {{ bestStreak }}</span>
       <span>Axe : vertical</span>
     </div>
 
