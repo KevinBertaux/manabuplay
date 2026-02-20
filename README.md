@@ -78,5 +78,7 @@ manabuplay/
 
 ## Version
 
-- Base stable publiee: `0.3.0` - 13 fevrier 2026
-- Branche de preparation en cours: `0.4.0-prep`
+- Version en cours: `0.4.0-prep`
+- Derniere modification: `19 février 2026` (fr-FR)
+
+

@@ -16,6 +16,8 @@ const statusType = ref('');
 const statusMessage = ref('');
 const englishInputRefs = ref([]);
 const sessionRemainingMs = ref(getAdminSessionRemainingMs());
+const APP_VERSION = '0.4.0-prep';
+const LAST_UPDATE_FR = '19 février 2026';
 let sessionTimerId;
 
 function emptyWord() {
@@ -279,6 +281,7 @@ onUnmounted(() => {
     <p class="intro">
       <router-link class="intro-link" to="/aide/panel-interne">Documentation du panel interne</router-link>
     </p>
+    <p class="meta-line">Version {{ APP_VERSION }} - Dernière modification : {{ LAST_UPDATE_FR }}</p>
 
     <div class="admin-card">
       <label for="listSelect">Liste à modifier</label>
@@ -534,4 +537,6 @@ pre {
   }
 }
 </style>
+
+
 

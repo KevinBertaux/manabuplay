@@ -47,12 +47,13 @@ function toggleMenu() {
     </main>
 
     <footer class="site-footer">
-      <span>Version 0.3.0 - 13 février 2026</span>
       <div class="footer-links">
         <router-link to="/legal/mentions-legales">Mentions légales</router-link>
-        <router-link to="/legal/confidentialite">Confidentialité</router-link>
+        <router-link to="/legal/confidentialite">Politique de confidentialité</router-link>
       </div>
     </footer>
   </div>
 </template>
+
+
 

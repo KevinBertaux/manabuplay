@@ -6,8 +6,8 @@ Application web educative (SPA Vue 3 + Vite) pour aider les enfants a reviser le
 
 ## Version
 
-- Base stable: `0.3.0` (13 fevrier 2026)
-- Preparation en cours: `0.4.0-prep`
+- Version en cours: `0.4.0-prep`
+- Derniere modification: `19 février 2026` (fr-FR)
 
 ## Fonctionnalites actuelles
 
@@ -65,3 +65,5 @@ Application web educative (SPA Vue 3 + Vite) pour aider les enfants a reviser le
 - Git cheat sheet: `docs/GIT-CHEATSHEET.fr.md`
 - Guide panel interne FR: `docs/PANEL-INTERNE.fr.md`
 - Guide panel interne EN: `docs/PANEL-INTERNE.en.md`
+
+

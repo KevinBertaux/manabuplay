@@ -1,7 +1,11 @@
 <template>
   <section class="page-block legal">
     <h1>Mentions légales</h1>
-    <p class="updated">Dernière mise à jour : 15 février 2026</p>
+    <p class="updated">Dernière mise à jour : 19 février 2026</p>
+
+    <h2>Version de l'application</h2>
+    <p>Version en cours : <strong>0.4.0-prep</strong><br />
+      Dernière modification : 19 février 2026</p>
 
     <h2>Éditeur du site</h2>
     <p>
@@ -27,7 +31,7 @@
 
     <h2>Hébergement</h2>
     <p>
-      Hébergeur (au 15 février 2026) : <strong>Netlify, Inc.</strong><br />
+      Hébergeur (au 19 février 2026) : <strong>Netlify, Inc.</strong><br />
       512 2nd Street, Suite 200, San Francisco, CA 94107, USA<br />
       Site : <a href="https://www.netlify.com" target="_blank" rel="noreferrer">netlify.com</a>
     </p>
@@ -86,3 +90,4 @@ a {
   text-decoration: underline;
 }
 </style>
+

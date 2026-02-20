@@ -2,10 +2,13 @@
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { evaluateAnswer, generateQuestion } from '@/features/math/quizEngine';
 
-const tableSelect = ref('all');
+const BEST_STREAK_KEY = 'manabuplay_math_best_streak_v1';
+
+const tableSelect = ref('');
 const score = ref(0);
 const total = ref(0);
 const streak = ref(0);
+const bestStreak = ref(0);
 const answerInput = ref('');
 const answerField = ref(null);
 const feedbackType = ref('');
@@ -13,11 +16,33 @@ const feedbackMain = ref('');
 const feedbackExtra = ref('');
 const hasAnsweredCurrentQuestion = ref(false);
 const nextQuestionTimeoutId = ref(null);
-const currentQuestion = ref({
-  num1: 7,
-  num2: 8,
-  answer: 56,
-});
+const currentQuestion = ref(null);
+
+function readBestStreak() {
+  if (typeof window === 'undefined') {
+    return 0;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(BEST_STREAK_KEY);
+    const parsed = Number.parseInt(raw ?? '0', 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function saveBestStreak(value) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(BEST_STREAK_KEY, String(value));
+  } catch {
+    // Ignore localStorage failures (private mode/quota).
+  }
+}
 
 function clearNextQuestionTimeout() {
   if (nextQuestionTimeoutId.value) {
@@ -38,13 +63,19 @@ function nextQuestion() {
   feedbackType.value = '';
   feedbackMain.value = '';
   feedbackExtra.value = '';
-  currentQuestion.value = generateQuestion(tableSelect.value);
   answerInput.value = '';
+
+  if (!tableSelect.value) {
+    currentQuestion.value = null;
+    return;
+  }
+
+  currentQuestion.value = generateQuestion(tableSelect.value);
   focusAnswerField();
 }
 
 function checkAnswer() {
-  if (hasAnsweredCurrentQuestion.value) {
+  if (!currentQuestion.value || hasAnsweredCurrentQuestion.value) {
     return;
   }
 
@@ -69,6 +100,11 @@ function checkAnswer() {
   total.value = result.nextTotal;
   streak.value = result.nextStreak;
 
+  if (streak.value > bestStreak.value) {
+    bestStreak.value = streak.value;
+    saveBestStreak(bestStreak.value);
+  }
+
   nextQuestionTimeoutId.value = setTimeout(() => {
     nextQuestionTimeoutId.value = null;
     nextQuestion();
@@ -86,7 +122,7 @@ watch(tableSelect, () => {
 });
 
 onMounted(() => {
-  nextQuestion();
+  bestStreak.value = readBestStreak();
 });
 
 onUnmounted(() => {
@@ -101,7 +137,8 @@ onUnmounted(() => {
     <div class="settings-box">
       <label for="tableSelect">Choisir la table :</label>
       <select id="tableSelect" v-model="tableSelect">
-        <option value="all">Toutes les tables (1-11)</option>
+        <option value="">-- Sélectionner une table --</option>
+        <option value="0">Table de 0</option>
         <option value="1">Table de 1</option>
         <option value="2">Table de 2</option>
         <option value="3">Table de 3</option>
@@ -113,16 +150,20 @@ onUnmounted(() => {
         <option value="9">Table de 9</option>
         <option value="10">Table de 10</option>
         <option value="11">Table de 11</option>
+        <option value="all">Toutes les tables (0-11)</option>
       </select>
     </div>
 
     <div class="score-panel">
       <span>Score : {{ score }} / {{ total }}</span>
       <span>🏆 Série : {{ streak }}</span>
+      <span>🥇 Meilleure série : {{ bestStreak }}</span>
     </div>
 
+    <div v-if="!tableSelect" class="feedback feedback-incorrect">Sélectionne une table pour commencer.</div>
+
     <div
-      v-if="feedbackMain"
+      v-if="tableSelect && feedbackMain"
       class="feedback"
       :class="feedbackType === 'correct' ? 'feedback-correct' : 'feedback-incorrect'"
     >
@@ -130,7 +171,7 @@ onUnmounted(() => {
       <div v-if="feedbackExtra" class="feedback-extra">{{ feedbackExtra }}</div>
     </div>
 
-    <div class="question-box">
+    <div v-if="tableSelect && currentQuestion" class="question-box">
       <div class="question">{{ currentQuestion.num1 }} × {{ currentQuestion.num2 }} = ?</div>
       <input
         ref="answerField"
@@ -145,8 +186,8 @@ onUnmounted(() => {
     </div>
 
     <div class="actions">
-      <button class="btn btn-primary" type="button" @click="checkAnswer">Vérifier ✓</button>
-      <button class="btn btn-secondary" type="button" @click="nextQuestion">
+      <button class="btn btn-primary" type="button" :disabled="!tableSelect" @click="checkAnswer">Vérifier ✓</button>
+      <button class="btn btn-secondary" type="button" :disabled="!tableSelect" @click="nextQuestion">
         Question suivante →
       </button>
     </div>
@@ -269,6 +310,11 @@ onUnmounted(() => {
 .btn-secondary {
   background: linear-gradient(135deg, #a29bfe, #6c5ce7);
   color: white;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 @media (max-width: 820px) {

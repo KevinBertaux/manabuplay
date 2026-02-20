@@ -3,7 +3,7 @@ export function generateQuestion(tableSelect = 'all', randomFn = Math.random) {
   let num2;
 
   if (tableSelect === 'all') {
-    num1 = Math.floor(randomFn() * 11) + 1;
+    num1 = Math.floor(randomFn() * 12);
     num2 = Math.floor(randomFn() * 12);
   } else {
     num1 = Number.parseInt(tableSelect, 10);

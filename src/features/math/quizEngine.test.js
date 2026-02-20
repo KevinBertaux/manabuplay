@@ -2,11 +2,16 @@ import { describe, expect, it } from 'vitest';
 import { evaluateAnswer, generateQuestion } from './quizEngine';
 
 describe('generateQuestion', () => {
-  it('generates valid ranges for all tables', () => {
-    const question = generateQuestion('all', () => 0.999);
-    expect(question.num1).toBe(11);
-    expect(question.num2).toBe(11);
-    expect(question.answer).toBe(121);
+  it('generates valid ranges for all tables including zero', () => {
+    const low = generateQuestion('all', () => 0);
+    expect(low.num1).toBe(0);
+    expect(low.num2).toBe(0);
+    expect(low.answer).toBe(0);
+
+    const high = generateQuestion('all', () => 0.999);
+    expect(high.num1).toBe(11);
+    expect(high.num2).toBe(11);
+    expect(high.answer).toBe(121);
   });
 
   it('uses selected table when table is fixed', () => {
@@ -14,6 +19,13 @@ describe('generateQuestion', () => {
     expect(question.num1).toBe(7);
     expect(question.num2).toBe(4);
     expect(question.answer).toBe(28);
+  });
+
+  it('supports zero table when table is fixed', () => {
+    const question = generateQuestion('0', () => 0.75);
+    expect(question.num1).toBe(0);
+    expect(question.num2).toBe(9);
+    expect(question.answer).toBe(0);
   });
 });
 

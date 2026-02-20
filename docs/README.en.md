@@ -6,8 +6,8 @@ Educational web app (Vue 3 + Vite SPA) to help children practice math and vocabu
 
 ## Version
 
-- Stable baseline: `0.3.0` (February 13, 2026)
-- Current preparation branch: `0.4.0-prep`
+- Current version: `0.4.0-prep`
+- Last update: `19 February 2026` (fr-FR date: 19 février 2026)
 
 ## Current features
 
@@ -65,3 +65,4 @@ Educational web app (Vue 3 + Vite SPA) to help children practice math and vocabu
 - Git cheat sheet: `docs/GIT-CHEATSHEET.fr.md`
 - Internal panel guide FR: `docs/PANEL-INTERNE.fr.md`
 - Internal panel guide EN: `docs/PANEL-INTERNE.en.md`
+
