@@ -13,6 +13,11 @@ const routes = [
     component: () => import('@/views/MathView.vue'),
   },
   {
+    path: '/math/symetrie',
+    name: 'math-symetrie',
+    component: () => import('@/views/MathSymmetryView.vue'),
+  },
+  {
     path: '/vocab',
     name: 'vocab',
     component: () => import('@/views/VocabView.vue'),
