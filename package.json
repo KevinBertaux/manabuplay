@@ -1,7 +1,7 @@
 {
   "name": "manabuplay",
   "private": true,
-  "version": "0.4.0",
+  "version": "0.5.0-prep",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,4 +22,5 @@
     "vitest": "^2.1.8"
   }
 }
+
 
