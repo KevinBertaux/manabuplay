@@ -18,6 +18,7 @@ const nextQuestionTimeoutId = ref(null);
 
 const optionLabels = ['1', '2', '3', '4'];
 const canCheck = computed(() => !hasChecked.value);
+const axisLabel = computed(() => (currentQuestion.value.axis === 'horizontal' ? 'horizontal' : 'vertical'));
 
 function readBestStreak() {
   if (typeof window === 'undefined') {
@@ -134,8 +135,19 @@ function polylinePoints(points, gridSize) {
     .join(' ');
 }
 
-function axisLine(gridSize, size = 120, padding = 12) {
+function axisLine(axis, gridSize, size = 120, padding = 12) {
   const step = (size - padding * 2) / (gridSize - 1);
+
+  if (axis === 'horizontal') {
+    const axisY = padding + ((gridSize - 1) / 2) * step;
+    return {
+      x1: padding,
+      y1: axisY,
+      x2: size - padding,
+      y2: axisY,
+    };
+  }
+
   const axisX = padding + ((gridSize - 1) / 2) * step;
   return {
     x1: axisX,
@@ -201,7 +213,7 @@ onUnmounted(() => {
       <span>Score : {{ score }} / {{ total }}</span>
       <span>🏆 Série : {{ streak }}</span>
       <span>🥇 Meilleure série : {{ bestStreak }}</span>
-      <span>Axe : vertical</span>
+      <span>Axe : {{ axisLabel }}</span>
     </div>
 
     <div class="prompt-box">
@@ -217,10 +229,10 @@ onUnmounted(() => {
           class="grid-line"
         />
         <line
-          :x1="axisLine(currentQuestion.gridSize).x1"
-          :y1="axisLine(currentQuestion.gridSize).y1"
-          :x2="axisLine(currentQuestion.gridSize).x2"
-          :y2="axisLine(currentQuestion.gridSize).y2"
+          :x1="axisLine(currentQuestion.axis, currentQuestion.gridSize).x1"
+          :y1="axisLine(currentQuestion.axis, currentQuestion.gridSize).y1"
+          :x2="axisLine(currentQuestion.axis, currentQuestion.gridSize).x2"
+          :y2="axisLine(currentQuestion.axis, currentQuestion.gridSize).y2"
           class="axis-line"
         />
         <polyline
@@ -259,10 +271,10 @@ onUnmounted(() => {
             class="grid-line"
           />
           <line
-            :x1="axisLine(currentQuestion.gridSize).x1"
-            :y1="axisLine(currentQuestion.gridSize).y1"
-            :x2="axisLine(currentQuestion.gridSize).x2"
-            :y2="axisLine(currentQuestion.gridSize).y2"
+            :x1="axisLine(currentQuestion.axis, currentQuestion.gridSize).x1"
+            :y1="axisLine(currentQuestion.axis, currentQuestion.gridSize).y1"
+            :x2="axisLine(currentQuestion.axis, currentQuestion.gridSize).x2"
+            :y2="axisLine(currentQuestion.axis, currentQuestion.gridSize).y2"
             class="axis-line"
           />
           <polyline :points="polylinePoints(option.points, currentQuestion.gridSize)" class="shape-line" />

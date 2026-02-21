@@ -1,40 +1,24 @@
 const GRID_SIZE = 5;
-const AXIS = 'vertical';
+const AXES = ['vertical', 'horizontal'];
 
+// Shapes are authored for vertical mode (left side of the axis) and re-used for
+// horizontal mode via transposition.
 const BASE_SHAPES = [
-  [
-    { x: 0, y: 1 },
-    { x: 1, y: 2 },
-    { x: 0, y: 3 },
-  ],
-  [
-    { x: 1, y: 0 },
-    { x: 0, y: 2 },
-    { x: 1, y: 4 },
-  ],
-  [
-    { x: 0, y: 0 },
-    { x: 1, y: 1 },
-    { x: 1, y: 3 },
-    { x: 0, y: 4 },
-  ],
-  [
-    { x: 0, y: 2 },
-    { x: 1, y: 2 },
-    { x: 1, y: 3 },
-  ],
-  [
-    { x: 0, y: 1 },
-    { x: 1, y: 1 },
-    { x: 1, y: 2 },
-    { x: 0, y: 3 },
-  ],
-  [
-    { x: 1, y: 1 },
-    { x: 0, y: 2 },
-    { x: 1, y: 3 },
-  ],
+  [{ x: 0, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 3 }],
+  [{ x: 1, y: 0 }, { x: 0, y: 2 }, { x: 1, y: 4 }],
+  [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 3 }, { x: 0, y: 4 }],
+  [{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 3 }],
+  [{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 3 }],
+  [{ x: 1, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 3 }],
+  [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 2 }],
+  [{ x: 0, y: 2 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 4 }],
+  [{ x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 3 }, { x: 1, y: 4 }],
+  [{ x: 0, y: 0 }, { x: 1, y: 2 }, { x: 0, y: 4 }],
+  [{ x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 3 }],
+  [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 3 }, { x: 0, y: 4 }],
 ];
+
+export const SYMMETRY_BASE_SHAPE_COUNT = BASE_SHAPES.length;
 
 function clonePoints(points) {
   return points.map((point) => ({ ...point }));
@@ -79,19 +63,48 @@ export function mirrorShapeVertical(points, gridSize = GRID_SIZE) {
   return points.map((point) => mirrorPointVertical(point, gridSize));
 }
 
-function createDistractors(baseShape, correctShape) {
+export function mirrorPointHorizontal(point, gridSize = GRID_SIZE) {
+  return {
+    x: point.x,
+    y: gridSize - 1 - point.y,
+  };
+}
+
+export function mirrorShapeHorizontal(points, gridSize = GRID_SIZE) {
+  return points.map((point) => mirrorPointHorizontal(point, gridSize));
+}
+
+function transposeShape(points) {
+  return points.map((point) => ({ x: point.y, y: point.x }));
+}
+
+function shapeForAxis(shape, axis) {
+  if (axis === 'horizontal') {
+    return transposeShape(shape);
+  }
+  return clonePoints(shape);
+}
+
+function mirrorShapeByAxis(points, axis) {
+  return axis === 'horizontal' ? mirrorShapeHorizontal(points) : mirrorShapeVertical(points);
+}
+
+function createDistractors(baseShape, correctShape, axis) {
   const distractors = [];
 
-  // Wrong 1: original shape kept on left side.
+  // Wrong 1: original shape (not mirrored).
   distractors.push(clonePoints(baseShape));
 
-  // Wrong 2: mirrored shape but shifted down.
-  distractors.push(shiftPoints(correctShape, 0, 1));
+  // Wrong 2 + 3: mirrored shape shifted on each axis.
+  if (axis === 'horizontal') {
+    distractors.push(shiftPoints(correctShape, 1, 0));
+    distractors.push(shiftPoints(correctShape, 0, -1));
+  } else {
+    distractors.push(shiftPoints(correctShape, 0, 1));
+    distractors.push(shiftPoints(correctShape, -1, 0));
+  }
 
-  // Wrong 3: mirrored shape but shifted left.
-  distractors.push(shiftPoints(correctShape, -1, 0));
-
-  return distractors.filter((shape) => shape.length >= 3);
+  return distractors.filter((shape) => shape.length >= 3 && shape.length === baseShape.length);
 }
 
 function toOptionShape(shape) {
@@ -102,8 +115,10 @@ function toOptionShape(shape) {
 }
 
 export function generateSymmetryQuestion(randomFn = Math.random) {
-  const baseShape = clonePoints(BASE_SHAPES[randomIndex(BASE_SHAPES.length, randomFn)]);
-  const correctShape = mirrorShapeVertical(baseShape);
+  const axis = AXES[randomIndex(AXES.length, randomFn)];
+  const seedShape = BASE_SHAPES[randomIndex(BASE_SHAPES.length, randomFn)];
+  const baseShape = shapeForAxis(seedShape, axis);
+  const correctShape = mirrorShapeByAxis(baseShape, axis);
 
   const options = [];
   const usedKeys = new Set();
@@ -116,7 +131,7 @@ export function generateSymmetryQuestion(randomFn = Math.random) {
   });
   usedKeys.add(correctOption.key);
 
-  const distractors = createDistractors(baseShape, correctShape);
+  const distractors = createDistractors(baseShape, correctShape, axis);
   for (const shape of distractors) {
     const candidate = toOptionShape(shape);
     if (usedKeys.has(candidate.key)) {
@@ -135,7 +150,7 @@ export function generateSymmetryQuestion(randomFn = Math.random) {
       break;
     }
 
-    const mirroredFallback = toOptionShape(mirrorShapeVertical(fallbackShape));
+    const mirroredFallback = toOptionShape(mirrorShapeByAxis(shapeForAxis(fallbackShape, axis), axis));
     if (usedKeys.has(mirroredFallback.key)) {
       continue;
     }
@@ -149,8 +164,10 @@ export function generateSymmetryQuestion(randomFn = Math.random) {
   }
 
   while (options.length < 4) {
-    const randomShape = BASE_SHAPES[randomIndex(BASE_SHAPES.length, randomFn)];
-    const shifted = toOptionShape(shiftPoints(randomShape, 2, 0));
+    const randomShape = shapeForAxis(BASE_SHAPES[randomIndex(BASE_SHAPES.length, randomFn)], axis);
+    const shifted = toOptionShape(
+      axis === 'horizontal' ? shiftPoints(randomShape, 0, 2) : shiftPoints(randomShape, 2, 0)
+    );
     if (shifted.points.length < 3 || usedKeys.has(shifted.key)) {
       continue;
     }
@@ -171,9 +188,12 @@ export function generateSymmetryQuestion(randomFn = Math.random) {
   const correctOptionId = options.find((option) => option.isCorrect)?.id || '';
 
   return {
-    axis: AXIS,
+    axis,
     gridSize: GRID_SIZE,
-    prompt: "Choisis la figure symétrique par rapport à l'axe vertical.",
+    prompt:
+      axis === 'horizontal'
+        ? "Choisis la figure symétrique par rapport à l'axe horizontal."
+        : "Choisis la figure symétrique par rapport à l'axe vertical.",
     baseShape,
     options,
     correctOptionId,
@@ -190,11 +210,12 @@ export function evaluateSymmetryAnswer(question, selectedOptionId) {
   }
 
   const isCorrect = selectedOptionId === question.correctOptionId;
+  const axisLabel = question.axis === 'horizontal' ? 'horizontal' : 'vertical';
   return {
     isValid: true,
     isCorrect,
     message: isCorrect
       ? 'Bravo ! C\'est la bonne symétrie.'
-      : 'Ce n\'est pas la bonne symétrie. Observe bien l\'axe vertical.',
+      : `Ce n'est pas la bonne symétrie. Observe bien l'axe ${axisLabel}.`,
   };
 }
