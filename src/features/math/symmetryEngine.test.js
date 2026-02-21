@@ -82,6 +82,19 @@ describe('generateSymmetryQuestion', () => {
     expect(question.prompt).toContain('axe horizontal');
     expect(question.options).toHaveLength(4);
   });
+  it('sets render mode to open when random mode draw is below 0.5', () => {
+    const random = sequenceRandom([0.01, 0.01, 0.2, 0.3, 0.5, 0.7, 0.9]);
+    const question = generateSymmetryQuestion(random);
+
+    expect(question.renderMode).toBe('open');
+  });
+
+  it('sets render mode to closed when random mode draw is 0.5 or above', () => {
+    const random = sequenceRandom([0.01, 0.01, 0.8, 0.3, 0.5, 0.7, 0.9]);
+    const question = generateSymmetryQuestion(random);
+
+    expect(question.renderMode).toBe('closed');
+  });
 
   it('keeps options unique and inside the grid', () => {
     const vertical = generateSymmetryQuestion(sequenceRandom([0.01, 0.42, 0.2, 0.4, 0.6, 0.8]));
@@ -133,3 +146,5 @@ describe('evaluateSymmetryAnswer', () => {
     expect(result.message).toContain('axe horizontal');
   });
 });
+
+

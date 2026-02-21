@@ -70,6 +70,13 @@ function randomIndex(length, randomFn) {
   return Math.floor(randomFn() * length);
 }
 
+function pickRenderMode(baseShape, randomFn) {
+  if (baseShape.length < 3) {
+    return 'open';
+  }
+  return randomFn() < 0.5 ? 'open' : 'closed';
+}
+
 export function mirrorPointVertical(point, gridSize = GRID_SIZE) {
   return {
     x: gridSize - 1 - point.x,
@@ -137,6 +144,7 @@ export function generateSymmetryQuestion(randomFn = Math.random) {
   const seedShape = BASE_SHAPES[randomIndex(BASE_SHAPES.length, randomFn)];
   const baseShape = shapeForAxis(seedShape, axis);
   const correctShape = mirrorShapeByAxis(baseShape, axis);
+  const renderMode = pickRenderMode(baseShape, randomFn);
 
   const options = [];
   const usedKeys = new Set();
@@ -208,6 +216,7 @@ export function generateSymmetryQuestion(randomFn = Math.random) {
   return {
     axis,
     gridSize: GRID_SIZE,
+    renderMode,
     prompt:
       axis === 'horizontal'
         ? "Choisis la figure symétrique par rapport à l'axe horizontal."

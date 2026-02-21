@@ -128,11 +128,15 @@ function pointToPixel(point, gridSize, size = 120, padding = 12) {
   };
 }
 
-function polylinePoints(points, gridSize) {
+function shapePoints(points, gridSize) {
   return points
     .map((point) => pointToPixel(point, gridSize))
     .map((point) => `${point.x},${point.y}`)
     .join(' ');
+}
+
+function shouldCloseShape(points) {
+  return currentQuestion.value.renderMode === 'closed' && points.length >= 3;
 }
 
 function axisLine(axis, gridSize, size = 120, padding = 12) {
@@ -235,8 +239,14 @@ onUnmounted(() => {
           :y2="axisLine(currentQuestion.axis, currentQuestion.gridSize).y2"
           class="axis-line"
         />
+        <polygon
+          v-if="shouldCloseShape(currentQuestion.baseShape)"
+          :points="shapePoints(currentQuestion.baseShape, currentQuestion.gridSize)"
+          class="shape-line"
+        />
         <polyline
-          :points="polylinePoints(currentQuestion.baseShape, currentQuestion.gridSize)"
+          v-else
+          :points="shapePoints(currentQuestion.baseShape, currentQuestion.gridSize)"
           class="shape-line"
         />
         <circle
@@ -277,7 +287,16 @@ onUnmounted(() => {
             :y2="axisLine(currentQuestion.axis, currentQuestion.gridSize).y2"
             class="axis-line"
           />
-          <polyline :points="polylinePoints(option.points, currentQuestion.gridSize)" class="shape-line" />
+          <polygon
+            v-if="shouldCloseShape(option.points)"
+            :points="shapePoints(option.points, currentQuestion.gridSize)"
+            class="shape-line"
+          />
+          <polyline
+            v-else
+            :points="shapePoints(option.points, currentQuestion.gridSize)"
+            class="shape-line"
+          />
           <circle
             v-for="(point, pointIndex) in option.points"
             :key="`option-point-${idx}-${pointIndex}`"
