@@ -23,7 +23,7 @@ export function evaluateAnswer({ answerInput, question, score, total, streak }) 
     return {
       isValid: false,
       feedbackType: 'incorrect',
-      feedbackMain: '⚠️ Entre un nombre positif !',
+      feedbackMain: '⚠️ Entrer un nombre positif.',
       feedbackExtra: '',
       nextScore: score,
       nextTotal: total,
@@ -38,8 +38,8 @@ export function evaluateAnswer({ answerInput, question, score, total, streak }) 
     return {
       isValid: true,
       feedbackType: 'correct',
-      feedbackMain: `🎉 Bravo ! ${question.num1} × ${question.num2} = ${question.answer}`,
-      feedbackExtra: nextStreak >= 5 ? `🔥 Série de ${nextStreak} ! Continue comme ça !` : '',
+      feedbackMain: 'Bonne réponse.',
+      feedbackExtra: '',
       nextScore,
       nextTotal,
       nextStreak,
@@ -49,8 +49,8 @@ export function evaluateAnswer({ answerInput, question, score, total, streak }) 
   return {
     isValid: true,
     feedbackType: 'incorrect',
-    feedbackMain: `❌ Pas tout à fait... La bonne réponse est ${question.answer}`,
-    feedbackExtra: '',
+    feedbackMain: '❌ Mauvaise réponse.',
+    feedbackExtra: `Bonne réponse : ${question.answer}.`,
     nextScore: score,
     nextTotal,
     nextStreak: 0,

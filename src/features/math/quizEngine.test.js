@@ -40,6 +40,8 @@ describe('evaluateAnswer', () => {
     });
 
     expect(result.isValid).toBe(false);
+    expect(result.feedbackMain).toBe('⚠️ Entrer un nombre positif.');
+    expect(result.feedbackExtra).toBe('');
     expect(result.nextScore).toBe(0);
     expect(result.nextTotal).toBe(0);
   });
@@ -58,6 +60,8 @@ describe('evaluateAnswer', () => {
     expect(result.nextTotal).toBe(5);
     expect(result.nextStreak).toBe(2);
     expect(result.feedbackType).toBe('correct');
+    expect(result.feedbackMain).toBe('Bonne réponse.');
+    expect(result.feedbackExtra).toBe('');
   });
 
   it('resets streak on incorrect answer', () => {
@@ -74,5 +78,7 @@ describe('evaluateAnswer', () => {
     expect(result.nextTotal).toBe(5);
     expect(result.nextStreak).toBe(0);
     expect(result.feedbackType).toBe('incorrect');
+    expect(result.feedbackMain).toBe('❌ Mauvaise réponse.');
+    expect(result.feedbackExtra).toBe('Bonne réponse : 12.');
   });
 });

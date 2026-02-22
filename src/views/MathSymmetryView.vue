@@ -10,7 +10,8 @@ const currentQuestion = ref(questionBag.next());
 const selectedOptionId = ref('');
 const hasChecked = ref(false);
 const feedbackType = ref('');
-const feedbackMessage = ref('');
+const feedbackMain = ref('');
+const feedbackExtra = ref('');
 const score = ref(0);
 const total = ref(0);
 const streak = ref(0);
@@ -60,7 +61,8 @@ function nextQuestion() {
   selectedOptionId.value = '';
   hasChecked.value = false;
   feedbackType.value = '';
-  feedbackMessage.value = '';
+  feedbackMain.value = '';
+  feedbackExtra.value = '';
 }
 
 function selectOption(optionId) {
@@ -77,9 +79,11 @@ function checkAnswer() {
 
   const result = evaluateSymmetryAnswer(currentQuestion.value, selectedOptionId.value);
   feedbackType.value = result.isCorrect ? 'correct' : 'incorrect';
-  feedbackMessage.value = result.message;
+  feedbackMain.value = '';
+  feedbackExtra.value = '';
 
   if (!result.isValid) {
+    feedbackMain.value = '⚠️ Choisir une réponse avant de vérifier.';
     return;
   }
 
@@ -95,6 +99,7 @@ function checkAnswer() {
       saveBestStreak(bestStreak.value);
     }
 
+    feedbackMain.value = 'Bonne réponse.';
     nextQuestionTimeoutId.value = setTimeout(() => {
       nextQuestionTimeoutId.value = null;
       nextQuestion();
@@ -102,6 +107,12 @@ function checkAnswer() {
     return;
   }
 
+  const correctIndex = currentQuestion.value.options.findIndex(
+    (option) => option.id === currentQuestion.value.correctOptionId
+  );
+  const correctLabel = correctIndex >= 0 ? optionLabels[correctIndex] : '?';
+  feedbackMain.value = '❌ Mauvaise réponse.';
+  feedbackExtra.value = `Bonne réponse : ${correctLabel}. Axe : ${axisLabel.value}.`;
   streak.value = 0;
 }
 
@@ -221,6 +232,15 @@ onUnmounted(() => {
       <span>Axe : {{ axisLabel }}</span>
     </div>
 
+    <div
+      v-if="feedbackMain"
+      class="mp-feedback"
+      :class="feedbackType === 'correct' ? 'mp-feedback-success' : 'mp-feedback-error'"
+    >
+      <div>{{ feedbackMain }}</div>
+      <div v-if="feedbackExtra" class="feedback-extra">{{ feedbackExtra }}</div>
+    </div>
+
     <div class="prompt-box">
       <p>{{ currentQuestion.prompt }}</p>
       <svg viewBox="0 0 120 120" class="shape-preview" aria-label="Figure de référence">
@@ -312,13 +332,9 @@ onUnmounted(() => {
 
     <div class="mp-actions">
       <button class="mp-btn mp-btn-primary" type="button" :disabled="!canCheck" @click="checkAnswer">
-        Vérifier
+        Vérifier ✓
       </button>
-      <button class="mp-btn mp-btn-secondary" type="button" @click="nextQuestion">Question suivante</button>
-    </div>
-
-    <div v-if="feedbackMessage" class="feedback" :class="feedbackType === 'correct' ? 'ok' : 'ko'">
-      {{ feedbackMessage }}
+      <button class="mp-btn mp-btn-secondary" type="button" @click="nextQuestion">Question suivante →</button>
     </div>
 
     <p class="hint">Raccourcis clavier: 1, 2, 3, 4 pour choisir une option, Entrée pour vérifier/suivant.</p>
@@ -329,13 +345,6 @@ onUnmounted(() => {
 .symmetry-page {
   max-width: 820px;
   margin-inline: auto;
-}
-
-.symmetry-page :deep(.mp-panel-info) {
-  font-size: 1.05em;
-  padding: 8px;
-  margin-bottom: 8px;
-  gap: 12px;
 }
 
 .symmetry-page :deep(.mp-actions) {
@@ -456,25 +465,15 @@ onUnmounted(() => {
   fill: #243041;
 }
 
-.feedback {
-  margin-top: 6px;
-  text-align: center;
-  font-weight: 700;
-}
-
-.feedback.ok {
-  color: #1f7a5c;
-}
-
-.feedback.ko {
-  color: #b33939;
-}
-
 .hint {
   margin: 6px 0 0;
   text-align: center;
   color: var(--muted);
   font-size: 0.88rem;
+}
+
+.feedback-extra {
+  margin-top: 6px;
 }
 
 @media (max-width: 700px) {
@@ -489,8 +488,3 @@ onUnmounted(() => {
   }
 }
 </style>
-
-
-
-
-
