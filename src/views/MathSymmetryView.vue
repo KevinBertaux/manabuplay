@@ -327,23 +327,36 @@ onUnmounted(() => {
 
 <style scoped>
 .symmetry-page {
-  max-width: 860px;
+  max-width: 820px;
   margin-inline: auto;
 }
 
+.symmetry-page :deep(.mp-panel-info) {
+  font-size: 1.05em;
+  padding: 8px;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+
+.symmetry-page :deep(.mp-actions) {
+  margin-top: 18px;
+}
+
 .prompt-box {
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   text-align: center;
 }
 
 .prompt-box p {
-  margin: 0 0 10px;
+  margin: 0 0 6px;
   font-weight: 700;
 }
 
 .shape-preview {
-  width: 170px;
-  height: 170px;
+  display: block;
+  width: 150px;
+  height: 150px;
+  margin-inline: auto;
   border-radius: 12px;
   border: 1px solid #d9e1ed;
   background: #fff;
@@ -352,22 +365,44 @@ onUnmounted(() => {
 .options-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
+  max-width: 620px;
+  margin-inline: auto;
 }
 
 .option-btn {
+  position: relative;
   border: 1px solid #c8d4e6;
   border-radius: 12px;
   background: #fff;
-  padding: 8px;
+  padding: 0;
   display: grid;
-  gap: 6px;
+  gap: 0;
   justify-items: center;
   cursor: pointer;
 }
 
+.option-canvas {
+  width: 100%;
+  padding: 10px 10px 8px;
+  display: grid;
+  justify-items: center;
+}
+
 .option-label {
-  font-weight: 700;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  min-width: 24px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #243041;
+  background: #e6f9f7;
+  border: 1px solid #bfece7;
+  text-align: center;
 }
 
 .option-preview {
@@ -412,7 +447,7 @@ onUnmounted(() => {
 }
 
 .feedback {
-  margin-top: 10px;
+  margin-top: 6px;
   text-align: center;
   font-weight: 700;
 }
@@ -426,21 +461,23 @@ onUnmounted(() => {
 }
 
 .hint {
-  margin: 10px 0 0;
+  margin: 6px 0 0;
   text-align: center;
   color: var(--muted);
-  font-size: 0.94rem;
+  font-size: 0.88rem;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 700px) {
   .options-grid {
     grid-template-columns: 1fr;
   }
 
   .shape-preview,
   .option-preview {
-    width: 136px;
-    height: 136px;
+    width: 120px;
+    height: 120px;
   }
 }
 </style>
+
+
