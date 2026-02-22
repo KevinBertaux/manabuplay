@@ -1,6 +1,12 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { evaluateAnswer, generateQuestion } from '@/features/math/quizEngine';
+import MotivationToast from '@/components/MotivationToast.vue';
+import {
+  buildMotivationToast,
+  MOTIVATION_TOAST_DURATION_MS,
+  resetMotivationRunState,
+} from '@/features/motivation/toastEngine';
 
 const BEST_STREAK_KEY = 'manabuplay_math_best_streak_v1';
 
@@ -17,6 +23,13 @@ const feedbackExtra = ref('');
 const hasAnsweredCurrentQuestion = ref(false);
 const currentQuestion = ref(null);
 const nextQuestionTimeoutId = ref(null);
+const toastMessage = ref('');
+const toastTone = ref('streak');
+const toastTimeoutId = ref(null);
+const motivationState = ref({
+  hasShownX3InSession: false,
+  hasShownRecordInRun: false,
+});
 const canCheck = computed(() => !hasAnsweredCurrentQuestion.value);
 
 function readBestStreak() {
@@ -50,6 +63,26 @@ function clearNextQuestionTimeout() {
     clearTimeout(nextQuestionTimeoutId.value);
     nextQuestionTimeoutId.value = null;
   }
+}
+
+function clearToastTimeout() {
+  if (toastTimeoutId.value) {
+    clearTimeout(toastTimeoutId.value);
+    toastTimeoutId.value = null;
+  }
+}
+
+function showMotivationToast(toast) {
+  if (!toast) {
+    return;
+  }
+  clearToastTimeout();
+  toastTone.value = toast.tone;
+  toastMessage.value = toast.message;
+  toastTimeoutId.value = setTimeout(() => {
+    toastTimeoutId.value = null;
+    toastMessage.value = '';
+  }, MOTIVATION_TOAST_DURATION_MS);
 }
 
 function focusAnswerField() {
@@ -100,6 +133,7 @@ function checkAnswer() {
   score.value = result.nextScore;
   total.value = result.nextTotal;
   streak.value = result.nextStreak;
+  const bestStreakBefore = bestStreak.value;
 
   if (streak.value > bestStreak.value) {
     bestStreak.value = streak.value;
@@ -107,10 +141,20 @@ function checkAnswer() {
   }
 
   if (result.feedbackType === 'correct') {
+    const motivation = buildMotivationToast({
+      streak: streak.value,
+      bestStreakBefore,
+      state: motivationState.value,
+    });
+    motivationState.value = motivation.state;
+    showMotivationToast(motivation.toast);
+
     nextQuestionTimeoutId.value = setTimeout(() => {
       nextQuestionTimeoutId.value = null;
       nextQuestion();
     }, 2000);
+  } else {
+    motivationState.value = resetMotivationRunState(motivationState.value);
   }
 }
 
@@ -125,6 +169,7 @@ function onAnswerKeydown(event) {
 }
 
 watch(tableSelect, () => {
+  motivationState.value = resetMotivationRunState(motivationState.value);
   nextQuestion();
 });
 
@@ -134,6 +179,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearNextQuestionTimeout();
+  clearToastTimeout();
 });
 </script>
 
@@ -165,6 +211,9 @@ onUnmounted(() => {
       <span>Score : {{ score }} / {{ total }}</span>
       <span>🏆 Série : {{ streak }}</span>
       <span>🥇 Meilleure série : {{ bestStreak }}</span>
+    </div>
+    <div class="motivation-toast-anchor">
+      <MotivationToast :message="toastMessage" :tone="toastTone" />
     </div>
 
     <div v-if="!tableSelect" class="empty-list-state">Choisir une table pour commencer.</div>
@@ -250,6 +299,12 @@ onUnmounted(() => {
   margin-top: 6px;
 }
 
+.motivation-toast-anchor {
+  position: relative;
+  height: 0;
+  margin-bottom: 2px;
+}
+
 .question-box {
   background: linear-gradient(140deg, #f6fbff, #eaf5ff);
   border: 1px solid #bfd8ec;
@@ -294,5 +349,3 @@ onUnmounted(() => {
   }
 }
 </style>
-
-

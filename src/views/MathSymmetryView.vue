@@ -1,6 +1,12 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { createSymmetryQuestionBag, evaluateSymmetryAnswer } from '@/features/math/symmetryEngine';
+import MotivationToast from '@/components/MotivationToast.vue';
+import {
+  buildMotivationToast,
+  MOTIVATION_TOAST_DURATION_MS,
+  resetMotivationRunState,
+} from '@/features/motivation/toastEngine';
 
 const BEST_STREAK_KEY = 'manabuplay_symmetry_best_streak_v1';
 const AUTO_NEXT_DELAY_MS = 2000;
@@ -17,6 +23,13 @@ const total = ref(0);
 const streak = ref(0);
 const bestStreak = ref(0);
 const nextQuestionTimeoutId = ref(null);
+const toastMessage = ref('');
+const toastTone = ref('streak');
+const toastTimeoutId = ref(null);
+const motivationState = ref({
+  hasShownX3InSession: false,
+  hasShownRecordInRun: false,
+});
 
 const optionLabels = ['1', '2', '3', '4'];
 const canCheck = computed(() => !hasChecked.value);
@@ -53,6 +66,26 @@ function clearNextQuestionTimeout() {
     clearTimeout(nextQuestionTimeoutId.value);
     nextQuestionTimeoutId.value = null;
   }
+}
+
+function clearToastTimeout() {
+  if (toastTimeoutId.value) {
+    clearTimeout(toastTimeoutId.value);
+    toastTimeoutId.value = null;
+  }
+}
+
+function showMotivationToast(toast) {
+  if (!toast) {
+    return;
+  }
+  clearToastTimeout();
+  toastTone.value = toast.tone;
+  toastMessage.value = toast.message;
+  toastTimeoutId.value = setTimeout(() => {
+    toastTimeoutId.value = null;
+    toastMessage.value = '';
+  }, MOTIVATION_TOAST_DURATION_MS);
 }
 
 function nextQuestion() {
@@ -93,11 +126,20 @@ function checkAnswer() {
   if (result.isCorrect) {
     score.value += 1;
     streak.value += 1;
+    const bestStreakBefore = bestStreak.value;
 
     if (streak.value > bestStreak.value) {
       bestStreak.value = streak.value;
       saveBestStreak(bestStreak.value);
     }
+
+    const motivation = buildMotivationToast({
+      streak: streak.value,
+      bestStreakBefore,
+      state: motivationState.value,
+    });
+    motivationState.value = motivation.state;
+    showMotivationToast(motivation.toast);
 
     feedbackMain.value = 'Bonne réponse.';
     nextQuestionTimeoutId.value = setTimeout(() => {
@@ -114,6 +156,7 @@ function checkAnswer() {
   feedbackMain.value = '❌ Mauvaise réponse.';
   feedbackExtra.value = `Bonne réponse : ${correctLabel}. Axe : ${axisLabel.value}.`;
   streak.value = 0;
+  motivationState.value = resetMotivationRunState(motivationState.value);
 }
 
 function optionStateClass(option) {
@@ -217,6 +260,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearNextQuestionTimeout();
+  clearToastTimeout();
   window.removeEventListener('keydown', onKeydown);
 });
 </script>
@@ -230,6 +274,9 @@ onUnmounted(() => {
       <span>🏆 Série : {{ streak }}</span>
       <span>🥇 Meilleure série : {{ bestStreak }}</span>
       <span>Axe : {{ axisLabel }}</span>
+    </div>
+    <div class="motivation-toast-anchor">
+      <MotivationToast :message="toastMessage" :tone="toastTone" />
     </div>
 
     <div
@@ -474,6 +521,12 @@ onUnmounted(() => {
 
 .feedback-extra {
   margin-top: 6px;
+}
+
+.motivation-toast-anchor {
+  position: relative;
+  height: 0;
+  margin-bottom: 2px;
 }
 
 @media (max-width: 700px) {
