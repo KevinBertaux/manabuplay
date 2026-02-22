@@ -28,20 +28,20 @@ defineProps({
 <style scoped>
 .motivation-toast {
   position: absolute;
-  top: 0;
+  top: -18px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
   pointer-events: none;
-  width: max-content;
-  max-width: min(92vw, 520px);
-  padding: 8px 12px;
-  border-radius: 999px;
+  min-width: min(86vw, 320px);
+  max-width: min(92vw, 620px);
+  padding: 12px 18px;
+  border-radius: 12px;
   border: 1px solid transparent;
   font-weight: 800;
-  font-size: 0.95rem;
+  font-size: 1.02rem;
   text-align: center;
-  box-shadow: 0 8px 18px rgba(36, 48, 65, 0.18);
+  box-shadow: 0 10px 22px rgba(36, 48, 65, 0.2);
 }
 
 .motivation-toast-streak {
@@ -66,6 +66,6 @@ defineProps({
 .motivation-toast-slide-enter-from,
 .motivation-toast-slide-leave-to {
   opacity: 0;
-  transform: translate(-50%, -12px);
+  transform: translate(-50%, -26px);
 }
 </style>
