@@ -59,6 +59,7 @@ Application web éducative (SPA Vue 3 + Vite) pour aider les enfants à réviser
 - `/aide/panel-interne`: Guide panel interne FR
 - `/help/internal-panel`: Internal panel guide EN
 - `/legal/mentions-legales`: Mentions légales
+- `/legal/cgu`: Conditions générales d'utilisation
 - `/legal/confidentialite`: Politique de confidentialité
 
 ## Documentation
@@ -69,5 +70,6 @@ Application web éducative (SPA Vue 3 + Vite) pour aider les enfants à réviser
 - Git cheat sheet: `docs/GIT-CHEATSHEET.fr.md`
 - Guide panel interne FR: `docs/PANEL-INTERNE.fr.md`
 - Guide panel interne EN: `docs/PANEL-INTERNE.en.md`
+
 
 

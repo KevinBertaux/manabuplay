@@ -54,6 +54,11 @@ const routes = [
     component: () => import('@/views/LegalPrivacyView.vue'),
   },
   {
+    path: '/legal/cgu',
+    name: 'cgu',
+    component: () => import('@/views/LegalTermsView.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/',
   },
@@ -77,3 +82,4 @@ router.beforeEach((to) => {
 });
 
 export default router;
+

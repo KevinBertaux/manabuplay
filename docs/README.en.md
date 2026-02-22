@@ -59,6 +59,7 @@ Educational web app (Vue 3 + Vite SPA) to help children practice math and vocabu
 - `/aide/panel-interne`: Internal panel guide (FR)
 - `/help/internal-panel`: Internal panel guide (EN)
 - `/legal/mentions-legales`: Legal notices
+- `/legal/cgu`: Terms of use
 - `/legal/confidentialite`: Privacy policy
 
 ## Documentation
@@ -69,5 +70,6 @@ Educational web app (Vue 3 + Vite SPA) to help children practice math and vocabu
 - Git cheat sheet: `docs/GIT-CHEATSHEET.fr.md`
 - Internal panel guide FR: `docs/PANEL-INTERNE.fr.md`
 - Internal panel guide EN: `docs/PANEL-INTERNE.en.md`
+
 
 

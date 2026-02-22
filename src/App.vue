@@ -49,11 +49,11 @@ function toggleMenu() {
     <footer class="site-footer">
       <div class="footer-links">
         <router-link to="/legal/mentions-legales">Mentions légales</router-link>
+        <router-link to="/legal/cgu">CGU</router-link>
         <router-link to="/legal/confidentialite">Politique de confidentialité</router-link>
       </div>
     </footer>
   </div>
 </template>
-
 
 
