@@ -154,13 +154,13 @@ onUnmounted(() => {
       </select>
     </div>
 
-    <div class="mp-panel-info">
+    <div v-if="tableSelect" class="mp-panel-info">
       <span>Score : {{ score }} / {{ total }}</span>
       <span>🏆 Série : {{ streak }}</span>
       <span>🥇 Meilleure série : {{ bestStreak }}</span>
     </div>
 
-    <div v-if="!tableSelect" class="mp-feedback mp-feedback-error">Sélectionner une table pour commencer.</div>
+    <div v-if="!tableSelect" class="empty-list-state">Sélectionner une table pour commencer.</div>
 
     <div
       v-if="tableSelect && feedbackMain"
@@ -185,11 +185,11 @@ onUnmounted(() => {
       />
     </div>
 
-    <div class="mp-actions">
-      <button class="mp-btn mp-btn-primary" type="button" :disabled="!tableSelect" @click="checkAnswer">
+    <div v-if="tableSelect" class="mp-actions">
+      <button class="mp-btn mp-btn-primary" type="button" @click="checkAnswer">
         Vérifier ✓
       </button>
-      <button class="mp-btn mp-btn-secondary" type="button" :disabled="!tableSelect" @click="nextQuestion">
+      <button class="mp-btn mp-btn-secondary" type="button" @click="nextQuestion">
         Question suivante →
       </button>
     </div>
@@ -219,8 +219,24 @@ onUnmounted(() => {
   width: 100%;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid #b6c7db;
+  border: 1px solid #9ab0c8;
   background: white;
+}
+
+.settings-box select:focus-visible {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
+  outline: none;
+}
+
+.empty-list-state {
+  text-align: center;
+  font-weight: 700;
+  color: #3a4b61;
+  background: rgba(78, 205, 196, 0.12);
+  border: 1px dashed #7ab8c3;
+  border-radius: 12px;
+  padding: 16px;
 }
 
 .feedback-extra {
@@ -252,9 +268,10 @@ onUnmounted(() => {
   font-weight: 700;
 }
 
-.answer-input:focus {
+.answer-input:focus-visible {
   outline: none;
-  border-color: #4ecdc4;
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
 }
 
 @media (max-width: 820px) {
@@ -268,3 +285,9 @@ onUnmounted(() => {
   }
 }
 </style>
+
+
+
+
+
+

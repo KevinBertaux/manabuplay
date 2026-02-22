@@ -154,10 +154,16 @@ onUnmounted(() => {
 
 .auth-form input {
   width: 100%;
-  border: 1px solid #c2d0e1;
+  border: 1px solid #9ab0c8;
   border-radius: 10px;
   padding: 10px;
   background: white;
+}
+
+.auth-form input:focus-visible {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
+  outline: none;
 }
 
 .btn {
@@ -169,8 +175,13 @@ onUnmounted(() => {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #4ecdc4, #6fe7dd);
-  color: white;
+  background: var(--btn-primary-grad);
+  color: #ffffff;
+}
+
+.btn:hover:not(:disabled),
+.btn:focus-visible:not(:disabled) {
+  filter: brightness(1.05);
 }
 
 .btn:disabled {
@@ -187,3 +198,5 @@ onUnmounted(() => {
   color: #b33939;
 }
 </style>
+
+

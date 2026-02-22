@@ -16,8 +16,8 @@ const statusType = ref('');
 const statusMessage = ref('');
 const englishInputRefs = ref([]);
 const sessionRemainingMs = ref(getAdminSessionRemainingMs());
-const APP_VERSION = '0.4.0';
-const LAST_UPDATE_FR = '19 février 2026';
+const APP_VERSION = '0.5.0-prep';
+const LAST_UPDATE_FR = '22 février 2026';
 let sessionTimerId;
 
 function emptyWord() {
@@ -431,10 +431,17 @@ onUnmounted(() => {
 .admin-card input,
 .admin-card select {
   width: 100%;
-  border: 1px solid #c2d0e1;
+  border: 1px solid #9ab0c8;
   border-radius: 10px;
   padding: 10px;
   background: white;
+}
+
+.admin-card input:focus-visible,
+.admin-card select:focus-visible {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
+  outline: none;
 }
 
 .empty-state {
@@ -491,18 +498,23 @@ onUnmounted(() => {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #4ecdc4, #6fe7dd);
-  color: white;
+  background: var(--btn-primary-grad);
+  color: #ffffff;
 }
 
 .btn-secondary {
-  background: linear-gradient(135deg, #a29bfe, #6c5ce7);
-  color: white;
+  background: var(--btn-secondary-grad);
+  color: #ffffff;
 }
 
 .btn-danger {
-  background: linear-gradient(135deg, #ff7675, #e17055);
-  color: white;
+  background: var(--btn-danger-grad);
+  color: #ffffff;
+}
+
+.btn:hover:not(:disabled),
+.btn:focus-visible:not(:disabled) {
+  filter: brightness(1.05);
 }
 
 .import-label {
@@ -546,6 +558,10 @@ pre {
   }
 }
 </style>
+
+
+
+
 
 
 

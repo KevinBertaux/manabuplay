@@ -501,12 +501,24 @@ onUnmounted(() => {
 .setting-field select {
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid #b6c7db;
+  border: 1px solid #9ab0c8;
   background: white;
+}
+
+.setting-field select:focus-visible,
+.setting-field input[type='range']:focus-visible {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
+  outline: none;
 }
 
 .setting-list {
   margin-bottom: 12px;
+}
+
+.setting-list label {
+  display: block;
+  min-height: 0;
 }
 
 .settings-row {
@@ -549,13 +561,18 @@ onUnmounted(() => {
   height: 52px;
   border: none;
   border-radius: 50%;
-  background: linear-gradient(135deg, #a29bfe, #6c5ce7);
-  color: #fff;
+  background: var(--btn-secondary-grad);
+  color: #ffffff;
   font-size: 1.3em;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.carousel-arrow:hover,
+.carousel-arrow:focus-visible {
+  filter: brightness(1.05);
 }
 
 .flashcard {
@@ -586,7 +603,7 @@ onUnmounted(() => {
 
 .flashcard.flipped {
   background: linear-gradient(135deg, #4ecdc4, #6fe7dd);
-  color: #fff;
+  color: #113246;
 }
 
 .flashcard-content {
@@ -691,8 +708,13 @@ onUnmounted(() => {
 }
 
 .btn-secondary {
-  background: linear-gradient(135deg, #a29bfe, #6c5ce7);
-  color: white;
+  background: var(--btn-secondary-grad);
+  color: #ffffff;
+}
+
+.btn:hover:not(:disabled),
+.btn:focus-visible:not(:disabled) {
+  filter: brightness(1.05);
 }
 
 @media (max-width: 820px) {
@@ -726,3 +748,7 @@ onUnmounted(() => {
   }
 }
 </style>
+
+
+
+

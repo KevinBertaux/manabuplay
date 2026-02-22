@@ -358,7 +358,7 @@ onUnmounted(() => {
   height: 150px;
   margin-inline: auto;
   border-radius: 12px;
-  border: 1px solid #d9e1ed;
+  border: 1px solid #c6d5e8;
   background: #fff;
 }
 
@@ -372,21 +372,17 @@ onUnmounted(() => {
 
 .option-btn {
   position: relative;
-  border: 1px solid #c8d4e6;
+  border: 1px solid #9ab0c8;
   border-radius: 12px;
   background: #fff;
-  padding: 0;
+  padding: 10px 10px 8px;
   display: grid;
-  gap: 0;
   justify-items: center;
   cursor: pointer;
 }
 
-.option-canvas {
-  width: 100%;
-  padding: 10px 10px 8px;
-  display: grid;
-  justify-items: center;
+.option-btn:hover {
+  background: #f6faff;
 }
 
 .option-label {
@@ -411,8 +407,8 @@ onUnmounted(() => {
 }
 
 .option-btn.is-selected {
-  border-color: #4ecdc4;
-  box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.2);
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.2);
 }
 
 .option-btn.is-correct {
@@ -431,7 +427,7 @@ onUnmounted(() => {
 }
 
 .axis-line {
-  stroke: #4ecdc4;
+  stroke: #0f766e;
   stroke-width: 2;
   stroke-dasharray: 4 3;
 }
@@ -479,5 +475,8 @@ onUnmounted(() => {
   }
 }
 </style>
+
+
+
 
 
