@@ -1,6 +1,6 @@
 # ManabuPlay - GitHub Showcase
 
-![Version](https://img.shields.io/badge/version-0.4.0--prep-2ea44f) ![Vue](https://img.shields.io/badge/Vue-3-42b883) ![Vite](https://img.shields.io/badge/Vite-5-646cff) ![Status](https://img.shields.io/badge/status-release-1f6feb) ![Education](https://img.shields.io/badge/usage-education-blue) [![Netlify Status](https://api.netlify.com/api/v1/badges/b27a59fb-1456-4320-92ac-c4c4e02786c4/deploy-status)](https://app.netlify.com/projects/manabuplay/deploys)
+![Version](https://img.shields.io/badge/version-0.5.0--prep-2ea44f) ![Vue](https://img.shields.io/badge/Vue-3-42b883) ![Vite](https://img.shields.io/badge/Vite-5-646cff) ![Status](https://img.shields.io/badge/status-release-1f6feb) ![Education](https://img.shields.io/badge/usage-education-blue) [![Netlify Status](https://api.netlify.com/api/v1/badges/b27a59fb-1456-4320-92ac-c4c4e02786c4/deploy-status)](https://app.netlify.com/projects/manabuplay/deploys)
 
 ManabuPlay est une SPA éducative pour enfants (Vue 3 + Vite) orientée révision scolaire : maths, vocabulaire et panneau interne d’édition locale.
 
@@ -76,6 +76,7 @@ manabuplay/
 
 ## Version
 
-- Version en cours: `0.4.0`
-- Dernière modification: `20 février 2026` (fr-FR)
+- Version en cours: `0.5.0-prep`
+- Dernière modification: `22 février 2026` (fr-FR)
+
 

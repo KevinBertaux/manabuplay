@@ -5,7 +5,7 @@ Objectif: eviter le bazar en travaillant avec des branches courtes et claires.
 ## Regle simple
 
 - `main` = branche stable.
-- `feat/0.4.0-prep` = branche de preparation release.
+- `feat/0.5.0-prep` = branche de preparation release.
 - `feat/<sujet>` = une branche par sujet (ex: `feat/studio-security-v2`).
 
 ## Commandes essentielles
@@ -35,7 +35,7 @@ git log --oneline --graph --decorate -20
 
 ```bash
 # 1) partir de la base release
-git checkout feat/0.4.0-prep
+git checkout feat/0.5.0-prep
 git pull
 
 # 2) creer la branche feature
@@ -49,7 +49,7 @@ git commit -m "feat(security): ..."
 git push -u origin feat/studio-security-v2
 
 # 5) merger dans la branche release
-git checkout feat/0.4.0-prep
+git checkout feat/0.5.0-prep
 git pull
 git merge --no-ff feat/studio-security-v2
 git push
@@ -60,7 +60,7 @@ git push
 ```text
 main:                A---B
                         \
-feat/0.4.0-prep:         C---D---E
+feat/0.5.0-prep:         C---D---E
                               \
 feat/studio-security-v2:        F---G
 ```
@@ -71,4 +71,5 @@ feat/studio-security-v2:        F---G
 - Un sujet = une branche.
 - Commits petits et explicites.
 - Ne pas developper directement sur `main`.
+
 

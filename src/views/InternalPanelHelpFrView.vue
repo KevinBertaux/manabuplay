@@ -9,7 +9,7 @@
       <router-link :to="{ name: 'studio-ops-panel' }">Retour au panneau d'administration</router-link>
     </p>
 
-    <p class="updated">Version: 0.4.0 (lite, Netlify 100% front)</p>
+    <p class="updated">Version: 0.5.0-prep (lite, Netlify 100% front)</p>
 
     <p>
       Cette page explique le fonctionnement du panel interne pour l'édition locale des listes de vocabulaire.
@@ -140,3 +140,4 @@ a {
   text-decoration: underline;
 }
 </style>
+

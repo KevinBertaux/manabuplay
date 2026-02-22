@@ -5,7 +5,7 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au reset quota.
 ## Regles
 
 - Pas de deploy production hors fenetre hebdomadaire validee.
-- Les merges `feature/*` se font vers `feat/0.4.0-prep`.
+- Les merges `feature/*` se font vers `feat/0.5.0-prep`.
 - La branche `main` ne recoit que des merges de release valides.
 
 ## Pre-check local (obligatoire)
@@ -21,7 +21,7 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au reset quota.
 
 ## Go/No-Go contenu
 
-- [ ] Version cible confirmee (ex: `0.4.0`)
+- [ ] Version cible confirmee (ex: `0.5.0`)
 - [ ] Notes de version courtes preparees
 - [ ] Aucun secret commite (`.env` local uniquement)
 - [ ] Mentions legales/confidentialite coherentes avec le comportement reel
@@ -36,13 +36,14 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au reset quota.
 
 ## Publication
 
-- [ ] Merge `feat/0.4.0-prep` -> `main`
+- [ ] Merge `feat/0.5.0-prep` -> `main`
 - [ ] Push final sur `main`
 - [ ] Deploy Netlify lance et termine avec succes
 - [ ] Verification post-deploy sur URL publique
 
 ## Post-release
 
-- [ ] Tag Git cree (ex: `v0.4.0`)
+- [ ] Tag Git cree (ex: `v0.5.0`)
 - [ ] `ROADMAP.md` mis a jour
 - [ ] Prochaine fenetre hebdo planifiee
+
