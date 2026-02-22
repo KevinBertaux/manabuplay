@@ -99,8 +99,7 @@ function checkAnswer() {
       saveBestStreak(bestStreak.value);
     }
 
-    feedbackMain.value = '✅ Bonne réponse !';
-    feedbackExtra.value = `Axe : ${axisLabel.value}.`;
+    feedbackMain.value = 'Bonne réponse.';
     nextQuestionTimeoutId.value = setTimeout(() => {
       nextQuestionTimeoutId.value = null;
       nextQuestion();
@@ -346,13 +345,6 @@ onUnmounted(() => {
 .symmetry-page {
   max-width: 820px;
   margin-inline: auto;
-}
-
-.symmetry-page :deep(.mp-panel-info) {
-  font-size: 1.05em;
-  padding: 8px;
-  margin-bottom: 8px;
-  gap: 12px;
 }
 
 .symmetry-page :deep(.mp-actions) {

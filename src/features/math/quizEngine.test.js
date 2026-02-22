@@ -60,8 +60,8 @@ describe('evaluateAnswer', () => {
     expect(result.nextTotal).toBe(5);
     expect(result.nextStreak).toBe(2);
     expect(result.feedbackType).toBe('correct');
-    expect(result.feedbackMain).toBe('✅ Bonne réponse !');
-    expect(result.feedbackExtra).toContain('3 × 4 = 12.');
+    expect(result.feedbackMain).toBe('Bonne réponse.');
+    expect(result.feedbackExtra).toBe('');
   });
 
   it('resets streak on incorrect answer', () => {

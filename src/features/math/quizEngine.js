@@ -35,13 +35,11 @@ export function evaluateAnswer({ answerInput, question, score, total, streak }) 
   if (parsed === question.answer) {
     const nextScore = score + 1;
     const nextStreak = streak + 1;
-    const streakMessage =
-      nextStreak >= 5 ? ` 🔥 Série de ${nextStreak} !` : '';
     return {
       isValid: true,
       feedbackType: 'correct',
-      feedbackMain: '✅ Bonne réponse !',
-      feedbackExtra: `${question.num1} × ${question.num2} = ${question.answer}.${streakMessage}`,
+      feedbackMain: 'Bonne réponse.',
+      feedbackExtra: '',
       nextScore,
       nextTotal,
       nextStreak,

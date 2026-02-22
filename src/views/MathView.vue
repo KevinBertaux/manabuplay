@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { evaluateAnswer, generateQuestion } from '@/features/math/quizEngine';
 
 const BEST_STREAK_KEY = 'manabuplay_math_best_streak_v1';
@@ -16,6 +16,8 @@ const feedbackMain = ref('');
 const feedbackExtra = ref('');
 const hasAnsweredCurrentQuestion = ref(false);
 const currentQuestion = ref(null);
+const nextQuestionTimeoutId = ref(null);
+const canCheck = computed(() => !hasAnsweredCurrentQuestion.value);
 
 function readBestStreak() {
   if (typeof window === 'undefined') {
@@ -43,6 +45,13 @@ function saveBestStreak(value) {
   }
 }
 
+function clearNextQuestionTimeout() {
+  if (nextQuestionTimeoutId.value) {
+    clearTimeout(nextQuestionTimeoutId.value);
+    nextQuestionTimeoutId.value = null;
+  }
+}
+
 function focusAnswerField() {
   nextTick(() => {
     answerField.value?.focus();
@@ -50,6 +59,7 @@ function focusAnswerField() {
 }
 
 function nextQuestion() {
+  clearNextQuestionTimeout();
   hasAnsweredCurrentQuestion.value = false;
   feedbackType.value = '';
   feedbackMain.value = '';
@@ -95,6 +105,13 @@ function checkAnswer() {
     bestStreak.value = streak.value;
     saveBestStreak(bestStreak.value);
   }
+
+  if (result.feedbackType === 'correct') {
+    nextQuestionTimeoutId.value = setTimeout(() => {
+      nextQuestionTimeoutId.value = null;
+      nextQuestion();
+    }, 2000);
+  }
 }
 
 function onAnswerKeydown(event) {
@@ -113,6 +130,10 @@ watch(tableSelect, () => {
 
 onMounted(() => {
   bestStreak.value = readBestStreak();
+});
+
+onUnmounted(() => {
+  clearNextQuestionTimeout();
 });
 </script>
 
@@ -172,7 +193,7 @@ onMounted(() => {
     </div>
 
     <div v-if="tableSelect" class="mp-actions">
-      <button class="mp-btn mp-btn-primary" type="button" @click="checkAnswer">
+      <button class="mp-btn mp-btn-primary" type="button" :disabled="!canCheck" @click="checkAnswer">
         Vérifier ✓
       </button>
       <button class="mp-btn mp-btn-secondary" type="button" @click="nextQuestion">
@@ -230,12 +251,13 @@ onMounted(() => {
 }
 
 .question-box {
-  background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+  background: linear-gradient(140deg, #f6fbff, #eaf5ff);
+  border: 1px solid #bfd8ec;
   padding: 34px 22px;
   border-radius: 16px;
   text-align: center;
   margin-bottom: 18px;
-  box-shadow: 0 10px 28px rgba(253, 203, 110, 0.28);
+  box-shadow: 0 10px 24px rgba(36, 48, 65, 0.08);
 }
 
 .question {
@@ -247,7 +269,8 @@ onMounted(() => {
 .answer-input {
   font-size: 2em;
   padding: 12px 18px;
-  border: 3px solid #ff6b6b;
+  border: 2px solid #5f9fc6;
+  background: #fbfdff;
   border-radius: 14px;
   text-align: center;
   width: 150px;
@@ -271,7 +294,5 @@ onMounted(() => {
   }
 }
 </style>
-
-
 
 

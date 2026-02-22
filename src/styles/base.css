@@ -296,13 +296,13 @@ a:focus-visible {
 .mp-panel-info {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 14px;
   flex-wrap: wrap;
   text-align: center;
-  font-size: 1.2em;
-  margin-bottom: 14px;
+  font-size: 1.05em;
+  margin-bottom: 12px;
   font-weight: 700;
-  padding: 12px;
+  padding: 8px 10px;
   border-radius: 12px;
   background: var(--panel-info-bg);
 }
