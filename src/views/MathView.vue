@@ -2,6 +2,8 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { evaluateAnswer, generateQuestion } from '@/features/math/quizEngine';
 import MotivationToast from '@/components/MotivationToast.vue';
+import QuizFeedbackBanner from '@/components/QuizFeedbackBanner.vue';
+import QuizScoreBar from '@/components/QuizScoreBar.vue';
 import {
   buildMotivationToast,
   MOTIVATION_TOAST_DURATION_MS,
@@ -207,25 +209,25 @@ onUnmounted(() => {
       </select>
     </div>
 
-    <div v-if="tableSelect" class="mp-panel-info">
-      <span>Score : {{ score }} / {{ total }}</span>
-      <span>🏆 Série : {{ streak }}</span>
-      <span>🥇 Meilleure série : {{ bestStreak }}</span>
-    </div>
+    <QuizScoreBar
+      v-if="tableSelect"
+      :score="score"
+      :total="total"
+      :streak="streak"
+      :best-streak="bestStreak"
+    />
     <div class="motivation-toast-anchor">
       <MotivationToast :message="toastMessage" :tone="toastTone" />
     </div>
 
     <div v-if="!tableSelect" class="empty-list-state">Choisir une table pour commencer.</div>
 
-    <div
+    <QuizFeedbackBanner
       v-if="tableSelect && feedbackMain"
-      class="mp-feedback"
-      :class="feedbackType === 'correct' ? 'mp-feedback-success' : 'mp-feedback-error'"
-    >
-      <div>{{ feedbackMain }}</div>
-      <div v-if="feedbackExtra" class="feedback-extra">{{ feedbackExtra }}</div>
-    </div>
+      :type="feedbackType"
+      :main="feedbackMain"
+      :extra="feedbackExtra"
+    />
 
     <div v-if="tableSelect && currentQuestion" class="question-box">
       <div class="question">{{ currentQuestion.num1 }} × {{ currentQuestion.num2 }} = ?</div>
@@ -293,10 +295,6 @@ onUnmounted(() => {
   border: 1px dashed #7ab8c3;
   border-radius: 12px;
   padding: 16px;
-}
-
-.feedback-extra {
-  margin-top: 6px;
 }
 
 .motivation-toast-anchor {

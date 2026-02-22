@@ -2,6 +2,8 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { createSymmetryQuestionBag, evaluateSymmetryAnswer } from '@/features/math/symmetryEngine';
 import MotivationToast from '@/components/MotivationToast.vue';
+import QuizFeedbackBanner from '@/components/QuizFeedbackBanner.vue';
+import QuizScoreBar from '@/components/QuizScoreBar.vue';
 import {
   buildMotivationToast,
   MOTIVATION_TOAST_DURATION_MS,
@@ -269,24 +271,18 @@ onUnmounted(() => {
   <section class="page-block symmetry-page">
     <h1>Math - Symétrie</h1>
 
-    <div class="mp-panel-info">
-      <span>Score : {{ score }} / {{ total }}</span>
-      <span>🏆 Série : {{ streak }}</span>
-      <span>🥇 Meilleure série : {{ bestStreak }}</span>
-      <span>Axe : {{ axisLabel }}</span>
-    </div>
+    <QuizScoreBar
+      :score="score"
+      :total="total"
+      :streak="streak"
+      :best-streak="bestStreak"
+      :extras="[ `Axe : ${axisLabel}` ]"
+    />
     <div class="motivation-toast-anchor">
       <MotivationToast :message="toastMessage" :tone="toastTone" />
     </div>
 
-    <div
-      v-if="feedbackMain"
-      class="mp-feedback"
-      :class="feedbackType === 'correct' ? 'mp-feedback-success' : 'mp-feedback-error'"
-    >
-      <div>{{ feedbackMain }}</div>
-      <div v-if="feedbackExtra" class="feedback-extra">{{ feedbackExtra }}</div>
-    </div>
+    <QuizFeedbackBanner v-if="feedbackMain" :type="feedbackType" :main="feedbackMain" :extra="feedbackExtra" />
 
     <div class="prompt-box">
       <p>{{ currentQuestion.prompt }}</p>
@@ -517,10 +513,6 @@ onUnmounted(() => {
   text-align: center;
   color: var(--muted);
   font-size: 0.88rem;
-}
-
-.feedback-extra {
-  margin-top: 6px;
 }
 
 .motivation-toast-anchor {
