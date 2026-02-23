@@ -1,6 +1,10 @@
 <script setup>
 import { nextTick, onUnmounted, ref, watch } from 'vue';
-import { evaluateAnswer, generateQuestion } from '@/features/math/quizEngine';
+import {
+  createMultiplicationQuestionBag,
+  evaluateAnswer,
+  generateQuestion,
+} from '@/features/math/quizEngine';
 import MotivationToast from '@/components/MotivationToast.vue';
 import QuizActions from '@/components/QuizActions.vue';
 import QuizEmptyState from '@/components/QuizEmptyState.vue';
@@ -35,6 +39,7 @@ const tableOptions = [
 const tableSelect = ref('');
 const answerInput = ref('');
 const answerField = ref(null);
+const questionBag = ref(null);
 const toastMessage = ref('');
 const toastTone = ref('streak');
 const toastTimeoutId = ref(null);
@@ -95,11 +100,19 @@ function loadNextQuestion() {
 
   const next = nextQuestion({
     isReady: () => Boolean(tableSelect.value),
-    buildQuestion: () => generateQuestion(tableSelect.value),
+    buildQuestion: () => questionBag.value?.next() || generateQuestion(tableSelect.value),
   });
   if (next) {
     focusAnswerField();
   }
+}
+
+function resetQuestionBag() {
+  if (!tableSelect.value) {
+    questionBag.value = null;
+    return;
+  }
+  questionBag.value = createMultiplicationQuestionBag(tableSelect.value);
 }
 
 function checkAnswer() {
@@ -161,6 +174,7 @@ function onAnswerKeydown(event) {
 
 watch(tableSelect, () => {
   motivationState.value = resetMotivationRunState(motivationState.value);
+  resetQuestionBag();
   loadNextQuestion();
 });
 

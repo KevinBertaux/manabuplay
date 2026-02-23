@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { evaluateAnswer, generateQuestion } from './quizEngine';
+import { createMultiplicationQuestionBag, evaluateAnswer, generateQuestion } from './quizEngine';
 
 describe('generateQuestion', () => {
   it('generates valid ranges for all tables including zero', () => {
@@ -26,6 +26,47 @@ describe('generateQuestion', () => {
     expect(question.num1).toBe(0);
     expect(question.num2).toBe(9);
     expect(question.answer).toBe(0);
+  });
+});
+
+describe('createMultiplicationQuestionBag', () => {
+  it('cycles through 12 unique questions for a fixed table before repeating', () => {
+    const bag = createMultiplicationQuestionBag('7', () => 0.5);
+    const seen = new Set();
+
+    for (let i = 0; i < 12; i += 1) {
+      const question = bag.next();
+      seen.add(`${question.num1}x${question.num2}`);
+      expect(question.num1).toBe(7);
+    }
+
+    expect(seen.size).toBe(12);
+  });
+
+  it('cycles through 144 unique questions for all tables before repeating', () => {
+    const bag = createMultiplicationQuestionBag('all', () => 0.5);
+    const seen = new Set();
+
+    for (let i = 0; i < 144; i += 1) {
+      const question = bag.next();
+      seen.add(`${question.num1}x${question.num2}`);
+    }
+
+    expect(seen.size).toBe(144);
+  });
+
+  it('avoids immediate repeats across bag refill boundary when possible', () => {
+    const bag = createMultiplicationQuestionBag('3', () => 0.999);
+    let previous = null;
+
+    for (let i = 0; i < 24; i += 1) {
+      const question = bag.next();
+      const current = `${question.num1}x${question.num2}`;
+      if (previous) {
+        expect(current).not.toBe(previous);
+      }
+      previous = current;
+    }
   });
 });
 
