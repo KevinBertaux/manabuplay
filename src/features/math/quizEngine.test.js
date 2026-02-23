@@ -152,6 +152,33 @@ describe('createMultiplicationQuizSession', () => {
     expect(reviewQuestion.num2).toBe(first.num2);
   });
 
+  it('avoids immediate repeat when review starts right after last main question', () => {
+    const session = createMultiplicationQuizSession({
+      tables: [6],
+      mode: 'ordered',
+      reviewErrorsEnabled: true,
+      randomFn: () => 0.5,
+    });
+
+    let lastMain = null;
+    for (let i = 0; i < 12; i += 1) {
+      const question = session.next();
+      if (i === 11) {
+        session.markAnswer({ question, isCorrect: false });
+        lastMain = question;
+      } else {
+        session.markAnswer({ question, isCorrect: true });
+      }
+    }
+
+    const afterLastMain = session.next();
+    expect(`${afterLastMain.num1}x${afterLastMain.num2}`).not.toBe(`${lastMain.num1}x${lastMain.num2}`);
+
+    const reviewQuestion = session.next();
+    expect(reviewQuestion.source).toBe('review');
+    expect(`${reviewQuestion.num1}x${reviewQuestion.num2}`).toBe(`${lastMain.num1}x${lastMain.num2}`);
+  });
+
   it('does not enter review phase when review mode is disabled', () => {
     const session = createMultiplicationQuizSession({
       tables: [4],
