@@ -1,5 +1,8 @@
-import symmetryShapesConfig from '../../content/math/symmetry-shapes.v1.json';
 import { createRefillBag, pullNextItem, randomIndex, shuffleList } from '../common/questionBag';
+import {
+  getActiveSymmetryShapesConfig,
+  getBaseSymmetryShapesConfig,
+} from './symmetryShapeStore';
 
 const DEFAULT_GRID_SIZE = 5;
 const DEFAULT_AXES = ['vertical', 'horizontal'];
@@ -11,7 +14,7 @@ function toPoint(point) {
   };
 }
 
-function normalizeShapes(config) {
+function normalizeShapes(config, gridSize) {
   const shapes = Array.isArray(config?.shapes) ? config.shapes : [];
 
   return shapes
@@ -19,30 +22,55 @@ function normalizeShapes(config) {
       id: typeof shape?.id === 'string' && shape.id.trim() ? shape.id.trim() : `shape-${index + 1}`,
       points: Array.isArray(shape?.points) ? shape.points.map(toPoint) : [],
     }))
-    .filter((shape) =>
-      shape.points.every((point) => Number.isInteger(point.x) && Number.isInteger(point.y))
+    .filter(
+      (shape) =>
+        shape.points.length >= 3 &&
+        shape.points.every(
+          (point) =>
+            Number.isInteger(point.x) &&
+            Number.isInteger(point.y) &&
+            point.x >= 0 &&
+            point.x < gridSize &&
+            point.y >= 0 &&
+            point.y < gridSize
+        )
     );
 }
 
-const GRID_SIZE = Number.isInteger(symmetryShapesConfig?.gridSize)
-  ? symmetryShapesConfig.gridSize
-  : DEFAULT_GRID_SIZE;
-const AXES =
-  Array.isArray(symmetryShapesConfig?.axes) && symmetryShapesConfig.axes.length > 0
-    ? symmetryShapesConfig.axes
-    : DEFAULT_AXES;
+function createRuntimeDataset() {
+  const config = getActiveSymmetryShapesConfig();
+  const gridSize = Number.isInteger(config?.gridSize) ? config.gridSize : DEFAULT_GRID_SIZE;
+  const axes =
+    Array.isArray(config?.axes) && config.axes.length > 0 ? config.axes : DEFAULT_AXES;
+  const baseShapes = normalizeShapes(config, gridSize);
 
-// Shapes are authored for vertical mode (left side of the axis) and re-used for
-// horizontal mode via transposition.
-const BASE_SHAPES = normalizeShapes(symmetryShapesConfig);
+  if (baseShapes.length > 0) {
+    return {
+      gridSize,
+      axes,
+      baseShapes,
+      shapesById: new Map(baseShapes.map((shape) => [shape.id, shape])),
+    };
+  }
 
-if (BASE_SHAPES.length === 0) {
-  throw new Error('Symmetry shapes dataset is empty or invalid.');
+  const fallback = getBaseSymmetryShapesConfig();
+  const fallbackGridSize = Number.isInteger(fallback?.gridSize) ? fallback.gridSize : DEFAULT_GRID_SIZE;
+  const fallbackAxes =
+    Array.isArray(fallback?.axes) && fallback.axes.length > 0 ? fallback.axes : DEFAULT_AXES;
+  const fallbackShapes = normalizeShapes(fallback, fallbackGridSize);
+
+  return {
+    gridSize: fallbackGridSize,
+    axes: fallbackAxes,
+    baseShapes: fallbackShapes,
+    shapesById: new Map(fallbackShapes.map((shape) => [shape.id, shape])),
+  };
 }
 
-const SHAPES_BY_ID = new Map(BASE_SHAPES.map((shape) => [shape.id, shape]));
-
-export const SYMMETRY_BASE_SHAPE_COUNT = BASE_SHAPES.length;
+const BASE_CONFIG = getBaseSymmetryShapesConfig();
+export const SYMMETRY_BASE_SHAPE_COUNT = Array.isArray(BASE_CONFIG.shapes)
+  ? BASE_CONFIG.shapes.length
+  : 0;
 
 function clonePoints(points) {
   return points.map((point) => ({ ...point }));
@@ -59,17 +87,17 @@ function pointsKey(points) {
     .join('|');
 }
 
-function keepInGrid(point) {
-  return point.x >= 0 && point.x < GRID_SIZE && point.y >= 0 && point.y < GRID_SIZE;
+function keepInGrid(point, gridSize) {
+  return point.x >= 0 && point.x < gridSize && point.y >= 0 && point.y < gridSize;
 }
 
-function shiftPoints(points, shiftX, shiftY) {
+function shiftPoints(points, shiftX, shiftY, gridSize) {
   return points
     .map((point) => ({
       x: point.x + shiftX,
       y: point.y + shiftY,
     }))
-    .filter(keepInGrid);
+    .filter((point) => keepInGrid(point, gridSize));
 }
 
 function pickRenderMode(baseShape, randomFn) {
@@ -83,13 +111,13 @@ function seedKey(seed) {
   return `${seed.axis}|${seed.shapeId}`;
 }
 
-function getShapeById(shapeId) {
-  return SHAPES_BY_ID.get(shapeId) || BASE_SHAPES[0];
+function getShapeById(shapeId, dataset) {
+  return dataset.shapesById.get(shapeId) || dataset.baseShapes[0];
 }
 
-function buildAxisSeeds(axis, randomFn) {
+function buildAxisSeeds(axis, randomFn, dataset) {
   return shuffleList(
-    BASE_SHAPES.map((shape) => ({ axis, shapeId: shape.id })),
+    dataset.baseShapes.map((shape) => ({ axis, shapeId: shape.id })),
     randomFn
   );
 }
@@ -102,9 +130,9 @@ function takeNextSeed(seeds, lastMeta, allowFallback = true) {
   );
 }
 
-function buildBalancedCycle(lastMeta, randomFn) {
-  const verticalSeeds = buildAxisSeeds('vertical', randomFn);
-  const horizontalSeeds = buildAxisSeeds('horizontal', randomFn);
+function buildBalancedCycle(lastMeta, randomFn, dataset) {
+  const verticalSeeds = buildAxisSeeds('vertical', randomFn, dataset);
+  const horizontalSeeds = buildAxisSeeds('horizontal', randomFn, dataset);
   const cycle = [];
 
   let preferredAxis = randomFn() < 0.5 ? 'vertical' : 'horizontal';
@@ -137,13 +165,14 @@ function buildBalancedCycle(lastMeta, randomFn) {
 }
 
 export function createSymmetryQuestionBag(randomFn = Math.random) {
+  const dataset = createRuntimeDataset();
   let lastMeta = {
     shapeId: '',
     pairKey: '',
   };
 
   const bag = createRefillBag({
-    refill: () => buildBalancedCycle(lastMeta, randomFn),
+    refill: () => buildBalancedCycle(lastMeta, randomFn, dataset),
   });
 
   return {
@@ -158,30 +187,30 @@ export function createSymmetryQuestionBag(randomFn = Math.random) {
         pairKey: seedKey(seed),
       };
 
-      return buildQuestionFromSeed(seed, randomFn);
+      return buildQuestionFromSeed(seed, randomFn, dataset);
     },
   };
 }
 
-export function mirrorPointVertical(point, gridSize = GRID_SIZE) {
+export function mirrorPointVertical(point, gridSize = DEFAULT_GRID_SIZE) {
   return {
     x: gridSize - 1 - point.x,
     y: point.y,
   };
 }
 
-export function mirrorShapeVertical(points, gridSize = GRID_SIZE) {
+export function mirrorShapeVertical(points, gridSize = DEFAULT_GRID_SIZE) {
   return points.map((point) => mirrorPointVertical(point, gridSize));
 }
 
-export function mirrorPointHorizontal(point, gridSize = GRID_SIZE) {
+export function mirrorPointHorizontal(point, gridSize = DEFAULT_GRID_SIZE) {
   return {
     x: point.x,
     y: gridSize - 1 - point.y,
   };
 }
 
-export function mirrorShapeHorizontal(points, gridSize = GRID_SIZE) {
+export function mirrorShapeHorizontal(points, gridSize = DEFAULT_GRID_SIZE) {
   return points.map((point) => mirrorPointHorizontal(point, gridSize));
 }
 
@@ -196,11 +225,13 @@ function shapeForAxis(shape, axis) {
   return clonePoints(shape);
 }
 
-function mirrorShapeByAxis(points, axis) {
-  return axis === 'horizontal' ? mirrorShapeHorizontal(points) : mirrorShapeVertical(points);
+function mirrorShapeByAxis(points, axis, gridSize) {
+  return axis === 'horizontal'
+    ? mirrorShapeHorizontal(points, gridSize)
+    : mirrorShapeVertical(points, gridSize);
 }
 
-function createDistractors(baseShape, correctShape, axis) {
+function createDistractors(baseShape, correctShape, axis, gridSize) {
   const distractors = [];
 
   // Wrong 1: original shape (not mirrored).
@@ -208,11 +239,11 @@ function createDistractors(baseShape, correctShape, axis) {
 
   // Wrong 2 + 3: mirrored shape shifted on each axis.
   if (axis === 'horizontal') {
-    distractors.push(shiftPoints(correctShape, 1, 0));
-    distractors.push(shiftPoints(correctShape, 0, -1));
+    distractors.push(shiftPoints(correctShape, 1, 0, gridSize));
+    distractors.push(shiftPoints(correctShape, 0, -1, gridSize));
   } else {
-    distractors.push(shiftPoints(correctShape, 0, 1));
-    distractors.push(shiftPoints(correctShape, -1, 0));
+    distractors.push(shiftPoints(correctShape, 0, 1, gridSize));
+    distractors.push(shiftPoints(correctShape, -1, 0, gridSize));
   }
 
   return distractors.filter((shape) => shape.length >= 3 && shape.length === baseShape.length);
@@ -225,10 +256,10 @@ function toOptionShape(shape) {
   };
 }
 
-function buildQuestionFromSeed(seed, randomFn) {
-  const seedShape = getShapeById(seed.shapeId);
+function buildQuestionFromSeed(seed, randomFn, dataset) {
+  const seedShape = getShapeById(seed.shapeId, dataset);
   const baseShape = shapeForAxis(seedShape.points, seed.axis);
-  const correctShape = mirrorShapeByAxis(baseShape, seed.axis);
+  const correctShape = mirrorShapeByAxis(baseShape, seed.axis, dataset.gridSize);
   const renderMode = pickRenderMode(baseShape, randomFn);
 
   const options = [];
@@ -242,7 +273,7 @@ function buildQuestionFromSeed(seed, randomFn) {
   });
   usedKeys.add(correctOption.key);
 
-  const distractors = createDistractors(baseShape, correctShape, seed.axis);
+  const distractors = createDistractors(baseShape, correctShape, seed.axis, dataset.gridSize);
   for (const shape of distractors) {
     const candidate = toOptionShape(shape);
     if (usedKeys.has(candidate.key)) {
@@ -256,13 +287,13 @@ function buildQuestionFromSeed(seed, randomFn) {
     usedKeys.add(candidate.key);
   }
 
-  for (const fallbackShape of BASE_SHAPES) {
+  for (const fallbackShape of dataset.baseShapes) {
     if (options.length >= 4) {
       break;
     }
 
     const mirroredFallback = toOptionShape(
-      mirrorShapeByAxis(shapeForAxis(fallbackShape.points, seed.axis), seed.axis)
+      mirrorShapeByAxis(shapeForAxis(fallbackShape.points, seed.axis), seed.axis, dataset.gridSize)
     );
     if (usedKeys.has(mirroredFallback.key)) {
       continue;
@@ -278,11 +309,13 @@ function buildQuestionFromSeed(seed, randomFn) {
 
   while (options.length < 4) {
     const randomShape = shapeForAxis(
-      BASE_SHAPES[randomIndex(BASE_SHAPES.length, randomFn)].points,
+      dataset.baseShapes[randomIndex(dataset.baseShapes.length, randomFn)].points,
       seed.axis
     );
     const shifted = toOptionShape(
-      seed.axis === 'horizontal' ? shiftPoints(randomShape, 0, 2) : shiftPoints(randomShape, 2, 0)
+      seed.axis === 'horizontal'
+        ? shiftPoints(randomShape, 0, 2, dataset.gridSize)
+        : shiftPoints(randomShape, 2, 0, dataset.gridSize)
     );
     if (shifted.points.length < 3 || usedKeys.has(shifted.key)) {
       continue;
@@ -306,7 +339,7 @@ function buildQuestionFromSeed(seed, randomFn) {
   return {
     axis: seed.axis,
     shapeId: seed.shapeId,
-    gridSize: GRID_SIZE,
+    gridSize: dataset.gridSize,
     renderMode,
     prompt:
       seed.axis === 'horizontal'
@@ -319,9 +352,10 @@ function buildQuestionFromSeed(seed, randomFn) {
 }
 
 export function generateSymmetryQuestion(randomFn = Math.random) {
-  const axis = AXES[randomIndex(AXES.length, randomFn)];
-  const seedShape = BASE_SHAPES[randomIndex(BASE_SHAPES.length, randomFn)];
-  return buildQuestionFromSeed({ axis, shapeId: seedShape.id }, randomFn);
+  const dataset = createRuntimeDataset();
+  const axis = dataset.axes[randomIndex(dataset.axes.length, randomFn)];
+  const seedShape = dataset.baseShapes[randomIndex(dataset.baseShapes.length, randomFn)];
+  return buildQuestionFromSeed({ axis, shapeId: seedShape.id }, randomFn, dataset);
 }
 
 export function evaluateSymmetryAnswer(question, selectedOptionId) {
@@ -339,7 +373,8 @@ export function evaluateSymmetryAnswer(question, selectedOptionId) {
     isValid: true,
     isCorrect,
     message: isCorrect
-      ? 'Bravo ! C\'est la bonne symétrie.'
+      ? "Bravo ! C'est la bonne symétrie."
       : `Ce n'est pas la bonne symétrie. Observe bien l'axe ${axisLabel}.`,
   };
 }
+
