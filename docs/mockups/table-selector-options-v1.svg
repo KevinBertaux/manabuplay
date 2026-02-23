@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="640" viewBox="0 0 1400 640" role="img" aria-label="Comparatif table selector options A B C">
+  <defs>
+    <style>
+      .bg { fill: #f3f7ff; }
+      .panel { fill: #ffffff; stroke: #d6e3f0; stroke-width: 2; }
+      .title { font: 700 28px 'Segoe UI', sans-serif; fill: #243041; }
+      .subtitle { font: 600 17px 'Segoe UI', sans-serif; fill: #3b5169; }
+      .meta { font: 500 14px 'Segoe UI', sans-serif; fill: #5d6c80; }
+      .cardA { fill: #f5fbff; stroke: #9bb9d3; stroke-width: 1.5; }
+      .cardB { fill: #f5fbff; stroke: #90b1cd; stroke-width: 1.3; }
+      .cardC { fill: #f5fbff; stroke: #86abc9; stroke-width: 1.1; }
+      .quick { fill: #ecf8ef; stroke: #9dc9ab; }
+      .selected { fill: #0f7dc9; stroke: #0f7dc9; }
+      .label { font: 700 15px 'Segoe UI', sans-serif; fill: #1d4b6a; text-anchor: middle; dominant-baseline: middle; }
+      .labelOn { font: 700 15px 'Segoe UI', sans-serif; fill: #f7f9fc; text-anchor: middle; dominant-baseline: middle; }
+      .legend { font: 600 14px 'Segoe UI', sans-serif; fill: #33485f; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="640"/>
+
+  <text class="title" x="48" y="56">Table selector - variantes compactes</text>
+  <text class="meta" x="48" y="84">Grille 4x4: 0..11 + Tout/Aucun/Pairs/Impairs</text>
+
+  <!-- Option A -->
+  <g transform="translate(40,120)">
+    <rect class="panel" x="0" y="0" width="420" height="470" rx="18"/>
+    <text class="subtitle" x="24" y="40">Option A - compacte propre</text>
+    <text class="meta" x="24" y="66">max 360px, gap 4px, cellules 40, rayon 6</text>
+
+    <g transform="translate(30,96)">
+      <rect x="0" y="0" width="360" height="360" rx="12" fill="#eef6ff" stroke="#b9d1e5"/>
+
+      <!-- row 1 -->
+      <rect class="selected" x="0" y="0" width="87" height="87" rx="6"/>
+      <rect class="cardA" x="91" y="0" width="87" height="87" rx="6"/>
+      <rect class="cardA" x="182" y="0" width="87" height="87" rx="6"/>
+      <rect class="cardA" x="273" y="0" width="87" height="87" rx="6"/>
+
+      <!-- row 2 -->
+      <rect class="cardA" x="0" y="91" width="87" height="87" rx="6"/>
+      <rect class="selected" x="91" y="91" width="87" height="87" rx="6"/>
+      <rect class="cardA" x="182" y="91" width="87" height="87" rx="6"/>
+      <rect class="cardA" x="273" y="91" width="87" height="87" rx="6"/>
+
+      <!-- row 3 -->
+      <rect class="cardA" x="0" y="182" width="87" height="87" rx="6"/>
+      <rect class="cardA" x="91" y="182" width="87" height="87" rx="6"/>
+      <rect class="cardA" x="182" y="182" width="87" height="87" rx="6"/>
+      <rect class="cardA" x="273" y="182" width="87" height="87" rx="6"/>
+
+      <!-- row 4 quick -->
+      <rect class="quick" x="0" y="273" width="87" height="87" rx="6"/>
+      <rect class="quick" x="91" y="273" width="87" height="87" rx="6"/>
+      <rect class="quick" x="182" y="273" width="87" height="87" rx="6"/>
+      <rect class="quick" x="273" y="273" width="87" height="87" rx="6"/>
+
+      <text class="labelOn" x="43.5" y="43.5">0</text>
+      <text class="label" x="134.5" y="43.5">1</text>
+      <text class="label" x="225.5" y="43.5">2</text>
+      <text class="label" x="316.5" y="43.5">3</text>
+
+      <text class="label" x="43.5" y="134.5">4</text>
+      <text class="labelOn" x="134.5" y="134.5">5</text>
+      <text class="label" x="225.5" y="134.5">6</text>
+      <text class="label" x="316.5" y="134.5">7</text>
+
+      <text class="label" x="43.5" y="225.5">8</text>
+      <text class="label" x="134.5" y="225.5">9</text>
+      <text class="label" x="225.5" y="225.5">10</text>
+      <text class="label" x="316.5" y="225.5">11</text>
+
+      <text class="label" x="43.5" y="316.5">Tout</text>
+      <text class="label" x="134.5" y="316.5">Aucun</text>
+      <text class="label" x="225.5" y="316.5">Pairs</text>
+      <text class="label" x="316.5" y="316.5">Impairs</text>
+    </g>
+  </g>
+
+  <!-- Option B -->
+  <g transform="translate(490,120)">
+    <rect class="panel" x="0" y="0" width="420" height="470" rx="18"/>
+    <text class="subtitle" x="24" y="40">Option B - bloc quasi colle</text>
+    <text class="meta" x="24" y="66">gap 1-2px, rayon surtout externe</text>
+
+    <g transform="translate(30,96)">
+      <rect x="0" y="0" width="360" height="360" rx="12" fill="#eef6ff" stroke="#b9d1e5"/>
+      <!-- cells 4x4, tight -->
+      <g>
+        <!-- row 1 -->
+        <rect class="selected" x="2" y="2" width="88" height="88" rx="2"/>
+        <rect class="cardB" x="91" y="2" width="88" height="88" rx="2"/>
+        <rect class="cardB" x="180" y="2" width="88" height="88" rx="2"/>
+        <rect class="cardB" x="269" y="2" width="88" height="88" rx="2"/>
+        <!-- row 2 -->
+        <rect class="cardB" x="2" y="91" width="88" height="88" rx="2"/>
+        <rect class="selected" x="91" y="91" width="88" height="88" rx="2"/>
+        <rect class="cardB" x="180" y="91" width="88" height="88" rx="2"/>
+        <rect class="cardB" x="269" y="91" width="88" height="88" rx="2"/>
+        <!-- row 3 -->
+        <rect class="cardB" x="2" y="180" width="88" height="88" rx="2"/>
+        <rect class="cardB" x="91" y="180" width="88" height="88" rx="2"/>
+        <rect class="cardB" x="180" y="180" width="88" height="88" rx="2"/>
+        <rect class="cardB" x="269" y="180" width="88" height="88" rx="2"/>
+        <!-- row 4 -->
+        <rect class="quick" x="2" y="269" width="88" height="88" rx="2"/>
+        <rect class="quick" x="91" y="269" width="88" height="88" rx="2"/>
+        <rect class="quick" x="180" y="269" width="88" height="88" rx="2"/>
+        <rect class="quick" x="269" y="269" width="88" height="88" rx="2"/>
+      </g>
+
+      <text class="labelOn" x="46" y="46">0</text>
+      <text class="label" x="135" y="46">1</text>
+      <text class="label" x="224" y="46">2</text>
+      <text class="label" x="313" y="46">3</text>
+      <text class="label" x="46" y="135">4</text>
+      <text class="labelOn" x="135" y="135">5</text>
+      <text class="label" x="224" y="135">6</text>
+      <text class="label" x="313" y="135">7</text>
+      <text class="label" x="46" y="224">8</text>
+      <text class="label" x="135" y="224">9</text>
+      <text class="label" x="224" y="224">10</text>
+      <text class="label" x="313" y="224">11</text>
+      <text class="label" x="46" y="313">Tout</text>
+      <text class="label" x="135" y="313">Aucun</text>
+      <text class="label" x="224" y="313">Pairs</text>
+      <text class="label" x="313" y="313">Impairs</text>
+    </g>
+  </g>
+
+  <!-- Option C -->
+  <g transform="translate(940,120)">
+    <rect class="panel" x="0" y="0" width="420" height="470" rx="18"/>
+    <text class="subtitle" x="24" y="40">Option C - ultra dense</text>
+    <text class="meta" x="24" y="66">gap 0, bordures fusionnees, style technique</text>
+
+    <g transform="translate(30,96)">
+      <rect x="0" y="0" width="360" height="360" rx="12" fill="#eef6ff" stroke="#b9d1e5"/>
+
+      <!-- Single grid blocks -->
+      <rect class="cardC" x="0" y="0" width="360" height="360" rx="12"/>
+      <!-- internal lines -->
+      <line x1="90" y1="0" x2="90" y2="360" stroke="#86abc9"/>
+      <line x1="180" y1="0" x2="180" y2="360" stroke="#86abc9"/>
+      <line x1="270" y1="0" x2="270" y2="360" stroke="#86abc9"/>
+      <line x1="0" y1="90" x2="360" y2="90" stroke="#86abc9"/>
+      <line x1="0" y1="180" x2="360" y2="180" stroke="#86abc9"/>
+      <line x1="0" y1="270" x2="360" y2="270" stroke="#86abc9"/>
+
+      <rect class="selected" x="0" y="0" width="90" height="90" rx="12"/>
+      <rect class="selected" x="90" y="90" width="90" height="90" rx="0"/>
+      <rect class="quick" x="0" y="270" width="360" height="90" rx="0"/>
+
+      <text class="labelOn" x="45" y="45">0</text>
+      <text class="label" x="135" y="45">1</text>
+      <text class="label" x="225" y="45">2</text>
+      <text class="label" x="315" y="45">3</text>
+      <text class="label" x="45" y="135">4</text>
+      <text class="labelOn" x="135" y="135">5</text>
+      <text class="label" x="225" y="135">6</text>
+      <text class="label" x="315" y="135">7</text>
+      <text class="label" x="45" y="225">8</text>
+      <text class="label" x="135" y="225">9</text>
+      <text class="label" x="225" y="225">10</text>
+      <text class="label" x="315" y="225">11</text>
+
+      <text class="legend" x="45" y="322" text-anchor="middle">Tout</text>
+      <text class="legend" x="135" y="322" text-anchor="middle">Aucun</text>
+      <text class="legend" x="225" y="322" text-anchor="middle">Pairs</text>
+      <text class="legend" x="315" y="322" text-anchor="middle">Impairs</text>
+    </g>
+  </g>
+</svg>
