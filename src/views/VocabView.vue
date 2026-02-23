@@ -1,5 +1,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import QuizEmptyState from '@/components/QuizEmptyState.vue';
+import QuizSelectField from '@/components/QuizSelectField.vue';
 import { getVocabList, vocabListOptions } from '@/features/vocab/vocabLists';
 
 const ttsAccentStorageKey = 'manabuplay_tts_accent';
@@ -41,6 +43,12 @@ const vocabListOptionsWithCount = computed(() =>
       wordCount: Array.isArray(currentList?.words) ? currentList.words.length : list.wordCount || 0,
     };
   })
+);
+const listSelectOptions = computed(() =>
+  vocabListOptionsWithCount.value.map((list) => ({
+    value: list.key,
+    label: `${list.label} (${list.wordCount} mots)`,
+  }))
 );
 
 const ttsRateIndex = computed({
@@ -375,14 +383,15 @@ onUnmounted(() => {
     <h1>Vocabulaire anglais</h1>
 
     <div class="settings-box">
-      <div class="setting-field setting-list">
-        <label for="vocabListSelect">Choisir une liste :</label>
-        <select id="vocabListSelect" v-model="selectedList">
-          <option value="" disabled>-- Sélectionner une liste --</option>
-          <option v-for="list in vocabListOptionsWithCount" :key="list.key" :value="list.key">
-            {{ list.label }} ({{ list.wordCount }} mots)
-          </option>
-        </select>
+      <div class="setting-list">
+        <QuizSelectField
+          v-model="selectedList"
+          select-id="vocabListSelect"
+          label="Choisir une liste :"
+          placeholder="-- Sélectionner une liste --"
+          :placeholder-disabled="true"
+          :options="listSelectOptions"
+        />
       </div>
 
       <div class="settings-row">
@@ -465,7 +474,7 @@ onUnmounted(() => {
       </div>
     </template>
 
-    <div v-else class="empty-list-state">Choisir une liste pour commencer.</div>
+    <QuizEmptyState v-else message="Choisir une liste pour commencer." />
   </section>
 </template>
 
@@ -513,11 +522,6 @@ onUnmounted(() => {
   margin-bottom: 12px;
 }
 
-.setting-list label {
-  display: block;
-  min-height: 0;
-}
-
 .settings-row {
   display: grid;
   grid-template-columns: minmax(170px, 220px) minmax(170px, 200px) minmax(180px, 1fr);
@@ -534,16 +538,6 @@ onUnmounted(() => {
   border: 1px solid rgba(78, 205, 196, 0.45);
   border-radius: 12px;
   padding: 12px 14px;
-}
-
-.empty-list-state {
-  text-align: center;
-  font-weight: 700;
-  color: #3a4b61;
-  background: rgba(78, 205, 196, 0.12);
-  border: 1px dashed #7ab8c3;
-  border-radius: 12px;
-  padding: 16px;
 }
 
 .flashcard-carousel {
@@ -790,7 +784,6 @@ onUnmounted(() => {
   }
 }
 </style>
-
 
 
 

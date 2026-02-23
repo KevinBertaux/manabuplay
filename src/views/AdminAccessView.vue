@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import AdminStatusBanner from '@/components/AdminStatusBanner.vue';
 import {
   clearFailedAttempts,
   getRateLimitInfo,
@@ -125,7 +126,7 @@ onUnmounted(() => {
         </button>
       </form>
 
-      <p v-if="statusMessage" class="status status-error">{{ statusMessage }}</p>
+      <AdminStatusBanner :message="statusMessage" tone="error" />
     </div>
   </section>
 </template>
@@ -203,14 +204,5 @@ onUnmounted(() => {
   box-shadow: none;
 }
 
-.status {
-  margin-top: 12px;
-  font-weight: 700;
-}
-
-.status-error {
-  color: #b33939;
-}
 </style>
-
 

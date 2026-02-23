@@ -2,6 +2,10 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { createSymmetryQuestionBag, evaluateSymmetryAnswer } from '@/features/math/symmetryEngine';
 import MotivationToast from '@/components/MotivationToast.vue';
+import QuizActions from '@/components/QuizActions.vue';
+import QuizFeedbackBanner from '@/components/QuizFeedbackBanner.vue';
+import QuizScoreBar from '@/components/QuizScoreBar.vue';
+import { useQuizFlow } from '@/composables/useQuizFlow';
 import {
   buildMotivationToast,
   MOTIVATION_TOAST_DURATION_MS,
@@ -12,17 +16,7 @@ const BEST_STREAK_KEY = 'manabuplay_symmetry_best_streak_v1';
 const AUTO_NEXT_DELAY_MS = 2000;
 
 const questionBag = createSymmetryQuestionBag();
-const currentQuestion = ref(questionBag.next());
 const selectedOptionId = ref('');
-const hasChecked = ref(false);
-const feedbackType = ref('');
-const feedbackMain = ref('');
-const feedbackExtra = ref('');
-const score = ref(0);
-const total = ref(0);
-const streak = ref(0);
-const bestStreak = ref(0);
-const nextQuestionTimeoutId = ref(null);
 const toastMessage = ref('');
 const toastTone = ref('streak');
 const toastTimeoutId = ref(null);
@@ -30,43 +24,32 @@ const motivationState = ref({
   hasShownX3InSession: false,
   hasShownRecordInRun: false,
 });
+const {
+  score,
+  total,
+  streak,
+  bestStreak,
+  currentQuestion,
+  hasChecked,
+  canCheck,
+  feedbackType,
+  feedbackMain,
+  feedbackExtra,
+  setFeedback,
+  setChecked,
+  nextQuestion,
+  applyAttempt,
+  scheduleAutoNext,
+  clearAutoNextTimeout,
+} = useQuizFlow({
+  bestStreakKey: BEST_STREAK_KEY,
+  autoNextDelayMs: AUTO_NEXT_DELAY_MS,
+});
 
 const optionLabels = ['1', '2', '3', '4'];
-const canCheck = computed(() => !hasChecked.value);
-const axisLabel = computed(() => (currentQuestion.value.axis === 'horizontal' ? 'horizontal' : 'vertical'));
-
-function readBestStreak() {
-  if (typeof window === 'undefined') {
-    return 0;
-  }
-
-  try {
-    const raw = window.localStorage.getItem(BEST_STREAK_KEY);
-    const parsed = Number.parseInt(raw ?? '0', 10);
-    return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
-  } catch {
-    return 0;
-  }
-}
-
-function saveBestStreak(value) {
-  if (typeof window === 'undefined') {
-    return;
-  }
-
-  try {
-    window.localStorage.setItem(BEST_STREAK_KEY, String(value));
-  } catch {
-    // Ignore localStorage failures (private mode/quota).
-  }
-}
-
-function clearNextQuestionTimeout() {
-  if (nextQuestionTimeoutId.value) {
-    clearTimeout(nextQuestionTimeoutId.value);
-    nextQuestionTimeoutId.value = null;
-  }
-}
+const axisLabel = computed(() =>
+  currentQuestion.value?.axis === 'horizontal' ? 'horizontal' : 'vertical'
+);
 
 function clearToastTimeout() {
   if (toastTimeoutId.value) {
@@ -88,14 +71,12 @@ function showMotivationToast(toast) {
   }, MOTIVATION_TOAST_DURATION_MS);
 }
 
-function nextQuestion() {
-  clearNextQuestionTimeout();
-  currentQuestion.value = questionBag.next();
+function loadNextQuestion() {
+  nextQuestion({
+    isReady: () => true,
+    buildQuestion: () => questionBag.next(),
+  });
   selectedOptionId.value = '';
-  hasChecked.value = false;
-  feedbackType.value = '';
-  feedbackMain.value = '';
-  feedbackExtra.value = '';
 }
 
 function selectOption(optionId) {
@@ -111,28 +92,25 @@ function checkAnswer() {
   }
 
   const result = evaluateSymmetryAnswer(currentQuestion.value, selectedOptionId.value);
-  feedbackType.value = result.isCorrect ? 'correct' : 'incorrect';
-  feedbackMain.value = '';
-  feedbackExtra.value = '';
+  setFeedback({
+    type: result.isCorrect ? 'correct' : 'incorrect',
+    main: '',
+    extra: '',
+  });
 
   if (!result.isValid) {
-    feedbackMain.value = '⚠️ Choisir une réponse avant de vérifier.';
+    setFeedback({
+      type: 'incorrect',
+      main: '⚠️ Choisir une réponse avant de vérifier.',
+      extra: '',
+    });
     return;
   }
 
-  hasChecked.value = true;
-  total.value += 1;
+  setChecked(true);
+  const { bestStreakBefore } = applyAttempt(result.isCorrect);
 
   if (result.isCorrect) {
-    score.value += 1;
-    streak.value += 1;
-    const bestStreakBefore = bestStreak.value;
-
-    if (streak.value > bestStreak.value) {
-      bestStreak.value = streak.value;
-      saveBestStreak(bestStreak.value);
-    }
-
     const motivation = buildMotivationToast({
       streak: streak.value,
       bestStreakBefore,
@@ -141,11 +119,14 @@ function checkAnswer() {
     motivationState.value = motivation.state;
     showMotivationToast(motivation.toast);
 
-    feedbackMain.value = 'Bonne réponse.';
-    nextQuestionTimeoutId.value = setTimeout(() => {
-      nextQuestionTimeoutId.value = null;
-      nextQuestion();
-    }, AUTO_NEXT_DELAY_MS);
+    setFeedback({
+      type: 'correct',
+      main: 'Bonne réponse.',
+      extra: '',
+    });
+    scheduleAutoNext(() => {
+      loadNextQuestion();
+    });
     return;
   }
 
@@ -153,9 +134,11 @@ function checkAnswer() {
     (option) => option.id === currentQuestion.value.correctOptionId
   );
   const correctLabel = correctIndex >= 0 ? optionLabels[correctIndex] : '?';
-  feedbackMain.value = '❌ Mauvaise réponse.';
-  feedbackExtra.value = `Bonne réponse : ${correctLabel}. Axe : ${axisLabel.value}.`;
-  streak.value = 0;
+  setFeedback({
+    type: 'incorrect',
+    main: '❌ Mauvaise réponse.',
+    extra: `Bonne réponse : ${correctLabel}. Axe : ${axisLabel.value}.`,
+  });
   motivationState.value = resetMotivationRunState(motivationState.value);
 }
 
@@ -246,20 +229,21 @@ function onKeydown(event) {
 
   if (event.key === 'Enter') {
     if (hasChecked.value) {
-      nextQuestion();
+      loadNextQuestion();
     } else {
       checkAnswer();
     }
   }
 }
 
+loadNextQuestion();
+
 onMounted(() => {
-  bestStreak.value = readBestStreak();
   window.addEventListener('keydown', onKeydown);
 });
 
 onUnmounted(() => {
-  clearNextQuestionTimeout();
+  clearAutoNextTimeout();
   clearToastTimeout();
   window.removeEventListener('keydown', onKeydown);
 });
@@ -269,24 +253,18 @@ onUnmounted(() => {
   <section class="page-block symmetry-page">
     <h1>Math - Symétrie</h1>
 
-    <div class="mp-panel-info">
-      <span>Score : {{ score }} / {{ total }}</span>
-      <span>🏆 Série : {{ streak }}</span>
-      <span>🥇 Meilleure série : {{ bestStreak }}</span>
-      <span>Axe : {{ axisLabel }}</span>
-    </div>
+    <QuizScoreBar
+      :score="score"
+      :total="total"
+      :streak="streak"
+      :best-streak="bestStreak"
+      :extras="[ `Axe : ${axisLabel}` ]"
+    />
     <div class="motivation-toast-anchor">
       <MotivationToast :message="toastMessage" :tone="toastTone" />
     </div>
 
-    <div
-      v-if="feedbackMain"
-      class="mp-feedback"
-      :class="feedbackType === 'correct' ? 'mp-feedback-success' : 'mp-feedback-error'"
-    >
-      <div>{{ feedbackMain }}</div>
-      <div v-if="feedbackExtra" class="feedback-extra">{{ feedbackExtra }}</div>
-    </div>
+    <QuizFeedbackBanner v-if="feedbackMain" :type="feedbackType" :main="feedbackMain" :extra="feedbackExtra" />
 
     <div class="prompt-box">
       <p>{{ currentQuestion.prompt }}</p>
@@ -377,12 +355,7 @@ onUnmounted(() => {
       </button>
     </div>
 
-    <div class="mp-actions">
-      <button class="mp-btn mp-btn-primary" type="button" :disabled="!canCheck" @click="checkAnswer">
-        Vérifier ✓
-      </button>
-      <button class="mp-btn mp-btn-secondary" type="button" @click="nextQuestion">Question suivante →</button>
-    </div>
+    <QuizActions :can-check="canCheck" @check="checkAnswer" @next="loadNextQuestion" />
 
     <p class="hint">Raccourcis clavier: 1, 2, 3, 4 pour choisir une option, Entrée pour vérifier/suivant.</p>
   </section>
@@ -517,10 +490,6 @@ onUnmounted(() => {
   text-align: center;
   color: var(--muted);
   font-size: 0.88rem;
-}
-
-.feedback-extra {
-  margin-top: 6px;
 }
 
 .motivation-toast-anchor {

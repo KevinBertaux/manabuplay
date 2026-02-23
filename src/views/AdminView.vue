@@ -1,6 +1,8 @@
 <script setup>
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import AdminStatusBanner from '@/components/AdminStatusBanner.vue';
+import { useSessionCountdown } from '@/composables/useSessionCountdown';
 import {
   getVocabList,
   resetVocabList,
@@ -15,10 +17,8 @@ const selectedList = ref('');
 const statusType = ref('');
 const statusMessage = ref('');
 const englishInputRefs = ref([]);
-const sessionRemainingMs = ref(getAdminSessionRemainingMs());
 const APP_VERSION = '0.5.0-prep';
 const LAST_UPDATE_FR = '22 février 2026';
-let sessionTimerId;
 
 function emptyWord() {
   return { english: '', french: '' };
@@ -72,14 +72,17 @@ function clearStatus() {
   statusMessage.value = '';
 }
 
-function refreshSessionRemaining() {
-  sessionRemainingMs.value = getAdminSessionRemainingMs();
-}
-
 async function logout() {
   clearAdminSession();
   await router.replace({ name: 'studio-ops-login' });
 }
+
+useSessionCountdown({
+  getRemainingMs: getAdminSessionRemainingMs,
+  onExpire: () => {
+    logout();
+  },
+});
 
 watch(selectedList, (newList) => {
   englishInputRefs.value = [];
@@ -261,21 +264,6 @@ function onFrenchInputEnter(index) {
   }
   addWordAndFocus();
 }
-
-onMounted(() => {
-  sessionTimerId = window.setInterval(() => {
-    refreshSessionRemaining();
-    if (sessionRemainingMs.value <= 0) {
-      logout();
-    }
-  }, 1000);
-});
-
-onUnmounted(() => {
-  if (sessionTimerId) {
-    window.clearInterval(sessionTimerId);
-  }
-});
 </script>
 
 <template>
@@ -368,9 +356,7 @@ onUnmounted(() => {
       <label for="jsonImport" class="import-label">Importer un JSON</label>
       <input id="jsonImport" type="file" accept="application/json" @change="importJson" />
 
-      <p v-if="statusMessage" :class="['status', statusType === 'error' ? 'status-error' : 'status-success']">
-        {{ statusMessage }}
-      </p>
+      <AdminStatusBanner :message="statusMessage" :tone="statusType || 'info'" />
     </div>
 
     <div class="admin-card" v-if="selectedList && previewJson">
@@ -540,19 +526,6 @@ onUnmounted(() => {
   margin-top: 14px;
 }
 
-.status {
-  margin: 12px 0 0;
-  font-weight: 700;
-}
-
-.status-success {
-  color: #1f7a5c;
-}
-
-.status-error {
-  color: #b33939;
-}
-
 pre {
   margin: 0;
   overflow-x: auto;
@@ -577,7 +550,6 @@ pre {
   }
 }
 </style>
-
 
 
 
