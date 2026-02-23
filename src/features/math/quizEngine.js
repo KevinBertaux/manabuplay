@@ -189,7 +189,8 @@ export function createMultiplicationQuizSession({
     if (!reviewErrorsEnabled || reviewPool.size === 0) {
       return false;
     }
-    reviewQueue = avoidImmediateRepeat(shuffleList([...reviewPool.values()], randomFn), lastServedKey);
+    // Keep review order aligned with error order (FIFO): first error comes back first.
+    reviewQueue = [...reviewPool.values()];
     reviewPool = new Map();
     phase = 'review';
     return reviewQueue.length > 0;

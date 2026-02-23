@@ -197,6 +197,32 @@ describe('createMultiplicationQuizSession', () => {
     const next = session.next();
     expect(next.source).toBe('main');
   });
+
+  it('replays review errors in the same order they were made', () => {
+    const session = createMultiplicationQuizSession({
+      tables: [5],
+      mode: 'ordered',
+      reviewErrorsEnabled: true,
+      randomFn: () => 0.5,
+    });
+
+    const firstWrong = session.next();
+    session.markAnswer({ question: firstWrong, isCorrect: false });
+
+    const secondWrong = session.next();
+    session.markAnswer({ question: secondWrong, isCorrect: false });
+
+    for (let i = 0; i < 10; i += 1) {
+      const question = session.next();
+      session.markAnswer({ question, isCorrect: true });
+    }
+
+    const review1 = session.next();
+    const review2 = session.next();
+
+    expect(`${review1.num1}x${review1.num2}`).toBe(`${firstWrong.num1}x${firstWrong.num2}`);
+    expect(`${review2.num1}x${review2.num2}`).toBe(`${secondWrong.num1}x${secondWrong.num2}`);
+  });
 });
 
 describe('evaluateAnswer', () => {

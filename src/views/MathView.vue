@@ -10,6 +10,7 @@ import QuizEmptyState from '@/components/QuizEmptyState.vue';
 import QuizFeedbackBanner from '@/components/QuizFeedbackBanner.vue';
 import QuizNumericPad from '@/components/QuizNumericPad.vue';
 import QuizScoreBar from '@/components/QuizScoreBar.vue';
+import QuizTableSelector from '@/components/QuizTableSelector.vue';
 import { useQuizFlow } from '@/composables/useQuizFlow';
 import {
   buildMotivationToast,
@@ -19,7 +20,6 @@ import {
 
 const BEST_STREAK_KEY = 'manabuplay_math_best_streak_v1';
 const AUTO_NEXT_DELAY_MS = 2000;
-const TABLE_VALUES = Object.freeze([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
 
 const selectedTables = ref([]);
 const questionOrderMode = ref('ordered');
@@ -56,29 +56,6 @@ const {
   autoNextDelayMs: AUTO_NEXT_DELAY_MS,
 });
 
-const quickActions = [
-  {
-    id: 'all',
-    label: 'Tout',
-    apply: () => setSelectedTables(TABLE_VALUES),
-  },
-  {
-    id: 'none',
-    label: 'Aucun',
-    apply: () => setSelectedTables([]),
-  },
-  {
-    id: 'even',
-    label: 'Pairs',
-    apply: () => setSelectedTables(TABLE_VALUES.filter((value) => value % 2 === 0)),
-  },
-  {
-    id: 'odd',
-    label: 'Impairs',
-    apply: () => setSelectedTables(TABLE_VALUES.filter((value) => value % 2 !== 0)),
-  },
-];
-
 function clearToastTimeout() {
   if (toastTimeoutId.value) {
     clearTimeout(toastTimeoutId.value);
@@ -103,30 +80,6 @@ function focusAnswerField() {
   nextTick(() => {
     answerField.value?.focus();
   });
-}
-
-function hasSelectedTable(table) {
-  return selectedTables.value.includes(table);
-}
-
-function setSelectedTables(tables) {
-  const normalized = [...new Set(tables)]
-    .filter((value) => Number.isInteger(value) && value >= 0 && value <= 11)
-    .sort((a, b) => a - b);
-  selectedTables.value = normalized;
-}
-
-function toggleTable(table) {
-  if (hasSelectedTable(table)) {
-    setSelectedTables(selectedTables.value.filter((value) => value !== table));
-    return;
-  }
-  setSelectedTables([...selectedTables.value, table]);
-}
-
-function applyQuickAction(actionId) {
-  const action = quickActions.find((item) => item.id === actionId);
-  action?.apply();
 }
 
 function setOrderMode(mode) {
@@ -295,31 +248,7 @@ onUnmounted(() => {
     <h1>Math - Tables de multiplication</h1>
 
     <div class="settings-box">
-      <div class="settings-group">
-        <p class="settings-label">Choisir les tables :</p>
-        <div class="table-grid" role="group" aria-label="Choix des tables de multiplication">
-          <button
-            v-for="table in TABLE_VALUES"
-            :key="`table-${table}`"
-            type="button"
-            class="table-cell"
-            :class="{ 'is-selected': hasSelectedTable(table) }"
-            @click="toggleTable(table)"
-          >
-            {{ table }}
-          </button>
-
-          <button
-            v-for="action in quickActions"
-            :key="`action-${action.id}`"
-            type="button"
-            class="table-cell table-action"
-            @click="applyQuickAction(action.id)"
-          >
-            {{ action.label }}
-          </button>
-        </div>
-      </div>
+      <QuizTableSelector v-model="selectedTables" label="Choisir les tables :" />
 
       <div class="settings-row">
         <div class="settings-inline">
@@ -437,69 +366,13 @@ onUnmounted(() => {
   margin-bottom: 18px;
 }
 
-.settings-group {
+.settings-box :deep(.table-selector) {
   margin-bottom: 14px;
 }
 
 .settings-label {
   margin: 0 0 8px;
   font-weight: 700;
-}
-
-.table-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  width: min(320px, 100%);
-  margin-inline: auto;
-  gap: 0;
-  border: 1px solid #9bb9d3;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #f3faff;
-}
-
-.table-cell {
-  border: 0;
-  border-right: 1px solid #9bb9d3;
-  border-bottom: 1px solid #9bb9d3;
-  border-radius: 0;
-  min-height: 44px;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1d4b6a;
-  background: transparent;
-  cursor: pointer;
-  transition:
-    background-color 0.18s ease,
-    color 0.18s ease;
-}
-
-.table-cell:hover,
-.table-cell:focus-visible {
-  background: #deefff;
-}
-
-.table-grid .table-cell:nth-child(4n) {
-  border-right: 0;
-}
-
-.table-grid .table-cell:nth-child(n + 13) {
-  border-bottom: 0;
-}
-
-.table-cell.is-selected {
-  color: var(--ink-inverse);
-  background: var(--btn-primary-grad);
-}
-
-.table-action {
-  background: #ecf8ef;
-  color: #1d5740;
-}
-
-.table-action:hover,
-.table-action:focus-visible {
-  background: #d8f0df;
 }
 
 .settings-row {
