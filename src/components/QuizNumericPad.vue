@@ -102,7 +102,10 @@ function onPress(key) {
   color: #1d4b6a;
   background: transparent;
   cursor: pointer;
-  transition: background-color 0.18s ease, color 0.18s ease;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    filter 0.18s ease;
 }
 
 .pad-key:nth-child(3n) {
@@ -131,12 +134,13 @@ function onPress(key) {
 .pad-key.is-enter {
   color: #f7f9fc;
   background: var(--btn-primary-grad);
+  filter: saturate(1);
 }
 
 .pad-key.is-enter:hover:not(:disabled),
 .pad-key.is-enter:focus-visible:not(:disabled) {
-  background: var(--btn-primary-grad);
-  filter: brightness(1.02);
+  background: linear-gradient(135deg, #0f89b1, #118e98);
+  filter: saturate(1.08);
 }
 
 .pad-key:disabled {
