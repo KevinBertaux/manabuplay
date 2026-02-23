@@ -164,12 +164,32 @@ export function createMultiplicationQuizSession({
   let reviewQueue = [];
   let reviewPool = new Map();
   let phase = 'main';
+  let lastServedKey = '';
+
+  function withMainMetadata(question) {
+    return {
+      ...question,
+      source: 'main',
+      reviewRemaining: 0,
+    };
+  }
+
+  function nextMainQuestion() {
+    const question = mainRound.next();
+    if (!question) {
+      const fallback = randomQuestionFromTables(normalizedTables, randomFn);
+      lastServedKey = questionKey(fallback);
+      return withMainMetadata(fallback);
+    }
+    lastServedKey = questionKey(question);
+    return withMainMetadata(question);
+  }
 
   function startReviewPhaseIfNeeded() {
     if (!reviewErrorsEnabled || reviewPool.size === 0) {
       return false;
     }
-    reviewQueue = shuffleList([...reviewPool.values()], randomFn);
+    reviewQueue = avoidImmediateRepeat(shuffleList([...reviewPool.values()], randomFn), lastServedKey);
     reviewPool = new Map();
     phase = 'review';
     return reviewQueue.length > 0;
@@ -189,27 +209,26 @@ export function createMultiplicationQuizSession({
     }
 
     if (phase === 'review') {
+      const firstReview = reviewQueue[0] || null;
+      if (firstReview && questionKey(firstReview) === lastServedKey) {
+        // If review would immediately repeat the just-served question, inject one main question first.
+        return nextMainQuestion();
+      }
+
       const question = reviewQueue.shift() || null;
       if (!question) {
         phase = 'main';
-        return mainRound.next();
+      } else {
+        lastServedKey = questionKey(question);
+        return {
+          ...question,
+          source: 'review',
+          reviewRemaining: reviewQueue.length,
+        };
       }
-      return {
-        ...question,
-        source: 'review',
-        reviewRemaining: reviewQueue.length,
-      };
     }
 
-    const question = mainRound.next();
-    if (!question) {
-      return randomQuestionFromTables(normalizedTables, randomFn);
-    }
-    return {
-      ...question,
-      source: 'main',
-      reviewRemaining: 0,
-    };
+    return nextMainQuestion();
   }
 
   function markAnswer({ question, isCorrect }) {

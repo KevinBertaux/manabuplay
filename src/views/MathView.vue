@@ -8,6 +8,7 @@ import MotivationToast from '@/components/MotivationToast.vue';
 import QuizActions from '@/components/QuizActions.vue';
 import QuizEmptyState from '@/components/QuizEmptyState.vue';
 import QuizFeedbackBanner from '@/components/QuizFeedbackBanner.vue';
+import QuizNumericPad from '@/components/QuizNumericPad.vue';
 import QuizScoreBar from '@/components/QuizScoreBar.vue';
 import { useQuizFlow } from '@/composables/useQuizFlow';
 import {
@@ -150,6 +151,37 @@ function loadNextQuestion() {
   if (next) {
     focusAnswerField();
   }
+}
+
+function appendDigit(digit) {
+  if (hasChecked.value) {
+    return;
+  }
+
+  const safeDigit = String(digit).replace(/\D/g, '');
+  if (!safeDigit) {
+    return;
+  }
+
+  const nextRaw = `${answerInput.value}${safeDigit}`;
+  answerInput.value = nextRaw.replace(/^0+(?=\d)/, '');
+  focusAnswerField();
+}
+
+function backspaceAnswer() {
+  if (hasChecked.value) {
+    return;
+  }
+  answerInput.value = answerInput.value.slice(0, -1);
+  focusAnswerField();
+}
+
+function submitFromPad() {
+  if (hasChecked.value) {
+    loadNextQuestion();
+    return;
+  }
+  checkAnswer();
 }
 
 function resetQuizSession() {
@@ -359,17 +391,27 @@ onUnmounted(() => {
       :extra="feedbackExtra"
     />
 
-    <div v-if="selectedTables.length > 0 && currentQuestion" class="question-box">
-      <div class="question">{{ currentQuestion.num1 }} × {{ currentQuestion.num2 }} = ?</div>
-      <input
-        ref="answerField"
-        v-model="answerInput"
-        class="answer-input"
-        type="number"
-        min="0"
-        placeholder="?"
-        autocomplete="off"
-        @keydown="onAnswerKeydown"
+    <div v-if="selectedTables.length > 0 && currentQuestion" class="question-layout">
+      <div class="question-box">
+        <div class="question">{{ currentQuestion.num1 }} × {{ currentQuestion.num2 }} = ?</div>
+        <input
+          ref="answerField"
+          v-model="answerInput"
+          class="answer-input"
+          type="number"
+          min="0"
+          placeholder="?"
+          autocomplete="off"
+          @keydown="onAnswerKeydown"
+        />
+      </div>
+
+      <QuizNumericPad
+        class="question-pad"
+        :answer-locked="hasChecked"
+        @digit="appendDigit"
+        @backspace="backspaceAnswer"
+        @enter="submitFromPad"
       />
     </div>
 
@@ -579,8 +621,20 @@ onUnmounted(() => {
   padding: 34px 22px;
   border-radius: 16px;
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: 0;
   box-shadow: 0 10px 24px rgba(36, 48, 65, 0.08);
+}
+
+.question-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 228px;
+  align-items: stretch;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.question-pad {
+  justify-self: stretch;
 }
 
 .question {
@@ -618,6 +672,14 @@ onUnmounted(() => {
 }
 
 @media (max-width: 560px) {
+  .question-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .question-pad {
+    display: none;
+  }
+
   .settings-row {
     width: 100%;
   }
