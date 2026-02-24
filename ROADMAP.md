@@ -101,6 +101,8 @@
 - [ ] UX admin V2 (édition par lots, recherche, filtres, validation avancée).
 - [ ] Timer d'exercice configurable (par module/niveau).
 - [ ] Système global d'info-bulles (tooltips) cohérent sur tout le site.
+- [ ] Migration technique vers Tailwind CSS v4 (branche dédiée + validation non-régression).
+- [ ] Refonte globale CSS/UI/UX pour exploiter pleinement Tailwind v4 (tokens, composants, cohérence cross-modules).
 
 ### Plus tard
 

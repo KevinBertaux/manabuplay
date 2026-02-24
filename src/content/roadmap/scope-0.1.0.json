@@ -1,0 +1,38 @@
+{
+  "version": "0.1.0",
+  "items": [
+    {
+      "id": "scope-010-static-proto",
+      "priority": "High",
+      "domain": "ui",
+      "feature": "prototype",
+      "label": "Prototype initial HTML/CSS/JS prêt pour usage familial",
+      "done": true
+    },
+    {
+      "id": "scope-010-math-tables-base",
+      "priority": "High",
+      "domain": "math",
+      "feature": "multiplications",
+      "label": "Tables de multiplication V1 (flux question/réponse)",
+      "done": true
+    },
+    {
+      "id": "scope-010-vocab-base",
+      "priority": "High",
+      "domain": "langues",
+      "feature": "anglais",
+      "label": "Flashcards vocabulaire anglais V1",
+      "done": true
+    },
+    {
+      "id": "scope-010-feedback-base",
+      "priority": "Med",
+      "domain": "ui",
+      "feature": "quiz",
+      "label": "Feedback de réponse de base (juste/faux)",
+      "done": true
+    }
+  ]
+}
+

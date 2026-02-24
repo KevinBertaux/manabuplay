@@ -1,0 +1,38 @@
+{
+  "version": "0.4.0",
+  "items": [
+    {
+      "id": "scope-040-static-netlify",
+      "priority": "Crit",
+      "domain": "infra",
+      "feature": "deployment",
+      "label": "Architecture 100% front statique compatible Netlify",
+      "done": true
+    },
+    {
+      "id": "scope-040-admin-lite-guard",
+      "priority": "High",
+      "domain": "admin",
+      "feature": "auth",
+      "label": "Protection admin légère front-only (session, limite essais, verrouillage)",
+      "done": true
+    },
+    {
+      "id": "scope-040-legal-pages",
+      "priority": "High",
+      "domain": "legal",
+      "feature": "pages",
+      "label": "Mentions légales et politique de confidentialité publiables",
+      "done": true
+    },
+    {
+      "id": "scope-040-tests-build",
+      "priority": "Med",
+      "domain": "infra",
+      "feature": "quality",
+      "label": "Pipeline local de tests/build opérationnel",
+      "done": true
+    }
+  ]
+}
+

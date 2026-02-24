@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "items": [
+    {
+      "id": "scope-020-math-fixes",
+      "priority": "High",
+      "domain": "math",
+      "feature": "multiplications",
+      "label": "Corrections UX des multiplications (entrée, sélection table, borne >= 0)",
+      "done": true
+    },
+    {
+      "id": "scope-020-tts-v1",
+      "priority": "High",
+      "domain": "langues",
+      "feature": "anglais",
+      "label": "TTS V1 multi-plateforme avec lecture au clic",
+      "done": true
+    },
+    {
+      "id": "scope-020-vocab-card-refine",
+      "priority": "High",
+      "domain": "langues",
+      "feature": "anglais",
+      "label": "Refonte flashcards (navigation, swipe mobile, écoute, lisibilité)",
+      "done": true
+    },
+    {
+      "id": "scope-020-versioning-doc",
+      "priority": "Med",
+      "domain": "docs",
+      "feature": "release",
+      "label": "Mise à jour doc + affichage de version de référence (13 février 2026)",
+      "done": true
+    }
+  ]
+}
+

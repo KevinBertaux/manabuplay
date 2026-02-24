@@ -8,6 +8,7 @@ const route = useRoute();
 
 const isMathRoute = computed(() => route.path.startsWith('/math'));
 const isLangRoute = computed(() => route.path.startsWith('/vocab'));
+const isAdminPanelRoute = computed(() => route.path.startsWith('/-/studio-ops/panel'));
 
 watch(
   () => route.fullPath,
@@ -86,7 +87,7 @@ function closeNav() {
       </nav>
     </header>
 
-    <main class="page-container">
+    <main class="page-container" :class="{ 'admin-shell-container': isAdminPanelRoute }">
       <router-view />
     </main>
 

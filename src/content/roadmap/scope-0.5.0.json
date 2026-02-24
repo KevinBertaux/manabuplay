@@ -1,0 +1,126 @@
+{
+  "version": "0.5.0-prep",
+  "items": [
+    {
+      "id": "scope-050-crit-cms",
+      "priority": "Crit",
+      "domain": "infra",
+      "feature": "cleanup",
+      "label": "Supprimer les traces CMS legacy",
+      "done": true
+    },
+    {
+      "id": "scope-050-crit-legal",
+      "priority": "Crit",
+      "domain": "legal",
+      "feature": "pages",
+      "label": "Harmoniser les pages légales et les dates",
+      "done": true
+    },
+    {
+      "id": "scope-050-crit-static",
+      "priority": "Crit",
+      "domain": "infra",
+      "feature": "deployment",
+      "label": "Conserver un mode 100% statique Netlify",
+      "done": true
+    },
+    {
+      "id": "scope-050-crit-release-tests",
+      "priority": "Crit",
+      "domain": "infra",
+      "feature": "quality",
+      "label": "Validation pré-release complète (test/e2e/build)",
+      "done": false
+    },
+    {
+      "id": "scope-050-crit-qa",
+      "priority": "Crit",
+      "domain": "infra",
+      "feature": "quality",
+      "label": "QA manuelle finale desktop + mobile",
+      "done": false
+    },
+    {
+      "id": "scope-050-high-home",
+      "priority": "High",
+      "domain": "ui",
+      "feature": "home",
+      "label": "Refonte Accueil V1 par sections matières",
+      "done": true
+    },
+    {
+      "id": "scope-050-high-sym-v1",
+      "priority": "High",
+      "domain": "math",
+      "feature": "symetrie",
+      "label": "Symétrie V1 QCM (axes vertical + horizontal)",
+      "done": true
+    },
+    {
+      "id": "scope-050-high-math-difficulty",
+      "priority": "High",
+      "domain": "math",
+      "feature": "multiplications",
+      "label": "Difficultés multiplications + pavé numérique",
+      "done": true
+    },
+    {
+      "id": "scope-050-high-toast",
+      "priority": "High",
+      "domain": "math",
+      "feature": "motivation",
+      "label": "Système de motivation (toast + jalons)",
+      "done": true
+    },
+    {
+      "id": "scope-050-high-weather",
+      "priority": "High",
+      "domain": "langues",
+      "feature": "anglais",
+      "label": "Ajouter la liste anglaise Weather (EN/FR)",
+      "done": false
+    },
+    {
+      "id": "scope-050-high-admin-dashboard",
+      "priority": "High",
+      "domain": "admin",
+      "feature": "dashboard",
+      "label": "Dashboard admin avec sidebar repliable + navigation interne",
+      "done": false
+    },
+    {
+      "id": "scope-050-high-admin-maintenance",
+      "priority": "High",
+      "domain": "admin",
+      "feature": "maintenance",
+      "label": "Maintenance locale (RAZ granulaire + rollback)",
+      "done": false
+    },
+    {
+      "id": "scope-050-med-refactor",
+      "priority": "Med",
+      "domain": "infra",
+      "feature": "refactor",
+      "label": "Refactor composants partagés (quiz/admin/légal)",
+      "done": true
+    },
+    {
+      "id": "scope-050-med-docs",
+      "priority": "Med",
+      "domain": "docs",
+      "feature": "release",
+      "label": "Passage de cohérence doc final 0.5.0",
+      "done": false
+    },
+    {
+      "id": "scope-050-low-polish",
+      "priority": "Low",
+      "domain": "ui",
+      "feature": "polish",
+      "label": "Polissage visuel léger",
+      "done": false
+    }
+  ]
+}
+

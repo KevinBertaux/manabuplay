@@ -1,0 +1,46 @@
+{
+  "version": "0.6.0",
+  "items": [
+    {
+      "id": "scope-060-math-divisions",
+      "priority": "High",
+      "domain": "math",
+      "feature": "divisions",
+      "label": "Module divisions V1",
+      "done": false
+    },
+    {
+      "id": "scope-060-sym-v2",
+      "priority": "High",
+      "domain": "math",
+      "feature": "symetrie",
+      "label": "Symétrie V2 (placement de points sur quadrillage)",
+      "done": false
+    },
+    {
+      "id": "scope-060-monetization-kids-safe",
+      "priority": "High",
+      "domain": "legal",
+      "feature": "monetisation",
+      "label": "Monétisation cadrée pour public mineur (pub kids-safe + conformité)",
+      "done": false
+    },
+    {
+      "id": "scope-060-multi-lang-structure",
+      "priority": "Med",
+      "domain": "langues",
+      "feature": "architecture",
+      "label": "Structure multi-langues complète (anglais + espagnol)",
+      "done": false
+    },
+    {
+      "id": "scope-060-tooltip-system",
+      "priority": "Med",
+      "domain": "ui",
+      "feature": "tooltips",
+      "label": "Système global d'info-bulles cohérent",
+      "done": false
+    }
+  ]
+}
+

@@ -1,0 +1,54 @@
+{
+  "version": "backlog",
+  "items": [
+    {
+      "id": "backlog-sym-45",
+      "priority": "High",
+      "domain": "math",
+      "feature": "symetrie",
+      "label": "Symétrie 45° gauche/droite",
+      "done": false
+    },
+    {
+      "id": "backlog-history-scores",
+      "priority": "Med",
+      "domain": "math",
+      "feature": "scores",
+      "label": "Historique local des meilleurs scores par module/profil",
+      "done": false
+    },
+    {
+      "id": "backlog-admin-advanced",
+      "priority": "Med",
+      "domain": "admin",
+      "feature": "dashboard",
+      "label": "UX admin V2 (édition par lots, filtres avancés)",
+      "done": false
+    },
+    {
+      "id": "backlog-tailwind-v4-migration",
+      "priority": "Med",
+      "domain": "ui",
+      "feature": "stack-css",
+      "label": "Migration technique vers Tailwind CSS v4 (branche dédiée + validation non-régression)",
+      "done": false
+    },
+    {
+      "id": "backlog-ui-rework-post-v4",
+      "priority": "Med",
+      "domain": "ui",
+      "feature": "design-system",
+      "label": "Refonte globale CSS/UI/UX pour exploiter pleinement Tailwind v4 (tokens, composants, cohérence cross-modules)",
+      "done": false
+    },
+    {
+      "id": "backlog-auth-server",
+      "priority": "Low",
+      "domain": "admin",
+      "feature": "auth",
+      "label": "Authentification serveur avec rôles (quand infra prête)",
+      "done": false
+    }
+  ]
+}
+

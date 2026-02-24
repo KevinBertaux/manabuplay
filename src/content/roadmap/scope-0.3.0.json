@@ -1,0 +1,38 @@
+{
+  "version": "0.3.0",
+  "items": [
+    {
+      "id": "scope-030-vue-vite-migration",
+      "priority": "Crit",
+      "domain": "infra",
+      "feature": "migration",
+      "label": "Migration complète vers Vue 3 + Vite (SPA)",
+      "done": true
+    },
+    {
+      "id": "scope-030-router-setup",
+      "priority": "High",
+      "domain": "infra",
+      "feature": "routing",
+      "label": "Mise en place du routage des vues principales",
+      "done": true
+    },
+    {
+      "id": "scope-030-content-json",
+      "priority": "High",
+      "domain": "langues",
+      "feature": "anglais",
+      "label": "Externalisation des listes vocabulaire en JSON",
+      "done": true
+    },
+    {
+      "id": "scope-030-legacy-archive",
+      "priority": "Med",
+      "domain": "infra",
+      "feature": "cleanup",
+      "label": "Archivage technique de l'ancien runtime",
+      "done": true
+    }
+  ]
+}
+

@@ -98,8 +98,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-block auth-page">
+  <section class="auth-page">
     <div class="auth-card">
+      <header class="auth-head">
+        <h1>Accès administration</h1>
+      </header>
+
       <form class="auth-form" @submit.prevent="submitLogin">
         <label for="studio-username">Nom d'utilisateur</label>
         <input
@@ -133,76 +137,105 @@ onUnmounted(() => {
 
 <style scoped>
 .auth-page {
-  max-width: 520px;
-  margin-inline: auto;
+  min-height: calc(100dvh - 172px);
+  display: grid;
+  align-items: start;
+  justify-items: center;
+  padding: 10px;
 }
 
 .auth-card {
-  border: 1px solid #d9e1ed;
-  border-radius: 14px;
-  padding: 16px;
-  background: #fbfdff;
+  width: min(460px, 100%);
+  margin-top: 12px;
+  border: 1px solid #d6e1ec;
+  border-radius: 4px;
+  padding: 14px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.09);
+}
+
+.auth-head {
+  margin-bottom: 10px;
+}
+
+.auth-head h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  color: #132f4c;
 }
 
 .auth-form {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .auth-form label {
   font-weight: 700;
+  color: #1d3954;
 }
 
 .auth-form input {
   width: 100%;
-  border: 1px solid #9ab0c8;
-  border-radius: 10px;
-  padding: 10px;
+  border: 1px solid #b5c6d8;
+  border-radius: 4px;
+  min-height: 36px;
+  padding: 8px 10px;
   background: white;
+  color: #1f3448;
 }
 
 .auth-form input:focus-visible {
-  border-color: #1d4ed8;
-  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
+  border-color: #2475b8;
+  box-shadow: 0 0 0 2px rgba(36, 117, 184, 0.18);
   outline: none;
 }
 
 .btn {
   border: 1px solid transparent;
-  border-radius: 10px;
-  padding: 10px 14px;
+  border-radius: 4px;
+  min-height: 34px;
+  padding: 7px 10px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.14);
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.18s ease,
-    filter 0.18s ease,
-    border-color 0.18s ease;
+  transition: filter 0.18s ease;
 }
 
 .btn-primary {
-  background: var(--btn-primary-grad);
-  color: var(--ink-inverse);
+  background: #0b7aa0;
+  border-color: #086283;
+  color: #f7fbff;
 }
 
 .btn:hover:not(:disabled),
 .btn:focus-visible:not(:disabled) {
-  transform: translateY(-1px);
-  filter: brightness(1.05) saturate(1.03);
-  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.2);
+  filter: brightness(1.1);
 }
 
 .btn:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.16);
+  filter: brightness(0.98);
 }
 
 .btn:disabled {
   opacity: 0.62;
   cursor: not-allowed;
-  box-shadow: none;
 }
 
-</style>
+:deep(.admin-status) {
+  margin-top: 10px;
+  border-radius: 4px;
+}
 
+@media (max-width: 860px) {
+  .auth-page {
+    min-height: auto;
+    align-items: start;
+    justify-items: stretch;
+    padding: 8px;
+  }
+
+  .auth-card {
+    width: 100%;
+  }
+}
+</style>

@@ -29,6 +29,7 @@ import {
   resetSymmetryShapesOverride,
   saveSymmetryShapesOverride,
 } from '@/features/math/symmetryShapeStore';
+import { getRoadmapEntries, ROADMAP_PRIORITY_ORDER } from '@/features/admin/roadmapStore';
 
 const router = useRouter();
 const selectedList = ref('');
@@ -58,16 +59,20 @@ const sidebarGroups = Object.freeze([
     label: 'Administration',
     items: [
       { id: 'overview', icon: '📊', label: "Vue d'ensemble" },
+      { id: 'roadmap', icon: '🗺️', label: 'Roadmap & Scopes' },
       { id: 'maintenance', icon: '🧹', label: 'Maintenance locale' },
+      { id: 'admin-help', icon: '📘', label: 'Aide' },
     ],
   },
 ]);
 
 const sectionTitleMap = Object.freeze({
   overview: 'Dashboard admin',
+  roadmap: 'Roadmap & Scopes',
   vocab: 'Édition de listes de vocabulaire',
   symmetry: 'Formes de symétrie',
   maintenance: 'Maintenance locale',
+  'admin-help': 'Documentation du panel interne',
 });
 
 function readSidebarCollapsed() {
@@ -79,6 +84,7 @@ function readSidebarCollapsed() {
 
 const selectedSection = ref('overview');
 const sidebarCollapsed = ref(readSidebarCollapsed());
+const mobileSidebarOpen = ref(false);
 const activeSectionTitle = computed(() => sectionTitleMap[selectedSection.value] || 'Dashboard admin');
 const sidebarOpen = ref({
   math: false,
@@ -186,14 +192,21 @@ function toggleSidebarGroup(groupId) {
   if (sidebarCollapsed.value) {
     return;
   }
+  const shouldOpen = !sidebarOpen.value[groupId];
+  const nextState = Object.keys(sidebarOpen.value).reduce((acc, key) => {
+    acc[key] = false;
+    return acc;
+  }, {});
+
+  nextState[groupId] = shouldOpen;
   sidebarOpen.value = {
-    ...sidebarOpen.value,
-    [groupId]: !sidebarOpen.value[groupId],
+    ...nextState,
   };
 }
 
 function switchSection(sectionId) {
   selectedSection.value = sectionId;
+  mobileSidebarOpen.value = false;
   clearStatus();
 }
 
@@ -201,7 +214,16 @@ function clearSidebarSearch() {
   sidebarSearchQuery.value = '';
 }
 
+function toggleMobileSidebar() {
+  mobileSidebarOpen.value = !mobileSidebarOpen.value;
+}
+
+function closeMobileSidebar() {
+  mobileSidebarOpen.value = false;
+}
+
 async function logout() {
+  mobileSidebarOpen.value = false;
   clearAdminSession();
   await router.replace({ name: 'studio-ops-login' });
 }
@@ -398,60 +420,170 @@ function onFrenchInputEnter(index) {
   addWordAndFocus();
 }
 
-const scopeItems = ref([
-  { id: 'crit-cms', priority: 'Crit', label: 'Supprimer les traces CMS legacy', done: true },
-  { id: 'crit-legal', priority: 'Crit', label: 'Harmoniser les pages légales et les dates', done: true },
-  { id: 'crit-static', priority: 'Crit', label: 'Conserver un mode 100% statique Netlify', done: true },
-  { id: 'crit-release-tests', priority: 'Crit', label: 'Validation pré-release complète (test/e2e/build)', done: false },
-  { id: 'crit-qa', priority: 'Crit', label: 'QA manuelle finale desktop + mobile', done: false },
-  { id: 'crit-merge-main', priority: 'Crit', label: 'Merge vers main + déploiement Netlify', done: false },
+const scopePriorityOrder = ROADMAP_PRIORITY_ORDER;
+const roadmapEntries = Object.freeze(getRoadmapEntries());
+const selectedRoadmapId = ref(
+  roadmapEntries.find((entry) => entry.id === APP_VERSION)?.id || roadmapEntries[0]?.id || ''
+);
 
-  { id: 'high-home', priority: 'High', label: 'Refonte Accueil V1 par sections matières', done: true },
-  { id: 'high-sym-v1', priority: 'High', label: 'Symétrie V1 QCM (axes vertical + horizontal)', done: true },
-  { id: 'high-sym-open-close', priority: 'High', label: 'Symétrie: enrichissement formes ouvert/fermé', done: true },
-  { id: 'high-math-default', priority: 'High', label: 'Multiplications: table 0 + aucune sélection par défaut', done: true },
-  { id: 'high-math-feedback', priority: 'High', label: 'Multiplications/Symétrie: feedbacks harmonisés', done: true },
-  { id: 'high-toast', priority: 'High', label: 'Système de motivation (toast + jalons)', done: true },
-  { id: 'high-tailwind', priority: 'High', label: 'Tailwind v3 intégré (sans refonte brutale)', done: true },
-  { id: 'high-bag-core', priority: 'High', label: 'Système de sac réutilisable extrait', done: true },
-  { id: 'high-bag-usage', priority: 'High', label: 'Système de sac branché Symétrie + Multiplications', done: true },
-  { id: 'high-difficulty', priority: 'High', label: 'Multiplications: difficultés Découverte/Standard/Renforcé/Infini', done: true },
-  { id: 'high-difficulty-ui', priority: 'High', label: 'UI de difficulté (boutons segmentés)', done: true },
-  { id: 'high-keypad', priority: 'High', label: 'Pavé numérique desktop/tablette', done: true },
-  { id: 'high-weather', priority: 'High', label: 'Ajouter la liste anglaise Weather (EN/FR)', done: false },
-  { id: 'high-admin-sym', priority: 'High', label: 'Admin: gestion des formes de symétrie', done: false },
-  { id: 'high-admin-reset', priority: 'High', label: 'Admin: RAZ locale granulaire + rollback', done: false },
-  { id: 'high-admin-dashboard', priority: 'High', label: 'Admin: dashboard avec sidebar repliable', done: false },
+const activeRoadmapEntry = computed(() => {
+  return roadmapEntries.find((entry) => entry.id === selectedRoadmapId.value) || roadmapEntries[0] || null;
+});
 
-  { id: 'med-refactor-ui', priority: 'Med', label: 'Refactor composants quiz partagés', done: true },
-  { id: 'med-refactor-flow', priority: 'Med', label: 'Refactor logique quiz (useQuizFlow)', done: true },
-  { id: 'med-refactor-admin', priority: 'Med', label: 'Refactor admin (status/session countdown)', done: true },
-  { id: 'med-refactor-legal', priority: 'Med', label: 'Refactor layout pages légales', done: true },
-  { id: 'med-docs-pass', priority: 'Med', label: 'Passage de cohérence docs final 0.5.0', done: false },
-
-  { id: 'low-copy', priority: 'Low', label: 'Ajustements micro-copy non bloquants', done: false },
-  { id: 'low-polish', priority: 'Low', label: 'Polissage visuel léger', done: false },
-  { id: 'low-css', priority: 'Low', label: 'Refactor CSS mineur restant', done: false },
-  { id: 'low-clean', priority: 'Low', label: 'Nettoyage technique léger', done: false },
+const filterPriority = ref('all');
+const filterDone = ref('all');
+const filterDomain = ref('all');
+const filterFeature = ref('all');
+const sortKey1 = ref('priority');
+const sortDir1 = ref('asc');
+const sortKey2 = ref('done');
+const sortDir2 = ref('asc');
+const sortKey3 = ref('domain');
+const sortDir3 = ref('asc');
+const sortKeyOptions = Object.freeze([
+  { key: 'priority', label: 'Priorité' },
+  { key: 'done', label: 'État' },
+  { key: 'domain', label: 'Catégorie' },
+  { key: 'feature', label: 'Sous-catégorie' },
+  { key: 'label', label: 'Libellé' },
 ]);
 
-const scopeDoneCount = computed(() => scopeItems.value.filter((item) => item.done).length);
-const scopeTotalCount = computed(() => scopeItems.value.length);
-const scopeProgressPercent = computed(() =>
-  scopeTotalCount.value ? Math.round((scopeDoneCount.value / scopeTotalCount.value) * 100) : 0
-);
-const scopePriorityOrder = Object.freeze(['Crit', 'High', 'Med', 'Low']);
-const scopeByPriority = computed(() =>
-  scopePriorityOrder.map((priority) => ({
-    priority,
-    items: scopeItems.value.filter((item) => item.priority === priority),
-  }))
+function getSortKeyByLevel(level) {
+  if (level === 1) {
+    return sortKey1.value;
+  }
+  if (level === 2) {
+    return sortKey2.value;
+  }
+  return sortKey3.value;
+}
+
+function getSortDirByLevel(level) {
+  if (level === 1) {
+    return sortDir1.value;
+  }
+  if (level === 2) {
+    return sortDir2.value;
+  }
+  return sortDir3.value;
+}
+
+function setSortKeyByLevel(level, key) {
+  if (level === 1) {
+    sortKey1.value = key;
+    return;
+  }
+  if (level === 2) {
+    sortKey2.value = key;
+    return;
+  }
+  sortKey3.value = key;
+}
+
+function toggleSortDirByLevel(level) {
+  if (level === 1) {
+    sortDir1.value = sortDir1.value === 'asc' ? 'desc' : 'asc';
+    return;
+  }
+  if (level === 2) {
+    sortDir2.value = sortDir2.value === 'asc' ? 'desc' : 'asc';
+    return;
+  }
+  sortDir3.value = sortDir3.value === 'asc' ? 'desc' : 'asc';
+}
+
+const roadmapDomainOptions = computed(() => {
+  const items = activeRoadmapEntry.value?.items || [];
+  return [...new Set(items.map((item) => item.domain))].sort((a, b) => a.localeCompare(b, 'fr'));
+});
+
+const roadmapFeatureOptions = computed(() => {
+  const items = activeRoadmapEntry.value?.items || [];
+  return [...new Set(items.map((item) => item.feature))].sort((a, b) => a.localeCompare(b, 'fr'));
+});
+
+const filteredRoadmapItems = computed(() => {
+  const items = activeRoadmapEntry.value?.items || [];
+  return items.filter((item) => {
+    if (filterPriority.value !== 'all' && item.priority !== filterPriority.value) {
+      return false;
+    }
+    if (filterDone.value === 'done' && !item.done) {
+      return false;
+    }
+    if (filterDone.value === 'todo' && item.done) {
+      return false;
+    }
+    if (filterDomain.value !== 'all' && item.domain !== filterDomain.value) {
+      return false;
+    }
+    if (filterFeature.value !== 'all' && item.feature !== filterFeature.value) {
+      return false;
+    }
+    return true;
+  });
+});
+
+function valueForSortKey(item, key) {
+  if (key === 'priority') {
+    return scopePriorityOrder.indexOf(item.priority);
+  }
+  if (key === 'done') {
+    return item.done ? 1 : 0;
+  }
+  if (key === 'domain') {
+    return item.domain;
+  }
+  if (key === 'feature') {
+    return item.feature;
+  }
+  return item.label;
+}
+
+function compareBySortKey(a, b, key, dir) {
+  const av = valueForSortKey(a, key);
+  const bv = valueForSortKey(b, key);
+  let result = 0;
+
+  if (typeof av === 'number' && typeof bv === 'number') {
+    result = av - bv;
+  } else {
+    result = String(av).localeCompare(String(bv), 'fr', { sensitivity: 'base' });
+  }
+
+  return dir === 'desc' ? -result : result;
+}
+
+const sortedRoadmapItems = computed(() => {
+  const list = [...filteredRoadmapItems.value];
+  list.sort((a, b) => {
+    const tri1 = compareBySortKey(a, b, sortKey1.value, sortDir1.value);
+    if (tri1 !== 0) {
+      return tri1;
+    }
+
+    const tri2 = compareBySortKey(a, b, sortKey2.value, sortDir2.value);
+    if (tri2 !== 0) {
+      return tri2;
+    }
+
+    return compareBySortKey(a, b, sortKey3.value, sortDir3.value);
+  });
+  return list;
+});
+
+const activeScopeDoneCount = computed(() => {
+  const items = activeRoadmapEntry.value?.items || [];
+  return items.filter((item) => item.done).length;
+});
+const activeScopeTotalCount = computed(() => activeRoadmapEntry.value?.items?.length || 0);
+const activeScopeProgressPercent = computed(() =>
+  activeScopeTotalCount.value ? Math.round((activeScopeDoneCount.value / activeScopeTotalCount.value) * 100) : 0
 );
 
 const dashboardMetrics = ref({
   vocabListCount: 0,
   englishWordCount: 0,
-  spanishWordCount: 0,
   symmetryShapeCount: 0,
   storageKeyCount: 0,
 });
@@ -468,7 +600,6 @@ function refreshDashboardMetrics() {
   dashboardMetrics.value = {
     vocabListCount: vocabListOptions.length,
     englishWordCount,
-    spanishWordCount: 0,
     symmetryShapeCount: Array.isArray(symmetryConfig?.shapes) ? symmetryConfig.shapes.length : 0,
     storageKeyCount: snapshot.filter((entry) => entry.exists).length,
   };
@@ -699,15 +830,32 @@ function formatDateTimeFr(isoString) {
   return date.toLocaleString('fr-FR');
 }
 
+function formatDateFr(isoString) {
+  if (!isoString) {
+    return '-';
+  }
+  const date = new Date(isoString);
+  if (Number.isNaN(date.getTime())) {
+    return isoString;
+  }
+  return date.toLocaleDateString('fr-FR');
+}
+
 refreshSymmetryDraft();
 refreshMaintenanceData();
 refreshDashboardMetrics();
 </script>
 
 <template>
-  <section class="page-block admin-page">
-    <div class="admin-dashboard" :class="{ 'is-collapsed': sidebarCollapsed }">
-      <aside class="admin-sidebar">
+  <section class="admin-page">
+    <div class="admin-dashboard" :class="{ 'is-collapsed': sidebarCollapsed, 'is-mobile-sidebar-open': mobileSidebarOpen }">
+      <button
+        class="admin-sidebar-backdrop"
+        type="button"
+        aria-label="Fermer le panneau latéral"
+        @click="closeMobileSidebar"
+      />
+      <aside id="adminSidebarPanel" class="admin-sidebar">
         <div class="sidebar-head">
           <div class="sidebar-head-main">
             <button class="sidebar-toggle" type="button" @click="toggleSidebar">
@@ -748,6 +896,11 @@ refreshDashboardMetrics();
           </button>
         </div>
 
+        <button class="btn btn-danger sidebar-logout" type="button" @click="logout">
+          <span v-if="!sidebarCollapsed">Déconnexion</span>
+          <span v-else>⏻</span>
+        </button>
+
         <nav class="sidebar-nav">
           <section v-for="group in filteredSidebarGroups" :key="group.id" class="sidebar-group">
             <button
@@ -760,44 +913,49 @@ refreshDashboardMetrics();
                 <span class="sidebar-icon">{{ group.icon }}</span>
                 <span v-if="!sidebarCollapsed" class="sidebar-group-label">{{ group.label }}</span>
               </span>
-              <span v-if="!sidebarCollapsed" class="sidebar-chevron">
-                {{ isSidebarGroupOpen(group.id) ? '▾' : '▸' }}
+              <span v-if="!sidebarCollapsed" class="sidebar-chevron" :class="{ 'is-open': isSidebarGroupOpen(group.id) }">
+                ▸
               </span>
             </button>
 
-            <div v-if="!sidebarCollapsed && isSidebarGroupOpen(group.id)" class="sidebar-children">
-              <button
-                v-for="item in group.items"
-                :key="item.id"
-                class="sidebar-child-link"
-                :class="{ 'is-active': selectedSection === item.id }"
-                type="button"
-                @click="switchSection(item.id)"
-              >
-                <span class="sidebar-child-icon">{{ item.icon }}</span>
-                <span class="sidebar-child-label">{{ item.label }}</span>
-              </button>
-            </div>
+            <Transition name="sidebar-accordion">
+              <div v-if="!sidebarCollapsed && isSidebarGroupOpen(group.id)" class="sidebar-children">
+                <button
+                  v-for="item in group.items"
+                  :key="item.id"
+                  class="sidebar-child-link"
+                  :class="{ 'is-active': selectedSection === item.id }"
+                  type="button"
+                  @click="switchSection(item.id)"
+                >
+                  <span class="sidebar-child-icon">{{ item.icon }}</span>
+                  <span class="sidebar-child-label">{{ item.label }}</span>
+                </button>
+              </div>
+            </Transition>
           </section>
 
           <p v-if="!sidebarCollapsed && !sidebarHasSearchResults" class="sidebar-empty">
             Aucun résultat.
           </p>
         </nav>
-
-        <button class="btn btn-danger" type="button" @click="logout">
-          <span v-if="!sidebarCollapsed">Déconnexion</span>
-          <span v-else>⏻</span>
-        </button>
       </aside>
 
       <div class="admin-main">
         <header class="admin-header">
-          <div>
+          <div class="admin-header-main">
             <h1>{{ activeSectionTitle }}</h1>
             <p class="meta-line">Version {{ APP_VERSION }} - Dernière modification : {{ LAST_UPDATE_FR }}</p>
           </div>
-          <router-link class="intro-link" to="/aide/panel-interne">Documentation du panel interne</router-link>
+          <button
+            class="mobile-sidebar-trigger"
+            type="button"
+            aria-controls="adminSidebarPanel"
+            :aria-expanded="mobileSidebarOpen ? 'true' : 'false'"
+            @click="toggleMobileSidebar"
+          >
+            ☰ Sections
+          </button>
         </header>
 
         <AdminStatusBanner :message="statusMessage" :tone="statusType || 'info'" />
@@ -813,10 +971,6 @@ refreshDashboardMetrics();
               <p class="stat-value">{{ dashboardMetrics.englishWordCount }}</p>
             </article>
             <article class="admin-card">
-              <h2>🇪🇸 Mots espagnol</h2>
-              <p class="stat-value">{{ dashboardMetrics.spanishWordCount }}</p>
-            </article>
-            <article class="admin-card">
               <h2>🧩 Formes symétrie</h2>
               <p class="stat-value">{{ dashboardMetrics.symmetryShapeCount }}</p>
             </article>
@@ -825,25 +979,131 @@ refreshDashboardMetrics();
               <p class="stat-value">{{ dashboardMetrics.storageKeyCount }}</p>
             </article>
           </div>
+        </section>
 
+        <section v-else-if="selectedSection === 'roadmap'" class="admin-section">
           <article class="admin-card">
             <div class="scope-head">
-              <h2>Scope 0.5.0</h2>
-              <span class="scope-chip">{{ scopeDoneCount }} / {{ scopeTotalCount }} - {{ scopeProgressPercent }}%</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" :style="{ width: `${scopeProgressPercent}%` }" />
+              <h2>Roadmap & Scopes</h2>
+              <span class="scope-summary-pill">{{ activeScopeDoneCount }}/{{ activeScopeTotalCount }} • {{ activeScopeProgressPercent }}%</span>
             </div>
 
-            <section v-for="group in scopeByPriority" :key="group.priority" class="scope-priority-block">
-              <h3 class="scope-priority-title">{{ group.priority }}</h3>
-              <ul class="scope-list">
-                <li v-for="item in group.items" :key="item.id" :class="{ done: item.done }">
-                  <span>{{ item.done ? '✅' : '⌛' }}</span>
-                  <span>{{ item.label }}</span>
-                </li>
-              </ul>
-            </section>
+            <div class="roadmap-toolbar">
+              <div>
+                <label for="roadmapVersion">Version / vue</label>
+                <select id="roadmapVersion" v-model="selectedRoadmapId">
+                  <option v-for="entry in roadmapEntries" :key="entry.id" :value="entry.id">
+                    {{ entry.title }}
+                  </option>
+                </select>
+              </div>
+              <div class="roadmap-meta">
+                <span>Début: {{ formatDateFr(activeRoadmapEntry?.startDate) }}</span>
+                <span>Fin: {{ formatDateFr(activeRoadmapEntry?.endDate) }}</span>
+              </div>
+            </div>
+
+            <div class="scope-progress-block">
+              <div class="progress-track">
+                <div class="progress-fill" :style="{ width: `${activeScopeProgressPercent}%` }" />
+              </div>
+            </div>
+
+            <div class="roadmap-filters">
+              <div>
+                <label for="filterPriority">Priorité</label>
+                <select id="filterPriority" v-model="filterPriority">
+                  <option value="all">Toutes</option>
+                  <option v-for="priority in scopePriorityOrder" :key="priority" :value="priority">{{ priority }}</option>
+                </select>
+              </div>
+              <div>
+                <label for="filterDone">État</label>
+                <select id="filterDone" v-model="filterDone">
+                  <option value="all">Tous</option>
+                  <option value="todo">⌛</option>
+                  <option value="done">✅</option>
+                </select>
+              </div>
+              <div>
+                <label for="filterDomain">Catégorie</label>
+                <select id="filterDomain" v-model="filterDomain">
+                  <option value="all">Toutes</option>
+                  <option v-for="domain in roadmapDomainOptions" :key="domain" :value="domain">{{ domain }}</option>
+                </select>
+              </div>
+              <div>
+                <label for="filterFeature">Sous-catégorie</label>
+                <select id="filterFeature" v-model="filterFeature">
+                  <option value="all">Toutes</option>
+                  <option v-for="feature in roadmapFeatureOptions" :key="feature" :value="feature">{{ feature }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="roadmap-sorts">
+              <h3>Tri multi-niveaux</h3>
+              <div class="roadmap-sort-stack">
+                <div v-for="level in [1, 2, 3]" :key="`sort-${level}`" class="roadmap-sort-row">
+                  <span class="roadmap-sort-label">Tri {{ level }}</span>
+                  <div class="roadmap-sort-pill-group">
+                    <button
+                      v-for="option in sortKeyOptions"
+                      :key="`sort-${level}-${option.key}`"
+                      class="roadmap-sort-pill"
+                      :class="{ 'is-active': getSortKeyByLevel(level) === option.key }"
+                      type="button"
+                      @click="setSortKeyByLevel(level, option.key)"
+                    >
+                      {{ option.label }}
+                    </button>
+                  </div>
+                  <button
+                    class="roadmap-sort-dir-btn"
+                    type="button"
+                    :aria-label="`Basculer ordre tri ${level}`"
+                    @click="toggleSortDirByLevel(level)"
+                  >
+                    <svg
+                      viewBox="0 0 16 16"
+                      aria-hidden="true"
+                      class="roadmap-sort-dir-icon"
+                      :class="{ 'is-desc': getSortDirByLevel(level) === 'desc' }"
+                    >
+                      <path d="M8 3l3.5 4.5h-7L8 3zM8 13l-3.5-4.5h7L8 13z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="roadmap-table-wrap">
+              <table class="roadmap-table">
+                <thead>
+                  <tr>
+                    <th>Priorité</th>
+                    <th>État</th>
+                    <th>Catégorie</th>
+                    <th>Sous-catégorie</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in sortedRoadmapItems" :key="item.id">
+                    <td>
+                      <span class="priority-chip" :class="`p-${item.priority.toLowerCase()}`">{{ item.priority }}</span>
+                    </td>
+                    <td>{{ item.done ? '✅' : '⌛' }}</td>
+                    <td>{{ item.domain }}</td>
+                    <td>{{ item.feature }}</td>
+                    <td>{{ item.label }}</td>
+                  </tr>
+                  <tr v-if="sortedRoadmapItems.length === 0">
+                    <td colspan="5" class="meta-line">Aucun item pour ces filtres.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </article>
         </section>
 
@@ -947,6 +1207,85 @@ refreshDashboardMetrics();
           </div>
         </section>
 
+        <section v-else-if="selectedSection === 'admin-help'" class="admin-section">
+          <article class="admin-card internal-help-card">
+            <h2>Documentation du panel interne</h2>
+            <p class="meta-line">
+              Version: {{ APP_VERSION }} - Dernière modification: {{ LAST_UPDATE_FR }}.
+            </p>
+
+            <p>
+              Cette aide reste intégrée au dashboard pour éviter de sortir du panel pendant l’édition.
+              Version anglaise:
+              <router-link to="/help/internal-panel">Internal panel documentation</router-link>.
+            </p>
+
+            <h3 id="scope">Périmètre</h3>
+            <ul>
+              <li>Édition locale dans le navigateur (stockage <a href="#glossary-localstorage">localStorage</a>).</li>
+              <li>Aucun backend requis pour cette version.</li>
+              <li>Export JSON pour versionner les données dans le repo Git.</li>
+            </ul>
+
+            <h3 id="security">Accès et sécurité</h3>
+            <ul>
+              <li>Connexion par identifiant + mot de passe (vérification par hash côté client).</li>
+              <li>Blocage niveau 1: 3 essais invalides puis 30 minutes.</li>
+              <li>Blocage niveau 2: un nouvel essai invalide après niveau 1 déclenche 24 heures de blocage.</li>
+              <li>Session temporaire: expiration automatique par timeout.</li>
+            </ul>
+
+            <h3 id="workflow">Workflow recommandé</h3>
+            <ol>
+              <li>Se connecter au panel interne.</li>
+              <li>Choisir la liste à modifier.</li>
+              <li>Éditer les mots (anglais/français), puis sauvegarder localement.</li>
+              <li>Vérifier le rendu dans le module Langues.</li>
+              <li>Exporter le JSON, puis commit/push dans le repo.</li>
+            </ol>
+
+            <h3 id="json-ops">Opérations JSON</h3>
+            <ul>
+              <li><strong>Copier JSON</strong>: audit rapide ou partage ponctuel.</li>
+              <li><strong>Télécharger JSON</strong>: fichier prêt à versionner.</li>
+              <li><strong>Importer JSON</strong>: recharge une liste existante dans le panel.</li>
+              <li><strong>Réinitialiser</strong>: revient à la version par défaut du projet.</li>
+            </ul>
+
+            <h3 id="limits">Limites connues</h3>
+            <ul>
+              <li>Protection front-only: ce n’est pas une sécurité serveur forte.</li>
+              <li>Les données locales sont liées à l’appareil/navigateur en cours.</li>
+              <li>Effacement navigateur peut supprimer les modifications locales.</li>
+            </ul>
+
+            <h3 id="troubleshooting">Dépannage</h3>
+            <ul>
+              <li>Accès bloqué: attendre la fin du compte à rebours affiché.</li>
+              <li>Session expirée: se reconnecter.</li>
+              <li>Doute sur les données: réinitialiser puis réimporter un JSON de référence.</li>
+            </ul>
+
+            <h3 id="glossary">Glossaire</h3>
+            <dl>
+              <dt id="glossary-localstorage">localStorage</dt>
+              <dd>Stockage persistant dans le navigateur, propre à un domaine.</dd>
+
+              <dt id="glossary-hash">Hash (SHA-256)</dt>
+              <dd>Empreinte irréversible pour vérifier un mot de passe sans le stocker en clair.</dd>
+
+              <dt id="glossary-timeout">Timeout de session</dt>
+              <dd>Durée limite d’une session connectée avant déconnexion automatique.</dd>
+
+              <dt id="glossary-front-only">Front-only security</dt>
+              <dd>Protection implémentée uniquement côté navigateur, sans contrôle serveur.</dd>
+
+              <dt id="glossary-json">JSON</dt>
+              <dd>Format texte structuré pour stocker et échanger des données.</dd>
+            </dl>
+          </article>
+        </section>
+
         <section v-else class="admin-section">
           <div class="admin-card">
             <h2>Réinitialisation granulaire</h2>
@@ -1019,87 +1358,115 @@ refreshDashboardMetrics();
 
 <style scoped>
 .admin-page {
-  max-width: 1200px;
-  margin-inline: auto;
+  width: 100%;
+  min-height: calc(100dvh - 146px);
 }
 
 .admin-dashboard {
+  position: relative;
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-  gap: 16px;
-  align-items: start;
+  grid-template-columns: 272px minmax(0, 1fr);
+  gap: 0;
+  align-items: stretch;
+  min-height: calc(100dvh - 146px);
+  border: 1px solid #d4deea;
+  border-radius: 4px;
+  background: #f2f6fb;
+  overflow: hidden;
 }
 
 .admin-dashboard.is-collapsed {
-  grid-template-columns: 88px minmax(0, 1fr);
+  grid-template-columns: 84px minmax(0, 1fr);
+}
+
+.admin-sidebar-backdrop {
+  display: none;
 }
 
 .admin-sidebar {
-  border: 1px solid #d9e1ed;
-  border-radius: 14px;
-  padding: 12px;
-  background: linear-gradient(180deg, #f8fbff, #f0f7ff);
+  border-right: 1px solid #d7e1ec;
+  padding: 8px 6px;
+  background: #f3f7fb;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  position: sticky;
-  top: 10px;
-  align-self: start;
-  max-height: calc(100dvh - 20px);
+  gap: 6px;
+  min-height: 0;
   overflow: hidden;
 }
 
 .sidebar-head {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
+  padding: 0 4px 6px;
+  border-bottom: 1px solid #dde7f1;
 }
 
 .sidebar-head-main {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
 }
 
 .sidebar-title {
+  font-size: 0.91rem;
   font-weight: 800;
+  color: #1d3752;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sidebar-toggle {
-  border: 1px solid #9ab0c8;
-  border-radius: 10px;
-  background: #deefff;
-  min-height: 40px;
-  min-width: 44px;
+  border: 1px solid #b5c6d8;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1f4368;
+  min-height: 36px;
+  min-width: 38px;
   font-weight: 800;
   cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
 }
 
 .sidebar-home {
-  border: 1px solid #9ab0c8;
-  border-radius: 10px;
-  background: #f8fcff;
-  min-height: 40px;
-  min-width: 44px;
+  border: 1px solid #b5c6d8;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1f4368;
+  min-height: 36px;
+  min-width: 38px;
   font-size: 1rem;
   cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
 }
 
+.sidebar-toggle:hover,
+.sidebar-toggle:focus-visible,
 .sidebar-home:hover,
 .sidebar-home:focus-visible {
-  background: #e5f2ff;
+  background: #dcecff;
+  border-color: #6a9fcf;
+  color: #112f49;
 }
 
 .sidebar-home.is-active {
-  border-color: #67a6d7;
-  background: #d8ebff;
+  border-color: #67a5d6;
+  background: #d9ecff;
+  color: #123a5d;
 }
 
 .sidebar-nav {
   display: grid;
-  gap: 8px;
+  gap: 4px;
   min-height: 0;
   overflow-y: auto;
   padding-right: 2px;
@@ -1119,9 +1486,10 @@ refreshDashboardMetrics();
 
 .sidebar-search input {
   width: 100%;
-  border: 1px solid #9ab0c8;
-  border-radius: 10px;
-  padding: 9px 12px 9px 30px;
+  border: 1px solid #b5c6d8;
+  border-radius: 4px;
+  height: 36px;
+  padding: 8px 12px 8px 30px;
   background: #ffffff;
 }
 
@@ -1130,8 +1498,8 @@ refreshDashboardMetrics();
 }
 
 .sidebar-search input:focus-visible {
-  border-color: #1d4ed8;
-  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
+  border-color: #2475b8;
+  box-shadow: 0 0 0 2px rgba(36, 117, 184, 0.18);
   outline: none;
 }
 
@@ -1147,17 +1515,18 @@ refreshDashboardMetrics();
   top: 50%;
   transform: translateY(-50%);
   border: 1px solid #c7d4e2;
-  border-radius: 8px;
-  background: #f8fcff;
+  border-radius: 4px;
+  background: #ffffff;
   width: 24px;
   height: 24px;
   line-height: 1;
+  color: #245175;
   cursor: pointer;
 }
 
 .sidebar-search-clear:hover,
 .sidebar-search-clear:focus-visible {
-  background: #e7f2ff;
+  background: #e7f0fb;
 }
 
 .sidebar-empty {
@@ -1169,28 +1538,39 @@ refreshDashboardMetrics();
 
 .sidebar-group {
   display: grid;
-  gap: 6px;
+  gap: 4px;
 }
 
 .sidebar-group-toggle {
-  border: 1px solid #bdd2e6;
-  border-radius: 12px;
-  height: 44px;
-  background: #fbfdff;
+  border: 1px solid #cfdce9;
+  border-radius: 4px;
+  height: 36px;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 0 10px;
+  gap: 8px;
+  padding: 0 9px;
   font-weight: 700;
-  color: #1a3651;
+  color: #1b3856;
   cursor: pointer;
   overflow: hidden;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
 }
 
 .sidebar-group-toggle:hover,
 .sidebar-group-toggle:focus-visible {
-  background: #e5f2ff;
+  background: #dcecff;
+  border-color: #6b9ecf;
+  color: #112f49;
+}
+
+.sidebar-group-toggle.is-open {
+  border-color: #91b3d4;
+  background: #e7f2ff;
 }
 
 .sidebar-group-left {
@@ -1215,36 +1595,71 @@ refreshDashboardMetrics();
 
 .sidebar-chevron {
   font-size: 0.85rem;
+  transition: transform 0.2s ease;
+}
+
+.sidebar-chevron.is-open {
+  transform: rotate(90deg);
 }
 
 .sidebar-children {
   border-left: 2px solid #d3e2f0;
-  margin-left: 12px;
-  padding-left: 8px;
+  margin-left: 8px;
+  padding-left: 6px;
   display: grid;
-  gap: 6px;
+  gap: 4px;
+}
+
+.sidebar-accordion-enter-active,
+.sidebar-accordion-leave-active {
+  overflow: hidden;
+  transition:
+    max-height 0.22s ease,
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.sidebar-accordion-enter-from,
+.sidebar-accordion-leave-to {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-2px);
+}
+
+.sidebar-accordion-enter-to,
+.sidebar-accordion-leave-from {
+  max-height: 240px;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .sidebar-child-link {
-  border: 1px solid #c8d9ea;
-  border-radius: 10px;
-  height: 44px;
-  background: #f8fcff;
+  border: 1px solid #d1deea;
+  border-radius: 4px;
+  height: 34px;
+  background: #ffffff;
   display: grid;
   grid-template-columns: 18px 1fr;
   align-items: center;
-  gap: 8px;
-  padding: 0 10px;
+  gap: 6px;
+  padding: 0 9px;
   text-align: left;
-  color: #1a3651;
+  color: #1a3753;
   font-weight: 700;
   cursor: pointer;
   min-width: 0;
+  text-decoration: none;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
 }
 
 .sidebar-child-link:hover,
 .sidebar-child-link:focus-visible {
-  background: #e8f3ff;
+  background: #dcecff;
+  border-color: #6f9fcd;
+  color: #112f49;
 }
 
 .sidebar-child-label {
@@ -1254,17 +1669,36 @@ refreshDashboardMetrics();
 }
 
 .sidebar-child-link.is-active {
-  border-color: #67a6d7;
-  background: #d8ebff;
+  border-color: #67a5d6;
+  background: #d9ecff;
+  color: #133a5d;
 }
 
 .admin-dashboard.is-collapsed .sidebar-group-toggle {
   justify-content: center;
+  padding: 0;
 }
 
-.admin-sidebar > .btn-danger {
-  margin-top: auto;
+.admin-dashboard.is-collapsed .sidebar-head {
+  grid-template-columns: 1fr;
+}
+
+.admin-dashboard.is-collapsed .sidebar-head-main {
+  justify-content: center;
+}
+
+.admin-dashboard.is-collapsed .sidebar-toggle,
+.admin-dashboard.is-collapsed .sidebar-home {
   width: 100%;
+}
+
+.admin-dashboard.is-collapsed .sidebar-group-left {
+  justify-content: center;
+}
+
+.sidebar-logout {
+  width: 100%;
+  margin-top: 2px;
 }
 
 .admin-dashboard.is-collapsed .sidebar-children {
@@ -1272,45 +1706,123 @@ refreshDashboardMetrics();
 }
 
 .admin-main {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
+  background: #ffffff;
 }
 
 .admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid #e0e8f1;
+  background: #ffffff;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.admin-header h1 {
-  margin: 0;
+.admin-header-main {
+  min-width: 0;
 }
 
-.intro-link {
-  text-decoration: underline;
+.admin-header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.2;
+  color: #132f4c;
+}
+
+.mobile-sidebar-trigger {
+  display: none;
+  border: 1px solid #9cb7d1;
+  border-radius: 4px;
+  min-height: 36px;
+  padding: 6px 10px;
+  background: #ffffff;
+  color: #1c4368;
   font-weight: 700;
+  cursor: pointer;
+}
+
+.mobile-sidebar-trigger:hover,
+.mobile-sidebar-trigger:focus-visible {
+  background: #dcecff;
+  border-color: #679bcb;
 }
 
 .admin-section {
   display: grid;
-  gap: 14px;
+  gap: 12px;
+  padding: 10px 14px 14px;
 }
 
 .admin-card {
-  border: 1px solid #d9e1ed;
-  border-radius: 14px;
-  padding: 14px;
-  background: #fbfdff;
+  border: 1px solid #d9e2ee;
+  border-radius: 4px;
+  padding: 10px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+.admin-card h2,
+.admin-card h3 {
+  margin: 0;
+}
+
+.internal-help-card {
+  line-height: 1.55;
+}
+
+.internal-help-card h2 {
+  margin: 0 0 8px;
+}
+
+.internal-help-card h3 {
+  margin: 18px 0 8px;
+  font-size: 1.02rem;
+}
+
+.internal-help-card p,
+.internal-help-card li,
+.internal-help-card dd {
+  margin: 0;
+}
+
+.internal-help-card ul,
+.internal-help-card ol {
+  margin: 8px 0 0;
+  padding-left: 22px;
+  display: grid;
+  gap: 6px;
+}
+
+.internal-help-card dl {
+  margin: 8px 0 0;
+}
+
+.internal-help-card dt {
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.internal-help-card dd {
+  margin-left: 0;
 }
 
 .compact-card {
   margin-top: 10px;
+  background: #f8fbff;
+  border-style: dashed;
 }
 
 .admin-card label {
   display: block;
-  margin-top: 10px;
+  margin-top: 8px;
   margin-bottom: 6px;
   font-weight: 700;
 }
@@ -1318,16 +1830,18 @@ refreshDashboardMetrics();
 .admin-card input,
 .admin-card select {
   width: 100%;
-  border: 1px solid #9ab0c8;
-  border-radius: 10px;
-  padding: 10px;
-  background: white;
+  border: 1px solid #b5c6d8;
+  border-radius: 4px;
+  padding: 8px 9px;
+  min-height: 36px;
+  background: #ffffff;
+  color: #20354a;
 }
 
 .admin-card input:focus-visible,
 .admin-card select:focus-visible {
-  border-color: #1d4ed8;
-  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
+  border-color: #2475b8;
+  box-shadow: 0 0 0 2px rgba(36, 117, 184, 0.18);
   outline: none;
 }
 
@@ -1339,14 +1853,15 @@ refreshDashboardMetrics();
 
 .stat-grid {
   display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 }
 
 .stat-value {
   margin: 8px 0 0;
-  font-size: 1.8rem;
+  font-size: 1.65rem;
   font-weight: 800;
+  color: #133a5d;
 }
 
 .scope-head {
@@ -1354,15 +1869,17 @@ refreshDashboardMetrics();
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .scope-chip {
-  border: 1px solid #bdd2e6;
-  border-radius: 999px;
+  border: 1px solid #c4d6e8;
+  border-radius: 4px;
   padding: 4px 10px;
   font-size: 0.88rem;
   font-weight: 700;
+  color: #264b6e;
+  background: #f5f9fe;
 }
 
 .scope-chip.active {
@@ -1371,46 +1888,236 @@ refreshDashboardMetrics();
 }
 
 .progress-track {
-  height: 12px;
-  border-radius: 999px;
-  border: 1px solid #c3d5e6;
+  height: 9px;
+  border-radius: 4px;
+  border: 1px solid #cddbea;
   overflow: hidden;
-  background: #eef4fa;
-  margin-bottom: 12px;
+  background: #edf3fa;
+  margin-bottom: 8px;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(135deg, #4dc79f, #3aa981);
+  background: linear-gradient(135deg, #2fbb8c, #0f9f95);
 }
 
-.scope-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.scope-summary-pill {
+  border: 1px solid #bcd2e7;
+  border-radius: 4px;
+  background: #f2f8ff;
+  color: #1e4367;
+  padding: 6px 10px;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.scope-progress-block {
+  border: 1px solid #d8e6f3;
+  border-radius: 4px;
+  background: #f7fbff;
+  padding: 7px 8px;
+}
+
+.roadmap-toolbar {
   display: grid;
+  grid-template-columns: minmax(240px, 1fr) auto;
+  gap: 8px;
+  align-items: end;
+  margin-bottom: 8px;
+}
+
+.roadmap-meta {
+  display: grid;
+  gap: 4px;
+  color: #4b5f79;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.roadmap-filters {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 8px;
 }
 
-.scope-list li {
-  display: grid;
-  grid-template-columns: 20px 1fr;
-  gap: 8px;
-  align-items: baseline;
-}
-
-.scope-list li.done {
-  color: #1f6a4d;
-}
-
-.scope-priority-block + .scope-priority-block {
+.roadmap-sorts {
   margin-top: 10px;
 }
 
-.scope-priority-title {
+.roadmap-sorts h3 {
   margin: 0 0 8px;
   font-size: 0.95rem;
   color: #2d4d69;
+}
+
+.roadmap-sort-stack {
+  display: grid;
+  gap: 8px;
+}
+
+.roadmap-sort-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.roadmap-sort-label {
+  font-weight: 700;
+  color: #2c4a66;
+  min-width: 40px;
+}
+
+.roadmap-sort-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.roadmap-sort-pill {
+  border: 1px solid #c4d8eb;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #204261;
+  padding: 4px 9px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.roadmap-sort-pill:hover,
+.roadmap-sort-pill:focus-visible {
+  background: #edf4fc;
+  border-color: #93b3d1;
+  color: #163956;
+}
+
+.roadmap-sort-pill.is-active {
+  border-color: #73a9d8;
+  background: #d9ebff;
+  color: #12395d;
+}
+
+.roadmap-sort-dir-btn {
+  border: 1px solid #bfd4e8;
+  border-radius: 4px;
+  background: #ffffff;
+  width: 40px;
+  height: 32px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.roadmap-sort-dir-btn:hover,
+.roadmap-sort-dir-btn:focus-visible {
+  background: #edf4fc;
+}
+
+.roadmap-sort-dir-icon {
+  width: 16px;
+  height: 16px;
+  fill: #2d5d87;
+  transition: transform 0.2s ease;
+}
+
+.roadmap-sort-dir-icon.is-desc {
+  transform: rotate(180deg);
+}
+
+.roadmap-table-wrap {
+  margin-top: 10px;
+  overflow-x: auto;
+  max-width: 100%;
+  border: 1px solid #d5e1ec;
+  border-radius: 4px;
+}
+
+.roadmap-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  min-width: 0;
+}
+
+.roadmap-table th,
+.roadmap-table td {
+  padding: 8px 9px;
+  border-bottom: 1px solid #e5edf5;
+  text-align: left;
+  vertical-align: top;
+}
+
+.roadmap-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f0f6fc;
+  z-index: 1;
+  color: #1f3953;
+}
+
+.roadmap-table tbody tr:nth-child(even) {
+  background: #fbfdff;
+}
+
+.roadmap-table th:nth-child(1),
+.roadmap-table td:nth-child(1) {
+  width: 92px;
+}
+
+.roadmap-table th:nth-child(2),
+.roadmap-table td:nth-child(2) {
+  width: 62px;
+  text-align: center;
+}
+
+.roadmap-table th:nth-child(3),
+.roadmap-table td:nth-child(3) {
+  width: 120px;
+}
+
+.roadmap-table th:nth-child(4),
+.roadmap-table td:nth-child(4) {
+  width: 140px;
+}
+
+.roadmap-table td:nth-child(5) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.priority-chip {
+  display: inline-block;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.priority-chip.p-crit {
+  background: #ffe8e8;
+  color: #9a1d1d;
+}
+
+.priority-chip.p-high {
+  background: #fff0da;
+  color: #8b5a12;
+}
+
+.priority-chip.p-med {
+  background: #e8f0ff;
+  color: #234d93;
+}
+
+.priority-chip.p-low {
+  background: #e6f7ec;
+  color: #226a45;
 }
 
 .table-header {
@@ -1456,7 +2163,7 @@ refreshDashboardMetrics();
   grid-template-columns: 1fr auto;
   align-items: center;
   border: 1px solid #9bb9d3;
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 10px;
   background: #f3faff;
 }
@@ -1477,8 +2184,9 @@ refreshDashboardMetrics();
   gap: 6px 10px;
   align-items: start;
   border: 1px solid #d7e4f0;
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 8px;
+  background: #ffffff;
 }
 
 .storage-item input[type='checkbox'] {
@@ -1501,7 +2209,7 @@ refreshDashboardMetrics();
 .confirm-box {
   margin-top: 12px;
   border: 1px solid #efb0b0;
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 12px;
   background: #fff8f8;
 }
@@ -1524,7 +2232,7 @@ refreshDashboardMetrics();
 
 .history-item {
   border: 1px solid #d4e1ee;
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -1554,49 +2262,52 @@ refreshDashboardMetrics();
 
 .btn {
   border: 1px solid transparent;
-  border-radius: 10px;
-  padding: 10px 14px;
+  border-radius: 4px;
+  min-height: 34px;
+  padding: 7px 10px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.14);
   transition:
-    transform 0.12s ease,
-    box-shadow 0.18s ease,
-    filter 0.18s ease,
-    border-color 0.18s ease;
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    filter 0.18s ease;
 }
 
 .btn-primary {
-  background: var(--btn-primary-grad);
-  color: var(--ink-inverse);
+  background: #0b7aa0;
+  border-color: #086283;
+  color: #f7fbff;
 }
 
 .btn-secondary {
-  background: var(--btn-secondary-grad);
-  color: var(--ink-inverse);
+  background: #6350ea;
+  border-color: #4e3ed2;
+  color: #f7fbff;
 }
 
 .btn-danger {
-  background: var(--btn-danger-grad);
-  color: var(--ink-inverse);
+  background: #b54519;
+  border-color: #903513;
+  color: #f7fbff;
 }
 
 .btn:hover:not(:disabled),
 .btn:focus-visible:not(:disabled) {
-  transform: translateY(-1px);
-  filter: brightness(1.05) saturate(1.03);
-  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.2);
+  filter: brightness(1.1);
 }
 
 .btn:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.16);
+  filter: brightness(0.98);
 }
 
 .btn:disabled {
   opacity: 0.62;
   cursor: not-allowed;
-  box-shadow: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #0f7dc9;
+  outline-offset: 2px;
 }
 
 .import-label {
@@ -1608,30 +2319,97 @@ pre {
   overflow-x: auto;
   background: #1e2633;
   color: #d9e1ed;
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 12px;
 }
 
-@media (max-width: 860px) {
-  .admin-sidebar {
-    position: static;
-    max-height: none;
+:deep(.admin-status) {
+  margin: 10px 16px 0;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-chevron,
+  .sidebar-accordion-enter-active,
+  .sidebar-accordion-leave-active {
+    transition: none !important;
   }
+}
+
+@media (max-width: 860px) {
+  .admin-page {
+    min-height: auto;
+  }
+
   .admin-dashboard,
   .admin-dashboard.is-collapsed {
     grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .admin-sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    bottom: 0;
+    width: min(320px, 88vw);
+    z-index: 70;
+    border-right: 1px solid #d7e1ec;
+    box-shadow: 0 18px 32px rgba(15, 23, 42, 0.22);
+    transform: translateX(-102%);
+    transition: transform 0.22s ease;
+    max-height: none;
+    pointer-events: none;
+  }
+
+  .admin-dashboard.is-mobile-sidebar-open .admin-sidebar {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .admin-sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    border: 0;
+    background: rgba(12, 25, 42, 0.34);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .admin-dashboard.is-mobile-sidebar-open .admin-sidebar-backdrop {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-sidebar-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar-logout {
+    margin-bottom: 8px;
   }
 
   .sidebar-nav {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: 1fr;
+    padding-right: 0;
   }
 
-  .admin-dashboard.is-collapsed .sidebar-group-toggle {
-    justify-content: space-between;
+  .admin-sidebar {
+    padding-top: 12px;
   }
 
-  .admin-dashboard.is-collapsed .sidebar-children {
-    display: grid;
+  .admin-header {
+    position: static;
+    padding: 10px 12px;
+  }
+
+  .admin-section {
+    padding: 12px;
   }
 
   .words-grid {
@@ -1640,6 +2418,23 @@ pre {
 
   .words-grid-head {
     display: none;
+  }
+
+  .roadmap-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap-meta {
+    white-space: normal;
+  }
+
+  .roadmap-sort-row {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .roadmap-sort-label {
+    min-width: 0;
   }
 
   .sym-grid {
@@ -1652,3 +2447,4 @@ pre {
   }
 }
 </style>
+

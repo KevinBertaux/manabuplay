@@ -253,6 +253,11 @@ a:focus-visible {
   margin: 24px auto;
 }
 
+.page-container.admin-shell-container {
+  width: 100%;
+  margin: 0;
+}
+
 .page-block {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -451,6 +456,11 @@ a:focus-visible {
 }
 
 @media (max-width: 860px) {
+  .page-container.admin-shell-container {
+    width: 100%;
+    margin: 0;
+  }
+
   .grid-cards {
     grid-template-columns: 1fr;
   }
