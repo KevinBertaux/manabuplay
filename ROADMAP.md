@@ -100,6 +100,7 @@
 - [ ] Base structure multi-langues complète (anglais + espagnol).
 - [ ] Historique local des meilleurs scores par module/profil.
 - [ ] UX admin V2 (édition par lots, recherche, filtres, validation avancée).
+- [ ] Panneau admin: afficher l'état HTTP des listes distantes (200, 3xx, 4xx, 5xx).
 - [ ] Timer d'exercice configurable (par module/niveau).
 - [ ] Système global d'info-bulles (tooltips) cohérent sur tout le site.
 - [ ] Migration technique vers Tailwind CSS v4 (branche dédiée + validation non-régression).
@@ -117,6 +118,7 @@
 - `feature/*` -> merge vers `feat/0.5.0-prep`
 - `feat/0.5.0-prep` -> merge vers `main` quand release validée
 - `main` reste la branche stable/deployable
+
 
 
 

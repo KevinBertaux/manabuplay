@@ -56,6 +56,14 @@
       "feature": "auth",
       "label": "Authentification serveur avec rôles (quand infra prête)",
       "done": false
+    },
+    {
+      "id": "backlog-admin-http-health-vocab",
+      "priority": "Med",
+      "domain": "admin",
+      "feature": "monitoring",
+      "label": "Afficher dans le panneau admin l etat HTTP des listes distantes (200, 3xx, 4xx, 5xx)",
+      "done": false
     }
   ]
 }
