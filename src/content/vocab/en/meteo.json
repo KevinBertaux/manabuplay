@@ -1,0 +1,59 @@
+{
+  "name": "Météo",
+  "label": "🌦️ Météo",
+  "description": "Exprimer le temps qu'il fait au quotidien.",
+  "words": [
+    {
+      "english": "It's sunny",
+      "french": "Il fait soleil"
+    },
+    {
+      "english": "It's hot",
+      "french": "Il fait chaud"
+    },
+    {
+      "english": "Is it raining?",
+      "french": "Est-ce qu'il pleut ?"
+    },
+    {
+      "english": "Yes, it is",
+      "french": "Oui"
+    },
+    {
+      "english": "No, it isn't",
+      "french": "Non"
+    },
+    {
+      "english": "It's raining",
+      "french": "Il pleut"
+    },
+    {
+      "english": "It's foggy",
+      "french": "Il y a du brouillard"
+    },
+    {
+      "english": "It's snowing",
+      "french": "Il neige"
+    },
+    {
+      "english": "It's stormy",
+      "french": "Il y a de l'orage"
+    },
+    {
+      "english": "It's cloudy",
+      "french": "Il y a des nuages"
+    },
+    {
+      "english": "It's windy",
+      "french": "Il y a du vent"
+    },
+    {
+      "english": "It's cold",
+      "french": "Il fait froid"
+    },
+    {
+      "english": "What's the weather like?",
+      "french": "Quel temps fait-il ?"
+    }
+  ]
+}

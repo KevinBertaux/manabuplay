@@ -1,7 +1,7 @@
 {
-  "name": "Animaux et objets divers",
-  "label": "🦊 Animaux et objets divers",
-  "description": "Animaux et noms concrets simples.",
+  "name": "Animaux",
+  "label": "🐾 Animaux",
+  "description": "Animaux du quotidien et sauvages.",
   "words": [
     {
       "english": "A parrot",
@@ -32,24 +32,52 @@
       "french": "Un bœuf"
     },
     {
-      "english": "A mat",
-      "french": "Un tapis"
+      "english": "A dog",
+      "french": "Un chien"
     },
     {
-      "english": "A key",
-      "french": "Une clé"
+      "english": "A cat",
+      "french": "Un chat"
     },
     {
-      "english": "A pear",
-      "french": "Une poire"
+      "english": "A mouse",
+      "french": "Une souris"
     },
     {
-      "english": "A stick",
-      "french": "Un bâton"
+      "english": "A lion",
+      "french": "Un lion"
     },
     {
-      "english": "A clock",
-      "french": "Une horloge"
+      "english": "A hyena",
+      "french": "Une hyène"
+    },
+    {
+      "english": "An elephant",
+      "french": "Un éléphant"
+    },
+    {
+      "english": "A giraffe",
+      "french": "Une girafe"
+    },
+    {
+      "english": "A leopard",
+      "french": "Un léopard"
+    },
+    {
+      "english": "An ostrich",
+      "french": "Une autruche"
+    },
+    {
+      "english": "A baboon",
+      "french": "Un babouin"
+    },
+    {
+      "english": "A buffalo",
+      "french": "Un buffle"
+    },
+    {
+      "english": "A flamingo",
+      "french": "Un flamant rose"
     }
   ]
 }

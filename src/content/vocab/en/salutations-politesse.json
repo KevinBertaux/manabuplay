@@ -28,14 +28,6 @@
       "french": "Comment tu vas ?"
     },
     {
-      "english": "I'm fine",
-      "french": "Je vais bien"
-    },
-    {
-      "english": "I'm very well",
-      "french": "Je vais très bien"
-    },
-    {
       "english": "What about you?",
       "french": "Et toi ?"
     },
@@ -46,10 +38,6 @@
     {
       "english": "You're welcome",
       "french": "De rien"
-    },
-    {
-      "english": "I'm sorry",
-      "french": "Je suis désolé(e)"
     },
     {
       "english": "See you later",
@@ -70,22 +58,6 @@
     {
       "english": "Have a good weekend!",
       "french": "Passe un bon week-end !"
-    },
-    {
-      "english": "Today",
-      "french": "Aujourd'hui"
-    },
-    {
-      "english": "The end",
-      "french": "La fin"
-    },
-    {
-      "english": "Tired",
-      "french": "Fatigué"
-    },
-    {
-      "english": "Dead",
-      "french": "Mort"
     }
   ]
 }

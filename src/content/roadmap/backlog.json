@@ -42,6 +42,14 @@
       "done": false
     },
     {
+      "id": "backlog-pwa-offline",
+      "priority": "Med",
+      "domain": "infra",
+      "feature": "pwa",
+      "label": "Version PWA (manifest + service worker + mode hors-ligne contrôlé)",
+      "done": false
+    },
+    {
       "id": "backlog-auth-server",
       "priority": "Low",
       "domain": "admin",
@@ -51,4 +59,3 @@
     }
   ]
 }
-

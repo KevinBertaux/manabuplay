@@ -40,7 +40,14 @@
       "feature": "tooltips",
       "label": "Système global d'info-bulles cohérent",
       "done": false
+    },
+    {
+      "id": "scope-060-r2-secure",
+      "priority": "High",
+      "domain": "infra",
+      "feature": "content-storage",
+      "label": "Cloudflare R2 V2: acces securise (URL signees/Worker) + controle d integrite",
+      "done": false
     }
   ]
 }
-

@@ -2,9 +2,9 @@
 
 ## Cadre de version interne
 
-- `0.1.0`: prototype initial HTML/CSS/JS
-- `0.2.0`: migration architecture vers Vue 3 + Vite (SPA)
-- `0.3.0`: stabilisation fonctionnelle (Math/Vocab + TTS + zone interne V1)
+- `0.1.0` (08/02/2026 -> 09/02/2026): prototype initial HTML/CSS/JS
+- `0.2.0`: stabilisation fonctionnelle (Math/Vocab + TTS + zone interne V1)
+- `0.3.0`: migration architecture vers Vue 3 + Vite (SPA)
 - `0.4.0`: release stable sans backend (localStorage/front-only)
 - `0.5.0-prep`: préparation release en cours (branche cible: `feat/0.5.0-prep`)
 
@@ -42,7 +42,8 @@
 - [x] Système de difficulté (Multiplications): modes `Découverte` / `Standard` / `Renforcé` / `Infini`.
 - [x] Système de difficulté (Multiplications): UI de sélection difficulté (boutons segmentés).
 - [x] Multiplications: pavé numérique desktop/tablette.
-- [ ] Vocabulaire Anglais: ajouter la liste `Weather` (EN/FR) et l'intégrer au parcours de révision.
+- [x] Vocabulaire Anglais: ajouter la liste `Weather` (EN/FR) et l'intégrer au parcours de révision.
+- [ ] Cloudflare R2 V1: lecture distante des listes JSON avec fallback local (sans backend).
 - [x] Admin: ajouter la gestion des formes de symétrie (ajout/édition/suppression).
 - [x] Admin: ajouter une action de maintenance pour vider le `localStorage` (avec confirmation).
 - [x] Admin: afficher le scope/roadmap avec barre de progression.
@@ -103,6 +104,8 @@
 - [ ] Système global d'info-bulles (tooltips) cohérent sur tout le site.
 - [ ] Migration technique vers Tailwind CSS v4 (branche dédiée + validation non-régression).
 - [ ] Refonte globale CSS/UI/UX pour exploiter pleinement Tailwind v4 (tokens, composants, cohérence cross-modules).
+- [ ] Version PWA (manifest + service worker + mode hors-ligne contrôlé).
+- [ ] Cloudflare R2 V2: accès sécurisé (URL signées/Worker) + contrôle d'intégrité.
 
 ### Plus tard
 
@@ -114,3 +117,7 @@
 - `feature/*` -> merge vers `feat/0.5.0-prep`
 - `feat/0.5.0-prep` -> merge vers `main` quand release validée
 - `main` reste la branche stable/deployable
+
+
+
+

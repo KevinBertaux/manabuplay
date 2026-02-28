@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import QuizEmptyState from '@/components/QuizEmptyState.vue';
 import QuizSelectField from '@/components/QuizSelectField.vue';
-import { getVocabList, vocabListOptions } from '@/features/vocab/vocabLists';
+import { getVocabList, hydrateRemoteVocabLists, listVocabOptions } from '@/features/vocab/vocabLists';
 
 const ttsAccentStorageKey = 'manabuplay_tts_accent';
 const ttsRateStorageKey = 'manabuplay_tts_rate';
@@ -34,9 +34,10 @@ const touchStartX = ref(0);
 const touchStartY = ref(0);
 const suppressNextFlip = ref(false);
 
+const availableVocabOptions = ref(listVocabOptions());
 const activeList = computed(() => (selectedList.value ? getVocabList(selectedList.value) : null));
 const vocabListOptionsWithCount = computed(() =>
-  vocabListOptions.map((list) => {
+  availableVocabOptions.value.map((list) => {
     const currentList = getVocabList(list.key);
     return {
       ...list,
@@ -328,7 +329,7 @@ watch(cardDirection, (direction) => {
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
   if (typeof window !== 'undefined') {
     const savedAccent = localStorage.getItem(ttsAccentStorageKey);
     if (savedAccent === 'en-US' || savedAccent === 'en-GB') {
@@ -345,6 +346,9 @@ onMounted(() => {
       cardDirection.value = savedDirection;
     }
   }
+
+  await hydrateRemoteVocabLists();
+  availableVocabOptions.value = listVocabOptions();
 
   loadList(selectedList.value);
   window.addEventListener('keydown', handleKeyboardNav);
@@ -784,6 +788,8 @@ onUnmounted(() => {
   }
 }
 </style>
+
+
 
 
 
