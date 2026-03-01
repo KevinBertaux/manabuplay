@@ -1,0 +1,27 @@
+{
+  "version": "2026-02-28.1",
+  "generatedAt": "2026-02-28",
+  "lists": [
+    { "key": "identiteEcole", "file": "identite-ecole.json" },
+    { "key": "salutationsPolitesse", "file": "salutations-politesse.json" },
+    { "key": "etatsRessentis", "file": "etats-ressentis.json" },
+    { "key": "tempsSemaine", "file": "temps-semaine.json" },
+    { "key": "consignesClasse", "file": "consignes-classe.json" },
+    { "key": "reglesClasse", "file": "regles-classe.json" },
+    { "key": "materielScolaire", "file": "materiel-scolaire.json" },
+    { "key": "activitesCapacites", "file": "activites-capacites.json" },
+    { "key": "fetesSymboles", "file": "fetes-symboles.json" },
+    { "key": "thanksgiving", "file": "thanksgiving.json" },
+    { "key": "paysNationalites", "file": "pays-nationalites.json" },
+    { "key": "prepositionsLieu", "file": "prepositions-lieu.json" },
+    { "key": "villePersonnes", "file": "ville-personnes.json" },
+    { "key": "maisonVetements", "file": "maison-vetements.json" },
+    { "key": "animauxObjets", "file": "animaux-objets.json" },
+    { "key": "alimentsBoissons", "file": "aliments-boissons.json" },
+    { "key": "fruits", "file": "fruits.json" },
+    { "key": "legumes", "file": "legumes.json" },
+    { "key": "fruits2", "file": "fruits-2.json" },
+    { "key": "legumes2", "file": "legumes-2.json" },
+    { "key": "meteo", "file": "meteo.json" }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "name": "Thanksgiving",
+  "label": "🦃 Thanksgiving",
+  "description": "Vocabulaire clé autour de Thanksgiving.",
+  "words": [
+    {
+      "english": "A maple",
+      "french": "Un érable"
+    },
+    {
+      "english": "Maple syrup",
+      "french": "Du sirop d'érable"
+    },
+    {
+      "english": "A leaf",
+      "french": "Une feuille"
+    },
+    {
+      "english": "A turkey",
+      "french": "Une dinde"
+    },
+    {
+      "english": "Mashed potatoes",
+      "french": "Purée de patate"
+    },
+    {
+      "english": "Gravy",
+      "french": "Sauce"
+    },
+    {
+      "english": "A pumpkin pie",
+      "french": "Une tarte à la citrouille"
+    },
+    {
+      "english": "Thankful",
+      "french": "Reconnaissant"
+    },
+    {
+      "english": "To thank",
+      "french": "Remercier"
+    },
+    {
+      "english": "Happiness",
+      "french": "Bonheur"
+    },
+    {
+      "english": "Joy",
+      "french": "Joie"
+    },
+    {
+      "english": "A friend",
+      "french": "Un ami"
+    },
+    {
+      "english": "A toy",
+      "french": "Un jouet"
+    },
+    {
+      "english": "To celebrate",
+      "french": "Fêter"
+    }
+  ]
+}

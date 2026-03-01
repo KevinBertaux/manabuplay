@@ -20,14 +20,6 @@
       "french": "Nouveau"
     },
     {
-      "english": "To be fed up",
-      "french": "En avoir marre"
-    },
-    {
-      "english": "Messy",
-      "french": "Désordonné"
-    },
-    {
       "english": "A wall",
       "french": "Un mur"
     },
@@ -66,6 +58,22 @@
     {
       "english": "Too",
       "french": "Aussi"
+    },
+    {
+      "english": "A mat",
+      "french": "Un tapis"
+    },
+    {
+      "english": "A key",
+      "french": "Une clé"
+    },
+    {
+      "english": "A stick",
+      "french": "Un bâton"
+    },
+    {
+      "english": "A clock",
+      "french": "Une horloge"
     }
   ]
 }

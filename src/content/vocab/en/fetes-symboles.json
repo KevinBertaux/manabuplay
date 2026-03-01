@@ -1,67 +1,11 @@
 {
-  "name": "Fêtes et symboles",
-  "label": "🎉 Fêtes et symboles",
-  "description": "Lexique culturel et célébration.",
+  "name": "Symboles des nations britanniques",
+  "label": "🏴 Symboles des nations britanniques",
+  "description": "Emblèmes et symboles culturels.",
   "words": [
     {
       "english": "A flag",
       "french": "Un drapeau"
-    },
-    {
-      "english": "A maple",
-      "french": "Un érable"
-    },
-    {
-      "english": "Maple syrup",
-      "french": "Du sirop d'érable"
-    },
-    {
-      "english": "A leaf",
-      "french": "Une feuille"
-    },
-    {
-      "english": "A turkey",
-      "french": "Une dinde"
-    },
-    {
-      "english": "Mashed potatoes",
-      "french": "Purée de patate"
-    },
-    {
-      "english": "Gravy",
-      "french": "Sauce"
-    },
-    {
-      "english": "A pumpkin pie",
-      "french": "Une tarte à la citrouille"
-    },
-    {
-      "english": "Thankful",
-      "french": "Reconnaissant"
-    },
-    {
-      "english": "To thank",
-      "french": "Remercier"
-    },
-    {
-      "english": "Happiness",
-      "french": "Bonheur"
-    },
-    {
-      "english": "Joy",
-      "french": "Joie"
-    },
-    {
-      "english": "A friend",
-      "french": "Un ami"
-    },
-    {
-      "english": "A toy",
-      "french": "Un jouet"
-    },
-    {
-      "english": "To celebrate",
-      "french": "Fêter"
     },
     {
       "english": "The thistle",

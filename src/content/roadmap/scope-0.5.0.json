@@ -74,12 +74,12 @@
       "done": true
     },
     {
-      "id": "scope-050-high-weather",
+      "id": "scope-050-high-meteo",
       "priority": "High",
       "domain": "langues",
       "feature": "anglais",
-      "label": "Ajouter la liste anglaise Weather (EN/FR)",
-      "done": false
+      "label": "Ajouter la liste anglaise Meteo (EN/FR)",
+      "done": true
     },
     {
       "id": "scope-050-high-admin-dashboard",
@@ -120,6 +120,15 @@
       "feature": "polish",
       "label": "Polissage visuel léger",
       "done": false
+    },
+    {
+      "id": "scope-050-high-r2-v1",
+      "priority": "High",
+      "domain": "infra",
+      "feature": "content-storage",
+      "label": "Cloudflare R2 V1: lecture distante des listes JSON avec fallback local",
+      "done": false
     }
   ]
 }
+
