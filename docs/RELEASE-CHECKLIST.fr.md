@@ -15,10 +15,10 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au reset quota.
 - [ ] `npm run test:e2e` OK
 - [ ] Matrix E2E OK (`desktop-chromium`, `desktop-firefox`, `desktop-webkit`, `mobile-chrome`, `mobile-safari`)
 - [ ] Tests accessibilite automatiques (axe-core) OK
-- [ ] Non-regression visuelle (snapshots Playwright Chromium) OK
+- [ ] Non-regression visuelle (snapshots Playwright `desktop-chromium`) OK
 - [ ] `npm test -- --coverage` OK (seuils Vitest respectes)
 - [ ] `npm run build` OK
-- [ ] `npm run lighthouse:ci` OK
+- [ ] `npm run lighthouse:ci` OK (en local Windows: tolérance bug EPERM cleanup, CI Linux reste bloquante)
 - [ ] Verification routes publiques: `/`, `/math`, `/vocab`, `/legal/mentions-legales`, `/legal/confidentialite`, `/legal/cgu`
 - [ ] Verification acces zone interne via URL privee `/-/studio-ops`
 - [ ] Verification menu public: aucun acces admin visible

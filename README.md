@@ -63,7 +63,7 @@ manabuplay/
 - Documentation FR détaillée: `docs/README.fr.md`
 - Documentation EN détaillée: `docs/README.en.md`
 - Checklist release hebdo: `docs/RELEASE-CHECKLIST.fr.md`
-- Checklist QA: `docs/QA-CHECKLIST.fr.md`
+- Checklist QA v2: `docs/QA-CHECKLIST.fr.md`
 - Sécurité secrets (ggshield): `docs/SECURITY-SECRETS.fr.md`
 - Git cheat sheet: `docs/GIT-CHEATSHEET.fr.md`
 - Guide panel interne (FR): `docs/PANEL-INTERNE.fr.md`
@@ -80,5 +80,4 @@ manabuplay/
 
 - Version en cours: `0.5.0-prep`
 - Dernière modification: `22 février 2026` (fr-FR)
-
 

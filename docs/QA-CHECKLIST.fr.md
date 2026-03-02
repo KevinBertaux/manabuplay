@@ -1,4 +1,4 @@
-# Checklist QA V1
+# Checklist QA V2
 
 ## Préparation
 
@@ -17,6 +17,7 @@
    - Exécuter `npm test` sans échec
    - Exécuter `npm run test:e2e` sans échec
    - Exécuter `npm run qa:release` pour la passe automatisée complète release
+   - Vérifier les snapshots visuels Playwright uniquement sur `desktop-chromium`
 4. Couverture:
    - Exécuter `npm test -- --coverage`
    - Seuils minimaux (Vitest):
