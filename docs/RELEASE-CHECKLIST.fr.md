@@ -15,7 +15,7 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au reset quota.
 - [ ] `npm run test:e2e` OK
 - [ ] Matrix E2E OK (`desktop-chromium`, `desktop-firefox`, `desktop-webkit`, `mobile-chrome`, `mobile-safari`)
 - [ ] Tests accessibilite automatiques (axe-core) OK
-- [ ] Non-regression visuelle (snapshots Playwright `desktop-chromium`) OK
+- [ ] Workflow GitHub `QA Visual Regression` (mode `check`) vert sur la branche de release
 - [ ] `npm test -- --coverage` OK (seuils Vitest respectes)
 - [ ] `npm run build` OK
 - [ ] `npm run lighthouse:ci` OK (en local Windows: tolérance bug EPERM cleanup, CI Linux reste bloquante)
