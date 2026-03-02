@@ -8,7 +8,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:release": "playwright test --reporter=line",
+    "lighthouse:ci": "node scripts/run-lhci.mjs",
+    "qa:release": "npm test -- --coverage && npm run test:e2e:release && npm run build && npm run lighthouse:ci"
   },
   "dependencies": {
     "pinia": "^2.1.7",
@@ -16,6 +19,8 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@lhci/cli": "^0.14.0",
     "@playwright/test": "^1.58.2",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitest/coverage-v8": "^2.1.9",

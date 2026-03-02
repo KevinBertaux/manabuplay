@@ -22,7 +22,7 @@
 - [x] Harmoniser les pages légales (Mentions, Confidentialité, CGU) et leurs dates.
 - [x] Conserver un mode 100% statique Netlify (pas de backend obligatoire pour 0.5.0).
 - [x] Validation finale pré-release: `npm test`, `npm run test:e2e`, `npm run build`.
-- [ ] QA manuelle finale desktop + mobile.
+- [ ] QA manuelle ciblée (vrais appareils mobile + validation TTS).
 - [ ] Merge `feat/0.5.0-prep` -> `main` + déploy Netlify (fenêtre quota).
 
 ---
@@ -70,6 +70,11 @@
   - tests unitaires/composants/intégration/E2E renforcés
   - seuils coverage Vitest activés
   - règle ratchet only documentée (QA + release checklist)
+- [x] QA pass v2:
+  - automatisation release renforcée (CI qualité + matrix Playwright desktop/mobile)
+  - a11y automatisée (axe-core)
+  - non-régression visuelle (snapshots Playwright Chromium)
+  - budget Lighthouse CI automatisé
 - [ ] Passage de cohérence doc final 0.5.0 (README + docs FR/EN + release notes).
 
 ---
@@ -122,7 +127,6 @@
 - `feature/*` -> merge vers `feat/0.5.0-prep`
 - `feat/0.5.0-prep` -> merge vers `main` quand release validée
 - `main` reste la branche stable/deployable
-
 
 
 

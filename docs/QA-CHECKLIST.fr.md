@@ -16,6 +16,7 @@
 3. Tests:
    - Exécuter `npm test` sans échec
    - Exécuter `npm run test:e2e` sans échec
+   - Exécuter `npm run qa:release` pour la passe automatisée complète release
 4. Couverture:
    - Exécuter `npm test -- --coverage`
    - Seuils minimaux (Vitest):

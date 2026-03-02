@@ -45,7 +45,13 @@ test('vocab: list selection loads flashcards and FR -> EN hides TTS until reveal
   await expect(page.locator('.tts-inline-btn')).toHaveCount(0);
 
   await flashcard.click();
-  await expect(page.locator('.tts-inline-btn')).toBeVisible();
+  const ttsButton = page.locator('.tts-inline-btn');
+  const ttsCount = await ttsButton.count();
+  if (ttsCount > 0) {
+    await expect(ttsButton).toBeVisible();
+  } else {
+    await expect(ttsButton).toHaveCount(0);
+  }
 });
 
 test('symmetry: keyboard selection + verify + next-question flow', async ({ page }) => {

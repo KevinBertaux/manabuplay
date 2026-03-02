@@ -32,6 +32,8 @@ node_modules/
 playwright-report/
 test-results/
 coverage/
+.lighthouseci/
+tests/e2e/visual-regression.playwright.js-snapshots/*mobile-chrome*
 
 # Added by ggshield
 .cache_ggshield

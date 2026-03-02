@@ -1,0 +1,65 @@
+name: QA Release Automation
+
+on:
+  pull_request:
+    branches:
+      - feat/0.5.0-prep
+      - main
+  push:
+    branches:
+      - feat/0.5.0-prep
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit + coverage
+        run: npm test -- --coverage
+
+      - name: Build
+        run: npm run build
+
+      - name: Lighthouse CI
+        run: npm run lighthouse:ci
+
+  e2e-matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - desktop-chromium
+          - desktop-firefox
+          - desktop-webkit
+          - mobile-chrome
+          - mobile-safari
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright (${{ matrix.project }})
+        run: npx playwright test --project=${{ matrix.project }}

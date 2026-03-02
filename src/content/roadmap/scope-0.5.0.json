@@ -38,7 +38,7 @@
       "priority": "Crit",
       "domain": "infra",
       "feature": "quality",
-      "label": "QA manuelle finale desktop + mobile",
+      "label": "QA manuelle ciblée (vrais appareils mobile + validation TTS)",
       "done": false
     },
     {
@@ -111,6 +111,14 @@
       "domain": "infra",
       "feature": "quality",
       "label": "QA pass v1: couverture renforcée + seuils Vitest + règle ratchet only",
+      "done": true
+    },
+    {
+      "id": "scope-050-med-qa-automation",
+      "priority": "Med",
+      "domain": "infra",
+      "feature": "quality",
+      "label": "QA pass v2: CI qualité + matrix E2E + a11y + snapshots visuels + Lighthouse CI",
       "done": true
     },
     {

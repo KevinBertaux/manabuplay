@@ -13,9 +13,13 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au reset quota.
 - [ ] `npm install` OK
 - [ ] `npm test` OK
 - [ ] `npm run test:e2e` OK
+- [ ] Matrix E2E OK (`desktop-chromium`, `desktop-firefox`, `desktop-webkit`, `mobile-chrome`, `mobile-safari`)
+- [ ] Tests accessibilite automatiques (axe-core) OK
+- [ ] Non-regression visuelle (snapshots Playwright Chromium) OK
 - [ ] `npm test -- --coverage` OK (seuils Vitest respectes)
 - [ ] `npm run build` OK
-- [ ] Verification routes publiques: `/`, `/math`, `/vocab`, `/legal/mentions-legales`, `/legal/confidentialite`
+- [ ] `npm run lighthouse:ci` OK
+- [ ] Verification routes publiques: `/`, `/math`, `/vocab`, `/legal/mentions-legales`, `/legal/confidentialite`, `/legal/cgu`
 - [ ] Verification acces zone interne via URL privee `/-/studio-ops`
 - [ ] Verification menu public: aucun acces admin visible
 - [ ] Verification favicon/logo/header
@@ -48,3 +52,4 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au reset quota.
 - [ ] Tag Git cree (ex: `v0.5.0`)
 - [ ] `ROADMAP.md` mis a jour
 - [ ] Prochaine fenetre hebdo planifiee
+- [ ] QA manuelle ciblee confirmee sur vrais appareils (iPhone/Android + TTS)

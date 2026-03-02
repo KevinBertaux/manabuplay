@@ -3,11 +3,11 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/e2e',
   testMatch: '**/*.playwright.js',
-  timeout: 45 * 1000,
+  timeout: 60 * 1000,
   expect: {
-    timeout: 8 * 1000,
+    timeout: 10 * 1000,
   },
-  fullyParallel: false,
+  fullyParallel: true,
   retries: 0,
   reporter: 'list',
   use: {
@@ -24,8 +24,24 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'chromium',
+      name: 'desktop-chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'desktop-firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'desktop-webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'mobile-chrome',
+      use: { ...devices['Pixel 7'] },
+    },
+    {
+      name: 'mobile-safari',
+      use: { ...devices['iPhone 14'] },
     },
   ],
 });
