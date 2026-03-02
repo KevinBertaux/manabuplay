@@ -62,4 +62,4 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright (${{ matrix.project }})
-        run: npx playwright test --project=${{ matrix.project }}
+        run: npx playwright test --project=${{ matrix.project }} --grep-invert @visual

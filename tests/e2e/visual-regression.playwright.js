@@ -1,6 +1,13 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('visual regression smoke', () => {
+test.describe('@visual visual regression smoke', () => {
+  test.beforeEach(async () => {
+    test.skip(
+      process.env.PW_VISUAL !== '1',
+      'Visual regression tests run only in dedicated visual workflow.'
+    );
+  });
+
   test.beforeEach(async ({ page, browserName }) => {
     test.skip(
       browserName !== 'chromium' || test.info().project.name !== 'desktop-chromium',

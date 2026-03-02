@@ -12,7 +12,8 @@ ManabuPlay est une SPA éducative pour enfants (Vue 3 + Vite) orientée révisio
 - Build: `npm run build`
 - Tests unitaires/intégration: `npm test`
 - Tests E2E navigateur: `npm run test:e2e`
-- QA release automatisée: `npm run qa:release`
+- QA release automatisée (sans snapshots visuels): `npm run qa:release`
+- Snapshots visuels: workflow GitHub `QA Visual Regression` (job dédié)
 
 ## Points forts
 
@@ -80,4 +81,3 @@ manabuplay/
 
 - Version en cours: `0.5.0-prep`
 - Dernière modification: `22 février 2026` (fr-FR)
-

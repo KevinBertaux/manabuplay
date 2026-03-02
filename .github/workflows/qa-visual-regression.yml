@@ -1,0 +1,66 @@
+name: QA Visual Regression
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check = compare to baselines, update = regenerate candidate baselines"
+        required: true
+        default: check
+        type: choice
+        options:
+          - check
+          - update
+  pull_request:
+    branches:
+      - feat/0.5.0-prep
+      - main
+    paths:
+      - "src/**"
+      - "tests/e2e/visual-regression.playwright.js"
+      - "playwright.config.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/qa-visual-regression.yml"
+
+jobs:
+  visual-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run visual regression (check)
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode == 'check' }}
+        env:
+          PW_VISUAL: "1"
+        run: npx playwright test --project=desktop-chromium --grep @visual
+
+      - name: Run visual regression (update candidates)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'update' }}
+        env:
+          PW_VISUAL: "1"
+        run: npx playwright test --project=desktop-chromium --grep @visual --update-snapshots
+
+      - name: Upload visual artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-regression-artifacts
+          path: |
+            test-results/
+            playwright-report/
+            tests/e2e/*-snapshots/
+          if-no-files-found: ignore

@@ -16,8 +16,8 @@
 3. Tests:
    - Exécuter `npm test` sans échec
    - Exécuter `npm run test:e2e` sans échec
-   - Exécuter `npm run qa:release` pour la passe automatisée complète release
-   - Vérifier les snapshots visuels Playwright uniquement sur `desktop-chromium`
+   - Exécuter `npm run qa:release` pour la passe automatisée complète release (hors snapshots visuels)
+   - Lancer le workflow GitHub `QA Visual Regression` (mode `check`) pour les snapshots Playwright `desktop-chromium`
 4. Couverture:
    - Exécuter `npm test -- --coverage`
    - Seuils minimaux (Vitest):
