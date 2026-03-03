@@ -669,8 +669,10 @@ onUnmounted(() => {
 .flashcard-hint {
   position: absolute;
   bottom: 12px;
-  left: 12px;
-  right: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - ((var(--rail-width) + 14px) * 2));
+  max-width: 100%;
   text-align: center;
   font-size: 0.9em;
   opacity: 0.72;
@@ -777,6 +779,21 @@ onUnmounted(() => {
   transform: translateX(22px);
 }
 
+@media (max-width: 1024px) and (min-width: 821px) {
+  .flashcard {
+    --rail-width: 30px;
+  }
+
+  .carousel-rail {
+    background: rgba(50, 85, 116, 0.16);
+  }
+
+  .carousel-rail:hover,
+  .carousel-rail:focus-visible {
+    background: rgba(50, 85, 116, 0.3);
+  }
+}
+
 @media (max-width: 820px) {
   .settings-row {
     grid-template-columns: 1fr;
@@ -785,7 +802,7 @@ onUnmounted(() => {
   .flashcard {
     --rail-width: 28px;
     min-height: 230px;
-    padding: 36px calc(var(--rail-width) + 16px);
+    padding: 58px calc(var(--rail-width) + 12px) 20px;
   }
 
   .flashcard-word,
@@ -793,8 +810,29 @@ onUnmounted(() => {
     font-size: clamp(1.6em, 7.5vw, 2em);
   }
 
+  .flashcard-hint {
+    font-size: clamp(0.74rem, 2.5vw, 0.84rem);
+  }
+
+  .flashcard-count {
+    top: 14px;
+  }
+
   .tts-inline-control {
+    top: 10px;
     right: calc(var(--rail-width) + 6px);
+    transform: none;
+  }
+
+  .tts-inline-label {
+    display: none;
+  }
+
+  .tts-inline-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.05rem;
+    border-width: 2px;
   }
 }
 
@@ -815,6 +853,5 @@ onUnmounted(() => {
   }
 }
 </style>
-
 
 

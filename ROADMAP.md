@@ -116,6 +116,7 @@
 - [ ] Système global d'info-bulles (tooltips) cohérent sur tout le site.
 - [ ] Migration technique vers Tailwind CSS v4 (branche dédiée + validation non-régression).
 - [ ] Refonte globale CSS/UI/UX pour exploiter pleinement Tailwind v4 (tokens, composants, cohérence cross-modules).
+- [ ] Refacto globale des breakpoints responsive (harmonisation mobile/tablette/desktop, suppression des écarts CSS entre modules).
 - [ ] Version PWA (manifest + service worker + mode hors-ligne contrôlé).
 - [ ] Cloudflare R2 V2: accès sécurisé (URL signées/Worker) + contrôle d'intégrité.
 
@@ -129,4 +130,3 @@
 - `feature/*` -> merge vers `feat/0.5.0-prep`
 - `feat/0.5.0-prep` -> merge vers `main` quand release validée
 - `main` reste la branche stable/deployable
-
