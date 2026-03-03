@@ -2,7 +2,7 @@
 
 ![Version](https://img.shields.io/badge/version-0.5.0--prep-2ea44f) ![Vue](https://img.shields.io/badge/Vue-3-42b883) ![Vite](https://img.shields.io/badge/Vite-5-646cff) ![Status](https://img.shields.io/badge/status-release-1f6feb) ![Education](https://img.shields.io/badge/usage-education-blue) [![Netlify Status](https://api.netlify.com/api/v1/badges/b27a59fb-1456-4320-92ac-c4c4e02786c4/deploy-status)](https://app.netlify.com/projects/manabuplay/deploys)
 
-ManabuPlay est une SPA éducative pour enfants (Vue 3 + Vite) orientée révision scolaire : maths, vocabulaire et panneau interne d’édition locale.
+ManabuPlay est une SPA éducative pour enfants (Vue 3 + Vite) orientée révision scolaire : mathématiques, langues et panneau interne d’édition locale.
 
 [📘 Documentation FR](docs/README.fr.md) | [📗 Documentation EN](docs/README.en.md)
 
@@ -17,10 +17,10 @@ ManabuPlay est une SPA éducative pour enfants (Vue 3 + Vite) orientée révisio
 
 ## Points forts
 
-- Module **Math**: quiz tables de multiplication (0-11 + mode toutes tables), meilleure série locale
-- Module **Langues**: flashcards anglais multi-listes, TTS US/UK, vitesse de lecture (3 niveaux), sens de carte EN/FR ou FR/EN
+- Module **Math**: multiplications (sélection multi-tables, difficultés, pavé numérique desktop/tablette), symétrie QCM (axes vertical/horizontal)
+- Module **Langues**: flashcards anglais multi-listes, TTS US/UK, vitesse de lecture (3 niveaux), sens de carte Anglais/Français ou Français/Anglais
 - **Zone interne V1**: édition locale des listes JSON (accès restreint, front-only)
-- Source de vérité vocabulaire: JSON externes (`src/content/vocab/en`)
+- Source de vérité vocabulaire: JSON versionnés (`src/content/vocab/en`) + chargement distant Cloudflare R2 (fallback local)
 
 ## Captures
 
@@ -67,8 +67,8 @@ manabuplay/
 - Checklist QA v2: `docs/QA-CHECKLIST.fr.md`
 - Sécurité secrets (ggshield): `docs/SECURITY-SECRETS.fr.md`
 - Git cheat sheet: `docs/GIT-CHEATSHEET.fr.md`
-- Guide panel interne (FR): `docs/PANEL-INTERNE.fr.md`
-- Internal panel guide (EN): `docs/PANEL-INTERNE.en.md`
+- Guide panneau interne (in-app FR/EN): `/-/studio-ops/help`
+- Notes de version 0.5.0-prep: `docs/RELEASE-NOTES.0.5.0-prep.fr.md`
 - Charte UI/UX (FR): `docs/UI-RULES.fr.md`
 
 ## Sécurité secrets
@@ -80,4 +80,4 @@ manabuplay/
 ## Version
 
 - Version en cours: `0.5.0-prep`
-- Dernière modification: `22 février 2026` (fr-FR)
+- Dernière modification: `3 mars 2026` (fr-FR)

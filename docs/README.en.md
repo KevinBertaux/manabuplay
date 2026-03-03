@@ -7,15 +7,15 @@ Educational web app (Vue 3 + Vite SPA) to help children practice math and vocabu
 ## Version
 
 - Current version: `0.5.0-prep`
-- Last update: `22 February 2026` (fr-FR date: 22 février 2026)
+- Last update: `3 March 2026` (fr-FR date: 3 mars 2026)
 
 ## Current features
 
-### Math (`/math/multiplications`)
-- Multiplication tables quiz (0-11 + all tables mode)
-- Score, total answers, current streak, and best streak (localStorage)
-- Keyboard validation (`Enter`) with duplicate-submit prevention
-- No table selected by default
+### Math (`/math/multiplications`, `/math/symmetry`)
+- Multiplications: multi-table selection (0-11), difficulty modes, score/streak/best streak
+- Multiplications: keyboard validation (`Enter`) + desktop/tablet numeric pad
+- Symmetry V1: visual MCQ (vertical + horizontal axes), score/streak/best streak
+- No implicit start: selection required before practice
 
 ### English vocabulary (`/languages/english`)
 - External JSON lists with title, description, and words
@@ -32,6 +32,11 @@ Educational web app (Vue 3 + Vite SPA) to help children practice math and vocabu
 - JSON import / export / copy
 - Local `localStorage` save
 - Accessed through private URL `/-/studio-ops` (not visible in public menu)
+
+### Vocabulary data (R2 V1)
+- Optional remote Cloudflare R2 loading via environment variables
+- `index.json` list manifest + automatic local fallback on failure
+- Goal: update lists without redeploying the app
 
 ## Local setup
 
@@ -70,7 +75,5 @@ Educational web app (Vue 3 + Vite SPA) to help children practice math and vocabu
 - Release checklist: `docs/RELEASE-CHECKLIST.fr.md`
 - Secrets security: `docs/SECURITY-SECRETS.fr.md`
 - Git cheat sheet: `docs/GIT-CHEATSHEET.fr.md`
-- Internal panel guide FR: `docs/PANEL-INTERNE.fr.md`
-- Internal panel guide EN: `docs/PANEL-INTERNE.en.md`
-
-
+- Internal panel guide (in-app FR/EN): `/-/studio-ops/help`
+- Release notes 0.5.0-prep: `docs/RELEASE-NOTES.0.5.0-prep.fr.md`
