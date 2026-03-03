@@ -36,9 +36,9 @@ test.describe('@visual visual regression smoke', () => {
     await expect(page).toHaveScreenshot('math.png', { fullPage: true, maxDiffPixelRatio: 0.02 });
   });
 
-  test('vocab visual baseline', async ({ page }) => {
+  test('english visual baseline', async ({ page }) => {
     await page.goto('/languages/english');
-    await expect(page).toHaveScreenshot('vocab.png', { fullPage: true, maxDiffPixelRatio: 0.02 });
+    await expect(page).toHaveScreenshot('english.png', { fullPage: true, maxDiffPixelRatio: 0.02 });
   });
 
   test('admin login visual baseline', async ({ page }) => {

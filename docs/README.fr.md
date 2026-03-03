@@ -22,7 +22,7 @@ Application web éducative (SPA Vue 3 + Vite) pour aider les enfants à réviser
 - Dropdown avec compteur dynamique de mots (`xx mots`)
 - Aucune liste sélectionnée par défaut
 - Flashcards: navigation flèches, clavier et swipe mobile
-- TTS anglais: accent US/UK + vitesse de lecture (3 niveaux)
+- TTS anglais: en-US avec alternance normale/lente au clic
 - Sens de carte: Anglais -> Français ou Français -> Anglais
 - Bouton TTS masqué en mode FR -> EN avant révélation
 

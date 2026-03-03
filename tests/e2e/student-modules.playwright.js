@@ -30,7 +30,7 @@ test('math: selecting a table starts quiz and wrong answer does not auto-skip', 
   await expect(question).toHaveText(initialQuestion);
 });
 
-test('vocab: list selection loads flashcards and FR -> EN hides TTS until reveal', async ({ page }) => {
+test('english: list selection loads flashcards and FR -> EN hides TTS until reveal', async ({ page }) => {
   await page.goto('/languages/english');
 
   await expect(page.getByText('Choisir une liste pour commencer.')).toBeVisible();

@@ -24,7 +24,7 @@ test('a11y smoke: math hub', async ({ page }) => {
   await expectNoSeriousA11yViolations(page, '/math');
 });
 
-test('a11y smoke: english vocab', async ({ page }) => {
+test('a11y smoke: english module', async ({ page }) => {
   await expectNoSeriousA11yViolations(page, '/languages/english');
 });
 

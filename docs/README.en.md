@@ -22,7 +22,7 @@ Educational web app (Vue 3 + Vite SPA) to help children practice math and vocabu
 - Dropdown with dynamic word count (`xx words`)
 - No list selected by default
 - Flashcards: arrows, keyboard, and mobile swipe navigation
-- English TTS: US/UK accent + reading speed (3 levels)
+- English TTS: en-US with click-based normal/slow alternation
 - Card direction: English -> French or French -> English
 - TTS button hidden in FR -> EN mode until translation is revealed
 

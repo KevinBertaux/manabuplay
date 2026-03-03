@@ -18,9 +18,9 @@ ManabuPlay est une SPA éducative pour enfants (Vue 3 + Vite) orientée révisio
 ## Points forts
 
 - Module **Math**: multiplications (sélection multi-tables, difficultés, pavé numérique desktop/tablette), symétrie QCM (axes vertical/horizontal)
-- Module **Langues**: flashcards anglais multi-listes, TTS US/UK, vitesse de lecture (3 niveaux), sens de carte Anglais/Français ou Français/Anglais
+- Module **Langues**: flashcards anglais multi-listes, TTS en-US (lecture normale/lente alternée), sens de carte Anglais/Français ou Français/Anglais
 - **Zone interne V1**: édition locale des listes JSON (accès restreint, front-only)
-- Source de vérité vocabulaire: JSON versionnés (`src/content/vocab/en`) + chargement distant Cloudflare R2 (fallback local)
+- Source de vérité vocabulaire: JSON versionnés (`src/content/languages/en`) + chargement distant Cloudflare R2 (fallback local)
 
 ## Captures
 
@@ -30,8 +30,8 @@ ManabuPlay est une SPA éducative pour enfants (Vue 3 + Vite) orientée révisio
 ### Module Math
 ![Math ManabuPlay](docs/captures/math.png)
 
-### Module Vocab
-![Vocab ManabuPlay](docs/captures/vocab.png)
+### Module English
+![English ManabuPlay](docs/captures/english.png)
 
 ## Stack
 
