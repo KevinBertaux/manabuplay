@@ -27,6 +27,7 @@ const cardDirection = ref('en-first');
 const ttsVoices = ref([]);
 const isSpeaking = ref(false);
 const ttsStatus = ref('');
+const transitionDirection = ref('next');
 
 let currentUtterance = null;
 let voicesChangedHandler = null;
@@ -64,6 +65,9 @@ const ttsRateIndex = computed({
   },
 });
 const ttsRateLabel = computed(() => ttsRateLabels[ttsRateIndex.value]);
+const cardTransitionName = computed(() =>
+  transitionDirection.value === 'previous' ? 'card-shared-prev' : 'card-shared-next'
+);
 
 const currentWord = computed(() => words.value[currentIndex.value] || null);
 const cardNumber = computed(() => (words.value.length ? currentIndex.value + 1 : 0));
@@ -128,6 +132,7 @@ function nextCard() {
   if (!words.value.length) {
     return;
   }
+  transitionDirection.value = 'next';
   const nextIndex = (currentIndex.value + 1) % words.value.length;
   showCard(nextIndex);
 }
@@ -136,6 +141,7 @@ function previousCard() {
   if (!words.value.length) {
     return;
   }
+  transitionDirection.value = 'previous';
   const previousIndex = (currentIndex.value - 1 + words.value.length) % words.value.length;
   showCard(previousIndex);
 }
@@ -146,6 +152,7 @@ function shuffleCards() {
   }
 
   stopSpeech();
+  transitionDirection.value = 'next';
   const shuffled = cloneWords(words.value);
   for (let i = shuffled.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -431,49 +438,47 @@ onUnmounted(() => {
 
     <template v-if="selectedList">
       <div class="flashcard-carousel">
-        <button
-          class="carousel-arrow"
-          type="button"
-          aria-label="Carte précédente"
-          @click="previousCard"
-        >
-          ❮
-        </button>
-
-        <div
-          class="flashcard"
-          :class="{ flipped: isFlipped }"
-          @click="flipCard"
-          @touchstart.passive="onTouchStart"
-          @touchend.passive="onTouchEnd"
-        >
-          <div class="flashcard-count">{{ cardNumber }}/{{ totalCards }}</div>
-
-          <div v-if="canPlayTts" class="tts-inline-control">
-            <div class="tts-inline-label">Écouter</div>
-            <button
-              class="tts-inline-btn"
-              type="button"
-              :aria-label="isSpeaking ? 'Arrêter la lecture' : 'Écouter le mot'"
-              @click.stop="toggleSpeakWord"
-            >
-              {{ isSpeaking ? '⏹️' : '▶️' }}
+        <Transition :name="cardTransitionName" mode="out-in">
+          <div
+            :key="`${selectedList}-${currentIndex}`"
+            class="flashcard"
+            :class="{ flipped: isFlipped }"
+            @click="flipCard"
+            @touchstart.passive="onTouchStart"
+            @touchend.passive="onTouchEnd"
+          >
+            <button class="carousel-rail carousel-rail-left" type="button" aria-label="Carte précédente" @click.stop="previousCard">
+              <span aria-hidden="true">❮</span>
             </button>
-          </div>
 
-          <div class="flashcard-content">
-            <div class="flashcard-word">{{ frontText }}</div>
-            <div class="flashcard-translation" :style="{ display: isFlipped ? 'block' : 'none' }">
-              {{ backText }}
+            <button class="carousel-rail carousel-rail-right" type="button" aria-label="Carte suivante" @click.stop="nextCard">
+              <span aria-hidden="true">❯</span>
+            </button>
+
+            <div class="flashcard-count">{{ cardNumber }}/{{ totalCards }}</div>
+
+            <div v-if="canPlayTts" class="tts-inline-control">
+              <div class="tts-inline-label">Écouter</div>
+              <button
+                class="tts-inline-btn"
+                type="button"
+                :aria-label="isSpeaking ? 'Arrêter la lecture' : 'Écouter le mot'"
+                @click.stop="toggleSpeakWord"
+              >
+                {{ isSpeaking ? '⏹️' : '▶️' }}
+              </button>
             </div>
+
+            <div class="flashcard-content">
+              <div class="flashcard-word">{{ frontText }}</div>
+              <div class="flashcard-translation" :style="{ display: isFlipped ? 'block' : 'none' }">
+                {{ backText }}
+              </div>
+            </div>
+
+            <div v-if="!isFlipped && currentWord" class="flashcard-hint">Cliquer pour révéler la traduction</div>
           </div>
-
-          <div v-if="!isFlipped && currentWord" class="flashcard-hint">Cliquer pour révéler la traduction</div>
-        </div>
-
-        <button class="carousel-arrow" type="button" aria-label="Carte suivante" @click="nextCard">
-          ❯
-        </button>
+        </Transition>
       </div>
 
       <div v-if="ttsStatus" class="tts-status" aria-live="polite">{{ ttsStatus }}</div>
@@ -550,56 +555,69 @@ onUnmounted(() => {
 }
 
 .flashcard-carousel {
-  display: grid;
-  grid-template-columns: 52px 1fr 52px;
-  align-items: center;
-  gap: 10px;
-}
-
-.carousel-arrow {
-  width: 52px;
-  height: 52px;
-  border: 1px solid transparent;
-  border-radius: 50%;
-  background: var(--btn-secondary-grad);
-  color: var(--ink-inverse);
-  font-size: 1.3em;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.14);
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.18s ease,
-    filter 0.18s ease,
-    border-color 0.18s ease;
-}
-
-.carousel-arrow:hover,
-.carousel-arrow:focus-visible {
-  transform: translateY(-1px);
-  filter: brightness(1.05) saturate(1.03);
-  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.2);
-}
-
-.carousel-arrow:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.16);
+  display: block;
 }
 
 .flashcard {
+  --rail-width: 32px;
   position: relative;
   background: #fbfdff;
   border-radius: 18px;
   min-height: 260px;
-  padding: 42px 22px;
+  padding: 42px calc(var(--rail-width) + 28px);
   cursor: pointer;
   box-shadow: 0 10px 30px rgba(36, 48, 65, 0.13);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+}
+
+.carousel-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--rail-width);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #325574;
+  background: rgba(50, 85, 116, 0.1);
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.carousel-rail-left {
+  left: 0;
+  border-right: 1px solid rgba(50, 85, 116, 0.16);
+}
+
+.carousel-rail-right {
+  right: 0;
+  border-left: 1px solid rgba(50, 85, 116, 0.16);
+}
+
+.carousel-rail span {
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.carousel-rail:hover,
+.carousel-rail:focus-visible {
+  background: rgba(50, 85, 116, 0.24);
+  color: #1b3d5c;
+  box-shadow: inset 0 0 0 1px rgba(50, 85, 116, 0.26);
+}
+
+.carousel-rail:active {
+  background: rgba(50, 85, 116, 0.3);
 }
 
 .flashcard-count {
@@ -661,7 +679,7 @@ onUnmounted(() => {
 .tts-inline-control {
   position: absolute;
   top: 50%;
-  right: 14px;
+  right: calc(var(--rail-width) + 10px);
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -730,25 +748,44 @@ onUnmounted(() => {
   margin-top: 8px;
 }
 
+.card-shared-next-enter-active,
+.card-shared-next-leave-active,
+.card-shared-prev-enter-active,
+.card-shared-prev-leave-active {
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.card-shared-next-enter-from {
+  opacity: 0;
+  transform: translateX(22px);
+}
+
+.card-shared-next-leave-to {
+  opacity: 0;
+  transform: translateX(-22px);
+}
+
+.card-shared-prev-enter-from {
+  opacity: 0;
+  transform: translateX(-22px);
+}
+
+.card-shared-prev-leave-to {
+  opacity: 0;
+  transform: translateX(22px);
+}
+
 @media (max-width: 820px) {
   .settings-row {
     grid-template-columns: 1fr;
   }
 
-  .flashcard-carousel {
-    grid-template-columns: 44px 1fr 44px;
-    gap: 6px;
-  }
-
-  .carousel-arrow {
-    width: 44px;
-    height: 44px;
-    font-size: 1.1em;
-  }
-
   .flashcard {
+    --rail-width: 28px;
     min-height: 230px;
-    padding: 36px 16px;
+    padding: 36px calc(var(--rail-width) + 16px);
   }
 
   .flashcard-word,
@@ -757,12 +794,27 @@ onUnmounted(() => {
   }
 
   .tts-inline-control {
-    right: 8px;
+    right: calc(var(--rail-width) + 6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-shared-next-enter-active,
+  .card-shared-next-leave-active,
+  .card-shared-prev-enter-active,
+  .card-shared-prev-leave-active {
+    transition: none !important;
+  }
+
+  .card-shared-next-enter-from,
+  .card-shared-next-leave-to,
+  .card-shared-prev-enter-from,
+  .card-shared-prev-leave-to {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 </style>
-
-
 
 
 
