@@ -2336,7 +2336,7 @@ pre {
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1023px) {
   .admin-page {
     min-height: auto;
   }

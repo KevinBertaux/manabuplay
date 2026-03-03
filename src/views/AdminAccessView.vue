@@ -226,7 +226,7 @@ onUnmounted(() => {
   border-radius: 4px;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1023px) {
   .auth-page {
     min-height: auto;
     align-items: start;

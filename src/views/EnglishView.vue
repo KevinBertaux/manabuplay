@@ -774,7 +774,7 @@ onUnmounted(() => {
   }
 }
 
-@media (max-width: 1024px) and (min-width: 821px) {
+@media (max-width: 1023px) and (min-width: 768px) {
   .flashcard {
     --rail-width: 30px;
   }
@@ -789,7 +789,7 @@ onUnmounted(() => {
   }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 767px) {
   .settings-row {
     grid-template-columns: 1fr;
   }

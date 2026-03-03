@@ -616,7 +616,7 @@ onUnmounted(() => {
   box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
 }
 
-@media (max-width: 820px) {
+@media (max-width: 1023px) {
   .question {
     font-size: 2em;
   }
@@ -627,7 +627,7 @@ onUnmounted(() => {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 767px) {
   .question-layout {
     grid-template-columns: 1fr;
   }

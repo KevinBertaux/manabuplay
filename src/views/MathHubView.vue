@@ -61,7 +61,7 @@
   box-shadow: 0 2px 0 rgba(15, 23, 42, 0.12);
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1023px) {
   .cards-grid {
     grid-template-columns: 1fr;
   }

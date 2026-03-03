@@ -228,7 +228,7 @@ a {
   text-decoration: underline;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 767px) {
   .help-toolbar {
     flex-direction: column;
     align-items: flex-start;
