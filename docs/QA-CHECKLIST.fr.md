@@ -14,6 +14,7 @@
 2. Build:
    - Exécuter `npm run build` sans erreur
 3. Tests:
+   - Exécuter `npm run check:breakpoints` sans échec
    - Exécuter `npm test` sans échec
    - Exécuter `npm run test:e2e` sans échec
    - Exécuter `npm run qa:release` pour la passe automatisée complète release (hors snapshots visuels)
@@ -49,7 +50,7 @@
 7. Vérifier meilleure série:
    - Persistante au rechargement (localStorage)
 
-## Vocab (`/languages/english`)
+## Anglais (`/languages/english`)
 
 1. Vérifier qu'aucune liste n'est sélectionnée par défaut
 2. Dropdown listes:
@@ -64,9 +65,10 @@
 5. Flip carte:
    - Affiche/masque traduction correctement
 6. TTS:
-   - Bouton play/stop fonctionne
-   - Accent US/UK appliqué
-   - Vitesse de lecture (0.85x, 1x, 1.15x) appliquée
+   - Bouton haut-parleur fonctionne (lecture/stop)
+   - en-US forcé (pas de sélecteur d'accent visible)
+   - Alternance vitesse au clic: `0.9x` puis `0.6x`
+   - Cycle réinitialisé à `0.9x` quand la carte change
    - En mode FR -> EN, bouton TTS masqué avant révélation
 7. Sens de carte:
    - Anglais -> Français
@@ -92,8 +94,6 @@
 ## Régression
 
 1. Recharger la page:
-   - Accent TTS conservé
-   - Vitesse TTS conservée
    - Sens de carte conservé
    - Overrides localStorage conservés
 2. Vérifier qu'aucune erreur JS n'apparait dans la console

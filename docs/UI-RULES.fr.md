@@ -34,9 +34,14 @@ Avoir une interface homogène entre les modules (Math, Langues, suivants) avec d
 - Les aides techniques (raccourcis clavier, details) restent secondaires.
 
 ## Regles responsive
-- Mobile: une seule colonne pour les zones de choix.
+- Contrat unique (mobile-first) base sur Tailwind:
+  - Mobile: `<= 767px`
+  - Tablette: `768px -> 1023px`
+  - Desktop: `>= 1024px`
 - Cibles tactiles min: `44px`.
 - Navigation et actions accessibles sans zoom.
+- Eviter tout breakpoint ad-hoc (ex: 700, 820, 860) hors cas exceptionnel documente.
+- Guardrail obligatoire: `npm run check:breakpoints` doit rester vert.
 
 ## Regles accessibilite minimales
 - Chaque controle a un label explicite.
