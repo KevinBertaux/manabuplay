@@ -48,6 +48,14 @@
       "feature": "content-storage",
       "label": "Cloudflare R2 V2: acces securise (URL signees/Worker) + controle d integrite",
       "done": false
+    },
+    {
+      "id": "scope-060-drop-legacy-vocab-keys",
+      "priority": "Med",
+      "domain": "tech",
+      "feature": "nettoyage-legacy",
+      "label": "Retirer la compatibilité legacy localStorage manabuplay_vocab_* (fin de migration 0.5)",
+      "done": false
     }
   ]
 }

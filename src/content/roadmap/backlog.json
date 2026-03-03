@@ -64,6 +64,14 @@
       "feature": "monitoring",
       "label": "Afficher dans le panneau admin l etat HTTP des listes distantes (200, 3xx, 4xx, 5xx)",
       "done": false
+    },
+    {
+      "id": "backlog-drop-legacy-vocab-keys",
+      "priority": "Med",
+      "domain": "tech",
+      "feature": "nettoyage-legacy",
+      "label": "Retirer la compatibilité legacy localStorage manabuplay_vocab_* après la période tampon de migration 0.5",
+      "done": false
     }
   ]
 }

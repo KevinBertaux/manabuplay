@@ -112,6 +112,7 @@
 - [ ] Historique local des meilleurs scores par module/profil.
 - [ ] UX admin V2 (édition par lots, recherche, filtres, validation avancée).
 - [ ] Panneau admin: afficher l'état HTTP des listes distantes (200, 3xx, 4xx, 5xx).
+- [ ] Retirer la compatibilité legacy `localStorage` (`manabuplay_vocab_*`) après la période tampon de migration 0.5.
 - [ ] Timer d'exercice configurable (par module/niveau).
 - [ ] Système global d'info-bulles (tooltips) cohérent sur tout le site.
 - [ ] Migration technique vers Tailwind CSS v4 (branche dédiée + validation non-régression).
