@@ -361,11 +361,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-block english-page">
+  <section class="page-block mx-auto max-w-[760px]">
     <h1>Vocabulaire anglais</h1>
 
     <div class="settings-box">
-      <div class="setting-list">
+      <div class="mb-3">
         <QuizSelectField
           v-model="selectedList"
           select-id="englishListSelect"
@@ -376,7 +376,7 @@ onUnmounted(() => {
         />
       </div>
 
-      <div class="settings-row">
+      <div class="grid grid-cols-1 items-start gap-[10px] md:grid-cols-[minmax(180px,_1fr)]">
         <div class="setting-field setting-direction">
           <label for="cardDirectionSelect">Sens :</label>
           <select id="cardDirectionSelect" v-model="cardDirection">
@@ -436,7 +436,7 @@ onUnmounted(() => {
 
       <div v-if="ttsStatus" class="tts-status" aria-live="polite">{{ ttsStatus }}</div>
 
-      <div class="english-controls">
+      <div class="mt-2 flex justify-center">
         <button class="mp-btn mp-btn-secondary" type="button" @click="shuffleCards">🔀 Mélanger</button>
       </div>
     </template>
@@ -446,11 +446,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.english-page {
-  max-width: 760px;
-  margin-inline: auto;
-}
-
 .settings-box {
   background: rgba(255, 230, 109, 0.2);
   padding: 18px;
@@ -481,17 +476,6 @@ onUnmounted(() => {
   border-color: #1d4ed8;
   box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
   outline: none;
-}
-
-.setting-list {
-  margin-bottom: 12px;
-}
-
-.settings-row {
-  display: grid;
-  grid-template-columns: minmax(180px, 1fr);
-  gap: 10px;
-  align-items: start;
 }
 
 .list-description {
@@ -719,12 +703,6 @@ onUnmounted(() => {
   color: #5d6c80;
 }
 
-.english-controls {
-  display: flex;
-  justify-content: center;
-  margin-top: 8px;
-}
-
 .card-shared-next-enter-active,
 .card-shared-next-leave-active,
 .card-shared-prev-enter-active,
@@ -790,10 +768,6 @@ onUnmounted(() => {
 }
 
 @media (max-width: 767px) {
-  .settings-row {
-    grid-template-columns: 1fr;
-  }
-
   .flashcard {
     --rail-width: 28px;
     min-height: 230px;
