@@ -1,7 +1,7 @@
 <template>
   <section class="page-block section-block">
     <h1>🧮 Mathématiques</h1>
-    <p class="intro">Choisis un module pour commencer.</p>
+    <p class="hub-intro">Choisis un module pour commencer.</p>
 
     <div class="cards-grid grid grid-cols-1 gap-4 lg:grid-cols-2">
       <router-link class="home-card" :to="{ name: 'math-multiplications' }">
@@ -16,42 +16,3 @@
     </div>
   </section>
 </template>
-
-<style scoped>
-.intro {
-  margin-top: 0;
-  margin-bottom: 12px;
-}
-
-.home-card {
-  display: block;
-  border: 1px solid #bfd1e8;
-  border-radius: 14px;
-  padding: 16px;
-  background: linear-gradient(150deg, #fbfdff 0%, #f2f8ff 100%);
-  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.1);
-}
-
-.home-card h2 {
-  margin: 0 0 8px;
-}
-
-.home-card p {
-  margin: 0;
-  color: #34465d;
-  line-height: 1.45;
-}
-
-.home-card:hover,
-.home-card:focus-visible {
-  border-color: #2f4e6f;
-  background: linear-gradient(150deg, #f7fbff 0%, #e9f3ff 100%);
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.14);
-  transform: translateY(-2px);
-}
-
-.home-card:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.12);
-}
-</style>
