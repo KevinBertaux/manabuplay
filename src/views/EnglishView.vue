@@ -361,7 +361,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-block">
+  <section class="page-block quiz-module">
     <h1>Vocabulaire anglais</h1>
 
     <div class="settings-box">
@@ -448,34 +448,6 @@ onUnmounted(() => {
 <style scoped>
 .settings-box {
   background: rgba(255, 230, 109, 0.2);
-  padding: 18px;
-  border-radius: 14px;
-  margin-bottom: 18px;
-}
-
-.setting-field label {
-  display: flex;
-  align-items: flex-end;
-  margin: 0 0 8px;
-  min-height: 2.4em;
-  font-weight: 700;
-}
-
-.setting-field select {
-  width: 100%;
-}
-
-.setting-field select {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #9ab0c8;
-  background: white;
-}
-
-.setting-field select:focus-visible {
-  border-color: #1d4ed8;
-  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.16);
-  outline: none;
 }
 
 .list-description {

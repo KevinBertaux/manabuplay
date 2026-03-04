@@ -250,7 +250,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-block symmetry-page">
+  <section class="page-block quiz-module symmetry-page">
     <h1>Math - Symétrie</h1>
 
     <QuizScoreBar
@@ -478,12 +478,6 @@ onUnmounted(() => {
   text-align: center;
   color: var(--muted);
   font-size: 0.88rem;
-}
-
-.motivation-toast-anchor {
-  position: relative;
-  height: 0;
-  margin: 0;
 }
 
 </style>

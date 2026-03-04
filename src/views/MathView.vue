@@ -319,7 +319,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-block">
+  <section class="page-block quiz-module">
     <h1>Math - Tables de multiplication</h1>
 
     <div class="settings-box">
@@ -450,9 +450,6 @@ onUnmounted(() => {
 <style scoped>
 .settings-box {
   background: rgba(255, 230, 109, 0.14);
-  padding: 18px;
-  border-radius: 14px;
-  margin-bottom: 18px;
 }
 
 .settings-box :deep(.table-selector) {
@@ -526,12 +523,6 @@ onUnmounted(() => {
 
 .toggle-btn.is-on .toggle-thumb {
   transform: translateX(22px);
-}
-
-.motivation-toast-anchor {
-  position: relative;
-  height: 0;
-  margin: 0;
 }
 
 .question-box {
