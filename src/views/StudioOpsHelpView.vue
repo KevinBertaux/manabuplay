@@ -17,8 +17,8 @@ function setLang(lang) {
 </script>
 
 <template>
-  <section class="page-block help-page">
-    <div class="help-toolbar">
+  <section class="page-block mx-auto max-w-[920px]">
+    <div class="mb-3 flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-between">
       <router-link :to="{ name: 'studio-ops-panel' }">Retour au panneau d'administration</router-link>
       <div class="lang-switch" role="group" aria-label="Language switch">
         <button type="button" class="lang-btn" :class="{ active: isFr }" @click="setLang('fr')">FR</button>
@@ -151,19 +151,6 @@ function setLang(lang) {
 </template>
 
 <style scoped>
-.help-page {
-  max-width: 920px;
-  margin-inline: auto;
-}
-
-.help-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
 .lang-switch {
   display: inline-flex;
   border: 1px solid #b6c8dd;
@@ -228,10 +215,4 @@ a {
   text-decoration: underline;
 }
 
-@media (max-width: 767px) {
-  .help-toolbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
 </style>
