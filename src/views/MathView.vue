@@ -319,13 +319,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-block math-page">
+  <section class="page-block mx-auto max-w-[760px]">
     <h1>Math - Tables de multiplication</h1>
 
     <div class="settings-box">
       <QuizTableSelector v-model="selectedTables" label="Choisir les tables :" />
 
-      <div class="settings-row">
+      <div class="settings-grid grid w-full gap-[10px] md:mx-auto md:max-w-[360px]">
         <QuizSegmentedControl
           v-model="difficultyId"
           label="Difficulté :"
@@ -411,7 +411,10 @@ onUnmounted(() => {
       </button>
     </div>
 
-    <div v-if="selectedTables.length > 0 && currentQuestion && !sessionCompleted" class="question-layout">
+    <div
+      v-if="selectedTables.length > 0 && currentQuestion && !sessionCompleted"
+      class="mb-[18px] grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_228px] md:items-stretch"
+    >
       <div class="question-box">
         <div class="question">{{ currentQuestion.num1 }} × {{ currentQuestion.num2 }} = ?</div>
         <input
@@ -427,7 +430,7 @@ onUnmounted(() => {
       </div>
 
       <QuizNumericPad
-        class="question-pad"
+        class="hidden md:block"
         :answer-locked="hasChecked"
         @digit="appendDigit"
         @backspace="backspaceAnswer"
@@ -445,11 +448,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.math-page {
-  max-width: 760px;
-  margin-inline: auto;
-}
-
 .settings-box {
   background: rgba(255, 230, 109, 0.14);
   padding: 18px;
@@ -466,14 +464,7 @@ onUnmounted(() => {
   font-weight: 700;
 }
 
-.settings-row {
-  display: grid;
-  gap: 10px;
-  width: min(360px, 100%);
-  margin-inline: auto;
-}
-
-.settings-row :deep(.segmented-field) {
+.settings-grid :deep(.segmented-field) {
   width: 100%;
 }
 
@@ -553,18 +544,6 @@ onUnmounted(() => {
   box-shadow: 0 10px 24px rgba(36, 48, 65, 0.08);
 }
 
-.question-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 228px;
-  align-items: stretch;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.question-pad {
-  justify-self: stretch;
-}
-
 .session-complete {
   margin-bottom: 18px;
   border: 1px solid #bfd8ec;
@@ -627,17 +606,4 @@ onUnmounted(() => {
   }
 }
 
-@media (max-width: 767px) {
-  .question-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .question-pad {
-    display: none;
-  }
-
-  .settings-row {
-    width: 100%;
-  }
-}
 </style>
