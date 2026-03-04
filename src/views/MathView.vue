@@ -319,13 +319,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-block">
+  <section class="page-block quiz-module">
     <h1>Math - Tables de multiplication</h1>
 
     <div class="settings-box">
       <QuizTableSelector v-model="selectedTables" label="Choisir les tables :" />
 
-      <div class="settings-grid grid w-full gap-[10px] md:mx-auto">
+      <div class="settings-grid grid w-full gap-3 md:mx-auto">
         <QuizSegmentedControl
           v-model="difficultyId"
           label="Difficulté :"
@@ -413,7 +413,7 @@ onUnmounted(() => {
 
     <div
       v-if="selectedTables.length > 0 && currentQuestion && !sessionCompleted"
-      class="mb-[18px] grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_228px] md:items-stretch"
+      class="mb-4 grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_228px] md:items-stretch"
     >
       <div class="question-box">
         <div class="question">{{ currentQuestion.num1 }} × {{ currentQuestion.num2 }} = ?</div>
@@ -450,9 +450,6 @@ onUnmounted(() => {
 <style scoped>
 .settings-box {
   background: rgba(255, 230, 109, 0.14);
-  padding: 18px;
-  border-radius: 14px;
-  margin-bottom: 18px;
 }
 
 .settings-box :deep(.table-selector) {
@@ -526,12 +523,6 @@ onUnmounted(() => {
 
 .toggle-btn.is-on .toggle-thumb {
   transform: translateX(22px);
-}
-
-.motivation-toast-anchor {
-  position: relative;
-  height: 0;
-  margin: 0;
 }
 
 .question-box {

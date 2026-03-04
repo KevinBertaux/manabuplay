@@ -9,6 +9,7 @@ import '@fontsource/nunito/800.css';
 import App from './App.vue';
 import router from './router';
 import './styles/base.css';
+import './styles/quiz-modules.css';
 
 const app = createApp(App);
 

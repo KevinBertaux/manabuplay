@@ -12,8 +12,8 @@ defineProps({
 </script>
 
 <template>
-  <section class="page-block legal mx-auto max-w-[900px]">
-    <h1 class="mb-[10px] text-[clamp(1.9rem,2.8vw,2.35rem)] leading-[1.2]">{{ title }}</h1>
+  <section class="page-block legal mx-auto max-w-[920px]">
+    <h1 class="mb-3 text-[clamp(1.9rem,2.8vw,2.35rem)] leading-[1.2]">{{ title }}</h1>
     <p class="updated">Dernière mise à jour : {{ updatedAt }}</p>
     <slot />
   </section>

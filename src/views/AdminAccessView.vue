@@ -99,7 +99,7 @@ onUnmounted(() => {
 
 <template>
   <section class="grid min-h-0 items-start justify-items-center p-2 md:p-2.5 lg:min-h-[calc(100dvh-172px)]">
-    <div class="mt-3 w-full max-w-[460px] border border-[#d6e1ec] bg-white p-[14px] shadow-[0_1px_3px_rgba(15,23,42,0.09)]">
+    <div class="mt-3 w-full max-w-[460px] border border-[#d6e1ec] bg-white p-4 shadow-[0_2px_4px_rgba(15,23,42,0.09)]">
       <header class="mb-2.5">
         <h1 class="m-0 text-[1.35rem] leading-[1.2] text-[#132f4c]">Accès administration</h1>
       </header>
@@ -160,7 +160,7 @@ onUnmounted(() => {
 .btn {
   border: 1px solid transparent;
   border-radius: 4px;
-  min-height: 34px;
+  min-height: 36px;
   padding: 8px 10px;
   font-weight: 700;
   cursor: pointer;
