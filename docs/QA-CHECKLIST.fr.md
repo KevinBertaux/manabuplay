@@ -15,6 +15,7 @@
    - Exécuter `npm run build` sans erreur
 3. Tests:
    - Exécuter `npm run check:breakpoints` sans échec
+   - Exécuter `npm run check:spacing` sans échec
    - Exécuter `npm test` sans échec
    - Exécuter `npm run test:e2e` sans échec
    - Exécuter `npm run qa:release` pour la passe automatisée complète release (hors snapshots visuels)

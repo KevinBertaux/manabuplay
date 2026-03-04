@@ -1541,7 +1541,7 @@ refreshDashboardMetrics();
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 0 9px;
+  padding: 0 10px;
   font-weight: 700;
   color: #1b3856;
   cursor: pointer;
@@ -1633,7 +1633,7 @@ refreshDashboardMetrics();
   grid-template-columns: 18px 1fr;
   align-items: center;
   gap: 6px;
-  padding: 0 9px;
+  padding: 0 10px;
   text-align: left;
   color: #1a3753;
   font-weight: 700;
@@ -1718,7 +1718,7 @@ refreshDashboardMetrics();
   border-radius: 4px;
   padding: 10px;
   background: #ffffff;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 2px 2px rgba(15, 23, 42, 0.05);
 }
 
 .admin-card h2,
@@ -1784,7 +1784,7 @@ refreshDashboardMetrics();
   width: 100%;
   border: 1px solid #b5c6d8;
   border-radius: 4px;
-  padding: 8px 9px;
+  padding: 8px 10px;
   min-height: 36px;
   background: #ffffff;
   color: #20354a;
@@ -1840,7 +1840,7 @@ refreshDashboardMetrics();
 }
 
 .progress-track {
-  height: 9px;
+  height: 10px;
   border-radius: 4px;
   border: 1px solid #cddbea;
   overflow: hidden;
@@ -1867,7 +1867,7 @@ refreshDashboardMetrics();
   border: 1px solid #d8e6f3;
   border-radius: 4px;
   background: #f7fbff;
-  padding: 7px 8px;
+  padding: 8px 8px;
 }
 
 .roadmap-toolbar {
@@ -1932,7 +1932,7 @@ refreshDashboardMetrics();
   border-radius: 4px;
   background: #ffffff;
   color: #204261;
-  padding: 4px 9px;
+  padding: 4px 10px;
   font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
@@ -2000,7 +2000,7 @@ refreshDashboardMetrics();
 
 .roadmap-table th,
 .roadmap-table td {
-  padding: 8px 9px;
+  padding: 8px 10px;
   border-bottom: 1px solid #e5edf5;
   text-align: left;
   vertical-align: top;
@@ -2216,7 +2216,7 @@ refreshDashboardMetrics();
   border: 1px solid transparent;
   border-radius: 4px;
   min-height: 34px;
-  padding: 7px 10px;
+  padding: 8px 10px;
   font-weight: 700;
   cursor: pointer;
   transition:

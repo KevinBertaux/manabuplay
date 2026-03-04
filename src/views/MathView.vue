@@ -319,13 +319,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-block mx-auto max-w-[760px]">
+  <section class="page-block">
     <h1>Math - Tables de multiplication</h1>
 
     <div class="settings-box">
       <QuizTableSelector v-model="selectedTables" label="Choisir les tables :" />
 
-      <div class="settings-grid grid w-full gap-[10px] md:mx-auto md:max-w-[360px]">
+      <div class="settings-grid grid w-full gap-[10px] md:mx-auto">
         <QuizSegmentedControl
           v-model="difficultyId"
           label="Difficulté :"
@@ -505,7 +505,7 @@ onUnmounted(() => {
   background: #d7e1ea;
   display: inline-flex;
   align-items: center;
-  padding: 3px;
+  padding: 4px;
   transition: background-color 0.18s ease, border-color 0.18s ease;
 }
 
@@ -514,7 +514,7 @@ onUnmounted(() => {
   height: 22px;
   border-radius: 50%;
   background: #fbfdff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.18);
   transform: translateX(0);
   transition: transform 0.18s ease;
 }

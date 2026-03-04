@@ -361,7 +361,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-block mx-auto max-w-[760px]">
+  <section class="page-block">
     <h1>Vocabulaire anglais</h1>
 
     <div class="settings-box">
@@ -548,7 +548,7 @@ onUnmounted(() => {
 .carousel-rail:focus-visible {
   background: rgba(50, 85, 116, 0.24);
   color: #1b3d5c;
-  box-shadow: inset 0 0 0 1px rgba(50, 85, 116, 0.26);
+  box-shadow: inset 0 0 0 2px rgba(50, 85, 116, 0.26);
 }
 
 .carousel-rail:active {
@@ -564,7 +564,7 @@ onUnmounted(() => {
   font-size: 1.02rem;
   color: #25374d;
   letter-spacing: 0.02em;
-  text-shadow: 0 1px 1px rgba(247, 249, 252, 0.65);
+  text-shadow: 0 2px 2px rgba(247, 249, 252, 0.65);
 }
 
 .flashcard.flipped {
@@ -652,14 +652,14 @@ onUnmounted(() => {
   background: #e9f1ff;
   box-shadow:
     0 8px 16px rgba(15, 23, 42, 0.18),
-    0 0 0 3px rgba(46, 100, 210, 0.22);
+    0 0 0 4px rgba(46, 100, 210, 0.22);
   animation: tts-speaking-pulse 0.9s ease-in-out infinite alternate;
 }
 
 .tts-inline-btn.is-speaking::after {
   content: '';
   position: absolute;
-  inset: -5px;
+  inset: -4px;
   border-radius: 50%;
   border: 2px solid rgba(46, 100, 210, 0.36);
   animation: tts-speaking-ring 1.1s ease-out infinite;
@@ -667,7 +667,7 @@ onUnmounted(() => {
 
 .tts-inline-btn:hover,
 .tts-inline-btn:focus-visible {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   border-color: #2f4e6f;
   background: #f2f7ff;
   box-shadow: 0 8px 16px rgba(15, 23, 42, 0.18);
@@ -680,7 +680,7 @@ onUnmounted(() => {
 
 .flashcard.flipped .flashcard-count {
   color: #0f5f5a;
-  text-shadow: 0 1px 1px rgba(247, 249, 252, 0.6);
+  text-shadow: 0 2px 2px rgba(247, 249, 252, 0.6);
 }
 
 .flashcard.flipped .tts-inline-btn {
@@ -692,7 +692,7 @@ onUnmounted(() => {
   border-color: #0f5f5a;
   box-shadow:
     0 8px 16px rgba(15, 23, 42, 0.16),
-    0 0 0 3px rgba(15, 95, 90, 0.2);
+    0 0 0 4px rgba(15, 95, 90, 0.2);
 }
 
 .tts-status {
@@ -734,10 +734,10 @@ onUnmounted(() => {
 
 @keyframes tts-speaking-pulse {
   0% {
-    transform: translateY(-1px) scale(1);
+    transform: translateY(-2px) scale(1);
   }
   100% {
-    transform: translateY(-1px) scale(1.04);
+    transform: translateY(-2px) scale(1.04);
   }
 }
 

@@ -14,6 +14,7 @@ Objectif: limiter a **1 deploy production par semaine** jusqu'au reset quota.
 
 - [ ] `npm install` OK
 - [ ] `npm run check:breakpoints` OK
+- [ ] `npm run check:spacing` OK
 - [ ] `npm test` OK
 - [ ] `npm run test:e2e` OK
 - [ ] Matrix E2E OK (`desktop-chromium`, `desktop-firefox`, `desktop-webkit`, `mobile-chrome`, `mobile-safari`)

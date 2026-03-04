@@ -10,7 +10,7 @@
 
         <router-link class="home-card" :to="{ name: 'math-symmetry' }">
           <h2>🪞 Symétrie</h2>
-          <p>Module en préparation, accès déjà branché.</p>
+          <p>QCM visuel avec clavier (1, 2, 3, 4) et suivi de série.</p>
         </router-link>
       </div>
     </div>

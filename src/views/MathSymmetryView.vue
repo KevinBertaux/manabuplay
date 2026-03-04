@@ -250,7 +250,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="page-block symmetry-page mx-auto max-w-[820px]">
+  <section class="page-block symmetry-page">
     <h1>Math - Symétrie</h1>
 
     <QuizScoreBar
@@ -310,7 +310,7 @@ onUnmounted(() => {
       </svg>
     </div>
 
-    <div class="mx-auto grid max-w-[620px] grid-cols-1 gap-2 md:grid-cols-2">
+    <div class="mx-auto grid w-full grid-cols-1 gap-2 md:grid-cols-2">
       <button
         v-for="(option, idx) in currentQuestion.options"
         :key="option.id"
@@ -412,7 +412,7 @@ onUnmounted(() => {
 .option-btn:hover {
   background: #ebf4ff;
   border-color: #55789e;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(15, 23, 42, 0.18);
 }
 

@@ -11,8 +11,9 @@
     "test:e2e": "playwright test",
     "test:e2e:release": "playwright test --reporter=line",
     "check:breakpoints": "node scripts/check-breakpoints.mjs",
+    "check:spacing": "node scripts/check-spacing.mjs",
     "lighthouse:ci": "node scripts/run-lhci.mjs",
-    "qa:release": "npm run check:breakpoints && npm test -- --coverage && npm run test:e2e:release && npm run build && npm run lighthouse:ci"
+    "qa:release": "npm run check:breakpoints && npm run check:spacing && npm test -- --coverage && npm run test:e2e:release && npm run build && npm run lighthouse:ci"
   },
   "dependencies": {
     "@fontsource/lexend": "^5.2.11",
