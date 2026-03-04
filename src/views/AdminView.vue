@@ -847,8 +847,11 @@ refreshDashboardMetrics();
 </script>
 
 <template>
-  <section class="admin-page">
-    <div class="admin-dashboard" :class="{ 'is-collapsed': sidebarCollapsed, 'is-mobile-sidebar-open': mobileSidebarOpen }">
+  <section class="w-full min-h-0 lg:min-h-[calc(100dvh-146px)]">
+    <div
+      class="admin-dashboard relative grid overflow-hidden border border-[#d4deea] bg-[#f2f6fb] lg:min-h-[calc(100dvh-146px)]"
+      :class="{ 'is-collapsed': sidebarCollapsed, 'is-mobile-sidebar-open': mobileSidebarOpen }"
+    >
       <button
         class="admin-sidebar-backdrop"
         type="button"
@@ -941,14 +944,14 @@ refreshDashboardMetrics();
         </nav>
       </aside>
 
-      <div class="admin-main">
-        <header class="admin-header">
-          <div class="admin-header-main">
-            <h1>{{ activeSectionTitle }}</h1>
+      <div class="flex min-w-0 flex-col bg-white">
+        <header class="relative z-[5] flex flex-wrap items-start justify-between gap-3 border-b border-[#e0e8f1] bg-white px-3 pt-2.5 pb-2.5 md:px-4 md:pt-3 md:pb-2.5 lg:sticky lg:top-0">
+          <div class="min-w-0">
+            <h1 class="m-0 text-[1.4rem] leading-[1.2] text-[#132f4c]">{{ activeSectionTitle }}</h1>
             <p class="meta-line">Version {{ APP_VERSION }} - Dernière modification : {{ LAST_UPDATE_FR }}</p>
           </div>
           <button
-            class="mobile-sidebar-trigger"
+            class="mobile-sidebar-trigger inline-flex items-center justify-center lg:hidden"
             type="button"
             aria-controls="adminSidebarPanel"
             :aria-expanded="mobileSidebarOpen ? 'true' : 'false'"
@@ -960,7 +963,7 @@ refreshDashboardMetrics();
 
         <AdminStatusBanner :message="statusMessage" :tone="statusType || 'info'" />
 
-        <section v-if="selectedSection === 'overview'" class="admin-section">
+        <section v-if="selectedSection === 'overview'" class="grid gap-3 p-3 md:px-[14px] md:pt-[10px] md:pb-[14px]">
           <div class="stat-grid">
             <article class="admin-card">
               <h2>📚 Listes</h2>
@@ -981,7 +984,7 @@ refreshDashboardMetrics();
           </div>
         </section>
 
-        <section v-else-if="selectedSection === 'roadmap'" class="admin-section">
+        <section v-else-if="selectedSection === 'roadmap'" class="grid gap-3 p-3 md:px-[14px] md:pt-[10px] md:pb-[14px]">
           <article class="admin-card">
             <div class="scope-head">
               <h2>Roadmap & Scopes</h2>
@@ -1107,7 +1110,7 @@ refreshDashboardMetrics();
           </article>
         </section>
 
-        <section v-else-if="selectedSection === 'english'" class="admin-section">
+        <section v-else-if="selectedSection === 'english'" class="grid gap-3 p-3 md:px-[14px] md:pt-[10px] md:pb-[14px]">
           <div class="admin-card">
             <label for="listSelect">Liste à modifier</label>
             <select id="listSelect" v-model="selectedList">
@@ -1178,7 +1181,7 @@ refreshDashboardMetrics();
           </div>
         </section>
 
-        <section v-else-if="selectedSection === 'symmetry'" class="admin-section">
+        <section v-else-if="selectedSection === 'symmetry'" class="grid gap-3 p-3 md:px-[14px] md:pt-[10px] md:pb-[14px]">
           <div class="admin-card">
             <div class="scope-head">
               <h2>Formes de symétrie</h2>
@@ -1207,7 +1210,7 @@ refreshDashboardMetrics();
           </div>
         </section>
 
-        <section v-else-if="selectedSection === 'admin-help'" class="admin-section">
+        <section v-else-if="selectedSection === 'admin-help'" class="grid gap-3 p-3 md:px-[14px] md:pt-[10px] md:pb-[14px]">
           <article class="admin-card internal-help-card">
             <h2>Documentation du panneau interne</h2>
             <p class="meta-line">
@@ -1286,7 +1289,7 @@ refreshDashboardMetrics();
           </article>
         </section>
 
-        <section v-else class="admin-section">
+        <section v-else class="grid gap-3 p-3 md:px-[14px] md:pt-[10px] md:pb-[14px]">
           <div class="admin-card">
             <h2>Réinitialisation granulaire</h2>
             <div class="maintenance-grid">
@@ -1357,22 +1360,10 @@ refreshDashboardMetrics();
 </template>
 
 <style scoped>
-.admin-page {
-  width: 100%;
-  min-height: calc(100dvh - 146px);
-}
-
 .admin-dashboard {
-  position: relative;
-  display: grid;
   grid-template-columns: 272px minmax(0, 1fr);
   gap: 0;
   align-items: stretch;
-  min-height: calc(100dvh - 146px);
-  border: 1px solid #d4deea;
-  border-radius: 4px;
-  background: #f2f6fb;
-  overflow: hidden;
 }
 
 .admin-dashboard.is-collapsed {
@@ -1705,40 +1696,7 @@ refreshDashboardMetrics();
   display: none;
 }
 
-.admin-main {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  background: #ffffff;
-}
-
-.admin-header {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid #e0e8f1;
-  background: #ffffff;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.admin-header-main {
-  min-width: 0;
-}
-
-.admin-header h1 {
-  margin: 0;
-  font-size: 1.4rem;
-  line-height: 1.2;
-  color: #132f4c;
-}
-
 .mobile-sidebar-trigger {
-  display: none;
   border: 1px solid #9cb7d1;
   border-radius: 4px;
   min-height: 36px;
@@ -1753,12 +1711,6 @@ refreshDashboardMetrics();
 .mobile-sidebar-trigger:focus-visible {
   background: #dcecff;
   border-color: #679bcb;
-}
-
-.admin-section {
-  display: grid;
-  gap: 12px;
-  padding: 10px 14px 14px;
 }
 
 .admin-card {
@@ -2337,10 +2289,6 @@ pre {
 }
 
 @media (max-width: 1023px) {
-  .admin-page {
-    min-height: auto;
-  }
-
   .admin-dashboard,
   .admin-dashboard.is-collapsed {
     grid-template-columns: 1fr;
@@ -2384,12 +2332,6 @@ pre {
     pointer-events: auto;
   }
 
-  .mobile-sidebar-trigger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   .sidebar-logout {
     margin-bottom: 8px;
   }
@@ -2401,15 +2343,6 @@ pre {
 
   .admin-sidebar {
     padding-top: 12px;
-  }
-
-  .admin-header {
-    position: static;
-    padding: 10px 12px;
-  }
-
-  .admin-section {
-    padding: 12px;
   }
 
   .words-grid {

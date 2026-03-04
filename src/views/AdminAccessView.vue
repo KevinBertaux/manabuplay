@@ -98,13 +98,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="auth-page">
-    <div class="auth-card">
-      <header class="auth-head">
-        <h1>Accès administration</h1>
+  <section class="grid min-h-0 items-start justify-items-center p-2 md:p-2.5 lg:min-h-[calc(100dvh-172px)]">
+    <div class="mt-3 w-full max-w-[460px] border border-[#d6e1ec] bg-white p-[14px] shadow-[0_1px_3px_rgba(15,23,42,0.09)]">
+      <header class="mb-2.5">
+        <h1 class="m-0 text-[1.35rem] leading-[1.2] text-[#132f4c]">Accès administration</h1>
       </header>
 
-      <form class="auth-form" @submit.prevent="submitLogin">
+      <form class="auth-form grid gap-2" @submit.prevent="submitLogin">
         <label for="studio-username">Nom d'utilisateur</label>
         <input
           id="studio-username"
@@ -136,40 +136,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.auth-page {
-  min-height: calc(100dvh - 172px);
-  display: grid;
-  align-items: start;
-  justify-items: center;
-  padding: 10px;
-}
-
-.auth-card {
-  width: min(460px, 100%);
-  margin-top: 12px;
-  border: 1px solid #d6e1ec;
-  border-radius: 4px;
-  padding: 14px;
-  background: #ffffff;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.09);
-}
-
-.auth-head {
-  margin-bottom: 10px;
-}
-
-.auth-head h1 {
-  margin: 0;
-  font-size: 1.35rem;
-  line-height: 1.2;
-  color: #132f4c;
-}
-
-.auth-form {
-  display: grid;
-  gap: 8px;
-}
-
 .auth-form label {
   font-weight: 700;
   color: #1d3954;
@@ -224,18 +190,5 @@ onUnmounted(() => {
 :deep(.admin-status) {
   margin-top: 10px;
   border-radius: 4px;
-}
-
-@media (max-width: 1023px) {
-  .auth-page {
-    min-height: auto;
-    align-items: start;
-    justify-items: stretch;
-    padding: 8px;
-  }
-
-  .auth-card {
-    width: 100%;
-  }
 }
 </style>
