@@ -15,6 +15,8 @@
     "qa:release": "npm run check:breakpoints && npm test -- --coverage && npm run test:e2e:release && npm run build && npm run lighthouse:ci"
   },
   "dependencies": {
+    "@fontsource/lexend": "^5.2.11",
+    "@fontsource/nunito": "^5.2.7",
     "@tailwindcss/vite": "^4.2.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.0",

@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 :root {
+  --font-ui: 'Lexend', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-heading: 'Nunito', 'Lexend', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
   --bg: #f3f7ff;
   --surface: #fbfdff;
   --text: #243041;
@@ -46,9 +49,28 @@
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-ui);
+  line-height: 1.5;
   color: var(--text);
   background: linear-gradient(145deg, #eef4ff 0%, #f8fbff 100%);
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+.btn,
+.mp-btn,
+.nav-trigger,
+.submenu-link {
+  font-family: var(--font-heading);
+  letter-spacing: 0.005em;
 }
 
 a {
@@ -282,6 +304,7 @@ a:focus-visible {
 
 .page-block h1 {
   margin: 0 0 12px;
+  font-weight: 800;
 }
 
 .grid-cards {
