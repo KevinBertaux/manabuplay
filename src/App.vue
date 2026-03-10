@@ -2,10 +2,14 @@
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { ROUTE_NAMES } from '@/router/routes';
+import ConsentBanner from '@/components/ConsentBanner.vue';
+import ConsentPreferencesPanel from '@/components/ConsentPreferencesPanel.vue';
+import { useConsentStore } from '@/features/consent/useConsentStore';
 
 const navOpen = ref(false);
 const openGroup = ref('');
 const route = useRoute();
+useConsentStore();
 
 const isMathRoute = computed(() => route.path.startsWith('/math'));
 const isLangRoute = computed(() => route.path.startsWith('/languages'));
@@ -103,6 +107,9 @@ function closeNav() {
     <main class="page-container" :class="{ 'admin-shell-container': isAdminPanelRoute }">
       <router-view />
     </main>
+
+    <ConsentBanner />
+    <ConsentPreferencesPanel />
 
     <footer class="site-footer">
       <div class="footer-links">

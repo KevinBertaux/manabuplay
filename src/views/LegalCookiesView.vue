@@ -1,5 +1,12 @@
 <script setup>
 import LegalPageLayout from '@/components/LegalPageLayout.vue';
+import { useConsentStore } from '@/features/consent/useConsentStore';
+
+const consentStore = useConsentStore();
+
+function openConsentManager() {
+  consentStore.openPanel();
+}
 </script>
 
 <template>
@@ -31,15 +38,10 @@ import LegalPageLayout from '@/components/LegalPageLayout.vue';
 
     <h2 id="manage-cookies">4. Gérer mes cookies</h2>
     <p>
-      Le lien “Cookies” du pied de page redirige vers cette page.
+      Le lien “Cookies” du pied de page redirige vers cette page. Utilisez ce bouton pour ouvrir directement le panneau.
     </p>
     <p>
-      La commande de gestion détaillée sera activée avec l'intégration du module de consentement.
-    </p>
-    <p>
-      <button type="button" class="mp-btn mp-btn-secondary" disabled aria-disabled="true">
-        Gérer mes cookies (bientôt disponible)
-      </button>
+      <button type="button" class="mp-btn mp-btn-secondary" @click="openConsentManager">Gérer mes cookies</button>
     </p>
 
     <h2>5. Durée de conservation des choix</h2>
