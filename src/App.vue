@@ -1,42 +1,54 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { ROUTE_NAMES } from '@/router/routes';
-import ConsentBanner from '@/components/ConsentBanner.vue';
-import ConsentPreferencesPanel from '@/components/ConsentPreferencesPanel.vue';
-import { useConsentStore } from '@/features/consent/useConsentStore';
+import { computed, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import { ROUTE_NAMES } from "@/router/routes";
+import ConsentBanner from "@/components/ConsentBanner.vue";
+import ConsentPreferencesPanel from "@/components/ConsentPreferencesPanel.vue";
+import { useConsentStore } from "@/features/consent/useConsentStore";
 
 const navOpen = ref(false);
-const openGroup = ref('');
+const openGroup = ref("");
 const route = useRoute();
-useConsentStore();
+const consentStore = useConsentStore();
 
-const isMathRoute = computed(() => route.path.startsWith('/math'));
-const isLangRoute = computed(() => route.path.startsWith('/languages'));
-const isAdminPanelRoute = computed(() => route.path.startsWith('/-/studio-ops/panel'));
+const isMathRoute = computed(() => route.path.startsWith("/math"));
+const isLangRoute = computed(() => route.path.startsWith("/languages"));
+const isAdminPanelRoute = computed(() => route.path.startsWith("/-/studio-ops/panel"));
+const isStudioOpsRoute = computed(() => route.path.startsWith("/-/studio-ops"));
+const showConsentUi = computed(() => !isStudioOpsRoute.value);
 
 watch(
   () => route.fullPath,
   () => {
     navOpen.value = false;
-    openGroup.value = '';
+    openGroup.value = "";
   }
+);
+
+watch(
+  () => showConsentUi.value,
+  (show) => {
+    if (show) {
+      consentStore.init();
+    }
+  },
+  { immediate: true }
 );
 
 function toggleMenu() {
   navOpen.value = !navOpen.value;
   if (!navOpen.value) {
-    openGroup.value = '';
+    openGroup.value = "";
   }
 }
 
 function toggleGroup(groupName) {
-  openGroup.value = openGroup.value === groupName ? '' : groupName;
+  openGroup.value = openGroup.value === groupName ? "" : groupName;
 }
 
 function closeNav() {
   navOpen.value = false;
-  openGroup.value = '';
+  openGroup.value = "";
 }
 </script>
 
@@ -70,14 +82,14 @@ function closeNav() {
             Math
           </button>
           <div class="submenu">
-            <router-link class="submenu-link" :to="{ name: ROUTE_NAMES.MATH_HUB }" @click="closeNav"
-              >Mathématiques</router-link
+            <router-link class="submenu-link" :to="{ name: ROUTE_NAMES.MATH_HUB }" @click="closeNav">
+              Mathématiques</router-link
             >
-            <router-link class="submenu-link" :to="{ name: ROUTE_NAMES.MATH_MULTIPLICATIONS }" @click="closeNav"
-              >Multiplications</router-link
+            <router-link class="submenu-link" :to="{ name: ROUTE_NAMES.MATH_MULTIPLICATIONS }" @click="closeNav">
+              Multiplications</router-link
             >
-            <router-link class="submenu-link" :to="{ name: ROUTE_NAMES.MATH_SYMMETRY }" @click="closeNav"
-              >Symétrie</router-link
+            <router-link class="submenu-link" :to="{ name: ROUTE_NAMES.MATH_SYMMETRY }" @click="closeNav">
+              Symétrie</router-link
             >
           </div>
         </div>
@@ -108,8 +120,8 @@ function closeNav() {
       <router-view />
     </main>
 
-    <ConsentBanner />
-    <ConsentPreferencesPanel />
+    <ConsentBanner v-if="showConsentUi" />
+    <ConsentPreferencesPanel v-if="showConsentUi" />
 
     <footer class="site-footer">
       <div class="footer-links">

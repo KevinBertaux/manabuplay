@@ -699,9 +699,11 @@ a:focus-visible {
 
 .consent-panel__footer-actions .mp-btn,
 .consent-banner__actions .mp-btn {
+  height: auto;
   min-height: 0;
-  padding: 6px 14px;
-  font-size: 0.95rem;
+  padding: 10px 14px;
+  line-height: 1.2;
+  font-size: 1rem;
 }
 
 .switch-field {

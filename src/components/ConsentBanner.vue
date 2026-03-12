@@ -8,7 +8,13 @@ const { shouldDisplayBanner } = storeToRefs(consentStore);
 
 <template>
   <transition name="fade">
-    <section v-if="shouldDisplayBanner" class="consent-banner" role="dialog" aria-live="polite">
+    <section
+      v-if="shouldDisplayBanner"
+      class="consent-banner"
+      role="region"
+      aria-label="Gestion des cookies"
+      aria-live="polite"
+    >
       <div class="consent-banner__text">
         <p class="consent-banner__title">Gestion des cookies</p>
         <p class="consent-banner__description">

@@ -53,6 +53,7 @@ describe('useConsentStore', () => {
       })
     );
     const store = useConsentStore();
+    store.init();
     expect(store.shouldDisplayBanner).toBe(false);
     expect(store.selections.analytics).toBe(true);
     expect(store.selections.ads).toBe(false);
@@ -68,6 +69,35 @@ describe('useConsentStore', () => {
       })
     );
     const store = useConsentStore();
+    store.init();
     expect(store.shouldDisplayBanner).toBe(true);
+  });
+
+  it('keeps consent usable when localStorage.setItem throws', () => {
+    const store = useConsentStore();
+    const originalSetItem = window.localStorage.setItem;
+    window.localStorage.setItem = vi.fn(() => {
+      throw new Error('blocked');
+    });
+
+    expect(() => store.acceptAll()).not.toThrow();
+    expect(store.status).toBe('granted');
+    expect(store.shouldDisplayBanner).toBe(false);
+
+    window.localStorage.setItem = originalSetItem;
+  });
+
+  it('keeps reset usable when localStorage.removeItem throws', () => {
+    const store = useConsentStore();
+    const originalRemoveItem = window.localStorage.removeItem;
+    window.localStorage.removeItem = vi.fn(() => {
+      throw new Error('blocked');
+    });
+
+    expect(() => store.reset()).not.toThrow();
+    expect(store.status).toBe('unknown');
+    expect(store.shouldDisplayBanner).toBe(true);
+
+    window.localStorage.removeItem = originalRemoveItem;
   });
 });

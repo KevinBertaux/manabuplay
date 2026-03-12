@@ -1,8 +1,8 @@
 <script setup>
-import { computed } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useConsentStore } from '@/features/consent/useConsentStore';
-import { CONSENT_CATEGORIES, CONSENT_VERSION } from '@/features/consent/consentConfig';
+import { computed } from "vue";
+import { storeToRefs } from "pinia";
+import { useConsentStore } from "@/features/consent/useConsentStore";
+import { CONSENT_CATEGORIES, CONSENT_VERSION } from "@/features/consent/consentConfig";
 
 const consentStore = useConsentStore();
 const { panelOpen, selections, nonEssentialAllowed, summary } = storeToRefs(consentStore);
@@ -13,10 +13,10 @@ function onToggle(categoryId, event) {
 
 const formattedUpdatedAt = computed(() => {
   if (!summary.value.updatedAt) {
-    return 'jamais définie';
+    return "jamais définie";
   }
   try {
-    return new Date(summary.value.updatedAt).toLocaleDateString('fr-FR');
+    return new Date(summary.value.updatedAt).toLocaleDateString("fr-FR");
   } catch {
     return summary.value.updatedAt;
   }
@@ -30,7 +30,7 @@ const formattedUpdatedAt = computed(() => {
         <header class="consent-panel__header">
           <div>
             <h2 id="consent-panel-title">Préférences cookies</h2>
-            <p>Version {{ CONSENT_VERSION }} • Dernière mise à jour {{ formattedUpdatedAt }}</p>
+            <p>Version {{ CONSENT_VERSION }} - Dernière mise à jour {{ formattedUpdatedAt }}</p>
           </div>
           <button class="mp-btn mp-btn-ghost" type="button" @click="consentStore.closePanel">Fermer</button>
         </header>
@@ -44,7 +44,7 @@ const formattedUpdatedAt = computed(() => {
               </div>
               <label class="switch-field">
                 <input
-                  :id="`consent-${category.id}`"
+                  :id="'consent-' + category.id"
                   type="checkbox"
                   :checked="selections[category.id]"
                   :disabled="category.locked"

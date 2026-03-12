@@ -44,11 +44,7 @@ export const useConsentStore = defineStore('consent', () => {
   const status = ref(CONSENT_STATUSES.UNKNOWN);
   const updatedAt = ref(null);
   const panelOpen = ref(false);
-
-  if (typeof window !== 'undefined') {
-    bootConsentScriptRegistry();
-    hydrateFromStorage();
-  }
+  const initialized = ref(false);
 
   function hydrateFromStorage() {
     const stored = readStoredConsent();
@@ -63,18 +59,21 @@ export const useConsentStore = defineStore('consent', () => {
   }
 
   function persist(nextStatus) {
-    if (typeof window === 'undefined') {
-      return;
-    }
     const payload = {
       version: CONSENT_VERSION,
       status: nextStatus,
       selections: selections.value,
       updatedAt: new Date().toISOString(),
     };
-    window.localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(payload));
     status.value = nextStatus;
     updatedAt.value = payload.updatedAt;
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(payload));
+      } catch {
+        // Keep in-memory consent usable even if persistence is unavailable.
+      }
+    }
     applyConsentToScripts(selections.value);
   }
 
@@ -119,9 +118,24 @@ export const useConsentStore = defineStore('consent', () => {
     panelOpen.value = false;
   }
 
+  function init() {
+    if (initialized.value) {
+      return;
+    }
+    if (typeof window !== 'undefined') {
+      bootConsentScriptRegistry();
+      hydrateFromStorage();
+    }
+    initialized.value = true;
+  }
+
   function reset() {
     if (typeof window !== 'undefined') {
-      window.localStorage.removeItem(CONSENT_STORAGE_KEY);
+      try {
+        window.localStorage.removeItem(CONSENT_STORAGE_KEY);
+      } catch {
+        // Ignore storage failures and still reset the in-memory state.
+      }
     }
     selections.value = buildDefaultSelections();
     status.value = CONSENT_STATUSES.UNKNOWN;
@@ -152,6 +166,7 @@ export const useConsentStore = defineStore('consent', () => {
     nonEssentialAllowed,
     categories: CONSENT_CATEGORIES,
     // actions
+    init,
     acceptAll,
     rejectAll,
     saveCustom,
