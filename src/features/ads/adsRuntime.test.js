@@ -18,7 +18,10 @@ describe('adsRuntime', () => {
   });
 
   it('stays disabled when no ad provider is configured', () => {
-    const state = initAdsRuntime();
+    const state = initAdsRuntime({
+      provider: 'none',
+      adsenseClient: '',
+    });
 
     expect(state).toMatchObject({
       provider: 'none',
@@ -62,10 +65,11 @@ describe('adsRuntime', () => {
       managedConsent: true,
     });
 
-    const script = document.querySelector('script[data-consent-category="ads"]');
+    const script = document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]');
     expect(script).not.toBeNull();
     expect(script?.src).toContain('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
     expect(script?.crossOrigin).toBe('anonymous');
+    expect(script?.getAttribute('data-consent-category')).toBeNull();
     expect(googlefc.callbackQueue).toHaveLength(1);
 
     googlefc.callbackQueue[0].CONSENT_MODE_DATA_READY();

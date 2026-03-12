@@ -2,6 +2,11 @@ import { resolveCmpProviderConfig } from './cmpConfig';
 import { buildManagedCmpConsentSnapshot } from './googleConsentMode';
 
 export const CMP_RUNTIME_KEY = '__manabuCmpRuntime';
+export const CMP_PRIVACY_OPTIONS_RESULT = Object.freeze({
+  OPENED: 'opened',
+  QUEUED: 'queued',
+  UNAVAILABLE: 'unavailable',
+});
 
 let initializedProviderId = null;
 let consentApiCallbackRegistered = false;
@@ -120,7 +125,7 @@ export function initCmpRuntime(options = {}) {
 
 export function openCmpPrivacyOptions() {
   if (!isBrowser()) {
-    return false;
+    return CMP_PRIVACY_OPTIONS_RESULT.UNAVAILABLE;
   }
 
   if (typeof window.googlefc?.showRevocationMessage === 'function') {
@@ -129,7 +134,7 @@ export function openCmpPrivacyOptions() {
       revocationSupported: true,
       lastPrivacyManagerOpenAt: new Date().toISOString(),
     });
-    return true;
+    return CMP_PRIVACY_OPTIONS_RESULT.OPENED;
   }
 
   if (Array.isArray(window.googlefc?.callbackQueue)) {
@@ -148,10 +153,10 @@ export function openCmpPrivacyOptions() {
       revocationRequested: true,
       updatedAt: new Date().toISOString(),
     });
-    return true;
+    return CMP_PRIVACY_OPTIONS_RESULT.QUEUED;
   }
 
-  return false;
+  return CMP_PRIVACY_OPTIONS_RESULT.UNAVAILABLE;
 }
 
 export function getCmpRuntimeState() {

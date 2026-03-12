@@ -37,7 +37,9 @@ function injectManagedScript(descriptor) {
   const scriptEl = document.createElement('script');
   scriptEl.async = descriptor.async ?? true;
   scriptEl.defer = descriptor.defer ?? false;
-  scriptEl.dataset.consentCategory = descriptor.category;
+  if (descriptor.category) {
+    scriptEl.dataset.consentCategory = descriptor.category;
+  }
   if (descriptor.crossOrigin) {
     scriptEl.crossOrigin = descriptor.crossOrigin;
   }
@@ -124,7 +126,7 @@ export function initAdsRuntime(options = {}) {
   }
 
   if (descriptor && managedConsent) {
-    injectManagedScript(descriptor);
+    injectManagedScript({ ...descriptor, category: null });
     registerManagedConsentSubscription();
     const initialSnapshot = buildManagedCmpConsentSnapshot();
     writeRuntimeState({

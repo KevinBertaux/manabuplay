@@ -3,9 +3,29 @@ import { mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import LegalCookiesView from './LegalCookiesView.vue';
 
-const openPanelMock = vi.fn();
-const openCmpPrivacyOptionsMock = vi.fn(() => false);
-const isCmpManagedConsentEnabledMock = vi.fn(() => false);
+const { CMP_PRIVACY_OPTIONS_RESULT } = vi.hoisted(() => ({
+  CMP_PRIVACY_OPTIONS_RESULT: {
+    OPENED: 'opened',
+    QUEUED: 'queued',
+    UNAVAILABLE: 'unavailable',
+  },
+}));
+
+const cmpRuntimeMocks = vi.hoisted(() => ({
+  openCmpPrivacyOptionsMock: vi.fn(),
+}));
+
+const consentStoreMocks = vi.hoisted(() => ({
+  openPanelMock: vi.fn(),
+}));
+
+const cmpConfigMocks = vi.hoisted(() => ({
+  isCmpManagedConsentEnabledMock: vi.fn(),
+}));
+
+const openPanelMock = consentStoreMocks.openPanelMock;
+const openCmpPrivacyOptionsMock = cmpRuntimeMocks.openCmpPrivacyOptionsMock;
+const isCmpManagedConsentEnabledMock = cmpConfigMocks.isCmpManagedConsentEnabledMock;
 
 vi.mock('@/features/consent/useConsentStore', () => ({
   useConsentStore: () => ({
@@ -14,6 +34,7 @@ vi.mock('@/features/consent/useConsentStore', () => ({
 }));
 
 vi.mock('@/features/cmp/cmpRuntime', () => ({
+  CMP_PRIVACY_OPTIONS_RESULT,
   openCmpPrivacyOptions: () => openCmpPrivacyOptionsMock(),
 }));
 
@@ -25,7 +46,7 @@ describe('LegalCookiesView', () => {
   beforeEach(() => {
     openPanelMock.mockClear();
     openCmpPrivacyOptionsMock.mockReset();
-    openCmpPrivacyOptionsMock.mockReturnValue(false);
+    openCmpPrivacyOptionsMock.mockReturnValue(CMP_PRIVACY_OPTIONS_RESULT.UNAVAILABLE);
     isCmpManagedConsentEnabledMock.mockReset();
     isCmpManagedConsentEnabledMock.mockReturnValue(false);
   });
@@ -49,7 +70,7 @@ describe('LegalCookiesView', () => {
   });
 
   it('delegates to the CMP privacy manager when available', async () => {
-    openCmpPrivacyOptionsMock.mockReturnValue(true);
+    openCmpPrivacyOptionsMock.mockReturnValue(CMP_PRIVACY_OPTIONS_RESULT.OPENED);
 
     const wrapper = mount(LegalCookiesView, {
       global: {
@@ -67,8 +88,9 @@ describe('LegalCookiesView', () => {
     expect(openPanelMock).not.toHaveBeenCalled();
   });
 
-  it('does not reopen the local panel when CMP managed consent is enabled', async () => {
+  it('shows a local notice when managed CMP is queued but not available on localhost', async () => {
     isCmpManagedConsentEnabledMock.mockReturnValue(true);
+    openCmpPrivacyOptionsMock.mockReturnValue(CMP_PRIVACY_OPTIONS_RESULT.QUEUED);
 
     const wrapper = mount(LegalCookiesView, {
       global: {
@@ -84,5 +106,6 @@ describe('LegalCookiesView', () => {
 
     expect(openCmpPrivacyOptionsMock).toHaveBeenCalledTimes(1);
     expect(openPanelMock).not.toHaveBeenCalled();
+    expect(wrapper.text()).toContain('Indisponible en local. Tester sur le site public.');
   });
 });

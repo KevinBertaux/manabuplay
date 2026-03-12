@@ -1,6 +1,12 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { getCmpRuntimeState, initCmpRuntime, openCmpPrivacyOptions, resetCmpRuntimeForTests } from './cmpRuntime';
+import {
+  CMP_PRIVACY_OPTIONS_RESULT,
+  getCmpRuntimeState,
+  initCmpRuntime,
+  openCmpPrivacyOptions,
+  resetCmpRuntimeForTests,
+} from './cmpRuntime';
 
 describe('cmpRuntime', () => {
   beforeEach(() => {
@@ -8,7 +14,7 @@ describe('cmpRuntime', () => {
   });
 
   it('stays inert when no CMP provider is configured', () => {
-    const state = initCmpRuntime();
+    const state = initCmpRuntime({ provider: 'none' });
 
     expect(state).toMatchObject({
       provider: 'none',
@@ -40,13 +46,13 @@ describe('cmpRuntime', () => {
       showRevocationMessage,
     };
 
-    expect(openCmpPrivacyOptions()).toBe(true);
+    expect(openCmpPrivacyOptions()).toBe(CMP_PRIVACY_OPTIONS_RESULT.OPENED);
     expect(showRevocationMessage).toHaveBeenCalledTimes(1);
     expect(getCmpRuntimeState()?.revocationSupported).toBe(true);
   });
 
-  it('returns false when no CMP privacy manager is available', () => {
-    expect(openCmpPrivacyOptions()).toBe(false);
+  it('returns unavailable when no CMP privacy manager is available', () => {
+    expect(openCmpPrivacyOptions()).toBe(CMP_PRIVACY_OPTIONS_RESULT.UNAVAILABLE);
   });
 
   it('queues a revocation request when Googlefc exists but the API is not ready yet', () => {
@@ -54,7 +60,7 @@ describe('cmpRuntime', () => {
       callbackQueue: [],
     };
 
-    expect(openCmpPrivacyOptions()).toBe(true);
+    expect(openCmpPrivacyOptions()).toBe(CMP_PRIVACY_OPTIONS_RESULT.QUEUED);
     expect(window.googlefc.callbackQueue).toHaveLength(1);
     expect(getCmpRuntimeState()?.revocationRequested).toBe(true);
   });
