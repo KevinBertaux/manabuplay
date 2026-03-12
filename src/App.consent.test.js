@@ -9,8 +9,9 @@ const route = reactive({
   fullPath: '/',
 });
 
-const { initMock, initAdsRuntimeMock, syncAdsConsentMock } = vi.hoisted(() => ({
+const { initMock, initCmpRuntimeMock, initAdsRuntimeMock, syncAdsConsentMock } = vi.hoisted(() => ({
   initMock: vi.fn(),
+  initCmpRuntimeMock: vi.fn(),
   initAdsRuntimeMock: vi.fn(),
   syncAdsConsentMock: vi.fn(),
 }));
@@ -41,11 +42,16 @@ vi.mock('@/features/ads/adsRuntime', () => ({
   syncAdsConsent: syncAdsConsentMock,
 }));
 
+vi.mock('@/features/cmp/cmpRuntime', () => ({
+  initCmpRuntime: initCmpRuntimeMock,
+}));
+
 describe('App consent gating', () => {
   beforeEach(() => {
     route.path = '/';
     route.fullPath = '/';
     initMock.mockClear();
+    initCmpRuntimeMock.mockClear();
     initAdsRuntimeMock.mockClear();
     syncAdsConsentMock.mockClear();
     selections.necessary = true;
@@ -67,6 +73,7 @@ describe('App consent gating', () => {
     });
 
     expect(initMock).toHaveBeenCalledTimes(1);
+    expect(initCmpRuntimeMock).toHaveBeenCalledTimes(1);
     expect(initAdsRuntimeMock).toHaveBeenCalledTimes(1);
     expect(syncAdsConsentMock).toHaveBeenCalledWith(selections);
     expect(wrapper.find('[data-test="study-ads-shell"]').exists()).toBe(true);
@@ -93,6 +100,7 @@ describe('App consent gating', () => {
     });
 
     expect(initMock).not.toHaveBeenCalled();
+    expect(initCmpRuntimeMock).not.toHaveBeenCalled();
     expect(initAdsRuntimeMock).not.toHaveBeenCalled();
     expect(syncAdsConsentMock).not.toHaveBeenCalled();
     expect(wrapper.find('[data-test="study-ads-shell"]').exists()).toBe(false);
@@ -117,6 +125,7 @@ describe('App consent gating', () => {
     });
 
     initMock.mockClear();
+    initCmpRuntimeMock.mockClear();
     initAdsRuntimeMock.mockClear();
     syncAdsConsentMock.mockClear();
     route.path = '/legal/cookie-policy';
@@ -124,6 +133,7 @@ describe('App consent gating', () => {
     await nextTick();
 
     expect(initMock).toHaveBeenCalled();
+    expect(initCmpRuntimeMock).toHaveBeenCalled();
     expect(initAdsRuntimeMock).not.toHaveBeenCalled();
     expect(syncAdsConsentMock).not.toHaveBeenCalled();
     expect(wrapper.find('[data-test="study-ads-shell"]').exists()).toBe(false);
@@ -149,6 +159,7 @@ describe('App consent gating', () => {
     });
 
     initMock.mockClear();
+    initCmpRuntimeMock.mockClear();
     initAdsRuntimeMock.mockClear();
     syncAdsConsentMock.mockClear();
     route.path = '/math';
@@ -156,6 +167,7 @@ describe('App consent gating', () => {
     await nextTick();
 
     expect(initMock).not.toHaveBeenCalled();
+    expect(initCmpRuntimeMock).not.toHaveBeenCalled();
     expect(initAdsRuntimeMock).toHaveBeenCalled();
     expect(syncAdsConsentMock).toHaveBeenCalledWith(selections);
     expect(wrapper.find('[data-test="study-ads-shell"]').exists()).toBe(true);

@@ -6,6 +6,7 @@ import ConsentBanner from "@/components/ConsentBanner.vue";
 import ConsentPreferencesPanel from "@/components/ConsentPreferencesPanel.vue";
 import StudyAdsShell from "@/components/StudyAdsShell.vue";
 import { initAdsRuntime, syncAdsConsent } from "@/features/ads/adsRuntime";
+import { initCmpRuntime } from "@/features/cmp/cmpRuntime";
 import { useConsentStore } from "@/features/consent/useConsentStore";
 
 const navOpen = ref(false);
@@ -36,6 +37,7 @@ watch(
   () => showConsentUi.value,
   (showConsent) => {
     if (showConsent) {
+      initCmpRuntime();
       consentStore.init();
     }
   },
