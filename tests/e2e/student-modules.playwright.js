@@ -1,11 +1,36 @@
+const consentPayload = {
+  version: '2026-03-10',
+  status: 'granted',
+  selections: {
+    necessary: true,
+    analytics: true,
+    ads: true,
+  },
+  updatedAt: '2026-03-12T00:00:00.000Z',
+};
+
 import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => {
+  await page.addInitScript((payload) => {
     window.localStorage.clear();
     window.sessionStorage.clear();
-  });
+    window.localStorage.setItem('manabuplay_consent', JSON.stringify(payload));
+  }, consentPayload);
 });
+
+async function openLegalLink(page, label) {
+  const burger = page.getByRole('button', { name: 'Ouvrir le menu' });
+
+  if (await burger.isVisible()) {
+    await burger.click();
+    await page.getByRole('button', { name: 'Informations' }).click();
+    await page.getByRole('link', { name: label }).click();
+    return;
+  }
+
+  await page.getByRole('link', { name: label }).click();
+}
 
 test('math: selecting a table starts quiz and wrong answer does not auto-skip', async ({ page }) => {
   await page.goto('/math/multiplications');
@@ -80,17 +105,17 @@ test('symmetry: keyboard selection + verify + next-question flow', async ({ page
 test('legal pages smoke: footer links open expected legal headings', async ({ page }) => {
   await page.goto('/');
 
-  await page.getByRole('link', { name: 'Mentions légales' }).click();
+  await openLegalLink(page, 'Mentions légales');
   await expect(page).toHaveURL(/\/legal\/legal-notice$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Mentions légales' })).toBeVisible();
 
   await page.goto('/');
-  await page.getByRole('link', { name: 'Politique de confidentialité' }).click();
+  await openLegalLink(page, 'Politique de confidentialité');
   await expect(page).toHaveURL(/\/legal\/privacy-policy$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Politique de confidentialité' })).toBeVisible();
 
   await page.goto('/');
-  await page.getByRole('link', { name: 'CGU' }).click();
+  await openLegalLink(page, 'CGU');
   await expect(page).toHaveURL(/\/legal\/terms-of-use$/);
   await expect(page.getByRole('heading', { level: 1, name: /Conditions générales d'utilisation/ })).toBeVisible();
 });
