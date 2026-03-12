@@ -1,5 +1,24 @@
+const consentPayload = {
+  version: '2026-03-10',
+  status: 'granted',
+  selections: {
+    necessary: true,
+    analytics: true,
+    ads: true,
+  },
+  updatedAt: '2026-03-12T00:00:00.000Z',
+};
+
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript((payload) => {
+    window.localStorage.clear();
+    window.sessionStorage.clear();
+    window.localStorage.setItem('manabuplay_consent', JSON.stringify(payload));
+  }, consentPayload);
+});
 
 async function expectNoSeriousA11yViolations(page, path) {
   await page.goto(path);

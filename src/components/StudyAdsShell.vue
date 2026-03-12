@@ -64,7 +64,7 @@ import AdSlotPlaceholder from "@/components/AdSlotPlaceholder.vue";
   display: none;
 }
 
-@media (min-width: 768px) and (max-width: 1439px) {
+@media (min-width: 768px) and (max-width: 1279px) {
   .study-ads-shell {
     width: min(1200px, calc(100% - 32px));
     margin-top: 20px;
@@ -101,7 +101,7 @@ import AdSlotPlaceholder from "@/components/AdSlotPlaceholder.vue";
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1280px) {
   .study-ads-shell {
     width: min(1600px, calc(100% - 32px));
     margin-top: 20px;
