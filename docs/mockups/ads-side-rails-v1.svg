@@ -1,0 +1,96 @@
+<svg width="1600" height="980" viewBox="0 0 1600 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="180" y1="0" x2="1420" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#eef4ff"/>
+      <stop offset="1" stop-color="#f8fbff"/>
+    </linearGradient>
+    <linearGradient id="railFill" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#e7f4ff"/>
+      <stop offset="1" stop-color="#f2fbf1"/>
+    </linearGradient>
+    <linearGradient id="contentFill" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#fbfdff"/>
+      <stop offset="1" stop-color="#f5f9ff"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#243041" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .label { font: 700 18px 'Segoe UI', Arial, sans-serif; fill: #243041; }
+      .small { font: 600 14px 'Segoe UI', Arial, sans-serif; fill: #5d6c80; }
+      .tiny { font: 600 12px 'Segoe UI', Arial, sans-serif; fill: #6b7b90; }
+      .title { font: 800 34px 'Segoe UI', Arial, sans-serif; fill: #243041; }
+      .card-title { font: 800 22px 'Segoe UI', Arial, sans-serif; fill: #243041; }
+      .card-copy { font: 600 16px 'Segoe UI', Arial, sans-serif; fill: #425268; }
+      .badge { font: 700 12px 'Segoe UI', Arial, sans-serif; fill: #21557f; }
+      .rail-title { font: 800 20px 'Segoe UI', Arial, sans-serif; fill: #1f4263; }
+      .rail-copy { font: 600 15px 'Segoe UI', Arial, sans-serif; fill: #425268; }
+      .note { font: 700 16px 'Segoe UI', Arial, sans-serif; fill: #1f4263; }
+      .note-copy { font: 600 14px 'Segoe UI', Arial, sans-serif; fill: #425268; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#bg)"/>
+
+  <rect x="0" y="0" width="1600" height="72" fill="#f7fbff" stroke="#d9e1ed"/>
+  <text x="48" y="45" class="title" font-size="24">ManabuPlay</text>
+  <text x="1320" y="45" class="label">Math</text>
+  <text x="1390" y="45" class="label">Langues</text>
+
+  <rect x="200" y="112" width="1200" height="760" rx="20" fill="none" stroke="#c8d7ea" stroke-dasharray="8 8"/>
+  <text x="220" y="145" class="label">Zone utile desktop 1200 px</text>
+  <text x="220" y="168" class="small">Container actuel du site</text>
+
+  <g filter="url(#softShadow)">
+    <rect x="304" y="168" width="992" height="640" rx="22" fill="url(#contentFill)" stroke="#d9e1ed"/>
+  </g>
+
+  <text x="336" y="222" class="title">Accueil</text>
+  <text x="336" y="258" class="card-copy">Contenu principal recentre, stable, sans pub inline au milieu des cartes.</text>
+
+  <rect x="336" y="300" width="444" height="170" rx="18" fill="#fbfdff" stroke="#bfd1e8"/>
+  <text x="368" y="350" class="card-title">Mathematiques</text>
+  <text x="368" y="388" class="card-copy">Multiplications, Symetrie</text>
+
+  <rect x="812" y="300" width="444" height="170" rx="18" fill="#fbfdff" stroke="#bfd1e8"/>
+  <text x="844" y="350" class="card-title">Langues</text>
+  <text x="844" y="388" class="card-copy">Anglais</text>
+
+  <rect x="336" y="512" width="920" height="232" rx="18" fill="#f6faff" stroke="#d4dfec"/>
+  <text x="368" y="562" class="card-title">Contenu / modules / progression</text>
+  <text x="368" y="600" class="card-copy">Le centre reste dedie a l'apprentissage.</text>
+  <text x="368" y="630" class="card-copy">Aucune cassure visuelle au milieu des cartes ou des quiz.</text>
+
+  <g filter="url(#softShadow)">
+    <rect x="168" y="220" width="112" height="480" rx="16" fill="url(#railFill)" stroke="#b8cde9"/>
+    <rect x="1320" y="220" width="112" height="480" rx="16" fill="url(#railFill)" stroke="#b8cde9"/>
+  </g>
+
+  <rect x="184" y="238" width="80" height="28" rx="14" fill="#d9efff" stroke="#b8d7ef"/>
+  <text x="198" y="257" class="badge">Slot reserve</text>
+  <text x="184" y="304" class="rail-title">Rail gauche</text>
+  <text x="184" y="336" class="rail-copy">Format vertical</text>
+  <text x="184" y="360" class="rail-copy">sticky desktop</text>
+  <rect x="184" y="390" width="80" height="244" rx="14" fill="#fbfdff" stroke="#9fc5e5" stroke-dasharray="7 7"/>
+  <text x="204" y="512" class="small" text-anchor="middle">160 x 600</text>
+
+  <rect x="1336" y="238" width="80" height="28" rx="14" fill="#d9efff" stroke="#b8d7ef"/>
+  <text x="1350" y="257" class="badge">Slot reserve</text>
+  <text x="1336" y="304" class="rail-title">Rail droit</text>
+  <text x="1336" y="336" class="rail-copy">Format vertical</text>
+  <text x="1336" y="360" class="rail-copy">sticky desktop</text>
+  <rect x="1336" y="390" width="80" height="244" rx="14" fill="#fbfdff" stroke="#9fc5e5" stroke-dasharray="7 7"/>
+  <text x="1376" y="512" class="small" text-anchor="middle">160 x 600</text>
+
+  <g filter="url(#softShadow)">
+    <rect x="200" y="820" width="1200" height="108" rx="18" fill="#ffffff" stroke="#d9e1ed"/>
+  </g>
+  <text x="232" y="858" class="note">Option recommandee: rails lateraux sticky, desktop large uniquement</text>
+  <text x="232" y="886" class="note-copy">Activation a partir de 1440 px ou 1520 px de viewport pour garder de vraies marges.</text>
+  <text x="232" y="910" class="note-copy">Sous ce seuil: masquer les rails ou basculer vers un format horizontal discret hors des quiz.</text>
+
+  <text x="168" y="734" class="tiny">Large ecran</text>
+  <text x="168" y="752" class="tiny">&gt;= 1440 / 1520 px</text>
+  <text x="1336" y="734" class="tiny">Pas de mobile/tablette</text>
+  <text x="1336" y="752" class="tiny">ni admin</text>
+</svg>
