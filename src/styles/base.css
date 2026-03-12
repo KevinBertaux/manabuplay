@@ -166,6 +166,10 @@ a:focus-visible {
   position: relative;
 }
 
+.nav-group--legal {
+  display: none;
+}
+
 .nav-trigger {
   border: 1px solid #5f9fc6;
   border-radius: 10px;
@@ -524,6 +528,11 @@ a:focus-visible {
   background: rgba(251, 253, 255, 0.92);
 }
 
+.site-footer--study-ads {
+  position: relative;
+  z-index: 1;
+}
+
 .legal h1 {
   font-size: clamp(1.9rem, 2.8vw, 2.35rem);
   line-height: 1.2;
@@ -783,8 +792,9 @@ a:focus-visible {
   .main-nav {
     position: absolute;
     top: calc(100% + 8px);
-    left: 12px;
+    left: auto;
     right: 12px;
+    width: min(344px, calc(100vw - 24px));
     z-index: 30;
     display: none;
     flex-direction: column;
@@ -803,6 +813,10 @@ a:focus-visible {
 
   .nav-group {
     width: 100%;
+  }
+
+  .nav-group--legal {
+    display: block;
   }
 
   .nav-trigger {
@@ -825,8 +839,7 @@ a:focus-visible {
   }
 
   .site-footer {
-    flex-direction: column;
-    align-items: center;
+    display: none;
   }
 
   .footer-links {
@@ -849,6 +862,12 @@ a:focus-visible {
   }
 }
 
+@media (min-width: 768px) and (max-width: 1439px) {
+  .site-footer--study-ads {
+    padding-bottom: 128px;
+  }
+}
+
 @media (min-width: 768px) {
   .page-container {
     width: min(1200px, 100% - 32px);
@@ -863,5 +882,11 @@ a:focus-visible {
 @media (min-width: 1024px) {
   .page-block {
     padding: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-footer--study-ads {
+    padding-bottom: calc(112px + env(safe-area-inset-bottom));
   }
 }
