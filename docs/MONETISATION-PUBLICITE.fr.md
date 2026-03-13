@@ -1,150 +1,145 @@
-# Monétisation par publicité - Guide de décision (FR)
+# Monetisation et publicite - ManabuPlay
 
-Date de référence: 20 février 2026.
+Document de cadrage. Il decrit la ligne monetisation du projet, ses prerequis et ses garde-fous. Il ne doit plus etre interprete comme une feuille de route produit `0.5` / `0.6`.
 
-## Résumé exécutif
+## Position actuelle
 
-Recommandation principale: **mettre la publicité en priorité 0.6.0**, pas en 0.5.0.
+La monetisation est maintenant decouplee des versions produit.
 
-Pourquoi:
-- Le site vise majoritairement des mineurs, donc le niveau d'exigence juridique et éthique est élevé.
-- La pub implique généralement cookies/traceurs, CMP, consentement, preuves de consentement, retrait, et mises à jour légales.
-- Le risque de dégrader l'expérience enfant (distraction) est réel si c'est fait trop tôt.
-- Le gain financier est souvent faible au début si le trafic n'est pas encore solide.
+- ligne produit :
+  - `feat/0.5.0-prep`
+  - puis `feat/0.6.0-prep`
+- ligne monetisation :
+  - `epic/ads-cmp`
 
-## Décision 0.5.0 vs 0.6.0
+Consequence :
+- la pub n a pas besoin d attendre une version particuliere
+- la monetisation peut avancer en parallele
+- l integration finale se merge dans la branche produit active quand elle est prete
 
-### Option A - Mettre la pub en 0.5.0
-Avantages:
-- Commencer plus tôt les tests de revenus.
+## Etat actuel
 
-Inconvénients:
-- Complexité légale forte immédiatement.
-- Risque de non-conformité cookies/consentement si implémentation précipitée.
-- Risque UX pour un produit éducatif destiné aux mineurs.
+### Deja fait
 
-Verdict: possible mais risqué pour une 0.5.0 déjà chargée.
+- meta AdSense site-level dans `index.html`
+- `public/ads.txt`
+- site ajoute dans AdSense
+- validation de propriete demandee
+- message Google `Privacy & messaging` publie
+- branche de travail dediee :
+  - `epic/ads-cmp`
 
-### Option B - Préparer en 0.5.0, activer en 0.6.0 (recommandé)
-En 0.5.0:
-- Finaliser le produit (Math + Symétrie + UX + qualité).
-- Poser la base conformité (textes, politique traceurs, gouvernance).
-- Préparer un plan de pub "low-risk".
+### En attente
 
-En 0.6.0:
-- Lancer un pilote pub limité, mesuré, réversible.
+- approbation AdSense
+- mise en production de la CMP Google reelle
+- mise en production des premiers emplacements publicitaires reels
 
-Verdict: meilleur ratio risque/valeur.
+## Doctrine produit
 
-## Implications légales et RGPD (France, mineurs)
+### Priorite
 
-## 1) Cookies et traceurs
-Pour la pub en ligne, des traceurs sont souvent utilisés.
-Conséquences:
-- Consentement préalable requis pour traceurs non essentiels.
-- Le refus doit être aussi simple que l'acceptation.
-- Le retrait du consentement doit être facile et permanent.
-- Il faut conserver une preuve du consentement.
+1. ne pas casser l experience d apprentissage
+2. rester conforme
+3. limiter la pression publicitaire
+4. n etendre la monetisation qu apres validation du premier lot
 
-## 2) Mineurs et consentement en France
-- À partir de 15 ans: un mineur peut consentir seul pour un service en ligne fondé sur le consentement.
-- Moins de 15 ans: consentement conjoint mineur + titulaire de l'autorité parentale.
+### Position enfants / mineurs
 
-Implication pratique:
-- Si ton modèle pub repose sur le consentement, il faut traiter ce point sérieusement dès la conception.
+- prudence maximale
+- formats intrusifs interdits
+- pas d auto-play sonore
+- pas de multiplication des emplacements sans mesure reelle
 
-## 3) Publicité ciblée / profilage
-- La publicité ciblée repose sur des profils individuels.
-- Pour un public mineur, la prudence maximale est recommandée.
-- En tendance réglementaire UE, la protection des mineurs contre la pub profilée est renforcée.
+## Architecture Git retenue
 
-## 4) Contrats et responsabilités
-- Vérifier les politiques du partenaire pub (Google ou autre).
-- Documenter les rôles RGPD (responsable/sous-traitant selon cas).
-- Mettre à jour la politique de confidentialité et les mentions.
+### Produit
 
-## Position produit recommandée pour ManabuPlay
+- `main` = branche stable
+- `feat/0.5.0-prep` = ligne produit actuelle
+- futures branches produit :
+  - `feat/0.6.0-prep`
+  - etc.
 
-Pour un site éducatif mineurs-first:
-- **Pas de pub personnalisée** au lancement.
-- Prioriser **contexte/non-personnalisé** si partenaire compatible.
-- Limiter le nombre d'emplacements publicitaires.
-- Bannir formats intrusifs (interstitiels agressifs, auto-play sonore, etc.).
+### Monetisation
 
-## Plan proposé
+- `epic/ads-cmp` = source de verite monetisation
+- branches filles typiques :
+  - `feature/cmp-consent-mode-v1`
+  - `feature/ads-live-slots-v1`
+  - `feature/ads-pub-backlog-v1`
+  - `feature/go-nogo-checklists-v1`
 
-## Plan 0.5.0 (préparation sans activation pub)
-- [ ] Définir une politique interne "mineurs d'abord".
-- [ ] Écrire une section "traceurs/publicité" claire dans la politique de confidentialité.
-- [ ] Définir un mode de consentement cible (CMP et UX de refus).
-- [ ] Préparer un "kill switch" pour couper la pub en un clic (feature flag).
-- [ ] Définir KPI de décision (trafic minimal, taux de rebond, stabilité produit).
+### Regle
 
-## Plan 0.6.0 (pilote monétisation)
-- [ ] Pilote sur 1 seul emplacement publicitaire non intrusif.
-- [ ] Mesure hebdomadaire: revenus, rebond, temps/session, retours parent/enfant.
-- [ ] Revue conformité post-lancement (cookies, consentement, docs).
-- [ ] Décision go/no-go après 2 à 4 semaines.
+- les features produit partent de la branche produit active
+- les features monetisation partent de `epic/ads-cmp`
+- `epic/ads-cmp` se merge dans la branche produit active quand la monetisation est prete
 
-## Checklist conformité minimale avant activation pub
+## Pre requis permanents
 
-- [ ] Bandeau/CMP conforme (accepter/refuser au même niveau).
-- [ ] Aucun traceur pub activé avant consentement valide.
-- [ ] Retrait du consentement accessible facilement.
-- [ ] Politique de confidentialité et mentions légales à jour.
-- [ ] Registre interne des partenaires et finalités.
-- [ ] Vérification spécifique du traitement des mineurs.
-- [ ] Tests complets desktop/mobile + navigateurs principaux.
+Les elements suivants doivent survivre sur toutes les branches produit actives :
 
-## Réalisme business (ordre de grandeur)
+- meta AdSense dans `index.html`
+- `public/ads.txt`
 
-La pub devient généralement intéressante avec un trafic déjà régulier.
-Formule simple:
+Ils sont consideres comme des prerequis site-level, pas comme une feature optionnelle.
 
-Revenu mensuel approximatif = (pages vues / 1000) x RPM.
+## CMP et consentement
 
-Sans trafic significatif, la priorité doit rester: qualité produit, rétention, recommandation bouche-à-oreille.
+### Cible retenue
 
-## Alternatives de monétisation à faible risque (en parallèle)
+- CMP Google `Privacy & messaging`
+- `Advanced Consent Mode`
 
-- Soutien volontaire (don / "buy me a coffee").
-- Version "parent" sans pub avec mini-abonnement futur.
-- Partenariats locaux (tuteurs, associations, soutien scolaire) sans tracking.
+### Regles
 
-## Questions de décision (à trancher avant 0.6.0)
+- pas de double banniere locale + Google en production
+- la CMP Google devient la source de verite pour le consentement pub
+- le panneau local cookies ne doit pas contredire la CMP
 
-1. Acceptes-tu d'exclure totalement la pub personnalisée pour les mineurs?
-2. Souhaites-tu un mode "sans pub" garanti pour les enfants connectés via un lien parent?
-3. Quel seuil de trafic mensuel déclenche le pilote pub (ex: 20k ou 50k pages vues/mois)?
-4. Quel niveau de baisse UX est acceptable (ex: rebond +3% max)?
+## Strategie de deploiement
 
-## Sources officielles (référence)
+### Lot 1
 
-- CNIL - Cookies et traceurs: que dit la loi?
-  https://www.cnil.fr/fr/cookies-et-autres-traceurs/que-dit-la-loi
+- CMP Google prete techniquement
+- premiers slots reels limites :
+  - hubs uniquement
+  - pas de quiz
+  - un seul emplacement par classe d ecran
 
-- CNIL - Lignes directrices et recommandation cookies (29 septembre 2020)
-  https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies/lignes-directrices-modificatives-et-recommandation
+### Extension plus tard
 
-- CNIL - La loi Informatique et Libertés (article 45, mineurs 15 ans)
-  https://www.cnil.fr/fr/le-cadre-national/la-loi-informatique-et-libertes
+- rail gauche desktop
+- extension a d autres pages non quiz
+- nouvelles unites AdSense dediees
 
-- CNIL - Recommandation 4 (consentement parental pour moins de 15 ans)
-  https://www.cnil.fr/fr/recommandation-4-rechercher-le-consentement-dun-parent-pour-les-mineurs-de-moins-de-15-ans
+## Go / No-Go monetisation
 
-- CNIL - Définition publicité ciblée
-  https://www.cnil.fr/fr/definition/publicite-ciblee
+La monetisation ne part en production que si :
 
-- Commission européenne - DSA et protection des mineurs (profiling ads)
-  https://commission.europa.eu/strategy-and-policy/policies/justice-and-fundamental-rights/rights-child/digital-and-information-society_en
+- approbation AdSense obtenue ou etat compatible test public
+- `ads.txt` verifie en production
+- meta AdSense verifiee en production
+- message Google publie
+- CMP testee publiquement
+- pas de doublon avec la banniere locale
+- slots limites au perimetre decide
+- feu vert produit explicite
 
-- Google - EU User Consent Policy
-  https://www.google.com/about/company/user-consent-policy.html
+## Ce que ce document n est plus
 
-- Google - EU User Consent Policy Help
-  https://www.google.com/about/company/user-consent-policy-help/
+- ce n est plus une decision `pub en 0.5` ou `pub en 0.6`
+- ce n est plus une roadmap produit
+- ce n est pas un avis juridique
 
-## Note
+## References
 
-Ce document est un guide opérationnel, pas un avis juridique.
-Pour un lancement publicitaire à destination d'un public mineur, une validation par un juriste RGPD est fortement recommandée.
+- Google Privacy & messaging
+- Google Consent Mode
+- politique de l Union europeenne et cadre CNIL sur cookies / traceurs / mineurs
+
+Les details operatoires restent dans :
+- le panneau admin
+- les checklists Go / No-Go
+- la branche `epic/ads-cmp`

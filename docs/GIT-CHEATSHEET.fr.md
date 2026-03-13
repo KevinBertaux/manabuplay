@@ -1,75 +1,105 @@
-# Git Cheat Sheet (ManabuPlay)
+# Git Cheat Sheet - ManabuPlay
 
-Objectif: eviter le bazar en travaillant avec des branches courtes et claires.
+Document court pour garder un workflow Git propre.
 
-## Regle simple
+## 1. Lignes de travail
 
-- `main` = branche stable.
-- `feat/0.5.0-prep` = branche de preparation release.
-- `feat/<sujet>` = une branche par sujet (ex: `feat/studio-security-v2`).
+### Produit
 
-## Commandes essentielles
+- `main` = stable / deployable
+- `feat/0.5.0-prep` = ligne produit actuelle
+- futures lignes produit :
+  - `feat/0.6.0-prep`
+  - etc.
+
+### Monetisation
+
+- `epic/ads-cmp` = ligne monetisation
+
+## 2. Regle simple
+
+- une feature produit part de la branche produit active
+- une feature pub/CMP part de `epic/ads-cmp`
+- on ne melange pas les sujets
+
+## 3. Commandes essentielles
 
 ```bash
-# Voir l'etat courant
 git branch --show-current
 git status -sb
-
-# Se mettre a jour
-git checkout <branche>
-git pull
-
-# Creer une branche de travail
-git checkout -b feat/<nom>
-git push -u origin feat/<nom>
-
-# Commit
-git add -A
-git commit -m "feat(scope): message"
-
-# Historique visuel
 git log --oneline --graph --decorate -20
 ```
 
-## Workflow recommande
+## 4. Workflow feature produit
 
 ```bash
-# 1) partir de la base release
 git checkout feat/0.5.0-prep
 git pull
+git checkout -b feature/mon-sujet-produit
+git push -u origin feature/mon-sujet-produit
+```
 
-# 2) creer la branche feature
-git checkout -b feat/studio-security-v2
+Puis :
 
-# 3) coder + commits
+```bash
 git add -A
-git commit -m "feat(security): ..."
-
-# 4) publier la branche
-git push -u origin feat/studio-security-v2
-
-# 5) merger dans la branche release
-git checkout feat/0.5.0-prep
-git pull
-git merge --no-ff feat/studio-security-v2
+git commit -m "feat(scope): message"
 git push
 ```
 
-## Schema mental rapide
+## 5. Workflow feature monetisation
 
-```text
-main:                A---B
-                        \
-feat/0.5.0-prep:         C---D---E
-                              \
-feat/studio-security-v2:        F---G
+```bash
+git checkout epic/ads-cmp
+git pull
+git checkout -b feature/mon-sujet-pub
+git push -u origin feature/mon-sujet-pub
 ```
 
-## Anti-bazar
+## 6. Merge
 
-- Toujours verifier la branche avant commit.
-- Un sujet = une branche.
-- Commits petits et explicites.
-- Ne pas developper directement sur `main`.
+### Produit
 
+```bash
+git checkout feat/0.5.0-prep
+git pull
+git merge --no-ff feature/mon-sujet-produit
+git push
+```
 
+### Monetisation
+
+```bash
+git checkout epic/ads-cmp
+git pull
+git merge --no-ff feature/mon-sujet-pub
+git push
+```
+
+## 7. Release
+
+```bash
+git checkout main
+git pull
+git merge --no-ff feat/0.5.0-prep
+git push
+```
+
+## 8. Anti-bazar
+
+- toujours verifier la branche avant de coder
+- pas de commit sans validation du lot
+- pas de developpement direct sur `main`
+- pas de merge cross-sujet sans raison claire
+- garder `ads.txt` et la meta AdSense sur toutes les branches produit actives
+
+## 9. Quand creer une nouvelle branche produit
+
+Quand une version est stabilisee :
+
+```bash
+git checkout main
+git pull
+git checkout -b feat/0.6.0-prep
+git push -u origin feat/0.6.0-prep
+```

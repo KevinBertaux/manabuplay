@@ -1,74 +1,133 @@
-# Charte UI/UX V1 (Modules)
+# Regles UI - ManabuPlay
 
-## Objectif
-Avoir une interface homogène entre les modules (Math, Langues, suivants) avec des regles simples et reutilisables.
+Document de reference UI/UX. Il sert a garder une interface coherente entre les modules eleve, le panneau interne et les evolutions futures.
 
-## Structure standard d'un module
-1. Titre du module (`h1`).
-2. Panneau d'information (score, serie, etat) sur une ligne, compact.
-3. Zone d'exercice principale (flashcard, QCM, grille, etc.).
-4. Zone d'actions (Verifier, Suivant, Melanger, etc.).
-5. Feedback (correct / incorrect / message utile).
+## 1. Principes
 
-## Regles de mise en page
-- Echelle d'espacement: `8 / 12 / 16 / 24 px` uniquement.
-- Largeur module: centree, max stable (`~760-820px` selon besoin module).
-- Radius:
-  - controles petits: `8-10px`
-  - panneaux/cartes: `12-14px`
-- Eviter les blocs trop hauts qui obligent a scroller avant l'action principale.
+- mobile-first
+- interface lisible pour enfant
+- composants simples et reutilisables
+- contrastes visibles
+- hierarchie visuelle nette
+- pas d effet decoratif gratuit
 
-## Regles de composants
-- Bouton primaire: palette turquoise (gradient autorise).
-- Bouton secondaire: palette violette (gradient autorise).
-- Etats de bouton obligatoires: normal, hover, disabled.
-- Feedback:
-  - succes: vert/turquoise
-  - erreur: rouge doux
-- Etat vide obligatoire (ex: "Choisir une liste pour commencer").
+## 2. Structure des ecrans eleve
 
-## Regles de texte
-- Texte court, lisible pour enfant.
-- Verbes conjugues et consignes claires.
-- Pas de jargon technique dans le flux principal.
-- Les aides techniques (raccourcis clavier, details) restent secondaires.
+### Ecran standard
 
-## Regles responsive
-- Contrat unique (mobile-first) base sur Tailwind:
-  - Mobile: `<= 767px`
-  - Tablette: `768px -> 1023px`
-  - Desktop: `>= 1024px`
-- Cibles tactiles min: `44px`.
-- Navigation et actions accessibles sans zoom.
-- Eviter tout breakpoint ad-hoc (ex: 700, 820, 860) hors cas exceptionnel documente.
-- Guardrail obligatoire: `npm run check:breakpoints` doit rester vert.
+1. titre clair
+2. bloc de configuration ou de selection
+3. bloc d etat / score si necessaire
+4. zone d exercice principale
+5. actions principales
+6. feedback ou aide contextuelle
 
-## Regles accessibilite minimales
-- Chaque controle a un label explicite.
-- Focus visible clavier sur boutons/liens/champs.
-- Contraste texte/fond suffisant.
-- Les erreurs doivent etre comprehensibles sans code technique.
+### Etats obligatoires
 
-## Palette d'etats recommandee
-- Actif: turquoise
-- Secondaire: violet
-- Succes: vert
-- Erreur: rouge
-- Neutre: gris/bleu clair
+- etat vide
+- etat actif
+- succes
+- erreur
+- loading si necessaire
 
-## Checklist pre-merge UI
-- [ ] Structure module en 5 blocs respectee.
-- [ ] Espacements conformes (8/12/16/24).
-- [ ] Boutons primaire/secondaire conformes.
-- [ ] Etat vide present.
-- [ ] Feedback succes/erreur present.
-- [ ] Responsive mobile valide (1 colonne + cibles 44px).
-- [ ] Focus clavier visible et labels presents.
-- [ ] Aucun texte technique expose a l'enfant dans le flux principal.
+## 3. Regles d espacement
 
-## Evolution prevue (V2)
-- Extraire des composants UI communs:
-  1. `ModuleHeaderStats`
-  2. `ModuleActions`
-  3. `ModuleFeedback`
-- Documenter des tokens de design (couleurs, radius, espacements) dans un fichier dedie.
+- privilegier des valeurs paires
+- echelle de base recommandee :
+  - `4`
+  - `8`
+  - `12`
+  - `16`
+  - `24`
+  - `32`
+- eviter les valeurs impaires hors cas ponctuel tres justifie
+- eviter les valeurs a virgule
+
+## 4. Rayons et formes
+
+- petits controles :
+  - `4px` a `8px`
+- cartes / panneaux :
+  - `8px` a `12px`
+- pas de multiplication des gros radius
+- les pills restent des exceptions volontaires
+
+## 5. Largeurs et conteneurs
+
+- contenu recentre
+- conteneurs stables
+- largeur suffisante pour eviter l impression de blocs etroits ou perdus
+- pas de reservations vides dans le layout en production
+
+## 6. Couleurs et etats
+
+- actif principal :
+  - turquoise / bleu clair de la palette ManabuPlay
+- secondaire :
+  - violet
+- succes :
+  - vert lisible
+- erreur :
+  - rouge doux lisible
+- neutre :
+  - gris / bleu clair
+
+### Regles
+
+- ne pas utiliser la seule couleur pour transmettre l information
+- etat hover plus visible que l etat normal
+- focus clavier visible
+- ne pas confondre une couleur d etat avec une couleur de priorite projet
+
+## 7. Responsive
+
+### Contrat principal
+
+- mobile : `< 768px`
+- tablette / small desktop : `768px` a `1279px`
+- desktop large : `>= 1280px`
+
+### Regles
+
+- pas de breakpoints ad-hoc hors exception documentee
+- cibles tactiles minimales :
+  - `44px`
+- pas de fonctionnalite clee inaccessible sur mobile
+- si un comportement differe par breakpoint, il doit etre volontaire et documente
+
+## 8. Texte et microcopy
+
+- texte simple
+- pas de jargon dans le flux enfant
+- consignes courtes
+- formulation coherente sur tout le site
+- le technique reste dans l aide ou l admin
+
+## 9. Admin
+
+- l admin peut etre plus dense que les modules eleve
+- mais il doit rester lisible et hierarchise
+- tableaux : privilegier badges, filtres, statuts
+- ne pas surcharger avec des boutons decoratifs
+
+## 10. Verification avant merge UI
+
+- [ ] structure de page coherente
+- [ ] espacement conforme
+- [ ] etats hover / focus / disabled visibles
+- [ ] responsive verifie
+- [ ] aucun bloc vide ou reserve sans raison
+- [ ] labels clairs
+- [ ] aucun texte technique inutile dans le parcours enfant
+
+## 11. Relation avec Tailwind
+
+- Tailwind fournit l outillage
+- les regles du projet priment sur les classes prises au hasard
+- une utilitaire Tailwind n excuse pas une incoherence visuelle
+
+## 12. Evolution future
+
+- passe typographique propre
+- tokens de design plus explicites
+- harmonisation finale eleve / admin / legal

@@ -138,6 +138,14 @@
       "done": false
     },
     {
+      "id": "scope-050-med-typography-pass",
+      "priority": "Med",
+      "domain": "docs",
+      "feature": "typography",
+      "label": "Passe typographique propre (accents, apostrophes, ponctuation, coherence editoriale)",
+      "done": false
+    },
+    {
       "id": "scope-050-low-polish",
       "priority": "Low",
       "domain": "ui",
