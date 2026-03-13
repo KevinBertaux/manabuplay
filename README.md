@@ -49,12 +49,12 @@ npm run build
 
 - Pilotage produit, scopes et backlog :
   - `src/content/roadmap/*.json`
-  - panneau d'administration
+  - panneau d’administration
 - Contenus strictement internes au panneau :
   - `src/content/admin/*`
 - Informations légales publiques :
   - pages du site `/legal/*`
-- Manuel d'usage du panneau interne :
+- Manuel d’usage du panneau interne :
   - `/-/studio-ops/help`
 
-`ROADMAP.md` reste une synthèse courte de pilotage. Il ne doit pas re-dupliquer l'intégralité des scopes JSON.
+`ROADMAP.md` reste une synthèse courte de pilotage. Il ne doit pas re-dupliquer l’intégralité des scopes JSON.

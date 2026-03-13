@@ -56,7 +56,7 @@ Document de synthèse. Les scopes détaillés, historiques de version et backlog
 - `feature/*` liés à la pub -> `epic/ads-cmp`
 - `epic/ads-cmp` -> branche produit active quand la monétisation est prête
 
-## Pré requis AdSense à conserver
+## Pré-requis AdSense à conserver
 
 Ces éléments doivent survivre sur toutes les branches produit actives :
 

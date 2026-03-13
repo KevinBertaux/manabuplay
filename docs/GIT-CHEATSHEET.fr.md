@@ -12,15 +12,15 @@ Document court pour garder un workflow Git propre.
   - `feat/0.6.0-prep`
   - etc.
 
-### Monetisation
+### Monétisation
 
-- `epic/ads-cmp` = ligne monetisation
+- `epic/ads-cmp` = ligne monétisation
 
-## 2. Regle simple
+## 2. Règle simple
 
 - une feature produit part de la branche produit active
 - une feature pub/CMP part de `epic/ads-cmp`
-- on ne melange pas les sujets
+- on ne mélange pas les sujets
 
 ## 3. Commandes essentielles
 
@@ -47,7 +47,7 @@ git commit -m "feat(scope): message"
 git push
 ```
 
-## 5. Workflow feature monetisation
+## 5. Workflow feature monétisation
 
 ```bash
 git checkout epic/ads-cmp
@@ -67,7 +67,7 @@ git merge --no-ff feature/mon-sujet-produit
 git push
 ```
 
-### Monetisation
+### Monétisation
 
 ```bash
 git checkout epic/ads-cmp
@@ -87,15 +87,15 @@ git push
 
 ## 8. Anti-bazar
 
-- toujours verifier la branche avant de coder
+- toujours vérifier la branche avant de coder
 - pas de commit sans validation du lot
-- pas de developpement direct sur `main`
+- pas de développement direct sur `main`
 - pas de merge cross-sujet sans raison claire
 - garder `ads.txt` et la meta AdSense sur toutes les branches produit actives
 
-## 9. Quand creer une nouvelle branche produit
+## 9. Quand créer une nouvelle branche produit
 
-Quand une version est stabilisee :
+Quand une version est stabilisée :
 
 ```bash
 git checkout main

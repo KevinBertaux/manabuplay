@@ -1,6 +1,6 @@
 # Documentation FR - ManabuPlay
 
-Hub de documentation en français. Ce document détaille où trouver l'information utile sans re-dupliquer les sources de vérité métier.
+Hub de documentation en français. Ce document détaille où trouver l’information utile sans re-dupliquer les sources de vérité métier.
 
 [English documentation](README.en.md)
 
@@ -35,7 +35,7 @@ Hub de documentation en français. Ce document détaille où trouver l'informati
 ### Sources publiques dans le site
 
 - Mentions légales : `/legal/legal-notice`
-- Conditions générales d'utilisation : `/legal/terms-of-use`
+- Conditions générales d’utilisation : `/legal/terms-of-use`
 - Politique de confidentialité : `/legal/privacy-policy`
 - Politique cookies : `/legal/cookie-policy`
 
@@ -51,7 +51,7 @@ Hub de documentation en français. Ce document détaille où trouver l'informati
 - Source de vérité détaillée :
   - `src/content/roadmap/*.json`
 - Consommation :
-  - panneau d'administration
+  - panneau d’administration
 - Rôle de `ROADMAP.md` :
   - synthèse courte, pas duplication intégrale
 
@@ -61,7 +61,7 @@ Hub de documentation en français. Ce document détaille où trouver l'informati
 - Réservé aux contenus strictement liés au panneau interne
 - Règle retenue :
   - si le contenu a du sens hors admin, il reste dans son domaine métier
-  - si le contenu n'existe que pour le pilotage interne, il va dans `admin`
+  - si le contenu n’existe que pour le pilotage interne, il va dans `admin`
 
 ### Juridique public
 

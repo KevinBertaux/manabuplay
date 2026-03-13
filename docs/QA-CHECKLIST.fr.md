@@ -1,15 +1,15 @@
 # Checklist QA - ManabuPlay
 
-Document qualite cible. Il sert a preparer et executer la validation fonctionnelle et technique avant une release ou un lot sensible.
+Document qualité cible. Il sert à préparer et exécuter la validation fonctionnelle et technique avant une release ou un lot sensible.
 
-## 1. Preparation
+## 1. Préparation
 
 - [ ] `npm install`
 - [ ] `npm run dev`
 - [ ] application ouverte sur desktop
-- [ ] application ouverte sur mobile ou viewport mobile credible
+- [ ] application ouverte sur mobile ou viewport mobile crédible
 
-## 2. Controles automatises
+## 2. Contrôles automatisés
 
 - [ ] `npm run check:breakpoints`
 - [ ] `npm run check:spacing`
@@ -24,7 +24,7 @@ Document qualite cible. Il sert a preparer et executer la validation fonctionnel
 - [ ] functions >= `80%`
 - [ ] statements >= `55%`
 - [ ] lines >= `55%`
-- [ ] regle ratchet only respectee
+- [ ] règle ratchet only respectée
 
 ## 4. Smoke tests produit
 
@@ -34,45 +34,45 @@ Document qualite cible. Il sert a preparer et executer la validation fonctionnel
 - [ ] hub Math OK
 - [ ] hub Langues OK
 - [ ] menu responsive OK
-- [ ] pages legales OK
+- [ ] pages légales OK
 
 ### Multiplications
 
-- [ ] aucune table pre-selectionnee
-- [ ] changement de selection immediat
-- [ ] bonne reponse : score / total / serie coherents
-- [ ] mauvaise reponse : feedback coherent
-- [ ] meilleure serie persistante
-- [ ] clavier et pave numerique coherents
+- [ ] aucune table pré-sélectionnée
+- [ ] changement de sélection immédiat
+- [ ] bonne réponse : score / total / série cohérents
+- [ ] mauvaise réponse : feedback cohérent
+- [ ] meilleure série persistante
+- [ ] clavier et pavé numérique cohérents
 
-### Symetrie
+### Symétrie
 
-- [ ] selection et validation coherentes
-- [ ] score / serie / meilleure serie coherents
-- [ ] passage a la question suivante sans regression UX
+- [ ] sélection et validation cohérentes
+- [ ] score / série / meilleure série cohérents
+- [ ] passage à la question suivante sans régression UX
 
 ### Anglais
 
-- [ ] aucune liste pre-selectionnee
-- [ ] titre et compteur de mots coherents
-- [ ] description de liste coherente
+- [ ] aucune liste pré-sélectionnée
+- [ ] titre et compteur de mots cohérents
+- [ ] description de liste cohérente
 - [ ] navigation cartes OK
-- [ ] revelation traduction OK
+- [ ] révélation traduction OK
 - [ ] TTS OK
 - [ ] sens de carte OK
 
 ## 5. Zone interne
 
-- [ ] acces interne non visible dans le menu public
-- [ ] connexion valide -> acces panneau
-- [ ] connexion invalide -> message generique coherent
-- [ ] blocage temporaire coherent
-- [ ] expiration de session coherente
-- [ ] edition locale / import / export / copie OK
+- [ ] accès interne non visible dans le menu public
+- [ ] connexion valide -> accès panneau
+- [ ] connexion invalide -> message générique cohérent
+- [ ] blocage temporaire cohérent
+- [ ] expiration de session cohérente
+- [ ] édition locale / import / export / copie OK
 
-## 6. Regression transverse
+## 6. Régression transverse
 
 - [ ] aucun crash JS en console
-- [ ] rechargement page sans perte inattendue d etat
-- [ ] localStorage coherent
-- [ ] responsive coherent sur les vues critiques
+- [ ] rechargement page sans perte inattendue d’état
+- [ ] localStorage cohérent
+- [ ] responsive cohérent sur les vues critiques

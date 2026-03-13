@@ -14,7 +14,7 @@
       "priority": "Crit",
       "domain": "legal",
       "feature": "pages",
-      "label": "Harmoniser les pages legales et les dates",
+      "label": "Harmoniser les pages légales et les dates",
       "done": true
     },
     {
@@ -30,7 +30,7 @@
       "priority": "Crit",
       "domain": "infra",
       "feature": "quality",
-      "label": "Validation pre-release complete (test/e2e/build)",
+      "label": "Validation pré-release complète (test/e2e/build)",
       "done": true
     },
     {
@@ -38,7 +38,7 @@
       "priority": "Crit",
       "domain": "infra",
       "feature": "quality",
-      "label": "QA manuelle ciblee (vrais appareils mobile + validation TTS)",
+      "label": "QA manuelle ciblée (vrais appareils mobile + validation TTS)",
       "done": false
     },
     {
@@ -46,7 +46,7 @@
       "priority": "High",
       "domain": "ui",
       "feature": "home",
-      "label": "Refonte accueil V1 par sections matieres",
+      "label": "Refonte accueil V1 par sections matières",
       "done": true
     },
     {
@@ -54,7 +54,7 @@
       "priority": "High",
       "domain": "math",
       "feature": "symetrie",
-      "label": "Symetrie V1 QCM (axes vertical + horizontal)",
+      "label": "Symétrie V1 QCM (axes vertical + horizontal)",
       "done": true
     },
     {
@@ -62,7 +62,7 @@
       "priority": "High",
       "domain": "math",
       "feature": "multiplications",
-      "label": "Difficultes multiplications + pave numerique",
+      "label": "Difficultés multiplications + pavé numérique",
       "done": true
     },
     {
@@ -70,7 +70,7 @@
       "priority": "High",
       "domain": "math",
       "feature": "motivation",
-      "label": "Systeme de motivation (toast + jalons)",
+      "label": "Système de motivation (toast + jalons)",
       "done": true
     },
     {
@@ -78,7 +78,7 @@
       "priority": "High",
       "domain": "langues",
       "feature": "anglais",
-      "label": "Ajouter la liste anglaise Meteo (EN/FR)",
+      "label": "Ajouter la liste anglaise Météo (EN/FR)",
       "done": true
     },
     {
@@ -102,7 +102,7 @@
       "priority": "High",
       "domain": "admin",
       "feature": "security",
-      "label": "Durcir l admin front-only (docs publiques nettoyees, placeholders de configuration, limites explicites)",
+      "label": "Durcir l’admin front-only (docs publiques nettoyées, placeholders de configuration, limites explicites)",
       "done": false
     },
     {
@@ -118,7 +118,7 @@
       "priority": "Med",
       "domain": "infra",
       "feature": "quality",
-      "label": "QA pass v1: couverture renforcee + seuils Vitest + regle ratchet only",
+      "label": "QA pass v1 : couverture renforcée + seuils Vitest + règle ratchet only",
       "done": true
     },
     {
@@ -126,7 +126,7 @@
       "priority": "Med",
       "domain": "infra",
       "feature": "quality",
-      "label": "QA pass v2: CI qualite + matrix E2E + a11y + snapshots visuels + Lighthouse CI",
+      "label": "QA pass v2 : CI qualité + matrix E2E + a11y + snapshots visuels + Lighthouse CI",
       "done": true
     },
     {
@@ -134,7 +134,7 @@
       "priority": "Med",
       "domain": "docs",
       "feature": "release",
-      "label": "Modernisation documentaire 0.5.0 (README, hubs, checklists, references)",
+      "label": "Modernisation documentaire 0.5.0 (README, hubs, checklists, références)",
       "done": false
     },
     {
@@ -142,7 +142,7 @@
       "priority": "Med",
       "domain": "docs",
       "feature": "typography",
-      "label": "Passe typographique propre (accents, apostrophes, ponctuation, coherence editoriale)",
+      "label": "Passe typographique propre (accents, apostrophes, ponctuation, cohérence éditoriale)",
       "done": false
     },
     {
@@ -150,7 +150,7 @@
       "priority": "Low",
       "domain": "ui",
       "feature": "polish",
-      "label": "Polissage visuel leger",
+      "label": "Polissage visuel léger",
       "done": false
     },
     {
@@ -174,7 +174,7 @@
       "priority": "High",
       "domain": "langues",
       "feature": "anglais",
-      "label": "Anglais: TTS simplifie (en-US fixe, alternance 0.9/0.6 au clic, feedback visuel lecture)",
+      "label": "Anglais : TTS simplifié (en-US fixe, alternance 0.9/0.6 au clic, feedback visuel lecture)",
       "done": true
     },
     {
@@ -182,8 +182,9 @@
       "priority": "Med",
       "domain": "docs",
       "feature": "coherence",
-      "label": "Nettoyage naming vocab -> english (tests E2E, snapshots visuels, captures, libelles docs)",
+      "label": "Nettoyage naming vocab -> english (tests E2E, snapshots visuels, captures, libellés docs)",
       "done": true
     }
   ]
 }
+
