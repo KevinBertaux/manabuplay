@@ -524,6 +524,32 @@
   white-space: nowrap;
 }
 
+.ads-backlog-meta {
+  margin-bottom: 10px;
+}
+
+.ads-backlog-toolbar {
+  margin-bottom: 10px;
+}
+
+.ads-backlog-toggle {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d6e1ec;
+  border-radius: 4px;
+  padding: 8px 10px;
+  background: #f8fbff;
+  font-weight: 700;
+  color: #294763;
+}
+
+.ads-backlog-toggle input {
+  width: auto;
+  min-height: 0;
+}
+
 .roadmap-filters {
   margin-top: 8px;
   display: grid;
@@ -690,6 +716,53 @@
   font-weight: 800;
 }
 
+.status-chip {
+  display: inline-block;
+  border: 1px solid #c7d7e8;
+  border-radius: 4px;
+  padding: 2px 8px;
+  background: #f5f9fe;
+  color: #294763;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.status-chip.s-done {
+  border-color: #a8d7bf;
+  background: #ecf8f1;
+  color: #226a45;
+}
+
+.status-chip.s-in-progress {
+  border-color: #b9d2eb;
+  background: #edf5ff;
+  color: #234d93;
+}
+
+.status-chip.s-waiting {
+  border-color: #ead1ab;
+  background: #fff7eb;
+  color: #8b5a12;
+}
+
+.status-chip.s-watch {
+  border-color: #d6c4ef;
+  background: #f4effd;
+  color: #6241a7;
+}
+
+.status-chip.s-later {
+  border-color: #d8e0e8;
+  background: #f7f9fb;
+  color: #526579;
+}
+
+.status-chip.s-todo {
+  border-color: #ccd8e4;
+  background: #f4f8fc;
+  color: #2f4a63;
+}
+
 .priority-chip.p-crit {
   background: #ffe8e8;
   color: #9a1d1d;
@@ -708,6 +781,41 @@
 .priority-chip.p-low {
   background: #e6f7ec;
   color: #226a45;
+}
+
+.ads-backlog-table th:nth-child(1),
+.ads-backlog-table td:nth-child(1) {
+  width: 92px;
+}
+
+.ads-backlog-table th:nth-child(2),
+.ads-backlog-table td:nth-child(2) {
+  width: 120px;
+  text-align: left;
+}
+
+.ads-backlog-table th:nth-child(3),
+.ads-backlog-table td:nth-child(3) {
+  width: 190px;
+}
+
+.ads-backlog-table th:nth-child(4),
+.ads-backlog-table td:nth-child(4) {
+  width: 280px;
+}
+
+.ads-backlog-table td:nth-child(4),
+.ads-backlog-table td:nth-child(5) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.ads-backlog-row-done {
+  background: #fbfdfb;
+}
+
+.ads-backlog-row-done td {
+  color: #607182;
 }
 
 .table-header {

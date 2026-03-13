@@ -29,6 +29,7 @@ import {
   resetSymmetryShapesOverride,
   saveSymmetryShapesOverride,
 } from '@/features/math/symmetryShapeStore';
+import { getAdsPubBacklog, getAdsPubBacklogMeta } from '@/features/admin/adsBacklogStore';
 import { getRoadmapEntries, ROADMAP_PRIORITY_ORDER } from '@/features/admin/roadmapStore';
 
 const router = useRouter();
@@ -60,6 +61,7 @@ const sidebarGroups = Object.freeze([
     items: [
       { id: 'overview', icon: '📊', label: "Vue d'ensemble" },
       { id: 'roadmap', icon: '🗺️', label: 'Roadmap & Scopes' },
+      { id: 'ads-backlog', icon: '💰', label: 'Pub & CMP' },
       { id: 'maintenance', icon: '🧹', label: 'Maintenance locale' },
       { id: 'admin-help', icon: '📘', label: 'Aide' },
     ],
@@ -69,6 +71,7 @@ const sidebarGroups = Object.freeze([
 const sectionTitleMap = Object.freeze({
   overview: 'Dashboard admin',
   roadmap: 'Roadmap & Scopes',
+  'ads-backlog': 'Pub & CMP',
   english: 'Édition de listes d’anglais',
   symmetry: 'Formes de symétrie',
   maintenance: 'Maintenance locale',
@@ -422,9 +425,34 @@ function onFrenchInputEnter(index) {
 
 const scopePriorityOrder = ROADMAP_PRIORITY_ORDER;
 const roadmapEntries = Object.freeze(getRoadmapEntries());
+const adsBacklogItems = Object.freeze(getAdsPubBacklog());
+const adsBacklogMeta = Object.freeze(getAdsPubBacklogMeta());
+const hideDoneAdsBacklog = ref(false);
 const selectedRoadmapId = ref(
   roadmapEntries.find((entry) => entry.id === APP_VERSION)?.id || roadmapEntries[0]?.id || ''
 );
+const visibleAdsBacklogItems = computed(() =>
+  hideDoneAdsBacklog.value ? adsBacklogItems.filter((item) => item.status !== 'Fait') : adsBacklogItems
+);
+
+function adsStatusClass(status) {
+  if (status === 'Fait') {
+    return 's-done';
+  }
+  if (status === 'En cours') {
+    return 's-in-progress';
+  }
+  if (status === 'En attente') {
+    return 's-waiting';
+  }
+  if (status === 'À surveiller') {
+    return 's-watch';
+  }
+  if (status === 'Plus tard') {
+    return 's-later';
+  }
+  return 's-todo';
+}
 
 const activeRoadmapEntry = computed(() => {
   return roadmapEntries.find((entry) => entry.id === selectedRoadmapId.value) || roadmapEntries[0] || null;
@@ -1110,6 +1138,59 @@ refreshDashboardMetrics();
           </article>
         </section>
 
+        <section v-else-if="selectedSection === 'ads-backlog'" class="grid gap-3 p-3 md:px-4 md:pt-3 md:pb-4">
+          <article class="admin-card">
+            <div class="scope-head">
+              <h2>Backlog module pub</h2>
+              <span class="scope-summary-pill">{{ adsBacklogMeta.version }}</span>
+            </div>
+
+            <div class="roadmap-meta ads-backlog-meta">
+              <span>Dernière mise à jour: {{ formatDateFr(adsBacklogMeta.updatedAt) }}</span>
+              <span>{{ visibleAdsBacklogItems.length }} / {{ adsBacklogItems.length }} actions visibles</span>
+            </div>
+
+            <div class="ads-backlog-toolbar">
+              <label class="ads-backlog-toggle">
+                <input v-model="hideDoneAdsBacklog" type="checkbox" />
+                <span>Masquer les éléments faits</span>
+              </label>
+            </div>
+
+            <div class="roadmap-table-wrap">
+              <table class="roadmap-table ads-backlog-table">
+                <thead>
+                  <tr>
+                    <th>Priorité</th>
+                    <th>État</th>
+                    <th>Quand</th>
+                    <th>Blocage / attente</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="item in visibleAdsBacklogItems"
+                    :key="item.id"
+                    :class="{ 'ads-backlog-row-done': item.status === 'Fait' }"
+                  >
+                    <td>
+                      <span class="priority-chip" :class="`p-${item.priority.toLowerCase()}`">{{ item.priority }}</span>
+                    </td>
+                    <td><span class="status-chip" :class="adsStatusClass(item.status)">{{ item.status }}</span></td>
+                    <td>{{ item.timing }}</td>
+                    <td>{{ item.blocker }}</td>
+                    <td>{{ item.label }}</td>
+                  </tr>
+                  <tr v-if="visibleAdsBacklogItems.length === 0">
+                    <td colspan="5" class="meta-line">Aucun item visible avec ce filtre.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
         <section v-else-if="selectedSection === 'english'" class="grid gap-3 p-3 md:px-4 md:pt-3 md:pb-4">
           <div class="admin-card">
             <label for="listSelect">Liste à modifier</label>
@@ -1360,4 +1441,3 @@ refreshDashboardMetrics();
 </template>
 
 <style scoped src="../styles/admin-dashboard.css"></style>
-

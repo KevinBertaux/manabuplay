@@ -1,0 +1,126 @@
+{
+  "version": "ads-pub-backlog-v1",
+  "updatedAt": "2026-03-13",
+  "items": [
+    {
+      "id": "ads-review-result",
+      "priority": "Crit",
+      "status": "En attente",
+      "timing": "Maintenant",
+      "blocker": "Google doit terminer l'examen AdSense du site.",
+      "label": "Attendre le résultat de l'examen AdSense."
+    },
+    {
+      "id": "ads-main-stability",
+      "priority": "Crit",
+      "status": "En cours",
+      "timing": "Maintenant",
+      "blocker": "Éviter un déploiement pub/CMP prématuré sur main.",
+      "label": "Garder main stable sans activer la monétisation réelle."
+    },
+    {
+      "id": "ads-cmp-source-branch",
+      "priority": "Crit",
+      "status": "Fait",
+      "timing": "Maintenant",
+      "blocker": "Aucun.",
+      "label": "Conserver feature/cmp-consent-mode-v1 comme branche source de vérité pub/CMP."
+    },
+    {
+      "id": "ads-public-validation",
+      "priority": "High",
+      "status": "À faire",
+      "timing": "Après validation AdSense",
+      "blocker": "Examen AdSense + feu vert de release.",
+      "label": "Vérifier publiquement la CMP Google et les 3 slots du lot 1."
+    },
+    {
+      "id": "ads-merge-to-prep",
+      "priority": "High",
+      "status": "À faire",
+      "timing": "Après validation AdSense",
+      "blocker": "Validation manuelle de la branche CMP.",
+      "label": "Merger feature/cmp-consent-mode-v1 vers feat/0.5.0-prep."
+    },
+    {
+      "id": "ads-public-deploy",
+      "priority": "High",
+      "status": "À faire",
+      "timing": "Après validation AdSense",
+      "blocker": "Merge prêt + quota Netlify + décision de release.",
+      "label": "Déployer la CMP Google et le lot pub 1 en public."
+    },
+    {
+      "id": "ads-runtime-checks",
+      "priority": "High",
+      "status": "À faire",
+      "timing": "Après le premier déploiement",
+      "blocker": "Déploiement réel requis.",
+      "label": "Contrôler window.googlefc, __manabuCmpRuntime et __manabuAdsRuntime sur le site public."
+    },
+    {
+      "id": "ads-cookie-manager-check",
+      "priority": "High",
+      "status": "À faire",
+      "timing": "Après le premier déploiement",
+      "blocker": "Déploiement réel requis.",
+      "label": "Vérifier que « Gérer mes cookies » ouvre bien le privacy manager Google."
+    },
+    {
+      "id": "ads-route-visibility-check",
+      "priority": "High",
+      "status": "À faire",
+      "timing": "Après le premier déploiement",
+      "blocker": "Déploiement réel requis.",
+      "label": "Vérifier que seules Accueil, Math et Langues affichent une pub."
+    },
+    {
+      "id": "ads-ux-observation",
+      "priority": "Med",
+      "status": "À faire",
+      "timing": "Après le premier déploiement",
+      "blocker": "Retour visuel et usage réel.",
+      "label": "Mesurer l'impact UX du lot pub 1 après mise en ligne."
+    },
+    {
+      "id": "ads-fixed-vs-responsive",
+      "priority": "Med",
+      "status": "À surveiller",
+      "timing": "Après quelques jours de données",
+      "blocker": "Retour AdSense sur le fill et les revenus.",
+      "label": "Décider si les formats fixes restent pertinents ou s'il faut passer à des formats responsive."
+    },
+    {
+      "id": "ads-left-rail-v2",
+      "priority": "Med",
+      "status": "Plus tard",
+      "timing": "Lot pub 2",
+      "blocker": "Retour du lot 1 + nouvelle unité AdSense dédiée.",
+      "label": "Ajouter un rail gauche desktop avec une unité publicitaire distincte."
+    },
+    {
+      "id": "ads-more-study-pages",
+      "priority": "Med",
+      "status": "Plus tard",
+      "timing": "Lot pub 2+",
+      "blocker": "Retour du lot 1 + arbitrage UX.",
+      "label": "Étendre prudemment la pub à d'autres pages non quiz."
+    },
+    {
+      "id": "ads-admin-observability",
+      "priority": "Low",
+      "status": "Plus tard",
+      "timing": "Après V1",
+      "blocker": "Hors périmètre immédiat.",
+      "label": "Ajouter dans l'admin l'état des emplacements pub et de leur chargement."
+    },
+    {
+      "id": "ads-experiments",
+      "priority": "Low",
+      "status": "Plus tard",
+      "timing": "Après V1",
+      "blocker": "Besoin de données réelles avant d'expérimenter.",
+      "label": "Étudier Auto Ads, formats in-feed, in-article, Multiplex et extension aux pages quiz."
+    }
+  ]
+}
