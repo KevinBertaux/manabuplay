@@ -6,8 +6,8 @@ English documentation hub. This file points to the right sources instead of dupl
 
 ## Status
 
-- Current product version: `0.5.0-prep`
-- Active product branch: `feat/0.5.0-prep`
+- Current product version: `0.6.0-prep`
+- Active product branch: `feat/0.6.0-prep`
 - Separate monetization line: `epic/ads-cmp`
 
 ## Documentation map
@@ -16,7 +16,7 @@ English documentation hub. This file points to the right sources instead of dupl
 
 - Short GitHub overview: `README.md`
 - Short planning summary: `ROADMAP.md`
-- Current release notes: `docs/RELEASE-NOTES.0.5.0-prep.fr.md`
+- Latest published release notes: `docs/RELEASE-NOTES.0.5.0-prep.fr.md`
 
 ### Operations and quality
 

@@ -1,5 +1,5 @@
 {
-  "version": "0.5.0-prep",
+  "version": "0.5.0",
   "items": [
     {
       "id": "scope-050-crit-cms",
@@ -39,7 +39,7 @@
       "domain": "infra",
       "feature": "quality",
       "label": "QA manuelle ciblée (vrais appareils mobile + validation TTS)",
-      "done": false
+      "done": true
     },
     {
       "id": "scope-050-high-home",
@@ -98,14 +98,6 @@
       "done": true
     },
     {
-      "id": "scope-050-high-admin-front-only-hardening",
-      "priority": "High",
-      "domain": "admin",
-      "feature": "security",
-      "label": "Durcir l’admin front-only (docs publiques nettoyées, placeholders de configuration, limites explicites)",
-      "done": false
-    },
-    {
       "id": "scope-050-med-refactor",
       "priority": "Med",
       "domain": "infra",
@@ -135,7 +127,7 @@
       "domain": "docs",
       "feature": "release",
       "label": "Modernisation documentaire 0.5.0 (README, hubs, checklists, références)",
-      "done": false
+      "done": true
     },
     {
       "id": "scope-050-med-typography-pass",
@@ -143,15 +135,7 @@
       "domain": "docs",
       "feature": "typography",
       "label": "Passe typographique propre (accents, apostrophes, ponctuation, cohérence éditoriale)",
-      "done": false
-    },
-    {
-      "id": "scope-050-low-polish",
-      "priority": "Low",
-      "domain": "ui",
-      "feature": "polish",
-      "label": "Polissage visuel léger",
-      "done": false
+      "done": true
     },
     {
       "id": "scope-050-high-tailwind-v4",
@@ -187,4 +171,3 @@
     }
   ]
 }
-

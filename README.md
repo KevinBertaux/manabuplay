@@ -4,8 +4,8 @@ Application web éducative pour faire réviser les enfants en autonomie, avec un
 
 ## Statut
 
-- Version produit en cours : `0.5.0-prep`
-- Branche produit active : `feat/0.5.0-prep`
+- Version produit en cours : `0.6.0-prep`
+- Branche produit active : `feat/0.6.0-prep`
 - Ligne monétisation séparée : `epic/ads-cmp`
 
 ## Modules actuellement disponibles
@@ -43,7 +43,7 @@ npm run build
 - Sécurité / secrets : `docs/SECURITY-SECRETS.fr.md`
 - R2 / cache : `docs/R2-CACHE-CONTROL.fr.md`
 - Git cheat sheet : `docs/GIT-CHEATSHEET.fr.md`
-- Notes de version `0.5.0-prep` : `docs/RELEASE-NOTES.0.5.0-prep.fr.md`
+- Dernières notes de version publiées : `docs/RELEASE-NOTES.0.5.0-prep.fr.md`
 
 ## Sources de vérité
 

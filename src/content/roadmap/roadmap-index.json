@@ -33,17 +33,19 @@
       "endDate": "2026-02-23"
     },
     {
-      "id": "0.5.0-prep",
-      "title": "Scope 0.5.0-prep",
+      "id": "0.5.0",
+      "title": "Scope 0.5.0",
       "type": "scope",
       "sourceKey": "scope-0.5.0",
-      "startDate": "2026-02-23"
+      "startDate": "2026-02-23",
+      "endDate": "2026-03-13"
     },
     {
       "id": "0.6.0",
       "title": "Scope 0.6.0",
       "type": "scope",
-      "sourceKey": "scope-0.6.0"
+      "sourceKey": "scope-0.6.0",
+      "startDate": "2026-03-13"
     },
     {
       "id": "backlog",

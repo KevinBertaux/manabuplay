@@ -18,9 +18,9 @@ describe('roadmapStore', () => {
   });
 
   it('returns scope by id and null for unknown ids', () => {
-    const scope050 = getRoadmapEntryById('0.5.0-prep');
+    const scope050 = getRoadmapEntryById('0.5.0');
     expect(scope050).not.toBeNull();
-    expect(scope050?.id).toBe('0.5.0-prep');
+    expect(scope050?.id).toBe('0.5.0');
     expect(scope050?.items.length).toBeGreaterThan(0);
 
     expect(getRoadmapEntryById('unknown-scope-id')).toBeNull();

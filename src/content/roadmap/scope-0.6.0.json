@@ -72,6 +72,22 @@
       "feature": "nettoyage-legacy",
       "label": "Retirer la compatibilité legacy localStorage manabuplay_vocab_* (fin de migration 0.5)",
       "done": false
+    },
+    {
+      "id": "scope-060-admin-front-only-hardening",
+      "priority": "High",
+      "domain": "admin",
+      "feature": "security",
+      "label": "Durcir l'admin front-only (docs publiques nettoyées, placeholders de configuration, limites explicites)",
+      "done": false
+    },
+    {
+      "id": "scope-060-ui-minor-polish",
+      "priority": "Low",
+      "domain": "ui",
+      "feature": "polish",
+      "label": "Finitions UI mineures",
+      "done": false
     }
   ]
 }
