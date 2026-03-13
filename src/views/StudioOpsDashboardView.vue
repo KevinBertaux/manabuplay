@@ -25,6 +25,7 @@ import {
 } from '@/features/admin/storageMaintenance';
 import {
   getActiveSymmetryShapesConfig,
+  hydrateRemoteSymmetryShapesConfig,
   hasSymmetryShapesOverride,
   resetSymmetryShapesOverride,
   saveSymmetryShapesOverride,
@@ -857,10 +858,15 @@ async function loadBuildInfo() {
   buildInfo.value = await fetchBuildInfo();
 }
 
-loadBuildInfo();
-refreshSymmetryDraft();
-refreshMaintenanceData();
-refreshDashboardMetrics();
+async function initAdminData() {
+  await hydrateRemoteSymmetryShapesConfig();
+  await loadBuildInfo();
+  refreshSymmetryDraft();
+  refreshMaintenanceData();
+  refreshDashboardMetrics();
+}
+
+initAdminData();
 </script>
 
 <template>

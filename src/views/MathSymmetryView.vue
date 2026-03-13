@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { createSymmetryQuestionBag, evaluateSymmetryAnswer } from '@/features/math/symmetryEngine';
+import { hydrateRemoteSymmetryShapesConfig } from '@/features/math/symmetryShapeStore';
 import MotivationToast from '@/components/MotivationToast.vue';
 import QuizActions from '@/components/QuizActions.vue';
 import QuizFeedbackBanner from '@/components/QuizFeedbackBanner.vue';
@@ -15,11 +16,12 @@ import {
 const BEST_STREAK_KEY = 'manabuplay_symmetry_best_streak_v1';
 const AUTO_NEXT_DELAY_MS = 2000;
 
-const questionBag = createSymmetryQuestionBag();
+const questionBag = ref(createSymmetryQuestionBag());
 const selectedOptionId = ref('');
 const toastMessage = ref('');
 const toastTone = ref('streak');
 const toastTimeoutId = ref(null);
+const isReady = ref(false);
 const motivationState = ref({
   hasShownX3InSession: false,
   hasShownRecordInRun: false,
@@ -74,7 +76,7 @@ function showMotivationToast(toast) {
 function loadNextQuestion() {
   nextQuestion({
     isReady: () => true,
-    buildQuestion: () => questionBag.next(),
+    buildQuestion: () => questionBag.value.next(),
   });
   selectedOptionId.value = '';
 }
@@ -236,9 +238,13 @@ function onKeydown(event) {
   }
 }
 
-loadNextQuestion();
-
-onMounted(() => {
+onMounted(async () => {
+  const remoteResult = await hydrateRemoteSymmetryShapesConfig();
+  if (remoteResult.updated > 0) {
+    questionBag.value = createSymmetryQuestionBag();
+  }
+  loadNextQuestion();
+  isReady.value = true;
   window.addEventListener('keydown', onKeydown);
 });
 
@@ -253,6 +259,9 @@ onUnmounted(() => {
   <section class="page-block quiz-module symmetry-page">
     <h1>Math - Symétrie</h1>
 
+    <p v-if="!isReady || !currentQuestion" class="hint">Chargement des formes…</p>
+
+    <template v-else>
     <QuizScoreBar
       :score="score"
       :total="total"
@@ -366,6 +375,7 @@ onUnmounted(() => {
     <QuizActions :can-check="canCheck" @check="checkAnswer" @next="loadNextQuestion" />
 
     <p class="hint">Raccourcis clavier: 1, 2, 3, 4 pour choisir une option, Entrée pour vérifier/suivant.</p>
+    </template>
   </section>
 </template>
 

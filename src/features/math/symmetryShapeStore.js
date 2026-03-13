@@ -5,6 +5,13 @@ export const SYMMETRY_SHAPES_STORAGE_KEY = 'manabuplay_symmetry_shapes_v1';
 const DEFAULT_GRID_SIZE = 5;
 const DEFAULT_AXES = ['vertical', 'horizontal'];
 const VALID_AXES = new Set(DEFAULT_AXES);
+const REMOTE_TIMEOUT_MS = 3500;
+const DEFAULT_REMOTE_FOLDER = 'math';
+const DEFAULT_REMOTE_FILE = 'symmetry-shapes.v1.json';
+
+let runtimeBaseShapesConfig = sanitizeWithFallback(baseShapesConfig, baseShapesConfig);
+let remoteHydrated = false;
+let remoteHydrationPromise = null;
 
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
@@ -105,7 +112,7 @@ function sanitizeWithFallback(input, fallback) {
 }
 
 export function getBaseSymmetryShapesConfig() {
-  return cloneJson(sanitizeWithFallback(baseShapesConfig, baseShapesConfig));
+  return cloneJson(runtimeBaseShapesConfig);
 }
 
 export function getActiveSymmetryShapesConfig() {
@@ -146,3 +153,92 @@ export function resetSymmetryShapesOverride() {
   window.localStorage.removeItem(SYMMETRY_SHAPES_STORAGE_KEY);
 }
 
+function getEnvValue(key, fallback = '') {
+  if (typeof import.meta === 'undefined' || !import.meta.env) {
+    return fallback;
+  }
+
+  const value = import.meta.env[key];
+  return typeof value === 'string' && value.trim() ? value.trim() : fallback;
+}
+
+function getRemoteBaseUrl() {
+  const env = getEnvValue('VITE_MATH_REMOTE_BASE_URL', '');
+  return env ? env.replace(/\/$/, '') : '';
+}
+
+function getRemoteFolder() {
+  return getEnvValue('VITE_MATH_REMOTE_FOLDER', DEFAULT_REMOTE_FOLDER).replace(/^\/+|\/+$/g, '');
+}
+
+function getRemoteConfigFile() {
+  return getEnvValue('VITE_MATH_REMOTE_CONFIG_FILE', DEFAULT_REMOTE_FILE).replace(/^\/+/, '');
+}
+
+async function fetchJsonWithTimeout(url, timeoutMs = REMOTE_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      signal: controller.signal,
+      headers: { Accept: 'application/json' },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+export async function hydrateRemoteSymmetryShapesConfig() {
+  if (remoteHydrated) {
+    return { enabled: !!getRemoteBaseUrl(), loaded: 0, updated: 0, skipped: 0 };
+  }
+
+  if (remoteHydrationPromise) {
+    return remoteHydrationPromise;
+  }
+
+  remoteHydrationPromise = (async () => {
+    const baseUrl = getRemoteBaseUrl();
+    if (!baseUrl || typeof window === 'undefined' || typeof fetch !== 'function') {
+      remoteHydrated = true;
+      return { enabled: false, loaded: 0, updated: 0, skipped: 0 };
+    }
+
+    const remoteFolder = getRemoteFolder();
+    const remoteFile = getRemoteConfigFile();
+    const remoteUrl = `${baseUrl}/${remoteFolder}/${remoteFile}`;
+    const payload = await fetchJsonWithTimeout(remoteUrl);
+
+    remoteHydrated = true;
+
+    if (!payload) {
+      return { enabled: true, loaded: 0, updated: 0, skipped: 1 };
+    }
+
+    const sanitized = sanitizeWithFallback(payload, baseShapesConfig);
+    const hasRemoteShapes = Array.isArray(sanitized.shapes) && sanitized.shapes.length > 0;
+
+    if (!hasRemoteShapes) {
+      return { enabled: true, loaded: 1, updated: 0, skipped: 0 };
+    }
+
+    runtimeBaseShapesConfig = sanitized;
+    return { enabled: true, loaded: 1, updated: 1, skipped: 0 };
+  })();
+
+  try {
+    return await remoteHydrationPromise;
+  } finally {
+    remoteHydrationPromise = null;
+  }
+}
