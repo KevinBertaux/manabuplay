@@ -30,6 +30,7 @@ import {
   saveSymmetryShapesOverride,
 } from '@/features/math/symmetryShapeStore';
 import { getAdsPubBacklog, getAdsPubBacklogMeta } from '@/features/admin/adsBacklogStore';
+import { getGoNoGoChecklists, getGoNoGoMeta } from '@/features/admin/goNoGoStore';
 import { getRoadmapEntries, ROADMAP_PRIORITY_ORDER } from '@/features/admin/roadmapStore';
 
 const router = useRouter();
@@ -62,6 +63,7 @@ const sidebarGroups = Object.freeze([
       { id: 'overview', icon: '📊', label: "Vue d'ensemble" },
       { id: 'roadmap', icon: '🗺️', label: 'Roadmap & Scopes' },
       { id: 'ads-backlog', icon: '💰', label: 'Pub & CMP' },
+      { id: 'go-nogo', icon: '🚦', label: 'Go / NoGo' },
       { id: 'maintenance', icon: '🧹', label: 'Maintenance locale' },
       { id: 'admin-help', icon: '📘', label: 'Aide' },
     ],
@@ -74,6 +76,7 @@ const sectionTitleMap = Object.freeze({
   'ads-backlog': 'Pub & CMP',
   english: 'Édition de listes d’anglais',
   symmetry: 'Formes de symétrie',
+  'go-nogo': 'Go / NoGo',
   maintenance: 'Maintenance locale',
   'admin-help': 'Documentation du panneau interne',
 });
@@ -428,11 +431,33 @@ const roadmapEntries = Object.freeze(getRoadmapEntries());
 const adsBacklogItems = Object.freeze(getAdsPubBacklog());
 const adsBacklogMeta = Object.freeze(getAdsPubBacklogMeta());
 const hideDoneAdsBacklog = ref(false);
+const showOnlyGoNoGoBlockers = ref(false);
+const goNoGoChecklists = Object.freeze(getGoNoGoChecklists());
+const goNoGoMeta = Object.freeze(getGoNoGoMeta());
 const selectedRoadmapId = ref(
   roadmapEntries.find((entry) => entry.id === APP_VERSION)?.id || roadmapEntries[0]?.id || ''
 );
 const visibleAdsBacklogItems = computed(() =>
   hideDoneAdsBacklog.value ? adsBacklogItems.filter((item) => item.status !== 'Fait') : adsBacklogItems
+);
+const goNoGoReadyCount = computed(() =>
+  goNoGoChecklists.reduce((total, checklist) => total + checklist.readyCount, 0)
+);
+const goNoGoTotalCount = computed(() =>
+  goNoGoChecklists.reduce((total, checklist) => total + checklist.totalCount, 0)
+);
+const goNoGoBlockerCount = computed(() =>
+  goNoGoChecklists.reduce((total, checklist) => total + checklist.blockers.length, 0)
+);
+const goNoGoBlockerSummary = computed(() =>
+  goNoGoChecklists
+    .filter((checklist) => checklist.blockers.length > 0)
+    .map((checklist) => ({
+      id: checklist.id,
+      label: checklist.label,
+      count: checklist.blockers.length,
+      target: goNoGoRowId(checklist.id, checklist.blockers[0].id),
+    }))
 );
 
 function adsStatusClass(status) {
@@ -452,6 +477,24 @@ function adsStatusClass(status) {
     return 's-later';
   }
   return 's-todo';
+}
+
+function goNoGoStatusClass(status) {
+  return status === 'Go' ? 'go-nogo-status-go' : 'go-nogo-status-nogo';
+}
+
+function goNoGoRowId(checklistId, itemId) {
+  return `go-nogo-${checklistId}-${itemId}`;
+}
+
+function isGoNoGoBlockerRow(item) {
+  return item.severity === 'blocker' && item.status !== 'ready';
+}
+
+function visibleGoNoGoItems(checklist) {
+  return showOnlyGoNoGoBlockers.value
+    ? checklist.items.filter((item) => isGoNoGoBlockerRow(item))
+    : checklist.items;
 }
 
 const activeRoadmapEntry = computed(() => {
@@ -1183,6 +1226,92 @@ refreshDashboardMetrics();
                     <td>{{ item.label }}</td>
                   </tr>
                   <tr v-if="visibleAdsBacklogItems.length === 0">
+                    <td colspan="5" class="meta-line">Aucun item visible avec ce filtre.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section v-else-if="selectedSection === 'go-nogo'" class="grid gap-3 p-3 md:px-4 md:pt-3 md:pb-4">
+          <article class="admin-card">
+            <div class="scope-head">
+              <h2>Checklists Go / NoGo</h2>
+              <span class="scope-summary-pill">{{ goNoGoMeta.version }}</span>
+            </div>
+
+            <div class="roadmap-meta go-nogo-meta">
+              <span>Dernière mise à jour: {{ formatDateFr(goNoGoMeta.updatedAt) }}</span>
+              <span>{{ goNoGoReadyCount }} / {{ goNoGoTotalCount }} points prêts</span>
+              <span>{{ goNoGoBlockerCount }} blocker(s) ouverts</span>
+            </div>
+
+            <div v-if="goNoGoBlockerSummary.length > 0" class="go-nogo-toolbar">
+              <div class="go-nogo-blocker-summary">
+                <span class="meta-line">Blockers ouverts</span>
+                <a
+                  v-for="entry in goNoGoBlockerSummary"
+                  :key="entry.id"
+                  class="go-nogo-chip-link"
+                  :href="`#${entry.target}`"
+                >
+                  {{ entry.label }} ({{ entry.count }})
+                </a>
+              </div>
+
+              <label class="ads-backlog-toggle">
+                <input v-model="showOnlyGoNoGoBlockers" type="checkbox" />
+                <span>Afficher seulement les blockers</span>
+              </label>
+            </div>
+          </article>
+
+          <article
+            v-for="checklist in goNoGoChecklists"
+            :key="checklist.id"
+            class="admin-card go-nogo-card"
+          >
+            <div class="scope-head">
+              <div>
+                <h2>{{ checklist.label }}</h2>
+                <p class="meta-line">{{ checklist.appliesTo }}</p>
+              </div>
+              <span class="go-nogo-status" :class="goNoGoStatusClass(checklist.status)">{{ checklist.status }}</span>
+            </div>
+
+            <div v-if="checklist.blockers.length > 0" class="go-nogo-alert">
+              <strong>NoGo actuel:</strong>
+              <ul>
+                <li v-for="item in checklist.blockers" :key="`${checklist.id}-${item.id}`">{{ item.label }}</li>
+              </ul>
+            </div>
+
+            <div class="roadmap-table-wrap">
+              <table class="roadmap-table go-nogo-table">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Sévérité</th>
+                    <th>Statut</th>
+                    <th>Point de contrôle</th>
+                    <th>Note</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="item in visibleGoNoGoItems(checklist)"
+                    :id="goNoGoRowId(checklist.id, item.id)"
+                    :key="item.id"
+                    :class="{ 'go-nogo-row-blocker': isGoNoGoBlockerRow(item) }"
+                  >
+                    <td>{{ item.type }}</td>
+                    <td>{{ item.severity }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>{{ item.label }}</td>
+                    <td>{{ item.note }}</td>
+                  </tr>
+                  <tr v-if="visibleGoNoGoItems(checklist).length === 0">
                     <td colspan="5" class="meta-line">Aucun item visible avec ce filtre.</td>
                   </tr>
                 </tbody>

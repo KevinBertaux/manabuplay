@@ -528,6 +528,94 @@
   margin-bottom: 10px;
 }
 
+.go-nogo-meta {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.go-nogo-card {
+  display: grid;
+  gap: 10px;
+}
+
+.go-nogo-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  border: 1px solid #c8d8e7;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.go-nogo-status-go {
+  border-color: #9fd0b8;
+  background: #e9f7ef;
+  color: #226a45;
+}
+
+.go-nogo-status-nogo {
+  border-color: #efc1c1;
+  background: #fff0f0;
+  color: #a53030;
+}
+
+.go-nogo-alert {
+  border: 1px solid #efc7c7;
+  border-radius: 4px;
+  padding: 10px;
+  background: #fff7f7;
+  color: #7f2a2a;
+}
+
+.go-nogo-alert ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+}
+
+.go-nogo-toolbar {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.go-nogo-blocker-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.go-nogo-chip-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  border: 1px solid #d6e1ec;
+  border-radius: 4px;
+  padding: 4px 10px;
+  background: #f8fbff;
+  color: #294763;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.go-nogo-chip-link:hover,
+.go-nogo-chip-link:focus-visible {
+  border-color: #8eb3d8;
+  background: #eaf4ff;
+  color: #173552;
+}
+
 .ads-backlog-toolbar {
   margin-bottom: 10px;
 }
@@ -808,6 +896,44 @@
 .ads-backlog-table td:nth-child(5) {
   white-space: normal;
   overflow-wrap: anywhere;
+}
+
+.go-nogo-table th:nth-child(1),
+.go-nogo-table td:nth-child(1) {
+  width: 80px;
+}
+
+.go-nogo-table th:nth-child(2),
+.go-nogo-table td:nth-child(2) {
+  width: 92px;
+}
+
+.go-nogo-table th:nth-child(3),
+.go-nogo-table td:nth-child(3) {
+  width: 92px;
+}
+
+.go-nogo-table th:nth-child(4),
+.go-nogo-table td:nth-child(4) {
+  width: 360px;
+}
+
+.go-nogo-table td:nth-child(4),
+.go-nogo-table td:nth-child(5) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.go-nogo-row-blocker {
+  scroll-margin-top: 96px;
+  background: #fff9e8;
+}
+
+@media (max-width: 1023px) {
+  .go-nogo-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .ads-backlog-row-done {

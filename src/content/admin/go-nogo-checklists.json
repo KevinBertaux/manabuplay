@@ -1,0 +1,178 @@
+{
+  "version": "go-nogo-v1",
+  "updatedAt": "2026-03-13",
+  "checklists": [
+    {
+      "id": "feature",
+      "label": "Feature",
+      "appliesTo": "Avant commit ou merge de feature",
+      "items": [
+        {
+          "id": "feature-branch",
+          "label": "Branche de travail correcte et sujet cohérent.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "Vérifier qu'on ne code pas une feature produit sur une branche pub, ou l'inverse."
+        },
+        {
+          "id": "feature-tests",
+          "label": "Tests ciblés rejoués et verts.",
+          "type": "auto",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "Adapter à la surface réellement modifiée."
+        },
+        {
+          "id": "feature-build",
+          "label": "Build OK si la feature touche Vite, Vue ou la config.",
+          "type": "auto",
+          "severity": "warning",
+          "status": "ready",
+          "note": "Inutile pour un changement purement documentaire."
+        },
+        {
+          "id": "feature-review",
+          "label": "Diff relu et validé avant commit sensible.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "Pas de commit sans aval explicite."
+        }
+      ]
+    },
+    {
+      "id": "release",
+      "label": "Release",
+      "appliesTo": "Avant merge vers une branche produit",
+      "items": [
+        {
+          "id": "release-target",
+          "label": "Branche cible de merge confirmée.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "Éviter les merges vers la mauvaise ligne."
+        },
+        {
+          "id": "release-ci",
+          "label": "CI pertinente au vert.",
+          "type": "auto",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "Build, tests ciblés et checks techniques."
+        },
+        {
+          "id": "release-docs",
+          "label": "Roadmap / docs mises à jour si le lot le nécessite.",
+          "type": "manual",
+          "severity": "warning",
+          "status": "pending",
+          "note": "À vérifier lot par lot."
+        },
+        {
+          "id": "release-regressions",
+          "label": "Aucune régression connue non acceptée.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "Si régression assumée, la documenter explicitement."
+        }
+      ]
+    },
+    {
+      "id": "deploy",
+      "label": "Deploy",
+      "appliesTo": "Avant déploiement Netlify",
+      "items": [
+        {
+          "id": "deploy-branch",
+          "label": "Branche déployée confirmée.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "main pour le public, rien d'autre par erreur."
+        },
+        {
+          "id": "deploy-quota",
+          "label": "Quota Netlify suffisant.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "pending",
+          "note": "Toujours vérifier avant de déclencher."
+        },
+        {
+          "id": "deploy-build",
+          "label": "Build local validé juste avant le push de release.",
+          "type": "auto",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "Évite de brûler un deploy pour une erreur locale."
+        },
+        {
+          "id": "deploy-checks",
+          "label": "Checklist publique post-déploiement préparée.",
+          "type": "manual",
+          "severity": "warning",
+          "status": "pending",
+          "note": "URLs, console, cookies, ads.txt, meta, etc."
+        }
+      ]
+    },
+    {
+      "id": "monetization",
+      "label": "Monetization",
+      "appliesTo": "Avant activation publique de la pub",
+      "items": [
+        {
+          "id": "monetization-review",
+          "label": "Examen AdSense approuvé.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "pending",
+          "note": "Bloquant absolu tant que Google n'a pas validé."
+        },
+        {
+          "id": "monetization-ads-txt",
+          "label": "ads.txt servi en production.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "Déjà en place sur main."
+        },
+        {
+          "id": "monetization-meta",
+          "label": "Meta AdSense présente dans le head en production.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "Déjà en place sur main."
+        },
+        {
+          "id": "monetization-message",
+          "label": "Message Privacy & messaging publié.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "ready",
+          "note": "Publié dans AdSense."
+        },
+        {
+          "id": "monetization-runtime",
+          "label": "CMP Google testée publiquement sans doublon de bannière.",
+          "type": "manual",
+          "severity": "blocker",
+          "status": "pending",
+          "note": "À valider après le premier déploiement CMP."
+        },
+        {
+          "id": "monetization-scope",
+          "label": "Périmètre des emplacements pub confirmé.",
+          "type": "manual",
+          "severity": "warning",
+          "status": "ready",
+          "note": "Lot 1 limité à Accueil, Math et Langues."
+        }
+      ]
+    }
+  ]
+}
