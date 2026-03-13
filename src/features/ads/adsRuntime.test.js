@@ -5,12 +5,15 @@ import { getAdsRuntimeState, initAdsRuntime, resetAdsRuntimeForTests, syncAdsCon
 
 describe('adsRuntime', () => {
   beforeEach(() => {
+    vi.stubEnv('VITE_ADS_PROVIDER', '');
+    vi.stubEnv('VITE_ADSENSE_CLIENT', '');
     clearConsentScripts();
     resetAdsRuntimeForTests();
     delete window.gtag;
   });
 
   afterEach(() => {
+    vi.unstubAllEnvs();
     clearConsentScripts();
     resetAdsRuntimeForTests();
     delete window.gtag;

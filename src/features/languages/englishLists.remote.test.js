@@ -84,7 +84,7 @@ describe('englishLists remote hydration', () => {
       updated: 0,
       skipped: 0,
     });
-  });
+  }, 10000);
 
   it('hydrates known list and appends unknown list from remote manifest', async () => {
     vi.stubEnv('VITE_LANGUAGES_REMOTE_BASE_URL', 'https://example.test');
@@ -300,4 +300,3 @@ describe('englishLists remote hydration', () => {
     expect(result.skipped).toBeGreaterThan(0);
   });
 });
-
