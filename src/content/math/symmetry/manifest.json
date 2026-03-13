@@ -1,9 +1,10 @@
 {
-  "version": "2026-03-13.1",
-  "configs": [
-    {
-      "key": "symmetryShapesV1",
-      "file": "symmetry-shapes.v1.json"
-    }
+  "updatedAt": "2026-03-13.2",
+  "gridSize": 5,
+  "axes": ["vertical", "horizontal"],
+  "groups": [
+    { "key": "threePoints", "file": "shapes-3-points.json", "points": 3 },
+    { "key": "fourPoints", "file": "shapes-4-points.json", "points": 4 },
+    { "key": "fivePoints", "file": "shapes-5-points.json", "points": 5 }
   ]
 }

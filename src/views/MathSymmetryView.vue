@@ -180,15 +180,15 @@ function shouldCloseShape(points) {
   return currentQuestion.value.renderMode === 'closed' && points.length >= 3;
 }
 
-function axisLine(axis, gridSize, size = 120, padding = 12) {
+function axisLine(axis, gridSize, size = 120, padding = 12, overflow = 10) {
   const step = (size - padding * 2) / (gridSize - 1);
 
   if (axis === 'horizontal') {
     const axisY = padding + ((gridSize - 1) / 2) * step;
     return {
-      x1: padding,
+      x1: padding - overflow,
       y1: axisY,
-      x2: size - padding,
+      x2: size - padding + overflow,
       y2: axisY,
     };
   }
@@ -196,9 +196,9 @@ function axisLine(axis, gridSize, size = 120, padding = 12) {
   const axisX = padding + ((gridSize - 1) / 2) * step;
   return {
     x1: axisX,
-    y1: padding,
+    y1: padding - overflow,
     x2: axisX,
-    y2: size - padding,
+    y2: size - padding + overflow,
   };
 }
 
@@ -454,8 +454,12 @@ onUnmounted(() => {
 }
 
 .option-btn.is-selected {
-  border-color: #1d4ed8;
-  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.2);
+  border-color: #155e75;
+  background: #f1fbfb;
+  box-shadow:
+    0 0 0 2px rgba(21, 94, 117, 0.22),
+    0 10px 18px rgba(15, 23, 42, 0.14);
+  transform: translateY(-1px);
 }
 
 .option-btn.is-correct {

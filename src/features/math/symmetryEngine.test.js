@@ -129,25 +129,39 @@ describe('generateSymmetryQuestion', () => {
 });
 
 describe('createSymmetryQuestionBag', () => {
-  it('builds a full balanced cycle without duplicate axis-shape pairs', () => {
+  it('builds a full balanced cycle with axis alternation and 48 unique seeds', () => {
     const bag = createSymmetryQuestionBag(sequenceRandom([0.2, 0.8, 0.4, 0.6, 0.1, 0.9]));
-    const pairKeys = new Set();
+    const seedKeys = new Set();
     let verticalCount = 0;
     let horizontalCount = 0;
+    let openCount = 0;
+    let closedCount = 0;
+    let previousAxis = '';
 
-    for (let i = 0; i < SYMMETRY_BASE_SHAPE_COUNT * 2; i += 1) {
+    for (let i = 0; i < SYMMETRY_BASE_SHAPE_COUNT * 4; i += 1) {
       const question = bag.next();
-      pairKeys.add(`${question.axis}|${question.shapeId}`);
+      seedKeys.add(`${question.axis}|${question.shapeId}|${question.renderMode}`);
       if (question.axis === 'horizontal') {
         horizontalCount += 1;
       } else {
         verticalCount += 1;
       }
+      if (question.renderMode === 'closed') {
+        closedCount += 1;
+      } else {
+        openCount += 1;
+      }
+      if (previousAxis) {
+        expect(question.axis).not.toBe(previousAxis);
+      }
+      previousAxis = question.axis;
     }
 
-    expect(pairKeys.size).toBe(SYMMETRY_BASE_SHAPE_COUNT * 2);
-    expect(verticalCount).toBe(SYMMETRY_BASE_SHAPE_COUNT);
-    expect(horizontalCount).toBe(SYMMETRY_BASE_SHAPE_COUNT);
+    expect(seedKeys.size).toBe(SYMMETRY_BASE_SHAPE_COUNT * 4);
+    expect(verticalCount).toBe(SYMMETRY_BASE_SHAPE_COUNT * 2);
+    expect(horizontalCount).toBe(SYMMETRY_BASE_SHAPE_COUNT * 2);
+    expect(openCount).toBe(SYMMETRY_BASE_SHAPE_COUNT * 2);
+    expect(closedCount).toBe(SYMMETRY_BASE_SHAPE_COUNT * 2);
   });
 
   it('avoids the same shape twice in a row over many draws', () => {

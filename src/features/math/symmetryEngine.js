@@ -100,15 +100,8 @@ function shiftPoints(points, shiftX, shiftY, gridSize) {
     .filter((point) => keepInGrid(point, gridSize));
 }
 
-function pickRenderMode(baseShape, randomFn) {
-  if (baseShape.length < 3) {
-    return 'open';
-  }
-  return randomFn() < 0.5 ? 'open' : 'closed';
-}
-
 function seedKey(seed) {
-  return `${seed.axis}|${seed.shapeId}`;
+  return `${seed.axis}|${seed.shapeId}|${seed.renderMode}`;
 }
 
 function getShapeById(shapeId, dataset) {
@@ -116,16 +109,20 @@ function getShapeById(shapeId, dataset) {
 }
 
 function buildAxisSeeds(axis, randomFn, dataset) {
-  return shuffleList(
-    dataset.baseShapes.map((shape) => ({ axis, shapeId: shape.id })),
-    randomFn
-  );
+  const seeds = [];
+
+  for (const shape of dataset.baseShapes) {
+    seeds.push({ axis, shapeId: shape.id, renderMode: 'open' });
+    seeds.push({ axis, shapeId: shape.id, renderMode: 'closed' });
+  }
+
+  return shuffleList(seeds, randomFn);
 }
 
 function takeNextSeed(seeds, lastMeta, allowFallback = true) {
   return pullNextItem(
     seeds,
-    (seed) => seed.shapeId !== lastMeta.shapeId && seedKey(seed) !== lastMeta.pairKey,
+    (seed) => seed.shapeId !== lastMeta.shapeId && seedKey(seed) !== lastMeta.seedKey,
     allowFallback
   );
 }
@@ -156,7 +153,7 @@ function buildBalancedCycle(lastMeta, randomFn, dataset) {
     cycle.push(next);
     localLast = {
       shapeId: next.shapeId,
-      pairKey: seedKey(next),
+      seedKey: seedKey(next),
     };
     preferredAxis = preferredAxis === 'vertical' ? 'horizontal' : 'vertical';
   }
@@ -168,7 +165,7 @@ export function createSymmetryQuestionBag(randomFn = Math.random) {
   const dataset = createRuntimeDataset();
   let lastMeta = {
     shapeId: '',
-    pairKey: '',
+    seedKey: '',
   };
 
   const bag = createRefillBag({
@@ -184,7 +181,7 @@ export function createSymmetryQuestionBag(randomFn = Math.random) {
 
       lastMeta = {
         shapeId: seed.shapeId,
-        pairKey: seedKey(seed),
+        seedKey: seedKey(seed),
       };
 
       return buildQuestionFromSeed(seed, randomFn, dataset);
@@ -260,7 +257,7 @@ function buildQuestionFromSeed(seed, randomFn, dataset) {
   const seedShape = getShapeById(seed.shapeId, dataset);
   const baseShape = shapeForAxis(seedShape.points, seed.axis);
   const correctShape = mirrorShapeByAxis(baseShape, seed.axis, dataset.gridSize);
-  const renderMode = pickRenderMode(baseShape, randomFn);
+  const renderMode = seed.renderMode;
 
   const options = [];
   const usedKeys = new Set();
@@ -355,7 +352,8 @@ export function generateSymmetryQuestion(randomFn = Math.random) {
   const dataset = createRuntimeDataset();
   const axis = dataset.axes[randomIndex(dataset.axes.length, randomFn)];
   const seedShape = dataset.baseShapes[randomIndex(dataset.baseShapes.length, randomFn)];
-  return buildQuestionFromSeed({ axis, shapeId: seedShape.id }, randomFn, dataset);
+  const renderMode = seedShape.points.length < 3 || randomFn() < 0.5 ? 'open' : 'closed';
+  return buildQuestionFromSeed({ axis, shapeId: seedShape.id, renderMode }, randomFn, dataset);
 }
 
 export function evaluateSymmetryAnswer(question, selectedOptionId) {
@@ -377,4 +375,3 @@ export function evaluateSymmetryAnswer(question, selectedOptionId) {
       : `Ce n'est pas la bonne symétrie. Observe bien l'axe ${axisLabel}.`,
   };
 }
-

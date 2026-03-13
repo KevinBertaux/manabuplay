@@ -42,6 +42,14 @@
       "done": false
     },
     {
+      "id": "backlog-brand-book",
+      "priority": "Med",
+      "domain": "ui",
+      "feature": "brand-book",
+      "label": "Formaliser un brand book / design system (couleurs, typographies, composants, états, ton visuel)",
+      "done": false
+    },
+    {
       "id": "backlog-pwa-offline",
       "priority": "Med",
       "domain": "infra",
