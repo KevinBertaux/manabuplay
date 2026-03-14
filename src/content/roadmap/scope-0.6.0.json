@@ -87,14 +87,6 @@
       "done": false
     },
     {
-      "id": "scope-060-course-arts-plastiques",
-      "priority": "Med",
-      "domain": "ui",
-      "feature": "cours",
-      "label": "Ajouter la catégorie de cours Arts plastiques (Dessin) dans l'architecture et l'accueil",
-      "done": false
-    },
-    {
       "id": "scope-060-drop-legacy-vocab-keys",
       "priority": "Med",
       "domain": "tech",

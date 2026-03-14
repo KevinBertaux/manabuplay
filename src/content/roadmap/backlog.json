@@ -37,12 +37,20 @@
       "done": false
     },
     {
+      "id": "backlog-drawing-guided",
+      "priority": "Med",
+      "domain": "arts",
+      "feature": "drawing-guided",
+      "label": "Dessin guidé : reprendre le module à partir de fiches vectorielles fidèles, étape par étape, sans interprétation libre des modèles",
+      "done": false
+    },
+    {
       "id": "backlog-course-arts-plastiques",
       "priority": "Med",
-      "domain": "ui",
+      "domain": "arts",
       "feature": "cours",
-      "dependsOn": ["scope-060-course-arts-plastiques"],
-      "label": "Préparer les futurs modules Arts plastiques (Dessin) après intégration de la catégorie",
+      "dependsOn": ["backlog-drawing-guided"],
+      "label": "Préparer les futurs modules Arts plastiques après un premier module Dessin guidé propre et stabilisé",
       "done": false
     },
     {
