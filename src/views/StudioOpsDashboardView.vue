@@ -2,6 +2,8 @@
 import { computed, nextTick, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import AdminStatusBanner from '@/components/AdminStatusBanner.vue';
+import RemoteContentLoading from '@/components/RemoteContentLoading.vue';
+import SymmetryShapeReviewCard from '@/components/SymmetryShapeReviewCard.vue';
 import { useSessionCountdown } from '@/composables/useSessionCountdown';
 import {
   getEnglishList,
@@ -27,11 +29,10 @@ import {
   getActiveSymmetryShapesConfig,
   hydrateRemoteSymmetryShapesConfig,
   hasSymmetryShapesOverride,
-  resetSymmetryShapesOverride,
-  saveSymmetryShapesOverride,
 } from '@/features/math/symmetryShapeStore';
 import { fetchBuildInfo } from '@/features/admin/buildInfoStore';
 import { getRoadmapEntries, ROADMAP_PRIORITY_ORDER } from '@/features/admin/roadmapStore';
+import { buildSymmetryShapeReviewReport } from '@/features/math/symmetryShapeReview';
 
 const router = useRouter();
 const selectedList = ref('');
@@ -614,119 +615,158 @@ function refreshDashboardMetrics() {
     storageKeyCount: snapshot.filter((entry) => entry.exists).length,
   };
 }
-
-function pointsToText(points) {
-  return points.map((point) => `${point.x},${point.y}`).join(' | ');
-}
-
-function parsePointsText(pointsText, gridSize) {
-  const chunks = String(pointsText || '')
-    .split('|')
-    .map((chunk) => chunk.trim())
-    .filter(Boolean);
-  if (chunks.length < 3) {
-    return { ok: false, error: 'Une forme doit contenir au moins 3 points.', points: [] };
-  }
-
-  const points = [];
-  for (const chunk of chunks) {
-    const [xRaw, yRaw] = chunk.split(',').map((part) => part.trim());
-    const x = Number.parseInt(xRaw, 10);
-    const y = Number.parseInt(yRaw, 10);
-    if (!Number.isInteger(x) || !Number.isInteger(y)) {
-      return { ok: false, error: `Point invalide "${chunk}"`, points: [] };
-    }
-    if (x < 0 || x >= gridSize || y < 0 || y >= gridSize) {
-      return { ok: false, error: `Point hors grille "${chunk}"`, points: [] };
-    }
-    points.push({ x, y });
-  }
-
-  return { ok: true, points, error: '' };
-}
-
-function createSymmetryDraft() {
-  const config = getActiveSymmetryShapesConfig();
-  return {
-    gridSize: config.gridSize,
-    axes: [...config.axes],
-    shapes: config.shapes.map((shape) => ({
-      id: shape.id,
-      pointsText: pointsToText(shape.points),
-    })),
-  };
-}
-
-const symmetryDraft = ref(createSymmetryDraft());
+const symmetryReviewLoading = ref(true);
 const symmetryOverrideActive = ref(hasSymmetryShapesOverride());
+const symmetryReviewReport = ref({
+  generatedAt: '',
+  summary: {
+    total: 0,
+    accepted: 0,
+    review: 0,
+    rejected: 0,
+  },
+  results: [],
+});
+const symmetryReviewGridSize = ref(5);
+const symmetryReviewUpdatedAt = ref('');
+const symmetryStatusFilters = ref(['accepted', 'review', 'rejected']);
+const symmetryPointFilters = ref([3, 4, 5]);
+const symmetryPageSize = ref(20);
+const symmetryCurrentPage = ref(1);
+const symmetryStatusOptions = Object.freeze([
+  { id: 'accepted', label: 'Acceptées' },
+  { id: 'review', label: 'À revoir' },
+  { id: 'rejected', label: 'Rejetées' },
+]);
+const symmetryPointOptions = Object.freeze([
+  { id: 3, label: '3 points' },
+  { id: 4, label: '4 points' },
+  { id: 5, label: '5 points' },
+]);
+const symmetryPageSizeOptions = Object.freeze([20, 40, 60]);
 
-function refreshSymmetryDraft() {
-  symmetryDraft.value = createSymmetryDraft();
-  symmetryOverrideActive.value = hasSymmetryShapesOverride();
-}
+function toggleArrayFilter(listRef, value, allValues) {
+  const current = Array.isArray(listRef.value) ? [...listRef.value] : [];
+  const next = new Set(current);
+  const everySelected = allValues.every((entry) => next.has(entry));
+  const isActive = next.has(value);
 
-function addSymmetryShapeRow() {
-  const index = symmetryDraft.value.shapes.length + 1;
-  symmetryDraft.value.shapes.push({
-    id: `shape-${String(index).padStart(2, '0')}`,
-    pointsText: '0,1 | 1,2 | 0,3',
-  });
-}
-
-function removeSymmetryShapeRow(index) {
-  symmetryDraft.value.shapes.splice(index, 1);
-}
-
-function saveSymmetryShapes() {
-  const gridSize = symmetryDraft.value.gridSize;
-  const seenIds = new Set();
-  const shapes = [];
-
-  for (let i = 0; i < symmetryDraft.value.shapes.length; i += 1) {
-    const row = symmetryDraft.value.shapes[i];
-    const id = typeof row.id === 'string' ? row.id.trim() : '';
-    if (!id) {
-      setStatus('error', `Forme ${i + 1}: identifiant manquant.`);
-      return;
-    }
-    if (seenIds.has(id)) {
-      setStatus('error', `Forme ${i + 1}: identifiant dupliqué (${id}).`);
-      return;
-    }
-    seenIds.add(id);
-
-    const parsed = parsePointsText(row.pointsText, gridSize);
-    if (!parsed.ok) {
-      setStatus('error', `Forme ${i + 1}: ${parsed.error}`);
-      return;
-    }
-    shapes.push({ id, points: parsed.points });
-  }
-
-  const saved = saveSymmetryShapesOverride({
-    version: 'v1',
-    gridSize,
-    axes: symmetryDraft.value.axes,
-    shapes,
-  });
-
-  if (!saved) {
-    setStatus('error', 'Sauvegarde des formes impossible sur cet appareil.');
+  if (everySelected) {
+    listRef.value = [value];
     return;
   }
 
-  refreshSymmetryDraft();
-  refreshDashboardMetrics();
-  refreshMaintenanceData();
-  setStatus('success', 'Formes de symétrie sauvegardées localement.');
+  if (isActive && next.size > 1) {
+    next.delete(value);
+    listRef.value = [...next];
+    return;
+  }
+
+  if (isActive && next.size === 1) {
+    listRef.value = [...allValues];
+    return;
+  }
+
+  next.add(value);
+  listRef.value = [...next];
 }
 
-function resetSymmetryShapes() {
-  resetSymmetryShapesOverride();
-  refreshSymmetryDraft();
-  refreshDashboardMetrics();
-  refreshMaintenanceData();
-  setStatus('success', 'Formes de symétrie réinitialisées à la version par défaut.');
+function toggleSymmetryStatusFilter(value) {
+  toggleArrayFilter(
+    symmetryStatusFilters,
+    value,
+    symmetryStatusOptions.map((entry) => entry.id)
+  );
+}
+
+function toggleSymmetryPointFilter(value) {
+  toggleArrayFilter(
+    symmetryPointFilters,
+    value,
+    symmetryPointOptions.map((entry) => entry.id)
+  );
+}
+
+function resetSymmetryReviewPagination() {
+  symmetryCurrentPage.value = 1;
+}
+
+function buildSymmetryReviewFiles(config) {
+  const grouped = new Map([
+    [3, []],
+    [4, []],
+    [5, []],
+  ]);
+
+  for (const shape of config.shapes || []) {
+    const pointCount = Array.isArray(shape.points) ? shape.points.length : 0;
+    if (grouped.has(pointCount)) {
+      grouped.get(pointCount).push(shape);
+    }
+  }
+
+  return [
+    { file: 'shapes-3-points.json', shapes: grouped.get(3) },
+    { file: 'shapes-4-points.json', shapes: grouped.get(4) },
+    { file: 'shapes-5-points.json', shapes: grouped.get(5) },
+  ];
+}
+
+function refreshSymmetryReviewData() {
+  const config = getActiveSymmetryShapesConfig();
+  const report = buildSymmetryShapeReviewReport(buildSymmetryReviewFiles(config), {
+    gridSize: config.gridSize,
+  });
+
+  symmetryReviewReport.value = report;
+  symmetryReviewGridSize.value = config.gridSize;
+  symmetryReviewUpdatedAt.value = config.updatedAt || '';
+  symmetryOverrideActive.value = hasSymmetryShapesOverride();
+}
+
+const symmetryFilteredEntries = computed(() =>
+  symmetryReviewReport.value.results.filter(
+    (entry) =>
+      symmetryStatusFilters.value.includes(entry.status) && symmetryPointFilters.value.includes(entry.pointCount)
+  )
+);
+
+const symmetryTotalPages = computed(() =>
+  Math.max(1, Math.ceil(symmetryFilteredEntries.value.length / symmetryPageSize.value))
+);
+
+const symmetryVisibleEntries = computed(() => {
+  const start = (symmetryCurrentPage.value - 1) * symmetryPageSize.value;
+  return symmetryFilteredEntries.value.slice(start, start + symmetryPageSize.value).map((entry) => ({
+    ...entry,
+    autoStatus: entry.status,
+  }));
+});
+
+const symmetryFilterSummary = computed(() => ({
+  total: symmetryReviewReport.value.summary.total,
+  visible: symmetryFilteredEntries.value.length,
+  accepted: symmetryReviewReport.value.summary.accepted,
+  review: symmetryReviewReport.value.summary.review,
+  rejected: symmetryReviewReport.value.summary.rejected,
+}));
+
+watch([symmetryStatusFilters, symmetryPointFilters, symmetryPageSize], () => {
+  resetSymmetryReviewPagination();
+});
+
+watch(symmetryTotalPages, (value) => {
+  if (symmetryCurrentPage.value > value) {
+    symmetryCurrentPage.value = value;
+  }
+});
+
+function goToSymmetryPage(page) {
+  symmetryCurrentPage.value = Math.min(Math.max(page, 1), symmetryTotalPages.value);
+}
+
+function pluralizeFr(count, singular, plural = `${singular}s`) {
+  return count > 1 ? plural : singular;
 }
 
 const presetOptions = Object.freeze([...getPresetDefinitions(), { id: 'custom', label: 'RAZ ciblée' }]);
@@ -859,11 +899,16 @@ async function loadBuildInfo() {
 }
 
 async function initAdminData() {
-  await hydrateRemoteSymmetryShapesConfig();
-  await loadBuildInfo();
-  refreshSymmetryDraft();
-  refreshMaintenanceData();
-  refreshDashboardMetrics();
+  symmetryReviewLoading.value = true;
+  try {
+    await hydrateRemoteSymmetryShapesConfig();
+    await loadBuildInfo();
+    refreshSymmetryReviewData();
+    refreshMaintenanceData();
+    refreshDashboardMetrics();
+  } finally {
+    symmetryReviewLoading.value = false;
+  }
 }
 
 initAdminData();
@@ -1222,32 +1267,137 @@ initAdminData();
         </section>
 
         <section v-else-if="selectedSection === 'symmetry'" class="grid gap-3 p-3 md:px-4 md:pt-3 md:pb-4">
-          <div class="admin-card">
-            <div class="scope-head">
-              <h2>Formes de symétrie</h2>
-              <span class="scope-chip" :class="{ active: symmetryOverrideActive }">
-                {{ symmetryOverrideActive ? 'Override local actif' : 'Version par défaut' }}
-              </span>
-            </div>
-            <p class="meta-line">Format: <code>x,y | x,y | x,y</code> - Grille 0 à {{ symmetryDraft.gridSize - 1 }}</p>
+          <RemoteContentLoading
+            v-if="symmetryReviewLoading"
+            title="Chargement des formes de symétrie"
+            message="Analyse de la banque active en cours..."
+          />
 
-            <div class="sym-grid sym-grid-head">
-              <span>ID</span>
-              <span>Points</span>
-              <span>Action</span>
-            </div>
-            <div v-for="(shape, index) in symmetryDraft.shapes" :key="`shape-${index}`" class="sym-grid">
-              <input v-model="shape.id" type="text" placeholder="shape-xx" />
-              <input v-model="shape.pointsText" type="text" placeholder="0,1 | 1,2 | 0,3" />
-              <button class="btn btn-danger" type="button" @click="removeSymmetryShapeRow(index)">Supprimer</button>
-            </div>
+          <template v-else>
+            <div class="admin-card">
+              <div class="scope-head">
+                <div>
+                  <h2>Reviewer des formes de symétrie</h2>
+                  <p class="meta-line">
+                    Banque active : {{ symmetryFilterSummary.total }}
+                    {{ pluralizeFr(symmetryFilterSummary.total, 'forme') }} ·
+                    {{ symmetryFilterSummary.visible }}
+                    {{ pluralizeFr(symmetryFilterSummary.visible, 'visible') }}
+                  </p>
+                </div>
+                <span class="scope-chip" :class="{ active: symmetryOverrideActive }">
+                  {{ symmetryOverrideActive ? 'Override local actif' : 'Version chargée' }}
+                </span>
+              </div>
 
-            <div class="actions">
-              <button class="btn btn-secondary" type="button" @click="addSymmetryShapeRow">+ Ajouter une forme</button>
-              <button class="btn btn-primary" type="button" @click="saveSymmetryShapes">Sauvegarder</button>
-              <button class="btn btn-secondary" type="button" @click="resetSymmetryShapes">Réinitialiser</button>
+              <div class="sym-review-summary">
+                <span class="sym-review-pill is-accepted">Acceptées : {{ symmetryFilterSummary.accepted }}</span>
+                <span class="sym-review-pill is-review">À revoir : {{ symmetryFilterSummary.review }}</span>
+                <span class="sym-review-pill is-rejected">Rejetées : {{ symmetryFilterSummary.rejected }}</span>
+                <span class="sym-review-pill">
+                  Source : {{ symmetryReviewUpdatedAt || 'version locale embarquée' }}
+                </span>
+              </div>
+
+              <div class="sym-review-toolbar">
+                <div class="sym-review-filter-block">
+                  <span class="sym-review-filter-label">Tri auto</span>
+                  <div class="sym-review-filter-list">
+                    <button
+                      v-for="option in symmetryStatusOptions"
+                      :key="option.id"
+                      class="sym-review-filter-chip"
+                      :class="{ 'is-active': symmetryStatusFilters.includes(option.id) }"
+                      :aria-pressed="symmetryStatusFilters.includes(option.id) ? 'true' : 'false'"
+                      type="button"
+                      @click="toggleSymmetryStatusFilter(option.id)"
+                    >
+                      {{ option.label }}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="sym-review-filter-block">
+                  <span class="sym-review-filter-label">Nombre de points</span>
+                  <div class="sym-review-filter-list">
+                    <button
+                      v-for="option in symmetryPointOptions"
+                      :key="option.id"
+                      class="sym-review-filter-chip"
+                      :class="{ 'is-active': symmetryPointFilters.includes(option.id) }"
+                      :aria-pressed="symmetryPointFilters.includes(option.id) ? 'true' : 'false'"
+                      type="button"
+                      @click="toggleSymmetryPointFilter(option.id)"
+                    >
+                      {{ option.label }}
+                    </button>
+                  </div>
+                </div>
+
+                <label class="sym-review-page-size">
+                  <span>Par page</span>
+                  <select v-model="symmetryPageSize">
+                    <option v-for="option in symmetryPageSizeOptions" :key="option" :value="option">
+                      {{ option }}
+                    </option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="sym-review-pagination">
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  :disabled="symmetryCurrentPage <= 1"
+                  @click="goToSymmetryPage(symmetryCurrentPage - 1)"
+                >
+                  ← Précédent
+                </button>
+                <span>Page {{ symmetryCurrentPage }} / {{ symmetryTotalPages }}</span>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  :disabled="symmetryCurrentPage >= symmetryTotalPages"
+                  @click="goToSymmetryPage(symmetryCurrentPage + 1)"
+                >
+                  Suivant →
+                </button>
+              </div>
+
+              <p v-if="symmetryVisibleEntries.length === 0" class="meta-line">
+                Aucun résultat avec les filtres actuels.
+              </p>
+
+              <div v-else class="sym-review-grid">
+                <SymmetryShapeReviewCard
+                  v-for="entry in symmetryVisibleEntries"
+                  :key="entry.id"
+                  :entry="entry"
+                  :grid-size="symmetryReviewGridSize"
+                />
+              </div>
+
+              <div class="sym-review-pagination">
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  :disabled="symmetryCurrentPage <= 1"
+                  @click="goToSymmetryPage(symmetryCurrentPage - 1)"
+                >
+                  ← Précédent
+                </button>
+                <span>Page {{ symmetryCurrentPage }} / {{ symmetryTotalPages }}</span>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  :disabled="symmetryCurrentPage >= symmetryTotalPages"
+                  @click="goToSymmetryPage(symmetryCurrentPage + 1)"
+                >
+                  Suivant →
+                </button>
+              </div>
             </div>
-          </div>
+          </template>
         </section>
 
         <section v-else-if="selectedSection === 'admin-help'" class="grid gap-3 p-3 md:px-4 md:pt-3 md:pb-4">

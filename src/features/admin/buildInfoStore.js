@@ -25,6 +25,10 @@ export async function fetchBuildInfo(fetchImpl = globalThis.fetch) {
     return null;
   }
 
+  if (typeof import.meta !== 'undefined' && import.meta.env?.DEV) {
+    return null;
+  }
+
   try {
     const response = await fetchImpl(`/build-info.json?ts=${Date.now()}`, {
       headers: { Accept: 'application/json' },
