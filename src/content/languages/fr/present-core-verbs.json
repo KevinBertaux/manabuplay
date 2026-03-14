@@ -1,0 +1,106 @@
+{
+  "name": "Présent - verbes essentiels",
+  "label": "🇫🇷 Présent : être, avoir, aller, prendre, venir",
+  "description": "Conjugue cinq verbes essentiels au présent avec les 9 pronoms usuels.",
+  "pronouns": [
+    { "key": "je", "label": "Je" },
+    { "key": "tu", "label": "Tu" },
+    { "key": "il", "label": "Il" },
+    { "key": "elle", "label": "Elle" },
+    { "key": "on", "label": "On" },
+    { "key": "nous", "label": "Nous" },
+    { "key": "vous", "label": "Vous" },
+    { "key": "ils", "label": "Ils" },
+    { "key": "elles", "label": "Elles" }
+  ],
+  "rows": [
+    { "key": "je", "label": "Je", "pronouns": ["je"] },
+    { "key": "tu", "label": "Tu", "pronouns": ["tu"] },
+    { "key": "thirdSingular", "label": "Il / Elle / On", "pronouns": ["il", "elle", "on"] },
+    { "key": "nous", "label": "Nous", "pronouns": ["nous"] },
+    { "key": "vous", "label": "Vous", "pronouns": ["vous"] },
+    { "key": "thirdPlural", "label": "Ils / Elles", "pronouns": ["ils", "elles"] }
+  ],
+  "verbs": [
+    {
+      "key": "etre",
+      "infinitive": "être",
+      "label": "Être",
+      "forms": {
+        "je": "suis",
+        "tu": "es",
+        "il": "est",
+        "elle": "est",
+        "on": "est",
+        "nous": "sommes",
+        "vous": "êtes",
+        "ils": "sont",
+        "elles": "sont"
+      }
+    },
+    {
+      "key": "avoir",
+      "infinitive": "avoir",
+      "label": "Avoir",
+      "forms": {
+        "je": "ai",
+        "tu": "as",
+        "il": "a",
+        "elle": "a",
+        "on": "a",
+        "nous": "avons",
+        "vous": "avez",
+        "ils": "ont",
+        "elles": "ont"
+      }
+    },
+    {
+      "key": "aller",
+      "infinitive": "aller",
+      "label": "Aller",
+      "forms": {
+        "je": "vais",
+        "tu": "vas",
+        "il": "va",
+        "elle": "va",
+        "on": "va",
+        "nous": "allons",
+        "vous": "allez",
+        "ils": "vont",
+        "elles": "vont"
+      }
+    },
+    {
+      "key": "prendre",
+      "infinitive": "prendre",
+      "label": "Prendre",
+      "forms": {
+        "je": "prends",
+        "tu": "prends",
+        "il": "prend",
+        "elle": "prend",
+        "on": "prend",
+        "nous": "prenons",
+        "vous": "prenez",
+        "ils": "prennent",
+        "elles": "prennent"
+      }
+    },
+    {
+      "key": "venir",
+      "infinitive": "venir",
+      "label": "Venir",
+      "forms": {
+        "je": "viens",
+        "tu": "viens",
+        "il": "vient",
+        "elle": "vient",
+        "on": "vient",
+        "nous": "venons",
+        "vous": "venez",
+        "ils": "viennent",
+        "elles": "viennent"
+      }
+    }
+  ]
+}

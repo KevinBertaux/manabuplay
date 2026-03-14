@@ -57,7 +57,15 @@
       "domain": "langues",
       "feature": "architecture",
       "dependsOn": ["scope-050-high-r2-v1"],
-      "label": "Structure multi-langues complète (anglais + espagnol)",
+      "label": "Structure multi-langues complète et extensible (anglais + français + espagnol)",
+      "done": false
+    },
+    {
+      "id": "scope-060-french-conjugation-v1",
+      "priority": "High",
+      "domain": "langues",
+      "feature": "francais",
+      "label": "Français V1 : présent de être, avoir, aller, prendre et venir avec tableau, flashcards et saisie guidée",
       "done": false
     },
     {
