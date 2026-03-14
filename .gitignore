@@ -16,6 +16,7 @@ desktop.ini
 *.tmp
 *.swp
 *~
+tmp/
 
 # Dossier de build (si vous ajoutez un build process plus tard)
 dist/
