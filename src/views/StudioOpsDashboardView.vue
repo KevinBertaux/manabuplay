@@ -818,8 +818,9 @@ const symmetryExportPayload = computed(() =>
     currentValidatorVersion: symmetryReviewValidatorVersion.value || symmetryReviewReport.value.validatorVersion,
   })
 );
+const symmetryHasExportableShapes = computed(() => symmetryExportPayload.value.files.some((file) => file.shapes.length > 0));
 const symmetryCanExport = computed(
-  () => symmetryReviewDirty.value && symmetryExportPayload.value.files.some((file) => file.shapes.length > 0)
+  () => symmetryHasExportableShapes.value && (symmetryReviewDirty.value || !symmetryReviewValidatedAt.value)
 );
 const symmetryValidationState = computed(() => {
   if (symmetryReviewDirty.value) {
@@ -836,7 +837,7 @@ const symmetryValidationState = computed(() => {
       toneClass: 'is-info',
       label: 'Validation non tracée',
       message:
-        "La banque active n'indique pas encore de validation exportée. Le pré-tri courant reste calculé dans le panneau.",
+        "La banque active n'indique pas encore de validation exportée. Le pré-tri courant reste calculé dans le panneau et l'export initial est autorisé.",
     };
   }
 
