@@ -1,0 +1,32 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: "en" | "fr";
+}
+
+const {
+  title = "ManabuPlay - Learn Japanese Through Pop Culture",
+  description = "Learn Japanese through anime, manga, and gaming vocabulary.",
+  lang = "fr",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a0911" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] antialiased">
+    <slot />
+  </body>
+</html>

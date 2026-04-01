@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const milestones = [
+  "Foundation Astro + TypeScript + Tailwind 4",
+  "Migration du quiz v0.1 depuis le MVP legacy",
+  "Séparation data / UI / logique de jeu",
+  "Préparation SEO packs + blog + pages marketing",
+];
+---
+
+<BaseLayout
+  title="ManabuPlay - Foundation v0.1"
+  description="Foundation branch for the next ManabuPlay MVP."
+>
+  <main class="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 py-12 sm:px-10 lg:px-12">
+    <section class="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 px-6 py-16 shadow-2xl shadow-fuchsia-950/20 sm:px-10">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(168,85,247,0.22),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.14),transparent_30%)]"></div>
+
+      <div class="relative flex flex-col gap-10">
+        <div class="space-y-5">
+          <p class="inline-flex w-fit rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-1 text-sm font-semibold tracking-[0.2em] text-cyan-200 uppercase">
+            Foundation v0.1
+          </p>
+          <div class="space-y-4">
+            <h1 class="max-w-3xl text-4xl font-black tracking-tight text-white sm:text-5xl">
+              ManabuPlay
+            </h1>
+            <p class="max-w-3xl text-lg leading-8 text-slate-300 sm:text-xl">
+              Apprendre le japonais via la pop culture anime, manga et gaming,
+              avec une base technique propre pour scaler le quiz, le SEO et la
+              monétisation.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+          <article class="rounded-2xl border border-white/10 bg-slate-950/70 p-6">
+            <h2 class="text-sm font-semibold tracking-[0.2em] text-fuchsia-300 uppercase">
+              Ce qui est en place
+            </h2>
+            <ul class="mt-4 space-y-3 text-base text-slate-300">
+              {milestones.map((item) => (
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 h-2 w-2 rounded-full bg-fuchsia-400"></span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <article class="rounded-2xl border border-white/10 bg-slate-950/70 p-6">
+            <h2 class="text-sm font-semibold tracking-[0.2em] text-cyan-300 uppercase">
+              Références projet
+            </h2>
+            <div class="mt-4 space-y-4 text-sm text-slate-300">
+              <p>
+                Roadmap produit: <code>DEVLOG.md</code>
+              </p>
+              <p>
+                Pricing et stratégie: <code>BUSINESS.md</code>
+              </p>
+              <p>
+                MVP archivé pour migration: <code>legacy/mvp-index.html</code>
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
