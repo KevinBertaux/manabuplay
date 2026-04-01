@@ -1,0 +1,991 @@
+// ══════════════════════════════════════════════════════════════
+  // DIFFICULTY CONFIG
+  // ══════════════════════════════════════════════════════════════
+  const DIFFICULTIES = [
+    { id:'easy',   icon:'🌱', words:10, color:'#4ade80', cls:'diff-easy'   },
+    { id:'normal', icon:'⚔️', words:20, color:'#22d3ee', cls:'diff-normal' },
+    { id:'hard',   icon:'🔥', words:35, color:'#e879f9', cls:'diff-hard'   },
+    { id:'expert', icon:'💀', words:50, color:'#f87171', cls:'diff-expert' },
+  ];
+  let currentDiff = null;  // currently selected difficulty object
+
+
+  // ══════════════════════════════════════════════════════════════
+  // LOCALSTORAGE HELPERS
+  // ══════════════════════════════════════════════════════════════
+  const LS = {
+    get(k)    { try { return JSON.parse(localStorage.getItem('mp_' + k)); } catch(e){ return null; } },
+    set(k, v) { try { localStorage.setItem('mp_' + k, JSON.stringify(v)); } catch(e){} },
+    getBest(diffId) { return LS.get('best_' + diffId) || 0; },
+    setBest(diffId, score) {
+      const prev = LS.getBest(diffId);
+      if (score > prev) { LS.set('best_' + diffId, score); return true; }
+      return false;
+    },
+    getLang()     { return LS.get('lang') || 'en'; },
+    setLang(lang) { LS.set('lang', lang); },
+  };
+
+
+  // ══════════════════════════════════════════════════════════════
+  // i18n
+  // ══════════════════════════════════════════════════════════════
+  const LANG = {
+    en: {
+      nav_cta:          "Play Quiz →",
+      hero_badge:       "FREE · No sign-up · 50 words · 4 difficulties",
+      hero_tagline:     `Learn Japanese like a true <span style="color:var(--violet)">gamer</span>. Master the words behind your <span style="background:linear-gradient(90deg,var(--violet),var(--fuchsia));-webkit-background-clip:text;-webkit-text-fill-color:transparent">favorite anime &amp; JRPGs.</span>`,
+      hero_sub:         "From Boss to Reincarnation — every word you already know has a story. Pick your difficulty and test your level.",
+      hero_cta:         "▶ START QUIZ — FREE",
+      hero_how:         "How it works ↓",
+      stat_words:       "WORDS",
+      stat_diff:        "DIFFICULTIES",
+      stat_free:        "ALWAYS FREE",
+      features_label:   "// WHY MANABUPLAY",
+      features_title:   `Gaming <span style="color:var(--fuchsia)">IS</span> Language Learning`,
+      features_sub:     "You've been absorbing Japanese culture for years without realizing it. Time to go conscious.",
+      feat1_title:      "BATTLE-TESTED VOCAB",
+      feat1_body:       "Every word comes straight from real games — HP, Mana, Isekai, Gacha. You already know the context.",
+      feat2_title:      "4 DIFFICULTY LEVELS",
+      feat2_body:       "From 10 words for beginners to all 50 for veterans. Your best score is saved automatically.",
+      feat3_title:      "ZERO FRICTION",
+      feat3_body:       "No app. No account. No paywall. Load the page and start leveling up your Japanese — instantly.",
+      quiz_label:       "// INTERACTIVE TOOL",
+      quiz_title:       `Japanese Gaming<br/><span style="color:var(--fuchsia)">Vocab Quiz</span>`,
+      quiz_sub:         "Choose your difficulty and prove your knowledge.",
+      quiz_question:    "What does this mean in the gaming world?",
+      diff_title:       "SELECT DIFFICULTY",
+      diff_easy:        "EASY",
+      diff_normal:      "NORMAL",
+      diff_hard:        "HARD",
+      diff_expert:      "EXPERT",
+      diff_start:       "▶ START",
+      diff_words:       "words",
+      diff_best:        "Best:",
+      diff_no_best:     "No record",
+      hud_score:        "Score",
+      hud_level:        "Level",
+      hint_btn:         "Reveal Hint",
+      result_newrecord: "★ NEW RECORD!",
+      result_score:     "FINAL SCORE",
+      result_acc:       "ACCURACY",
+      result_streak:    "BEST STREAK",
+      result_correct:   "CORRECT",
+      result_replay:    "▶ PLAY AGAIN",
+      result_change_diff:"CHANGE DIFFICULTY",
+      result_share:     "Share your score with your nakama 🎮",
+      result_share_x:   "Share on X",
+      result_share_copy:"Copy Link",
+      result_share_copied:"Copied!",
+      result_best_msg:  (score, diff) => `Your best on ${diff}: <strong style="color:#a78bfa">${score} pts</strong>`,
+      email_label:      "// LEVEL UP ALERT",
+      email_title:      `New Quizzes<br/><span style="background:linear-gradient(90deg,var(--violet),var(--fuchsia));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Dropping Soon</span>`,
+      email_sub:        "Anime grammar, JRPG battle vocab, Street Fighter special moves — get early access when new packs go live.",
+      email_ph:         "your@email.com",
+      email_cta:        "GET NOTIFIED",
+      email_ok:         "✓ YOU'RE ON THE LIST, PLAYER ONE!",
+      email_legal:      "No spam. Unsubscribe anytime. We're gamers, we hate dark patterns.",
+      footer_by:        "A project by",
+      footer_quote:     "学ぶ (Manabu) = To Learn. 遊ぶ (Asobu) = To Play. We do both.",
+      footer_quiz:      "Play Quiz",
+      footer_updates:   "Get Updates",
+      fb_combo:    (n,p) => `🔥 COMBO x${n}! +${p} pts — 正解! (Seikai = Correct!)`,
+      fb_correct:  (p)   => `✓ 正解! (Seikai) — Correct! +${p} pts`,
+      fb_wrong:    (a)   => `✗ 不正解 (Fuseikai) — The answer: "${a}"`,
+      next_word:   "NEXT WORD →",
+      see_results: "SEE RESULTS →",
+      results: [
+        { min:90, emoji:'🏆', title:'LEGENDARY!',      msg:'You are the final boss of Japanese gaming vocabulary!' },
+        { min:70, emoji:'⚔️', title:'STAGE CLEAR!',    msg:'Solid run. A few words still escaped you — rematch?' },
+        { min:50, emoji:'🎮', title:'KEEP GRINDING',   msg:'Mid-tier player. The knowledge is there — sharpen it.' },
+        { min:25, emoji:'🌀', title:'NOVICE DETECTED', msg:'Your nakama are disappointed. Train harder!' },
+        { min: 0, emoji:'💀', title:'GAME OVER',       msg:'You died before the boss. Keep grinding, adventurer.' },
+      ]
+    },
+    fr: {
+      nav_cta:          "Jouer au Quiz →",
+      hero_badge:       "GRATUIT · Sans inscription · 50 mots · 4 difficultés",
+      hero_tagline:     `Apprends le japonais comme un vrai <span style="color:var(--violet)">gamer</span>. Maîtrise les mots de tes <span style="background:linear-gradient(90deg,var(--violet),var(--fuchsia));-webkit-background-clip:text;-webkit-text-fill-color:transparent">anime &amp; JRPGs préférés.</span>`,
+      hero_sub:         "De Boss à Réincarnation — chaque mot que tu connais déjà a une histoire. Choisis ta difficulté et teste ton niveau.",
+      hero_cta:         "▶ COMMENCER — GRATUIT",
+      hero_how:         "Comment ça marche ↓",
+      stat_words:       "MOTS",
+      stat_diff:        "DIFFICULTÉS",
+      stat_free:        "TOUJOURS GRATUIT",
+      features_label:   "// POURQUOI MANABUPLAY",
+      features_title:   `Le Gaming <span style="color:var(--fuchsia)">EST</span> l'apprentissage des langues`,
+      features_sub:     "Tu absorbes la culture japonaise depuis des années sans t'en rendre compte. Il est temps d'en prendre conscience.",
+      feat1_title:      "VOCAB TESTÉ AU COMBAT",
+      feat1_body:       "Chaque mot vient directement de vrais jeux — HP, Mana, Isekai, Gacha. Tu connais déjà le contexte.",
+      feat2_title:      "4 NIVEAUX DE DIFFICULTÉ",
+      feat2_body:       "De 10 mots pour les débutants à 50 pour les vétérans. Ton meilleur score est sauvegardé automatiquement.",
+      feat3_title:      "ZÉRO FRICTION",
+      feat3_body:       "Pas d'appli. Pas de compte. Pas de paywall. Charge la page et commence à monter en niveau — instantanément.",
+      quiz_label:       "// OUTIL INTERACTIF",
+      quiz_title:       `Quiz de Vocab<br/><span style="color:var(--fuchsia)">Gaming Japonais</span>`,
+      quiz_sub:         "Choisis ta difficulté et prouve tes connaissances.",
+      quiz_question:    "Que signifie ce mot dans l'univers du gaming ?",
+      diff_title:       "CHOIX DE DIFFICULTÉ",
+      diff_easy:        "FACILE",
+      diff_normal:      "NORMAL",
+      diff_hard:        "DIFFICILE",
+      diff_expert:      "EXPERT",
+      diff_start:       "▶ DÉMARRER",
+      diff_words:       "mots",
+      diff_best:        "Record :",
+      diff_no_best:     "Aucun record",
+      hud_score:        "Score",
+      hud_level:        "Niveau",
+      hint_btn:         "Révéler l'indice",
+      result_newrecord: "★ NOUVEAU RECORD !",
+      result_score:     "SCORE FINAL",
+      result_acc:       "PRÉCISION",
+      result_streak:    "MEILLEURE SÉRIE",
+      result_correct:   "RÉUSSIES",
+      result_replay:    "▶ REJOUER",
+      result_change_diff:"CHANGER DIFFICULTÉ",
+      result_share:     "Partage ton score avec tes nakama 🎮",
+      result_share_x:   "Partager sur X",
+      result_share_copy:"Copier le lien",
+      result_share_copied:"Copié !",
+      result_best_msg:  (score, diff) => `Ton record en ${diff} : <strong style="color:#a78bfa">${score} pts</strong>`,
+      email_label:      "// ALERTE NIVEAU SUP",
+      email_title:      `Nouveaux Quiz<br/><span style="background:linear-gradient(90deg,var(--violet),var(--fuchsia));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Bientôt disponibles</span>`,
+      email_sub:        "Grammaire anime, vocab de batailles JRPG, coups spéciaux Street Fighter — accès anticipé dès que les nouveaux packs sortent.",
+      email_ph:         "ton@email.com",
+      email_cta:        "ÊTRE NOTIFIÉ",
+      email_ok:         "✓ TU ES SUR LA LISTE, PLAYER ONE !",
+      email_legal:      "Zéro spam. Désabonnement à tout moment. On est des gamers, on déteste les dark patterns.",
+      footer_by:        "Un projet de",
+      footer_quote:     "学ぶ (Manabu) = Apprendre. 遊ぶ (Asobu) = Jouer. On fait les deux.",
+      footer_quiz:      "Jouer au Quiz",
+      footer_updates:   "Être notifié",
+      fb_combo:    (n,p) => `🔥 COMBO x${n} ! +${p} pts — 正解! (Seikai = Correct !)`,
+      fb_correct:  (p)   => `✓ 正解! (Seikai) — Correct ! +${p} pts`,
+      fb_wrong:    (a)   => `✗ 不正解 (Fuseikai) — La réponse : "${a}"`,
+      next_word:   "MOT SUIVANT →",
+      see_results: "VOIR LES RÉSULTATS →",
+      results: [
+        { min:90, emoji:'🏆', title:'LÉGENDAIRE !',       msg:'Tu es le boss final du vocabulaire gaming japonais !' },
+        { min:70, emoji:'⚔️', title:'STAGE VALIDÉ !',     msg:'Belle run. Quelques mots t\'ont encore échappé — revanche ?' },
+        { min:50, emoji:'🎮', title:'CONTINUE À GRINDER', msg:'Niveau intermédiaire. Le savoir est là — affûte-le.' },
+        { min:25, emoji:'🌀', title:'NOVICE DÉTECTÉ',      msg:'Tes nakama sont déçus. Entraîne-toi davantage !' },
+        { min: 0, emoji:'💀', title:'GAME OVER',           msg:'Tu es mort avant le boss. Continue à grinder, aventurier.' },
+      ]
+    }
+  };
+
+  let currentLang = LS.getLang();
+  const t = k => (LANG[currentLang]?.[k] ?? LANG.en?.[k]) || '';
+
+  function applyLang() {
+    document.getElementById('htmlRoot').lang = currentLang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const v = t(el.dataset.i18n);
+      if (typeof v === 'string') el.innerHTML = v;
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      el.placeholder = t(el.dataset.i18nPh);
+    });
+    document.getElementById('btnEN').classList.toggle('active', currentLang === 'en');
+    document.getElementById('btnFR').classList.toggle('active', currentLang === 'fr');
+    // Refresh copy button label if not in "copied" state
+    const copyBtn = document.getElementById('shareBtnCopy');
+    const copyLbl = document.getElementById('copyBtnLabel');
+    if (copyBtn && copyLbl && !copyBtn.classList.contains('copied')) {
+      copyLbl.textContent = t('result_share_copy');
+    }
+    // Refresh difficulty grid labels
+    renderDiffGrid();
+    // Update next button if mid-quiz
+    const nb = document.getElementById('nextBtn');
+    if (nb && !nb.classList.contains('opacity-0')) {
+      nb.textContent = state.currentIndex >= state.questions.length - 1 ? t('see_results') : t('next_word');
+    }
+  }
+
+  function setLang(lang) {
+    if (lang === currentLang) return;
+    currentLang = lang;
+    LS.setLang(lang);
+    const idx = state.currentIndex;
+    const sc = state.score;
+    const st = state.streak;
+    const bs = state.bestStreak;
+    const correct = state.correct;
+    const answered = state.answered;
+    const quizVisible = document.getElementById('quizArea').style.display !== 'none';
+    const resultsVisible = document.getElementById('resultsArea').style.display !== 'none';
+
+    if (currentDiff && state.questions.length) {
+      state.questions = state.questions.map(localizeQuestion);
+      state.currentIndex = Math.min(idx, state.questions.length - 1);
+    }
+
+    state.score = sc;
+    state.streak = st;
+    state.bestStreak = bs;
+    state.correct = correct;
+    state.answered = answered;
+
+    applyLang();
+    if (quizVisible && state.questions.length && !state.answered) renderQuestion();
+    if (resultsVisible && currentDiff) showResults();
+  }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // 50 QUIZ WORDS — bilingual
+  // ══════════════════════════════════════════════════════════════
+  const QUIZ_DATA = [
+    // ─── 1-15 (original batch) ───────────────────────────────
+    {
+      word:"ボス", kana:"Boss",
+      cat:{ en:"⚔️ Combat", fr:"⚔️ Combat" },
+      hint:{ en:"At the end of every dungeon…", fr:"À la fin de chaque donjon…" },
+      correct:{ en:"The big powerful enemy at the end of a level or dungeon", fr:"Le puissant ennemi principal à la fin d'un niveau ou donjon" },
+      wrong:{ en:["A support item that restores MP","A type of rare weapon enchantment","Your party's main healer character"],
+              fr:["Un objet de soutien qui restaure la PM","Un enchantement d'arme rare","Le personnage guérisseur principal du groupe"] }
+    },
+    {
+      word:"ガチャ", kana:"Gacha",
+      cat:{ en:"🎲 Game Mechanic", fr:"🎲 Mécanique de jeu" },
+      hint:{ en:"Mobile games love it, wallets hate it…", fr:"Les jeux mobiles adorent ça, les portefeuilles détestent…" },
+      correct:{ en:"A randomized reward system — you spin and hope for the best", fr:"Un système de récompense aléatoire — tu tires et tu espères le meilleur" },
+      wrong:{ en:["A final ultimate skill unlocked at max level","The save-point mechanic in JRPGs","A secret bonus dungeon hidden in the game"],
+              fr:["Une compétence ultime débloquée au niveau max","Le mécanisme de sauvegarde dans les JRPGs","Un donjon bonus secret caché dans le jeu"] }
+    },
+    {
+      word:"異世界", kana:"Isekai",
+      cat:{ en:"📖 Anime Genre", fr:"📖 Genre Anime" },
+      hint:{ en:"Truck-kun sends you there…", fr:"Truck-kun t'y envoie…" },
+      correct:{ en:"A genre where a character is transported to another world", fr:"Un genre où un personnage est transporté dans un autre monde" },
+      wrong:{ en:["An ancient magical language used by summons","A multiplayer co-op battle arena mode","A rare item drop only found at night"],
+              fr:["Une langue magique ancienne des invocations","Un mode arène de bataille coopératif multijoueur","Un drop rare qu'on ne trouve que la nuit"] }
+    },
+    {
+      word:"仲間", kana:"Nakama",
+      cat:{ en:"👥 Social", fr:"👥 Social" },
+      hint:{ en:"Luffy's most important power source…", fr:"La source de pouvoir la plus importante de Luffy…" },
+      correct:{ en:"Comrades, companions, your trusted crew or party members", fr:"Camarades, compagnons, ton équipe de confiance" },
+      wrong:{ en:["An item that doubles EXP gained in battle","The final stage of a character's evolution","A dark magic spell that controls enemies"],
+              fr:["Un objet qui double l'EXP gagnée en combat","L'étape finale de l'évolution d'un personnage","Un sort de magie noire qui contrôle les ennemis"] }
+    },
+    {
+      word:"レベルアップ", kana:"Level Up",
+      cat:{ en:"📊 Progress", fr:"📊 Progression" },
+      hint:{ en:"🎵 *fanfare plays* 🎵", fr:"🎵 *fanfare résonne* 🎵" },
+      correct:{ en:"When your character grows stronger by gaining enough experience", fr:"Quand ton personnage devient plus fort en accumulant assez d'expérience" },
+      wrong:{ en:["A spell that shrinks an enemy to half size","Switching between two weapons mid-battle","A technique to bypass dungeon puzzles"],
+              fr:["Un sort qui réduit un ennemi de moitié","L'action de changer d'arme en plein combat","Une technique pour contourner les puzzles de donjon"] }
+    },
+    {
+      word:"マナ", kana:"Mana / MP",
+      cat:{ en:"✨ RPG Stats", fr:"✨ Stats RPG" },
+      hint:{ en:"Blue potions refill this…", fr:"Les potions bleues rechargent ça…" },
+      correct:{ en:"The magic resource needed to cast spells and special abilities", fr:"La ressource magique nécessaire pour lancer des sorts et compétences spéciales" },
+      wrong:{ en:["A stealth meter that fills when sneaking","The currency used to buy equipment","A multiplier for physical attack damage"],
+              fr:["Une jauge de furtivité qui se remplit en se cachant","La monnaie utilisée pour acheter de l'équipement","Un multiplicateur de dégâts d'attaque physique"] }
+    },
+    {
+      word:"ツンデレ", kana:"Tsundere",
+      cat:{ en:"💕 Character Type", fr:"💕 Type de personnage" },
+      hint:{ en:"\"It's not like I wanted to help you!\"", fr:"\"C'est pas comme si je voulais t'aider !\"" },
+      correct:{ en:"A character who acts cold or hostile but is secretly warm and caring", fr:"Un personnage froid en apparence mais secrètement chaleureux et attentionné" },
+      wrong:{ en:["A ninja character specializing in poison attacks","A healer who buffs allies at the cost of their own HP","A legendary warrior awakened only during boss fights"],
+              fr:["Un personnage ninja spécialisé dans les attaques empoisonnées","Un guérisseur qui améliore ses alliés au détriment de ses PV","Un guerrier légendaire réveillé uniquement lors des boss"] }
+    },
+    {
+      word:"攻略", kana:"Kouryaku",
+      cat:{ en:"📘 Gaming Culture", fr:"📘 Culture Gaming" },
+      hint:{ en:"What you Google after being stuck for 2 hours…", fr:"Ce que tu googles après 2h coincé sur un niveau…" },
+      correct:{ en:"A strategy guide, walkthrough, or complete game strategy", fr:"Un guide de stratégie, un walkthrough, une stratégie complète pour un jeu" },
+      wrong:{ en:["A rare item that resets your skill tree","The opening cinematic of a game","A ranking system for competitive online matches"],
+              fr:["Un objet rare qui réinitialise ton arbre de compétences","La cinématique d'ouverture d'un jeu","Un système de classement pour les matchs compétitifs en ligne"] }
+    },
+    {
+      word:"カワイイ", kana:"Kawaii",
+      cat:{ en:"🌸 Culture", fr:"🌸 Culture" },
+      hint:{ en:"Pikachu is literally this word…", fr:"Pikachu est littéralement ce mot…" },
+      correct:{ en:"Cute, adorable — a cornerstone of Japanese pop culture aesthetic", fr:"Mignon, adorable — un pilier de l'esthétique de la pop culture japonaise" },
+      wrong:{ en:["Extremely powerful or overpowered (broken balance)","A dramatic final transformation before a boss fight","The sound effect for a critical hit"],
+              fr:["Extrêmement puissant ou surpuissant (balance brisée)","Une transformation finale dramatique avant un combat de boss","L'effet sonore d'un coup critique en combat"] }
+    },
+    {
+      word:"連続技", kana:"Renzoku-waza",
+      cat:{ en:"⚔️ Combat", fr:"⚔️ Combat" },
+      hint:{ en:"Street Fighter's bread and butter…", fr:"Le pain et le beurre de Street Fighter…" },
+      correct:{ en:"A combo — a chain of attacks performed in rapid succession", fr:"Un combo — une chaîne d'attaques effectuées en succession rapide" },
+      wrong:{ en:["A mode where only magic attacks are allowed","A secret character unlocked after beating the game","The animation that plays when opening a treasure chest"],
+              fr:["Un mode où seules les attaques magiques sont autorisées","Un personnage secret débloqué après avoir terminé le jeu","L'animation qui se joue à l'ouverture d'un coffre au trésor"] }
+    },
+    {
+      word:"召喚", kana:"Shoukan",
+      cat:{ en:"✨ Magic", fr:"✨ Magie" },
+      hint:{ en:"How you bring Ifrit or Bahamut into battle…", fr:"Comment tu amènes Ifrit ou Bahamut au combat…" },
+      correct:{ en:"Summoning — calling forth a powerful creature or spirit to fight for you", fr:"L'invocation — appeler une créature ou un esprit puissant pour combattre à ta place" },
+      wrong:{ en:["A passive ability that reduces incoming damage","The act of crafting a new weapon at the forge","A speed-run technique to skip dialogue"],
+              fr:["Une capacité passive qui réduit les dégâts reçus","L'action de fabriquer une nouvelle arme à la forge","Une technique de speedrun pour sauter les dialogues"] }
+    },
+    {
+      word:"ワイフ", kana:"Waifu",
+      cat:{ en:"💕 Culture", fr:"💕 Culture" },
+      hint:{ en:"\"She's MY character.\" — every JRPG player ever", fr:"\"C'est MON personnage.\" — tout joueur de JRPG" },
+      correct:{ en:"A beloved fictional female character someone is deeply attached to", fr:"Un personnage féminin fictif adoré auquel quelqu'un est profondément attaché" },
+      wrong:{ en:["A healing spell exclusive to female-type characters","A secret ending unlocked by max friendship points","An NPC who gives daily bonus quests"],
+              fr:["Un sort de soin exclusif aux personnages féminins","Une fin secrète débloquée avec un maximum de points d'amitié","Un PNJ qui donne des quêtes bonus quotidiennes"] }
+    },
+    {
+      word:"強化", kana:"Kyōka",
+      cat:{ en:"⚒️ Crafting", fr:"⚒️ Artisanat" },
+      hint:{ en:"More damage = better. Always.", fr:"Plus de dégâts = mieux. Toujours." },
+      correct:{ en:"Upgrading or enhancing your equipment, weapons, or stats", fr:"Améliorer ou renforcer ton équipement, tes armes ou tes stats" },
+      wrong:{ en:["A penalty applied for dying too many times","A story mode with no combat encounters","The loading screen that appears between areas"],
+              fr:["Une pénalité appliquée pour être mort trop souvent","Un mode histoire sans aucun combat","L'écran de chargement qui apparaît entre les zones"] }
+    },
+    {
+      word:"無双", kana:"Musou",
+      cat:{ en:"⚔️ Combat", fr:"⚔️ Combat" },
+      hint:{ en:"1 vs 1000 soldiers? No problem.", fr:"1 contre 1000 soldats ? Aucun problème." },
+      correct:{ en:"Unmatched, peerless power — also a genre where you mow down armies alone", fr:"Puissance incomparable et sans égale — aussi un genre où tu décimes des armées seul" },
+      wrong:{ en:["A defensive technique that blocks all damage once per battle","A hidden menu only accessible at night in-game","The final credits song of a completed game"],
+              fr:["Une technique défensive qui bloque tous les dégâts une fois par combat","Un menu caché accessible uniquement la nuit dans le jeu","La chanson de générique final d'un jeu terminé"] }
+    },
+    {
+      word:"覚醒", kana:"Kakusei",
+      cat:{ en:"🔥 Power-Up", fr:"🔥 Power-Up" },
+      hint:{ en:"Eyes glow. Hair changes color. Music intensifies.", fr:"Les yeux brillent. Les cheveux changent de couleur. La musique s'intensifie." },
+      correct:{ en:"Awakening — a dramatic power-up or transformation moment for a character", fr:"L'éveil — un moment de montée en puissance ou de transformation dramatique" },
+      wrong:{ en:["A crafting recipe that requires 5 rare materials","The tutorial phase at the start of a game","A penalty for using too many items in one fight"],
+              fr:["Une recette d'artisanat nécessitant 5 matériaux rares","La phase tutoriel au début d'un jeu","Une pénalité pour avoir utilisé trop d'objets en un seul combat"] }
+    },
+    // ─── 16-26 (second batch) ───────────────────────────────
+    {
+      word:"勇者", kana:"Yuusha",
+      cat:{ en:"🗡️ RPG Class", fr:"🗡️ Classe RPG" },
+      hint:{ en:"The chosen one with a legendary sword…", fr:"L'élu avec une épée légendaire…" },
+      correct:{ en:"The brave hero — the classic protagonist class in JRPGs", fr:"Le héros courageux — la classe de protagoniste classique dans les JRPGs" },
+      wrong:{ en:["A merchant who sells rare items in dungeons","An enemy type that flees when low on HP","A passive buff that activates at night"],
+              fr:["Un marchand qui vend des objets rares dans les donjons","Un type d'ennemi qui fuit quand ses PV sont bas","Un buff passif qui s'active la nuit"] }
+    },
+    {
+      word:"経験値", kana:"Keiken-chi / EXP",
+      cat:{ en:"📊 Progress", fr:"📊 Progression" },
+      hint:{ en:"You grind for this. You live for this.", fr:"Tu grind pour ça. Tu vis pour ça." },
+      correct:{ en:"Experience Points — the currency of growth gained by defeating enemies", fr:"Points d'expérience — la monnaie de progression gagnée en vainquant des ennemis" },
+      wrong:{ en:["The gold coins you collect to buy equipment","A hidden score multiplier unlocked by combos","The number of lives remaining before game over"],
+              fr:["Les pièces d'or collectées pour acheter de l'équipement","Un multiplicateur de score caché débloqué par les combos","Le nombre de vies restantes avant le game over"] }
+    },
+    {
+      word:"魔王", kana:"Maou",
+      cat:{ en:"👹 Final Boss", fr:"👹 Boss Final" },
+      hint:{ en:"He lives in a dark castle. You've been warned.", fr:"Il vit dans un château sombre. Tu es prévenu." },
+      correct:{ en:"The Demon Lord — the ultimate antagonist you must defeat to save the world", fr:"Le Roi Démon — l'antagoniste ultime que tu dois vaincre pour sauver le monde" },
+      wrong:{ en:["A friendly spirit guide who follows the hero","The blacksmith who forges legendary weapons","A secret merchant who appears only once per game"],
+              fr:["Un esprit guide amical qui suit le héros","Le forgeron qui forge des armes légendaires","Un marchand secret qui n'apparaît qu'une fois par partie"] }
+    },
+    {
+      word:"転生", kana:"Tensei",
+      cat:{ en:"♻️ Narrative", fr:"♻️ Narratif" },
+      hint:{ en:"Death is just the beginning of a new adventure…", fr:"La mort n'est que le début d'une nouvelle aventure…" },
+      correct:{ en:"Reincarnation — being reborn into a new life, often in another world", fr:"La réincarnation — renaître dans une nouvelle vie, souvent dans un autre monde" },
+      wrong:{ en:["A save mechanic that rewinds the last 30 seconds","An ultimate skill that sacrifices the user to deal massive damage","A game mode where you keep your stats from a previous run"],
+              fr:["Une mécanique de sauvegarde qui rembobine les 30 dernières secondes","Une compétence ultime qui sacrifie l'utilisateur pour infliger d'énormes dégâts","Un mode de jeu où tu conserves tes stats d'une partie précédente"] }
+    },
+    {
+      word:"必殺技", kana:"Hissatsu-waza",
+      cat:{ en:"💥 Combat", fr:"💥 Combat" },
+      hint:{ en:"Full meter. Deep breath. One button. BOOM.", fr:"Jauge pleine. Inspiration. Un bouton. BOOM." },
+      correct:{ en:"A finishing move or ultimate technique — your most powerful attack", fr:"Un coup fatal ou technique ultime — ton attaque la plus puissante" },
+      wrong:{ en:["A weak starter move used in the tutorial","A healing technique shared with all party members","The default attack with no special animation"],
+              fr:["Un coup de départ faible utilisé dans le tutoriel","Une technique de soin partagée avec tous les membres du groupe","L'attaque par défaut sans animation spéciale"] }
+    },
+    {
+      word:"チート", kana:"Chīto / Cheat",
+      cat:{ en:"⚡ Meta", fr:"⚡ Meta" },
+      hint:{ en:"No one likes playing against this person online.", fr:"Personne n'aime jouer contre cette personne en ligne." },
+      correct:{ en:"Cheating, or an overpowered broken ability that feels unfair", fr:"Tricher, ou une capacité surpuissante et brisée qui semble injuste" },
+      wrong:{ en:["A character who starts with weaker stats than average","A fair skill-based mechanic that requires precise timing","The official difficulty setting for new players"],
+              fr:["Un personnage qui commence avec des stats inférieures à la moyenne","Une mécanique équitable basée sur la précision du timing","Le réglage de difficulté officiel pour les nouveaux joueurs"] }
+    },
+    {
+      word:"装備", kana:"Soubi",
+      cat:{ en:"🛡️ Gear", fr:"🛡️ Équipement" },
+      hint:{ en:"First thing you check when you enter a new town.", fr:"La première chose que tu vérifies en entrant dans une nouvelle ville." },
+      correct:{ en:"Equipment or gear — weapons, armour, and accessories worn by your character", fr:"L'équipement — armes, armures et accessoires portés par ton personnage" },
+      wrong:{ en:["The total amount of gold stored in your wallet","A list of all completed quests in your journal","The magic incantation spoken before casting a spell"],
+              fr:["Le montant total d'or stocké dans ton portefeuille","La liste de toutes les quêtes terminées dans ton journal","L'incantation magique prononcée avant de lancer un sort"] }
+    },
+    {
+      word:"残機", kana:"Zanki",
+      cat:{ en:"❤️ Classic Gaming", fr:"❤️ Gaming Classique" },
+      hint:{ en:"The little icons in the corner. Protect them with your life.", fr:"Les petites icônes dans le coin. Protège-les comme ta vie." },
+      correct:{ en:"Extra lives — the number of times you can die before getting a game over", fr:"Vies supplémentaires — le nombre de fois que tu peux mourir avant le game over" },
+      wrong:{ en:["The countdown timer before a stage begins","The maximum number of items you can carry at once","A bonus reward for finishing a level without taking damage"],
+              fr:["Le minuteur de compte à rebours avant qu'un stage commence","Le nombre maximum d'objets que tu peux porter à la fois","Un bonus pour avoir terminé un niveau sans prendre de dégâts"] }
+    },
+    {
+      word:"隠しキャラ", kana:"Kakushi Kara",
+      cat:{ en:"🔓 Secrets", fr:"🔓 Secrets" },
+      hint:{ en:"Play 10,000 hours, input the right code, maybe you'll find it.", fr:"Joue 10 000 heures, entre le bon code, tu le trouveras peut-être." },
+      correct:{ en:"A hidden/secret character only accessible through special conditions or codes", fr:"Un personnage caché ou secret accessible uniquement par des conditions spéciales ou des codes" },
+      wrong:{ en:["An NPC who only appears during cutscenes","The main character's alternate costume","A playable character available from the start"],
+              fr:["Un PNJ qui n'apparaît que pendant les cinématiques","Le costume alternatif du personnage principal","Un personnage jouable disponible dès le début"] }
+    },
+    {
+      word:"クリア", kana:"Kuria / Clear",
+      cat:{ en:"🏁 Progress", fr:"🏁 Progression" },
+      hint:{ en:"Credits are rolling. You did it.", fr:"Le générique défile. Tu l'as fait." },
+      correct:{ en:"Clearing or completing a stage, dungeon, or the entire game", fr:"Valider ou compléter un niveau, un donjon ou l'ensemble du jeu" },
+      wrong:{ en:["The act of deleting all your save data","A status effect that removes all debuffs at once","Winning a match with a perfect score and no damage taken"],
+              fr:["L'action d'effacer toutes tes données de sauvegarde","Un effet de statut qui supprime tous les débuffs en une fois","Gagner un match avec un score parfait sans prendre de dégâts"] }
+    },
+    {
+      word:"フリプレ", kana:"Free-to-Play",
+      cat:{ en:"💸 Business Model", fr:"💸 Modèle Économique" },
+      hint:{ en:"The download is free. Your wallet might not agree later.", fr:"Le téléchargement est gratuit. Ton portefeuille risque de ne pas être d'accord plus tard." },
+      correct:{ en:"Free-to-play — a game you download for free, often with optional paid content", fr:"Free-to-play — un jeu que tu télécharges gratuitement, souvent avec du contenu payant optionnel" },
+      wrong:{ en:["A subscription service that costs a flat monthly fee","A game mode where all items cost double the normal price","A limited-time demo version available before launch"],
+              fr:["Un service par abonnement au forfait mensuel fixe","Un mode de jeu où tous les objets coûtent le double du prix normal","Une version démo à durée limitée disponible avant le lancement"] }
+    },
+    // ─── 27-50 (new 24 words) ───────────────────────────────
+    {
+      word:"回復", kana:"Kaifuku",
+      cat:{ en:"💊 Status", fr:"💊 Statut" },
+      hint:{ en:"HP at 1. Drink this. Breathe.", fr:"1 PV restant. Bois ça. Respire." },
+      correct:{ en:"Recovery or healing — restoring HP or removing a negative status effect", fr:"Récupération ou soin — restaurer les PV ou supprimer un effet de statut négatif" },
+      wrong:{ en:["Dealing extra damage during a surprise attack","A passive stat that blocks the next hit","Stealing MP from an enemy to power your spells"],
+              fr:["Infliger des dégâts supplémentaires lors d'une attaque surprise","Une stat passive qui bloque le prochain coup","Voler la PM d'un ennemi pour alimenter tes sorts"] }
+    },
+    {
+      word:"魔法", kana:"Mahou",
+      cat:{ en:"✨ Magic", fr:"✨ Magie" },
+      hint:{ en:"Fire, Ice, Thunder… you know the drill.", fr:"Feu, Glace, Foudre… tu connais la chanson." },
+      correct:{ en:"Magic — supernatural spells and abilities used in battle", fr:"La magie — sorts et capacités surnaturelles utilisés en combat" },
+      wrong:{ en:["A physical weapon category including swords and spears","A system for combining items to craft new ones","A class of character that cannot equip heavy armour"],
+              fr:["Une catégorie d'armes physiques incluant épées et lances","Un système pour combiner des objets et en créer de nouveaux","Une classe de personnage ne pouvant pas porter d'armure lourde"] }
+    },
+    {
+      word:"魔法使い", kana:"Mahoutsukai",
+      cat:{ en:"🧙 RPG Class", fr:"🧙 Classe RPG" },
+      hint:{ en:"Fragile. Powerful. Stays in the back row.", fr:"Fragile. Puissant. Reste dans le rang arrière." },
+      correct:{ en:"A mage or wizard — a character class that specializes in casting magic spells", fr:"Un mage ou sorcier — une classe de personnage spécialisée dans les sorts magiques" },
+      wrong:{ en:["A knight who can equip the heaviest armour in the game","A rogue class who attacks from the shadows for bonus damage","A bard who boosts party stats through music and song"],
+              fr:["Un chevalier pouvant porter l'armure la plus lourde du jeu","Une classe de voleur qui attaque depuis les ombres pour des dégâts bonus","Un barde qui améliore les stats du groupe grâce à la musique"] }
+    },
+    {
+      word:"呪い", kana:"Noroi",
+      cat:{ en:"💀 Status Effect", fr:"💀 Effet de Statut" },
+      hint:{ en:"You touched the creepy relic. Big mistake.", fr:"Tu as touché la relique bizarre. Grande erreur." },
+      correct:{ en:"A curse — a negative status effect that weakens, drains, or punishes the afflicted character", fr:"Une malédiction — un effet de statut négatif qui affaiblit, draine ou punit le personnage touché" },
+      wrong:{ en:["A powerful blessing that doubles the character's speed","A transformation that makes the character invincible for one turn","A quest reward given for defeating a dungeon boss"],
+              fr:["Une puissante bénédiction qui double la vitesse du personnage","Une transformation qui rend le personnage invincible pendant un tour","Une récompense de quête obtenue en vainquant un boss de donjon"] }
+    },
+    {
+      word:"最強", kana:"Saikyou",
+      cat:{ en:"💪 Power", fr:"💪 Puissance" },
+      hint:{ en:"Nobody beats this character. Nobody.", fr:"Personne ne bat ce personnage. Personne." },
+      correct:{ en:"The absolute strongest — the most powerful character, item, or build possible", fr:"Le/la plus fort(e) — le personnage, l'objet ou le build le plus puissant possible" },
+      wrong:{ en:["A beginner character recommended for first-time players","The weakest enemy found in the starting area of a game","A speed stat that determines who attacks first in turn-based combat"],
+              fr:["Un personnage débutant recommandé pour les nouveaux joueurs","L'ennemi le plus faible trouvé dans la zone de départ d'un jeu","Une stat de vitesse qui détermine qui attaque en premier en combat au tour par tour"] }
+    },
+    {
+      word:"闇", kana:"Yami",
+      cat:{ en:"🌑 Element", fr:"🌑 Élément" },
+      hint:{ en:"The cool villain uses this element. Always.", fr:"Le méchant cool utilise cet élément. Toujours." },
+      correct:{ en:"Darkness — a magic element associated with evil, shadows, and void energy", fr:"Les ténèbres — un élément magique associé au mal, aux ombres et à l'énergie du vide" },
+      wrong:{ en:["A blue lightning element used by heroes of justice","A healing element that costs double the normal MP","A fire-based element exclusive to dragon-type summons"],
+              fr:["Un élément de foudre bleue utilisé par les héros de la justice","Un élément de soin qui coûte le double de la PM normale","Un élément basé sur le feu exclusif aux invocations de type dragon"] }
+    },
+    {
+      word:"英雄", kana:"Eiyuu",
+      cat:{ en:"🗡️ Narrative", fr:"🗡️ Narratif" },
+      hint:{ en:"Statues are built in their honour. Usually posthumously.", fr:"Des statues sont érigées en leur honneur. En général à titre posthume." },
+      correct:{ en:"A hero or champion — a legendary figure celebrated for great deeds or sacrifice", fr:"Un héros ou champion — une figure légendaire célébrée pour ses grandes actions ou son sacrifice" },
+      wrong:{ en:["A common soldier with no unique abilities or backstory","A shop owner who provides gear upgrades in exchange for gold","A trickster character who changes sides multiple times during the story"],
+              fr:["Un soldat ordinaire sans capacités uniques ni histoire","Un propriétaire de boutique qui fournit des améliorations d'équipement contre de l'or","Un personnage trompeur qui change de camp plusieurs fois durant l'histoire"] }
+    },
+    {
+      word:"神", kana:"Kami",
+      cat:{ en:"⛩️ Mythology", fr:"⛩️ Mythologie" },
+      hint:{ en:"Final boss of final bosses. Wears white. Plays the pipe organ.", fr:"Boss final des boss finaux. Habillé en blanc. Joue aux grandes orgues." },
+      correct:{ en:"God or divine spirit — an all-powerful deity or sacred entity in Japanese culture and games", fr:"Dieu ou esprit divin — une divinité toute-puissante ou entité sacrée dans la culture japonaise et les jeux" },
+      wrong:{ en:["A generic status effect that prevents movement for 2 turns","A support character who sacrifices their own HP to protect allies","The experience multiplier earned for defeating rare enemy types"],
+              fr:["Un effet de statut générique qui empêche le mouvement pendant 2 tours","Un personnage de soutien qui sacrifie ses propres PV pour protéger ses alliés","Le multiplicateur d'expérience gagné en vainquant des types d'ennemis rares"] }
+    },
+    {
+      word:"剣", kana:"Ken / Tsurugi",
+      cat:{ en:"🗡️ Weapon", fr:"🗡️ Arme" },
+      hint:{ en:"The hero always starts with one. Always.", fr:"Le héros commence toujours avec ça. Toujours." },
+      correct:{ en:"A sword — the most iconic weapon in RPG and action game history", fr:"Une épée — l'arme la plus emblématique de l'histoire des RPG et jeux d'action" },
+      wrong:{ en:["A magical staff used to channel elemental energy","A ranged bow that fires elemental arrows","A heavy hammer that deals splash damage to all nearby enemies"],
+              fr:["Un bâton magique utilisé pour canaliser l'énergie élémentaire","Un arc à distance qui tire des flèches élémentaires","Un marteau lourd qui inflige des dégâts de zone à tous les ennemis proches"] }
+    },
+    {
+      word:"盾", kana:"Tate",
+      cat:{ en:"🛡️ Equipment", fr:"🛡️ Équipement" },
+      hint:{ en:"Put it between you and the enemy. That's it.", fr:"Mets-le entre toi et l'ennemi. C'est tout." },
+      correct:{ en:"A shield — a defensive item held in the off-hand to reduce or block incoming damage", fr:"Un bouclier — un objet défensif tenu dans la main non-dominante pour réduire ou bloquer les dégâts reçus" },
+      wrong:{ en:["A magical ring that boosts the wearer's attack power by 20%","A consumable item that revives an ally with full health","A key item needed to unlock the final dungeon gate"],
+              fr:["Un anneau magique qui augmente la puissance d'attaque du porteur de 20%","Un objet consommable qui ressuscite un allié avec tous ses PV","Un objet clé nécessaire pour ouvrir la porte du donjon final"] }
+    },
+    {
+      word:"伝説", kana:"Densetsu",
+      cat:{ en:"⭐ Rarity", fr:"⭐ Rareté" },
+      hint:{ en:"The item glow is gold. Your hands are shaking.", fr:"L'objet brille en or. Tes mains tremblent." },
+      correct:{ en:"Legendary — the highest rarity tier for items, characters, or weapons in a game", fr:"Légendaire — le niveau de rareté le plus élevé pour les objets, personnages ou armes dans un jeu" },
+      wrong:{ en:["A common drop found in the very first level of every game","A status effect that reduces the enemy's defence to zero","An in-game currency exclusive to the premium battle pass"],
+              fr:["Un drop commun trouvé dans le tout premier niveau de chaque jeu","Un effet de statut qui réduit la défense de l'ennemi à zéro","Une monnaie in-game exclusive au battle pass premium"] }
+    },
+    {
+      word:"運命", kana:"Unmei",
+      cat:{ en:"📖 Narrative", fr:"📖 Narratif" },
+      hint:{ en:"\"You were always destined to be here.\" — every elder NPC", fr:"\"Tu étais destiné à être ici.\" — tout PNJ âgé du monde" },
+      correct:{ en:"Fate or destiny — the predetermined path that drives the JRPG protagonist forward", fr:"Le destin ou la destinée — le chemin prédéterminé qui pousse le protagoniste de JRPG en avant" },
+      wrong:{ en:["A random encounter chance modifier that increases in dark areas","A score multiplier for defeating enemies without taking damage","A special mechanic that lets you undo your last three actions"],
+              fr:["Un modificateur de chances de combat aléatoire qui augmente dans les zones sombres","Un multiplicateur de score pour vaincre des ennemis sans prendre de dégâts","Une mécanique spéciale qui te permet d'annuler tes trois dernières actions"] }
+    },
+    {
+      word:"連携", kana:"Renkei",
+      cat:{ en:"👥 Combat", fr:"👥 Combat" },
+      hint:{ en:"Two characters. One moment. Devastating result.", fr:"Deux personnages. Un moment. Résultat dévastateur." },
+      correct:{ en:"A team combo or link attack — a coordinated move executed by two or more party members together", fr:"Un combo d'équipe ou attaque enchaînée — un mouvement coordonné exécuté par deux membres du groupe ou plus" },
+      wrong:{ en:["A single-player skill that summons an AI companion for one turn","A resource that prevents your character from being stunned","A passive stat that increases XP gained from all sources"],
+              fr:["Une compétence solo qui invoque un compagnon IA pendant un tour","Une ressource qui empêche ton personnage d'être étourdi","Une stat passive qui augmente l'XP obtenu de toutes les sources"] }
+    },
+    {
+      word:"隠密", kana:"Onmitsu",
+      cat:{ en:"🥷 Stealth", fr:"🥷 Furtivité" },
+      hint:{ en:"You never saw me. I was never here.", fr:"Tu ne m'as pas vu. Je n'étais pas là." },
+      correct:{ en:"Stealth or covert action — moving unseen to avoid combat or perform a sneak attack", fr:"La furtivité ou l'action discrète — se déplacer sans être vu pour éviter le combat ou effectuer une attaque surprise" },
+      wrong:{ en:["A frontal charge that deals double damage and taunts all nearby enemies","A healing ability that creates a protective barrier around the caster","A magic skill that slows down time for all enemies on screen"],
+              fr:["Une charge frontale qui inflige le double de dégâts et provoque tous les ennemis proches","Une capacité de soin qui crée une barrière protectrice autour du lanceur","Une compétence magique qui ralentit le temps pour tous les ennemis à l'écran"] }
+    },
+    {
+      word:"怒り", kana:"Ikari",
+      cat:{ en:"🔥 Status", fr:"🔥 Statut" },
+      hint:{ en:"HP dropped below 25%. Time to go berserk.", fr:"PV sous les 25%. Il est temps de devenir fou furieux." },
+      correct:{ en:"Rage or anger — a state of frenzied power-up, often triggering when a character is near death", fr:"La rage ou la colère — un état de montée en puissance frénétique, souvent déclenché quand un personnage est proche de la mort" },
+      wrong:{ en:["A calm meditative buff that slowly restores HP over many turns","A defensive ability that reduces all incoming damage for 3 turns","A support skill that transfers a portion of your HP to an ally"],
+              fr:["Un buff méditatif calme qui restaure lentement les PV sur de nombreux tours","Une capacité défensive qui réduit tous les dégâts reçus pendant 3 tours","Une compétence de soutien qui transfère une partie de tes PV à un allié"] }
+    },
+    {
+      word:"運", kana:"Un",
+      cat:{ en:"🎲 Stats", fr:"🎲 Stats" },
+      hint:{ en:"The stat that makes crit and drop rate go brrr.", fr:"La stat qui fait monter les taux de crit et de drop." },
+      correct:{ en:"Luck — a stat that influences critical hit chance, item drop rates, and random events", fr:"La chance — une stat qui influence le taux de coup critique, les taux de drop d'objets et les événements aléatoires" },
+      wrong:{ en:["A stat that determines how far a character can move per turn","The hidden stat that controls how much noise a character makes while moving","A resource that regenerates automatically during rest periods"],
+              fr:["Une stat qui détermine la distance qu'un personnage peut parcourir par tour","La stat cachée qui contrôle le bruit qu'un personnage fait en se déplaçant","Une ressource qui se régénère automatiquement pendant les périodes de repos"] }
+    },
+    {
+      word:"防御", kana:"Bougyo",
+      cat:{ en:"🛡️ Stats", fr:"🛡️ Stats" },
+      hint:{ en:"The turtle strategy. Block everything. Wait.", fr:"La stratégie tortue. Bloque tout. Attends." },
+      correct:{ en:"Defence — a stat that reduces the physical damage your character receives in combat", fr:"La défense — une stat qui réduit les dégâts physiques reçus par ton personnage en combat" },
+      wrong:{ en:["A stat that increases the distance of ranged attacks","A hidden multiplier that activates when surrounded by three or more enemies","The currency required to enter paid tournaments or arenas"],
+              fr:["Une stat qui augmente la portée des attaques à distance","Un multiplicateur caché qui s'active quand on est entouré de trois ennemis ou plus","La monnaie requise pour entrer dans des tournois ou arènes payants"] }
+    },
+    {
+      word:"聖剣", kana:"Seiken",
+      cat:{ en:"⚔️ Legendary Weapon", fr:"⚔️ Arme Légendaire" },
+      hint:{ en:"Only the chosen hero can pull it from the stone.", fr:"Seul le héros élu peut l'extraire de la pierre." },
+      correct:{ en:"The Holy Sword — a legendary divine weapon, often the key to defeating the final evil", fr:"L'Épée Sainte — une arme divine légendaire, souvent la clé pour vaincre le mal final" },
+      wrong:{ en:["A cursed blade that drains the user's HP with every strike","A sword exclusively used by enemy types in the final dungeon","A decorative weapon with no combat use, found only in museums"],
+              fr:["Une lame maudite qui draine les PV de l'utilisateur à chaque frappe","Une épée utilisée exclusivement par les types d'ennemis dans le donjon final","Une arme décorative sans utilité en combat, trouvée uniquement dans les musées"] }
+    },
+    {
+      word:"盗賊", kana:"Touzoku",
+      cat:{ en:"🗝️ RPG Class", fr:"🗝️ Classe RPG" },
+      hint:{ en:"High speed, low HP, high risk, high reward.", fr:"Vitesse élevée, PV faibles, risque élevé, récompense élevée." },
+      correct:{ en:"A thief or rogue — a fast, stealthy class that can steal items and deals critical strike damage", fr:"Un voleur ou rôdeur — une classe rapide et furtive qui peut voler des objets et inflige des dégâts de coup critique" },
+      wrong:{ en:["A tank class that wears the heaviest armour and draws enemy aggression","A mage class that specializes in healing and support spells","A summoner class that calls legendary creatures to fight alongside the party"],
+              fr:["Une classe tank qui porte l'armure la plus lourde et attire l'agression des ennemis","Une classe de mage spécialisée dans les sorts de soin et de soutien","Une classe d'invocateur qui appelle des créatures légendaires pour combattre aux côtés du groupe"] }
+    },
+    {
+      word:"竜", kana:"Ryuu / Dragon",
+      cat:{ en:"🐉 Enemy", fr:"🐉 Ennemi" },
+      hint:{ en:"Scales. Wings. Fire breath. Usually the hardest optional boss.", fr:"Écailles. Ailes. Souffle de feu. Généralement le boss optionnel le plus difficile." },
+      correct:{ en:"A dragon — the ultimate powerful creature in fantasy games, often a fearsome boss or rare summon", fr:"Un dragon — la créature puissante ultime dans les jeux de fantasy, souvent un boss redoutable ou une invocation rare" },
+      wrong:{ en:["A tiny fairy enemy that casts support spells to heal other monsters","A humanoid soldier enemy that guards treasure rooms in dungeons","A mechanical golem enemy that can only be damaged by magic attacks"],
+              fr:["Un petit ennemi fée qui lance des sorts de soin sur les autres monstres","Un ennemi soldat humanoïde qui garde les salles au trésor dans les donjons","Un ennemi golem mécanique qui ne peut être endommagé que par des attaques magiques"] }
+    },
+    {
+      word:"迷宮", kana:"Meikyuu",
+      cat:{ en:"🗺️ Location", fr:"🗺️ Lieu" },
+      hint:{ en:"You need a map. And a good memory. And 3 hours.", fr:"Il te faut une carte. Et une bonne mémoire. Et 3 heures." },
+      correct:{ en:"A labyrinth or maze — a complex multi-level dungeon designed to confuse and challenge explorers", fr:"Un labyrinthe ou dédale — un donjon complexe à plusieurs niveaux conçu pour désorienter et défier les explorateurs" },
+      wrong:{ en:["A safe town area where players can rest, save, and buy equipment","A simple straight corridor that connects two boss rooms","A secret vault accessible only after collecting all hidden items"],
+              fr:["Une zone de ville sûre où les joueurs peuvent se reposer, sauvegarder et acheter de l'équipement","Un simple couloir rectiligne qui relie deux salles de boss","Un coffre-fort secret accessible uniquement après avoir collecté tous les objets cachés"] }
+    },
+    {
+      word:"主人公", kana:"Shujinkou",
+      cat:{ en:"🌟 Narrative", fr:"🌟 Narratif" },
+      hint:{ en:"You name them. You control them. They save the world.", fr:"Tu les nommes. Tu les contrôles. Ils sauvent le monde." },
+      correct:{ en:"The protagonist — the main character the player controls throughout the game", fr:"Le protagoniste — le personnage principal contrôlé par le joueur tout au long du jeu" },
+      wrong:{ en:["The narrator who explains the lore at the start of each chapter","A recurring side character who sells items across multiple towns","The final boss who reveals themselves only in the last act of the game"],
+              fr:["Le narrateur qui explique le lore au début de chaque chapitre","Un personnage secondaire récurrent qui vend des objets dans plusieurs villes","Le boss final qui se révèle uniquement dans le dernier acte du jeu"] }
+    },
+    {
+      word:"ステータス", kana:"Suteetasu / Status",
+      cat:{ en:"📊 RPG Stats", fr:"📊 Stats RPG" },
+      hint:{ en:"ATK, DEF, SPD, HP… the holy spreadsheet.", fr:"ATQ, DÉF, VIT, PV… le saint tableau de bord." },
+      correct:{ en:"Stats — the numerical values (ATK, DEF, HP, SPD…) that define a character's capabilities in battle", fr:"Les stats — les valeurs numériques (ATQ, DÉF, PV, VIT…) qui définissent les capacités d'un personnage en combat" },
+      wrong:{ en:["The dialogue options available when talking to an NPC","The list of active quests shown on the world map","The catalogue of collectible items found throughout the game"],
+              fr:["Les options de dialogue disponibles lors d'une conversation avec un PNJ","La liste des quêtes actives affichée sur la carte du monde","Le catalogue des objets à collectionner trouvés dans le jeu"] }
+    },
+    {
+      word:"スキル", kana:"Sukiru / Skill",
+      cat:{ en:"⚡ RPG Mechanic", fr:"⚡ Mécanique RPG" },
+      hint:{ en:"You level it up, you unlock it, you spam it.", fr:"Tu le montes en niveau, tu le débloque, tu le spammes." },
+      correct:{ en:"A skill — a learned ability or technique that a character can use in or out of battle", fr:"Une compétence — une capacité ou technique apprise qu'un personnage peut utiliser en combat ou hors combat" },
+      wrong:{ en:["A passive aura that automatically heals all party members over time","The visual effects displayed when a character takes damage","A negative status debuff applied only by enemy sorcerer-type units"],
+              fr:["Une aura passive qui soigne automatiquement tous les membres du groupe au fil du temps","Les effets visuels affichés quand un personnage prend des dégâts","Un débuff de statut négatif appliqué uniquement par les unités de type sorcier ennemi"] }
+    },
+  ];
+
+
+  // ══════════════════════════════════════════════════════════════
+  // QUIZ ENGINE
+  // ══════════════════════════════════════════════════════════════
+  let state = { questions:[], currentIndex:0, score:0, streak:0, bestStreak:0, answered:false, correct:0 };
+
+  const shuffle = a => {
+    const b=[...a];
+    for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}
+    return b;
+  };
+
+  function localizeQuestion(question) {
+    const correctText = question.correct[currentLang] || question.correct.en;
+    const wrongList   = question.wrong[currentLang]   || question.wrong.en;
+    const answers     = shuffle([correctText, ...shuffle(wrongList).slice(0,3)]);
+    return { ...question, correctText, answers };
+  }
+
+  function getAccuracyPercent() {
+    const total = state.questions.length;
+    if (!total) return 0;
+    return Math.round((state.correct / total) * 100);
+  }
+
+  function buildQuestions(n) {
+    const pool = shuffle(QUIZ_DATA).slice(0, n);
+    return pool.map(localizeQuestion);
+  }
+
+  // ── DIFFICULTY GRID ──────────────────────────────────────────
+  function renderDiffGrid() {
+    const grid = document.getElementById('diffGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    DIFFICULTIES.forEach(d => {
+      const best = LS.getBest(d.id);
+      const bestLabel = best > 0
+        ? `${t('diff_best')} <span style="color:${d.color};font-weight:700;">${best} pts</span>`
+        : `<span style="color:rgba(255,255,255,.3);">${t('diff_no_best')}</span>`;
+      const card = document.createElement('div');
+      card.className = `diff-card ${d.cls}${currentDiff?.id === d.id ? ' selected' : ''}`;
+      card.innerHTML = `
+        <span class="diff-icon">${d.icon}</span>
+        <div class="diff-name" style="color:${d.color};">${t('diff_'+d.id)}</div>
+        <div class="diff-count" style="color:rgba(255,255,255,.6);">${d.words} ${t('diff_words')}</div>
+        <div class="diff-best mt-1" style="color:rgba(255,255,255,.5);">${bestLabel}</div>
+      `;
+      card.onclick = () => selectDiff(d);
+      grid.appendChild(card);
+    });
+  }
+
+  function selectDiff(d) {
+    currentDiff = d;
+    renderDiffGrid();
+    const sb = document.getElementById('startBtn');
+    sb.classList.add('ready');
+  }
+
+  function launchQuiz() {
+    if (!currentDiff) return;
+    state = { questions:buildQuestions(currentDiff.words), currentIndex:0, score:0, streak:0, bestStreak:0, answered:false, correct:0 };
+    // Hide picker, show progress+hud+quiz
+    document.getElementById('diffArea').style.display   = 'none';
+    document.getElementById('progressRow').style.display = 'flex';
+    document.getElementById('hudRow').style.display      = 'flex';
+    document.getElementById('quizArea').style.display    = 'block';
+    document.getElementById('resultsArea').style.display = 'none';
+    renderQuestion();
+  }
+
+  function goToDiffPicker() {
+    document.getElementById('diffArea').style.display    = 'block';
+    document.getElementById('progressRow').style.display = 'none';
+    document.getElementById('hudRow').style.display      = 'none';
+    document.getElementById('quizArea').style.display    = 'none';
+    document.getElementById('resultsArea').style.display = 'none';
+    renderDiffGrid();
+  }
+
+  function replayDifficulty() {
+    launchQuiz();
+  }
+
+  // ── HINT ─────────────────────────────────────────────────────
+  function revealHint() {
+    document.getElementById('hintBtn').style.display  = 'none';
+    const zone    = document.getElementById('hintText');
+    const content = document.getElementById('hintContent');
+    zone.style.display = 'block';
+    content.classList.remove('hint-revealed');
+    void content.offsetWidth;
+    content.classList.add('hint-revealed');
+  }
+
+  // ── RENDER QUESTION ──────────────────────────────────────────
+  function renderQuestion() {
+    const q     = state.questions[state.currentIndex];
+    const total = state.questions.length;
+
+    document.getElementById('progressBar').style.width  = `${(state.currentIndex/total)*100}%`;
+    document.getElementById('progressText').textContent = `${state.currentIndex}/${total}`;
+
+    document.getElementById('scoreDisplay').textContent  = state.score;
+    document.getElementById('streakDisplay').textContent = state.streak >= 2 ? `🔥 x${state.streak}` : '';
+    const level = state.score < 30 ? 'I' : state.score < 80 ? 'II' : state.score < 180 ? 'III' : 'IV';
+    document.getElementById('levelDisplay').textContent  = level;
+
+    document.getElementById('wordKana').textContent     = q.kana;
+    document.getElementById('wordDisplay').textContent  = q.word;
+    document.getElementById('wordCategory').textContent = q.cat[currentLang] || q.cat.en;
+
+    // Reset hint
+    const hintBtn     = document.getElementById('hintBtn');
+    const hintText    = document.getElementById('hintText');
+    const hintContent = document.getElementById('hintContent');
+    hintBtn.style.display   = 'inline-flex';
+    hintText.style.display  = 'none';
+    hintContent.textContent = q.hint[currentLang] || q.hint.en;
+    hintContent.classList.remove('hint-revealed');
+    const hl = hintBtn.querySelector('[data-i18n]');
+    if (hl) hl.textContent = t('hint_btn');
+
+    // Answers
+    const grid = document.getElementById('answersGrid');
+    grid.innerHTML = '';
+    q.answers.forEach(ans => {
+      const btn = document.createElement('button');
+      btn.className = 'answer-btn';
+      btn.innerHTML = `<span>${ans}</span>`;
+      btn.onclick = () => handleAnswer(btn, ans, q.correctText);
+      grid.appendChild(btn);
+    });
+
+    const fb = document.getElementById('feedback');
+    fb.style.display='none'; fb.textContent='';
+    const nb = document.getElementById('nextBtn');
+    nb.classList.add('opacity-0','pointer-events-none');
+    state.answered = false;
+  }
+
+  // ── HANDLE ANSWER ────────────────────────────────────────────
+  function handleAnswer(btn, chosen, correct) {
+    if (state.answered) return;
+    state.answered = true;
+    document.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+    if (document.getElementById('hintText').style.display === 'none') revealHint();
+
+    const isCorrect = chosen === correct;
+    const fb = document.getElementById('feedback');
+    fb.style.display = 'block';
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      state.streak++;
+      state.correct++;
+      if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+      const bonus = state.streak>=3 ? 15 : state.streak>=2 ? 12 : 10;
+      state.score += bonus;
+      fb.style.color = 'var(--green)';
+      fb.textContent = state.streak>=3 ? t('fb_combo')(state.streak,bonus) : t('fb_correct')(bonus);
+      spawnParticles(btn, '#4ade80');
+    } else {
+      btn.classList.add('wrong');
+      state.streak = 0;
+      document.querySelectorAll('.answer-btn').forEach(b => {
+        if (b.querySelector('span').textContent===correct) b.classList.add('correct');
+      });
+      fb.style.color = 'var(--red)';
+      const shortAns = correct.split(' ').slice(0,7).join(' ')+(correct.split(' ').length>7?'…':'');
+      fb.textContent = t('fb_wrong')(shortAns);
+    }
+
+    document.getElementById('scoreDisplay').textContent  = state.score;
+    document.getElementById('streakDisplay').textContent = state.streak>=2 ? `🔥 x${state.streak}` : '';
+
+    const nb = document.getElementById('nextBtn');
+    nb.classList.remove('opacity-0','pointer-events-none');
+    nb.textContent = state.currentIndex>=state.questions.length-1 ? t('see_results') : t('next_word');
+  }
+
+  function nextQuestion() {
+    state.currentIndex++;
+    if (state.currentIndex >= state.questions.length) showResults();
+    else renderQuestion();
+  }
+
+  // ── RESULTS ──────────────────────────────────────────────────
+  function showResults() {
+    document.getElementById('progressRow').style.display = 'none';
+    document.getElementById('hudRow').style.display      = 'none';
+    document.getElementById('quizArea').style.display    = 'none';
+    document.getElementById('resultsArea').style.display = 'block';
+
+    const total = state.questions.length;
+    const pct   = getAccuracyPercent();
+    const tier  = t('results').find(r=>pct>=r.min) || t('results')[t('results').length-1];
+
+    document.getElementById('finalEmoji').textContent   = tier.emoji;
+    document.getElementById('finalTitle').textContent   = tier.title;
+    document.getElementById('finalMsg').textContent     = tier.msg;
+    document.getElementById('finalScore').textContent   = state.score + ' pts';
+    document.getElementById('finalCorrect').textContent = `${state.correct}/${total}`;
+    document.getElementById('finalPercent').textContent = pct+'%';
+    document.getElementById('finalStreak').textContent  = state.bestStreak;
+    document.getElementById('progressBar').style.width  = '100%';
+    document.getElementById('progressText').textContent = `${total}/${total}`;
+
+    // localStorage — save best & show badge/msg
+    const isNewRecord = LS.setBest(currentDiff.id, state.score);
+    const badge = document.getElementById('newRecordBadge');
+    badge.style.display = isNewRecord ? 'block' : 'none';
+
+    const bestMsg = document.getElementById('bestScoreMsg');
+    const currentBest = LS.getBest(currentDiff.id);
+    const diffLabel = t('diff_'+currentDiff.id);
+    bestMsg.innerHTML = t('result_best_msg')(currentBest, diffLabel);
+
+    // Refresh diff grid best scores for next visit
+    renderDiffGrid();
+  }
+
+  // ── PARTICLES ────────────────────────────────────────────────
+  function spawnParticles(btn, color) {
+    const r=btn.getBoundingClientRect();
+    const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    for(let i=0;i<8;i++){
+      const p=document.createElement('div');
+      p.className='particle';
+      p.style.cssText=`left:${cx}px;top:${cy}px;background:${color};--tx:${(Math.random()-.5)*120}px;--ty:${(Math.random()-.8)*100}px;`;
+      document.body.appendChild(p);
+      p.addEventListener('animationend',()=>p.remove());
+    }
+  }
+
+  // ── EMAIL → NETLIFY FORMS ────────────────────────────────────
+  async function handleEmailSubmit(e) {
+    e.preventDefault();
+    const form    = e.target;
+    const email   = document.getElementById('emailInput').value.trim();
+    const btn     = form.querySelector('button[type="submit"]');
+    const success = document.getElementById('emailSuccess');
+
+    // Optimistic UI — disable button while sending
+    const originalText = btn.textContent;
+    btn.disabled   = true;
+    btn.textContent = '...';
+
+    try {
+      const body = new URLSearchParams({
+        'form-name': 'manabuplay-waitlist',
+        'email':     email,
+        'lang':      currentLang,
+      });
+
+      const res = await fetch('/', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body:    body.toString(),
+      });
+
+      if (res.ok) {
+        form.style.display      = 'none';
+        success.style.display   = 'block';
+        // Also store locally so we don't show the form again this session
+        LS.set('email_submitted', true);
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    } catch (err) {
+      // Graceful fallback — show success anyway (Netlify may still catch it)
+      // and log the error silently
+      console.warn('Netlify form submit error:', err);
+      btn.disabled    = false;
+      btn.textContent = originalText;
+      // Show a soft error message
+      success.style.display = 'block';
+      success.querySelector('span').textContent =
+        currentLang === 'fr'
+          ? '⚠ Réessaie dans un instant…'
+          : '⚠ Something went wrong, please retry.';
+    }
+  }
+
+  // ── SCROLL REVEAL ─────────────────────────────────────────────
+  const revealObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
+  },{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+  // ── SHARE ─────────────────────────────────────────────────────
+  function buildShareText() {
+    const total     = state.questions.length;
+    const pct       = getAccuracyPercent();
+    const diffLabel = t('diff_' + currentDiff.id);
+    const tier      = t('results').find(r => pct >= r.min) || t('results')[t('results').length - 1];
+    // Emoji bar: filled squares proportional to accuracy
+    const filled  = Math.max(0, Math.min(10, Math.round(pct / 10)));
+    const bar     = '🟪'.repeat(filled) + '⬛'.repeat(10 - filled);
+    return currentLang === 'fr'
+      ? `${tier.emoji} ManabuPlay — Quiz Gaming Japonais\nDifficulté : ${diffLabel} | ${state.correct}/${total} réponses justes\nScore : ${state.score} pts (${pct}%)\n${bar}\nTeste ton niveau 👇`
+      : `${tier.emoji} ManabuPlay — Japanese Gaming Quiz\nDifficulty: ${diffLabel} | ${state.correct}/${total} correct\nScore: ${state.score} pts (${pct}%)\n${bar}\nTest your level 👇`;
+  }
+
+  function shareOnX() {
+    const text = buildShareText();
+    const url  = encodeURIComponent(window.location.href.split('#')[0]);
+    const tweet = encodeURIComponent(text + '\n' + decodeURIComponent(url));
+    window.open('https://x.com/intent/tweet?text=' + tweet, '_blank', 'noopener,width=600,height=500');
+  }
+
+  function copyShareLink() {
+    const text = buildShareText() + '\n' + window.location.href.split('#')[0];
+    const btn  = document.getElementById('shareBtnCopy');
+    const lbl  = document.getElementById('copyBtnLabel');
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      lbl.textContent = t('result_share_copied');
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        lbl.textContent = t('result_share_copy');
+      }, 2200);
+    }).catch(() => {
+      // Fallback for browsers without clipboard API
+      window.prompt(
+        currentLang === 'fr' ? 'Copie ce texte :' : 'Copy this text:',
+        text,
+      );
+    });
+  }
+
+  // ── BOOT ─────────────────────────────────────────────────────
+  applyLang();        // uses saved lang from LS
+  renderDiffGrid();   // show difficulty picker
+  const waitlistForm = document.getElementById('waitlistForm');
+  if (waitlistForm) {
+    waitlistForm.addEventListener('submit', handleEmailSubmit);
+  }
+  // If email already submitted this session, show success directly
+  if (LS.get('email_submitted')) {
+    const f = document.querySelector('form[name="manabuplay-waitlist"]');
+    const s = document.getElementById('emailSuccess');
+    if (f) f.style.display = 'none';
+    if (s) s.style.display = 'block';
+  }
