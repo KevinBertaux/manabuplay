@@ -208,29 +208,14 @@
     if (lang === currentLang) return;
     currentLang = lang;
     LS.setLang(lang);
-    const idx = state.currentIndex;
-    const sc = state.score;
-    const st = state.streak;
-    const bs = state.bestStreak;
-    const correct = state.correct;
-    const answered = state.answered;
-    const quizVisible = document.getElementById('quizArea').style.display !== 'none';
-    const resultsVisible = document.getElementById('resultsArea').style.display !== 'none';
-
-    if (currentDiff && state.questions.length) {
-      state.questions = state.questions.map(localizeQuestion);
+    const idx=state.currentIndex, sc=state.score, st=state.streak, bs=state.bestStreak;
+    if (currentDiff) {
+      state.questions = buildQuestions(currentDiff.words);
       state.currentIndex = Math.min(idx, state.questions.length - 1);
+      state.score=sc; state.streak=st; state.bestStreak=bs; state.answered=false;
     }
-
-    state.score = sc;
-    state.streak = st;
-    state.bestStreak = bs;
-    state.correct = correct;
-    state.answered = answered;
-
     applyLang();
-    if (quizVisible && state.questions.length && !state.answered) renderQuestion();
-    if (resultsVisible && currentDiff) showResults();
+    if (document.getElementById('quizArea').style.display !== 'none') renderQuestion();
   }
 
 
@@ -655,22 +640,14 @@
     return b;
   };
 
-  function localizeQuestion(question) {
-    const correctText = question.correct[currentLang] || question.correct.en;
-    const wrongList   = question.wrong[currentLang]   || question.wrong.en;
-    const answers     = shuffle([correctText, ...shuffle(wrongList).slice(0,3)]);
-    return { ...question, correctText, answers };
-  }
-
-  function getAccuracyPercent() {
-    const total = state.questions.length;
-    if (!total) return 0;
-    return Math.round((state.correct / total) * 100);
-  }
-
   function buildQuestions(n) {
     const pool = shuffle(QUIZ_DATA).slice(0, n);
-    return pool.map(localizeQuestion);
+    return pool.map(q => {
+      const correctText = q.correct[currentLang] || q.correct.en;
+      const wrongList   = q.wrong[currentLang]   || q.wrong.en;
+      const answers     = shuffle([correctText, ...shuffle(wrongList).slice(0,3)]);
+      return { ...q, correctText, answers };
+    });
   }
 
   // ── DIFFICULTY GRID ──────────────────────────────────────────
@@ -839,7 +816,7 @@
     document.getElementById('resultsArea').style.display = 'block';
 
     const total = state.questions.length;
-    const pct   = getAccuracyPercent();
+    const pct   = Math.round((state.score/(total*15))*100);
     const tier  = t('results').find(r=>pct>=r.min) || t('results')[t('results').length-1];
 
     document.getElementById('finalEmoji').textContent   = tier.emoji;
@@ -937,11 +914,11 @@
   // ── SHARE ─────────────────────────────────────────────────────
   function buildShareText() {
     const total     = state.questions.length;
-    const pct       = getAccuracyPercent();
+    const pct       = Math.round((state.score / (total * 15)) * 100);
     const diffLabel = t('diff_' + currentDiff.id);
     const tier      = t('results').find(r => pct >= r.min) || t('results')[t('results').length - 1];
     // Emoji bar: filled squares proportional to accuracy
-    const filled  = Math.max(0, Math.min(10, Math.round(pct / 10)));
+    const filled  = Math.round(pct / 10);
     const bar     = '🟪'.repeat(filled) + '⬛'.repeat(10 - filled);
     return currentLang === 'fr'
       ? `${tier.emoji} ManabuPlay — Quiz Gaming Japonais\nDifficulté : ${diffLabel} | ${state.correct}/${total} réponses justes\nScore : ${state.score} pts (${pct}%)\n${bar}\nTeste ton niveau 👇`
@@ -968,20 +945,22 @@
       }, 2200);
     }).catch(() => {
       // Fallback for browsers without clipboard API
-      window.prompt(
-        currentLang === 'fr' ? 'Copie ce texte :' : 'Copy this text:',
-        text,
-      );
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;opacity:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.classList.add('copied');
+      lbl.textContent = t('result_share_copied');
+      setTimeout(() => { btn.classList.remove('copied'); lbl.textContent = t('result_share_copy'); }, 2200);
     });
   }
 
   // ── BOOT ─────────────────────────────────────────────────────
   applyLang();        // uses saved lang from LS
   renderDiffGrid();   // show difficulty picker
-  const waitlistForm = document.getElementById('waitlistForm');
-  if (waitlistForm) {
-    waitlistForm.addEventListener('submit', handleEmailSubmit);
-  }
   // If email already submitted this session, show success directly
   if (LS.get('email_submitted')) {
     const f = document.querySelector('form[name="manabuplay-waitlist"]');

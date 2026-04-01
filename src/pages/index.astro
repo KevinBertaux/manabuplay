@@ -1,18 +1,22 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/mvp.css";
 ---
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ManabuPlay — Learn Japanese Through Gaming</title>
+  <meta name="description" content="Learn Japanese gaming vocabulary through an addictive quiz. Master the words behind your favorite anime & JRPG games. Free, fast, fun." />
+  <meta name="keywords" content="Japanese gaming vocabulary, learn Japanese, anime words, JRPG quiz, gaming language" />
+  <meta property="og:title" content="ManabuPlay — Learn Japanese Through Gaming" />
+  <meta property="og:description" content="Master Japanese gaming vocab. Free addictive quiz powered by anime & JRPG culture." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0a0911" />
+</head>
+<body class="text-slate-200">
 
-<BaseLayout
-  title="ManabuPlay — Learn Japanese Through Gaming"
-  description="Learn Japanese gaming vocabulary through an addictive quiz. Master the words behind your favorite anime and JRPG games. Free, fast, fun."
-  ogTitle="ManabuPlay — Learn Japanese Through Gaming"
-  ogDescription="Master Japanese gaming vocab. Free addictive quiz powered by anime and JRPG culture."
-  keywords="Japanese gaming vocabulary, learn Japanese, anime words, JRPG quiz, gaming language"
-  lang="en"
->
-
-
-  <!-- ══ NAV ══ -->
+<!-- ══ NAV ══ -->
   <nav class="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-2"
        style="background:rgba(10,9,17,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(139,92,246,.15);">
     <div class="flex items-center gap-3">
@@ -271,7 +275,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <h2 class="pixel-heading-md text-white leading-relaxed mb-5" data-i18n="email_title"></h2>
       <p class="font-body text-lg text-slate-400 mb-9" data-i18n="email_sub"></p>
       <!-- Netlify Forms hidden bot-trap (required by Netlify) -->
-      <form id="waitlistForm" name="manabuplay-waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field"
+      <form name="manabuplay-waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field"
+            onsubmit="handleEmailSubmit(event)"
             class="flex flex-col sm:flex-row gap-3">
         <!-- Hidden fields required by Netlify -->
         <input type="hidden" name="form-name" value="manabuplay-waitlist" />
@@ -305,5 +310,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 
   <!-- ══════════════════════ JAVASCRIPT ══════════════════════ -->
+
   <script is:inline src="/scripts/manabuplay.js"></script>
-</BaseLayout>
+</body>
+</html>
