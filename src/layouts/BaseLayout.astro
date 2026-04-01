@@ -1,0 +1,42 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  lang?: "en" | "fr";
+}
+
+const {
+  title = "ManabuPlay - Learn Japanese Through Pop Culture",
+  description = "Learn Japanese through anime, manga, and gaming vocabulary.",
+  keywords = "learn Japanese, anime vocabulary, gaming vocabulary, manga vocabulary",
+  ogTitle = title,
+  ogDescription = description,
+  lang = "en",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="theme-color" content="#0a0911" />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen text-slate-200 antialiased">
+    <slot />
+  </body>
+</html>
