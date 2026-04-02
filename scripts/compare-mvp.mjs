@@ -111,8 +111,6 @@ try {
   process.exit(0);
 }
 
-console.log(reportPath);
-
 function startServer(cwd, port) {
   return spawn("python", ["-m", "http.server", String(port), "--bind", "127.0.0.1"], {
     cwd,

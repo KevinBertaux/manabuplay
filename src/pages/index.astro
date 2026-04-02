@@ -1,5 +1,9 @@
 ---
 import "../styles/mvp.css";
+import { buildMvpBootData } from "../data/manabuplay/catalog";
+import { serializeForInlineScript } from "../lib/serialize-inline-script";
+
+const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(buildMvpBootData())};`;
 ---
 <!DOCTYPE html>
 <html lang="en" id="htmlRoot">
@@ -276,7 +280,6 @@ import "../styles/mvp.css";
       <p class="font-body text-lg text-slate-400 mb-9" data-i18n="email_sub"></p>
       <!-- Netlify Forms hidden bot-trap (required by Netlify) -->
       <form name="manabuplay-waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field"
-            onsubmit="handleEmailSubmit(event)"
             class="flex flex-col sm:flex-row gap-3">
         <!-- Hidden fields required by Netlify -->
         <input type="hidden" name="form-name" value="manabuplay-waitlist" />
@@ -310,7 +313,7 @@ import "../styles/mvp.css";
 
 
   <!-- ══════════════════════ JAVASCRIPT ══════════════════════ -->
-
+  <script is:inline set:html={bootDataScript}></script>
   <script is:inline src="/scripts/manabuplay.js"></script>
 </body>
 </html>
