@@ -81,6 +81,22 @@ function categoryTag(label: string): string {
   return slugify(label.replace(/[\p{Extended_Pictographic}\uFE0F]/gu, "").trim()) || "general";
 }
 
+function normalizeAssistForDisplay(value: string): string {
+  return value
+    .replace(/ā/g, "aa")
+    .replace(/ē/g, "ei")
+    .replace(/ī/g, "ii")
+    .replace(/ō/g, "ou")
+    .replace(/ū/g, "uu")
+    .replace(/Ā/g, "Aa")
+    .replace(/Ē/g, "Ei")
+    .replace(/Ī/g, "Ii")
+    .replace(/Ō/g, "Ou")
+    .replace(/Ū/g, "Uu")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
 type CatalogSeed = {
   words: WordEntry[];
   packEntries: PackEntry[];
@@ -97,7 +113,7 @@ function buildCatalogSeed(): CatalogSeed {
       id: wordId,
       jp: {
         term: entry.word,
-        assist: entry.kana,
+        assist: normalizeAssistForDisplay(entry.kana),
         reading: null,
         romaji: null,
       },

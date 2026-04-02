@@ -396,23 +396,23 @@
         lbl.textContent = t('result_share_copy');
       }, 2200);
     }).catch(() => {
-      // Fallback for browsers without clipboard API
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.cssText = 'position:fixed;opacity:0;';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      btn.classList.add('copied');
-      lbl.textContent = t('result_share_copied');
-      setTimeout(() => { btn.classList.remove('copied'); lbl.textContent = t('result_share_copy'); }, 2200);
+      // Non-deprecated fallback: reveal the share text for manual copy.
+      window.prompt(
+        currentLang === 'fr'
+          ? 'Copie ce texte manuellement :'
+          : 'Copy this text manually:',
+        text
+      );
     });
   }
 
   // ── BOOT ─────────────────────────────────────────────────────
   applyLang();        // uses saved lang from LS
   renderDiffGrid();   // show difficulty picker
+  const waitlistForm = document.querySelector('form[name="manabuplay-waitlist"]');
+  if (waitlistForm) {
+    waitlistForm.addEventListener('submit', handleEmailSubmit);
+  }
   // If email already submitted this session, show success directly
   if (LS.get('email_submitted')) {
     const f = document.querySelector('form[name="manabuplay-waitlist"]');
