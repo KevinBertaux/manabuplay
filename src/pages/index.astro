@@ -26,7 +26,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
     <div class="flex items-center gap-3">
       <div class="w-9 h-9 rounded-md flex items-center justify-center text-white flex-shrink-0"
            style="background:linear-gradient(135deg,var(--violet),var(--fuchsia));">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
         </svg>
       </div>
@@ -45,13 +45,13 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
   </nav>
 
   <!-- ══ HERO ══ -->
-  <section class="hero-bg grid-bg relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-20 overflow-hidden">
+  <section class="hero-bg grid-bg relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 pb-16 overflow-hidden">
     <span class="kanji-bg" style="top:5%;left:-2%;transform:rotate(-15deg);color:var(--violet);">学</span>
     <span class="kanji-bg" style="bottom:5%;right:-2%;transform:rotate(10deg);color:var(--fuchsia);">遊</span>
     <div class="absolute w-64 h-64 rounded-full" style="top:20%;left:15%;background:radial-gradient(circle,rgba(139,92,246,.2) 0%,transparent 70%);animation:float 6s ease-in-out infinite;filter:blur(40px);"></div>
     <div class="absolute w-48 h-48 rounded-full" style="bottom:25%;right:10%;background:radial-gradient(circle,rgba(232,121,249,.2) 0%,transparent 70%);animation:float 8s ease-in-out infinite 2s;filter:blur(30px);"></div>
 
-    <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-8 font-body text-sm font-600 border" style="border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.07);color:var(--cyan);">
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 font-body text-sm font-600 border" style="border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.07);color:var(--cyan);">
       <span class="w-2 h-2 rounded-full" style="background:var(--cyan);animation:pulse 2s infinite;"></span>
       <span data-i18n="hero_badge"></span>
     </div>
@@ -68,7 +68,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
       <a href="#features" class="font-body font-600 text-slate-400 hover:text-slate-200 transition-colors text-base" data-i18n="hero_how"></a>
     </div>
 
-    <div class="flex gap-10 mt-16 flex-wrap justify-center">
+    <div class="flex gap-8 mt-12 flex-wrap justify-center">
       <div class="text-center">
         <div class="font-pixel text-xl" style="color:var(--violet);">50</div>
         <div class="stat-label text-slate-500 mt-1" data-i18n="stat_words"></div>
@@ -87,7 +87,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
 
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40">
       <div class="w-px h-8" style="background:linear-gradient(to bottom,transparent,var(--violet));"></div>
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
     </div>
   </section>
 
@@ -100,25 +100,25 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
   </div>
 
   <!-- ══ FEATURES ══ -->
-  <section id="features" class="py-20 px-6 max-w-5xl mx-auto">
-    <div class="text-center mb-14 reveal">
+  <section id="features" class="py-16 px-6 max-w-5xl mx-auto">
+    <div class="text-center mb-12 reveal">
       <p class="section-label" style="color:var(--cyan);" data-i18n="features_label"></p>
-      <h2 class="pixel-heading-md mt-5 text-white" data-i18n="features_title"></h2>
-      <p class="font-body text-lg text-slate-400 mt-5 max-w-xl mx-auto" data-i18n="features_sub"></p>
+      <h2 class="pixel-heading-md mt-4 text-white" data-i18n="features_title"></h2>
+      <p class="font-body text-lg text-slate-400 mt-4 max-w-xl mx-auto" data-i18n="features_sub"></p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div class="feature-card p-7 reveal">
-        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-5 text-2xl" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);">⚔️</div>
+      <div class="feature-card p-6 reveal">
+        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);">⚔️</div>
         <h3 class="pixel-card-title mb-4" style="color:#a78bfa;" data-i18n="feat1_title"></h3>
         <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat1_body"></p>
       </div>
-      <div class="feature-card p-7 reveal" style="transition-delay:.1s;">
-        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-5 text-2xl" style="background:rgba(232,121,249,.15);border:1px solid rgba(232,121,249,.3);">🧠</div>
+      <div class="feature-card p-6 reveal" style="transition-delay:.1s;">
+        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(232,121,249,.15);border:1px solid rgba(232,121,249,.3);">🧠</div>
         <h3 class="pixel-card-title mb-4" style="color:#e879f9;" data-i18n="feat2_title"></h3>
         <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat2_body"></p>
       </div>
-      <div class="feature-card p-7 reveal" style="transition-delay:.2s;">
-        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-5 text-2xl" style="background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2);">🎮</div>
+      <div class="feature-card p-6 reveal" style="transition-delay:.2s;">
+        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2);">🎮</div>
         <h3 class="pixel-card-title mb-4" style="color:#22d3ee;" data-i18n="feat3_title"></h3>
         <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat3_body"></p>
       </div>
@@ -126,22 +126,22 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
   </section>
 
   <!-- ══ QUIZ SECTION ══ -->
-  <section id="quiz" class="py-20 px-6 relative overflow-hidden">
+  <section id="quiz" class="py-16 px-6 relative overflow-hidden">
     <div class="absolute inset-0" style="background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(139,92,246,.08) 0%,transparent 70%);"></div>
     <div class="max-w-2xl mx-auto relative z-10">
 
-      <div class="text-center mb-10 reveal">
+      <div class="text-center mb-8 reveal">
         <p class="section-label" style="color:var(--violet);" data-i18n="quiz_label"></p>
-        <h2 class="pixel-heading-md mt-5 text-white" data-i18n="quiz_title"></h2>
+        <h2 class="pixel-heading-md mt-4 text-white" data-i18n="quiz_title"></h2>
         <p class="font-body text-lg text-slate-400 mt-4" data-i18n="quiz_sub"></p>
       </div>
 
-      <div class="border-glow rounded-2xl p-7 sm:p-9 reveal" style="background:rgba(15,12,26,.95);backdrop-filter:blur(16px);">
+      <div class="border-glow rounded-xl p-6 sm:p-8 reveal" style="background:rgba(15,12,26,.95);backdrop-filter:blur(16px);">
 
         <!-- ══ DIFFICULTY PICKER ══ -->
         <div id="diffArea">
           <p class="section-label text-center mb-6" style="color:var(--fuchsia);" data-i18n="diff_title"></p>
-          <div class="grid grid-cols-2 gap-4 mb-7" id="diffGrid">
+          <div class="grid grid-cols-2 gap-4 mb-6" id="diffGrid">
             <!-- injected by JS -->
           </div>
           <div class="text-center">
@@ -150,7 +150,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
         </div>
 
         <!-- ══ PROGRESS ══ -->
-        <div id="progressRow" style="display:none;" class="flex items-center gap-3 mb-7">
+        <div id="progressRow" style="display:none;" class="flex items-center gap-3 mb-6">
           <div class="flex-1 h-1 rounded-full" style="background:rgba(139,92,246,.15);">
             <div class="progress-bar" id="progressBar" style="width:0%;"></div>
           </div>
@@ -158,7 +158,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
         </div>
 
         <!-- ══ HUD ══ -->
-        <div id="hudRow" style="display:none;" class="flex justify-between items-center mb-7">
+        <div id="hudRow" style="display:none;" class="flex justify-between items-center mb-6">
           <div class="flex items-center gap-2">
             <span class="hud-label text-slate-500" data-i18n="hud_score"></span>
             <span class="font-pixel text-base" id="scoreDisplay" style="color:var(--violet);">0</span>
@@ -172,17 +172,17 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
 
         <!-- ══ QUIZ AREA ══ -->
         <div id="quizArea" style="display:none;">
-          <div class="text-center mb-7">
-            <div class="inline-block px-6 py-2 rounded-xl mb-4 border" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.3);">
+          <div class="text-center mb-6">
+            <div class="inline-block px-4 py-2 rounded-lg mb-4 border" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.3);">
               <span class="font-body text-sm tracking-widest uppercase font-700" style="color:#a78bfa;" id="wordCategory"></span>
             </div>
             <div id="wordKana" style="color:var(--cyan);margin-bottom:4px;"></div>
             <div class="font-pixel text-4xl sm:text-5xl glow-fuchsia" id="wordDisplay" style="color:var(--fuchsia);line-height:1.2;"></div>
           </div>
 
-          <div class="text-center mb-7" id="hintZone">
+          <div class="text-center mb-6" id="hintZone">
             <button class="hint-reveal-btn" id="hintBtn" onclick="revealHint()">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
               </svg>
               <span data-i18n="hint_btn"></span>
@@ -192,10 +192,10 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
             </div>
           </div>
 
-          <p class="font-body text-lg text-slate-400 text-center mb-5" data-i18n="quiz_question"></p>
+          <p class="font-body text-lg text-slate-400 text-center mb-4" data-i18n="quiz_question"></p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="answersGrid"></div>
           <div id="feedback" class="mt-5 text-center" style="min-height:32px;display:none;"></div>
-          <div class="mt-7 text-center">
+          <div class="mt-6 text-center">
             <button id="nextBtn" class="cta-btn opacity-0 pointer-events-none" onclick="nextQuestion()">…</button>
           </div>
         </div>
@@ -209,7 +209,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
           <div id="newRecordBadge" style="display:none;" class="mb-4">
             <span class="new-record-badge" data-i18n="result_newrecord"></span>
           </div>
-          <div class="flex justify-center gap-6 my-7 flex-wrap">
+          <div class="flex justify-center gap-4 my-6 flex-wrap">
             <div>
               <div class="font-pixel text-xl glow-violet" id="finalScore" style="color:var(--violet);"></div>
               <div class="result-label text-slate-500 mt-2" data-i18n="result_score"></div>
@@ -238,20 +238,20 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
           </div>
 
           <!-- Share row -->
-          <div class="mt-7">
+          <div class="mt-6">
             <p class="font-body text-sm text-slate-500 mb-3" data-i18n="result_share"></p>
             <div class="flex gap-3 justify-center flex-wrap">
               <!-- X / Twitter -->
               <button class="share-btn share-btn-x" onclick="shareOnX()" id="shareBtnX">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
                 <span data-i18n="result_share_x"></span>
               </button>
               <!-- Copy link -->
               <button class="share-btn share-btn-copy" onclick="copyShareLink()" id="shareBtnCopy">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="10" y="10" width="12" height="12" rx="2"/><path d="M6 16H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"/>
                 </svg>
                 <span id="copyBtnLabel" data-i18n="result_share_copy"></span>
               </button>
@@ -272,12 +272,12 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
   </div>
 
   <!-- ══ EMAIL ══ -->
-  <section id="notify" class="py-24 px-6 relative overflow-hidden">
+  <section id="notify" class="py-20 px-6 relative overflow-hidden">
     <div class="absolute inset-0" style="background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(232,121,249,.07) 0%,transparent 70%);"></div>
     <div class="max-w-xl mx-auto text-center relative z-10 reveal">
-      <p class="section-label mb-5" style="color:var(--fuchsia);" data-i18n="email_label"></p>
-      <h2 class="pixel-heading-md text-white leading-relaxed mb-5" data-i18n="email_title"></h2>
-      <p class="font-body text-lg text-slate-400 mb-9" data-i18n="email_sub"></p>
+      <p class="section-label mb-4" style="color:var(--fuchsia);" data-i18n="email_label"></p>
+      <h2 class="pixel-heading-md text-white leading-relaxed mb-4" data-i18n="email_title"></h2>
+      <p class="font-body text-lg text-slate-400 mb-8" data-i18n="email_sub"></p>
       <!-- Netlify Forms hidden bot-trap (required by Netlify) -->
       <form name="manabuplay-waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field"
             class="flex flex-col sm:flex-row gap-3">
@@ -296,7 +296,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
   </section>
 
   <!-- ══ FOOTER ══ -->
-  <footer class="border-t py-10 px-6" style="border-color:rgba(139,92,246,.15);">
+  <footer class="border-t py-8 px-6" style="border-color:rgba(139,92,246,.15);">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-2">
         <span class="glow-violet" style="font-family:'Joystix',sans-serif;font-size:.78rem;color:#a78bfa;">Manabu<span style="color:#e879f9;">Play</span></span>

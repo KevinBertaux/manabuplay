@@ -10,6 +10,7 @@ const browserCandidates = [
   "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
 ];
 const executablePath = browserCandidates.find((candidate) => fs.existsSync(candidate));
+const pythonCommand = process.platform === "win32" ? "python" : "python3";
 
 export default defineConfig({
   testDir: "./tests",
@@ -31,14 +32,14 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "python -m http.server 4173 --bind 127.0.0.1",
+      command: `${pythonCommand} -m http.server 4173 --bind 127.0.0.1`,
       cwd: repoRoot,
       url: "http://127.0.0.1:4173/legacy/mvp-index.html",
       reuseExistingServer: true,
       timeout: 30_000,
     },
     {
-      command: "python -m http.server 4174 --bind 127.0.0.1",
+      command: `${pythonCommand} -m http.server 4174 --bind 127.0.0.1`,
       cwd: path.join(repoRoot, "dist"),
       url: "http://127.0.0.1:4174/",
       reuseExistingServer: true,

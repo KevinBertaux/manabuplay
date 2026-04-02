@@ -1,0 +1,211 @@
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { extname, join, relative } from "node:path";
+
+const ROOT = process.cwd();
+const TARGET_DIRS = ["src", "docs", "public"];
+const TARGET_EXTENSIONS = new Set([".astro", ".css", ".html"]);
+const IGNORED_DIRS = new Set([
+  ".astro",
+  ".codex-temp",
+  "dist",
+  "legacy",
+  "node_modules",
+  "playwright-report",
+  "test-results",
+]);
+const ALLOWED_RADIUS_VALUES = new Set([0, 4, 8, 12, 16, 999]);
+const CSS_DECLARATION_REGEX = /([a-zA-Z-]+)\s*:\s*([^;}{]+)(?=;|\})/g;
+const PX_TOKEN_REGEX = /-?\d*\.?\d+px/g;
+const STYLE_TAG_REGEX = /<style\b[^>]*>([\s\S]*?)<\/style>/g;
+const STYLE_ATTR_REGEX = /\bstyle\s*=\s*(?:"([^"]*)"|'([^']*)')/g;
+const DIMENSION_ATTR_REGEX = /(^|[\s<])(width|height)\s*=\s*(?:"([0-9]+(?:\.[0-9]+)?)"|'([0-9]+(?:\.[0-9]+)?)')/gm;
+
+function listFiles(dir) {
+  if (!statSafe(dir)?.isDirectory()) {
+    return [];
+  }
+
+  const results = [];
+  for (const entry of readdirSync(dir)) {
+    const fullPath = join(dir, entry);
+    const st = statSafe(fullPath);
+    if (!st) {
+      continue;
+    }
+
+    if (st.isDirectory()) {
+      if (!IGNORED_DIRS.has(entry)) {
+        results.push(...listFiles(fullPath));
+      }
+      continue;
+    }
+
+    if (TARGET_EXTENSIONS.has(extname(fullPath))) {
+      results.push(fullPath);
+    }
+  }
+
+  return results;
+}
+
+function statSafe(targetPath) {
+  try {
+    return statSync(targetPath);
+  } catch {
+    return null;
+  }
+}
+
+function countNewlines(text) {
+  const matches = text.match(/\n/g);
+  return matches ? matches.length : 0;
+}
+
+function isBorderWidthProperty(propertyName) {
+  return propertyName.startsWith("border") && !propertyName.includes("radius") && !propertyName.includes("image");
+}
+
+function isRadiusProperty(propertyName) {
+  return propertyName.includes("radius");
+}
+
+function recordIssue(issues, filePath, line, kind, propertyName, token, sourceLine) {
+  issues.push({
+    filePath,
+    line,
+    kind,
+    propertyName,
+    token,
+    sourceLine: sourceLine.trim(),
+  });
+}
+
+function validateDeclarationValue(issues, filePath, line, propertyName, valueText, sourceLine) {
+  const pxMatches = valueText.match(PX_TOKEN_REGEX);
+  if (!pxMatches) {
+    return;
+  }
+
+  for (const token of pxMatches) {
+    const numberText = token.slice(0, -2);
+    if (numberText.includes(".")) {
+      recordIssue(issues, filePath, line, "decimal", propertyName, token, sourceLine);
+      continue;
+    }
+
+    const value = Number(numberText);
+    const abs = Math.abs(value);
+
+    if (isRadiusProperty(propertyName)) {
+      if (abs === 999) {
+        continue;
+      }
+
+      if (abs % 2 !== 0) {
+        recordIssue(issues, filePath, line, "odd-radius", propertyName, token, sourceLine);
+        continue;
+      }
+
+      if (!ALLOWED_RADIUS_VALUES.has(abs)) {
+        recordIssue(issues, filePath, line, "radius-scale", propertyName, token, sourceLine);
+      }
+      continue;
+    }
+
+    if (isBorderWidthProperty(propertyName)) {
+      continue;
+    }
+
+    if (abs % 2 !== 0) {
+      recordIssue(issues, filePath, line, "odd", propertyName, token, sourceLine);
+    }
+  }
+}
+
+function validateStyleText(issues, filePath, text, startLine) {
+  const sanitized = text.replace(/\/\*[\s\S]*?\*\//g, (comment) => " ".repeat(comment.length));
+  let match = CSS_DECLARATION_REGEX.exec(sanitized);
+
+  while (match) {
+    const line = startLine + countNewlines(sanitized.slice(0, match.index));
+    const propertyName = match[1];
+    const valueText = match[2];
+    validateDeclarationValue(issues, filePath, line, propertyName, valueText, match[0]);
+    match = CSS_DECLARATION_REGEX.exec(sanitized);
+  }
+}
+
+function validateDimensionAttributes(issues, filePath, content) {
+  let match = DIMENSION_ATTR_REGEX.exec(content);
+
+  while (match) {
+    const line = 1 + countNewlines(content.slice(0, match.index));
+    const propertyName = match[2];
+    const numberText = match[3] ?? match[4] ?? "";
+    const token = `${numberText}px`;
+
+    if (numberText.includes(".")) {
+      recordIssue(issues, filePath, line, "decimal-attr", propertyName, token, match[0]);
+      match = DIMENSION_ATTR_REGEX.exec(content);
+      continue;
+    }
+
+    const value = Number(numberText);
+    if (Math.abs(value) % 2 !== 0) {
+      recordIssue(issues, filePath, line, "odd-attr", propertyName, token, match[0]);
+    }
+
+    match = DIMENSION_ATTR_REGEX.exec(content);
+  }
+}
+
+function validateFile(filePath) {
+  const issues = [];
+  const content = readFileSync(filePath, "utf8");
+  const ext = extname(filePath);
+
+  if (ext === ".css") {
+    validateStyleText(issues, filePath, content, 1);
+    return issues;
+  }
+
+  let styleTagMatch = STYLE_TAG_REGEX.exec(content);
+  while (styleTagMatch) {
+    const startLine = 1 + countNewlines(content.slice(0, styleTagMatch.index));
+    validateStyleText(issues, filePath, styleTagMatch[1], startLine);
+    styleTagMatch = STYLE_TAG_REGEX.exec(content);
+  }
+
+  let styleAttrMatch = STYLE_ATTR_REGEX.exec(content);
+  while (styleAttrMatch) {
+    const value = styleAttrMatch[1] ?? styleAttrMatch[2] ?? "";
+    const startLine = 1 + countNewlines(content.slice(0, styleAttrMatch.index));
+    validateStyleText(issues, filePath, value, startLine);
+    styleAttrMatch = STYLE_ATTR_REGEX.exec(content);
+  }
+
+  validateDimensionAttributes(issues, filePath, content);
+  return issues;
+}
+
+const files = TARGET_DIRS.flatMap((dir) => listFiles(join(ROOT, dir)));
+const issues = [];
+
+for (const filePath of files) {
+  issues.push(...validateFile(filePath));
+}
+
+if (issues.length > 0) {
+  console.error("Design px guard failed. Non-compliant values detected:");
+  for (const issue of issues) {
+    console.error(
+      `- ${relative(ROOT, issue.filePath)}:${issue.line} -> ${issue.kind} "${issue.token}" in "${issue.propertyName}" (${issue.sourceLine})`,
+    );
+  }
+  console.error(
+    "Rules: no decimal px; no odd px except border widths; fixed width/height HTML attributes must be even; radius values must be 0/4/8/12/16 or 999.",
+  );
+  process.exit(1);
+}
+
+console.log(`Design px guard OK: ${files.length} file(s) checked, all values follow project rules.`);
