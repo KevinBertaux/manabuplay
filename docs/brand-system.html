@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ManabuPlay Brand System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    @font-face { font-family:"Joystix"; src:url("../public/fonts/Joystix.woff") format("woff"); font-display:swap; }
+    :root { --brand:"Joystix",sans-serif; --ui:"Chakra Petch",sans-serif; --bg:#08070d; --panel:#120f1eea; --panel2:#0f0c1a; --line:#a78bfa2d; --violet:#a78bfa; --fuchsia:#e879f9; --cyan:#22d3ee; --green:#4ade80; --red:#fb7185; --text:#f3f1ff; --muted:#bbb6d3; --soft:#8f8aa7; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--text); font-family:var(--ui); background:radial-gradient(circle at top left,#a78bfa24,transparent 22rem),radial-gradient(circle at 84% 14%,#22d3ee1f,transparent 18rem),linear-gradient(180deg,#0b0913 0%,#08070d 100%); }
+    .page { width:min(1180px,calc(100% - 28px)); margin:0 auto; padding:28px 0 60px; }
+    .hero,.sec,.nav { border:1px solid var(--line); background:var(--panel); box-shadow:0 18px 40px #00000040; }
+    .hero,.sec { border-radius:24px; padding:24px; margin-bottom:18px; }
+    .nav { position:sticky; top:10px; z-index:10; display:flex; gap:8px; flex-wrap:wrap; margin:0 0 18px; padding:12px; border-radius:16px; backdrop-filter:blur(12px); }
+    .nav a { padding:8px 12px; border-radius:999px; color:var(--muted); font-size:.92rem; font-weight:600; text-decoration:none; }
+    .nav a:hover { background:#a78bfa14; color:#fff; }
+    .eyebrow { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:#22d3ee14; border:1px solid #22d3ee38; color:var(--cyan); font-size:.84rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .eyebrow::before { content:""; width:8px; height:8px; border-radius:999px; background:currentColor; }
+    .brand { margin:14px 0 10px; font-family:var(--brand); font-size:clamp(2rem,4vw,4.3rem); line-height:1.1; letter-spacing:.03em; }
+    .brand span { color:var(--fuchsia); }
+    h1,h2,h3,h4,p { margin:0; }
+    h1 { font-size:clamp(1.5rem,3vw,2.8rem); line-height:1.08; margin-bottom:10px; }
+    h2 { font-size:clamp(1.25rem,2.3vw,1.9rem); line-height:1.15; margin-bottom:6px; }
+    h3 { font-size:1rem; margin-bottom:10px; }
+    p { color:var(--muted); line-height:1.58; }
+    .lead { max-width:72ch; }
+    .head { display:grid; gap:8px; margin-bottom:16px; }
+    .kicker { color:var(--cyan); font-size:.84rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .grid2,.grid3,.grid4 { display:grid; gap:14px; }
+    .grid2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .grid3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .grid4 { grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .card { padding:16px; border-radius:16px; border:1px solid #ffffff12; background:#ffffff08; }
+    .mini { color:var(--soft); font-size:.84rem; text-transform:uppercase; letter-spacing:.08em; font-weight:700; margin-bottom:10px; }
+    .swatch { min-height:126px; display:flex; flex-direction:column; justify-content:space-between; padding:16px; border-radius:16px; border:1px solid #ffffff14; color:#fff; }
+    .bg { background:#08070d; } .panel { background:#0f0c1a; } .violet { background:#a78bfa; } .fuchsia { background:#e879f9; } .cyan { background:#22d3ee; color:#061118; } .green { background:#4ade80; color:#08130d; } .red { background:#fb7185; color:#1a0710; } .text { background:#f3f1ff; color:#12101a; }
+    .type { min-width:0; padding:16px; border-radius:16px; border:1px solid #ffffff12; background:#ffffff08; overflow:hidden; }
+    .sample-brand { font-family:var(--brand); font-size:clamp(1.35rem,2.4vw,2.1rem); line-height:1.15; letter-spacing:.03em; overflow-wrap:anywhere; word-break:break-word; }
+    .sample-h1 { font-size:clamp(1.7rem,3vw,2.8rem); line-height:1.08; font-weight:700; }
+    .sample-h2 { font-size:clamp(1.3rem,2.1vw,1.9rem); line-height:1.14; font-weight:700; }
+    .sample-body { font-size:1rem; line-height:1.6; font-weight:400; }
+    .sample-ui { font-size:.98rem; line-height:1.35; font-weight:600; text-transform:uppercase; letter-spacing:.05em; }
+    .sample-legal { font-size:.86rem; line-height:1.45; color:var(--soft); }
+    .mini,.sample-h1,.sample-h2,.sample-body,.sample-ui,.sample-legal,.rule,.tokenlist span,.hero h1,.hero p,.card p,.quiz p { overflow-wrap:anywhere; word-break:break-word; }
+    .rule { padding:14px; border-radius:14px; border:1px solid #ffffff12; background:#ffffff06; }
+    .rule.good { border-color:#4ade8038; background:#4ade8010; }
+    .rule.bad { border-color:#fb718538; background:#fb718510; }
+    .rule strong { display:block; margin-bottom:8px; font-size:.84rem; letter-spacing:.08em; text-transform:uppercase; }
+    .rule.good strong { color:var(--green); } .rule.bad strong { color:var(--red); }
+    .chip { display:inline-flex; align-items:center; gap:8px; min-height:34px; padding:0 12px; border-radius:999px; border:1px solid transparent; font-size:.88rem; font-weight:700; letter-spacing:.04em; }
+    .cv { color:var(--violet); background:#a78bfa14; border-color:#a78bfa33; } .cf { color:var(--fuchsia); background:#e879f914; border-color:#e879f933; } .cc { color:var(--cyan); background:#22d3ee14; border-color:#22d3ee33; }
+    .btns,.chips,.answers { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .btn { min-height:46px; padding:0 18px; border-radius:14px; border:1px solid transparent; font:600 .96rem var(--ui); letter-spacing:.04em; text-transform:uppercase; color:#fff; }
+    .b1 { background:linear-gradient(135deg,#a78bfa57,#e879f955); border-color:#a78bfa38; } .b2 { background:#a78bfa14; border-color:#a78bfa33; color:var(--violet); } .b3 { background:transparent; border-color:#ffffff14; color:var(--muted); }
+    .field { display:grid; gap:8px; } .field label { font-size:.9rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#fff; }
+    .input { width:100%; min-height:48px; padding:0 14px; border-radius:14px; border:1px solid #a78bfa33; background:#08070db8; color:#fff; font:400 1rem var(--ui); }
+    .input::placeholder { color:#7c7695; }
+    .quiz { padding:20px; border-radius:22px; border:1px solid var(--line); background:#140f20f5; display:grid; gap:14px; }
+    .qmeta { display:inline-flex; width:fit-content; padding:8px 12px; border-radius:12px; background:#a78bfa14; color:var(--violet); font-size:.84rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
+    .qassist { color:var(--cyan); font-size:1rem; font-weight:500; } .qword { color:var(--fuchsia); font-size:clamp(2rem,3vw,3.3rem); line-height:1.1; font-weight:700; }
+    .answer { padding:14px 16px; border-radius:14px; border:1px solid #ffffff14; background:#ffffff08; } .ok { border-color:#4ade8038; background:#4ade8010; } .ko { border-color:#fb718538; background:#fb718510; }
+    .tokenlist { display:grid; gap:10px; font-size:.95rem; }
+    .tokenlist div { display:flex; justify-content:space-between; gap:16px; padding-bottom:10px; border-bottom:1px solid #ffffff10; }
+    .tokenlist strong { color:#fff; } .tokenlist span { color:var(--soft); text-align:right; }
+    .code { margin:0; padding:16px; border-radius:16px; border:1px solid #ffffff12; background:#00000042; color:#ddd9f2; white-space:pre-wrap; line-height:1.55; font-size:.9rem; }
+    .preview { display:grid; grid-template-columns:1.2fr .8fr; gap:16px; }
+    .frame,.phone { border-radius:24px; border:1px solid var(--line); background:linear-gradient(180deg,#18132af7,#0d0a17f7); box-shadow:0 16px 32px #00000038; overflow:hidden; }
+    .bar { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:14px 16px; border-bottom:1px solid #ffffff10; background:#ffffff05; }
+    .logo { font-family:var(--brand); font-size:.86rem; color:var(--violet); letter-spacing:.03em; }
+    .bodypad { padding:18px; display:grid; gap:14px; }
+    .hero-mini { padding:18px; border-radius:20px; border:1px solid #a78bfa26; background:radial-gradient(circle at 20% 20%,#a78bfa24,transparent 16rem),linear-gradient(180deg,#1b1630fa,#100d1ef8); display:grid; gap:10px; }
+    .hero-mini h3 { font-size:1.5rem; line-height:1.08; }
+    .stats { display:flex; gap:12px; flex-wrap:wrap; }
+    .stat { min-width:116px; padding:14px; border-radius:16px; border:1px solid #ffffff10; background:#ffffff08; }
+    .stat strong { display:block; margin-bottom:4px; font-size:1.1rem; color:#fff; } .stat span { color:var(--soft); font-size:.86rem; text-transform:uppercase; letter-spacing:.06em; }
+    .phone { width:min(100%,360px); margin-inline:auto; }
+    .foot { padding-top:6px; text-align:center; color:var(--soft); font-size:.92rem; }
+    @media (max-width:900px) { .grid4,.grid3,.preview { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (max-width:720px) { .page { width:min(100% - 18px,1180px); padding-top:18px; } .hero,.sec { padding:18px; border-radius:18px; } .grid4,.grid3,.grid2,.preview { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="eyebrow">Brand System v0.1</span>
+      <div class="brand">Manabu<span>Play</span></div>
+      <h1>Charte graphique HTML de reference pour le MVP, la v0.1 et les futures pages pack SEO.</h1>
+      <p class="lead">Direction retenue : <strong>Joystix</strong> pour l'identite, <strong>Chakra Petch</strong> pour le produit. Cette charte fixe la palette, la typo, les composants et les interdits pour eviter un rendu brouillon a mesure que le site grossit.</p>
+      <div class="grid3" style="margin-top:16px;">
+        <div class="card"><h3>Stack retenue</h3><p>2 fonts seulement. Pas de troisieme font decorative tant qu'une vraie raison produit ne l'impose pas.</p></div>
+        <div class="card"><h3>Principe cle</h3><p>Tout texte utile, multilingue ou dynamique reste sur Chakra Petch.</p></div>
+        <div class="card"><h3>Interdit</h3><p>Pas de Joystix sur les accents FR, les romaji, les inputs, le body ou les strings longues.</p></div>
+      </div>
+    </header>
+
+    <nav class="nav">
+      <a href="#palette">Palette</a>
+      <a href="#typography">Typographie</a>
+      <a href="#components">Composants</a>
+      <a href="#tokens">Tokens</a>
+      <a href="#rules">Regles</a>
+      <a href="#previews">Previews</a>
+    </nav>
+
+    <section class="sec" id="palette">
+      <div class="head">
+        <span class="kicker">Color System</span>
+        <h2>Palette principale</h2>
+        <p>Base nocturne anime-tech, accents neon maitrises, surfaces sombres lisibles pour le quiz et les pages pack.</p>
+      </div>
+      <div class="grid4">
+        <div class="swatch bg"><strong>Background</strong><span>#08070D<br />Fond principal</span></div>
+        <div class="swatch panel"><strong>Panel</strong><span>#0F0C1A<br />Quiz shell et cards</span></div>
+        <div class="swatch violet"><strong>Violet</strong><span>#A78BFA<br />Accent de marque</span></div>
+        <div class="swatch fuchsia"><strong>Fuchsia</strong><span>#E879F9<br />Impact et CTA</span></div>
+        <div class="swatch cyan"><strong>Cyan</strong><span>#22D3EE<br />Hints et badges</span></div>
+        <div class="swatch green"><strong>Green</strong><span>#4ADE80<br />Succes et correct</span></div>
+        <div class="swatch red"><strong>Red</strong><span>#FB7185<br />Erreur et wrong</span></div>
+        <div class="swatch text"><strong>Text</strong><span>#F3F1FF<br />Texte principal</span></div>
+      </div>
+    </section>
+
+    <section class="sec" id="typography">
+      <div class="head">
+        <span class="kicker">Typography</span>
+        <h2>Charte typo</h2>
+        <p>Joystix donne la signature arcade. Chakra Petch porte le produit, le quiz, le SEO et toute la lisibilite multilingue.</p>
+      </div>
+      <div class="grid2">
+        <div class="grid2">
+          <div class="type"><div class="mini">Brand / rare accent</div><div class="sample-brand">ManabuPlay</div></div>
+          <div class="type"><div class="mini">H1 / 700 / 1.08</div><div class="sample-h1">Apprends le japonais via la pop culture anime et gaming.</div></div>
+          <div class="type"><div class="mini">H2 / 700 / 1.14</div><div class="sample-h2">Quiz de vocabulaire japonais pour fans de JRPG, manga et anime.</div></div>
+          <div class="type"><div class="mini">Body / 400 / 1.6</div><div class="sample-body">Texte par defaut pour le site, les hints, les explications, les FAQ, les pages pack et les contenus FR/EN.</div></div>
+          <div class="type"><div class="mini">UI / 600 / uppercase modere</div><div class="sample-ui">Start Quiz / Daily Streak / New Pack</div></div>
+          <div class="type"><div class="mini">Legal / 400</div><div class="sample-legal">Privacy policy, microcopy de formulaire, notes legales et aides secondaires.</div></div>
+        </div>
+        <div class="grid2">
+          <div class="rule good"><strong>Joystix autorise</strong>Logo, wordmark, rares CTA majeurs, labels evenementiels tres courts et hero accent ponctuel.</div>
+          <div class="rule bad"><strong>Joystix interdit</strong>Paragraphes, inputs, romaji, accents FR, textes SEO, quiz assist et strings dynamiques.</div>
+          <div class="rule good"><strong>Chakra par defaut</strong>Headings, body, cartes, badges, formulaires, quiz UI, pages pack, sections marketing.</div>
+          <div class="rule bad"><strong>A eviter</strong>Trop d'uppercase sur les blocs longs, tracking excessif et tailles trop petites.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="components">
+      <div class="head">
+        <span class="kicker">Components</span>
+        <h2>Langage de composants</h2>
+        <p>Surfaces sombres, bordures fines, accents lumineux localises. Les effets restent reserves aux points de focus.</p>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h3>Boutons</h3>
+          <div class="btns">
+            <button class="btn b1">Start Quiz</button>
+            <button class="btn b2">Voir le pack</button>
+            <button class="btn b3">Plus tard</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Badges</h3>
+          <div class="chips">
+            <span class="chip cv">New Pack</span>
+            <span class="chip cf">Expert</span>
+            <span class="chip cc">Daily Streak</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Form</h3>
+          <div class="field">
+            <label for="email">Input / Form</label>
+            <input id="email" class="input" placeholder="Entre ton email pour les prochaines releases" />
+          </div>
+        </div>
+        <div class="card">
+          <h3>Surface</h3>
+          <p>Base standard pour feature cards, blocs de contenu, cartes de pack et shell de quiz.</p>
+        </div>
+      </div>
+      <div class="quiz" style="margin-top:14px;">
+        <span class="qmeta">Anime Genre</span>
+        <div class="qassist">Chiito / Cheat</div>
+        <div class="qword">チート</div>
+        <p>Le mot japonais principal peut rester tres visuel. L'assist, les hints, les reponses et les explications restent sur Chakra Petch.</p>
+        <div class="answers">
+          <div class="answer ok">Un pouvoir ou effet tellement fort qu'il casse l'equilibre du jeu.</div>
+          <div class="answer ko">Une technique defensive qui reduit les degats magiques.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="tokens">
+      <div class="head">
+        <span class="kicker">Design Tokens</span>
+        <h2>Base technique a reprendre dans le code</h2>
+        <p>Ces tokens suffisent pour poser un vrai systeme de design dans le projet sans sur-engineering.</p>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h3>Typo, rayons, accents</h3>
+          <div class="tokenlist">
+            <div><strong>--brand</strong><span>Joystix</span></div>
+            <div><strong>--ui</strong><span>Chakra Petch</span></div>
+            <div><strong>--violet</strong><span>#A78BFA</span></div>
+            <div><strong>--fuchsia</strong><span>#E879F9</span></div>
+            <div><strong>--cyan</strong><span>#22D3EE</span></div>
+            <div><strong>radius</strong><span>14 / 16 / 24</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Snippet de base</h3>
+          <pre class="code">:root {
+  --brand: "Joystix", sans-serif;
+  --ui: "Chakra Petch", sans-serif;
+  --bg: #08070d;
+  --panel: #0f0c1a;
+  --violet: #a78bfa;
+  --fuchsia: #e879f9;
+  --cyan: #22d3ee;
+  --text: #f3f1ff;
+  --muted: #bbb6d3;
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="rules">
+      <div class="head">
+        <span class="kicker">Usage Rules</span>
+        <h2>Regles a ne pas casser</h2>
+        <p>Ces garde-fous protègent la lisibilite du quiz et la coherence des futures pages pack.</p>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h3>Do</h3>
+          <div class="grid2">
+            <div class="rule good"><strong>1</strong>Logo et marque en Joystix, tout le reste en Chakra Petch par defaut.</div>
+            <div class="rule good"><strong>2</strong>Prioriser la lisibilite sur les accents, romaji, hints et explications.</div>
+            <div class="rule good"><strong>3</strong>Garder des surfaces sombres et des bordures fines.</div>
+            <div class="rule good"><strong>4</strong>Reserver les effets forts aux points de focus.</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Don't</h3>
+          <div class="grid2">
+            <div class="rule bad"><strong>1</strong>Ne pas reintroduire une troisieme font par confort visuel.</div>
+            <div class="rule bad"><strong>2</strong>Ne pas utiliser Joystix sur CHITO, KYOKA, RYU ou du FR dense.</div>
+            <div class="rule bad"><strong>3</strong>Ne pas saturer toutes les cartes avec glow et gradients.</div>
+            <div class="rule bad"><strong>4</strong>Ne pas mettre de l'uppercase partout sans hierarchie.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="previews">
+      <div class="head">
+        <span class="kicker">Responsive Previews</span>
+        <h2>Exemples desktop et mobile</h2>
+        <p>Mini-previews pour garder une traduction concrete de la charte sans devoir remonter tout le site.</p>
+      </div>
+      <div class="preview">
+        <div class="frame">
+          <div class="bar">
+            <div class="logo">Manabu<span style="color:var(--fuchsia);">Play</span></div>
+            <div class="chips"><span class="chip cv">Pack Combat</span><span class="chip cc">50 mots</span></div>
+          </div>
+          <div class="bodypad">
+            <div class="hero-mini">
+              <span class="eyebrow">Learn Through Play</span>
+              <h3>Apprends le japonais avec des termes gaming, anime et manga.</h3>
+              <p>Identite arcade controlee, quiz lisible, base SEO-ready et stack typo stable sur le long terme.</p>
+              <div class="btns"><button class="btn b1">Start Quiz</button><button class="btn b2">Voir les packs</button></div>
+            </div>
+            <div class="stats">
+              <div class="stat"><strong>50</strong><span>Mots MVP</span></div>
+              <div class="stat"><strong>4</strong><span>Difficultes</span></div>
+              <div class="stat"><strong>0 EUR</strong><span>Acces libre</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone">
+          <div class="bar">
+            <div class="logo">Manabu<span style="color:var(--fuchsia);">Play</span></div>
+            <span class="chip cf">Expert</span>
+          </div>
+          <div class="bodypad">
+            <div class="quiz" style="padding:18px;border-radius:18px;">
+              <span class="qmeta">RPG Stats</span>
+              <div class="qassist">Kyouka / Buff</div>
+              <div class="qword" style="font-size:2.4rem;">強化</div>
+              <p>Une amelioration temporaire qui augmente les statistiques ou les performances.</p>
+              <button class="btn b1" style="width:100%;">Reveal Hint</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="foot">Draft local de charte graphique HTML. Base de reference pour la future integration design dans le produit.</p>
+  </main>
+</body>
+</html>
