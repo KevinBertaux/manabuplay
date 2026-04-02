@@ -78,8 +78,21 @@
     .fx-range[data-disabled="true"] .fx-range-edit { color:#8f8aa7; }
     .fx-range input[type=\"range\"] { width:100%; accent-color:#a78bfa; }
     #preview.card { padding:12px; }
+    .iso-reference { display:grid; gap:12px; margin-top:16px; }
+    .iso-reference-grid { display:grid; grid-template-columns:1fr; gap:12px; }
+    .iso-card { padding:12px; border:1px solid #ffffff12; border-radius:8px; background:#ffffff04; }
+    .iso-card-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:8px; }
+    .iso-card-head h3 { margin-bottom:4px; }
+    .iso-card-head p { max-width:48ch; }
+    .iso-frame-wrap { border:1px solid #ffffff12; border-radius:8px; overflow:hidden; background:#08070d; }
+    .iso-frame { display:block; width:100%; border:0; background:#08070d; }
+    .iso-frame-hero { min-height:928px; }
+    .iso-frame-quiz { min-height:928px; }
+    .iso-link { display:inline-flex; align-items:center; gap:8px; color:var(--cyan); font-size:.88rem; font-weight:700; text-decoration:none; }
+    .iso-link:hover { color:#fff; }
+    .iso-link svg { width:16px; height:16px; display:block; }
     @media (max-width:1120px) { .fx-lab-shell { grid-template-columns:1fr; } }
-    @media (max-width:720px) { .page { width:min(100% - 16px,1216px); } .hero,.sec { padding:12px; } .tokenlist div { flex-direction:column; gap:4px; } .tokenlist span { text-align:left; } .fx-range-head { align-items:flex-start; flex-direction:column; } .fx-range-tools { width:100%; justify-content:space-between; } .fx-preset-actions { align-items:flex-start; } }
+    @media (max-width:720px) { .page { width:min(100% - 16px,1216px); } .hero,.sec { padding:12px; } .tokenlist div { flex-direction:column; gap:4px; } .tokenlist span { text-align:left; } .fx-range-head { align-items:flex-start; flex-direction:column; } .fx-range-tools { width:100%; justify-content:space-between; } .fx-preset-actions { align-items:flex-start; } .iso-card-head { flex-direction:column; } .iso-frame-hero { min-height:720px; } .iso-frame-quiz { min-height:896px; } }
   </style>
 </head>
 <body>
@@ -238,9 +251,9 @@
 
         <section class="card" id="preview">
           <div class="head">
-            <span class="eyebrow">Preview</span>
+            <span class="eyebrow">Sandbox</span>
             <h2>Hero + quiz shell</h2>
-            <p>Preview concentre sur les zones ou le CRT et les effets racontent le plus la marque.</p>
+            <p>Sandbox de reglage pour sentir le dosage des effets. Les blocs ISO du site sont plus bas et servent de reference fixe.</p>
           </div>
           <div class="fx-stage" data-fx-root>
             <div class="fx-orb fx-orb-a"></div>
@@ -265,6 +278,53 @@
                 <div class="fx-answer-row">
                   <div class="fx-answer fx-answer-good">Un pouvoir ou effet tellement fort qu'il casse l'equilibre du jeu.</div>
                   <div class="fx-answer">Une technique defensive qui reduit les degats magiques.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="iso-reference">
+            <div class="head">
+              <span class="eyebrow">ISO Reference</span>
+              <h2>Sections du site recopiees a l'identique</h2>
+              <p>Ces deux previews viennent de pages Astro dediees, construites avec le meme CSS, le meme HTML et le meme JS que le site. Elles ne servent pas au tuning libre: elles servent a comparer.</p>
+            </div>
+            <div class="iso-reference-grid">
+              <div class="iso-card">
+                <div class="iso-card-head">
+                  <div>
+                    <h3>Hero ISO</h3>
+                    <p>Reference stricte du hero du site, pour comparer glitch, glow, scanlines et densite globale.</p>
+                  </div>
+                  <a class="iso-link" href="#" data-iso-link="/lab/hero-preview/" target="_blank" rel="noreferrer">Open
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14 4h6v6"></path>
+                      <path d="M10 14 20 4"></path>
+                      <path d="M20 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4"></path>
+                    </svg>
+                  </a>
+                </div>
+                <div class="iso-frame-wrap">
+                  <iframe class="iso-frame iso-frame-hero" data-iso-preview="hero" data-iso-src="/lab/hero-preview/" title="ManabuPlay hero ISO preview" loading="lazy"></iframe>
+                </div>
+              </div>
+
+              <div class="iso-card">
+                <div class="iso-card-head">
+                  <div>
+                    <h3>Quiz ISO</h3>
+                    <p>Reference stricte du bloc quiz au repos, pour comparer la carte, les labels, la grille de difficultes et le CRT dans une zone dense.</p>
+                  </div>
+                  <a class="iso-link" href="#" data-iso-link="/lab/quiz-preview/#quiz" target="_blank" rel="noreferrer">Open
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14 4h6v6"></path>
+                      <path d="M10 14 20 4"></path>
+                      <path d="M20 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4"></path>
+                    </svg>
+                  </a>
+                </div>
+                <div class="iso-frame-wrap">
+                  <iframe class="iso-frame iso-frame-quiz" data-iso-preview="quiz" data-iso-src="/lab/quiz-preview/#quiz" title="ManabuPlay quiz ISO preview" loading="lazy"></iframe>
                 </div>
               </div>
             </div>

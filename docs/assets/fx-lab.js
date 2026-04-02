@@ -15,6 +15,8 @@
       return;
     }
 
+    hydrateIsoPreviews();
+
     const valueInputs = Object.fromEntries(
       FX.PRESET_KEYS.map((key) => [key, form.querySelector(`[name="${key}"]`)]),
     );
@@ -233,6 +235,35 @@
     history = [FX.normalizeState(initial)];
     historyIndex = 0;
     updateUndoRedoButtons();
+  }
+
+  function getIsoPreviewBase() {
+    const protocol = window.location.protocol === "file:" ? "http:" : window.location.protocol;
+    const host = window.location.hostname || "127.0.0.1";
+    const port = window.location.port ? String(Number(window.location.port) + 1) : "4174";
+    return `${protocol}//${host}:${port}`;
+  }
+
+  function hydrateIsoPreviews() {
+    const base = getIsoPreviewBase();
+
+    document.querySelectorAll("[data-iso-src]").forEach((node) => {
+      if (node instanceof HTMLIFrameElement) {
+        const path = node.dataset.isoSrc;
+        if (path) {
+          node.src = `${base}${path}`;
+        }
+      }
+    });
+
+    document.querySelectorAll("[data-iso-link]").forEach((node) => {
+      if (node instanceof HTMLAnchorElement) {
+        const path = node.dataset.isoLink;
+        if (path) {
+          node.href = `${base}${path}`;
+        }
+      }
+    });
   }
 
   document.addEventListener("DOMContentLoaded", boot);
