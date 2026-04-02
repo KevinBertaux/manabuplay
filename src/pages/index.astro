@@ -1,5 +1,9 @@
 ---
 import "../styles/mvp.css";
+import { buildMvpBootData } from "../data/manabuplay/catalog";
+import { serializeForInlineScript } from "../lib/serialize-inline-script";
+
+const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(buildMvpBootData())};`;
 ---
 <!DOCTYPE html>
 <html lang="en" id="htmlRoot">
@@ -310,7 +314,7 @@ import "../styles/mvp.css";
 
 
   <!-- ══════════════════════ JAVASCRIPT ══════════════════════ -->
-
+  <script is:inline set:html={bootDataScript}></script>
   <script is:inline src="/scripts/manabuplay.js"></script>
 </body>
 </html>
