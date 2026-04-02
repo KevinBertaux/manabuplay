@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/fx-system.css" />
   <style>
     @font-face { font-family:"Joystix"; src:url("../public/fonts/Joystix.woff") format("woff"); font-display:swap; }
     :root { --brand:"Joystix",sans-serif; --ui:"Chakra Petch",sans-serif; --bg:#08070d; --panel:#120f1eea; --panel2:#0f0c1a; --line:#a78bfa2d; --violet:#a78bfa; --fuchsia:#e879f9; --cyan:#22d3ee; --green:#4ade80; --red:#fb7185; --text:#f3f1ff; --muted:#bbb6d3; --soft:#8f8aa7; }
@@ -58,8 +59,18 @@
     .chip { display:inline-flex; align-items:center; gap:8px; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid transparent; font-size:.88rem; font-weight:700; letter-spacing:.04em; }
     .cv { color:var(--violet); background:#a78bfa14; border-color:#a78bfa33; } .cf { color:var(--fuchsia); background:#e879f914; border-color:#e879f933; } .cc { color:var(--cyan); background:#22d3ee14; border-color:#22d3ee33; }
     .btns,.chips,.answers { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-    .btn { min-height:44px; padding:0 16px; border-radius:8px; border:1px solid transparent; font:600 .96rem var(--ui); letter-spacing:.04em; text-transform:uppercase; color:#fff; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 16px; border-radius:8px; border:1px solid transparent; font:600 .96rem var(--ui); letter-spacing:.04em; text-transform:uppercase; color:#fff; text-decoration:none; }
     .b1 { background:linear-gradient(135deg,#a78bfa57,#e879f955); border-color:#a78bfa38; } .b2 { background:#a78bfa14; border-color:#a78bfa33; color:var(--violet); } .b3 { background:transparent; border-color:#ffffff14; color:var(--muted); }
+    .fx-copy-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+    .fx-copy-head h3 { margin-bottom:0; }
+    .fx-icon-copy { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; padding:0; border:1px solid #ffffff10; border-radius:8px; background:#ffffff05; color:var(--muted); cursor:pointer; transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease; }
+    .fx-icon-copy:hover,
+    .fx-icon-copy:focus-visible { background:#a78bfa14; border-color:#a78bfa38; color:#fff; outline:0; box-shadow:0 0 12px #a78bfa24; }
+    .fx-icon-copy svg { width:20px; height:20px; display:block; }
+    .fx-status { min-height:20px; margin-top:8px; color:var(--cyan); font-size:.88rem; }
+    .fx-link-inline { display:inline-flex; align-items:center; gap:8px; margin-top:8px; color:var(--cyan); font-size:.92rem; font-weight:700; text-decoration:none; }
+    .fx-link-inline:hover { color:#fff; }
+    .fx-link-inline svg { width:16px; height:16px; display:block; }
     .field { display:grid; gap:8px; } .field label { font-size:.9rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#fff; }
     .input { width:100%; min-height:44px; padding:0 16px; border-radius:8px; border:1px solid #a78bfa33; background:#08070db8; color:#fff; font:400 1rem var(--ui); }
     .input::placeholder { color:#7c7695; }
@@ -68,9 +79,9 @@
     .qassist { color:var(--cyan); font-size:1rem; font-weight:500; } .qword { color:var(--fuchsia); font-size:clamp(2rem,3vw,3.3rem); line-height:1.1; font-weight:700; }
     .answer { padding:12px; border-radius:8px; border:1px solid #ffffff14; background:#ffffff08; } .ok { border-color:#4ade8038; background:#4ade8010; } .ko { border-color:#fb718538; background:#fb718510; }
     .tokenlist { display:grid; gap:8px; font-size:.95rem; }
-    .tokenlist div { display:flex; justify-content:space-between; gap:12px; padding-bottom:8px; border-bottom:1px solid #ffffff10; }
+    .tokenlist div { display:flex; justify-content:space-between; gap:12px; padding-bottom:8px; border-bottom:1px solid #ffffff10; align-items:flex-start; }
     .tokenlist strong { color:#fff; } .tokenlist span { color:var(--soft); text-align:right; }
-    .code { margin:0; padding:12px; border-radius:8px; border:1px solid #ffffff12; background:#00000042; color:#ddd9f2; white-space:pre-wrap; line-height:1.55; font-size:.9rem; }
+    .code { margin:0; padding:12px; border-radius:8px; border:1px solid #ffffff12; background:#00000042; color:#ddd9f2; white-space:pre-wrap; line-height:1.55; font-size:.9rem; overflow-wrap:anywhere; word-break:break-word; }
     .preview { display:grid; grid-template-columns:1.2fr .8fr; gap:12px; }
     .frame,.phone { border-radius:12px; border:1px solid var(--line); background:linear-gradient(180deg,#18132af7,#0d0a17f7); box-shadow:0 12px 24px #00000030; overflow:hidden; }
     .bar { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:8px 12px; border-bottom:1px solid #ffffff10; background:#ffffff05; }
@@ -84,7 +95,7 @@
     .phone { width:min(100%,360px); margin-inline:auto; }
     .foot { padding-top:8px; text-align:center; color:var(--soft); font-size:.92rem; }
     @media (max-width:900px) { .grid4,.grid3,.preview { grid-template-columns:repeat(2,minmax(0,1fr)); } .type-layout { grid-template-columns:1fr; } }
-    @media (max-width:720px) { .page { width:min(100% - 16px,1180px); padding-top:16px; } .hero,.sec { padding:12px; border-radius:8px; } .grid4,.grid3,.grid2,.preview,.type-grid { grid-template-columns:1fr; } .sample-brand { white-space:normal; } }
+    @media (max-width:720px) { .page { width:min(100% - 16px,1180px); padding-top:16px; } .hero,.sec { padding:12px; border-radius:8px; } .grid4,.grid3,.grid2,.preview,.type-grid { grid-template-columns:1fr; } .sample-brand { white-space:normal; } .tokenlist div { flex-direction:column; gap:4px; } .tokenlist span { text-align:left; } }
   </style>
 </head>
 <body>
@@ -105,6 +116,7 @@
       <a href="#palette">Palette</a>
       <a href="#typography">Typographie</a>
       <a href="#components">Composants</a>
+      <a href="#fx-preview">FX Preview</a>
       <a href="#tokens">Tokens</a>
       <a href="#rules">Regles</a>
       <a href="#previews">Previews</a>
@@ -195,6 +207,72 @@
         <div class="answers">
           <div class="answer ok">Un pouvoir ou effet tellement fort qu'il casse l'equilibre du jeu.</div>
           <div class="answer ko">Une technique defensive qui reduit les degats magiques.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fx-preview">
+      <div class="head">
+        <span class="kicker">FX Preview</span>
+        <h2>CRT et effets de signature</h2>
+        <p>Le preview lit le preset courant du FX Lab. Le lab sert a regler, la charte sert a valider l'integration dans le design system.</p>
+      </div>
+      <div class="grid2">
+        <div class="card" data-fx-copy-scope>
+          <div class="fx-copy-head">
+            <h3>Preset courant</h3>
+            <button class="fx-icon-copy" type="button" data-fx-copy aria-label="Copier le preset FX" title="Copier le preset FX">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="10" y="10" width="12" height="12" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+          <p style="margin-bottom:8px;">Modifie le preset dans le lab, puis reviens ici pour juger l’effet dans un contexte de charte.</p>
+          <pre class="code" data-fx-json></pre>
+          <div class="fx-status" data-fx-status aria-live="polite"></div>
+          <a class="fx-link-inline" href="./fx-lab.html">Open FX Lab
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 4h6v6"></path>
+              <path d="M10 14 20 4"></path>
+              <path d="M20 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4"></path>
+            </svg>
+          </a>
+        </div>
+        <div class="card">
+          <div class="tokenlist">
+            <div><strong>Lab only</strong><span>Les sliders restent dans le lab, pas dans la charte.</span></div>
+            <div><strong>Sync</strong><span>Le preset est relu depuis le localStorage.</span></div>
+            <div><strong>Usage</strong><span>On valide surtout le dosage CRT, glow, glitch et ambient motion.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fx-stage" data-fx-root style="margin-top:8px;">
+        <div class="fx-orb fx-orb-a"></div>
+        <div class="fx-orb fx-orb-b"></div>
+        <div class="fx-shell">
+          <div class="fx-badge"><span class="fx-badge-dot"></span>CRT Preview</div>
+          <div class="fx-wordmark">
+            <span class="fx-glitch-text" data-text="MANABU">MANABU</span>
+            <span class="fx-play">PLAY</span>
+          </div>
+          <p class="fx-lead">Le CRT doit apporter une couche d'ambiance arcade et retro-futuriste, sans casser la lisibilite du produit.</p>
+          <div class="fx-chip-row">
+            <span class="fx-chip">Scanlines</span>
+            <span class="fx-chip">Noise</span>
+            <span class="fx-chip">Glow</span>
+            <span class="fx-chip">Glitch</span>
+          </div>
+          <div class="fx-quiz">
+            <span class="fx-quiz-meta">Anime Genre</span>
+            <div class="fx-quiz-assist">Chiito / Cheat</div>
+            <div class="fx-quiz-word">チート</div>
+            <p class="fx-quiz-copy">Le mot japonais principal peut rester tres visuel. Le CRT doit rester un filtre de caractere, pas un masque qui salit le contenu.</p>
+            <div class="fx-answer-row">
+              <div class="fx-answer fx-answer-good">Un pouvoir ou effet tellement fort qu'il casse l'equilibre du jeu.</div>
+              <div class="fx-answer">Une technique defensive qui reduit les degats magiques.</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -310,5 +388,6 @@
 
     <p class="foot">Draft local de charte graphique HTML. Base de reference pour la future integration design dans le produit.</p>
   </main>
+  <script src="./assets/fx-shared.js"></script>
 </body>
 </html>

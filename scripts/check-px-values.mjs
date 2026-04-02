@@ -14,6 +14,17 @@ const IGNORED_DIRS = new Set([
   "test-results",
 ]);
 const ALLOWED_RADIUS_VALUES = new Set([0, 4, 8, 12, 16, 999]);
+const VISUAL_EFFECT_PROPERTIES = new Set([
+  "background-position",
+  "background-size",
+  "backdrop-filter",
+  "box-shadow",
+  "drop-shadow",
+  "filter",
+  "stroke-width",
+  "text-shadow",
+  "transform",
+]);
 const CSS_DECLARATION_REGEX = /([a-zA-Z-]+)\s*:\s*([^;}{]+)(?=;|\})/g;
 const PX_TOKEN_REGEX = /-?\d*\.?\d+px/g;
 const STYLE_TAG_REGEX = /<style\b[^>]*>([\s\S]*?)<\/style>/g;
@@ -69,6 +80,10 @@ function isRadiusProperty(propertyName) {
   return propertyName.includes("radius");
 }
 
+function isVisualEffectProperty(propertyName) {
+  return propertyName.startsWith("--fx-") || VISUAL_EFFECT_PROPERTIES.has(propertyName);
+}
+
 function recordIssue(issues, filePath, line, kind, propertyName, token, sourceLine) {
   issues.push({
     filePath,
@@ -88,6 +103,10 @@ function validateDeclarationValue(issues, filePath, line, propertyName, valueTex
 
   for (const token of pxMatches) {
     const numberText = token.slice(0, -2);
+    if (isVisualEffectProperty(propertyName)) {
+      continue;
+    }
+
     if (numberText.includes(".")) {
       recordIssue(issues, filePath, line, "decimal", propertyName, token, sourceLine);
       continue;
@@ -115,7 +134,6 @@ function validateDeclarationValue(issues, filePath, line, propertyName, valueTex
     if (isBorderWidthProperty(propertyName)) {
       continue;
     }
-
     if (abs % 2 !== 0) {
       recordIssue(issues, filePath, line, "odd", propertyName, token, sourceLine);
     }
@@ -203,7 +221,7 @@ if (issues.length > 0) {
     );
   }
   console.error(
-    "Rules: no decimal px; no odd px except border widths; fixed width/height HTML attributes must be even; radius values must be 0/4/8/12/16 or 999.",
+    "Rules: no decimal px; no odd px except border widths and visual-effect properties; fixed width/height HTML attributes must be even; radius values must be 0/4/8/12/16 or 999.",
   );
   process.exit(1);
 }
