@@ -108,6 +108,7 @@
       <a href="./brand-system.html#fx-preview">Retour a la charte</a>
       <a href="#controls">Controls</a>
       <a href="#preview">Preview</a>
+      <a href="#response-demo">Response Demo</a>
       <a href="#preset">Preset</a>
     </nav>
 
@@ -278,6 +279,41 @@
                 <div class="fx-answer-row">
                   <div class="fx-answer fx-answer-good">Un pouvoir ou effet tellement fort qu'il casse l'equilibre du jeu.</div>
                   <div class="fx-answer">Une technique defensive qui reduit les degats magiques.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fx-demo-panel" id="response-demo" data-response-demo>
+            <div class="head">
+              <span class="eyebrow">Response FX</span>
+              <h2>Particles, score pop et hint</h2>
+              <p>Mini terrain de jeu local pour voir les effets de reponse du quiz sans modifier le site.</p>
+            </div>
+            <div class="fx-demo-shell">
+              <div class="fx-demo-top">
+                <div class="fx-demo-stats">
+                  <span class="fx-demo-stat">Score <strong data-demo-score>0</strong></span>
+                  <span class="fx-demo-stat">Streak <strong data-demo-streak>0</strong></span>
+                </div>
+                <span class="fx-demo-pop" data-demo-pop aria-live="polite"></span>
+              </div>
+              <div class="fx-demo-card">
+                <span class="fx-demo-meta">Anime Genre</span>
+                <div class="fx-demo-assist">Chiito / Cheat</div>
+                <div class="fx-demo-word">チート</div>
+                <p class="fx-demo-copy">La demo rejoue les bons effets de retour: etat correct/wrong, combo, score pop, particles et reveal du hint.</p>
+                <div class="fx-demo-feedback" data-demo-feedback>Choisis une action pour previsualiser le feedback.</div>
+                <div class="fx-demo-answer-grid">
+                  <button class="fx-demo-answer-btn" type="button" data-demo-answer="correct">Simulate correct answer</button>
+                  <button class="fx-demo-answer-btn" type="button" data-demo-answer="wrong">Simulate wrong answer</button>
+                </div>
+                <div class="fx-demo-action-row">
+                  <button class="fx-demo-action-btn fx-demo-action-hint" type="button" data-demo-hint>Reveal hint</button>
+                  <button class="fx-demo-action-btn fx-demo-action-reset" type="button" data-demo-reset>Reset demo</button>
+                </div>
+                <div class="fx-demo-hint-box">
+                  <span class="fx-demo-hint" data-demo-hint-text hidden>Indice: pense a un pouvoir tellement fort qu'il casse l'equilibre du jeu.</span>
                 </div>
               </div>
             </div>

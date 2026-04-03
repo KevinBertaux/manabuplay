@@ -16,6 +16,7 @@
     }
 
     hydrateIsoPreviews();
+    initResponseDemo();
 
     const valueInputs = Object.fromEntries(
       FX.PRESET_KEYS.map((key) => [key, form.querySelector(`[name="${key}"]`)]),
@@ -264,6 +265,134 @@
         }
       }
     });
+  }
+
+  function initResponseDemo() {
+    const root = document.querySelector("[data-response-demo]");
+    if (!(root instanceof HTMLElement)) {
+      return;
+    }
+
+    const scoreNode = root.querySelector("[data-demo-score]");
+    const streakNode = root.querySelector("[data-demo-streak]");
+    const popNode = root.querySelector("[data-demo-pop]");
+    const feedbackNode = root.querySelector("[data-demo-feedback]");
+    const hintText = root.querySelector("[data-demo-hint-text]");
+    const correctButton = root.querySelector('[data-demo-answer="correct"]');
+    const wrongButton = root.querySelector('[data-demo-answer="wrong"]');
+    const hintButton = root.querySelector("[data-demo-hint]");
+    const resetButton = root.querySelector("[data-demo-reset]");
+    const particleZone = root.querySelector(".fx-demo-shell");
+
+    if (
+      !(scoreNode instanceof HTMLElement) ||
+      !(streakNode instanceof HTMLElement) ||
+      !(popNode instanceof HTMLElement) ||
+      !(feedbackNode instanceof HTMLElement) ||
+      !(hintText instanceof HTMLElement) ||
+      !(correctButton instanceof HTMLButtonElement) ||
+      !(wrongButton instanceof HTMLButtonElement) ||
+      !(hintButton instanceof HTMLButtonElement) ||
+      !(resetButton instanceof HTMLButtonElement) ||
+      !(particleZone instanceof HTMLElement)
+    ) {
+      return;
+    }
+
+    let score = 0;
+    let streak = 0;
+
+    function renderHud() {
+      scoreNode.textContent = String(score);
+      streakNode.textContent = streak >= 2 ? `x${streak}` : String(streak);
+    }
+
+    function clearAnswerState() {
+      correctButton.classList.remove("correct", "wrong");
+      wrongButton.classList.remove("correct", "wrong");
+      feedbackNode.classList.remove("is-good", "is-bad");
+    }
+
+    function pulseScore(text, color) {
+      popNode.textContent = text;
+      popNode.style.color = color;
+      popNode.classList.remove("score-pop");
+      void popNode.offsetWidth;
+      popNode.classList.add("score-pop");
+    }
+
+    function spawnParticles(button, color) {
+      const buttonRect = button.getBoundingClientRect();
+      const zoneRect = particleZone.getBoundingClientRect();
+      const cx = buttonRect.left - zoneRect.left + buttonRect.width / 2;
+      const cy = buttonRect.top - zoneRect.top + buttonRect.height / 2;
+
+      for (let index = 0; index < 8; index += 1) {
+        const particle = document.createElement("div");
+        particle.className = "fx-demo-particle";
+        particle.style.left = `${cx}px`;
+        particle.style.top = `${cy}px`;
+        particle.style.background = color;
+        particle.style.setProperty("--tx", `${(Math.random() - 0.5) * 120}px`);
+        particle.style.setProperty("--ty", `${(Math.random() - 0.8) * 100}px`);
+        particleZone.appendChild(particle);
+        particle.addEventListener("animationend", () => particle.remove(), { once: true });
+      }
+    }
+
+    function revealHint() {
+      hintText.hidden = false;
+      hintText.classList.remove("hint-revealed");
+      void hintText.offsetWidth;
+      hintText.classList.add("hint-revealed");
+    }
+
+    function resetDemo() {
+      score = 0;
+      streak = 0;
+      clearAnswerState();
+      feedbackNode.textContent = "Choisis une action pour previsualiser le feedback.";
+      popNode.textContent = "";
+      popNode.classList.remove("score-pop");
+      hintText.hidden = true;
+      hintText.classList.remove("hint-revealed");
+      particleZone.querySelectorAll(".fx-demo-particle").forEach((node) => node.remove());
+      renderHud();
+    }
+
+    correctButton.addEventListener("click", () => {
+      clearAnswerState();
+      revealHint();
+      streak += 1;
+      const bonus = streak >= 3 ? 15 : streak >= 2 ? 12 : 10;
+      score += bonus;
+      correctButton.classList.add("correct");
+      feedbackNode.classList.add("is-good");
+      feedbackNode.textContent =
+        streak >= 3
+          ? `Correct +${bonus} pts · combo x${streak}`
+          : `Correct +${bonus} pts`;
+      pulseScore(`+${bonus}`, "#22d3ee");
+      spawnParticles(correctButton, "#4ade80");
+      renderHud();
+    });
+
+    wrongButton.addEventListener("click", () => {
+      clearAnswerState();
+      revealHint();
+      streak = 0;
+      wrongButton.classList.add("wrong");
+      correctButton.classList.add("correct");
+      feedbackNode.classList.add("is-bad");
+      feedbackNode.textContent = "Wrong · la bonne reponse est la premiere carte.";
+      pulseScore("MISS", "#f87171");
+      renderHud();
+    });
+
+    hintButton.addEventListener("click", revealHint);
+    resetButton.addEventListener("click", resetDemo);
+
+    resetDemo();
   }
 
   document.addEventListener("DOMContentLoaded", boot);
