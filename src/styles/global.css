@@ -48,6 +48,20 @@
   --void: #0a0911;
   --green: #4ade80;
   --red: #f87171;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-pill: 999px;
+  --control-h-32: 32px;
+  --control-h-44: 44px;
 }
 
 *,
@@ -58,7 +72,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 body {

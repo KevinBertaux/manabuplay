@@ -1,4 +1,11 @@
 [data-fx-root] {
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --radius-8: 8px;
+  --radius-pill: 999px;
+  --control-h-20: 20px;
+  --control-h-32: 32px;
   --fx-crt-master: 0.72;
   --fx-scanline-opacity: 0.14;
   --fx-scanline-step: 8px;
@@ -39,9 +46,9 @@
 
 .fx-stage {
   min-height: 320px;
-  padding: 16px;
+  padding: var(--space-16);
   border: 1px solid rgba(167, 139, 250, 0.18);
-  border-radius: 8px;
+  border-radius: var(--radius-8);
   filter:
     saturate(var(--fx-stage-saturation))
     contrast(var(--fx-stage-contrast))
@@ -95,7 +102,7 @@
 
 .fx-orb {
   position: absolute;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   filter: blur(var(--fx-orb-blur));
   opacity: var(--fx-orb-opacity);
   transition: opacity 160ms ease, filter 160ms ease;
@@ -121,9 +128,9 @@
 
 .fx-shell {
   max-width: 640px;
-  padding: 16px;
+  padding: var(--space-16);
   border: 1px solid rgba(167, 139, 250, 0.24);
-  border-radius: 8px;
+  border-radius: var(--radius-8);
   background: rgba(14, 11, 24, 0.86);
   backdrop-filter: blur(16px);
   box-shadow:
@@ -135,11 +142,11 @@
 .fx-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 32px;
-  padding: 0 12px;
+  gap: var(--space-8);
+  min-height: var(--control-h-32);
+  padding: 0 var(--space-12);
   border: 1px solid rgba(34, 211, 238, 0.28);
-  border-radius: 8px;
+  border-radius: var(--radius-8);
   background: rgba(34, 211, 238, 0.08);
   color: #22d3ee;
   font-size: 0.86rem;
@@ -151,17 +158,17 @@
 }
 
 .fx-badge-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
+  width: var(--space-8);
+  height: var(--space-8);
+  border-radius: var(--radius-pill);
   background: currentColor;
   animation: fx-pulse 2s ease-in-out infinite;
 }
 
 .fx-wordmark {
   display: grid;
-  gap: 8px;
-  margin: 16px 0 12px;
+  gap: var(--space-8);
+  margin: var(--space-16) 0 var(--space-12);
   font-family: var(--brand, "Joystix", sans-serif);
   font-size: clamp(1.8rem, 4vw, 3.6rem);
   line-height: 1;
@@ -220,18 +227,18 @@
 
 .fx-chip-row {
   display: flex;
-  gap: 8px;
+  gap: var(--space-8);
   flex-wrap: wrap;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-16);
 }
 
 .fx-chip {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
-  padding: 0 12px;
+  min-height: var(--control-h-32);
+  padding: 0 var(--space-12);
   border: 1px solid rgba(167, 139, 250, var(--fx-chip-border-alpha));
-  border-radius: 8px;
+  border-radius: var(--radius-8);
   background: rgba(167, 139, 250, var(--fx-chip-bg-alpha));
   color: #bbb6d3;
   font-size: 0.86rem;
@@ -292,13 +299,13 @@
 
 .fx-answer-row {
   display: grid;
-  gap: 8px;
+  gap: var(--space-8);
 }
 
 .fx-answer {
-  padding: 12px;
+  padding: var(--space-12);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
+  border-radius: var(--radius-8);
   background: rgba(255, 255, 255, 0.05);
   color: #d7d2ee;
 }
@@ -318,7 +325,7 @@
 
 .fx-control-panel {
   display: grid;
-  gap: 12px;
+  gap: var(--space-12);
   align-content: start;
 }
 
@@ -368,7 +375,7 @@
 }
 
 .fx-copy-status {
-  min-height: 20px;
+  min-height: var(--control-h-20);
   color: #22d3ee;
   font-size: 0.88rem;
 }
@@ -422,10 +429,10 @@
 @media (max-width: 720px) {
   .fx-stage {
     min-height: 0;
-    padding: 12px;
+    padding: var(--space-12);
   }
 
   .fx-shell {
-    padding: 12px;
+    padding: var(--space-12);
   }
 }
