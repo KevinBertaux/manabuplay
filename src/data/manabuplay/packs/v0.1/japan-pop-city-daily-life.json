@@ -1,0 +1,120 @@
+{
+  "id": "japan-pop-city-daily-life",
+  "slug": "japan-pop-city-daily-life",
+  "themeId": "japan-living",
+  "status": "candidate",
+  "targetWordCount": 20,
+  "locales": {
+    "fr": {
+      "name": "Japon pop : ville & quotidien",
+      "description": "Le Japon du quotidien : ville, nourriture, transports et ambiance."
+    },
+    "en": {
+      "name": "Pop Japan: City & Daily Life",
+      "description": "A first taste of everyday Japan: city life, food, transport and atmosphere."
+    }
+  },
+  "words": [
+    {
+      "order": 1,
+      "jp": "カワイイ",
+      "assist": "Kawaii",
+      "existingWordId": "kawaii"
+    },
+    {
+      "order": 2,
+      "jp": "神社",
+      "assist": "Jinja / Shrine"
+    },
+    {
+      "order": 3,
+      "jp": "寺",
+      "assist": "Tera / Temple"
+    },
+    {
+      "order": 4,
+      "jp": "桜",
+      "assist": "Sakura"
+    },
+    {
+      "order": 5,
+      "jp": "ラーメン",
+      "assist": "Ramen"
+    },
+    {
+      "order": 6,
+      "jp": "寿司",
+      "assist": "Sushi"
+    },
+    {
+      "order": 7,
+      "jp": "おにぎり",
+      "assist": "Onigiri"
+    },
+    {
+      "order": 8,
+      "jp": "弁当",
+      "assist": "Bentou / Bento"
+    },
+    {
+      "order": 9,
+      "jp": "抹茶",
+      "assist": "Matcha"
+    },
+    {
+      "order": 10,
+      "jp": "新幹線",
+      "assist": "Shinkansen"
+    },
+    {
+      "order": 11,
+      "jp": "東京",
+      "assist": "Tokyo"
+    },
+    {
+      "order": 12,
+      "jp": "渋谷",
+      "assist": "Shibuya"
+    },
+    {
+      "order": 13,
+      "jp": "秋葉原",
+      "assist": "Akihabara"
+    },
+    {
+      "order": 14,
+      "jp": "温泉",
+      "assist": "Onsen"
+    },
+    {
+      "order": 15,
+      "jp": "祭り",
+      "assist": "Matsuri"
+    },
+    {
+      "order": 16,
+      "jp": "浴衣",
+      "assist": "Yukata"
+    },
+    {
+      "order": 17,
+      "jp": "富士山",
+      "assist": "Fuji-san / Mount Fuji"
+    },
+    {
+      "order": 18,
+      "jp": "居酒屋",
+      "assist": "Izakaya"
+    },
+    {
+      "order": 19,
+      "jp": "旅",
+      "assist": "Tabi / Journey"
+    },
+    {
+      "order": 20,
+      "jp": "街",
+      "assist": "Machi / Town"
+    }
+  ]
+}

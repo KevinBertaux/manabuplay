@@ -1,0 +1,129 @@
+{
+  "id": "classes-weapons-equipment",
+  "slug": "classes-weapons-equipment",
+  "themeId": "gaming",
+  "status": "candidate",
+  "targetWordCount": 20,
+  "locales": {
+    "fr": {
+      "name": "Classes, armes & équipement",
+      "description": "Les classes RPG, les armes connues et l'équipement de base."
+    },
+    "en": {
+      "name": "Classes, Weapons & Equipment",
+      "description": "RPG classes, iconic weapons and basic equipment."
+    }
+  },
+  "words": [
+    {
+      "order": 1,
+      "jp": "勇者",
+      "assist": "Yuusha",
+      "existingWordId": "yuusha"
+    },
+    {
+      "order": 2,
+      "jp": "魔法使い",
+      "assist": "Mahoutsukai",
+      "existingWordId": "mahoutsukai"
+    },
+    {
+      "order": 3,
+      "jp": "盗賊",
+      "assist": "Touzoku",
+      "existingWordId": "touzoku"
+    },
+    {
+      "order": 4,
+      "jp": "装備",
+      "assist": "Soubi",
+      "existingWordId": "soubi"
+    },
+    {
+      "order": 5,
+      "jp": "強化",
+      "assist": "Kyoka",
+      "existingWordId": "kyoka"
+    },
+    {
+      "order": 6,
+      "jp": "剣",
+      "assist": "Ken / Tsurugi",
+      "existingWordId": "ken-tsurugi"
+    },
+    {
+      "order": 7,
+      "jp": "盾",
+      "assist": "Tate",
+      "existingWordId": "tate"
+    },
+    {
+      "order": 8,
+      "jp": "防御",
+      "assist": "Bougyo",
+      "existingWordId": "bougyo"
+    },
+    {
+      "order": 9,
+      "jp": "聖剣",
+      "assist": "Seiken",
+      "existingWordId": "seiken"
+    },
+    {
+      "order": 10,
+      "jp": "運",
+      "assist": "Un",
+      "existingWordId": "un"
+    },
+    {
+      "order": 11,
+      "jp": "戦士",
+      "assist": "Senshi / Warrior"
+    },
+    {
+      "order": 12,
+      "jp": "弓使い",
+      "assist": "Yumitsukai / Archer"
+    },
+    {
+      "order": 13,
+      "jp": "僧侶",
+      "assist": "Souryo / Priest"
+    },
+    {
+      "order": 14,
+      "jp": "騎士",
+      "assist": "Kishi / Knight"
+    },
+    {
+      "order": 15,
+      "jp": "杖",
+      "assist": "Tsue / Staff"
+    },
+    {
+      "order": 16,
+      "jp": "弓",
+      "assist": "Yumi / Bow"
+    },
+    {
+      "order": 17,
+      "jp": "鎧",
+      "assist": "Yoroi / Armor"
+    },
+    {
+      "order": 18,
+      "jp": "兜",
+      "assist": "Kabuto / Helmet"
+    },
+    {
+      "order": 19,
+      "jp": "短剣",
+      "assist": "Tanken / Dagger"
+    },
+    {
+      "order": 20,
+      "jp": "斧",
+      "assist": "Ono / Axe"
+    }
+  ]
+}
