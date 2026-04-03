@@ -29,8 +29,8 @@ try {
 
     await Promise.all([
       preparePage(sitePage, `${baseUrl}/`, "[data-i18n='hero_badge']"),
-      preparePage(heroPage, `${baseUrl}/lab/hero-preview/`, "[data-i18n='hero_badge']"),
-      preparePage(quizPage, `${baseUrl}/lab/quiz-preview/`, "#diffGrid .diff-card"),
+      preparePage(heroPage, `${baseUrl}/lab/hero-reference/`, "[data-i18n='hero_badge']"),
+      preparePage(quizPage, `${baseUrl}/lab/quiz-reference/`, "#diffGrid .diff-card"),
     ]);
 
     const results = [
@@ -73,6 +73,17 @@ async function preparePage(page, url, readySelector) {
     window.localStorage.setItem("mp_lang", JSON.stringify("en"));
   });
   await page.goto(url, { waitUntil: "domcontentloaded" });
+  await page.addStyleTag({
+    content: `
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    `,
+  });
   await page.waitForFunction(
     (selector) => {
       const node = document.querySelector(selector);

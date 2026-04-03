@@ -1,5 +1,5 @@
 ---
-import "../../styles/mvp.css";
+import "../../styles/app.css";
 import { buildMvpBootData } from "../../data/manabuplay/catalog";
 import { serializeForInlineScript } from "../../lib/serialize-inline-script";
 
@@ -10,7 +10,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ManabuPlay Lab Quiz Preview</title>
+  <title>ManabuPlay Lab Quiz Reference</title>
   <meta name="robots" content="noindex, nofollow" />
 </head>
 <body class="text-slate-200">
@@ -237,6 +237,6 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
   </section>
 
   <script is:inline set:html={bootDataScript}></script>
-  <script is:inline src="/scripts/manabuplay.js"></script>
+  <script is:inline src="/scripts/quiz-app.js"></script>
 </body>
 </html>

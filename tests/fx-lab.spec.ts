@@ -97,8 +97,8 @@ test.describe("fx lab document", () => {
     await expect(page.locator("[data-fx-status]")).toContainText(/Preset copied|Preset ready/);
     await expect(page.locator('iframe[data-iso-preview="hero"]')).toBeVisible();
     await expect(page.locator('iframe[data-iso-preview="quiz"]')).toBeVisible();
-    await expect(page.locator('iframe[data-iso-preview="hero"]')).toHaveAttribute("src", /4174\/lab\/hero-preview\//);
-    await expect(page.locator('iframe[data-iso-preview="quiz"]')).toHaveAttribute("src", /4174\/lab\/quiz-preview\/#quiz/);
+    await expect(page.locator('iframe[data-iso-preview="hero"]')).toHaveAttribute("src", /4174\/lab\/hero-reference\//);
+    await expect(page.locator('iframe[data-iso-preview="quiz"]')).toHaveAttribute("src", /4174\/lab\/quiz-reference\/#quiz/);
 
     await page.screenshot({
       path: testInfo.outputPath("fx-lab-desktop.png"),
