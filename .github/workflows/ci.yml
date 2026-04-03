@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - "chore/**"
       - "design/**"
       - "refactor/**"
       - "fix/**"
