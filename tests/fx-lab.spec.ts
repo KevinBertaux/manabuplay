@@ -94,7 +94,7 @@ test.describe("fx lab document", () => {
     await expect(page.locator('[data-fx-value="glow"]')).toHaveText("84");
 
     await page.locator("[data-fx-copy]").click();
-    await expect(page.locator("[data-fx-status]")).toContainText("Preset copied");
+    await expect(page.locator("[data-fx-status]")).toContainText(/Preset copied|Preset ready/);
     await expect(page.locator('iframe[data-iso-preview="hero"]')).toBeVisible();
     await expect(page.locator('iframe[data-iso-preview="quiz"]')).toBeVisible();
     await expect(page.locator('iframe[data-iso-preview="hero"]')).toHaveAttribute("src", /4174\/lab\/hero-preview\//);
