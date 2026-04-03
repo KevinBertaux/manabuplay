@@ -1,5 +1,5 @@
-@tailwind base;
-@tailwind components;
+@config "../../tailwind.config.cjs";
+@import "tailwindcss";
 
 @font-face {
   font-family: 'Rajdhani';
@@ -262,5 +262,3 @@
 
     .font-pixel { font-family:'Joystix',sans-serif; }
     .font-body  { font-family:'Rajdhani',sans-serif; }
-
-@tailwind utilities;

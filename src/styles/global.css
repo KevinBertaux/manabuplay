@@ -38,8 +38,8 @@
   src: url("/fonts/Joystix.woff") format("woff");
 }
 
-@tailwind base;
-@tailwind components;
+@config "../../tailwind.config.cjs";
+@import "tailwindcss";
 
 :root {
   --violet: #8b5cf6;
@@ -82,5 +82,3 @@ body {
   font-family: "Rajdhani", sans-serif;
   overflow-x: hidden;
 }
-
-@tailwind utilities;
