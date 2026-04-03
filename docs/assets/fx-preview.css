@@ -44,6 +44,31 @@
   isolation: isolate;
 }
 
+[data-fx-root][data-fx-enabled="false"]::before,
+[data-fx-root][data-fx-enabled="false"]::after {
+  opacity: 0 !important;
+}
+
+[data-fx-root][data-fx-enabled="false"] .fx-orb {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+[data-fx-root][data-fx-enabled="false"] .fx-badge-dot {
+  animation: none !important;
+}
+
+[data-fx-root][data-fx-enabled="false"] .fx-glitch-text,
+[data-fx-root][data-fx-enabled="false"] .fx-play {
+  text-shadow: none !important;
+}
+
+[data-fx-root][data-fx-enabled="false"] .fx-glitch-text::before,
+[data-fx-root][data-fx-enabled="false"] .fx-glitch-text::after {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
 .fx-stage {
   min-height: 320px;
   padding: var(--space-16);

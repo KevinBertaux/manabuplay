@@ -61,13 +61,10 @@
     .btns,.chips,.answers { display:flex; gap:var(--space-8); flex-wrap:wrap; align-items:center; }
     .btn { display:inline-flex; align-items:center; justify-content:center; min-height:var(--control-h-44); padding:0 var(--space-16); border-radius:var(--radius-8); border:1px solid transparent; font:600 .96rem var(--ui); letter-spacing:.04em; text-transform:uppercase; color:#fff; text-decoration:none; }
     .b1 { background:linear-gradient(135deg,#a78bfa57,#e879f955); border-color:#a78bfa38; } .b2 { background:#a78bfa14; border-color:#a78bfa33; color:var(--violet); } .b3 { background:transparent; border-color:#ffffff14; color:var(--muted); }
-    .fx-copy-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
-    .fx-copy-head h3 { margin-bottom:0; }
-    .fx-icon-copy { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; padding:0; border:1px solid #ffffff10; border-radius:8px; background:#ffffff05; color:var(--muted); cursor:pointer; transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease; }
-    .fx-icon-copy:hover,
-    .fx-icon-copy:focus-visible { background:#a78bfa14; border-color:#a78bfa38; color:#fff; outline:0; box-shadow:0 0 12px #a78bfa24; }
-    .fx-icon-copy svg { width:20px; height:20px; display:block; }
-    .fx-status { min-height:20px; margin-top:8px; color:var(--cyan); font-size:.88rem; }
+    .fx-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+    .fx-toggle-label { display:inline-flex; align-items:center; gap:8px; color:#fff; font-size:.92rem; font-weight:700; }
+    .fx-toggle-input { width:16px; height:16px; margin:0; accent-color:var(--violet); cursor:pointer; }
+    .fx-toggle-state { color:var(--cyan); font-size:.88rem; font-weight:700; }
     .fx-link-inline { display:inline-flex; align-items:center; gap:8px; margin-top:8px; color:var(--cyan); font-size:.92rem; font-weight:700; text-decoration:none; }
     .fx-link-inline:hover { color:#fff; }
     .fx-link-inline svg { width:16px; height:16px; display:block; }
@@ -215,22 +212,20 @@
       <div class="head">
         <span class="kicker">FX Preview</span>
         <h2>CRT et effets de signature</h2>
-        <p>Le preview lit le preset courant du FX Lab. Le lab sert a regler, la charte sert a valider l'integration dans le design system.</p>
+        <p>Le dosage se regle uniquement dans le FX Lab. Ici, on valide juste l'integration du preset dans le design system, avec un mode FX on/off persistant.</p>
       </div>
       <div class="grid2">
-        <div class="card" data-fx-copy-scope>
-          <div class="fx-copy-head">
-            <h3>Preset courant</h3>
-            <button class="fx-icon-copy" type="button" data-fx-copy aria-label="Copier le preset FX" title="Copier le preset FX">
-              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="10" y="10" width="12" height="12" rx="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-            </button>
+        <div class="card">
+          <div class="fx-toggle-row">
+            <div>
+              <h3>Mode de validation</h3>
+              <p>Le preset du lab reste actif en fond. Ce toggle sert juste a comparer la charte avec et sans FX.</p>
+            </div>
+            <label class="fx-toggle-label">
+              <input class="fx-toggle-input" type="checkbox" data-fx-brand-toggle aria-label="Activer les FX dans la charte" />
+              <span data-fx-brand-state>FX on</span>
+            </label>
           </div>
-          <p style="margin-bottom:8px;">Modifie le preset dans le lab, puis reviens ici pour juger l’effet dans un contexte de charte.</p>
-          <pre class="code" data-fx-json></pre>
-          <div class="fx-status" data-fx-status aria-live="polite"></div>
           <a class="fx-link-inline" href="./fx-lab.html">Open FX Lab
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 4h6v6"></path>
@@ -241,13 +236,13 @@
         </div>
         <div class="card">
           <div class="tokenlist">
-            <div><strong>Lab only</strong><span>Les sliders restent dans le lab, pas dans la charte.</span></div>
-            <div><strong>Sync</strong><span>Le preset est relu depuis le localStorage.</span></div>
-            <div><strong>Usage</strong><span>On valide surtout le dosage CRT, glow, glitch et ambient motion.</span></div>
+            <div><strong>Lab only</strong><span>Les sliders et les presets restent dans le lab, pas dans la charte.</span></div>
+            <div><strong>Persistence</strong><span>Le mode on/off de la charte est stocke en localStorage.</span></div>
+            <div><strong>Usage</strong><span>Ici on juge seulement l'integration du CRT, glow, glitch et ambient motion.</span></div>
           </div>
         </div>
       </div>
-      <div class="fx-stage" data-fx-root style="margin-top:8px;">
+      <div class="fx-stage" data-fx-root data-fx-brand-preview style="margin-top:8px;">
         <div class="fx-orb fx-orb-a"></div>
         <div class="fx-orb fx-orb-b"></div>
         <div class="fx-shell">

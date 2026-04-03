@@ -2,10 +2,19 @@ import { expect, test, type Page } from "@playwright/test";
 
 const BRAND_SYSTEM_URL = "http://127.0.0.1:4173/docs/brand-system.html";
 const STORAGE_KEY = "manabuplay_fx_preset_v1";
+const BRAND_PREVIEW_STORAGE_KEY = "manabuplay_fx_brand_preview_enabled_v1";
 
-async function seedPreset(page: Page, values: Record<string, number>, enabled?: Record<string, boolean>) {
+async function seedPreset(
+  page: Page,
+  values: Record<string, number>,
+  enabled?: Record<string, boolean>,
+  brandPreviewEnabled = true,
+) {
   await page.addInitScript(
-    ({ key, value }) => window.localStorage.setItem(key, value),
+    ({ key, value, brandKey, brandValue }) => {
+      window.localStorage.setItem(key, value);
+      window.localStorage.setItem(brandKey, brandValue);
+    },
     {
       key: STORAGE_KEY,
       value: JSON.stringify({
@@ -19,6 +28,8 @@ async function seedPreset(page: Page, values: Record<string, number>, enabled?: 
           ambient: true,
         },
       }),
+      brandKey: BRAND_PREVIEW_STORAGE_KEY,
+      brandValue: String(brandPreviewEnabled),
     },
   );
 }
@@ -84,13 +95,27 @@ test.describe("brand system document", () => {
     await loadBrandSystem(page);
 
     await expectNoHorizontalOverflow(page);
-    await expect(page.locator("#fx-preview [data-fx-json]")).toContainText('"glow":82');
+    await expect(page.locator("[data-fx-brand-toggle]")).toBeChecked();
     const scanlineOpacity = Number(
       await page.locator("#fx-preview [data-fx-root]").evaluate((node) =>
-        getComputedStyle(node).getPropertyValue("--fx-scanline-opacity").trim(),
+        getComputedStyle(node, "::before").opacity.trim(),
       ),
     );
-    expect(scanlineOpacity).toBeGreaterThan(0.2);
+    expect(scanlineOpacity).toBeGreaterThan(0.1);
+    await page.locator("[data-fx-brand-toggle]").uncheck();
+    await expect(page.locator("[data-fx-brand-state]")).toHaveText("FX off");
+    await expect
+      .poll(() =>
+        page.locator("#fx-preview [data-fx-root]").evaluate((node) =>
+          Number(getComputedStyle(node, "::before").opacity.trim()),
+        ),
+      )
+      .toBeLessThan(0.01);
+    await expect
+      .poll(() =>
+        page.evaluate((key) => window.localStorage.getItem(key), BRAND_PREVIEW_STORAGE_KEY),
+      )
+      .toBe("false");
     await expectContained(page, [
       ".hero",
       ".nav",
@@ -121,6 +146,7 @@ test.describe("brand system document", () => {
     await loadBrandSystem(page);
 
     await expectNoHorizontalOverflow(page);
+    await expect(page.locator("[data-fx-brand-toggle]")).toBeChecked();
     await expectContained(page, [
       ".hero",
       ".nav",

@@ -1,5 +1,6 @@
 (function () {
   const STORAGE_KEY = "manabuplay_fx_preset_v1";
+  const BRAND_PREVIEW_STORAGE_KEY = "manabuplay_fx_brand_preview_enabled_v1";
   const DEFAULT_VALUES = {
     crt: 72,
     scanlines: 64,
@@ -76,6 +77,24 @@
     const state = normalizeState(input);
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     return state;
+  }
+
+  function readBrandPreviewEnabled() {
+    try {
+      const raw = window.localStorage.getItem(BRAND_PREVIEW_STORAGE_KEY);
+      if (raw === null) {
+        return true;
+      }
+      return raw === "true";
+    } catch {
+      return true;
+    }
+  }
+
+  function writeBrandPreviewEnabled(enabled) {
+    const normalized = Boolean(enabled);
+    window.localStorage.setItem(BRAND_PREVIEW_STORAGE_KEY, String(normalized));
+    return normalized;
   }
 
   function getEffectiveValues(state) {
@@ -210,8 +229,29 @@
     });
   }
 
+  function syncBrandPreview(enabled = readBrandPreviewEnabled()) {
+    const normalized = Boolean(enabled);
+
+    document.querySelectorAll("[data-fx-brand-preview]").forEach((node) => {
+      if (node instanceof HTMLElement) {
+        node.dataset.fxEnabled = normalized ? "true" : "false";
+      }
+    });
+
+    document.querySelectorAll("[data-fx-brand-toggle]").forEach((node) => {
+      if (node instanceof HTMLInputElement) {
+        node.checked = normalized;
+      }
+    });
+
+    document.querySelectorAll("[data-fx-brand-state]").forEach((node) => {
+      node.textContent = normalized ? "FX on" : "FX off";
+    });
+  }
+
   function hydrateDocument() {
     syncDocument(readState());
+    syncBrandPreview(readBrandPreviewEnabled());
   }
 
   window.ManabuPlayFX = {
@@ -222,11 +262,15 @@
     normalizeState,
     readState,
     writeState,
+    BRAND_PREVIEW_STORAGE_KEY,
+    readBrandPreviewEnabled,
+    writeBrandPreviewEnabled,
     getEffectiveValues,
     computeVars,
     formatState,
     createCodexPrompt,
     syncDocument,
+    syncBrandPreview,
     hydrateDocument,
     copyCurrentPreset,
   };
@@ -239,9 +283,18 @@
       copyCurrentPreset(trigger);
     }
   });
+  document.addEventListener("change", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement && target.matches("[data-fx-brand-toggle]")) {
+      syncBrandPreview(writeBrandPreviewEnabled(target.checked));
+    }
+  });
   window.addEventListener("storage", (event) => {
     if (event.key === STORAGE_KEY) {
       hydrateDocument();
+    }
+    if (event.key === BRAND_PREVIEW_STORAGE_KEY) {
+      syncBrandPreview(readBrandPreviewEnabled());
     }
   });
 })();
