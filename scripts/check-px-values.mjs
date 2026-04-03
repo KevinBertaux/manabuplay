@@ -13,9 +13,12 @@ const IGNORED_DIRS = new Set([
   "playwright-report",
   "test-results",
 ]);
+
 const ALLOWED_RADIUS_VALUES = new Set([0, 4, 8, 12, 16, 999]);
 const VISUAL_EFFECT_PROPERTIES = new Set([
   "background-position",
+  "background-position-x",
+  "background-position-y",
   "background-size",
   "backdrop-filter",
   "box-shadow",
@@ -25,11 +28,70 @@ const VISUAL_EFFECT_PROPERTIES = new Set([
   "text-shadow",
   "transform",
 ]);
+const TYPOGRAPHY_EXEMPT_PROPERTIES = new Set([
+  "letter-spacing",
+  "line-height",
+  "word-spacing",
+]);
+const SPACING_PROPERTIES = new Set([
+  "bottom",
+  "column-gap",
+  "gap",
+  "inset",
+  "inset-block",
+  "inset-block-end",
+  "inset-block-start",
+  "inset-inline",
+  "inset-inline-end",
+  "inset-inline-start",
+  "left",
+  "margin",
+  "margin-block",
+  "margin-block-end",
+  "margin-block-start",
+  "margin-bottom",
+  "margin-inline",
+  "margin-inline-end",
+  "margin-inline-start",
+  "margin-left",
+  "margin-right",
+  "margin-top",
+  "padding",
+  "padding-block",
+  "padding-block-end",
+  "padding-block-start",
+  "padding-bottom",
+  "padding-inline",
+  "padding-inline-end",
+  "padding-inline-start",
+  "padding-left",
+  "padding-right",
+  "padding-top",
+  "right",
+  "row-gap",
+  "top",
+]);
+const SIZE_PROPERTIES = new Set([
+  "block-size",
+  "height",
+  "inline-size",
+  "max-block-size",
+  "max-height",
+  "max-inline-size",
+  "max-width",
+  "min-block-size",
+  "min-height",
+  "min-inline-size",
+  "min-width",
+  "width",
+]);
+
 const CSS_DECLARATION_REGEX = /([a-zA-Z-]+)\s*:\s*([^;}{]+)(?=;|\})/g;
 const PX_TOKEN_REGEX = /-?\d*\.?\d+px/g;
 const STYLE_TAG_REGEX = /<style\b[^>]*>([\s\S]*?)<\/style>/g;
 const STYLE_ATTR_REGEX = /\bstyle\s*=\s*(?:"([^"]*)"|'([^']*)')/g;
-const DIMENSION_ATTR_REGEX = /(^|[\s<])(width|height)\s*=\s*(?:"([0-9]+(?:\.[0-9]+)?)"|'([0-9]+(?:\.[0-9]+)?)')/gm;
+const DIMENSION_ATTR_REGEX =
+  /(^|[\s<])(width|height)\s*=\s*(?:"([0-9]+(?:\.[0-9]+)?)"|'([0-9]+(?:\.[0-9]+)?)')/gm;
 
 function listFiles(dir) {
   if (!statSafe(dir)?.isDirectory()) {
@@ -72,16 +134,52 @@ function countNewlines(text) {
   return matches ? matches.length : 0;
 }
 
-function isBorderWidthProperty(propertyName) {
-  return propertyName.startsWith("border") && !propertyName.includes("radius") && !propertyName.includes("image");
-}
+function getPropertyGroup(propertyName) {
+  if (!propertyName) {
+    return "exempt";
+  }
 
-function isRadiusProperty(propertyName) {
-  return propertyName.includes("radius");
-}
+  if (propertyName.startsWith("--fx-")) {
+    return "effect";
+  }
 
-function isVisualEffectProperty(propertyName) {
-  return propertyName.startsWith("--fx-") || VISUAL_EFFECT_PROPERTIES.has(propertyName);
+  if (VISUAL_EFFECT_PROPERTIES.has(propertyName)) {
+    return "effect";
+  }
+
+  if (TYPOGRAPHY_EXEMPT_PROPERTIES.has(propertyName)) {
+    return "typography";
+  }
+
+  if (propertyName === "font-size") {
+    return "font-size";
+  }
+
+  if (propertyName.includes("radius")) {
+    return "radius";
+  }
+
+  if (
+    propertyName.startsWith("border") &&
+    !propertyName.includes("radius") &&
+    !propertyName.includes("image")
+  ) {
+    return "border";
+  }
+
+  if (propertyName === "outline-width") {
+    return "border";
+  }
+
+  if (SPACING_PROPERTIES.has(propertyName)) {
+    return "spacing";
+  }
+
+  if (SIZE_PROPERTIES.has(propertyName)) {
+    return "size";
+  }
+
+  return "exempt";
 }
 
 function recordIssue(issues, filePath, line, kind, propertyName, token, sourceLine) {
@@ -101,26 +199,24 @@ function validateDeclarationValue(issues, filePath, line, propertyName, valueTex
     return;
   }
 
+  const group = getPropertyGroup(propertyName);
+  if (group === "effect" || group === "typography" || group === "exempt") {
+    return;
+  }
+
   for (const token of pxMatches) {
     const numberText = token.slice(0, -2);
-    if (isVisualEffectProperty(propertyName)) {
-      continue;
-    }
 
     if (numberText.includes(".")) {
-      recordIssue(issues, filePath, line, "decimal", propertyName, token, sourceLine);
+      recordIssue(issues, filePath, line, `decimal-${group}`, propertyName, token, sourceLine);
       continue;
     }
 
     const value = Number(numberText);
     const abs = Math.abs(value);
 
-    if (isRadiusProperty(propertyName)) {
-      if (abs === 999) {
-        continue;
-      }
-
-      if (abs % 2 !== 0) {
+    if (group === "radius") {
+      if (abs % 2 !== 0 && abs !== 999) {
         recordIssue(issues, filePath, line, "odd-radius", propertyName, token, sourceLine);
         continue;
       }
@@ -131,11 +227,12 @@ function validateDeclarationValue(issues, filePath, line, propertyName, valueTex
       continue;
     }
 
-    if (isBorderWidthProperty(propertyName)) {
+    if (group === "border") {
       continue;
     }
+
     if (abs % 2 !== 0) {
-      recordIssue(issues, filePath, line, "odd", propertyName, token, sourceLine);
+      recordIssue(issues, filePath, line, `odd-${group}`, propertyName, token, sourceLine);
     }
   }
 }
@@ -221,7 +318,7 @@ if (issues.length > 0) {
     );
   }
   console.error(
-    "Rules: no decimal px; no odd px except border widths and visual-effect properties; fixed width/height HTML attributes must be even; radius values must be 0/4/8/12/16 or 999.",
+    "Rules: spacing/top-right-bottom-left/inset px must be even integers; width/height/min/max px must be even integers; font-size in px must be even integers; border-radius must be 0/4/8/12/16/999; border widths may be odd; line-height, letter-spacing and visual effects are exempt.",
   );
   process.exit(1);
 }
