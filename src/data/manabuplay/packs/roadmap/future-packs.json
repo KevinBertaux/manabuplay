@@ -1,0 +1,135 @@
+{
+  "version": "v0.x-roadmap",
+  "status": "candidate",
+  "notes": [
+    "Projection courte des packs à ouvrir après la v0.1.",
+    "Les mots déjà présents dans le stock actuel sont répartis ici pour ne pas être perdus.",
+    "Chaque pack pourra être élargi ensuite selon les besoins produit et SEO."
+  ],
+  "packs": [
+    {
+      "targetVersion": "v0.2",
+      "id": "gacha-live-service",
+      "slug": "gacha-live-service",
+      "themeId": "gaming",
+      "locales": {
+        "fr": {
+          "name": "Gacha & live service"
+        },
+        "en": {
+          "name": "Gacha & Live Service"
+        }
+      },
+      "seedWords": [
+        {
+          "jp": "ガチャ",
+          "assist": "Gacha",
+          "existingWordId": "gacha"
+        },
+        {
+          "jp": "フリプレ",
+          "assist": "Free-to-Play",
+          "existingWordId": "free-to-play"
+        }
+      ],
+      "plannedWords": [
+        "課金",
+        "天井",
+        "ピックアップ",
+        "限定",
+        "配布",
+        "イベント",
+        "ログインボーナス",
+        "スタミナ",
+        "石",
+        "ガチャ券"
+      ]
+    },
+    {
+      "targetVersion": "v0.2",
+      "id": "arcade-secrets-and-meta",
+      "slug": "arcade-secrets-and-meta",
+      "themeId": "gaming",
+      "locales": {
+        "fr": {
+          "name": "Arcade, secrets & meta"
+        },
+        "en": {
+          "name": "Arcade, Secrets & Meta"
+        }
+      },
+      "seedWords": [
+        {
+          "jp": "チート",
+          "assist": "Chīto / Cheat",
+          "existingWordId": "chito-cheat"
+        },
+        {
+          "jp": "残機",
+          "assist": "Zanki",
+          "existingWordId": "zanki"
+        },
+        {
+          "jp": "隠しキャラ",
+          "assist": "Kakushi Kara",
+          "existingWordId": "kakushi-kara"
+        }
+      ],
+      "plannedWords": [
+        "裏技",
+        "隠し要素",
+        "コンティニュー",
+        "ハイスコア",
+        "ボーナスステージ",
+        "タイムアタック",
+        "ランキング",
+        "ノーコン",
+        "入力",
+        "解禁"
+      ]
+    },
+    {
+      "targetVersion": "v0.3",
+      "id": "dark-fantasy-legends-and-stealth",
+      "slug": "dark-fantasy-legends-and-stealth",
+      "themeId": "anime-and-manga",
+      "locales": {
+        "fr": {
+          "name": "Dark fantasy, légendes & furtivité"
+        },
+        "en": {
+          "name": "Dark Fantasy, Legends & Stealth"
+        }
+      },
+      "seedWords": [
+        {
+          "jp": "呪い",
+          "assist": "Noroi",
+          "existingWordId": "noroi"
+        },
+        {
+          "jp": "伝説",
+          "assist": "Densetsu",
+          "existingWordId": "densetsu"
+        },
+        {
+          "jp": "隠密",
+          "assist": "Onmitsu",
+          "existingWordId": "onmitsu"
+        }
+      ],
+      "plannedWords": [
+        "忍者",
+        "暗殺",
+        "幻",
+        "亡霊",
+        "影",
+        "封印",
+        "古代",
+        "遺跡",
+        "秘宝",
+        "伝承"
+      ]
+    }
+  ]
+}

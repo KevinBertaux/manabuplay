@@ -1,0 +1,130 @@
+{
+  "id": "combat-and-boss",
+  "slug": "combat-and-boss",
+  "themeId": "gaming",
+  "status": "candidate",
+  "targetWordCount": 20,
+  "locales": {
+    "fr": {
+      "name": "Combat & Boss",
+      "description": "Les mots des combats, des boss et des gros pouvoirs."
+    },
+    "en": {
+      "name": "Combat & Boss",
+      "description": "Words for battles, bosses and big power moments."
+    }
+  },
+  "words": [
+    {
+      "order": 1,
+      "jp": "ボス",
+      "assist": "Boss",
+      "existingWordId": "boss"
+    },
+    {
+      "order": 2,
+      "jp": "連続技",
+      "assist": "Renzoku-waza",
+      "existingWordId": "renzoku-waza"
+    },
+    {
+      "order": 3,
+      "jp": "召喚",
+      "assist": "Shoukan",
+      "existingWordId": "shoukan"
+    },
+    {
+      "order": 4,
+      "jp": "無双",
+      "assist": "Musou",
+      "existingWordId": "musou"
+    },
+    {
+      "order": 5,
+      "jp": "覚醒",
+      "assist": "Kakusei",
+      "existingWordId": "kakusei"
+    },
+    {
+      "order": 6,
+      "jp": "魔王",
+      "assist": "Maou",
+      "existingWordId": "maou"
+    },
+    {
+      "order": 7,
+      "jp": "必殺技",
+      "assist": "Hissatsu-waza",
+      "existingWordId": "hissatsu-waza"
+    },
+    {
+      "order": 8,
+      "jp": "連携",
+      "assist": "Renkei",
+      "existingWordId": "renkei"
+    },
+    {
+      "order": 9,
+      "jp": "怒り",
+      "assist": "Ikari",
+      "existingWordId": "ikari"
+    },
+    {
+      "order": 10,
+      "jp": "闇",
+      "assist": "Yami",
+      "existingWordId": "yami"
+    },
+    {
+      "order": 11,
+      "jp": "竜",
+      "assist": "Ryuu / Dragon",
+      "existingWordId": "ryuu-dragon"
+    },
+    {
+      "order": 12,
+      "jp": "攻撃",
+      "assist": "Kougeki / Attack"
+    },
+    {
+      "order": 13,
+      "jp": "会心",
+      "assist": "Kaishin / Critical Hit"
+    },
+    {
+      "order": 14,
+      "jp": "回避",
+      "assist": "Kaihi / Evasion"
+    },
+    {
+      "order": 15,
+      "jp": "弱点",
+      "assist": "Jakuten / Weakness"
+    },
+    {
+      "order": 16,
+      "jp": "耐性",
+      "assist": "Taisei / Resistance"
+    },
+    {
+      "order": 17,
+      "jp": "バフ",
+      "assist": "Buff"
+    },
+    {
+      "order": 18,
+      "jp": "デバフ",
+      "assist": "Debuff"
+    },
+    {
+      "order": 19,
+      "jp": "反撃",
+      "assist": "Hangeki / Counterattack"
+    },
+    {
+      "order": 20,
+      "jp": "状態異常",
+      "assist": "Joutai Ijou / Status Ailment"
+    }
+  ]
+}

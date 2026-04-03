@@ -154,7 +154,6 @@ export const MVP_LANG = {
   };
 
 export const MVP_QUIZ_DATA = [
-    // ─── 1-15 (original batch) ───────────────────────────────
     {
       word:"ボス", kana:"Boss",
       cat:{ en:"⚔️ Combat", fr:"⚔️ Combat" },
@@ -275,7 +274,6 @@ export const MVP_QUIZ_DATA = [
       wrong:{ en:["A crafting recipe that requires 5 rare materials","The tutorial phase at the start of a game","A penalty for using too many items in one fight"],
               fr:["Une recette d'artisanat nécessitant 5 matériaux rares","La phase tutoriel au début d'un jeu","Une pénalité pour avoir utilisé trop d'objets en un seul combat"] }
     },
-    // ─── 16-26 (second batch) ───────────────────────────────
     {
       word:"勇者", kana:"Yuusha",
       cat:{ en:"🗡️ RPG Class", fr:"🗡️ Classe RPG" },
@@ -364,7 +362,6 @@ export const MVP_QUIZ_DATA = [
       wrong:{ en:["A subscription service that costs a flat monthly fee","A game mode where all items cost double the normal price","A limited-time demo version available before launch"],
               fr:["Un service par abonnement au forfait mensuel fixe","Un mode de jeu où tous les objets coûtent le double du prix normal","Une version démo à durée limitée disponible avant le lancement"] }
     },
-    // ─── 27-50 (new 24 words) ───────────────────────────────
     {
       word:"回復", kana:"Kaifuku",
       cat:{ en:"💊 Status", fr:"💊 Statut" },

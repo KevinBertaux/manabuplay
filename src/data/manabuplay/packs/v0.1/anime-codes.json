@@ -1,0 +1,129 @@
+{
+  "id": "anime-codes",
+  "slug": "anime-codes",
+  "themeId": "anime-and-manga",
+  "status": "candidate",
+  "targetWordCount": 20,
+  "locales": {
+    "fr": {
+      "name": "Codes d’anime",
+      "description": "Les mots, codes et personnages types qu'on voit souvent dans les anime et mangas."
+    },
+    "en": {
+      "name": "Anime Codes",
+      "description": "Common words, codes and character types you often see in anime and manga."
+    }
+  },
+  "words": [
+    {
+      "order": 1,
+      "jp": "異世界",
+      "assist": "Isekai",
+      "existingWordId": "isekai"
+    },
+    {
+      "order": 2,
+      "jp": "仲間",
+      "assist": "Nakama",
+      "existingWordId": "nakama"
+    },
+    {
+      "order": 3,
+      "jp": "ツンデレ",
+      "assist": "Tsundere",
+      "existingWordId": "tsundere"
+    },
+    {
+      "order": 4,
+      "jp": "ワイフ",
+      "assist": "Waifu",
+      "existingWordId": "waifu"
+    },
+    {
+      "order": 5,
+      "jp": "転生",
+      "assist": "Tensei",
+      "existingWordId": "tensei"
+    },
+    {
+      "order": 6,
+      "jp": "英雄",
+      "assist": "Eiyuu",
+      "existingWordId": "eiyuu"
+    },
+    {
+      "order": 7,
+      "jp": "運命",
+      "assist": "Unmei",
+      "existingWordId": "unmei"
+    },
+    {
+      "order": 8,
+      "jp": "主人公",
+      "assist": "Shujinkou",
+      "existingWordId": "shujinkou"
+    },
+    {
+      "order": 9,
+      "jp": "最強",
+      "assist": "Saikyou",
+      "existingWordId": "saikyou"
+    },
+    {
+      "order": 10,
+      "jp": "神",
+      "assist": "Kami",
+      "existingWordId": "kami"
+    },
+    {
+      "order": 11,
+      "jp": "ライバル",
+      "assist": "Raibaru / Rival"
+    },
+    {
+      "order": 12,
+      "jp": "悪役",
+      "assist": "Akuyaku / Villain"
+    },
+    {
+      "order": 13,
+      "jp": "友情",
+      "assist": "Yuujou / Friendship"
+    },
+    {
+      "order": 14,
+      "jp": "修行",
+      "assist": "Shugyou / Training"
+    },
+    {
+      "order": 15,
+      "jp": "変身",
+      "assist": "Henshin / Transformation"
+    },
+    {
+      "order": 16,
+      "jp": "学園",
+      "assist": "Gakuen / School"
+    },
+    {
+      "order": 17,
+      "jp": "先輩",
+      "assist": "Senpai"
+    },
+    {
+      "order": 18,
+      "jp": "後輩",
+      "assist": "Kouhai"
+    },
+    {
+      "order": 19,
+      "jp": "幼なじみ",
+      "assist": "Osananajimi / Childhood Friend"
+    },
+    {
+      "order": 20,
+      "jp": "秘密",
+      "assist": "Himitsu / Secret"
+    }
+  ]
+}

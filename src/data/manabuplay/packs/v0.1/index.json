@@ -1,0 +1,44 @@
+{
+  "version": "v0.1",
+  "status": "candidate",
+  "notes": [
+    "Liste éditoriale candidate des 5 premiers packs de la v0.1.",
+    "La sélection des mots est figée ici avant enrichissement du contenu.",
+    "Les hints, explanations, reading et romaji seront ajoutés pendant la passe d'enrichissement des packs."
+  ],
+  "packCount": 5,
+  "targetWordsPerPack": 20,
+  "packs": [
+    {
+      "id": "jrpg-essentials",
+      "path": "./jrpg-essentials.json",
+      "existingWords": 10,
+      "plannedWords": 10
+    },
+    {
+      "id": "combat-and-boss",
+      "path": "./combat-and-boss.json",
+      "existingWords": 11,
+      "plannedWords": 9
+    },
+    {
+      "id": "classes-weapons-equipment",
+      "path": "./classes-weapons-equipment.json",
+      "existingWords": 10,
+      "plannedWords": 10
+    },
+    {
+      "id": "anime-codes",
+      "path": "./anime-codes.json",
+      "existingWords": 10,
+      "plannedWords": 10
+    },
+    {
+      "id": "japan-pop-city-daily-life",
+      "path": "./japan-pop-city-daily-life.json",
+      "existingWords": 1,
+      "plannedWords": 19
+    }
+  ],
+  "overflowPath": "../roadmap/future-packs.json"
+}
