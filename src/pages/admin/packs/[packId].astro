@@ -1,0 +1,421 @@
+---
+import "../../../styles/app.css";
+import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../../lib/admin-nav";
+import type { PackReaderWord } from "../../../lib/manabuplay-pack-reader";
+import { getAllPacks, getPackById } from "../../../lib/manabuplay-pack-reader";
+
+export function getStaticPaths() {
+  return getAllPacks().map((pack) => ({
+    params: { packId: pack.id },
+  }));
+}
+
+const { packId } = Astro.params;
+const pack = packId ? getPackById(packId) : null;
+
+if (!pack) {
+  throw new Error(`Unknown admin pack route: ${packId}`);
+}
+
+const activePack = pack;
+
+const packLinks = getAllPacks().map((item) => ({
+  id: item.id,
+  name: item.locales.fr.name,
+}));
+const adminNav = getAdminNavHtml("reader");
+
+function getTerm(word: PackReaderWord) {
+  return typeof word.jp === "string" ? word.jp : word.jp.term;
+}
+
+function getReading(word: PackReaderWord) {
+  return typeof word.jp === "string" ? null : word.jp.reading || null;
+}
+
+function getRomaji(word: PackReaderWord) {
+  return typeof word.jp === "string" ? word.assist || null : word.jp.romaji || null;
+}
+
+function getMeaning(word: PackReaderWord) {
+  return word.gloss?.fr || word.meaning?.fr || "Contenu à enrichir.";
+}
+
+function getDefinition(word: PackReaderWord) {
+  return word.definition?.fr || word.gloss?.fr || word.meaning?.fr || "Définition à écrire.";
+}
+
+function getHintOne(word: PackReaderWord) {
+  return word.hints?.hint1?.fr || "Hint 1 à écrire.";
+}
+
+function getHintTwo(word: PackReaderWord) {
+  return word.hints?.hint2?.fr || "Hint 2 à écrire.";
+}
+
+function getExplanation(word: PackReaderWord) {
+  return word.explanation?.fr || "Explanation à écrire.";
+}
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{activePack.locales.fr.name} — Admin Pack Reader</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    .reader-shell { min-height:100vh; background:
+      radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
+      radial-gradient(ellipse 40% 40% at 90% 15%,rgba(34,211,238,.12) 0%,transparent 60%),
+      #0a0911; }
+    .reader-wrap { width:min(1320px,calc(100% - 24px)); margin:0 auto; padding:88px 0 32px; }
+    .reader-top,.reader-layout-card { background:rgba(15,12,26,.94); border:1px solid rgba(139,92,246,.18); border-radius:8px; box-shadow:0 12px 32px rgba(0,0,0,.32); }
+    .reader-top { padding:20px; margin-bottom:16px; }
+    .reader-kicker { display:inline-flex; align-items:center; gap:8px; min-height:32px; padding:0 12px; border-radius:8px; background:rgba(34,211,238,.12); border:1px solid rgba(34,211,238,.28); color:#22d3ee; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .reader-kicker::before { content:""; width:8px; height:8px; border-radius:999px; background:currentColor; }
+    .reader-title { margin:12px 0 8px; font-family:'Joystix',sans-serif; font-size:clamp(1.35rem,2.8vw,2.2rem); line-height:1.15; color:#fff; }
+    .reader-title span { color:#e879f9; }
+    .reader-copy { max-width:72ch; color:#c7c2df; font:500 1.02rem/1.62 'Rajdhani',sans-serif; }
+    .reader-layout { display:grid; grid-template-columns:280px minmax(0,1fr); gap:16px; align-items:start; }
+    .reader-layout-card { padding:16px; }
+    .reader-side-title { color:#fff; font:700 1rem/1.2 'Rajdhani',sans-serif; margin-bottom:12px; }
+    .reader-side-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; }
+    .reader-pack-list { display:grid; gap:8px; }
+    .reader-pack-link { display:block; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; text-decoration:none; font:600 .95rem/1.4 'Rajdhani',sans-serif; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
+    .reader-pack-link:hover { border-color:rgba(139,92,246,.38); transform:translateY(-1px); }
+    .reader-pack-link.active { border-color:rgba(232,121,249,.4); background:rgba(232,121,249,.08); color:#fff; }
+    .reader-bulk-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; white-space:nowrap; }
+    .reader-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+    .reader-action { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 16px; border-radius:8px; border:1px solid rgba(139,92,246,.22); background:rgba(139,92,246,.12); color:#a78bfa; text-decoration:none; font:700 .92rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
+    .reader-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; align-items:start; }
+    .review-card { display:grid; gap:12px; padding:16px; border-radius:8px; border:1px solid rgba(139,92,246,.16); background:rgba(15,12,26,.96); box-shadow:0 8px 24px rgba(0,0,0,.22); align-content:start; align-self:start; outline:none; transition:border-color .18s ease, box-shadow .18s ease; }
+    .review-card[data-active="true"] { border-color:rgba(34,211,238,.42); box-shadow:0 0 0 1px rgba(34,211,238,.18), 0 8px 24px rgba(0,0,0,.22); }
+    .review-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .review-order { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(139,92,246,.26); background:rgba(139,92,246,.12); color:#a78bfa; font:700 .84rem/1 'Rajdhani',sans-serif; letter-spacing:.06em; }
+    .review-id { color:#7f7898; font:600 .85rem/1.4 'Rajdhani',sans-serif; text-align:right; }
+    .review-tools { display:flex; align-items:center; gap:8px; }
+    .review-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; }
+    .review-word-wrap { text-align:center; padding:8px 0 4px; }
+    .review-assist { color:#22d3ee; font:500 1rem/1.4 'Rajdhani',sans-serif; margin-bottom:6px; }
+    .review-word { color:#e879f9; font:700 clamp(2rem,3vw,3rem)/1.1 'Rajdhani',sans-serif; }
+    .review-reading { color:#c7c2df; font:500 1rem/1.5 'Rajdhani',sans-serif; }
+    .review-section { display:grid; gap:8px; }
+    .review-label { color:#8f8aa7; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .review-question { color:#a9a3c3; font:500 1rem/1.55 'Rajdhani',sans-serif; text-align:center; }
+    .review-hints { display:grid; gap:8px; }
+    .review-hint { padding:12px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:rgba(34,211,238,.08); color:#d7fbff; font:500 .98rem/1.5 'Rajdhani',sans-serif; }
+    .review-answers { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .answer-btn { display:flex; align-items:flex-start; gap:12px; min-height:72px; }
+    .answer-key { position:relative; z-index:1; display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:32px; border-radius:8px; border:1px solid rgba(255,255,255,.16); background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04)); box-shadow:inset 0 -2px 0 rgba(0,0,0,.18); color:#f8f7ff; font:800 .92rem/1 'Rajdhani',sans-serif; flex:0 0 auto; }
+    .answer-copy { position:relative; z-index:1; display:block; }
+    .review-definition { padding:12px; border-radius:8px; border:1px solid rgba(232,121,249,.18); background:rgba(232,121,249,.08); color:#fff; font:600 1rem/1.55 'Rajdhani',sans-serif; }
+    .review-exp { padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.05); color:#c7c2df; font:500 .96rem/1.58 'Rajdhani',sans-serif; }
+    .review-card[data-state="pristine"] .review-hints { display:none; }
+    .review-card[data-state="pristine"] .answer-btn { border-color:rgba(139,92,246,.3)!important; background:rgba(26,22,48,.8)!important; box-shadow:none!important; color:#e2d9f3!important; }
+    .review-card[data-state="pristine"] .answer-key { border-color:rgba(255,255,255,.12); background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03)); color:#f3efff; }
+    .review-card[data-state="pristine"] .review-definition-section { display:none; }
+    .review-card[data-state="pristine"] .review-exp-section { display:none; }
+    .answer-btn.selected { transform:translateY(-1px); }
+    .answer-btn.correct .answer-key { border-color:rgba(74,222,128,.46); background:linear-gradient(180deg,rgba(74,222,128,.24),rgba(74,222,128,.12)); color:#d8ffe6; }
+    .answer-btn.wrong .answer-key { border-color:rgba(248,113,113,.44); background:linear-gradient(180deg,rgba(248,113,113,.24),rgba(248,113,113,.1)); color:#ffe0e0; }
+    @media (max-width:1080px) {
+      .reader-layout { grid-template-columns:1fr; }
+    }
+    @media (max-width:860px) {
+      .reader-grid { grid-template-columns:1fr; }
+    }
+    @media (max-width:620px) {
+      .review-answers { grid-template-columns:1fr; }
+    }
+  </style>
+  <style set:html={ADMIN_NAV_CSS}></style>
+</head>
+<body class="text-slate-200 reader-shell">
+  <main class="reader-wrap">
+    <Fragment set:html={adminNav} />
+    <section class="reader-top">
+      <span class="reader-kicker">Admin Pack Reader</span>
+      <h1 class="reader-title">{activePack.locales.fr.name} <span>— vue continue</span></h1>
+      <p class="reader-copy">{activePack.locales.fr.description} Les deux hints sont déjà révélés et la bonne réponse est affichée en vert, pour relire un pack sans passer par le quiz.</p>
+    </section>
+
+    <section class="reader-layout">
+      <aside class="reader-layout-card">
+        <div class="reader-side-head">
+          <div class="reader-side-title">Packs v0.1</div>
+          <button class="reader-bulk-toggle" type="button" data-toggle-all>Tout replier</button>
+        </div>
+        <div class="reader-pack-list">
+          {packLinks.map((link) => (
+            <a
+              class:list={["reader-pack-link", { active: link.id === activePack.id }]}
+              href={`/admin/packs/${link.id}`}
+            >
+              {link.name}
+            </a>
+          ))}
+        </div>
+        <div class="reader-actions">
+          <a class="reader-action" href="/admin">Retour admin</a>
+          <a class="reader-action" href="/admin/fx-lab">FX Lab</a>
+          <a class="reader-action" href="/admin/brand-system">Charte</a>
+        </div>
+      </aside>
+
+      <div class="reader-grid">
+        {activePack.words.map((word) => (
+          <article class="review-card" data-admin-card data-state="revealed" data-correct-index={word.quizPreview?.correctIndex ?? 0} data-selected-index={word.quizPreview?.correctIndex ?? 0} tabindex="0">
+            <div class="review-meta">
+              <span class="review-order">Mot {word.order}</span>
+              <div class="review-tools">
+                <span class="review-id">{word.existingWordId || "Nouveau mot"}</span>
+                <button class="review-toggle" type="button" data-toggle-card>Avant réponse</button>
+              </div>
+            </div>
+
+            <div class="review-word-wrap">
+              <div class="review-assist">{getRomaji(word) || word.assist || "Assist à écrire"}</div>
+              <div class="review-word">{getTerm(word)}</div>
+              {getReading(word) && <div class="review-reading">{getReading(word)}</div>}
+            </div>
+
+            <div class="review-section">
+              <p class="review-question">Que signifie ce mot ici ?</p>
+            </div>
+
+            <div class="review-section" data-revealed-only>
+              <span class="review-label">Hints révélés</span>
+              <div class="review-hints">
+                <div class="review-hint">1. {getHintOne(word)}</div>
+                <div class="review-hint">2. {getHintTwo(word)}</div>
+              </div>
+            </div>
+
+            <div class="review-section">
+              <span class="review-label">Réponses</span>
+              <div class="review-answers">
+                {word.quizPreview?.answers.map((answer, answerIndex) => (
+                  <button
+                    class="answer-btn"
+                    type="button"
+                    data-answer-index={answerIndex}
+                  >
+                    <span class="answer-key">{answerIndex + 1}</span>
+                    <span class="answer-copy">{answer}</span>
+                  </button>
+                )) || (
+                  <button class="answer-btn" type="button" data-answer-index="0">
+                    <span class="answer-key">1</span>
+                    <span class="answer-copy">{getMeaning(word)}</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div class="review-section review-definition-section" data-revealed-only>
+              <span class="review-label">Définition</span>
+              <div class="review-definition">{getDefinition(word)}</div>
+            </div>
+
+            <div class="review-section review-exp-section" data-revealed-only>
+              <span class="review-label">Explication</span>
+              <div class="review-exp">{getExplanation(word)}</div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+  <script is:inline>
+    const bulkToggle = document.querySelector("[data-toggle-all]");
+    let activeCard = null;
+
+    function syncBulkToggle() {
+      if (!(bulkToggle instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      const cards = Array.from(document.querySelectorAll("[data-admin-card]")).filter(
+        (card) => card instanceof HTMLElement,
+      );
+      const allPristine = cards.every((card) => card.dataset.state === "pristine");
+      bulkToggle.textContent = allPristine ? "Tout révéler" : "Tout replier";
+    }
+
+    function setActiveCard(nextCard) {
+      if (!(nextCard instanceof HTMLElement)) {
+        return;
+      }
+
+      document.querySelectorAll("[data-admin-card][data-active='true']").forEach((card) => {
+        if (card instanceof HTMLElement) {
+          delete card.dataset.active;
+        }
+      });
+
+      nextCard.dataset.active = "true";
+      activeCard = nextCard;
+    }
+
+    function syncAnswerState(card) {
+      const pristine = card.dataset.state === "pristine";
+      const selectedIndex = pristine ? -1 : Number(card.dataset.selectedIndex ?? "-1");
+      const correctIndex = Number(card.dataset.correctIndex ?? "-1");
+
+      card.querySelectorAll("[data-answer-index]").forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        const answerIndex = Number(button.dataset.answerIndex ?? "-1");
+        button.classList.remove("selected", "correct", "wrong");
+
+        if (pristine) {
+          return;
+        }
+
+        if (answerIndex === correctIndex) {
+          button.classList.add("correct");
+        }
+
+        if (answerIndex === selectedIndex) {
+          button.classList.add("selected");
+          if (answerIndex !== correctIndex) {
+            button.classList.add("wrong");
+          }
+        }
+      });
+    }
+
+    function applyCardState(card, state) {
+      card.dataset.state = state;
+      if (state === "pristine") {
+        delete card.dataset.selectedIndex;
+      } else if (!card.dataset.selectedIndex) {
+        card.dataset.selectedIndex = card.dataset.correctIndex || "0";
+      }
+      syncCardState(card);
+      syncAnswerState(card);
+      const toggle = card.querySelector("[data-toggle-card]");
+      if (toggle instanceof HTMLButtonElement) {
+        toggle.textContent = state === "pristine" ? "Voir correction" : "Avant réponse";
+      }
+      syncBulkToggle();
+    }
+
+    function syncCardState(card) {
+      const pristine = card.dataset.state === "pristine";
+      card.querySelectorAll("[data-revealed-only]").forEach((section) => {
+        if (section instanceof HTMLElement) {
+          section.hidden = pristine;
+        }
+      });
+    }
+
+    document.querySelectorAll("[data-admin-card]").forEach((card) => {
+      if (card instanceof HTMLElement) {
+        syncCardState(card);
+        syncAnswerState(card);
+        card.addEventListener("mouseenter", () => setActiveCard(card));
+        card.addEventListener("focusin", () => setActiveCard(card));
+        card.addEventListener("click", () => setActiveCard(card));
+      }
+    });
+
+    document.querySelectorAll("[data-toggle-card]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const card = button.closest("[data-admin-card]");
+        if (!(card instanceof HTMLElement) || !(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        const nextState = card.dataset.state === "pristine" ? "revealed" : "pristine";
+        applyCardState(card, nextState);
+      });
+    });
+
+    document.querySelectorAll("[data-answer-index]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const card = button.closest("[data-admin-card]");
+        if (!(card instanceof HTMLElement) || !(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        setActiveCard(card);
+        card.dataset.state = "revealed";
+        card.dataset.selectedIndex = button.dataset.answerIndex || "0";
+        syncCardState(card);
+        syncAnswerState(card);
+        const toggle = card.querySelector("[data-toggle-card]");
+        if (toggle instanceof HTMLButtonElement) {
+          toggle.textContent = "Avant réponse";
+        }
+        syncBulkToggle();
+      });
+    });
+
+    if (bulkToggle instanceof HTMLButtonElement) {
+      bulkToggle.addEventListener("click", () => {
+        const cards = Array.from(document.querySelectorAll("[data-admin-card]")).filter(
+          (card) => card instanceof HTMLElement,
+        );
+
+        const shouldCollapse = cards.some((card) => card.dataset.state !== "pristine");
+        const nextState = shouldCollapse ? "pristine" : "revealed";
+
+        cards.forEach((card) => {
+          applyCardState(card, nextState);
+        });
+      });
+    }
+
+    document.addEventListener("keydown", (event) => {
+      const target = event.target;
+      if (
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        (target instanceof HTMLElement && target.isContentEditable)
+      ) {
+        return;
+      }
+
+      const keyMap = {
+        Digit1: 0,
+        Digit2: 1,
+        Digit3: 2,
+        Digit4: 3,
+        Numpad1: 0,
+        Numpad2: 1,
+        Numpad3: 2,
+        Numpad4: 3,
+      };
+
+      const answerIndex = keyMap[event.code];
+      if (answerIndex === undefined) {
+        return;
+      }
+
+      const card = activeCard instanceof HTMLElement ? activeCard : document.querySelector("[data-admin-card]");
+      if (!(card instanceof HTMLElement)) {
+        return;
+      }
+
+      const button = card.querySelector(`[data-answer-index="${answerIndex}"]`);
+      if (!(button instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      event.preventDefault();
+      button.click();
+    });
+
+    const firstCard = document.querySelector("[data-admin-card]");
+    if (firstCard instanceof HTMLElement) {
+      setActiveCard(firstCard);
+    }
+
+    syncBulkToggle();
+  </script>
+</body>
+</html>
