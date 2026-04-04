@@ -4,6 +4,7 @@ import { MVP_QUIZ_DATA } from "../data/manabuplay/raw.generated.js";
 
 export type PackReaderWord = {
   order: number;
+  difficultyTier?: 1 | 2 | 3 | 4;
   existingWordId?: string;
   jp:
     | string
@@ -39,6 +40,12 @@ export type PackReaderWord = {
     fr?: string;
     en?: string;
   };
+  quiz?: {
+    distractors?: {
+      fr?: string[];
+      en?: string[];
+    };
+  };
   quizPreview?: {
     correct: string;
     distractors: string[];
@@ -53,6 +60,25 @@ export type PackReaderPack = {
   themeId: string;
   status: string;
   targetWordCount: number;
+  score?: {
+    readiness?: {
+      value: number;
+      minProdScore?: number;
+      readyForProd: boolean;
+      reviewStatus?: "non-relue" | "partielle" | "faite" | "validee";
+      releaseStatus?: "dev" | "preprod" | "prod";
+      breakdown: {
+        packSize: number;
+        tierFit: number;
+        contentCompleteness: number;
+        quizQuality: number;
+        editorialReview: number;
+      };
+    };
+    depth?: {
+      value: number;
+    };
+  };
   locales: {
     fr: {
       name: string;
@@ -195,7 +221,9 @@ export function getPackById(packId: string) {
   const words = pack.words.map((word, index) => {
     const legacy = word.existingWordId ? legacyQuizById.get(word.existingWordId) : null;
     const correct = word.gloss?.fr || word.meaning?.fr || legacy?.correct.fr || "Réponse à écrire.";
-    const distractors = pickGlossDistractors(packGlosses, correct, index * 2);
+    const distractors =
+      word.quiz?.distractors?.fr?.slice(0, 3) ||
+      pickGlossDistractors(packGlosses, correct, index * 2);
     const shuffled = shuffleAnswers(
       correct,
       distractors,

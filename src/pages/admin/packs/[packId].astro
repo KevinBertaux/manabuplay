@@ -22,6 +22,7 @@ const activePack = pack;
 const packLinks = getAllPacks().map((item) => ({
   id: item.id,
   name: item.locales.fr.name,
+  score: item.score?.readiness?.value ?? null,
 }));
 const adminNav = getAdminNavHtml("reader");
 
@@ -56,6 +57,91 @@ function getHintTwo(word: PackReaderWord) {
 function getExplanation(word: PackReaderWord) {
   return word.explanation?.fr || "Explanation à écrire.";
 }
+
+function getScoreTone(score: number | null) {
+  if (score === null) return "na";
+  if (score >= 100) return "perfect";
+  if (score >= 90) return "good";
+  if (score >= 75) return "mid";
+  return "bad";
+}
+
+function getReadinessValue() {
+  return activePack.score?.readiness?.value ?? null;
+}
+
+function getMinProdScore() {
+  return activePack.score?.readiness?.minProdScore ?? 90;
+}
+
+function getReviewLabel() {
+  switch (activePack.score?.readiness?.reviewStatus) {
+    case "validee":
+      return "Relecture validée";
+    case "faite":
+      return "Relecture faite";
+    case "partielle":
+      return "Relecture partielle";
+    case "non-relue":
+      return "Relecture non faite";
+    default:
+      return "Relecture n.c.";
+  }
+}
+
+function getReleaseLabel() {
+  switch (activePack.score?.readiness?.releaseStatus) {
+    case "prod":
+      return "PROD";
+    case "preprod":
+      return "PRÉPROD";
+    case "dev":
+      return "DEV";
+    default:
+      return "N.C.";
+  }
+}
+
+function getMissingToMax() {
+  const score = getReadinessValue();
+  return score === null ? null : 100 - score;
+}
+
+function getMissingToProd() {
+  const score = getReadinessValue();
+  const min = getMinProdScore();
+  return score === null ? null : Math.max(0, min - score);
+}
+
+function getTierLabel(word: PackReaderWord) {
+  switch (word.difficultyTier) {
+    case 1:
+      return "Facile";
+    case 2:
+      return "Moyen";
+    case 3:
+      return "Difficile";
+    case 4:
+      return "Expert";
+    default:
+      return "n.c.";
+  }
+}
+
+function getTierTone(word: PackReaderWord) {
+  switch (word.difficultyTier) {
+    case 1:
+      return "easy";
+    case 2:
+      return "mid";
+    case 3:
+      return "hard";
+    case 4:
+      return "expert";
+    default:
+      return "na";
+  }
+}
 ---
 <!DOCTYPE html>
 <html lang="fr">
@@ -76,44 +162,78 @@ function getExplanation(word: PackReaderWord) {
     .reader-kicker::before { content:""; width:8px; height:8px; border-radius:999px; background:currentColor; }
     .reader-title { margin:12px 0 8px; font-family:'Joystix',sans-serif; font-size:clamp(1.35rem,2.8vw,2.2rem); line-height:1.15; color:#fff; }
     .reader-title span { color:#e879f9; }
-    .reader-copy { max-width:72ch; color:#c7c2df; font:500 1.02rem/1.62 'Rajdhani',sans-serif; }
+    .reader-copy { max-width:72ch; color:#c7c2df; font:500 1.1rem/1.68 'Rajdhani',sans-serif; }
     .reader-layout { display:grid; grid-template-columns:280px minmax(0,1fr); gap:16px; align-items:start; }
     .reader-layout-card { padding:16px; }
-    .reader-side-title { color:#fff; font:700 1rem/1.2 'Rajdhani',sans-serif; margin-bottom:12px; }
+    .reader-side-title { color:#fff; font:700 1.08rem/1.2 'Rajdhani',sans-serif; margin:0; }
     .reader-side-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; }
     .reader-pack-list { display:grid; gap:8px; }
-    .reader-pack-link { display:block; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; text-decoration:none; font:600 .95rem/1.4 'Rajdhani',sans-serif; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
+    .reader-pack-link { display:block; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; text-decoration:none; font:600 1.02rem/1.4 'Rajdhani',sans-serif; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
     .reader-pack-link:hover { border-color:rgba(139,92,246,.38); transform:translateY(-1px); }
     .reader-pack-link.active { border-color:rgba(232,121,249,.4); background:rgba(232,121,249,.08); color:#fff; }
-    .reader-bulk-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; white-space:nowrap; }
-    .reader-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
-    .reader-action { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 16px; border-radius:8px; border:1px solid rgba(139,92,246,.22); background:rgba(139,92,246,.12); color:#a78bfa; text-decoration:none; font:700 .92rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
+    .reader-pack-link-head { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:12px; }
+    .reader-pack-name { min-width:0; color:inherit; }
+    .reader-pack-score { display:inline-flex; align-items:center; justify-content:center; min-height:28px; min-width:64px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#d7fbff; font:800 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }
+    .reader-pack-score.na { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#8f8aa7; }
+    .reader-pack-score.bad { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .reader-pack-score.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .reader-pack-score.good { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .reader-pack-score.perfect { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
+    .reader-bulk-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; white-space:nowrap; }
+    .reader-main { display:grid; gap:16px; }
+    .reader-cartouche { display:grid; gap:12px; padding:16px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:
+      linear-gradient(180deg,rgba(34,211,238,.08),rgba(255,255,255,.02)),
+      rgba(15,12,26,.96); box-shadow:0 8px 24px rgba(0,0,0,.22); }
+    .reader-cartouche-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:start; }
+    .reader-cartouche-title { color:#fff; font:700 1.14rem/1.2 'Rajdhani',sans-serif; }
+    .reader-cartouche-sub { color:#8f8aa7; font:700 .86rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
+    .reader-cartouche-score { display:inline-flex; align-items:center; justify-content:center; min-height:40px; min-width:92px; padding:0 14px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#d7fbff; font:800 1.08rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }
+    .reader-cartouche-score.na { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#8f8aa7; }
+    .reader-cartouche-score.bad { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .reader-cartouche-score.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .reader-cartouche-score.good { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .reader-cartouche-score.perfect { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
+    .reader-cartouche-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+    .reader-cartouche-cell { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:36px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; font:700 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
+    .reader-cartouche-label { color:#8f8aa7; text-transform:uppercase; }
+    .reader-cartouche-value { color:#fff; text-align:right; }
+    .reader-cartouche-breakdown { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; }
+    .reader-break-item { display:grid; gap:6px; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
+    .reader-break-label { color:#8f8aa7; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .reader-break-value { color:#fff; font:800 1.02rem/1 'Rajdhani',sans-serif; }
     .reader-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; align-items:start; }
     .review-card { display:grid; gap:12px; padding:16px; border-radius:8px; border:1px solid rgba(139,92,246,.16); background:rgba(15,12,26,.96); box-shadow:0 8px 24px rgba(0,0,0,.22); align-content:start; align-self:start; outline:none; transition:border-color .18s ease, box-shadow .18s ease; }
     .review-card[data-active="true"] { border-color:rgba(34,211,238,.42); box-shadow:0 0 0 1px rgba(34,211,238,.18), 0 8px 24px rgba(0,0,0,.22); }
     .review-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; }
-    .review-order { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(139,92,246,.26); background:rgba(139,92,246,.12); color:#a78bfa; font:700 .84rem/1 'Rajdhani',sans-serif; letter-spacing:.06em; }
-    .review-id { color:#7f7898; font:600 .85rem/1.4 'Rajdhani',sans-serif; text-align:right; }
+    .review-meta-left { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .review-order { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(139,92,246,.26); background:rgba(139,92,246,.12); color:#a78bfa; font:700 .92rem/1 'Rajdhani',sans-serif; letter-spacing:.06em; }
+    .review-tier { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#c7c2df; font:800 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
+    .review-tier.easy { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .review-tier.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .review-tier.hard { border-color:rgba(251,146,60,.28); background:rgba(251,146,60,.12); color:#fed7aa; }
+    .review-tier.expert { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .review-tier.na { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#8f8aa7; }
+    .review-id { color:#7f7898; font:600 .92rem/1.4 'Rajdhani',sans-serif; text-align:right; }
     .review-tools { display:flex; align-items:center; gap:8px; }
-    .review-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; }
+    .review-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; }
     .review-word-wrap { text-align:center; padding:8px 0 4px; }
-    .review-assist { color:#22d3ee; font:500 1rem/1.4 'Rajdhani',sans-serif; margin-bottom:6px; }
+    .review-assist { color:#22d3ee; font:600 1.18rem/1.42 'Rajdhani',sans-serif; margin-bottom:6px; }
     .review-word { color:#e879f9; font:700 clamp(2rem,3vw,3rem)/1.1 'Rajdhani',sans-serif; }
-    .review-reading { color:#c7c2df; font:500 1rem/1.5 'Rajdhani',sans-serif; }
+    .review-reading { color:#c7c2df; font:500 1.08rem/1.5 'Rajdhani',sans-serif; }
     .review-section { display:grid; gap:8px; }
-    .review-label { color:#8f8aa7; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
-    .review-question { color:#a9a3c3; font:500 1rem/1.55 'Rajdhani',sans-serif; text-align:center; }
+    .review-label { color:#8f8aa7; font:700 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .review-question { color:#a9a3c3; font:500 1.08rem/1.6 'Rajdhani',sans-serif; text-align:center; }
     .review-hints { display:grid; gap:8px; }
-    .review-hint { padding:12px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:rgba(34,211,238,.08); color:#d7fbff; font:500 .98rem/1.5 'Rajdhani',sans-serif; }
+    .review-hint { padding:12px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:rgba(34,211,238,.08); color:#d7fbff; font:500 1.04rem/1.56 'Rajdhani',sans-serif; }
     .review-answers { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
-    .answer-btn { display:flex; align-items:flex-start; gap:12px; min-height:72px; }
-    .answer-key { position:relative; z-index:1; display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:32px; border-radius:8px; border:1px solid rgba(255,255,255,.16); background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04)); box-shadow:inset 0 -2px 0 rgba(0,0,0,.18); color:#f8f7ff; font:800 .92rem/1 'Rajdhani',sans-serif; flex:0 0 auto; }
-    .answer-copy { position:relative; z-index:1; display:block; }
-    .review-definition { padding:12px; border-radius:8px; border:1px solid rgba(232,121,249,.18); background:rgba(232,121,249,.08); color:#fff; font:600 1rem/1.55 'Rajdhani',sans-serif; }
-    .review-exp { padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.05); color:#c7c2df; font:500 .96rem/1.58 'Rajdhani',sans-serif; }
+    .answer-btn { position:relative; display:grid; place-items:center; min-height:88px; padding:16px; }
+    .answer-key { position:absolute; top:10px; left:10px; z-index:2; display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:7px; border:1px solid rgba(255,255,255,.16); background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04)); box-shadow:inset 0 -2px 0 rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.18); color:#f8f7ff; font:800 .92rem/1 'Rajdhani',sans-serif; }
+    .answer-copy { position:relative; z-index:1; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; max-width:88%; text-align:center; font:700 1.02rem/1.3 'Rajdhani',sans-serif; }
+    .review-definition { padding:12px; border-radius:8px; border:1px solid rgba(232,121,249,.18); background:rgba(232,121,249,.08); color:#fff; font:600 1.08rem/1.6 'Rajdhani',sans-serif; }
+    .review-exp { padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.05); color:#c7c2df; font:500 1.02rem/1.62 'Rajdhani',sans-serif; }
     .review-card[data-state="pristine"] .review-hints { display:none; }
     .review-card[data-state="pristine"] .answer-btn { border-color:rgba(139,92,246,.3)!important; background:rgba(26,22,48,.8)!important; box-shadow:none!important; color:#e2d9f3!important; }
-    .review-card[data-state="pristine"] .answer-key { border-color:rgba(255,255,255,.12); background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03)); color:#f3efff; }
+    .review-card[data-state="pristine"] .answer-key { border-color:rgba(255,255,255,.12); background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03)); color:#f3efff; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.14); }
     .review-card[data-state="pristine"] .review-definition-section { display:none; }
     .review-card[data-state="pristine"] .review-exp-section { display:none; }
     .answer-btn.selected { transform:translateY(-1px); }
@@ -121,11 +241,16 @@ function getExplanation(word: PackReaderWord) {
     .answer-btn.wrong .answer-key { border-color:rgba(248,113,113,.44); background:linear-gradient(180deg,rgba(248,113,113,.24),rgba(248,113,113,.1)); color:#ffe0e0; }
     @media (max-width:1080px) {
       .reader-layout { grid-template-columns:1fr; }
+      .reader-cartouche-grid,
+      .reader-cartouche-breakdown { grid-template-columns:repeat(2,minmax(0,1fr)); }
     }
     @media (max-width:860px) {
       .reader-grid { grid-template-columns:1fr; }
     }
     @media (max-width:620px) {
+      .reader-cartouche-head,
+      .reader-cartouche-grid,
+      .reader-cartouche-breakdown { grid-template-columns:1fr; }
       .review-answers { grid-template-columns:1fr; }
     }
   </style>
@@ -152,22 +277,84 @@ function getExplanation(word: PackReaderWord) {
               class:list={["reader-pack-link", { active: link.id === activePack.id }]}
               href={`/admin/packs/${link.id}`}
             >
-              {link.name}
+              <span class="reader-pack-link-head">
+                <span class="reader-pack-name">{link.name}</span>
+                <span class:list={["reader-pack-score", getScoreTone(link.score)]}>{link.score === null ? "n.c." : `${link.score}/100`}</span>
+              </span>
             </a>
           ))}
         </div>
-        <div class="reader-actions">
-          <a class="reader-action" href="/admin">Retour admin</a>
-          <a class="reader-action" href="/admin/fx-lab">FX Lab</a>
-          <a class="reader-action" href="/admin/brand-system">Charte</a>
-        </div>
       </aside>
 
-      <div class="reader-grid">
-        {activePack.words.map((word) => (
+      <div class="reader-main">
+        <section class="reader-cartouche">
+          <div class="reader-cartouche-head">
+            <div>
+              <div class="reader-cartouche-title">Cartouche pack</div>
+              <div class="reader-cartouche-sub">{activePack.locales.fr.name}</div>
+            </div>
+            <div class:list={["reader-cartouche-score", getScoreTone(getReadinessValue())]}>
+              {getReadinessValue() === null ? "n.c." : `${getReadinessValue()}/100`}
+            </div>
+          </div>
+          <div class="reader-cartouche-grid">
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Min prod</span>
+              <span class="reader-cartouche-value">{getMinProdScore()}/100</span>
+            </div>
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Delta prod</span>
+              <span class="reader-cartouche-value">{getMissingToProd() === null ? "n.c." : `-${getMissingToProd()}`}</span>
+            </div>
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Delta max</span>
+              <span class="reader-cartouche-value">{getMissingToMax() === null ? "n.c." : `-${getMissingToMax()}`}</span>
+            </div>
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Relecture</span>
+              <span class="reader-cartouche-value">{getReviewLabel()}</span>
+            </div>
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Release</span>
+              <span class="reader-cartouche-value">{getReleaseLabel()}</span>
+            </div>
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Prod gate</span>
+              <span class="reader-cartouche-value">{activePack.score?.readiness?.readyForProd ? "OK" : "BLOQUÉ"}</span>
+            </div>
+          </div>
+          <div class="reader-cartouche-breakdown">
+            <div class="reader-break-item">
+              <span class="reader-break-label">Taille /15</span>
+              <span class="reader-break-value">{activePack.score?.readiness?.breakdown.packSize ?? "n.c."}/15</span>
+            </div>
+            <div class="reader-break-item">
+              <span class="reader-break-label">Tiers /15</span>
+              <span class="reader-break-value">{activePack.score?.readiness?.breakdown.tierFit ?? "n.c."}/15</span>
+            </div>
+            <div class="reader-break-item">
+              <span class="reader-break-label">Contenu /40</span>
+              <span class="reader-break-value">{activePack.score?.readiness?.breakdown.contentCompleteness ?? "n.c."}/40</span>
+            </div>
+            <div class="reader-break-item">
+              <span class="reader-break-label">Qualité quiz /15</span>
+              <span class="reader-break-value">{activePack.score?.readiness?.breakdown.quizQuality ?? "n.c."}/15</span>
+            </div>
+            <div class="reader-break-item">
+              <span class="reader-break-label">Relecture /15</span>
+              <span class="reader-break-value">{activePack.score?.readiness?.breakdown.editorialReview ?? "n.c."}/15</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="reader-grid">
+          {activePack.words.map((word) => (
           <article class="review-card" data-admin-card data-state="revealed" data-correct-index={word.quizPreview?.correctIndex ?? 0} data-selected-index={word.quizPreview?.correctIndex ?? 0} tabindex="0">
             <div class="review-meta">
-              <span class="review-order">Mot {word.order}</span>
+              <div class="review-meta-left">
+                <span class="review-order">Mot {word.order}</span>
+                <span class:list={["review-tier", getTierTone(word)]}>{getTierLabel(word)}</span>
+              </div>
               <div class="review-tools">
                 <span class="review-id">{word.existingWordId || "Nouveau mot"}</span>
                 <button class="review-toggle" type="button" data-toggle-card>Avant réponse</button>
@@ -223,7 +410,8 @@ function getExplanation(word: PackReaderWord) {
               <div class="review-exp">{getExplanation(word)}</div>
             </div>
           </article>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   </main>
