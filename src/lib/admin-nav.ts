@@ -12,11 +12,12 @@ export const ADMIN_NAV_CSS = `
 .admin-topnav__lang-btn.is-active{background:rgba(139,92,246,.2);color:#fff}
 `;
 
-const items: Array<{ key?: AdminNavKey; href: string; label: string }> = [
+const items: Array<{ key?: AdminNavKey; activeKey?: AdminNavKey; href: string; label: string }> = [
   { key: "hub", href: "/admin", label: "Admin" },
   { key: "reader", href: "/admin/packs", label: "Lecteur" },
   { key: "catalog", href: "/admin/catalog", label: "Catalogue" },
-  { key: "mockups", href: "/admin/mockups/answer-cards", label: "Mockups" },
+  { key: "mockups", href: "/admin/mockups/answer-cards", label: "Mockups réponses" },
+  { activeKey: "mockups", href: "/admin/mockups/tier-breakdown", label: "Mockups tiers" },
   { key: "fx-lab", href: "/admin/fx-lab", label: "FX Lab" },
   { key: "brand-system", href: "/admin/brand-system", label: "Charte" },
   { href: "/", label: "Site public" },
@@ -29,7 +30,8 @@ function escapeAttr(value: string) {
 export function getAdminNavHtml(active: AdminNavKey) {
   const links = items
     .map((item) => {
-      const className = item.key === active ? "admin-topnav__link is-active" : "admin-topnav__link";
+      const isActive = item.key === active || item.activeKey === active;
+      const className = isActive ? "admin-topnav__link is-active" : "admin-topnav__link";
       return `<a class="${className}" href="${escapeAttr(item.href)}">${item.label}</a>`;
     })
     .join("");

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ManabuPlay — Mockup répartition des tiers</title>
+  <style>
+    :root {
+      --bg: #090811;
+      --panel: rgba(15, 12, 26, 0.94);
+      --panel-soft: rgba(255, 255, 255, 0.04);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(139, 92, 246, 0.28);
+      --text: #f4f2ff;
+      --muted: #9e98b8;
+      --cyan: #22d3ee;
+      --pink: #e879f9;
+      --violet: #a78bfa;
+      --easy: #22d3ee;
+      --mid: #facc15;
+      --hard: #fb923c;
+      --expert: #f87171;
+      --green: #4ade80;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% -10%, rgba(139, 92, 246, 0.22) 0%, transparent 70%),
+        radial-gradient(ellipse 35% 35% at 92% 14%, rgba(34, 211, 238, 0.14) 0%, transparent 60%),
+        var(--bg);
+      color: var(--text);
+      font: 500 18px/1.55 "Chakra Petch", "Segoe UI", sans-serif;
+      padding: 24px 12px 40px;
+    }
+
+    .wrap {
+      width: min(1400px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero,
+    .variant {
+      background: var(--panel);
+      border: 1px solid rgba(139, 92, 246, 0.18);
+      border-radius: 8px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+    }
+
+    .hero { padding: 20px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(34, 211, 238, 0.26);
+      background: rgba(34, 211, 238, 0.12);
+      color: var(--cyan);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    .hero h1 {
+      margin-top: 12px;
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.1;
+    }
+
+    .hero h1 span { color: var(--pink); }
+    .hero p { margin-top: 10px; max-width: 86ch; color: #c9c4de; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .variant {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .variant-head {
+      display: grid;
+      gap: 6px;
+    }
+
+    .variant-kicker {
+      color: var(--cyan);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .variant p {
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .cartouche {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--panel-soft);
+    }
+
+    .cartouche-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cartouche-label {
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .cartouche-value {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .tier-line {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .tier-line .easy { color: var(--easy); }
+    .tier-line .mid { color: var(--mid); }
+    .tier-line .hard { color: var(--hard); }
+    .tier-line .expert { color: var(--expert); }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .chip.easy { border-color: rgba(34, 211, 238, 0.24); background: rgba(34, 211, 238, 0.12); color: #d7fbff; }
+    .chip.mid { border-color: rgba(250, 204, 21, 0.28); background: rgba(250, 204, 21, 0.12); color: #fde68a; }
+    .chip.hard { border-color: rgba(251, 146, 60, 0.28); background: rgba(251, 146, 60, 0.12); color: #fed7aa; }
+    .chip.expert { border-color: rgba(248, 113, 113, 0.28); background: rgba(248, 113, 113, 0.12); color: #fecaca; }
+
+    .stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bar {
+      overflow: hidden;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+    }
+
+    .seg.easy { width: 33%; background: rgba(34, 211, 238, 0.9); }
+    .seg.mid { width: 27%; background: rgba(250, 204, 21, 0.9); }
+    .seg.hard { width: 23%; background: rgba(251, 146, 60, 0.92); }
+    .seg.expert { width: 17%; background: rgba(248, 113, 113, 0.92); }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 36px;
+      padding: 0 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--panel-soft);
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .legend-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .dot.easy { background: var(--easy); }
+    .dot.mid { background: var(--mid); }
+    .dot.hard { background: var(--hard); }
+    .dot.expert { background: var(--expert); }
+
+    .mock-note {
+      display: grid;
+      gap: 6px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--panel-soft);
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .mock-note strong { color: var(--text); }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+      .legend { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <span class="eyebrow">Mockup</span>
+      <h1>Répartition des <span>tiers</span></h1>
+      <p>Le but n’est pas seulement de montrer des pourcentages. Il faut que ça aide à lire un pack d’un coup, sans avoir l’air d’une ligne de debug. Les exemples ci-dessous partent d’un pack à 30 mots avec la répartition cible : 10 faciles, 8 moyens, 7 difficiles, 5 experts.</p>
+    </section>
+
+    <section class="grid">
+      <article class="variant">
+        <div class="variant-head">
+          <div class="variant-kicker">Option A</div>
+          <h2>Ligne éditoriale</h2>
+          <p>Version directe, proche d’un vrai cartouche produit. Lisible, peu technique, mais assez longue.</p>
+        </div>
+        <div class="cartouche">
+          <div class="tier-line">Mots : 30 · <span class="easy">Facile 33%</span> · <span class="mid">Moyen 27%</span> · <span class="hard">Difficile 23%</span> · <span class="expert">Expert 17%</span></div>
+        </div>
+        <div class="mock-note">
+          <strong>Intérêt :</strong> très naturel.
+          <span>On comprend tout sans connaître T1/T2/T3/T4.</span>
+        </div>
+      </article>
+
+      <article class="variant">
+        <div class="variant-head">
+          <div class="variant-kicker">Option B</div>
+          <h2>Ligne mixte</h2>
+          <p>On montre à la fois le nombre de mots et la part relative. Plus utile pour l’édition que pour le grand public.</p>
+        </div>
+        <div class="cartouche">
+          <div class="tier-line">30 mots · <span class="easy">10 faciles</span> · <span class="mid">8 moyens</span> · <span class="hard">7 difficiles</span> · <span class="expert">5 experts</span></div>
+          <div class="cartouche-line">
+            <span class="cartouche-label">Répartition</span>
+            <span class="cartouche-value">33% · 27% · 23% · 17%</span>
+          </div>
+        </div>
+        <div class="mock-note">
+          <strong>Intérêt :</strong> meilleur équilibre lecture / pilotage.
+          <span>Ça donne la densité réelle du pack, pas juste des pourcentages.</span>
+        </div>
+      </article>
+
+      <article class="variant">
+        <div class="variant-head">
+          <div class="variant-kicker">Option C</div>
+          <h2>Chips couleur</h2>
+          <p>Très admin, plus modulaire, bon quand l’espace horizontal est limité ou quand on veut scanner vite.</p>
+        </div>
+        <div class="cartouche">
+          <div class="tier-line">30 mots</div>
+          <div class="chips">
+            <span class="chip easy">10 faciles · 33%</span>
+            <span class="chip mid">8 moyens · 27%</span>
+            <span class="chip hard">7 difficiles · 23%</span>
+            <span class="chip expert">5 experts · 17%</span>
+          </div>
+        </div>
+        <div class="mock-note">
+          <strong>Intérêt :</strong> le plus robuste visuellement.
+          <span>Facile à réutiliser sur cartes pack, cartouches et futur quiz admin.</span>
+        </div>
+      </article>
+
+      <article class="variant">
+        <div class="variant-head">
+          <div class="variant-kicker">Option D</div>
+          <h2>Barre + légende</h2>
+          <p>La plus visuelle. Bonne si on veut sentir la densité du pack d’un coup, un peu moins compacte.</p>
+        </div>
+        <div class="stack">
+          <div class="bar">
+            <div class="seg easy"></div>
+            <div class="seg mid"></div>
+            <div class="seg hard"></div>
+            <div class="seg expert"></div>
+          </div>
+          <div class="legend">
+            <div class="legend-item">
+              <span class="legend-left"><span class="dot easy"></span>Facile</span>
+              <span>10 · 33%</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-left"><span class="dot mid"></span>Moyen</span>
+              <span>8 · 27%</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-left"><span class="dot hard"></span>Difficile</span>
+              <span>7 · 23%</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-left"><span class="dot expert"></span>Expert</span>
+              <span>5 · 17%</span>
+            </div>
+          </div>
+        </div>
+        <div class="mock-note">
+          <strong>Intérêt :</strong> très lisible et pédagogique.
+          <span>Probablement mieux pour la page d’accueil du lecteur que pour une petite card.</span>
+        </div>
+      </article>
+    </section>
+  </div>
+</body>
+</html>

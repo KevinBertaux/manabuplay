@@ -72,6 +72,21 @@ export type PackReaderPack = {
   themeId: string;
   status: string;
   targetWordCount: number;
+  tierBreakdown?: {
+    total: number;
+    counts: {
+      1: number;
+      2: number;
+      3: number;
+      4: number;
+    };
+    percents: {
+      1: number;
+      2: number;
+      3: number;
+      4: number;
+    };
+  };
   score?: {
     readiness?: {
       value: number;
@@ -157,6 +172,35 @@ const legacyQuizById = buildLegacyLookup();
 
 function readJson<T>(filePath: string): T {
   return JSON.parse(fs.readFileSync(filePath, "utf8")) as T;
+}
+
+function buildTierBreakdown(words: PackReaderWord[]) {
+  const counts = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+  };
+
+  for (const word of words) {
+    if (word.difficultyTier && word.difficultyTier >= 1 && word.difficultyTier <= 4) {
+      counts[word.difficultyTier] += 1;
+    }
+  }
+
+  const total = words.length;
+  const percents = {
+    1: total ? Math.round((counts[1] / total) * 100) : 0,
+    2: total ? Math.round((counts[2] / total) * 100) : 0,
+    3: total ? Math.round((counts[3] / total) * 100) : 0,
+    4: total ? Math.round((counts[4] / total) * 100) : 0,
+  };
+
+  return {
+    total,
+    counts,
+    percents,
+  };
 }
 
 function pickGlossDistractors(glosses: string[], correct: string, seed: number) {
@@ -312,6 +356,7 @@ export function getPackById(packId: string) {
 
   return {
     ...pack,
+    tierBreakdown: buildTierBreakdown(words),
     words,
   };
 }

@@ -17,28 +17,28 @@ function getMinProd(pack: (typeof packs)[number]) {
 function getReviewLabel(pack: (typeof packs)[number]) {
   switch (pack.score?.readiness?.reviewStatus) {
     case "validee":
-      return "Relecture validée";
+      return "validée";
     case "faite":
-      return "Relecture faite";
+      return "faite";
     case "partielle":
-      return "Relecture partielle";
+      return "partielle";
     case "non-relue":
-      return "Relecture non faite";
+      return "non faite";
     default:
-      return "Relecture n.c.";
+      return "n.c.";
   }
 }
 
 function getReleaseLabel(pack: (typeof packs)[number]) {
   switch (pack.score?.readiness?.releaseStatus) {
     case "prod":
-      return "PROD";
+      return "prod";
     case "preprod":
-      return "PRÉPROD";
+      return "préprod";
     case "dev":
-      return "DEV";
+      return "dev";
     default:
-      return "N.C.";
+      return "n.c.";
   }
 }
 
@@ -48,6 +48,15 @@ function getScoreTone(score: number | null) {
   if (score >= 90) return "good";
   if (score >= 75) return "mid";
   return "bad";
+}
+
+function formatDelta(value: number | null) {
+  if (value === null) return "n.c.";
+  return value === 0 ? "0" : `-${value}`;
+}
+
+function getTierBreakdown(pack: (typeof packs)[number]) {
+  return pack.tierBreakdown ?? null;
 }
 ---
 <!DOCTYPE html>
@@ -70,7 +79,7 @@ function getScoreTone(score: number | null) {
     .admin-title { margin:12px 0 8px; font-family:'Joystix',sans-serif; font-size:clamp(1.5rem,3vw,2.5rem); color:#fff; line-height:1.15; }
     .admin-title span { color:#e879f9; }
     .admin-copy { max-width:72ch; color:#c7c2df; font:500 1.1rem/1.68 'Rajdhani',sans-serif; }
-    .admin-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:16px; margin-bottom:16px; }
+    .admin-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-bottom:16px; }
     .tool-card { padding:16px; text-decoration:none; color:inherit; transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease; }
     .tool-card:hover { border-color:rgba(139,92,246,.42); transform:translateY(-2px); box-shadow:0 12px 28px rgba(139,92,246,.14); }
     .tool-kicker { color:#22d3ee; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
@@ -78,19 +87,26 @@ function getScoreTone(score: number | null) {
     .tool-copy { color:#a9a3c3; font:500 1.04rem/1.6 'Rajdhani',sans-serif; }
     .pack-list { padding:16px; }
     .pack-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:12px; }
-    .pack-card { padding:16px; border:1px solid rgba(255,255,255,.08); border-radius:8px; background:rgba(255,255,255,.04); text-decoration:none; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
+    .pack-card { display:grid; gap:10px; padding:16px; border:1px solid rgba(255,255,255,.08); border-radius:8px; background:rgba(255,255,255,.04); text-decoration:none; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
     .pack-card:hover { border-color:rgba(232,121,249,.38); background:rgba(232,121,249,.06); transform:translateY(-2px); }
-    .pack-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:6px; }
+    .pack-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
     .pack-name { color:#fff; font:700 1.16rem/1.25 'Rajdhani',sans-serif; }
     .pack-score { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; font:800 .92rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }
     .pack-score.na { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#8f8aa7; }
-    .pack-meta { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
-    .pack-chip { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(139,92,246,.22); background:rgba(139,92,246,.12); color:#a78bfa; font:700 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
-    .pack-strip { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-bottom:10px; }
-    .pack-strip-item { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:34px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; font:700 .86rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
+    .pack-summary { min-height:3em; color:#c7c2df; font:600 .98rem/1.5 'Rajdhani',sans-serif; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
+    .pack-meta { display:flex; gap:8px; flex-wrap:wrap; }
+    .pack-chip { display:inline-flex; align-items:center; height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(139,92,246,.22); background:rgba(139,92,246,.12); color:#a78bfa; font:700 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }
+    .pack-strip { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .pack-strip-item { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:36px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.03); color:#c7c2df; font:700 .84rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
     .pack-strip-label { color:#8f8aa7; text-transform:uppercase; }
     .pack-strip-value { color:#fff; text-align:right; }
-    .pack-desc { color:#a9a3c3; font:500 1rem/1.6 'Rajdhani',sans-serif; }
+    .pack-tiers { display:grid; gap:8px; }
+    .pack-tier-chips { display:flex; flex-wrap:wrap; gap:8px; }
+    .pack-tier-chip { display:inline-flex; align-items:center; min-height:30px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); color:#fff; font:800 .84rem/1 'Rajdhani',sans-serif; letter-spacing:.03em; white-space:nowrap; }
+    .pack-tier-chip.easy { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .pack-tier-chip.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .pack-tier-chip.hard { border-color:rgba(251,146,60,.28); background:rgba(251,146,60,.12); color:#fed7aa; }
+    .pack-tier-chip.expert { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
     @media (max-width:960px) {
       .admin-grid,.pack-grid { grid-template-columns:1fr; }
       .pack-strip { grid-template-columns:1fr; }
@@ -123,6 +139,11 @@ function getScoreTone(score: number | null) {
         <div class="tool-title">Mockups réponses</div>
         <p class="tool-copy">Comparatif visuel des variantes de cartes réponses avant intégration dans le reader ou le quiz.</p>
       </a>
+      <a class="admin-card tool-card" href="/admin/mockups/tier-breakdown">
+        <div class="tool-kicker">UI</div>
+        <div class="tool-title">Mockups tiers</div>
+        <p class="tool-copy">Comparatif visuel des façons d’afficher la répartition facile, moyen, difficile et expert dans les cartouches pack.</p>
+      </a>
       <a class="admin-card tool-card" href="/admin/fx-lab">
         <div class="tool-kicker">FX</div>
         <div class="tool-title">FX Lab</div>
@@ -141,6 +162,7 @@ function getScoreTone(score: number | null) {
       <div class="pack-grid">
         {packs.map((pack) => {
           const readiness = getReadiness(pack);
+          const tiers = getTierBreakdown(pack);
           return (
           <a class="pack-card" href={`/admin/packs/${pack.id}`}>
             <div class="pack-head">
@@ -149,10 +171,19 @@ function getScoreTone(score: number | null) {
                 {readiness === null ? "n.c." : `${readiness}/100`}
               </div>
             </div>
+            <p class="pack-summary">{pack.locales.fr.description}</p>
             <div class="pack-meta">
               <span class="pack-chip">{pack.targetWordCount} mots</span>
               <span class="pack-chip">{pack.themeId}</span>
               <span class="pack-chip">{pack.status}</span>
+            </div>
+            <div class="pack-tiers">
+              <div class="pack-tier-chips">
+                <span class="pack-tier-chip easy">{tiers ? `${tiers.counts[1]} faciles · ${tiers.percents[1]}%` : "T1 n.c."}</span>
+                <span class="pack-tier-chip mid">{tiers ? `${tiers.counts[2]} moyens · ${tiers.percents[2]}%` : "T2 n.c."}</span>
+                <span class="pack-tier-chip hard">{tiers ? `${tiers.counts[3]} difficiles · ${tiers.percents[3]}%` : "T3 n.c."}</span>
+                <span class="pack-tier-chip expert">{tiers ? `${tiers.counts[4]} experts · ${tiers.percents[4]}%` : "T4 n.c."}</span>
+              </div>
             </div>
             <div class="pack-strip">
               <div class="pack-strip-item">
@@ -165,14 +196,13 @@ function getScoreTone(score: number | null) {
               </div>
               <div class="pack-strip-item">
                 <span class="pack-strip-label">Delta prod</span>
-                <span class="pack-strip-value">{readiness === null ? "n.c." : `-${Math.max(0, getMinProd(pack) - readiness)}`}</span>
+                <span class="pack-strip-value">{formatDelta(readiness === null ? null : Math.max(0, getMinProd(pack) - readiness))}</span>
               </div>
               <div class="pack-strip-item">
                 <span class="pack-strip-label">Delta max</span>
-                <span class="pack-strip-value">{readiness === null ? "n.c." : `-${100 - readiness}`}</span>
+                <span class="pack-strip-value">{formatDelta(readiness === null ? null : 100 - readiness)}</span>
               </div>
             </div>
-            <p class="pack-desc">{pack.locales.fr.description}</p>
           </a>
           );
         })}

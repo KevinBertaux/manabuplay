@@ -148,6 +148,15 @@ function getMissingToProd() {
   return score === null ? null : Math.max(0, min - score);
 }
 
+function formatDelta(value: number | null) {
+  if (value === null) return "n.c.";
+  return value === 0 ? "0" : `-${value}`;
+}
+
+function getTierBreakdown() {
+  return activePack.tierBreakdown ?? null;
+}
+
 function getTierLabel(word: PackReaderWord) {
   switch (word.difficultyTier) {
     case 1:
@@ -232,6 +241,14 @@ function getTierTone(word: PackReaderWord) {
     .reader-cartouche-cell { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:36px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; font:700 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
     .reader-cartouche-label { color:#8f8aa7; text-transform:uppercase; }
     .reader-cartouche-value { color:#fff; text-align:right; }
+    .reader-cartouche-tiers { display:grid; gap:8px; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
+    .reader-cartouche-tiers-total { color:#fff; font:800 1rem/1.2 'Rajdhani',sans-serif; letter-spacing:.03em; }
+    .reader-cartouche-tier-chips { display:flex; flex-wrap:wrap; gap:8px; }
+    .reader-cartouche-tier-chip { display:inline-flex; align-items:center; min-height:32px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); color:#fff; font:800 .86rem/1 'Rajdhani',sans-serif; letter-spacing:.03em; white-space:nowrap; }
+    .reader-cartouche-tier-chip.easy { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .reader-cartouche-tier-chip.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .reader-cartouche-tier-chip.hard { border-color:rgba(251,146,60,.28); background:rgba(251,146,60,.12); color:#fed7aa; }
+    .reader-cartouche-tier-chip.expert { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
     .reader-cartouche-breakdown { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; }
     .reader-break-item { display:grid; gap:6px; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
     .reader-break-label { color:#8f8aa7; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
@@ -325,6 +342,10 @@ function getTierTone(word: PackReaderWord) {
 
       <div class="reader-main">
         <section class="reader-cartouche">
+          {(() => {
+            const tiers = getTierBreakdown();
+            return (
+              <>
           <div class="reader-cartouche-head">
             <div>
               <div class="reader-cartouche-title">Cartouche pack</div>
@@ -341,11 +362,11 @@ function getTierTone(word: PackReaderWord) {
             </div>
             <div class="reader-cartouche-cell">
               <span class="reader-cartouche-label">Delta prod</span>
-              <span class="reader-cartouche-value">{getMissingToProd() === null ? "n.c." : `-${getMissingToProd()}`}</span>
+              <span class="reader-cartouche-value">{formatDelta(getMissingToProd())}</span>
             </div>
             <div class="reader-cartouche-cell">
               <span class="reader-cartouche-label">Delta max</span>
-              <span class="reader-cartouche-value">{getMissingToMax() === null ? "n.c." : `-${getMissingToMax()}`}</span>
+              <span class="reader-cartouche-value">{formatDelta(getMissingToMax())}</span>
             </div>
             <div class="reader-cartouche-cell">
               <span class="reader-cartouche-label">Relecture</span>
@@ -360,28 +381,40 @@ function getTierTone(word: PackReaderWord) {
               <span class="reader-cartouche-value">{activePack.score?.readiness?.readyForProd ? "OK" : "BLOQUÉ"}</span>
             </div>
           </div>
+          <div class="reader-cartouche-tiers">
+            <div class="reader-cartouche-tiers-total">{activePack.targetWordCount} mots</div>
+            <div class="reader-cartouche-tier-chips">
+              <span class="reader-cartouche-tier-chip easy">{tiers ? `${tiers.counts[1]} faciles · ${tiers.percents[1]}%` : "T1 n.c."}</span>
+              <span class="reader-cartouche-tier-chip mid">{tiers ? `${tiers.counts[2]} moyens · ${tiers.percents[2]}%` : "T2 n.c."}</span>
+              <span class="reader-cartouche-tier-chip hard">{tiers ? `${tiers.counts[3]} difficiles · ${tiers.percents[3]}%` : "T3 n.c."}</span>
+              <span class="reader-cartouche-tier-chip expert">{tiers ? `${tiers.counts[4]} experts · ${tiers.percents[4]}%` : "T4 n.c."}</span>
+            </div>
+          </div>
           <div class="reader-cartouche-breakdown">
             <div class="reader-break-item">
-              <span class="reader-break-label">Taille /15</span>
+              <span class="reader-break-label">Taille : 15 points</span>
               <span class="reader-break-value">{activePack.score?.readiness?.breakdown.packSize ?? "n.c."}/15</span>
             </div>
             <div class="reader-break-item">
-              <span class="reader-break-label">Tiers /15</span>
+              <span class="reader-break-label">Tiers : 15 points</span>
               <span class="reader-break-value">{activePack.score?.readiness?.breakdown.tierFit ?? "n.c."}/15</span>
             </div>
             <div class="reader-break-item">
-              <span class="reader-break-label">Contenu /40</span>
+              <span class="reader-break-label">Contenu : 40 points</span>
               <span class="reader-break-value">{activePack.score?.readiness?.breakdown.contentCompleteness ?? "n.c."}/40</span>
             </div>
             <div class="reader-break-item">
-              <span class="reader-break-label">Qualité quiz /15</span>
+              <span class="reader-break-label">Qualité quiz : 15 points</span>
               <span class="reader-break-value">{activePack.score?.readiness?.breakdown.quizQuality ?? "n.c."}/15</span>
             </div>
             <div class="reader-break-item">
-              <span class="reader-break-label">Relecture /15</span>
+              <span class="reader-break-label">Relecture : 15 points</span>
               <span class="reader-break-value">{activePack.score?.readiness?.breakdown.editorialReview ?? "n.c."}/15</span>
             </div>
           </div>
+              </>
+            );
+          })()}
         </section>
 
         <div class="reader-grid">
