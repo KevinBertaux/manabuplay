@@ -2,9 +2,350 @@
   "version": "v0.x-roadmap",
   "status": "candidate",
   "notes": [
-    "Projection courte des packs à ouvrir après la v0.1.",
-    "Les mots déjà présents dans le stock actuel sont répartis ici pour ne pas être perdus.",
-    "Chaque pack pourra être élargi ensuite selon les besoins produit et SEO."
+    "Catalogue de mots réutilisables pour les packs après la v0.1.",
+    "Chaque entrée indique si le mot existe déjà dans le stock actuel ou s'il vient d'un distracteur jugé assez solide pour devenir un vrai mot plus tard.",
+    "Un mot peut pointer vers plusieurs packs possibles sans être encore confirmé."
+  ],
+  "candidateWords": [
+    {
+      "id": "gacha",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "gacha",
+      "jp": "ガチャ",
+      "assist": "Gacha",
+      "locales": {
+        "fr": {
+          "label": "Gacha"
+        },
+        "en": {
+          "label": "Gacha"
+        }
+      },
+      "candidatePackIds": [
+        "gacha-live-service"
+      ]
+    },
+    {
+      "id": "free-to-play",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "free-to-play",
+      "jp": "フリプレ",
+      "assist": "Free-to-Play",
+      "locales": {
+        "fr": {
+          "label": "Free-to-play"
+        },
+        "en": {
+          "label": "Free-to-play"
+        }
+      },
+      "candidatePackIds": [
+        "gacha-live-service"
+      ]
+    },
+    {
+      "id": "cheat",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "chito-cheat",
+      "jp": "チート",
+      "assist": "Chīto / Cheat",
+      "locales": {
+        "fr": {
+          "label": "Cheat"
+        },
+        "en": {
+          "label": "Cheat"
+        }
+      },
+      "candidatePackIds": [
+        "arcade-secrets-and-meta"
+      ]
+    },
+    {
+      "id": "lives-stock",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "zanki",
+      "jp": "残機",
+      "assist": "Zanki",
+      "locales": {
+        "fr": {
+          "label": "Stock de vies"
+        },
+        "en": {
+          "label": "Lives stock"
+        }
+      },
+      "candidatePackIds": [
+        "arcade-secrets-and-meta"
+      ]
+    },
+    {
+      "id": "hidden-character",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "kakushi-kara",
+      "jp": "隠しキャラ",
+      "assist": "Kakushi Kara",
+      "locales": {
+        "fr": {
+          "label": "Personnage caché"
+        },
+        "en": {
+          "label": "Hidden character"
+        }
+      },
+      "candidatePackIds": [
+        "arcade-secrets-and-meta"
+      ]
+    },
+    {
+      "id": "curse",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "noroi",
+      "jp": "呪い",
+      "assist": "Noroi",
+      "locales": {
+        "fr": {
+          "label": "Malédiction"
+        },
+        "en": {
+          "label": "Curse"
+        }
+      },
+      "candidatePackIds": [
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "legend",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "densetsu",
+      "jp": "伝説",
+      "assist": "Densetsu",
+      "locales": {
+        "fr": {
+          "label": "Légende"
+        },
+        "en": {
+          "label": "Legend"
+        }
+      },
+      "candidatePackIds": [
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "stealth",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "onmitsu",
+      "jp": "隠密",
+      "assist": "Onmitsu",
+      "locales": {
+        "fr": {
+          "label": "Furtivité"
+        },
+        "en": {
+          "label": "Stealth"
+        }
+      },
+      "candidatePackIds": [
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "spell",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Sort"
+        },
+        "en": {
+          "label": "Spell"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "equipment",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Équipement"
+        },
+        "en": {
+          "label": "Equipment"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment"
+      ]
+    },
+    {
+      "id": "summon",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Invocation"
+        },
+        "en": {
+          "label": "Summon"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "strategy",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Stratégie"
+        },
+        "en": {
+          "label": "Strategy"
+        }
+      },
+      "candidatePackIds": [
+        "arcade-secrets-and-meta",
+        "combat-and-boss"
+      ]
+    },
+    {
+      "id": "reward",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Récompense"
+        },
+        "en": {
+          "label": "Reward"
+        }
+      },
+      "candidatePackIds": [
+        "gacha-live-service",
+        "arcade-secrets-and-meta"
+      ]
+    },
+    {
+      "id": "guild",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Guilde"
+        },
+        "en": {
+          "label": "Guild"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "ambush",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Embuscade"
+        },
+        "en": {
+          "label": "Ambush"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "key-item",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Objet clé"
+        },
+        "en": {
+          "label": "Key item"
+        }
+      },
+      "candidatePackIds": [
+        "arcade-secrets-and-meta",
+        "japan-pop-city-daily-life"
+      ]
+    },
+    {
+      "id": "nation",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Nation"
+        },
+        "en": {
+          "label": "Nation"
+        }
+      },
+      "candidatePackIds": [
+        "dark-fantasy-legends-and-stealth",
+        "japan-pop-city-daily-life"
+      ]
+    },
+    {
+      "id": "fortress",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Forteresse"
+        },
+        "en": {
+          "label": "Fortress"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "hero",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Héros"
+        },
+        "en": {
+          "label": "Hero"
+        }
+      },
+      "candidatePackIds": [
+        "anime-codes",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    }
   ],
   "packs": [
     {
@@ -20,17 +361,10 @@
           "name": "Gacha & Live Service"
         }
       },
-      "seedWords": [
-        {
-          "jp": "ガチャ",
-          "assist": "Gacha",
-          "existingWordId": "gacha"
-        },
-        {
-          "jp": "フリプレ",
-          "assist": "Free-to-Play",
-          "existingWordId": "free-to-play"
-        }
+      "candidateWordIds": [
+        "gacha",
+        "free-to-play",
+        "reward"
       ],
       "plannedWords": [
         "課金",
@@ -58,22 +392,12 @@
           "name": "Arcade, Secrets & Meta"
         }
       },
-      "seedWords": [
-        {
-          "jp": "チート",
-          "assist": "Chīto / Cheat",
-          "existingWordId": "chito-cheat"
-        },
-        {
-          "jp": "残機",
-          "assist": "Zanki",
-          "existingWordId": "zanki"
-        },
-        {
-          "jp": "隠しキャラ",
-          "assist": "Kakushi Kara",
-          "existingWordId": "kakushi-kara"
-        }
+      "candidateWordIds": [
+        "cheat",
+        "lives-stock",
+        "hidden-character",
+        "strategy",
+        "key-item"
       ],
       "plannedWords": [
         "裏技",
@@ -101,22 +425,17 @@
           "name": "Dark Fantasy, Legends & Stealth"
         }
       },
-      "seedWords": [
-        {
-          "jp": "呪い",
-          "assist": "Noroi",
-          "existingWordId": "noroi"
-        },
-        {
-          "jp": "伝説",
-          "assist": "Densetsu",
-          "existingWordId": "densetsu"
-        },
-        {
-          "jp": "隠密",
-          "assist": "Onmitsu",
-          "existingWordId": "onmitsu"
-        }
+      "candidateWordIds": [
+        "curse",
+        "legend",
+        "stealth",
+        "spell",
+        "summon",
+        "guild",
+        "ambush",
+        "nation",
+        "fortress",
+        "hero"
       ],
       "plannedWords": [
         "忍者",
@@ -131,5 +450,28 @@
         "伝承"
       ]
     }
+  ],
+  "rejectedDistractors": [
+    "Argent du jeu",
+    "Objet de soin",
+    "Renforcement",
+    "Secret caché",
+    "Victoire en combat",
+    "Effet passif",
+    "Combo d'attaque",
+    "Mission confiée",
+    "Repos à l'auberge",
+    "Journal de quêtes",
+    "Classe de personnage",
+    "Tableau de missions",
+    "Début du combat",
+    "Piège de donjon",
+    "Menu boutique",
+    "Sac d'équipement",
+    "Point de sauvegarde",
+    "Zone de quête",
+    "Zone de départ",
+    "Membre de l'équipe",
+    "Combattant de guilde"
   ]
 }

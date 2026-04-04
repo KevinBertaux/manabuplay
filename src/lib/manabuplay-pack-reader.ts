@@ -47,10 +47,22 @@ export type PackReaderWord = {
     };
   };
   quizPreview?: {
-    correct: string;
-    distractors: string[];
-    answers: string[];
-    correctIndex: number;
+    correct: {
+      fr: string;
+      en: string;
+    };
+    distractors: {
+      fr: string[];
+      en: string[];
+    };
+    answers: {
+      fr: string[];
+      en: string[];
+    };
+    correctIndex: {
+      fr: number;
+      en: number;
+    };
   };
 };
 
@@ -202,6 +214,41 @@ function shuffleAnswers(correct: string, distractors: string[], seedSource: stri
   };
 }
 
+function shuffleParallelAnswers(
+  correctFr: string,
+  distractorsFr: string[],
+  correctEn: string,
+  distractorsEn: string[],
+  seedSource: string,
+) {
+  const entries = [
+    {
+      fr: correctFr,
+      en: correctEn,
+      correct: true,
+    },
+    ...distractorsFr.slice(0, 3).map((fr, index) => ({
+      fr,
+      en: distractorsEn[index] || distractorsEn[0] || "Distractor to write.",
+      correct: false,
+    })),
+  ];
+  const random = mulberry32(hashSeed(seedSource));
+
+  for (let index = entries.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(random() * (index + 1));
+    [entries[index], entries[swapIndex]] = [entries[swapIndex], entries[index]];
+  }
+
+  return {
+    answers: {
+      fr: entries.map((entry) => entry.fr),
+      en: entries.map((entry) => entry.en),
+    },
+    correctIndex: entries.findIndex((entry) => entry.correct),
+  };
+}
+
 export function getPackIndex() {
   return readJson<PackIndex>(path.join(packsRoot, "index.json"));
 }
@@ -220,23 +267,45 @@ export function getPackById(packId: string) {
 
   const words = pack.words.map((word, index) => {
     const legacy = word.existingWordId ? legacyQuizById.get(word.existingWordId) : null;
-    const correct = word.gloss?.fr || word.meaning?.fr || legacy?.correct.fr || "Réponse à écrire.";
-    const distractors =
+    const correctFr = word.gloss?.fr || word.meaning?.fr || legacy?.correct.fr || "Réponse à écrire.";
+    const correctEn = word.gloss?.en || word.meaning?.en || legacy?.correct.en || "Answer to write.";
+    const distractorsFr =
       word.quiz?.distractors?.fr?.slice(0, 3) ||
-      pickGlossDistractors(packGlosses, correct, index * 2);
-    const shuffled = shuffleAnswers(
-      correct,
-      distractors,
-      `${pack.id}:${word.existingWordId || word.order}:${correct}`,
+      pickGlossDistractors(packGlosses, correctFr, index * 2);
+    const distractorsEn =
+      word.quiz?.distractors?.en?.slice(0, 3) ||
+      legacy?.wrong.en?.slice(0, 3) ||
+      pickGlossDistractors(
+        pack.words
+          .map((candidate) => candidate.gloss?.en || candidate.meaning?.en)
+          .filter((gloss): gloss is string => Boolean(gloss)),
+        correctEn,
+        index * 3,
+      );
+    const shuffled = shuffleParallelAnswers(
+      correctFr,
+      distractorsFr,
+      correctEn,
+      distractorsEn,
+      `${pack.id}:${word.existingWordId || word.order}:${correctFr}:${correctEn}`,
     );
 
     return {
       ...word,
       quizPreview: {
-        correct,
-        distractors,
+        correct: {
+          fr: correctFr,
+          en: correctEn,
+        },
+        distractors: {
+          fr: distractorsFr,
+          en: distractorsEn,
+        },
         answers: shuffled.answers,
-        correctIndex: shuffled.correctIndex,
+        correctIndex: {
+          fr: shuffled.correctIndex,
+          en: shuffled.correctIndex,
+        },
       },
     };
   });

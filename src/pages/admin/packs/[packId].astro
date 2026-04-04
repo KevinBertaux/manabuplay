@@ -46,6 +46,20 @@ function getDefinition(word: PackReaderWord) {
   return word.definition?.fr || word.gloss?.fr || word.meaning?.fr || "Définition à écrire.";
 }
 
+function getMeaningByLang(word: PackReaderWord) {
+  return {
+    fr: word.gloss?.fr || word.meaning?.fr || "Contenu à enrichir.",
+    en: word.gloss?.en || word.meaning?.en || "Content to enrich.",
+  };
+}
+
+function getDefinitionByLang(word: PackReaderWord) {
+  return {
+    fr: word.definition?.fr || word.gloss?.fr || word.meaning?.fr || "Définition à écrire.",
+    en: word.definition?.en || word.gloss?.en || word.meaning?.en || "Definition to write.",
+  };
+}
+
 function getHintOne(word: PackReaderWord) {
   return word.hints?.hint1?.fr || "Hint 1 à écrire.";
 }
@@ -56,6 +70,27 @@ function getHintTwo(word: PackReaderWord) {
 
 function getExplanation(word: PackReaderWord) {
   return word.explanation?.fr || "Explanation à écrire.";
+}
+
+function getHintOneByLang(word: PackReaderWord) {
+  return {
+    fr: word.hints?.hint1?.fr || "Hint 1 à écrire.",
+    en: word.hints?.hint1?.en || "Hint 1 to write.",
+  };
+}
+
+function getHintTwoByLang(word: PackReaderWord) {
+  return {
+    fr: word.hints?.hint2?.fr || "Hint 2 à écrire.",
+    en: word.hints?.hint2?.en || "Hint 2 to write.",
+  };
+}
+
+function getExplanationByLang(word: PackReaderWord) {
+  return {
+    fr: word.explanation?.fr || "Explanation à écrire.",
+    en: word.explanation?.en || "Explanation to write.",
+  };
 }
 
 function getScoreTone(score: number | null) {
@@ -351,7 +386,7 @@ function getTierTone(word: PackReaderWord) {
 
         <div class="reader-grid">
           {activePack.words.map((word) => (
-          <article class="review-card" data-admin-card data-state="revealed" data-correct-index={word.quizPreview?.correctIndex ?? 0} data-selected-index={word.quizPreview?.correctIndex ?? 0} tabindex="0">
+          <article class="review-card" data-admin-card data-state="revealed" data-correct-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-correct-index-en={word.quizPreview?.correctIndex.en ?? 0} data-selected-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-selected-index-en={word.quizPreview?.correctIndex.en ?? 0} tabindex="0">
             <div class="review-meta">
               <div class="review-meta-left">
                 <span class="review-order">Mot {word.order}</span>
@@ -370,46 +405,48 @@ function getTierTone(word: PackReaderWord) {
             </div>
 
             <div class="review-section">
-              <p class="review-question">Que signifie ce mot ici ?</p>
+              <p class="review-question">
+                <span data-admin-i18n data-admin-fr="Que signifie ce mot ici ?" data-admin-en="What does this word mean here?">Que signifie ce mot ici ?</span>
+              </p>
             </div>
 
             <div class="review-section" data-revealed-only>
-              <span class="review-label">Hints révélés</span>
+              <span class="review-label"><span data-admin-i18n data-admin-fr="Hints révélés" data-admin-en="Revealed hints">Hints révélés</span></span>
               <div class="review-hints">
-                <div class="review-hint">1. {getHintOne(word)}</div>
-                <div class="review-hint">2. {getHintTwo(word)}</div>
+                <div class="review-hint"><span class="review-hint-prefix">1.</span> <span data-admin-i18n data-admin-fr={getHintOneByLang(word).fr} data-admin-en={getHintOneByLang(word).en}>{getHintOne(word)}</span></div>
+                <div class="review-hint"><span class="review-hint-prefix">2.</span> <span data-admin-i18n data-admin-fr={getHintTwoByLang(word).fr} data-admin-en={getHintTwoByLang(word).en}>{getHintTwo(word)}</span></div>
               </div>
             </div>
 
             <div class="review-section">
-              <span class="review-label">Réponses</span>
+              <span class="review-label"><span data-admin-i18n data-admin-fr="Réponses" data-admin-en="Answers">Réponses</span></span>
               <div class="review-answers">
-                {word.quizPreview?.answers.map((answer, answerIndex) => (
+                {word.quizPreview?.answers.fr.map((answer, answerIndex) => (
                   <button
                     class="answer-btn"
                     type="button"
                     data-answer-index={answerIndex}
                   >
                     <span class="answer-key">{answerIndex + 1}</span>
-                    <span class="answer-copy">{answer}</span>
+                    <span class="answer-copy" data-admin-i18n data-admin-fr={answer} data-admin-en={word.quizPreview?.answers.en[answerIndex] || answer}>{answer}</span>
                   </button>
                 )) || (
                   <button class="answer-btn" type="button" data-answer-index="0">
                     <span class="answer-key">1</span>
-                    <span class="answer-copy">{getMeaning(word)}</span>
+                    <span class="answer-copy" data-admin-i18n data-admin-fr={getMeaningByLang(word).fr} data-admin-en={getMeaningByLang(word).en}>{getMeaning(word)}</span>
                   </button>
                 )}
               </div>
             </div>
 
             <div class="review-section review-definition-section" data-revealed-only>
-              <span class="review-label">Définition</span>
-              <div class="review-definition">{getDefinition(word)}</div>
+              <span class="review-label"><span data-admin-i18n data-admin-fr="Définition" data-admin-en="Definition">Définition</span></span>
+              <div class="review-definition" data-admin-i18n data-admin-fr={getDefinitionByLang(word).fr} data-admin-en={getDefinitionByLang(word).en}>{getDefinition(word)}</div>
             </div>
 
             <div class="review-section review-exp-section" data-revealed-only>
-              <span class="review-label">Explication</span>
-              <div class="review-exp">{getExplanation(word)}</div>
+              <span class="review-label"><span data-admin-i18n data-admin-fr="Explication" data-admin-en="Explanation">Explication</span></span>
+              <div class="review-exp" data-admin-i18n data-admin-fr={getExplanationByLang(word).fr} data-admin-en={getExplanationByLang(word).en}>{getExplanation(word)}</div>
             </div>
           </article>
           ))}
@@ -422,6 +459,34 @@ function getTierTone(word: PackReaderWord) {
     const scrollTopButton = document.querySelector(".reader-scrolltop");
     const bulkToggle = document.querySelector("[data-toggle-all]");
     let activeCard = null;
+    let adminLang = document.documentElement.lang === "fr" ? "fr" : "en";
+
+    function getCorrectIndex(card) {
+      return Number(card.dataset[`correctIndex${adminLang === "fr" ? "Fr" : "En"}`] ?? "-1");
+    }
+
+    function getSelectedIndex(card) {
+      return Number(card.dataset[`selectedIndex${adminLang === "fr" ? "Fr" : "En"}`] ?? "-1");
+    }
+
+    function setSelectedIndex(card, value) {
+      card.dataset[`selectedIndex${adminLang === "fr" ? "Fr" : "En"}`] = String(value);
+    }
+
+    function applyAdminLang(nextLang) {
+      adminLang = nextLang === "fr" ? "fr" : "en";
+      document.querySelectorAll("[data-admin-i18n]").forEach((node) => {
+        if (!(node instanceof HTMLElement)) {
+          return;
+        }
+        node.textContent = adminLang === "fr" ? node.dataset.adminFr || "" : node.dataset.adminEn || node.dataset.adminFr || "";
+      });
+      document.querySelectorAll("[data-admin-card]").forEach((card) => {
+        if (card instanceof HTMLElement) {
+          syncAnswerState(card);
+        }
+      });
+    }
 
     function syncBulkToggle() {
       if (!(bulkToggle instanceof HTMLButtonElement)) {
@@ -452,8 +517,8 @@ function getTierTone(word: PackReaderWord) {
 
     function syncAnswerState(card) {
       const pristine = card.dataset.state === "pristine";
-      const selectedIndex = pristine ? -1 : Number(card.dataset.selectedIndex ?? "-1");
-      const correctIndex = Number(card.dataset.correctIndex ?? "-1");
+      const selectedIndex = pristine ? -1 : getSelectedIndex(card);
+      const correctIndex = getCorrectIndex(card);
 
       card.querySelectorAll("[data-answer-index]").forEach((button) => {
         if (!(button instanceof HTMLButtonElement)) {
@@ -483,9 +548,15 @@ function getTierTone(word: PackReaderWord) {
     function applyCardState(card, state) {
       card.dataset.state = state;
       if (state === "pristine") {
-        delete card.dataset.selectedIndex;
-      } else if (!card.dataset.selectedIndex) {
-        card.dataset.selectedIndex = card.dataset.correctIndex || "0";
+        delete card.dataset.selectedIndexFr;
+        delete card.dataset.selectedIndexEn;
+      } else {
+        if (!card.dataset.selectedIndexFr) {
+          card.dataset.selectedIndexFr = card.dataset.correctIndexFr || "0";
+        }
+        if (!card.dataset.selectedIndexEn) {
+          card.dataset.selectedIndexEn = card.dataset.correctIndexEn || "0";
+        }
       }
       syncCardState(card);
       syncAnswerState(card);
@@ -536,7 +607,7 @@ function getTierTone(word: PackReaderWord) {
 
         setActiveCard(card);
         card.dataset.state = "revealed";
-        card.dataset.selectedIndex = button.dataset.answerIndex || "0";
+        setSelectedIndex(card, button.dataset.answerIndex || "0");
         syncCardState(card);
         syncAnswerState(card);
         const toggle = card.querySelector("[data-toggle-card]");
@@ -567,6 +638,13 @@ function getTierTone(word: PackReaderWord) {
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }
+
+    window.addEventListener("adminlangchange", (event) => {
+      const nextLang = event instanceof CustomEvent ? event.detail?.lang : null;
+      applyAdminLang(nextLang === "fr" ? "fr" : "en");
+    });
+
+    applyAdminLang(adminLang);
 
     document.addEventListener("keydown", (event) => {
       const target = event.target;

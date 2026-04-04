@@ -17,12 +17,26 @@
 - [x] Polices locales.
 - [x] Charte graphique + FX Lab dans `docs/`.
 - [x] Règles UI et garde-fous visuels outillés.
+- [x] Routes admin Astro pour la charte, le FX Lab, le lecteur et les mockups.
+- [x] Lecteur de pack admin avec vue continue, réponses, hints, définition et explication.
+- [x] Switch EN / FR branché sur le lecteur admin.
+- [x] Mockup admin pour comparer les variantes de cartes réponses.
 
 ### Socle technique retenu
 - [x] Catalogue évolutif basé sur `words`, `packs`, `packEntries`, `releases`.
 - [x] Les packs peuvent partager les mêmes mots sans duplication.
-- [x] `meaning` court + `explanation` plus riche.
+- [x] `gloss` court + `definition` + `explanation`.
 - [x] 2 hints max par mot / pack.
+- [x] `difficultyTier` sur 4 niveaux par mot.
+- [x] Répartition pack cible par défaut pour `30` mots : `10 / 8 / 7 / 5`.
+- [x] Le quiz tirera les mots par tiers. Le pack fournit la matière, le quiz compose la session.
+
+### Contenu pack-first
+- [x] Pack `JRPG essentiels` monté à `30` mots.
+- [x] Pack `JRPG essentiels` relu en FR / EN.
+- [x] Distracteurs du pack 1 repris avec une logique plus homogène.
+- [x] Score pack 1 mis à `94/100`.
+- [x] Catalogue roadmap séparé pour les mots existants mis de côté et les distracteurs promus.
 
 ### À finir avant une vraie 0.1
 - [ ] Passer réellement à 2 polices max sur le site.
@@ -86,6 +100,7 @@
 ## v0.x — Confort Utilisateur
 - [ ] Option `romaji simplifié` / `romaji strict`.
 - [ ] Stocker cette préférence côté compte quand le cloud sera en place.
+- [ ] Introduire plus tard un statut de validation par usage réel des mots si les métriques quiz le justifient.
 
 ---
 
@@ -103,6 +118,9 @@
 - [ ] Les mots pourront être générés par IA, puis relus avant publication.
 - [ ] `normalizeAssistForDisplay` est une béquille temporaire.
 - [ ] Objectif : afficher une romanisation propre sans dégrader la donnée source.
+- [ ] `1 pack public = 1 promesse claire`. La réutilisation multi-pack reste possible en interne, mais pas comme complexité visible au début.
+- [ ] Les thèmes sont gardés en arrière-plan. Le public voit surtout les packs.
+- [ ] `30` mots par pack est la cible de base retenue pour éviter un produit trop pauvre.
 - [ ] Les release notes devront pouvoir annoncer :
   nombre de nouveaux mots,
   nombre d’ajouts de mots dans les packs,

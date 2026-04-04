@@ -70,7 +70,7 @@ function getScoreTone(score: number | null) {
     .admin-title { margin:12px 0 8px; font-family:'Joystix',sans-serif; font-size:clamp(1.5rem,3vw,2.5rem); color:#fff; line-height:1.15; }
     .admin-title span { color:#e879f9; }
     .admin-copy { max-width:72ch; color:#c7c2df; font:500 1.1rem/1.68 'Rajdhani',sans-serif; }
-    .admin-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-bottom:16px; }
+    .admin-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:16px; margin-bottom:16px; }
     .tool-card { padding:16px; text-decoration:none; color:inherit; transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease; }
     .tool-card:hover { border-color:rgba(139,92,246,.42); transform:translateY(-2px); box-shadow:0 12px 28px rgba(139,92,246,.14); }
     .tool-kicker { color:#22d3ee; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
@@ -112,6 +112,11 @@ function getScoreTone(score: number | null) {
         <div class="tool-kicker">Pack Reader</div>
         <div class="tool-title">Lecteur de pack</div>
         <p class="tool-copy">Vue continue de toutes les cartes d’un pack, avec hints révélés et bonne réponse affichée.</p>
+      </a>
+      <a class="admin-card tool-card" href="/admin/catalog">
+        <div class="tool-kicker">Catalogue</div>
+        <div class="tool-title">Mots futurs</div>
+        <p class="tool-copy">Catalogue des mots existants mis de côté et des distracteurs assez solides pour nourrir les packs v0.2+.</p>
       </a>
       <a class="admin-card tool-card" href="/admin/mockups/answer-cards">
         <div class="tool-kicker">UI</div>
