@@ -44,7 +44,7 @@
         "hint2": { "fr": "C'est une chaîne de coups, pas une seule attaque.", "en": "It is a chain of hits, not a single strike." }
       },
       "explanation": { "fr": "Ce mot désigne un combo ou un enchaînement technique. Il est très courant dans les jeux de combat et les RPG d'action.", "en": "This word refers to a combo or technical string. It is very common in fighting games and action RPGs." },
-      "quiz": { "distractors": { "fr": ["Attaque coordonnée", "Contre-attaque", "Coup final"], "en": ["Coordinated attack", "Counterattack", "Finishing move"] } },
+      "quiz": { "distractors": { "fr": ["Coopération", "Contre-attaque", "Coup final"], "en": ["Cooperation", "Counterattack", "Finishing move"] } },
       "difficultyTier": 1
     },
     {
@@ -100,7 +100,7 @@
         "hint2": { "fr": "Les héros partent souvent en voyage pour le vaincre.", "en": "Heroes often set out on a journey to defeat one." }
       },
       "explanation": { "fr": "Ce mot désigne le démon roi, une figure classique du RPG japonais. Il peut être le boss final ou l'ombre qui plane sur tout le scénario.", "en": "This word refers to the demon king, a classic figure in Japanese RPGs. It can be the final boss or the shadow looming over the whole story." },
-      "quiz": { "distractors": { "fr": ["Boss", "Dragon", "Tyran fantasy"], "en": ["Boss", "Dragon", "Fantasy tyrant"] } },
+      "quiz": { "distractors": { "fr": ["Boss", "Dragon", "Seigneur noir"], "en": ["Boss", "Dragon", "Dark lord"] } },
       "difficultyTier": 2
     },
     {
@@ -121,13 +121,13 @@
       "order": 8,
       "existingWordId": "renkei",
       "jp": { "term": "連携", "reading": "れんけい", "romaji": "renkei" },
-      "gloss": { "fr": "Attaque liée", "en": "Linked attack" },
-      "definition": { "fr": "Action coordonnée entre plusieurs personnages pour produire un effet plus fort.", "en": "Coordinated action between several characters to produce a stronger effect." },
+      "gloss": { "fr": "Coopération", "en": "Cooperation" },
+      "definition": { "fr": "Action coordonnée entre plusieurs alliés pour renforcer une attaque, une défense ou un effet de combat.", "en": "Coordinated action between several allies to strengthen an attack, a defense or a battle effect." },
       "hints": {
         "hint1": { "fr": "Deux ou trois alliés unissent leurs coups.", "en": "Two or three allies combine their strikes." },
         "hint2": { "fr": "Le mot met l'accent sur la coordination, pas sur un simple combo solo.", "en": "The word stresses coordination, not just a solo combo." }
       },
-      "explanation": { "fr": "Ce mot désigne une attaque ou une action coordonnée. Dans les jeux d'équipe, il sert à parler des synergies entre personnages.", "en": "This word refers to a coordinated attack or action. In team-based games, it is used for character synergy." },
+      "explanation": { "fr": "Ce mot désigne la coopération entre alliés pendant le combat. Dans les jeux d'équipe, il sert à parler des synergies, des actions coordonnées et des attaques lancées ensemble.", "en": "This word refers to cooperation between allies during battle. In team-based games, it is used for synergy, coordinated actions and attacks launched together." },
       "quiz": { "distractors": { "fr": ["Combo", "Contre-attaque", "Buff d'équipe"], "en": ["Combo", "Counterattack", "Team buff"] } },
       "difficultyTier": 3
     },
@@ -274,7 +274,7 @@
         "hint2": { "fr": "Ce n'est pas esquiver : c'est punir après avoir subi ou bloqué.", "en": "It is not dodging: it is punishing after taking or blocking the hit." }
       },
       "explanation": { "fr": "Ce mot désigne la contre-attaque. Dans les jeux de combat ou les RPG tactiques, elle récompense souvent le timing, la défense ou une compétence spéciale.", "en": "This word refers to a counterattack. In fighting games or tactical RPGs, it often rewards timing, defense or a special ability." },
-      "quiz": { "distractors": { "fr": ["Esquive", "Attaque liée", "Riposte"], "en": ["Evasion", "Linked attack", "Riposte"] } },
+      "quiz": { "distractors": { "fr": ["Esquive", "Coopération", "Riposte"], "en": ["Evasion", "Cooperation", "Riposte"] } },
       "difficultyTier": 2
     },
     {

@@ -104,6 +104,31 @@
 
 ---
 
+## Après v0.1 — Cible data / SQL
+- [ ] Ne pas lancer la grosse refacto avant la sortie `v0.1`.
+- [ ] Garder les JSON `v0.1` comme source de travail jusqu'à la prod.
+- [ ] Préparer ensuite une cible plus propre :
+  `pack`
+  `word`
+  `pack_word`
+  `distractor`
+  `quiz_session`
+  `quiz_question`
+- [ ] Séparer clairement :
+  le mot canonique,
+  le mot dans un pack,
+  les distracteurs,
+  les questions de quiz.
+- [ ] Viser une relation `n-n` entre `packs` et `words` via `pack_word`.
+- [ ] Laisser le quiz composer les questions à partir du pack, pas l'inverse.
+- [ ] Penser multilingue dès la cible SQL :
+  une table `locale`,
+  des tables de traduction du type `pack_locale`, `word_locale`, `pack_word_locale`,
+  pas une colonne par langue.
+- [ ] Faire dériver le futur MCD / MLD SQL des JSON une fois la `v0.1` en prod, pas avant.
+
+---
+
 ## v1.0 — Produit mature
 - [ ] 500 à 1000 mots dans le catalogue.
 - [ ] PWA.
