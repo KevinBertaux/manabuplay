@@ -239,6 +239,8 @@ function getTierTone(word: PackReaderWord) {
     .answer-btn.selected { transform:translateY(-1px); }
     .answer-btn.correct .answer-key { border-color:rgba(74,222,128,.46); background:linear-gradient(180deg,rgba(74,222,128,.24),rgba(74,222,128,.12)); color:#d8ffe6; }
     .answer-btn.wrong .answer-key { border-color:rgba(248,113,113,.44); background:linear-gradient(180deg,rgba(248,113,113,.24),rgba(248,113,113,.1)); color:#ffe0e0; }
+    .reader-scrolltop { position:fixed; right:max(16px,calc((100vw - min(1320px,calc(100vw - 24px))) / 2 - 60px)); bottom:16px; z-index:26; display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:8px; border:1px solid rgba(34,211,238,.26); background:rgba(15,12,26,.9); box-shadow:0 10px 24px rgba(0,0,0,.3); color:#22d3ee; font:800 1.2rem/1 'Rajdhani',sans-serif; cursor:pointer; backdrop-filter:blur(12px); }
+    .reader-scrolltop:hover { border-color:rgba(34,211,238,.46); background:rgba(34,211,238,.12); }
     @media (max-width:1080px) {
       .reader-layout { grid-template-columns:1fr; }
       .reader-cartouche-grid,
@@ -415,7 +417,9 @@ function getTierTone(word: PackReaderWord) {
       </div>
     </section>
   </main>
+  <button class="reader-scrolltop" type="button" aria-label="Remonter en haut" title="Remonter">↑</button>
   <script is:inline>
+    const scrollTopButton = document.querySelector(".reader-scrolltop");
     const bulkToggle = document.querySelector("[data-toggle-all]");
     let activeCard = null;
 
@@ -555,6 +559,12 @@ function getTierTone(word: PackReaderWord) {
         cards.forEach((card) => {
           applyCardState(card, nextState);
         });
+      });
+    }
+
+    if (scrollTopButton instanceof HTMLButtonElement) {
+      scrollTopButton.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }
 
