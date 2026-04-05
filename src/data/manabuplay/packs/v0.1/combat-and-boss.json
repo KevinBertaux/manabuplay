@@ -65,7 +65,7 @@
       "order": 4,
       "existingWordId": "musou",
       "jp": { "term": "無双", "reading": "むそう", "romaji": "musō" },
-      "gloss": { "fr": "Domination totale", "en": "Overwhelming domination" },
+      "gloss": { "fr": "Domination totale", "en": "Overwhelming supremacy" },
       "definition": { "fr": "État où un personnage écrase des foules d'ennemis presque sans effort.", "en": "State where a character crushes crowds of enemies with almost no effort." },
       "hints": {
         "hint1": { "fr": "Un seul héros renverse toute une armée.", "en": "A single hero tears through a whole army." },
@@ -96,7 +96,7 @@
       "gloss": { "fr": "Démon roi", "en": "Demon king" },
       "definition": { "fr": "Grand antagoniste démoniaque qui domine le monde ou menace de le détruire.", "en": "Major demonic antagonist who rules the world or threatens to destroy it." },
       "hints": {
-        "hint1": { "fr": "C'est plus qu'un simple boss : c'est une figure de tyran fantasy.", "en": "It is more than a simple boss: it is a fantasy tyrant figure." },
+        "hint1": { "fr": "C'est plus qu'un simple boss : c'est le grand seigneur maléfique du monde.", "en": "It is more than a simple boss: it is the world's great evil ruler." },
         "hint2": { "fr": "Les héros partent souvent en voyage pour le vaincre.", "en": "Heroes often set out on a journey to defeat one." }
       },
       "explanation": { "fr": "Ce mot désigne le démon roi, une figure classique du RPG japonais. Il peut être le boss final ou l'ombre qui plane sur tout le scénario.", "en": "This word refers to the demon king, a classic figure in Japanese RPGs. It can be the final boss or the shadow looming over the whole story." },
@@ -274,7 +274,7 @@
         "hint2": { "fr": "Ce n'est pas esquiver : c'est punir après avoir subi ou bloqué.", "en": "It is not dodging: it is punishing after taking or blocking the hit." }
       },
       "explanation": { "fr": "Ce mot désigne la contre-attaque. Dans les jeux de combat ou les RPG tactiques, elle récompense souvent le timing, la défense ou une compétence spéciale.", "en": "This word refers to a counterattack. In fighting games or tactical RPGs, it often rewards timing, defense or a special ability." },
-      "quiz": { "distractors": { "fr": ["Esquive", "Coopération", "Riposte"], "en": ["Evasion", "Cooperation", "Riposte"] } },
+      "quiz": { "distractors": { "fr": ["Esquive", "Coopération", "Riposte"], "en": ["Evasion", "Cooperation", "Return strike"] } },
       "difficultyTier": 2
     },
     {
@@ -332,7 +332,7 @@
     {
       "order": 24,
       "jp": { "term": "一撃", "reading": "いちげき", "romaji": "ichigeki" },
-      "gloss": { "fr": "Un seul coup", "en": "One clean hit" },
+      "gloss": { "fr": "Un seul coup", "en": "Single decisive blow" },
       "definition": { "fr": "Impact unique, brutal et décisif qui peut suffire à faire très mal ou à finir l'adversaire.", "en": "Single, brutal and decisive hit that can deal massive damage or finish the target." },
       "hints": {
         "hint1": { "fr": "Tout se joue sur un seul impact.", "en": "Everything comes down to a single impact." },
@@ -423,17 +423,17 @@
   ],
   "score": {
     "readiness": {
-      "value": 82,
+      "value": 93,
       "minProdScore": 90,
-      "readyForProd": false,
-      "reviewStatus": "non-relue",
-      "releaseStatus": "dev",
+      "readyForProd": true,
+      "reviewStatus": "faite",
+      "releaseStatus": "preprod",
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
-        "quizQuality": 10,
-        "editorialReview": 2
+        "quizQuality": 13,
+        "editorialReview": 10
       }
     },
     "depth": {
