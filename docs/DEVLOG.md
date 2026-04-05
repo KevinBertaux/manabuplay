@@ -126,6 +126,9 @@
   des tables de traduction du type `pack_locale`, `word_locale`, `pack_word_locale`,
   pas une colonne par langue.
 - [ ] Faire dériver le futur MCD / MLD SQL des JSON une fois la `v0.1` en prod, pas avant.
+- [ ] Rendre le chargement des packs résilient :
+  un JSON dégradé ne doit pas rendre l’admin ni le site indisponibles,
+  il faut pouvoir isoler le pack fautif et garder le reste accessible.
 
 ---
 
@@ -150,3 +153,9 @@
   nombre de nouveaux mots,
   nombre d’ajouts de mots dans les packs,
   nombre de nouveaux packs.
+- [ ] Prévoir plus tard un pack `easter-egg / sandbox` :
+  pack cobaye valide mais sacrifiable,
+  utile pour tester la résilience des loaders,
+  les migrations de schéma JSON,
+  puis les migrations JSON -> Supabase -> Postgres,
+  sans risquer les vrais packs publics.
