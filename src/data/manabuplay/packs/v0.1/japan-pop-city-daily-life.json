@@ -22,392 +22,1352 @@
     {
       "order": 1,
       "existingWordId": "kawaii",
-      "jp": { "term": "カワイイ", "reading": "カワイイ", "romaji": "kawaii" },
-      "gloss": { "fr": "Mignon", "en": "Cute" },
-      "definition": { "fr": "Qualité de ce qui paraît mignon, doux ou adorable au premier regard.", "en": "Quality of something that feels cute, soft or adorable at first glance." },
-      "hints": {
-        "hint1": { "fr": "Ce mot est partout dans la culture pop japonaise.", "en": "This word is everywhere in Japanese pop culture." },
-        "hint2": { "fr": "Il sert à dire qu'un objet, un look ou une personne est adorable.", "en": "It is used to say that an object, a look or a person is adorable." }
+      "jp": {
+        "term": "カワイイ",
+        "reading": "カワイイ",
+        "romaji": "kawaii"
       },
-      "explanation": { "fr": "Ce mot désigne ce qui est mignon. C'est l'un des termes japonais les plus connus hors du Japon, parce qu'il résume à lui seul tout un imaginaire visuel et culturel.", "en": "This word refers to what is cute. It is one of the best known Japanese words abroad because it captures a whole visual and cultural imaginary on its own." },
-      "quiz": { "distractors": { "fr": ["Joli", "Pop", "Stylé"], "en": ["Pretty", "Pop", "Stylish"] } },
+      "gloss": {
+        "fr": "Mignon",
+        "en": "Cute"
+      },
+      "definition": {
+        "fr": "Qualité de ce qui paraît mignon, doux ou adorable au premier regard.",
+        "en": "Quality of something that feels cute, soft or adorable at first glance."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce mot est partout dans la culture pop japonaise.",
+          "en": "This word is everywhere in Japanese pop culture."
+        },
+        "hint2": {
+          "fr": "Il sert à dire qu'un objet, un look ou une personne est adorable.",
+          "en": "It is used to say that an object, a look or a person is adorable."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne ce qui est mignon. C'est l'un des termes japonais les plus connus hors du Japon, parce qu'il résume à lui seul tout un imaginaire visuel et culturel.",
+        "en": "This word refers to what is cute. It is one of the best known Japanese words abroad because it captures a whole visual and cultural imaginary on its own."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Joli",
+            "Pop",
+            "Stylé"
+          ],
+          "en": [
+            "Pretty",
+            "Pop",
+            "Stylish"
+          ]
+        }
+      },
       "difficultyTier": 1
     },
     {
       "order": 2,
-      "jp": { "term": "神社", "reading": "じんじゃ", "romaji": "jinja" },
-      "gloss": { "fr": "Sanctuaire shinto", "en": "Shinto shrine" },
-      "definition": { "fr": "Lieu religieux shinto lié aux rites, aux portes torii et aux divinités locales.", "en": "Shinto religious site linked to rites, torii gates and local deities." },
-      "hints": {
-        "hint1": { "fr": "On y pense avec les torii rouges et les rituels du Japon.", "en": "It brings to mind red torii gates and Japanese rituals." },
-        "hint2": { "fr": "Ce n'est pas un temple bouddhique, mais un lieu du shinto.", "en": "It is not a Buddhist temple, but a Shinto place." }
+      "jp": {
+        "term": "神社",
+        "reading": "じんじゃ",
+        "romaji": "jinja"
       },
-      "explanation": { "fr": "Ce mot désigne un sanctuaire shinto. Dans l'imaginaire japonais, c'est un lieu à la fois religieux, culturel et très visuel.", "en": "This word refers to a Shinto shrine. In the Japanese imagination, it is a place that is at once religious, cultural and highly visual." },
-      "quiz": { "distractors": { "fr": ["Temple", "Jardin sacré", "Porte torii"], "en": ["Temple", "Sacred garden", "Torii gate"] } },
+      "gloss": {
+        "fr": "Sanctuaire shinto",
+        "en": "Shinto shrine"
+      },
+      "definition": {
+        "fr": "Lieu religieux shinto lié aux rites, aux portes torii et aux divinités locales.",
+        "en": "Shinto religious site linked to rites, torii gates and local deities."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "On y pense avec les torii rouges et les rituels du Japon.",
+          "en": "It brings to mind red torii gates and Japanese rituals."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas un temple bouddhique, mais un lieu du shinto.",
+          "en": "It is not a Buddhist temple, but a Shinto place."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un sanctuaire shinto. Dans l'imaginaire japonais, c'est un lieu à la fois religieux, culturel et très visuel.",
+        "en": "This word refers to a Shinto shrine. In the Japanese imagination, it is a place that is at once religious, cultural and highly visual."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Temple",
+            "Jardin sacré",
+            "Porte torii"
+          ],
+          "en": [
+            "Temple",
+            "Sacred garden",
+            "Torii gate"
+          ]
+        }
+      },
       "difficultyTier": 1
     },
     {
       "order": 3,
-      "jp": { "term": "寺", "reading": "てら", "romaji": "tera" },
-      "gloss": { "fr": "Temple", "en": "Temple" },
-      "definition": { "fr": "Lieu religieux bouddhique associé à la prière, au calme et à l'architecture traditionnelle.", "en": "Buddhist religious site associated with prayer, calm and traditional architecture." },
-      "hints": {
-        "hint1": { "fr": "Ce lieu est plus bouddhique que shinto.", "en": "This place is more Buddhist than Shinto." },
-        "hint2": { "fr": "On le confond souvent avec le sanctuaire, mais ce n'est pas pareil.", "en": "It is often confused with a shrine, but it is not the same." }
+      "jp": {
+        "term": "寺",
+        "reading": "てら",
+        "romaji": "tera"
       },
-      "explanation": { "fr": "Ce mot désigne un temple bouddhique. Dans le Japon quotidien et touristique, c'est un lieu très présent, différent du sanctuaire shinto.", "en": "This word refers to a Buddhist temple. In everyday and touristic Japan, it is a very common place, distinct from a Shinto shrine." },
-      "quiz": { "distractors": { "fr": ["Sanctuaire shinto", "Pagode", "Lieu sacré"], "en": ["Shinto shrine", "Pagoda", "Sacred site"] } },
+      "gloss": {
+        "fr": "Temple",
+        "en": "Temple"
+      },
+      "definition": {
+        "fr": "Lieu religieux bouddhique associé à la prière, au calme et à l'architecture traditionnelle.",
+        "en": "Buddhist religious site associated with prayer, calm and traditional architecture."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce lieu est plus bouddhique que shinto.",
+          "en": "This place is more Buddhist than Shinto."
+        },
+        "hint2": {
+          "fr": "On le confond souvent avec le sanctuaire, mais ce n'est pas pareil.",
+          "en": "It is often confused with a shrine, but it is not the same."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un temple bouddhique. Dans le Japon quotidien et touristique, c'est un lieu très présent, différent du sanctuaire shinto.",
+        "en": "This word refers to a Buddhist temple. In everyday and touristic Japan, it is a very common place, distinct from a Shinto shrine."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Sanctuaire shinto",
+            "Pagode",
+            "Lieu sacré"
+          ],
+          "en": [
+            "Shinto shrine",
+            "Pagoda",
+            "Sacred site"
+          ]
+        }
+      },
       "difficultyTier": 1
     },
     {
       "order": 4,
-      "jp": { "term": "桜", "reading": "さくら", "romaji": "sakura" },
-      "gloss": { "fr": "Fleurs de cerisier", "en": "Cherry blossoms" },
-      "definition": { "fr": "Fleurs roses du printemps devenues un symbole visuel fort du Japon.", "en": "Pink spring flowers that became a strong visual symbol of Japan." },
-      "hints": {
-        "hint1": { "fr": "On les associe immédiatement au printemps japonais.", "en": "They are instantly tied to Japanese spring." },
-        "hint2": { "fr": "Ce mot évoque aussi la beauté fragile et éphémère.", "en": "This word also evokes fragile, fleeting beauty." }
+      "jp": {
+        "term": "桜",
+        "reading": "さくら",
+        "romaji": "sakura"
       },
-      "explanation": { "fr": "Ce mot désigne les fleurs de cerisier. Elles sont devenues un symbole majeur du Japon dans les anime, les films et l'imaginaire touristique.", "en": "This word refers to cherry blossoms. They became a major symbol of Japan in anime, films and travel imagery." },
-      "quiz": { "distractors": { "fr": ["Printemps", "Parc en fleurs", "Feuille d'érable"], "en": ["Spring", "Blossom park", "Maple leaf"] } },
+      "gloss": {
+        "fr": "Fleurs de cerisier",
+        "en": "Cherry blossoms"
+      },
+      "definition": {
+        "fr": "Fleurs roses du printemps devenues un symbole visuel fort du Japon.",
+        "en": "Pink spring flowers that became a strong visual symbol of Japan."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "On les associe immédiatement au printemps japonais.",
+          "en": "They are instantly tied to Japanese spring."
+        },
+        "hint2": {
+          "fr": "Ce mot évoque aussi la beauté fragile et éphémère.",
+          "en": "This word also evokes fragile, fleeting beauty."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne les fleurs de cerisier. Elles sont devenues un symbole majeur du Japon dans les anime, les films et l'imaginaire touristique.",
+        "en": "This word refers to cherry blossoms. They became a major symbol of Japan in anime, films and travel imagery."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Printemps",
+            "Parc en fleurs",
+            "Feuille d'érable"
+          ],
+          "en": [
+            "Spring",
+            "Blossom park",
+            "Maple leaf"
+          ]
+        }
+      },
       "difficultyTier": 1
     },
     {
       "order": 5,
-      "jp": { "term": "ラーメン", "reading": "ラーメン", "romaji": "ramen" },
-      "gloss": { "fr": "Ramen", "en": "Ramen" },
-      "definition": { "fr": "Bol de nouilles en bouillon devenu l'un des plats japonais les plus connus dans le monde.", "en": "Bowl of noodles in broth that became one of the best known Japanese dishes worldwide." },
-      "hints": {
-        "hint1": { "fr": "Ce plat chaud revient partout dans les anime du quotidien.", "en": "This hot dish appears everywhere in everyday anime." },
-        "hint2": { "fr": "Nouilles, bouillon et garnitures vont ensemble ici.", "en": "Noodles, broth and toppings all come together here." }
+      "jp": {
+        "term": "ラーメン",
+        "reading": "ラーメン",
+        "romaji": "ramen"
       },
-      "explanation": { "fr": "Ce mot désigne le ramen. C'est un plat très populaire au Japon et un repère immédiat de culture pop pour beaucoup de fans.", "en": "This word refers to ramen. It is a very popular dish in Japan and an immediate pop-culture marker for many fans." },
-      "quiz": { "distractors": { "fr": ["Udon", "Soupe japonaise", "Bol de nouilles"], "en": ["Udon", "Japanese soup", "Noodle bowl"] } },
+      "gloss": {
+        "fr": "Ramen",
+        "en": "Ramen"
+      },
+      "definition": {
+        "fr": "Bol de nouilles en bouillon devenu l'un des plats japonais les plus connus dans le monde.",
+        "en": "Bowl of noodles in broth that became one of the best known Japanese dishes worldwide."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce plat chaud revient partout dans les anime du quotidien.",
+          "en": "This hot dish appears everywhere in everyday anime."
+        },
+        "hint2": {
+          "fr": "Nouilles, bouillon et garnitures vont ensemble ici.",
+          "en": "Noodles, broth and toppings all come together here."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le ramen. C'est un plat très populaire au Japon et un repère immédiat de culture pop pour beaucoup de fans.",
+        "en": "This word refers to ramen. It is a very popular dish in Japan and an immediate pop-culture marker for many fans."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Udon",
+            "Soupe japonaise",
+            "Bol de nouilles"
+          ],
+          "en": [
+            "Udon",
+            "Japanese soup",
+            "Noodle bowl"
+          ]
+        }
+      },
       "difficultyTier": 1
     },
     {
       "order": 6,
-      "jp": { "term": "寿司", "reading": "すし", "romaji": "sushi" },
-      "gloss": { "fr": "Sushi", "en": "Sushi" },
-      "definition": { "fr": "Préparation à base de riz vinaigré et de garnitures, emblématique de la cuisine japonaise.", "en": "Dish based on vinegared rice and toppings, emblematic of Japanese cuisine." },
-      "hints": {
-        "hint1": { "fr": "Ce plat est l'un des symboles culinaires les plus connus du Japon.", "en": "This dish is one of the most famous culinary symbols of Japan." },
-        "hint2": { "fr": "Le mot n'évoque pas un bol chaud, mais plutôt du riz préparé avec soin.", "en": "The word does not evoke a hot bowl, but carefully prepared rice." }
+      "jp": {
+        "term": "寿司",
+        "reading": "すし",
+        "romaji": "sushi"
       },
-      "explanation": { "fr": "Ce mot désigne le sushi. Même si le monde entier le connaît, il reste un repère central de l'imaginaire culinaire japonais.", "en": "This word refers to sushi. Even though the whole world knows it, it remains a core marker of Japanese food culture." },
-      "quiz": { "distractors": { "fr": ["Sashimi", "Riz vinaigré", "Plateau japonais"], "en": ["Sashimi", "Vinegared rice", "Japanese platter"] } },
+      "gloss": {
+        "fr": "Sushi",
+        "en": "Sushi"
+      },
+      "definition": {
+        "fr": "Préparation à base de riz vinaigré et de garnitures, emblématique de la cuisine japonaise.",
+        "en": "Dish based on vinegared rice and toppings, emblematic of Japanese cuisine."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce plat est l'un des symboles culinaires les plus connus du Japon.",
+          "en": "This dish is one of the most famous culinary symbols of Japan."
+        },
+        "hint2": {
+          "fr": "Le mot n'évoque pas un bol chaud, mais plutôt du riz préparé avec soin.",
+          "en": "The word does not evoke a hot bowl, but carefully prepared rice."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le sushi. Même si le monde entier le connaît, il reste un repère central de l'imaginaire culinaire japonais.",
+        "en": "This word refers to sushi. Even though the whole world knows it, it remains a core marker of Japanese food culture."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Sashimi",
+            "Riz vinaigré",
+            "Plateau japonais"
+          ],
+          "en": [
+            "Sashimi",
+            "Vinegared rice",
+            "Japanese platter"
+          ]
+        }
+      },
       "difficultyTier": 1
     },
     {
       "order": 7,
-      "jp": { "term": "おにぎり", "reading": "おにぎり", "romaji": "onigiri" },
-      "gloss": { "fr": "Onigiri", "en": "Onigiri" },
-      "definition": { "fr": "Boule ou triangle de riz garni, très courant dans les repas rapides japonais.", "en": "Rice ball or triangle with filling, very common in quick Japanese meals." },
-      "hints": {
-        "hint1": { "fr": "On voit souvent ce repas simple dans les lunchs ou les anime scolaires.", "en": "You often see this simple meal in lunches or school anime." },
-        "hint2": { "fr": "Le mot évoque du riz compact, pratique et facile à emporter.", "en": "The term evokes compact rice that is practical and easy to carry." }
+      "jp": {
+        "term": "おにぎり",
+        "reading": "おにぎり",
+        "romaji": "onigiri"
       },
-      "explanation": { "fr": "Ce mot désigne l'onigiri. C'est un objet du quotidien japonais autant qu'un aliment, ce qui le rend très présent dans les histoires ordinaires.", "en": "This word refers to onigiri. It is part of everyday Japanese life as much as a food item, which is why it appears so often in ordinary stories." },
-      "quiz": { "distractors": { "fr": ["Bento", "Snack de riz", "Boulettes de riz"], "en": ["Bento", "Rice snack", "Rice balls"] } },
+      "gloss": {
+        "fr": "Onigiri",
+        "en": "Onigiri"
+      },
+      "definition": {
+        "fr": "Boule ou triangle de riz garni, très courant dans les repas rapides japonais.",
+        "en": "Rice ball or triangle with filling, very common in quick Japanese meals."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "On voit souvent ce repas simple dans les lunchs ou les anime scolaires.",
+          "en": "You often see this simple meal in lunches or school anime."
+        },
+        "hint2": {
+          "fr": "Le mot évoque du riz compact, pratique et facile à emporter.",
+          "en": "The term evokes compact rice that is practical and easy to carry."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'onigiri. C'est un objet du quotidien japonais autant qu'un aliment, ce qui le rend très présent dans les histoires ordinaires.",
+        "en": "This word refers to onigiri. It is part of everyday Japanese life as much as a food item, which is why it appears so often in ordinary stories."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Bento",
+            "Snack de riz",
+            "Boulettes de riz"
+          ],
+          "en": [
+            "Bento",
+            "Rice snack",
+            "Rice balls"
+          ]
+        }
+      },
       "difficultyTier": 1
     },
     {
       "order": 8,
-      "jp": { "term": "弁当", "reading": "べんとう", "romaji": "bentou" },
-      "gloss": { "fr": "Bento", "en": "Bento" },
-      "definition": { "fr": "Repas préparé dans une boîte compartimentée pour être emporté.", "en": "Meal prepared in a compartmentalized box to be carried around." },
-      "hints": {
-        "hint1": { "fr": "Dans les anime scolaires, c'est souvent le repas du midi.", "en": "In school anime, it is often the lunch meal." },
-        "hint2": { "fr": "Le mot parle d'un repas transportable plus que d'un plat unique.", "en": "The word is more about a portable meal than one single dish." }
+      "jp": {
+        "term": "弁当",
+        "reading": "べんとう",
+        "romaji": "bentou"
       },
-      "explanation": { "fr": "Ce mot désigne le bento. C'est un objet quotidien au Japon, très pratique, mais aussi devenu un symbole visuel très fort dans l'animation.", "en": "This word refers to bento. It is an everyday item in Japan, very practical, but also a strong visual symbol in animation." },
-      "quiz": { "distractors": { "fr": ["Onigiri", "Lunch box", "Repas du midi"], "en": ["Onigiri", "Lunch box", "Midday meal"] } },
+      "gloss": {
+        "fr": "Bento",
+        "en": "Bento"
+      },
+      "definition": {
+        "fr": "Repas préparé dans une boîte compartimentée pour être emporté.",
+        "en": "Meal prepared in a compartmentalized box to be carried around."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Dans les anime scolaires, c'est souvent le repas du midi.",
+          "en": "In school anime, it is often the lunch meal."
+        },
+        "hint2": {
+          "fr": "Le mot parle d'un repas transportable plus que d'un plat unique.",
+          "en": "The word is more about a portable meal than one single dish."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le bento. C'est un objet quotidien au Japon, très pratique, mais aussi devenu un symbole visuel très fort dans l'animation.",
+        "en": "This word refers to bento. It is an everyday item in Japan, very practical, but also a strong visual symbol in animation."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Onigiri",
+            "Boîte repas",
+            "Repas du midi"
+          ],
+          "en": [
+            "Onigiri",
+            "Lunch box",
+            "Packed lunch"
+          ]
+        }
+      },
       "difficultyTier": 1
     },
     {
       "order": 9,
-      "jp": { "term": "抹茶", "reading": "まっちゃ", "romaji": "matcha" },
-      "gloss": { "fr": "Matcha", "en": "Matcha" },
-      "definition": { "fr": "Thé vert en poudre au goût marqué, très associé au Japon traditionnel et moderne.", "en": "Powdered green tea strongly associated with both traditional and modern Japan." },
-      "hints": {
-        "hint1": { "fr": "On le retrouve dans les boissons, desserts et salons de thé.", "en": "You find it in drinks, desserts and tea houses." },
-        "hint2": { "fr": "Le mot évoque un vert très reconnaissable.", "en": "The word evokes a very recognizable green color." }
+      "jp": {
+        "term": "抹茶",
+        "reading": "まっちゃ",
+        "romaji": "matcha"
       },
-      "explanation": { "fr": "Ce mot désigne le matcha. Au-delà du thé, c'est devenu un symbole esthétique et gourmand du Japon contemporain.", "en": "This word refers to matcha. Beyond tea itself, it became an aesthetic and gourmet symbol of contemporary Japan." },
-      "quiz": { "distractors": { "fr": ["Thé vert", "Dessert japonais", "Boisson au thé"], "en": ["Green tea", "Japanese dessert", "Tea drink"] } },
+      "gloss": {
+        "fr": "Matcha",
+        "en": "Matcha"
+      },
+      "definition": {
+        "fr": "Thé vert en poudre au goût marqué, très associé au Japon traditionnel et moderne.",
+        "en": "Powdered green tea strongly associated with both traditional and modern Japan."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "On le retrouve dans les boissons, desserts et salons de thé.",
+          "en": "You find it in drinks, desserts and tea houses."
+        },
+        "hint2": {
+          "fr": "Le mot évoque un vert très reconnaissable.",
+          "en": "The word evokes a very recognizable green color."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le matcha. Au-delà du thé, c'est devenu un symbole esthétique et gourmand du Japon contemporain.",
+        "en": "This word refers to matcha. Beyond tea itself, it became an aesthetic and gourmet symbol of contemporary Japan."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Thé vert",
+            "Dessert japonais",
+            "Boisson au thé"
+          ],
+          "en": [
+            "Green tea",
+            "Japanese dessert",
+            "Tea drink"
+          ]
+        }
+      },
       "difficultyTier": 1
     },
     {
       "order": 10,
-      "jp": { "term": "新幹線", "reading": "しんかんせん", "romaji": "shinkansen" },
-      "gloss": { "fr": "Shinkansen", "en": "Shinkansen" },
-      "definition": { "fr": "Train à grande vitesse japonais, connu pour sa rapidité et sa précision.", "en": "Japanese high-speed train known for speed and precision." },
-      "hints": {
-        "hint1": { "fr": "Ce moyen de transport symbolise un Japon rapide et moderne.", "en": "This form of transport symbolizes a fast and modern Japan." },
-        "hint2": { "fr": "Ce n'est pas le métro, mais le train rapide interurbain.", "en": "It is not the subway, but the intercity bullet train." }
+      "jp": {
+        "term": "新幹線",
+        "reading": "しんかんせん",
+        "romaji": "shinkansen"
       },
-      "explanation": { "fr": "Ce mot désigne le train à grande vitesse japonais. Il est devenu un symbole très fort du Japon moderne, efficace et connecté.", "en": "This word refers to the Japanese high-speed train. It became a strong symbol of a modern, efficient and connected Japan." },
-      "quiz": { "distractors": { "fr": ["Train rapide", "Métro", "Gare"], "en": ["Fast train", "Subway", "Station"] } },
+      "gloss": {
+        "fr": "Shinkansen",
+        "en": "Shinkansen"
+      },
+      "definition": {
+        "fr": "Train à grande vitesse japonais, connu pour sa rapidité et sa précision.",
+        "en": "Japanese high-speed train known for speed and precision."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce moyen de transport symbolise un Japon rapide et moderne.",
+          "en": "This form of transport symbolizes a fast and modern Japan."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas le métro, mais le train rapide interurbain.",
+          "en": "It is not the subway, but the intercity bullet train."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le train à grande vitesse japonais. Il est devenu un symbole très fort du Japon moderne, efficace et connecté.",
+        "en": "This word refers to the Japanese high-speed train. It became a strong symbol of a modern, efficient and connected Japan."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Train rapide",
+            "Métro",
+            "Gare"
+          ],
+          "en": [
+            "Fast train",
+            "Subway",
+            "Station"
+          ]
+        }
+      },
       "difficultyTier": 1
     },
     {
       "order": 11,
-      "jp": { "term": "東京", "reading": "とうきょう", "romaji": "Tokyo" },
-      "gloss": { "fr": "Tokyo", "en": "Tokyo" },
-      "definition": { "fr": "Capitale japonaise, immense centre urbain, culturel et économique.", "en": "Japanese capital and huge urban, cultural and economic center." },
-      "hints": {
-        "hint1": { "fr": "Cette ville concentre les grandes images urbaines du Japon contemporain.", "en": "This city concentrates the big urban images of contemporary Japan." },
-        "hint2": { "fr": "Shibuya et Akihabara en font partie.", "en": "Shibuya and Akihabara are part of it." }
+      "jp": {
+        "term": "東京",
+        "reading": "とうきょう",
+        "romaji": "Tokyo"
       },
-      "explanation": { "fr": "Ce mot désigne Tokyo. Pour beaucoup de gens, c'est la porte d'entrée mentale vers le Japon moderne, entre écrans, trains et foule.", "en": "This word refers to Tokyo. For many people, it is the mental gateway to modern Japan, with screens, trains and crowds." },
-      "quiz": { "distractors": { "fr": ["Kyoto", "Capitale japonaise", "Grande métropole"], "en": ["Kyoto", "Japanese capital", "Major metropolis"] } },
+      "gloss": {
+        "fr": "Tokyo",
+        "en": "Tokyo"
+      },
+      "definition": {
+        "fr": "Capitale japonaise, immense centre urbain, culturel et économique.",
+        "en": "Japanese capital and huge urban, cultural and economic center."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Cette ville concentre les grandes images urbaines du Japon contemporain.",
+          "en": "This city concentrates the big urban images of contemporary Japan."
+        },
+        "hint2": {
+          "fr": "Shibuya et Akihabara en font partie.",
+          "en": "Shibuya and Akihabara are part of it."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne Tokyo. Pour beaucoup de gens, c'est la porte d'entrée mentale vers le Japon moderne, entre écrans, trains et foule.",
+        "en": "This word refers to Tokyo. For many people, it is the mental gateway to modern Japan, with screens, trains and crowds."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Kyoto",
+            "Capitale japonaise",
+            "Grande métropole"
+          ],
+          "en": [
+            "Kyoto",
+            "Japanese capital",
+            "Major metropolis"
+          ]
+        }
+      },
       "difficultyTier": 2
     },
     {
       "order": 12,
-      "jp": { "term": "渋谷", "reading": "しぶや", "romaji": "Shibuya" },
-      "gloss": { "fr": "Shibuya", "en": "Shibuya" },
-      "definition": { "fr": "Quartier très connu de Tokyo, associé aux écrans géants, à la foule et au croisement mythique.", "en": "Famous Tokyo district associated with giant screens, crowds and the iconic crossing." },
-      "hints": {
-        "hint1": { "fr": "Le passage piéton géant est l'image la plus célèbre de cet endroit.", "en": "The giant pedestrian crossing is this place's most famous image." },
-        "hint2": { "fr": "Ce n'est pas toute la ville, mais un quartier emblématique.", "en": "It is not the whole city, but an iconic district." }
+      "jp": {
+        "term": "渋谷",
+        "reading": "しぶや",
+        "romaji": "Shibuya"
       },
-      "explanation": { "fr": "Ce mot désigne Shibuya. Dans l'imaginaire pop, c'est le quartier du mouvement, des néons et de la foule tokyoïte.", "en": "This word refers to Shibuya. In pop imagery, it is the district of motion, neon and Tokyo crowds." },
-      "quiz": { "distractors": { "fr": ["Akihabara", "Centre de Tokyo", "Quartier branché"], "en": ["Akihabara", "Central Tokyo", "Trendy district"] } },
+      "gloss": {
+        "fr": "Shibuya",
+        "en": "Shibuya"
+      },
+      "definition": {
+        "fr": "Quartier très connu de Tokyo, associé aux écrans géants, à la foule et au croisement mythique.",
+        "en": "Famous Tokyo district associated with giant screens, crowds and the iconic crossing."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le passage piéton géant est l'image la plus célèbre de cet endroit.",
+          "en": "The giant pedestrian crossing is this place's most famous image."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas toute la ville, mais un quartier emblématique.",
+          "en": "It is not the whole city, but an iconic district."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne Shibuya. Dans l'imaginaire pop, c'est le quartier du mouvement, des néons et de la foule tokyoïte.",
+        "en": "This word refers to Shibuya. In pop imagery, it is the district of motion, neon and Tokyo crowds."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Akihabara",
+            "Centre de Tokyo",
+            "Quartier branché"
+          ],
+          "en": [
+            "Akihabara",
+            "Central Tokyo",
+            "Trendy district"
+          ]
+        }
+      },
       "difficultyTier": 2
     },
     {
       "order": 13,
-      "jp": { "term": "秋葉原", "reading": "あきはばら", "romaji": "Akihabara" },
-      "gloss": { "fr": "Akihabara", "en": "Akihabara" },
-      "definition": { "fr": "Quartier de Tokyo connu pour l'électronique, l'otaku culture et les magasins d'anime.", "en": "Tokyo district known for electronics, otaku culture and anime stores." },
-      "hints": {
-        "hint1": { "fr": "Ce quartier est très lié à la culture geek japonaise.", "en": "This district is closely tied to Japanese geek culture." },
-        "hint2": { "fr": "On y pense avec figurines, arcades et boutiques d'anime.", "en": "You think of figures, arcades and anime shops." }
+      "jp": {
+        "term": "秋葉原",
+        "reading": "あきはばら",
+        "romaji": "Akihabara"
       },
-      "explanation": { "fr": "Ce mot désigne Akihabara. C'est l'un des lieux les plus emblématiques de la culture otaku et du shopping pop japonais.", "en": "This word refers to Akihabara. It is one of the most iconic places for otaku culture and Japanese pop shopping." },
-      "quiz": { "distractors": { "fr": ["Shibuya", "Quartier otaku", "Ville électronique"], "en": ["Shibuya", "Otaku district", "Electronics city"] } },
+      "gloss": {
+        "fr": "Akihabara",
+        "en": "Akihabara"
+      },
+      "definition": {
+        "fr": "Quartier de Tokyo connu pour l'électronique, l'otaku culture et les magasins d'anime.",
+        "en": "Tokyo district known for electronics, otaku culture and anime stores."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce quartier est très lié à la culture geek japonaise.",
+          "en": "This district is closely tied to Japanese geek culture."
+        },
+        "hint2": {
+          "fr": "On y pense avec figurines, arcades et boutiques d'anime.",
+          "en": "You think of figures, arcades and anime shops."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne Akihabara. C'est l'un des lieux les plus emblématiques de la culture otaku et du shopping pop japonais.",
+        "en": "This word refers to Akihabara. It is one of the most iconic places for otaku culture and Japanese pop shopping."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Shibuya",
+            "Quartier geek",
+            "Centre de l'électronique"
+          ],
+          "en": [
+            "Shibuya",
+            "Geek district",
+            "Electronics hub"
+          ]
+        }
+      },
       "difficultyTier": 2
     },
     {
       "order": 14,
-      "jp": { "term": "温泉", "reading": "おんせん", "romaji": "onsen" },
-      "gloss": { "fr": "Onsen", "en": "Onsen" },
-      "definition": { "fr": "Bain thermal japonais, souvent associé au repos, au voyage et aux paysages naturels.", "en": "Japanese hot spring bath often linked to rest, travel and natural scenery." },
-      "hints": {
-        "hint1": { "fr": "Ce mot évoque l'eau chaude, la détente et les auberges.", "en": "This word evokes hot water, relaxation and inns." },
-        "hint2": { "fr": "Ce n'est pas juste un bain : c'est une vraie expérience japonaise.", "en": "It is not just a bath: it is a full Japanese experience." }
+      "jp": {
+        "term": "温泉",
+        "reading": "おんせん",
+        "romaji": "onsen"
       },
-      "explanation": { "fr": "Ce mot désigne l'onsen. Dans l'imaginaire japonais, il mêle voyage, détente, nature et rituel social.", "en": "This word refers to an onsen. In Japanese imagery, it mixes travel, relaxation, nature and social ritual." },
-      "quiz": { "distractors": { "fr": ["Bain public", "Source chaude", "Ryokan"], "en": ["Public bath", "Hot spring", "Ryokan"] } },
+      "gloss": {
+        "fr": "Onsen",
+        "en": "Onsen"
+      },
+      "definition": {
+        "fr": "Bain thermal japonais, souvent associé au repos, au voyage et aux paysages naturels.",
+        "en": "Japanese hot spring bath often linked to rest, travel and natural scenery."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce mot évoque l'eau chaude, la détente et les auberges.",
+          "en": "This word evokes hot water, relaxation and inns."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas juste un bain : c'est une vraie expérience japonaise.",
+          "en": "It is not just a bath: it is a full Japanese experience."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'onsen. Dans l'imaginaire japonais, il mêle voyage, détente, nature et rituel social.",
+        "en": "This word refers to an onsen. In Japanese imagery, it mixes travel, relaxation, nature and social ritual."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Bain public",
+            "Source chaude",
+            "Ryokan"
+          ],
+          "en": [
+            "Public bath",
+            "Hot spring",
+            "Ryokan"
+          ]
+        }
+      },
       "difficultyTier": 2
     },
     {
       "order": 15,
-      "jp": { "term": "祭り", "reading": "まつり", "romaji": "matsuri" },
-      "gloss": { "fr": "Festival", "en": "Festival" },
-      "definition": { "fr": "Fête populaire japonaise mêlant traditions, stands, costumes et ambiance de rue.", "en": "Japanese festival mixing tradition, stalls, outfits and street atmosphere." },
-      "hints": {
-        "hint1": { "fr": "Lanternes, yukata et stands de rue vont très bien avec ce mot.", "en": "Lanterns, yukata and street stalls fit this word very well." },
-        "hint2": { "fr": "Le mot parle d'un grand moment collectif et festif.", "en": "The term refers to a big collective festive moment." }
+      "jp": {
+        "term": "祭り",
+        "reading": "まつり",
+        "romaji": "matsuri"
       },
-      "explanation": { "fr": "Ce mot désigne un festival japonais. Dans les anime d'été comme dans le tourisme réel, c'est une image centrale du Japon vivant.", "en": "This word refers to a Japanese festival. In summer anime as in real tourism, it is a central image of living Japan." },
-      "quiz": { "distractors": { "fr": ["Feu d'artifice", "Sortie d'été", "Fête de rue"], "en": ["Fireworks", "Summer outing", "Street fair"] } },
+      "gloss": {
+        "fr": "Festival",
+        "en": "Festival"
+      },
+      "definition": {
+        "fr": "Fête populaire japonaise mêlant traditions, stands, costumes et ambiance de rue.",
+        "en": "Japanese festival mixing tradition, stalls, outfits and street atmosphere."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Lanternes, yukata et stands de rue vont très bien avec ce mot.",
+          "en": "Lanterns, yukata and street stalls fit this word very well."
+        },
+        "hint2": {
+          "fr": "Le mot parle d'un grand moment collectif et festif.",
+          "en": "The term refers to a big collective festive moment."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un festival japonais. Dans les anime d'été comme dans le tourisme réel, c'est une image centrale du Japon vivant.",
+        "en": "This word refers to a Japanese festival. In summer anime as in real tourism, it is a central image of living Japan."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Feu d'artifice",
+            "Sortie d'été",
+            "Fête de rue"
+          ],
+          "en": [
+            "Fireworks",
+            "Summer outing",
+            "Street fair"
+          ]
+        }
+      },
       "difficultyTier": 2
     },
     {
       "order": 16,
-      "jp": { "term": "浴衣", "reading": "ゆかた", "romaji": "yukata" },
-      "gloss": { "fr": "Yukata", "en": "Yukata" },
-      "definition": { "fr": "Vêtement léger japonais porté surtout l'été, souvent pendant les festivals.", "en": "Light Japanese garment worn mostly in summer, often during festivals." },
-      "hints": {
-        "hint1": { "fr": "On le voit souvent avec les matsuri et les feux d'artifice.", "en": "You often see it with festivals and fireworks." },
-        "hint2": { "fr": "Ce n'est pas le vêtement le plus formel, mais une version plus légère.", "en": "It is not the most formal garment, but a lighter version." }
+      "jp": {
+        "term": "浴衣",
+        "reading": "ゆかた",
+        "romaji": "yukata"
       },
-      "explanation": { "fr": "Ce mot désigne le yukata. Dans la culture pop, il évoque tout de suite l'été, les festivals et une élégance japonaise accessible.", "en": "This word refers to the yukata. In pop culture, it immediately evokes summer, festivals and an accessible Japanese elegance." },
-      "quiz": { "distractors": { "fr": ["Kimono", "Tenue d'été", "Habit traditionnel"], "en": ["Kimono", "Summer outfit", "Traditional garment"] } },
+      "gloss": {
+        "fr": "Yukata",
+        "en": "Yukata"
+      },
+      "definition": {
+        "fr": "Vêtement léger japonais porté surtout l'été, souvent pendant les festivals.",
+        "en": "Light Japanese garment worn mostly in summer, often during festivals."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "On le voit souvent avec les matsuri et les feux d'artifice.",
+          "en": "You often see it with festivals and fireworks."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas le vêtement le plus formel, mais une version plus légère.",
+          "en": "It is not the most formal garment, but a lighter version."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le yukata. Dans la culture pop, il évoque tout de suite l'été, les festivals et une élégance japonaise accessible.",
+        "en": "This word refers to the yukata. In pop culture, it immediately evokes summer, festivals and an accessible Japanese elegance."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Kimono",
+            "Tenue d'été",
+            "Habit traditionnel"
+          ],
+          "en": [
+            "Kimono",
+            "Summer outfit",
+            "Traditional garment"
+          ]
+        }
+      },
       "difficultyTier": 2
     },
     {
       "order": 17,
-      "jp": { "term": "居酒屋", "reading": "いざかや", "romaji": "izakaya" },
-      "gloss": { "fr": "Izakaya", "en": "Izakaya" },
-      "definition": { "fr": "Bar-restaurant japonais convivial où l'on mange et boit entre amis ou collègues.", "en": "Casual Japanese bar-restaurant where people eat and drink with friends or coworkers." },
-      "hints": {
-        "hint1": { "fr": "Le mot évoque une sortie du soir plus qu'un repas rapide.", "en": "The word evokes an evening outing more than a quick meal." },
-        "hint2": { "fr": "On y partage souvent plusieurs petits plats.", "en": "People often share several small dishes there." }
+      "jp": {
+        "term": "居酒屋",
+        "reading": "いざかや",
+        "romaji": "izakaya"
       },
-      "explanation": { "fr": "Ce mot désigne l'izakaya. C'est un lieu très vivant du quotidien urbain japonais, entre repas, boisson et sociabilité.", "en": "This word refers to an izakaya. It is a lively part of urban Japanese daily life, mixing food, drinks and social time." },
-      "quiz": { "distractors": { "fr": ["Restaurant de quartier", "Bar japonais", "Repas du soir"], "en": ["Neighborhood restaurant", "Japanese bar", "Evening meal"] } },
+      "gloss": {
+        "fr": "Izakaya",
+        "en": "Izakaya"
+      },
+      "definition": {
+        "fr": "Bar-restaurant japonais convivial où l'on mange et boit entre amis ou collègues.",
+        "en": "Casual Japanese bar-restaurant where people eat and drink with friends or coworkers."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le mot évoque une sortie du soir plus qu'un repas rapide.",
+          "en": "The word evokes an evening outing more than a quick meal."
+        },
+        "hint2": {
+          "fr": "On y partage souvent plusieurs petits plats.",
+          "en": "People often share several small dishes there."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'izakaya. C'est un lieu très vivant du quotidien urbain japonais, entre repas, boisson et sociabilité.",
+        "en": "This word refers to an izakaya. It is a lively part of urban Japanese daily life, mixing food, drinks and social time."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Restaurant de quartier",
+            "Bar japonais",
+            "Repas du soir"
+          ],
+          "en": [
+            "Neighborhood restaurant",
+            "Japanese bar",
+            "Evening meal"
+          ]
+        }
+      },
       "difficultyTier": 2
     },
     {
       "order": 18,
-      "jp": { "term": "街", "reading": "まち", "romaji": "machi" },
-      "gloss": { "fr": "Ville de quartier", "en": "Town streets" },
-      "definition": { "fr": "Mot qui évoque une ville vécue à taille humaine, ses rues et son ambiance.", "en": "Word that evokes a lived-in town, its streets and everyday atmosphere." },
-      "hints": {
-        "hint1": { "fr": "Ce n'est pas une grande métropole abstraite, mais un lieu où l'on vit.", "en": "It is not an abstract metropolis, but a place where people live." },
-        "hint2": { "fr": "Le mot parle souvent d'ambiance urbaine plus que d'administration.", "en": "The word often speaks more about urban atmosphere than administration." }
+      "jp": {
+        "term": "街",
+        "reading": "まち",
+        "romaji": "machi"
       },
-      "explanation": { "fr": "Ce mot désigne la ville ou le quartier au sens vécu. Dans les anime du quotidien, il porte souvent l'ambiance d'un lieu familier.", "en": "This word refers to the town or neighborhood as lived space. In slice-of-life anime, it often carries the atmosphere of a familiar place." },
-      "quiz": { "distractors": { "fr": ["Rues de la ville", "Quartier", "Centre-ville"], "en": ["City streets", "Neighborhood", "Downtown"] } },
+      "gloss": {
+        "fr": "Quartier",
+        "en": "Neighborhood"
+      },
+      "definition": {
+        "fr": "Mot qui évoque un quartier ou une petite ville vécue au quotidien, avec ses rues et son ambiance.",
+        "en": "Word that evokes a neighborhood or small town as people actually live it, with its streets and atmosphere."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce n'est pas une grande métropole abstraite, mais un lieu où l'on vit.",
+          "en": "It is not an abstract metropolis, but a place where people live."
+        },
+        "hint2": {
+          "fr": "Le mot parle souvent d'ambiance urbaine plus que d'administration.",
+          "en": "The word often speaks more about urban atmosphere than administration."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le quartier ou la petite ville au sens vécu. Dans les anime du quotidien, il porte souvent l'ambiance d'un lieu familier et habité.",
+        "en": "This word refers to a neighborhood or small town as a lived-in place. In slice-of-life anime, it often carries the atmosphere of a familiar place people inhabit every day."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Rues de la ville",
+            "Centre-ville",
+            "Quartier commerçant"
+          ],
+          "en": [
+            "City streets",
+            "Downtown",
+            "Shopping district"
+          ]
+        }
+      },
       "difficultyTier": 2
     },
     {
       "order": 19,
-      "jp": { "term": "富士山", "reading": "ふじさん", "romaji": "Fujisan" },
-      "gloss": { "fr": "Mont Fuji", "en": "Mount Fuji" },
-      "definition": { "fr": "Montagne emblématique du Japon, immédiatement reconnaissable par sa forme.", "en": "Iconic Japanese mountain immediately recognizable by its shape." },
-      "hints": {
-        "hint1": { "fr": "Cette montagne est l'une des images les plus célèbres du Japon.", "en": "This mountain is one of Japan's most famous images." },
-        "hint2": { "fr": "Le mot mélange un lieu réel et un symbole national.", "en": "The term mixes a real place with a national symbol." }
+      "jp": {
+        "term": "富士山",
+        "reading": "ふじさん",
+        "romaji": "Fujisan"
       },
-      "explanation": { "fr": "Ce mot désigne le mont Fuji. Dans l'imaginaire visuel, il fonctionne autant comme un vrai lieu que comme une icône du Japon.", "en": "This word refers to Mount Fuji. In visual imagination, it works both as a real place and as an icon of Japan." },
-      "quiz": { "distractors": { "fr": ["Volcan célèbre", "Montagne sacrée", "Paysage japonais"], "en": ["Famous volcano", "Sacred mountain", "Japanese landscape"] } },
+      "gloss": {
+        "fr": "Mont Fuji",
+        "en": "Mount Fuji"
+      },
+      "definition": {
+        "fr": "Montagne emblématique du Japon, immédiatement reconnaissable par sa forme.",
+        "en": "Iconic Japanese mountain immediately recognizable by its shape."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Cette montagne est l'une des images les plus célèbres du Japon.",
+          "en": "This mountain is one of Japan's most famous images."
+        },
+        "hint2": {
+          "fr": "Le mot mélange un lieu réel et un symbole national.",
+          "en": "The term mixes a real place with a national symbol."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le mont Fuji. Dans l'imaginaire visuel, il fonctionne autant comme un vrai lieu que comme une icône du Japon.",
+        "en": "This word refers to Mount Fuji. In visual imagination, it works both as a real place and as an icon of Japan."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Volcan célèbre",
+            "Montagne sacrée",
+            "Paysage japonais"
+          ],
+          "en": [
+            "Famous volcano",
+            "Sacred mountain",
+            "Japanese landscape"
+          ]
+        }
+      },
       "difficultyTier": 3
     },
     {
       "order": 20,
-      "jp": { "term": "旅", "reading": "たび", "romaji": "tabi" },
-      "gloss": { "fr": "Voyage", "en": "Journey" },
-      "definition": { "fr": "Déplacement avec une dimension de découverte, d'étape ou d'expérience.", "en": "Travel with a sense of discovery, stages or lived experience." },
-      "hints": {
-        "hint1": { "fr": "Le mot est plus large qu'un simple trajet.", "en": "The term is broader than a simple trip." },
-        "hint2": { "fr": "Il évoque autant le déplacement que ce qu'on vit pendant la route.", "en": "It evokes both the movement and what is experienced along the way." }
+      "jp": {
+        "term": "旅",
+        "reading": "たび",
+        "romaji": "tabi"
       },
-      "explanation": { "fr": "Ce mot désigne le voyage au sens sensible et narratif. Dans l'imaginaire japonais, il peut être très simple, très poétique ou très initiatique.", "en": "This word refers to a journey in a more emotional or narrative sense. In Japanese imagery, it can be simple, poetic or deeply transformative." },
-      "quiz": { "distractors": { "fr": ["Trajet", "Vacances", "Aventure"], "en": ["Trip", "Vacation", "Adventure"] } },
+      "gloss": {
+        "fr": "Voyage",
+        "en": "Journey"
+      },
+      "definition": {
+        "fr": "Déplacement avec une dimension de découverte, d'étape ou d'expérience.",
+        "en": "Travel with a sense of discovery, stages or lived experience."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le mot est plus large qu'un simple trajet.",
+          "en": "The term is broader than a simple trip."
+        },
+        "hint2": {
+          "fr": "Il évoque autant le déplacement que ce qu'on vit pendant la route.",
+          "en": "It evokes both the movement and what is experienced along the way."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le voyage au sens sensible et narratif. Dans l'imaginaire japonais, il peut être très simple, très poétique ou très initiatique.",
+        "en": "This word refers to a journey in a more emotional or narrative sense. In Japanese imagery, it can be simple, poetic or deeply transformative."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Trajet",
+            "Vacances",
+            "Aventure"
+          ],
+          "en": [
+            "Trip",
+            "Vacation",
+            "Adventure"
+          ]
+        }
+      },
       "difficultyTier": 3
     },
     {
       "order": 21,
-      "jp": { "term": "駅", "reading": "えき", "romaji": "eki" },
-      "gloss": { "fr": "Gare", "en": "Station" },
-      "definition": { "fr": "Lieu où l'on prend le train, le métro ou d'autres transports ferroviaires.", "en": "Place where people catch trains, subways or other rail transport." },
-      "hints": {
-        "hint1": { "fr": "Ce lieu est central dans la vie urbaine japonaise.", "en": "This place is central to Japanese urban life." },
-        "hint2": { "fr": "Le mot va très bien avec train, métro et correspondances.", "en": "The word fits perfectly with trains, subways and transfers." }
+      "jp": {
+        "term": "駅",
+        "reading": "えき",
+        "romaji": "eki"
       },
-      "explanation": { "fr": "Ce mot désigne la gare ou la station. Dans le Japon quotidien, c'est un point de passage constant, presque une scène à part entière.", "en": "This word refers to a station. In everyday Japan, it is a constant passage point, almost a scene of its own." },
-      "quiz": { "distractors": { "fr": ["Train", "Quai", "Métro"], "en": ["Train", "Platform", "Subway"] } },
+      "gloss": {
+        "fr": "Gare",
+        "en": "Station"
+      },
+      "definition": {
+        "fr": "Lieu où l'on prend le train, le métro ou d'autres transports ferroviaires.",
+        "en": "Place where people catch trains, subways or other rail transport."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce lieu est central dans la vie urbaine japonaise.",
+          "en": "This place is central to Japanese urban life."
+        },
+        "hint2": {
+          "fr": "Le mot va très bien avec train, métro et correspondances.",
+          "en": "The word fits perfectly with trains, subways and transfers."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la gare ou la station. Dans le Japon quotidien, c'est un point de passage constant, presque une scène à part entière.",
+        "en": "This word refers to a station. In everyday Japan, it is a constant passage point, almost a scene of its own."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Train",
+            "Quai",
+            "Métro"
+          ],
+          "en": [
+            "Train",
+            "Platform",
+            "Subway"
+          ]
+        }
+      },
       "difficultyTier": 3
     },
     {
       "order": 22,
-      "jp": { "term": "電車", "reading": "でんしゃ", "romaji": "densha" },
-      "gloss": { "fr": "Train de ville", "en": "Train" },
-      "definition": { "fr": "Train du quotidien, très lié aux trajets urbains et suburbains au Japon.", "en": "Everyday train strongly tied to urban and suburban commuting in Japan." },
-      "hints": {
-        "hint1": { "fr": "Ce mot évoque surtout le transport du quotidien.", "en": "This word mostly evokes everyday transport." },
-        "hint2": { "fr": "Ce n'est pas forcément le train rapide longue distance.", "en": "It is not necessarily the long-distance bullet train." }
+      "jp": {
+        "term": "電車",
+        "reading": "でんしゃ",
+        "romaji": "densha"
       },
-      "explanation": { "fr": "Ce mot désigne le train du quotidien. Dans les anime comme dans la vie réelle, c'est un cadre majeur de déplacement, de rencontre et de routine.", "en": "This word refers to the everyday train. In anime as in real life, it is a major setting for movement, meetings and routine." },
-      "quiz": { "distractors": { "fr": ["Shinkansen", "Métro", "Gare"], "en": ["Shinkansen", "Subway", "Station"] } },
+      "gloss": {
+        "fr": "Train local",
+        "en": "Commuter train"
+      },
+      "definition": {
+        "fr": "Train du quotidien, très lié aux trajets urbains et suburbains au Japon.",
+        "en": "Everyday train strongly tied to urban and suburban commuting in Japan."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce mot évoque surtout le transport du quotidien.",
+          "en": "This word mostly evokes everyday transport."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas forcément le train rapide longue distance.",
+          "en": "It is not necessarily the long-distance bullet train."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le train local du quotidien. Dans les anime comme dans la vie réelle, c'est un cadre majeur de déplacement, de rencontre et de routine.",
+        "en": "This word refers to the everyday commuter train. In anime as in real life, it is a major setting for movement, meetings and routine."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Shinkansen",
+            "Métro",
+            "Gare"
+          ],
+          "en": [
+            "Shinkansen",
+            "Subway",
+            "Station"
+          ]
+        }
+      },
       "difficultyTier": 3
     },
     {
       "order": 23,
-      "jp": { "term": "コンビニ", "reading": "コンビニ", "romaji": "konbini" },
-      "gloss": { "fr": "Supérette", "en": "Convenience store" },
-      "definition": { "fr": "Petit commerce ouvert tard, souvent très pratique pour les achats du quotidien.", "en": "Small shop open late, often very convenient for everyday purchases." },
-      "hints": {
-        "hint1": { "fr": "Ce lieu est central dans la vie de tous les jours au Japon.", "en": "This place is central to everyday life in Japan." },
-        "hint2": { "fr": "On y achète snacks, boissons, bentos et petits objets utiles.", "en": "People buy snacks, drinks, bentos and useful small items there." }
+      "jp": {
+        "term": "コンビニ",
+        "reading": "コンビニ",
+        "romaji": "konbini"
       },
-      "explanation": { "fr": "Ce mot désigne la supérette japonaise. Dans la vraie vie comme dans les anime, elle incarne un quotidien pratique, rapide et très urbain.", "en": "This word refers to the Japanese convenience store. In real life as in anime, it represents a practical, fast and very urban everyday world." },
-      "quiz": { "distractors": { "fr": ["Épicerie de nuit", "Magasin du coin", "Bento shop"], "en": ["Late-night grocery", "Corner store", "Bento shop"] } },
+      "gloss": {
+        "fr": "Supérette",
+        "en": "Convenience store"
+      },
+      "definition": {
+        "fr": "Petit commerce ouvert tard, souvent très pratique pour les achats du quotidien.",
+        "en": "Small shop open late, often very convenient for everyday purchases."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce lieu est central dans la vie de tous les jours au Japon.",
+          "en": "This place is central to everyday life in Japan."
+        },
+        "hint2": {
+          "fr": "On y achète snacks, boissons, bentos et petits objets utiles.",
+          "en": "People buy snacks, drinks, bentos and useful small items there."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la supérette japonaise. Dans la vraie vie comme dans les anime, elle incarne un quotidien pratique, rapide et très urbain.",
+        "en": "This word refers to the Japanese convenience store. In real life as in anime, it represents a practical, fast and very urban everyday world."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Épicerie de nuit",
+            "Magasin du coin",
+            "Bento shop"
+          ],
+          "en": [
+            "Late-night grocery",
+            "Corner store",
+            "Bento shop"
+          ]
+        }
+      },
       "difficultyTier": 3
     },
     {
       "order": 24,
-      "jp": { "term": "バス", "reading": "バス", "romaji": "basu" },
-      "gloss": { "fr": "Bus", "en": "Bus" },
-      "definition": { "fr": "Moyen de transport routier du quotidien, très présent en ville comme à la campagne.", "en": "Road transport used every day, present in cities as well as the countryside." },
-      "hints": {
-        "hint1": { "fr": "Ce transport va sur route, pas sur rails.", "en": "This transport runs on roads, not rails." },
-        "hint2": { "fr": "On l'utilise pour aller à l'école, au travail ou dans les petites villes.", "en": "People use it to go to school, work or smaller towns." }
+      "jp": {
+        "term": "バス",
+        "reading": "バス",
+        "romaji": "basu"
       },
-      "explanation": { "fr": "Ce mot désigne le bus. Dans l'imaginaire du quotidien japonais, il représente les trajets ordinaires et les petites scènes de la vie de tous les jours.", "en": "This word refers to the bus. In the imagery of everyday Japan, it represents ordinary trips and small scenes from daily life." },
-      "quiz": { "distractors": { "fr": ["Train de ville", "Métro", "Arrêt de bus"], "en": ["City train", "Subway", "Bus stop"] } },
+      "gloss": {
+        "fr": "Bus",
+        "en": "Bus"
+      },
+      "definition": {
+        "fr": "Moyen de transport routier du quotidien, très présent en ville comme à la campagne.",
+        "en": "Road transport used every day, present in cities as well as the countryside."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce transport va sur route, pas sur rails.",
+          "en": "This transport runs on roads, not rails."
+        },
+        "hint2": {
+          "fr": "On l'utilise pour aller à l'école, au travail ou dans les petites villes.",
+          "en": "People use it to go to school, work or smaller towns."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le bus. Dans l'imaginaire du quotidien japonais, il représente les trajets ordinaires et les petites scènes de la vie de tous les jours.",
+        "en": "This word refers to the bus. In the imagery of everyday Japan, it represents ordinary trips and small scenes from daily life."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Train local",
+            "Métro",
+            "Arrêt de bus"
+          ],
+          "en": [
+            "Commuter train",
+            "Subway",
+            "Bus stop"
+          ]
+        }
+      },
       "difficultyTier": 3
     },
     {
       "order": 25,
-      "jp": { "term": "地下鉄", "reading": "ちかてつ", "romaji": "chikatetsu" },
-      "gloss": { "fr": "Métro", "en": "Subway" },
-      "definition": { "fr": "Réseau ferré souterrain très important dans les grandes villes japonaises.", "en": "Underground rail network that is very important in large Japanese cities." },
-      "hints": {
-        "hint1": { "fr": "Ce transport est surtout lié aux grandes villes.", "en": "This transport is mostly tied to big cities." },
-        "hint2": { "fr": "Le mot parle du réseau souterrain, pas du train de banlieue.", "en": "The term refers to the underground network, not the commuter train." }
+      "jp": {
+        "term": "地下鉄",
+        "reading": "ちかてつ",
+        "romaji": "chikatetsu"
       },
-      "explanation": { "fr": "Ce mot désigne le métro. Dans les grandes villes japonaises, il fait partie des rythmes les plus quotidiens du déplacement.", "en": "This word refers to the subway. In large Japanese cities, it is part of the most everyday rhythms of movement." },
-      "quiz": { "distractors": { "fr": ["Train de ville", "Gare", "Ligne souterraine"], "en": ["City train", "Station", "Underground line"] } },
+      "gloss": {
+        "fr": "Métro",
+        "en": "Subway"
+      },
+      "definition": {
+        "fr": "Réseau ferré souterrain très important dans les grandes villes japonaises.",
+        "en": "Underground rail network that is very important in large Japanese cities."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce transport est surtout lié aux grandes villes.",
+          "en": "This transport is mostly tied to big cities."
+        },
+        "hint2": {
+          "fr": "Le mot parle du réseau souterrain, pas du train de banlieue.",
+          "en": "The term refers to the underground network, not the commuter train."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le métro. Dans les grandes villes japonaises, il fait partie des rythmes les plus quotidiens du déplacement.",
+        "en": "This word refers to the subway. In large Japanese cities, it is part of the most everyday rhythms of movement."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Train local",
+            "Gare",
+            "Ligne souterraine"
+          ],
+          "en": [
+            "Commuter train",
+            "Station",
+            "Underground line"
+          ]
+        }
+      },
       "difficultyTier": 4
     },
     {
       "order": 26,
-      "jp": { "term": "たこ焼き", "reading": "たこやき", "romaji": "takoyaki" },
-      "gloss": { "fr": "Takoyaki", "en": "Takoyaki" },
-      "definition": { "fr": "Boulettes chaudes à base de pâte et de poulpe, très associées à la street food japonaise.", "en": "Hot batter balls with octopus, strongly associated with Japanese street food." },
-      "hints": {
-        "hint1": { "fr": "On les imagine souvent dans les stands de festival.", "en": "They are often pictured at festival stalls." },
-        "hint2": { "fr": "Ce n'est pas un dessert, mais une street food salée.", "en": "It is not a dessert, but a savory street food." }
+      "jp": {
+        "term": "たこ焼き",
+        "reading": "たこやき",
+        "romaji": "takoyaki"
       },
-      "explanation": { "fr": "Ce mot désigne le takoyaki. C'est un plat de rue très pop, très visuel et très lié à l'ambiance des matsuri ou des quartiers vivants.", "en": "This word refers to takoyaki. It is a very pop, very visual street food tied to festivals and lively districts." },
-      "quiz": { "distractors": { "fr": ["Snack de festival", "Street food japonaise", "Boulettes salées"], "en": ["Festival snack", "Japanese street food", "Savory balls"] } },
+      "gloss": {
+        "fr": "Takoyaki",
+        "en": "Takoyaki"
+      },
+      "definition": {
+        "fr": "Boulettes chaudes à base de pâte et de poulpe, très associées à la street food japonaise.",
+        "en": "Hot batter balls with octopus, strongly associated with Japanese street food."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "On les imagine souvent dans les stands de festival.",
+          "en": "They are often pictured at festival stalls."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas un dessert, mais une street food salée.",
+          "en": "It is not a dessert, but a savory street food."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le takoyaki. C'est un plat de rue très pop, très visuel et très lié à l'ambiance des matsuri ou des quartiers vivants.",
+        "en": "This word refers to takoyaki. It is a very pop, very visual street food tied to festivals and lively districts."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Snack de festival",
+            "Street food japonaise",
+            "Boulettes salées"
+          ],
+          "en": [
+            "Festival snack",
+            "Japanese street food",
+            "Savory balls"
+          ]
+        }
+      },
       "difficultyTier": 4
     },
     {
       "order": 27,
-      "jp": { "term": "たい焼き", "reading": "たいやき", "romaji": "taiyaki" },
-      "gloss": { "fr": "Taiyaki", "en": "Taiyaki" },
-      "definition": { "fr": "Gâteau en forme de poisson, souvent fourré, très lié aux stands et aux goûters de rue.", "en": "Fish-shaped cake, often filled, strongly linked to stalls and street snacks." },
-      "hints": {
-        "hint1": { "fr": "Ce snack est connu pour sa forme très reconnaissable.", "en": "This snack is known for its very recognizable shape." },
-        "hint2": { "fr": "Contrairement au takoyaki, ici on pense davantage au sucré.", "en": "Unlike takoyaki, this one leans more toward sweet flavors." }
+      "jp": {
+        "term": "たい焼き",
+        "reading": "たいやき",
+        "romaji": "taiyaki"
       },
-      "explanation": { "fr": "Ce mot désigne le taiyaki. Dans la culture pop, il évoque à la fois la rue, le goûter et une image très mignonne du Japon.", "en": "This word refers to taiyaki. In pop culture, it evokes street life, snack time and a very cute image of Japan." },
-      "quiz": { "distractors": { "fr": ["Dessert de rue", "Snack en forme de poisson", "Gaufre japonaise"], "en": ["Street dessert", "Fish-shaped snack", "Japanese waffle"] } },
+      "gloss": {
+        "fr": "Taiyaki",
+        "en": "Taiyaki"
+      },
+      "definition": {
+        "fr": "Gâteau en forme de poisson, souvent fourré, très lié aux stands et aux goûters de rue.",
+        "en": "Fish-shaped cake, often filled, strongly linked to stalls and street snacks."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce snack est connu pour sa forme très reconnaissable.",
+          "en": "This snack is known for its very recognizable shape."
+        },
+        "hint2": {
+          "fr": "Contrairement au takoyaki, ici on pense davantage au sucré.",
+          "en": "Unlike takoyaki, this one leans more toward sweet flavors."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le taiyaki. Dans la culture pop, il évoque à la fois la rue, le goûter et une image très mignonne du Japon.",
+        "en": "This word refers to taiyaki. In pop culture, it evokes street life, snack time and a very cute image of Japan."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Dessert de rue",
+            "Snack en forme de poisson",
+            "Gaufre japonaise"
+          ],
+          "en": [
+            "Street dessert",
+            "Fish-shaped snack",
+            "Japanese waffle"
+          ]
+        }
+      },
       "difficultyTier": 4
     },
     {
       "order": 28,
-      "jp": { "term": "喫茶店", "reading": "きっさてん", "romaji": "kissaten" },
-      "gloss": { "fr": "Café traditionnel", "en": "Traditional coffee shop" },
-      "definition": { "fr": "Café japonais classique, souvent plus rétro et calme qu'une chaîne moderne.", "en": "Classic Japanese coffee shop, often more retro and calm than a modern chain." },
-      "hints": {
-        "hint1": { "fr": "Ce lieu évoque le Japon rétro plus que les grandes chaînes modernes.", "en": "This place evokes retro Japan more than large modern chains." },
-        "hint2": { "fr": "Le mot parle d'un café comme lieu, pas juste de la boisson.", "en": "The term refers to a coffee shop as a place, not just the drink." }
+      "jp": {
+        "term": "喫茶店",
+        "reading": "きっさてん",
+        "romaji": "kissaten"
       },
-      "explanation": { "fr": "Ce mot désigne un café traditionnel japonais. Dans les anime, il peut créer une ambiance plus calme, plus nostalgique ou plus locale.", "en": "This word refers to a traditional Japanese coffee shop. In anime, it can create a calmer, more nostalgic or more local atmosphere." },
-      "quiz": { "distractors": { "fr": ["Salon de thé", "Petit café", "Restaurant de quartier"], "en": ["Tea room", "Small cafe", "Neighborhood restaurant"] } },
+      "gloss": {
+        "fr": "Café traditionnel",
+        "en": "Traditional coffee shop"
+      },
+      "definition": {
+        "fr": "Café japonais classique, souvent plus rétro et calme qu'une chaîne moderne.",
+        "en": "Classic Japanese coffee shop, often more retro and calm than a modern chain."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce lieu évoque le Japon rétro plus que les grandes chaînes modernes.",
+          "en": "This place evokes retro Japan more than large modern chains."
+        },
+        "hint2": {
+          "fr": "Le mot parle d'un café comme lieu, pas juste de la boisson.",
+          "en": "The term refers to a coffee shop as a place, not just the drink."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un café traditionnel japonais. Dans les anime, il peut créer une ambiance plus calme, plus nostalgique ou plus locale.",
+        "en": "This word refers to a traditional Japanese coffee shop. In anime, it can create a calmer, more nostalgic or more local atmosphere."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Salon de thé",
+            "Petit café",
+            "Restaurant de quartier"
+          ],
+          "en": [
+            "Tea room",
+            "Small cafe",
+            "Neighborhood restaurant"
+          ]
+        }
+      },
       "difficultyTier": 4
     },
     {
       "order": 29,
-      "jp": { "term": "切符", "reading": "きっぷ", "romaji": "kippu" },
-      "gloss": { "fr": "Ticket", "en": "Ticket" },
-      "definition": { "fr": "Titre de transport ou billet utilisé pour prendre le train ou certains autres transports.", "en": "Transport ticket used to board a train or some other forms of transport." },
-      "hints": {
-        "hint1": { "fr": "Tu en as besoin avant de passer les portiques ou de monter à bord.", "en": "You need it before going through the gates or boarding." },
-        "hint2": { "fr": "Le mot est lié aux gares et aux trajets.", "en": "The word is tied to stations and trips." }
+      "jp": {
+        "term": "切符",
+        "reading": "きっぷ",
+        "romaji": "kippu"
       },
-      "explanation": { "fr": "Ce mot désigne le ticket ou le billet. Dans le Japon du quotidien, il fait partie des gestes ordinaires du transport.", "en": "This word refers to a ticket. In everyday Japan, it is part of the ordinary gestures of travel." },
-      "quiz": { "distractors": { "fr": ["Carte de transport", "Billet de train", "Passage de gare"], "en": ["Transport card", "Train pass", "Station entry"] } },
+      "gloss": {
+        "fr": "Ticket",
+        "en": "Ticket"
+      },
+      "definition": {
+        "fr": "Titre de transport ou billet utilisé pour prendre le train ou certains autres transports.",
+        "en": "Transport ticket used to board a train or some other forms of transport."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu en as besoin avant de passer les portiques ou de monter à bord.",
+          "en": "You need it before going through the gates or boarding."
+        },
+        "hint2": {
+          "fr": "Le mot est lié aux gares et aux trajets.",
+          "en": "The word is tied to stations and trips."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le ticket ou le billet. Dans le Japon du quotidien, il fait partie des gestes ordinaires du transport.",
+        "en": "This word refers to a ticket. In everyday Japan, it is part of the ordinary gestures of travel."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Carte de transport",
+            "Billet de train",
+            "Portique de gare"
+          ],
+          "en": [
+            "Transport card",
+            "Train ticket",
+            "Station gate"
+          ]
+        }
+      },
       "difficultyTier": 4
     },
     {
       "order": 30,
-      "jp": { "term": "着物", "reading": "きもの", "romaji": "kimono" },
-      "gloss": { "fr": "Kimono", "en": "Kimono" },
-      "definition": { "fr": "Vêtement traditionnel japonais plus formel et plus chargé symboliquement que le yukata.", "en": "Traditional Japanese garment that is more formal and more symbolically loaded than a yukata." },
-      "hints": {
-        "hint1": { "fr": "Ce vêtement est plus formel et plus traditionnel qu'un yukata d'été.", "en": "This garment is more formal and more traditional than a summer yukata." },
-        "hint2": { "fr": "Le mot renvoie immédiatement à l'image classique du Japon traditionnel.", "en": "The term instantly points to the classic image of traditional Japan." }
+      "jp": {
+        "term": "着物",
+        "reading": "きもの",
+        "romaji": "kimono"
       },
-      "explanation": { "fr": "Ce mot désigne le kimono. Dans l'imaginaire mondial, c'est sans doute l'un des vêtements japonais les plus reconnaissables.", "en": "This word refers to the kimono. In global imagination, it is probably one of the most recognizable Japanese garments." },
-      "quiz": { "distractors": { "fr": ["Yukata", "Habit traditionnel", "Tenue de cérémonie"], "en": ["Yukata", "Traditional outfit", "Ceremonial garment"] } },
+      "gloss": {
+        "fr": "Kimono",
+        "en": "Kimono"
+      },
+      "definition": {
+        "fr": "Vêtement traditionnel japonais plus formel et plus chargé symboliquement que le yukata.",
+        "en": "Traditional Japanese garment that is more formal and more symbolically loaded than a yukata."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce vêtement est plus formel et plus traditionnel qu'un yukata d'été.",
+          "en": "This garment is more formal and more traditional than a summer yukata."
+        },
+        "hint2": {
+          "fr": "Le mot renvoie immédiatement à l'image classique du Japon traditionnel.",
+          "en": "The term instantly points to the classic image of traditional Japan."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le kimono. Dans l'imaginaire mondial, c'est sans doute l'un des vêtements japonais les plus reconnaissables.",
+        "en": "This word refers to the kimono. In global imagination, it is probably one of the most recognizable Japanese garments."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Yukata",
+            "Habit traditionnel",
+            "Tenue de cérémonie"
+          ],
+          "en": [
+            "Yukata",
+            "Traditional outfit",
+            "Ceremonial garment"
+          ]
+        }
+      },
       "difficultyTier": 3
     }
   ],

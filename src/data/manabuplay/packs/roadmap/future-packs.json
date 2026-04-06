@@ -345,6 +345,431 @@
         "anime-codes",
         "dark-fantasy-legends-and-stealth"
       ]
+    },
+    {
+      "id": "elite-enemy",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Ennemi d'élite"
+        },
+        "en": {
+          "label": "Elite enemy"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "berserk",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Berserk"
+        },
+        "en": {
+          "label": "Berserk"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "transformation",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Transformation"
+        },
+        "en": {
+          "label": "Transformation"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "anime-codes"
+      ]
+    },
+    {
+      "id": "dark-lord",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Seigneur noir"
+        },
+        "en": {
+          "label": "Dark lord"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "fury",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Furie"
+        },
+        "en": {
+          "label": "Fury"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "shadow",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Ombre"
+        },
+        "en": {
+          "label": "Shadow"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "immunity",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Immunité"
+        },
+        "en": {
+          "label": "Immunity"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "poison",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Poison"
+        },
+        "en": {
+          "label": "Poison"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "guard",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Garde"
+        },
+        "en": {
+          "label": "Guard"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "classes-weapons-equipment"
+      ]
+    },
+    {
+      "id": "blaze",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Brasier"
+        },
+        "en": {
+          "label": "Blaze"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "annihilation",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Anéantissement"
+        },
+        "en": {
+          "label": "Annihilation"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "accessory",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Accessoire"
+        },
+        "en": {
+          "label": "Accessory"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "japan-pop-city-daily-life"
+      ]
+    },
+    {
+      "id": "assassin",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Assassin"
+        },
+        "en": {
+          "label": "Assassin"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "paladin",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Paladin"
+        },
+        "en": {
+          "label": "Paladin"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "lancer",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Lancier"
+        },
+        "en": {
+          "label": "Lancer"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "ranger",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Ranger"
+        },
+        "en": {
+          "label": "Ranger"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "healer",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Soigneur"
+        },
+        "en": {
+          "label": "Healer"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "wand",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Baguette"
+        },
+        "en": {
+          "label": "Wand"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "crossbow",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Arbalète"
+        },
+        "en": {
+          "label": "Crossbow"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "hammer",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Marteau"
+        },
+        "en": {
+          "label": "Hammer"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "mace",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Masse"
+        },
+        "en": {
+          "label": "Mace"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "halberd",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Hallebarde"
+        },
+        "en": {
+          "label": "Halberd"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "relic",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Relique"
+        },
+        "en": {
+          "label": "Relic"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "talisman",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Talisman"
+        },
+        "en": {
+          "label": "Talisman"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "scholar",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Érudit"
+        },
+        "en": {
+          "label": "Scholar"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "anime-codes"
+      ]
     }
   ],
   "packs": [
@@ -362,8 +787,8 @@
         }
       },
       "candidateWordIds": [
-        "gacha",
         "free-to-play",
+        "gacha",
         "reward"
       ],
       "plannedWords": [
@@ -394,10 +819,11 @@
       },
       "candidateWordIds": [
         "cheat",
-        "lives-stock",
         "hidden-character",
-        "strategy",
-        "key-item"
+        "key-item",
+        "lives-stock",
+        "reward",
+        "strategy"
       ],
       "plannedWords": [
         "裏技",
@@ -426,16 +852,37 @@
         }
       },
       "candidateWordIds": [
-        "curse",
-        "legend",
-        "stealth",
-        "spell",
-        "summon",
-        "guild",
         "ambush",
-        "nation",
+        "annihilation",
+        "assassin",
+        "berserk",
+        "blaze",
+        "crossbow",
+        "curse",
+        "dark-lord",
+        "elite-enemy",
         "fortress",
-        "hero"
+        "fury",
+        "guild",
+        "halberd",
+        "hammer",
+        "healer",
+        "hero",
+        "immunity",
+        "lancer",
+        "legend",
+        "mace",
+        "nation",
+        "paladin",
+        "poison",
+        "ranger",
+        "relic",
+        "shadow",
+        "spell",
+        "stealth",
+        "summon",
+        "talisman",
+        "wand"
       ],
       "plannedWords": [
         "忍者",

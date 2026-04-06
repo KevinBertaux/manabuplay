@@ -4,7 +4,7 @@ import path from "node:path";
 export type RoadmapCandidateWord = {
   id: string;
   status: "existing-word" | "candidate-word";
-  source: "legacy-mvp" | "pack-1-distractor";
+  source: "legacy-mvp" | `pack-${number}-distractor`;
   existingWordId?: string;
   jp?: string;
   assist?: string;

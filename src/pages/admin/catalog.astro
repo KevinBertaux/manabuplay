@@ -55,11 +55,22 @@ function getSourceLabel(source: string) {
     .catalog-pack { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(232,121,249,.22); background:rgba(232,121,249,.1); color:#f5d0fe; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
     .catalog-field { color:#8f8aa7; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
     .catalog-value { color:#c7c2df; font:500 1rem/1.55 'Rajdhani',sans-serif; }
-    .catalog-roadmap { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
-    .catalog-roadmap-card { display:grid; gap:10px; padding:16px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
+    .catalog-roadmap { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; align-items:start; }
+    .catalog-roadmap-card { display:grid; gap:10px; padding:16px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); align-self:start; }
     .catalog-roadmap-version { color:#22d3ee; font:700 .86rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
     .catalog-roadmap-title { color:#fff; font:700 1.12rem/1.2 'Rajdhani',sans-serif; }
     .catalog-roadmap-theme { color:#a9a3c3; font:500 .98rem/1.5 'Rajdhani',sans-serif; }
+    .catalog-roadmap-toggle { display:grid; gap:8px; }
+    .catalog-roadmap-summary { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:40px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03)); cursor:pointer; list-style:none; }
+    .catalog-roadmap-summary::-webkit-details-marker { display:none; }
+    .catalog-roadmap-summary-main { display:flex; align-items:center; gap:10px; min-width:0; }
+    .catalog-roadmap-summary-text { color:#fff; font:700 .98rem/1 'Rajdhani',sans-serif; }
+    .catalog-roadmap-count { display:inline-flex; align-items:center; min-height:28px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#d7fbff; font:800 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }
+    .catalog-roadmap-chevron { color:#8f8aa7; font:800 1rem/1 'Rajdhani',sans-serif; transition:transform .18s ease,color .18s ease; }
+    .catalog-roadmap-toggle[open] .catalog-roadmap-summary { border-color:rgba(232,121,249,.22); background:linear-gradient(180deg,rgba(232,121,249,.08),rgba(255,255,255,.04)); }
+    .catalog-roadmap-toggle[open] .catalog-roadmap-count { border-color:rgba(232,121,249,.24); background:rgba(232,121,249,.08); color:#f5d0fe; }
+    .catalog-roadmap-toggle[open] .catalog-roadmap-chevron { color:#f5d0fe; transform:rotate(180deg); }
+    .catalog-roadmap-list { display:flex; gap:8px; flex-wrap:wrap; padding:2px 2px 0; }
     .catalog-rejects { display:flex; gap:8px; flex-wrap:wrap; }
     .catalog-reject { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(248,113,113,.18); background:rgba(248,113,113,.08); color:#fecaca; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
     @media (max-width:1080px) {
@@ -143,7 +154,7 @@ function getSourceLabel(source: string) {
       <div class="catalog-section-head">
         <div>
           <h2 class="catalog-section-title">Distracteurs promus en candidats</h2>
-          <p class="catalog-section-copy">Sur les `32` distracteurs non-mots du pack 1, `11` ont été gardés parce qu’ils peuvent soutenir un vrai pack plus tard. Les autres ont été rejetés comme labels trop contextuels.</p>
+          <p class="catalog-section-copy">{candidateWords.length} distracteurs ont déjà été promus en mots candidats. Ils viennent du pack 1, puis des packs 2 et 3 après harmonisation, quand ils paraissent assez solides pour soutenir un vrai pack plus tard.</p>
         </div>
       </div>
       <div class="catalog-grid">
@@ -181,18 +192,30 @@ function getSourceLabel(source: string) {
             <div class="catalog-roadmap-version">{pack.targetVersion}</div>
             <div class="catalog-roadmap-title">{pack.locales.fr.name}</div>
             <div class="catalog-roadmap-theme">{pack.themeId}</div>
-            <div>
-              <div class="catalog-field">Candidats déjà présents</div>
-              <div class="catalog-pack-row">
+            <details class="catalog-roadmap-toggle">
+              <summary class="catalog-roadmap-summary">
+                <span class="catalog-roadmap-summary-main">
+                  <span class="catalog-roadmap-summary-text">Mots candidats</span>
+                  <span class="catalog-roadmap-count">{pack.candidateWordIds.length}</span>
+                </span>
+                <span class="catalog-roadmap-chevron">▾</span>
+              </summary>
+              <div class="catalog-roadmap-list">
                 {pack.candidateWordIds.map((candidateId) => <span class="catalog-pack">{candidateId}</span>)}
               </div>
-            </div>
-            <div>
-              <div class="catalog-field">Mots encore à écrire</div>
-              <div class="catalog-pack-row">
+            </details>
+            <details class="catalog-roadmap-toggle">
+              <summary class="catalog-roadmap-summary">
+                <span class="catalog-roadmap-summary-main">
+                  <span class="catalog-roadmap-summary-text">Mots à écrire</span>
+                  <span class="catalog-roadmap-count">{pack.plannedWords.length}</span>
+                </span>
+                <span class="catalog-roadmap-chevron">▾</span>
+              </summary>
+              <div class="catalog-roadmap-list">
                 {pack.plannedWords.map((word) => <span class="catalog-pack">{word}</span>)}
               </div>
-            </div>
+            </details>
           </article>
         ))}
       </div>
