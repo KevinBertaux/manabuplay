@@ -86,7 +86,7 @@
         "hint2": { "fr": "On parle souvent d'une forme ou d'une puissance enfin révélée.", "en": "It often points to a hidden form or power finally revealed." }
       },
       "explanation": { "fr": "Ce mot désigne l'éveil d'un personnage. Dans les anime et les jeux, il accompagne souvent une montée de puissance décisive.", "en": "This word refers to a character awakening. In anime and games, it often comes with a decisive power-up." },
-      "quiz": { "distractors": { "fr": ["Transformation", "Domination totale", "Art secret"], "en": ["Transformation", "Overwhelming domination", "Secret art"] } },
+      "quiz": { "distractors": { "fr": ["Transformation", "Domination totale", "Art secret"], "en": ["Transformation", "Overwhelming supremacy", "Secret art"] } },
       "difficultyTier": 2
     },
     {
@@ -417,7 +417,7 @@
         "hint2": { "fr": "Ce n'est pas percer ou écraser : c'est couper.", "en": "It is not piercing or crushing: it is cutting." }
       },
       "explanation": { "fr": "Ce mot désigne une attaque tranchante. Il évoque le coup de lame rapide, propre, parfois si puissant qu'il semble couper l'air lui-même.", "en": "This word refers to a slashing attack. It evokes a fast, clean blade strike, sometimes so strong that it seems to cut through the air itself." },
-      "quiz": { "distractors": { "fr": ["Technique à l'épée", "Un seul coup", "Charge"], "en": ["Sword technique", "One clean hit", "Charge"] } },
+      "quiz": { "distractors": { "fr": ["Technique à l'épée", "Un seul coup", "Charge"], "en": ["Sword technique", "Single decisive blow", "Charge"] } },
       "difficultyTier": 3
     }
   ],

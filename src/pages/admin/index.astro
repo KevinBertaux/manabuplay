@@ -91,8 +91,12 @@ function getTierBreakdown(pack: (typeof packs)[number]) {
     .pack-card:hover { border-color:rgba(232,121,249,.38); background:rgba(232,121,249,.06); transform:translateY(-2px); }
     .pack-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
     .pack-name { color:#fff; font:700 1.16rem/1.25 'Rajdhani',sans-serif; }
-    .pack-score { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; font:800 .92rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }
+    .pack-score { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#d7fbff; font:800 .92rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }
     .pack-score.na { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#8f8aa7; }
+    .pack-score.bad { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .pack-score.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .pack-score.good { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .pack-score.perfect { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
     .pack-summary { min-height:3em; color:#c7c2df; font:600 .98rem/1.5 'Rajdhani',sans-serif; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
     .pack-meta { display:flex; gap:8px; flex-wrap:wrap; }
     .pack-chip { display:inline-flex; align-items:center; height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(139,92,246,.22); background:rgba(139,92,246,.12); color:#a78bfa; font:700 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }

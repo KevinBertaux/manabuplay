@@ -348,8 +348,8 @@ function getTierTone(word: PackReaderWord) {
               <>
           <div class="reader-cartouche-head">
             <div>
-              <div class="reader-cartouche-title">Cartouche pack</div>
-              <div class="reader-cartouche-sub">{activePack.locales.fr.name}</div>
+              <div class="reader-cartouche-title">{activePack.locales.fr.name}</div>
+              <div class="reader-cartouche-sub">{activePack.locales.fr.description}</div>
             </div>
             <div class:list={["reader-cartouche-score", getScoreTone(getReadinessValue())]}>
               {getReadinessValue() === null ? "n.c." : `${getReadinessValue()}/100`}
