@@ -18,6 +18,30 @@
       "description": "Words, codes and recurring figures you keep seeing in anime and manga."
     }
   },
+  "score": {
+    "readiness": {
+      "value": 92,
+      "minProdScore": 90,
+      "readyForProd": true,
+      "reviewStatus": "faite",
+      "releaseStatus": "preprod",
+      "breakdown": {
+        "packSize": 15,
+        "tierFit": 15,
+        "contentCompleteness": 40,
+        "quizQuality": 12,
+        "editorialReview": 10
+      }
+    },
+    "depth": {
+      "value": 76
+    }
+  },
+  "quiz": {
+    "transparentWordIds": [
+      "waifu"
+    ]
+  },
   "words": [
     {
       "order": 1,
@@ -120,8 +144,8 @@
         "romaji": "tsundere"
       },
       "gloss": {
-        "fr": "Tsundere",
-        "en": "Tsundere"
+        "fr": "Froide puis tendre",
+        "en": "Cold then tender"
       },
       "definition": {
         "fr": "Personnage d'abord froid ou agressif, puis plus tendre quand il baisse sa garde.",
@@ -710,8 +734,8 @@
         "romaji": "kōhai"
       },
       "gloss": {
-        "fr": "Kouhai",
-        "en": "Kouhai"
+        "fr": "Cadet",
+        "en": "Junior"
       },
       "definition": {
         "fr": "Personne plus jeune ou plus récente dans une hiérarchie scolaire ou sociale.",
@@ -728,7 +752,7 @@
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne un junior dans une hiérarchie de groupe. Dans les anime scolaires, la relation aîné-junior est très codée.",
+        "fr": "Ce mot désigne un cadet dans une hiérarchie de groupe. Dans les anime scolaires, la relation aîné-cadet est très codée.",
         "en": "This word refers to a junior within a group hierarchy. In school anime, the senior-junior relation is highly codified."
       },
       "quiz": {
@@ -736,12 +760,12 @@
           "fr": [
             "Aîné",
             "Nouvel élève",
-            "Cadet du club"
+            "Membre récent du club"
           ],
           "en": [
             "Senior",
             "New student",
-            "Junior club member"
+            "Newer club member"
           ]
         }
       },
@@ -995,8 +1019,8 @@
           "en": "Here, the character hides their feelings much less."
         },
         "hint2": {
-          "fr": "C'est plus doux et direct qu'une tsundere.",
-          "en": "It is softer and more direct than a tsundere."
+          "fr": "C'est plus doux et direct qu'un personnage froid puis tendre.",
+          "en": "It is softer and more direct than a cold-then-tender character."
         }
       },
       "explanation": {
@@ -1040,13 +1064,13 @@
           "en": "Here, the distance comes more from calmness than aggression."
         },
         "hint2": {
-          "fr": "C'est une variante plus froide et silencieuse qu'une tsundere.",
-          "en": "It is a colder, quieter variant than a tsundere."
+          "fr": "C'est une variante plus froide et silencieuse qu'un personnage froid puis tendre.",
+          "en": "It is a colder, quieter variant than a cold-then-tender character."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne un personnage froid et posé. Dans les anime, il s'agit d'un type plus silencieux et retenu qu'une tsundere classique.",
-        "en": "This word refers to a cold and composed character. In anime, it is a quieter, more restrained type than a classic tsundere."
+        "fr": "Ce mot désigne un personnage froid et posé. Dans les anime, il s'agit d'un type plus silencieux et retenu qu'un profil froid puis tendre classique.",
+        "en": "This word refers to a cold and composed character. In anime, it is a quieter, more restrained type than a classic cold-then-tender profile."
       },
       "quiz": {
         "distractors": {
@@ -1379,32 +1403,5 @@
       },
       "difficultyTier": 4
     }
-  ],
-  "score": {
-    "readiness": {
-      "value": 82,
-      "minProdScore": 90,
-      "readyForProd": false,
-      "reviewStatus": "non-relue",
-      "releaseStatus": "dev",
-      "breakdown": {
-        "packSize": 15,
-        "tierFit": 15,
-        "contentCompleteness": 40,
-        "quizQuality": 10,
-        "editorialReview": 2
-      }
-    },
-    "depth": {
-      "value": 76
-    }
-  },
-  "quiz": {
-    "transparentWordIds": [
-      "tsundere",
-      "waifu",
-      "kuudere",
-      "yandere"
-    ]
-  }
+  ]
 }

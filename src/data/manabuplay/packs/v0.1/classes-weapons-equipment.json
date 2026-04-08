@@ -18,6 +18,30 @@
       "description": "RPG classes, familiar weapons and basic gear from Japanese games."
     }
   },
+  "score": {
+    "readiness": {
+      "value": 93,
+      "minProdScore": 90,
+      "readyForProd": true,
+      "reviewStatus": "faite",
+      "releaseStatus": "preprod",
+      "breakdown": {
+        "packSize": 15,
+        "tierFit": 15,
+        "contentCompleteness": 40,
+        "quizQuality": 13,
+        "editorialReview": 10
+      }
+    },
+    "depth": {
+      "value": 76
+    }
+  },
+  "quiz": {
+    "transparentWordIds": [
+      "katana"
+    ]
+  },
   "words": [
     {
       "order": 1,
@@ -1379,29 +1403,5 @@
       },
       "difficultyTier": 4
     }
-  ],
-  "score": {
-    "readiness": {
-      "value": 93,
-      "minProdScore": 90,
-      "readyForProd": true,
-      "reviewStatus": "faite",
-      "releaseStatus": "preprod",
-      "breakdown": {
-        "packSize": 15,
-        "tierFit": 15,
-        "contentCompleteness": 40,
-        "quizQuality": 13,
-        "editorialReview": 10
-      }
-    },
-    "depth": {
-      "value": 76
-    }
-  },
-  "quiz": {
-    "transparentWordIds": [
-      "katana"
-    ]
-  }
+  ]
 }

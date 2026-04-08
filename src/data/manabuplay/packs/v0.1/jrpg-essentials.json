@@ -18,6 +18,30 @@
       "description": "The core vocabulary used in JRPG menus, battles and progression."
     }
   },
+  "score": {
+    "readiness": {
+      "value": 94,
+      "minProdScore": 90,
+      "readyForProd": true,
+      "reviewStatus": "faite",
+      "releaseStatus": "preprod",
+      "breakdown": {
+        "packSize": 15,
+        "tierFit": 15,
+        "contentCompleteness": 40,
+        "quizQuality": 14,
+        "editorialReview": 10
+      }
+    },
+    "depth": {
+      "value": 74
+    }
+  },
+  "quiz": {
+    "transparentWordIds": [
+      "mana-mp"
+    ]
+  },
   "words": [
     {
       "order": 1,
@@ -931,7 +955,6 @@
     },
     {
       "order": 21,
-      "difficultyTier": 2,
       "jp": {
         "term": "エンカウント",
         "reading": "エンカウント",
@@ -972,11 +995,11 @@
             "Dungeon trap"
           ]
         }
-      }
+      },
+      "difficultyTier": 2
     },
     {
       "order": 22,
-      "difficultyTier": 3,
       "jp": {
         "term": "インベントリ",
         "reading": "インベントリ",
@@ -1017,11 +1040,11 @@
             "Equipment bag"
           ]
         }
-      }
+      },
+      "difficultyTier": 3
     },
     {
       "order": 23,
-      "difficultyTier": 3,
       "jp": {
         "term": "宿屋",
         "reading": "やどや",
@@ -1062,11 +1085,11 @@
             "Save point"
           ]
         }
-      }
+      },
+      "difficultyTier": 3
     },
     {
       "order": 24,
-      "difficultyTier": 3,
       "jp": {
         "term": "宝箱",
         "reading": "たからばこ",
@@ -1107,11 +1130,11 @@
             "Key item"
           ]
         }
-      }
+      },
+      "difficultyTier": 3
     },
     {
       "order": 25,
-      "difficultyTier": 3,
       "jp": {
         "term": "マップ",
         "reading": "マップ",
@@ -1152,11 +1175,11 @@
             "Quest area"
           ]
         }
-      }
+      },
+      "difficultyTier": 3
     },
     {
       "order": 26,
-      "difficultyTier": 4,
       "jp": {
         "term": "町",
         "reading": "まち",
@@ -1197,11 +1220,11 @@
             "Castle"
           ]
         }
-      }
+      },
+      "difficultyTier": 4
     },
     {
       "order": 27,
-      "difficultyTier": 4,
       "jp": {
         "term": "村",
         "reading": "むら",
@@ -1242,11 +1265,11 @@
             "Starting area"
           ]
         }
-      }
+      },
+      "difficultyTier": 4
     },
     {
       "order": 28,
-      "difficultyTier": 4,
       "jp": {
         "term": "王国",
         "reading": "おうこく",
@@ -1287,11 +1310,11 @@
             "Nation"
           ]
         }
-      }
+      },
+      "difficultyTier": 4
     },
     {
       "order": 29,
-      "difficultyTier": 4,
       "jp": {
         "term": "城",
         "reading": "しろ",
@@ -1332,11 +1355,11 @@
             "Town"
           ]
         }
-      }
+      },
+      "difficultyTier": 4
     },
     {
       "order": 30,
-      "difficultyTier": 4,
       "jp": {
         "term": "冒険者",
         "reading": "ぼうけんしゃ",
@@ -1377,31 +1400,8 @@
             "Guild fighter"
           ]
         }
-      }
+      },
+      "difficultyTier": 4
     }
-  ],
-  "score": {
-    "readiness": {
-      "value": 94,
-      "minProdScore": 90,
-      "readyForProd": true,
-      "reviewStatus": "faite",
-      "releaseStatus": "preprod",
-      "breakdown": {
-        "packSize": 15,
-        "tierFit": 15,
-        "contentCompleteness": 40,
-        "quizQuality": 14,
-        "editorialReview": 10
-      }
-    },
-    "depth": {
-      "value": 74
-    }
-  },
-  "quiz": {
-    "transparentWordIds": [
-      "mana-mp"
-    ]
-  }
+  ]
 }

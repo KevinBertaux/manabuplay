@@ -244,6 +244,7 @@ Pour `v0.1`, on ne crée pas de logique runtime spéciale.
 Détection retenue :
 - un mot entre dans `transparentWordIds` si `romaji == gloss.fr`
 - ou si `romaji == gloss.en`
+- la comparaison est mécanique, après `trim()` et passage en minuscules
 - sans exception éditoriale supplémentaire
 
 On suit plutôt un ratio pack-level :
@@ -288,6 +289,14 @@ Barème retenu :
 - `Contenu` : `40`
 - `Qualité quiz` : `15`
 - `Relecture` : `15`
+
+Dans `Qualité quiz`, le taux de mots cadeaux applique un malus :
+- `0% à 10%` : `0`
+- `>10% à 15%` : `-1`
+- `>15% à 25%` : `-2`
+- `>25% à 35%` : `-3`
+- `>35% à 50%` : `-4`
+- `>50%` : `-5`
 
 ### Seuil retenu
 - `90/100` = seuil minimum prod

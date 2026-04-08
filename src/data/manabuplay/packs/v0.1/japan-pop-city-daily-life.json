@@ -18,6 +18,43 @@
       "description": "A first taste of everyday Japan: city life, food, transport and atmosphere."
     }
   },
+  "score": {
+    "readiness": {
+      "value": 74,
+      "minProdScore": 90,
+      "readyForProd": false,
+      "reviewStatus": "non-relue",
+      "releaseStatus": "dev",
+      "breakdown": {
+        "packSize": 15,
+        "tierFit": 15,
+        "contentCompleteness": 40,
+        "quizQuality": 2,
+        "editorialReview": 2
+      }
+    },
+    "depth": {
+      "value": 76
+    }
+  },
+  "quiz": {
+    "transparentWordIds": [
+      "ramen",
+      "sushi",
+      "onigiri",
+      "matcha",
+      "shinkansen",
+      "Tokyo",
+      "Shibuya",
+      "Akihabara",
+      "onsen",
+      "yukata",
+      "izakaya",
+      "takoyaki",
+      "taiyaki",
+      "kimono"
+    ]
+  },
   "words": [
     {
       "order": 1,
@@ -1370,42 +1407,5 @@
       },
       "difficultyTier": 3
     }
-  ],
-  "score": {
-    "readiness": {
-      "value": 82,
-      "minProdScore": 90,
-      "readyForProd": false,
-      "reviewStatus": "non-relue",
-      "releaseStatus": "dev",
-      "breakdown": {
-        "packSize": 15,
-        "tierFit": 15,
-        "contentCompleteness": 40,
-        "quizQuality": 10,
-        "editorialReview": 2
-      }
-    },
-    "depth": {
-      "value": 76
-    }
-  },
-  "quiz": {
-    "transparentWordIds": [
-      "ramen",
-      "sushi",
-      "onigiri",
-      "matcha",
-      "shinkansen",
-      "Tokyo",
-      "Shibuya",
-      "Akihabara",
-      "onsen",
-      "yukata",
-      "izakaya",
-      "takoyaki",
-      "taiyaki",
-      "kimono"
-    ]
-  }
+  ]
 }
