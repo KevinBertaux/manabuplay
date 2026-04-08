@@ -3,20 +3,44 @@
   "slug": "jrpg-essentials",
   "themeId": "gaming",
   "status": "content-draft",
-  "targetWordCount": 20,
+  "targetWordCount": 30,
   "notes": [
     "Premier pack enrichi pour validation éditoriale.",
-    "Les meanings, readings, romaji, hints et explanations sont posés ici comme base de travail."
+    "Répartition des tiers : 10 mots tier 1, 8 mots tier 2, 7 mots tier 3, 5 mots tier 4."
   ],
   "locales": {
     "fr": {
       "name": "JRPG essentiels",
-      "description": "Les mots de base des JRPG et jeux d'aventure japonais."
+      "description": "Le vocabulaire de base pour comprendre menus, combats et progression dans les JRPG."
     },
     "en": {
       "name": "JRPG Essentials",
-      "description": "Core words from JRPGs and Japanese adventure games."
+      "description": "The core vocabulary used in JRPG menus, battles and progression."
     }
+  },
+  "score": {
+    "readiness": {
+      "value": 94,
+      "minProdScore": 90,
+      "readyForProd": true,
+      "reviewStatus": "faite",
+      "releaseStatus": "preprod",
+      "breakdown": {
+        "packSize": 15,
+        "tierFit": 15,
+        "contentCompleteness": 40,
+        "quizQuality": 14,
+        "editorialReview": 10
+      }
+    },
+    "depth": {
+      "value": 74
+    }
+  },
+  "quiz": {
+    "transparentWordIds": [
+      "mana-mp"
+    ]
   },
   "words": [
     {
@@ -27,9 +51,13 @@
         "reading": "レベルアップ",
         "romaji": "reberu appu"
       },
-      "meaning": {
-        "fr": "Monter de niveau et devenir plus fort.",
-        "en": "To level up and become stronger."
+      "gloss": {
+        "fr": "Monter de niveau",
+        "en": "Level up"
+      },
+      "definition": {
+        "fr": "Passer au niveau supérieur et gagner en puissance.",
+        "en": "Reach the next level and gain power."
       },
       "hints": {
         "hint1": {
@@ -42,9 +70,24 @@
         }
       },
       "explanation": {
-        "fr": "Dans un JRPG, c'est le moment où ton personnage passe au niveau supérieur. C'est l'un des mots les plus basiques du genre.",
-        "en": "In a JRPG, this is the moment your character reaches the next level. It is one of the most basic words in the genre."
-      }
+        "fr": "Ce mot désigne le moment où un personnage monte de niveau. Dans un JRPG, cela veut souvent dire plus de PV, de stats et parfois une nouvelle compétence.",
+        "en": "This word refers to the moment a character reaches the next level. In a JRPG, that usually means more HP, better stats and sometimes a new skill."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Points d'expérience",
+            "Compétence",
+            "Stats du personnage"
+          ],
+          "en": [
+            "Experience points",
+            "Skill",
+            "Character stats"
+          ]
+        }
+      },
+      "difficultyTier": 1
     },
     {
       "order": 2,
@@ -54,9 +97,13 @@
         "reading": "けいけんち",
         "romaji": "keikenchi"
       },
-      "meaning": {
-        "fr": "Les points d'expérience gagnés en jouant et en combattant.",
-        "en": "Experience points earned through play and battles."
+      "gloss": {
+        "fr": "Points d'expérience",
+        "en": "Experience points"
+      },
+      "definition": {
+        "fr": "Valeur gagnée en combat ou en quête pour faire progresser un personnage.",
+        "en": "Value earned in battles or quests to progress a character."
       },
       "hints": {
         "hint1": {
@@ -69,9 +116,24 @@
         }
       },
       "explanation": {
-        "fr": "経験値 est souvent abrégé en EXP. C'est la base de la progression dans la plupart des JRPG.",
-        "en": "経験値 is often shortened to EXP. It is the basis of progression in most JRPGs."
-      }
+        "fr": "Ce mot désigne les points d'expérience, souvent abrégés en EXP. C'est la base de la progression dans la plupart des JRPG.",
+        "en": "This word refers to experience points, often shortened to EXP. It is the basis of progression in most JRPGs."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Argent du jeu",
+            "Mana",
+            "Stats du personnage"
+          ],
+          "en": [
+            "In-game money",
+            "Mana",
+            "Character stats"
+          ]
+        }
+      },
+      "difficultyTier": 2
     },
     {
       "order": 3,
@@ -81,9 +143,13 @@
         "reading": "マナ",
         "romaji": "mana"
       },
-      "meaning": {
-        "fr": "La ressource magique utilisée pour lancer des sorts.",
-        "en": "The magic resource used to cast spells."
+      "gloss": {
+        "fr": "Mana",
+        "en": "Mana"
+      },
+      "definition": {
+        "fr": "Réserve d'énergie magique utilisée pour lancer des sorts ou certaines compétences.",
+        "en": "Pool of magical energy used to cast spells or some abilities."
       },
       "hints": {
         "hint1": {
@@ -96,9 +162,24 @@
         }
       },
       "explanation": {
-        "fr": "Selon les jeux, on parle de mana ou de MP. L'idée reste la même : une réserve pour la magie et certaines compétences.",
-        "en": "Depending on the game, you may see mana or MP. The idea stays the same: a pool for magic and some special skills."
-      }
+        "fr": "Ce mot désigne la réserve magique d'un personnage. Selon les jeux, on parle aussi de MP, mais l'idée reste la même : alimenter les sorts et les compétences spéciales.",
+        "en": "This word refers to a character's magical resource. Some games call it MP instead, but the idea stays the same: fueling spells and special abilities."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Magie",
+            "Sort",
+            "Soin"
+          ],
+          "en": [
+            "Magic",
+            "Spell",
+            "Healing"
+          ]
+        }
+      },
+      "difficultyTier": 1
     },
     {
       "order": 4,
@@ -108,9 +189,13 @@
         "reading": "かいふく",
         "romaji": "kaifuku"
       },
-      "meaning": {
-        "fr": "Récupérer des PV ou enlever un mauvais statut.",
-        "en": "To restore HP or remove a bad status."
+      "gloss": {
+        "fr": "Soin",
+        "en": "Healing"
+      },
+      "definition": {
+        "fr": "Action de récupérer des PV ou de supprimer un mauvais état.",
+        "en": "Action that restores HP or removes a negative status."
       },
       "hints": {
         "hint1": {
@@ -123,9 +208,24 @@
         }
       },
       "explanation": {
-        "fr": "回復 couvre l'idée de soin et de récupération. C'est un mot très courant dans les menus et descriptions de skills.",
-        "en": "回復 covers healing and recovery. It is a very common word in menus and skill descriptions."
-      }
+        "fr": "Ce mot sert à parler de soin ou de récupération. Dans les JRPG, on le voit partout : menus, compétences, objets et descriptions d'effets.",
+        "en": "This word is used for healing or recovery. In JRPGs, you see it everywhere: menus, skills, items and effect descriptions."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Mana",
+            "Objet de soin",
+            "Renforcement"
+          ],
+          "en": [
+            "Mana",
+            "Healing item",
+            "Buff"
+          ]
+        }
+      },
+      "difficultyTier": 2
     },
     {
       "order": 5,
@@ -135,9 +235,13 @@
         "reading": "まほう",
         "romaji": "mahō"
       },
-      "meaning": {
-        "fr": "La magie et les sorts utilisés en combat.",
-        "en": "Magic and spells used in battle."
+      "gloss": {
+        "fr": "Magie",
+        "en": "Magic"
+      },
+      "definition": {
+        "fr": "Ensemble des sorts et pouvoirs magiques utilisés en jeu.",
+        "en": "Set of spells and magical powers used in a game."
       },
       "hints": {
         "hint1": {
@@ -150,9 +254,24 @@
         }
       },
       "explanation": {
-        "fr": "魔法 est le mot simple et direct pour magie. On le retrouve dans les noms de skills, les classes et les descriptions d'univers fantasy.",
-        "en": "魔法 is the straightforward word for magic. You see it in skill names, class names and fantasy-world descriptions."
-      }
+        "fr": "Ce mot désigne la magie au sens large. On le retrouve dans les noms de sorts, les classes de personnages et tout l'univers fantasy des JRPG.",
+        "en": "This word refers to magic in the broad sense. You find it in spell names, character classes and the fantasy side of JRPGs."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Sort",
+            "Mana",
+            "Invocation"
+          ],
+          "en": [
+            "Spell",
+            "Mana",
+            "Summon"
+          ]
+        }
+      },
+      "difficultyTier": 1
     },
     {
       "order": 6,
@@ -162,9 +281,13 @@
         "reading": "こうりゃく",
         "romaji": "kōryaku"
       },
-      "meaning": {
-        "fr": "Un guide, une stratégie ou un walkthrough pour finir un jeu.",
-        "en": "A guide, strategy or walkthrough to clear a game."
+      "gloss": {
+        "fr": "Guide / soluce",
+        "en": "Guide / walkthrough"
+      },
+      "definition": {
+        "fr": "Aide stratégique pour finir une zone, un boss ou tout un jeu.",
+        "en": "Strategic help used to clear an area, a boss or a whole game."
       },
       "hints": {
         "hint1": {
@@ -177,9 +300,24 @@
         }
       },
       "explanation": {
-        "fr": "攻略 désigne souvent un guide de stratégie complet. C'est un mot très courant dans la culture gaming japonaise et sur les sites d'aide.",
-        "en": "攻略 often refers to a full strategy guide. It is very common in Japanese gaming culture and on help sites."
-      }
+        "fr": "Ce mot désigne une stratégie ou une soluce pour avancer. Il est très courant sur les sites d'aide, les guides et les vidéos qui expliquent comment finir un jeu.",
+        "en": "This word refers to a strategy or walkthrough used to move forward. It is very common on help sites, guides and videos that explain how to finish a game."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Stratégie",
+            "Quête",
+            "Secret caché"
+          ],
+          "en": [
+            "Strategy",
+            "Quest",
+            "Hidden secret"
+          ]
+        }
+      },
+      "difficultyTier": 2
     },
     {
       "order": 7,
@@ -189,9 +327,13 @@
         "reading": "クリア",
         "romaji": "kuria"
       },
-      "meaning": {
-        "fr": "Finir ou valider un niveau, un donjon ou le jeu entier.",
-        "en": "To clear or complete a stage, dungeon or whole game."
+      "gloss": {
+        "fr": "Finir un contenu",
+        "en": "Clear content"
+      },
+      "definition": {
+        "fr": "Réussir un niveau, un donjon, un boss ou le jeu entier.",
+        "en": "Beat a stage, dungeon, boss or the whole game."
       },
       "hints": {
         "hint1": {
@@ -204,9 +346,24 @@
         }
       },
       "explanation": {
-        "fr": "クリア vient de l'anglais clear, mais dans le jeu vidéo japonais le mot signifie surtout terminer ou réussir un contenu.",
-        "en": "クリア comes from the English word clear, but in Japanese games it mostly means to finish or beat a piece of content."
-      }
+        "fr": "Ce mot vient de l'anglais clear, mais dans le jeu vidéo japonais il signifie surtout terminer ou réussir un contenu précis.",
+        "en": "This word comes from the English word clear, but in Japanese games it mostly means finishing or beating a specific piece of content."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Sauvegarde",
+            "Quête",
+            "Victoire en combat"
+          ],
+          "en": [
+            "Save",
+            "Quest",
+            "Battle victory"
+          ]
+        }
+      },
+      "difficultyTier": 1
     },
     {
       "order": 8,
@@ -216,9 +373,13 @@
         "reading": "めいきゅう",
         "romaji": "meikyū"
       },
-      "meaning": {
-        "fr": "Un labyrinthe ou un donjon qui te perd facilement.",
-        "en": "A labyrinth or dungeon designed to make you lose your way."
+      "gloss": {
+        "fr": "Labyrinthe",
+        "en": "Maze"
+      },
+      "definition": {
+        "fr": "Donjon conçu pour te perdre avec ses détours et ses impasses.",
+        "en": "Dungeon designed to make you lose your way with twists and dead ends."
       },
       "hints": {
         "hint1": {
@@ -231,9 +392,24 @@
         }
       },
       "explanation": {
-        "fr": "迷宮 insiste sur l'idée de dédale. C'est proche de dungeon, mais avec une nuance de labyrinthe et de confusion.",
-        "en": "迷宮 emphasizes the idea of a maze. It is close to dungeon, but with a stronger labyrinth and confusion nuance."
-      }
+        "fr": "Ce mot désigne un labyrinthe ou un donjon très tortueux. Il insiste sur le fait de se perdre, plus qu’un simple donjon.",
+        "en": "This word refers to a maze or a very twisted dungeon. It puts more emphasis on getting lost than a simple dungeon does."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Donjon",
+            "Carte",
+            "Coffre au trésor"
+          ],
+          "en": [
+            "Dungeon",
+            "Map",
+            "Treasure chest"
+          ]
+        }
+      },
+      "difficultyTier": 3
     },
     {
       "order": 9,
@@ -243,9 +419,13 @@
         "reading": "ステータス",
         "romaji": "sutētasu"
       },
-      "meaning": {
-        "fr": "Les chiffres qui définissent ton personnage : PV, attaque, défense, vitesse...",
-        "en": "The numbers that define your character: HP, attack, defense, speed..."
+      "gloss": {
+        "fr": "Stats du personnage",
+        "en": "Character stats"
+      },
+      "definition": {
+        "fr": "Chiffres qui décrivent les capacités d'un personnage, comme les PV, l'attaque ou la vitesse.",
+        "en": "Numbers describing a character's abilities, such as HP, attack or speed."
       },
       "hints": {
         "hint1": {
@@ -258,9 +438,24 @@
         }
       },
       "explanation": {
-        "fr": "ステータス désigne les stats ou l'écran de stats. C'est un mot-clé de tous les RPG, même hors Japon.",
-        "en": "ステータス refers to stats or the stats screen. It is a core word across RPGs, even outside Japan."
-      }
+        "fr": "Ce mot désigne les stats ou l'écran de stats. C'est un mot-clé de tous les RPG, même hors Japon.",
+        "en": "This word refers to stats or the stats screen. It is a core word across RPGs, even outside Japan."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Monter de niveau",
+            "Mana",
+            "Équipement"
+          ],
+          "en": [
+            "Level up",
+            "Mana",
+            "Equipment"
+          ]
+        }
+      },
+      "difficultyTier": 2
     },
     {
       "order": 10,
@@ -270,9 +465,13 @@
         "reading": "スキル",
         "romaji": "sukiru"
       },
-      "meaning": {
-        "fr": "Une compétence qu'un personnage peut apprendre et utiliser.",
-        "en": "A skill a character can learn and use."
+      "gloss": {
+        "fr": "Compétence",
+        "en": "Skill"
+      },
+      "definition": {
+        "fr": "Capacité qu'un personnage peut apprendre, améliorer ou utiliser.",
+        "en": "Ability a character can learn, upgrade or use."
       },
       "hints": {
         "hint1": {
@@ -285,9 +484,24 @@
         }
       },
       "explanation": {
-        "fr": "スキル couvre beaucoup de choses : attaque spéciale, passif, technique, compétence de craft ou de soutien selon le jeu.",
-        "en": "スキル covers many things: special attack, passive, technique, crafting or support ability depending on the game."
-      }
+        "fr": "Ce mot désigne une compétence au sens large. Selon le jeu, cela peut être une attaque spéciale, un passif, une technique ou une compétence de soutien.",
+        "en": "This word refers to a skill in the broad sense. Depending on the game, it can be a special attack, a passive, a technique or a support ability."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Magie",
+            "Effet passif",
+            "Combo d'attaque"
+          ],
+          "en": [
+            "Magic",
+            "Passive effect",
+            "Attack combo"
+          ]
+        }
+      },
+      "difficultyTier": 1
     },
     {
       "order": 11,
@@ -296,9 +510,13 @@
         "reading": "クエスト",
         "romaji": "kuesuto"
       },
-      "meaning": {
-        "fr": "Une mission donnée par le jeu ou un PNJ.",
-        "en": "A mission given by the game or an NPC."
+      "gloss": {
+        "fr": "Quête",
+        "en": "Quest"
+      },
+      "definition": {
+        "fr": "Mission confiée par le jeu, un PNJ ou un panneau d'affichage.",
+        "en": "Mission given by the game, an NPC or a quest board."
       },
       "hints": {
         "hint1": {
@@ -311,9 +529,24 @@
         }
       },
       "explanation": {
-        "fr": "クエスト vient de quest. Dans les JRPG, cela couvre aussi bien la mission principale que les quêtes annexes.",
-        "en": "クエスト comes from quest. In JRPGs, it can refer to both the main mission and side quests."
-      }
+        "fr": "Ce mot vient de quest. Dans les JRPG, il couvre aussi bien la mission principale que les quêtes annexes.",
+        "en": "This word comes from quest. In JRPGs, it covers both the main mission and side quests."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Mission confiée",
+            "Récompense",
+            "Aventure"
+          ],
+          "en": [
+            "Assigned task",
+            "Reward",
+            "Adventure"
+          ]
+        }
+      },
+      "difficultyTier": 1
     },
     {
       "order": 12,
@@ -322,9 +555,13 @@
         "reading": "アイテム",
         "romaji": "aitemu"
       },
-      "meaning": {
-        "fr": "Un objet que tu peux utiliser, garder, vendre ou collectionner.",
-        "en": "An item you can use, keep, sell or collect."
+      "gloss": {
+        "fr": "Objet",
+        "en": "Item"
+      },
+      "definition": {
+        "fr": "Chose que tu peux utiliser, garder, vendre ou collectionner dans le jeu.",
+        "en": "Thing you can use, keep, sell or collect in the game."
       },
       "hints": {
         "hint1": {
@@ -337,9 +574,24 @@
         }
       },
       "explanation": {
-        "fr": "アイテム est un mot ultra courant dans les menus. Il sert souvent de catégorie générale pour tous les objets du jeu.",
-        "en": "アイテム is an extremely common menu word. It is often used as a broad category for all in-game items."
-      }
+        "fr": "Ce mot désigne un objet au sens large. Dans les menus, c'est souvent la catégorie générale qui regroupe consommables, clés et objets spéciaux.",
+        "en": "This word refers to an item in the broad sense. In menus, it is often the general category that groups consumables, keys and special objects."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Équipement",
+            "Butin",
+            "Inventaire"
+          ],
+          "en": [
+            "Equipment",
+            "Loot",
+            "Inventory"
+          ]
+        }
+      },
+      "difficultyTier": 1
     },
     {
       "order": 13,
@@ -348,9 +600,13 @@
         "reading": "ダンジョン",
         "romaji": "danjon"
       },
-      "meaning": {
-        "fr": "Une zone à explorer avec monstres, trésors et souvent un boss.",
-        "en": "An area to explore with monsters, treasure and often a boss."
+      "gloss": {
+        "fr": "Donjon",
+        "en": "Dungeon"
+      },
+      "definition": {
+        "fr": "Zone à explorer avec monstres, trésors et souvent un boss à la fin.",
+        "en": "Area to explore with monsters, treasure and often a boss at the end."
       },
       "hints": {
         "hint1": {
@@ -363,9 +619,24 @@
         }
       },
       "explanation": {
-        "fr": "ダンジョン est large : grotte, tour, ruine, temple ou cave hostile. C'est plus général que 迷宮.",
-        "en": "ダンジョン is broad: cave, tower, ruin, temple or hostile underground area. It is more general than 迷宮."
-      }
+        "fr": "Ce mot désigne un donjon ou une zone hostile à parcourir. Il est plus large que labyrinthe et peut couvrir une grotte, une tour, des ruines ou un temple.",
+        "en": "This word refers to a dungeon or hostile area to explore. It is broader than a maze and can cover caves, towers, ruins or temples."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Labyrinthe",
+            "Coffre au trésor",
+            "Carte"
+          ],
+          "en": [
+            "Maze",
+            "Treasure chest",
+            "Map"
+          ]
+        }
+      },
+      "difficultyTier": 1
     },
     {
       "order": 14,
@@ -374,9 +645,13 @@
         "reading": "セーブ",
         "romaji": "sēbu"
       },
-      "meaning": {
-        "fr": "Sauvegarder ta progression.",
-        "en": "To save your progress."
+      "gloss": {
+        "fr": "Sauvegarde",
+        "en": "Save"
+      },
+      "definition": {
+        "fr": "Action d'enregistrer ta progression pour pouvoir la reprendre plus tard.",
+        "en": "Action of recording your progress so you can resume later."
       },
       "hints": {
         "hint1": {
@@ -389,9 +664,24 @@
         }
       },
       "explanation": {
-        "fr": "セーブ est indispensable dans tous les RPG. On le voit comme verbe, action de menu ou point de sauvegarde.",
-        "en": "セーブ is essential in every RPG. You see it as a verb, a menu action or around save points."
-      }
+        "fr": "Ce mot désigne la sauvegarde de ta partie. Dans un RPG, c'est un réflexe vital avant un boss, une zone risquée ou la fermeture du jeu.",
+        "en": "This word refers to saving your game. In an RPG, it is a vital reflex before a boss, a risky area or closing the game."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Chargement",
+            "Repos à l'auberge",
+            "Journal de quêtes"
+          ],
+          "en": [
+            "Load",
+            "Rest at the inn",
+            "Quest log"
+          ]
+        }
+      },
+      "difficultyTier": 1
     },
     {
       "order": 15,
@@ -400,9 +690,13 @@
         "reading": "ロード",
         "romaji": "rōdo"
       },
-      "meaning": {
-        "fr": "Charger une sauvegarde existante.",
-        "en": "To load an existing save."
+      "gloss": {
+        "fr": "Chargement",
+        "en": "Load"
+      },
+      "definition": {
+        "fr": "Action d'ouvrir une sauvegarde existante pour reprendre une partie.",
+        "en": "Action of opening an existing save to resume a game."
       },
       "hints": {
         "hint1": {
@@ -415,9 +709,24 @@
         }
       },
       "explanation": {
-        "fr": "ロード complète naturellement セーブ. C'est l'action qui te permet de reprendre une partie déjà enregistrée.",
-        "en": "ロード naturally pairs with セーブ. It is the action that lets you resume an already saved game."
-      }
+        "fr": "Ce mot désigne le chargement d'une sauvegarde. Il va presque toujours de pair avec le mot pour sauvegarde dans les menus de jeu.",
+        "en": "This word refers to loading a save file. It almost always goes hand in hand with the word for save in game menus."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Sauvegarde",
+            "Inventaire",
+            "Boutique"
+          ],
+          "en": [
+            "Save",
+            "Inventory",
+            "Shop"
+          ]
+        }
+      },
+      "difficultyTier": 1
     },
     {
       "order": 16,
@@ -426,9 +735,13 @@
         "reading": "パーティー",
         "romaji": "pātī"
       },
-      "meaning": {
-        "fr": "L'équipe de personnages qui voyage et combat avec toi.",
-        "en": "The group of characters traveling and fighting with you."
+      "gloss": {
+        "fr": "Équipe",
+        "en": "Party"
+      },
+      "definition": {
+        "fr": "Groupe de personnages qui voyage et combat ensemble.",
+        "en": "Group of characters that travels and fights together."
       },
       "hints": {
         "hint1": {
@@ -441,9 +754,24 @@
         }
       },
       "explanation": {
-        "fr": "Dans les JRPG, パーティー désigne le groupe actif. C'est un mot central pour parler composition, synergies et rôles.",
-        "en": "In JRPGs, パーティー refers to the active group. It is a central word when talking about composition, synergy and roles."
-      }
+        "fr": "Ce mot désigne le groupe actif de personnages. Dans un JRPG, il est central pour parler composition d'équipe, synergies et rôles.",
+        "en": "This word refers to the active group of characters. In a JRPG, it is a key word when talking about team composition, synergy and roles."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Guilde",
+            "Aventurier",
+            "Classe de personnage"
+          ],
+          "en": [
+            "Guild",
+            "Adventurer",
+            "Character class"
+          ]
+        }
+      },
+      "difficultyTier": 2
     },
     {
       "order": 17,
@@ -452,9 +780,13 @@
         "reading": "ぼうけん",
         "romaji": "bōken"
       },
-      "meaning": {
-        "fr": "L'aventure, le voyage et tout ce qui va avec.",
-        "en": "Adventure, journey and everything that comes with it."
+      "gloss": {
+        "fr": "Aventure",
+        "en": "Adventure"
+      },
+      "definition": {
+        "fr": "Voyage, exploration et progression du héros et de son groupe.",
+        "en": "Journey, exploration and growth of the hero and their group."
       },
       "hints": {
         "hint1": {
@@ -467,9 +799,24 @@
         }
       },
       "explanation": {
-        "fr": "冒険 est plus large qu'une simple mission. Le mot porte l'idée d'exploration, de route, de découverte et de progression.",
-        "en": "冒険 is broader than a simple mission. It carries the idea of exploration, travel, discovery and progression."
-      }
+        "fr": "Ce mot désigne l'aventure au sens large. Il porte l'idée de départ, de découverte, de voyage et de progression.",
+        "en": "This word refers to adventure in the broad sense. It carries the idea of setting out, discovery, travel and progression."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Aventurier",
+            "Quête",
+            "Royaume"
+          ],
+          "en": [
+            "Adventurer",
+            "Quest",
+            "Kingdom"
+          ]
+        }
+      },
+      "difficultyTier": 3
     },
     {
       "order": 18,
@@ -478,9 +825,13 @@
         "reading": "ドロップ",
         "romaji": "doroppu"
       },
-      "meaning": {
-        "fr": "Le butin qu'un ennemi laisse tomber après le combat.",
-        "en": "The loot an enemy drops after a battle."
+      "gloss": {
+        "fr": "Butin",
+        "en": "Loot"
+      },
+      "definition": {
+        "fr": "Objet ou ressource laissé par un ennemi après un combat.",
+        "en": "Item or resource left behind by an enemy after a battle."
       },
       "hints": {
         "hint1": {
@@ -493,9 +844,24 @@
         }
       },
       "explanation": {
-        "fr": "ドロップ est partout dans les jeux à loot. On parle de taux de drop, de rare drop ou de boss drop.",
-        "en": "ドロップ is everywhere in loot-based games. You hear about drop rate, rare drops and boss drops."
-      }
+        "fr": "Ce mot désigne le butin qu'un ennemi laisse tomber. On parle souvent de taux de drop, de butin rare ou de butin de boss.",
+        "en": "This word refers to the loot an enemy drops. You often hear about drop rates, rare loot or boss loot."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Coffre au trésor",
+            "Équipement",
+            "Récompense"
+          ],
+          "en": [
+            "Treasure chest",
+            "Equipment",
+            "Reward"
+          ]
+        }
+      },
+      "difficultyTier": 2
     },
     {
       "order": 19,
@@ -504,9 +870,13 @@
         "reading": "ショップ",
         "romaji": "shoppu"
       },
-      "meaning": {
-        "fr": "La boutique où tu achètes ou vends des objets.",
-        "en": "The shop where you buy or sell items."
+      "gloss": {
+        "fr": "Boutique",
+        "en": "Shop"
+      },
+      "definition": {
+        "fr": "Lieu où tu achètes, vends ou gères des objets et parfois de l'équipement.",
+        "en": "Place where you buy, sell or manage items and sometimes equipment."
       },
       "hints": {
         "hint1": {
@@ -519,9 +889,24 @@
         }
       },
       "explanation": {
-        "fr": "ショップ est un mot simple mais omniprésent. Dans un JRPG, la boutique rythme souvent l'économie de ton aventure.",
-        "en": "ショップ is a simple but omnipresent word. In a JRPG, the shop often shapes the economy of your adventure."
-      }
+        "fr": "Ce mot désigne la boutique du jeu. Dans un JRPG, c'est souvent un passage obligé pour préparer le prochain donjon ou refaire son stock.",
+        "en": "This word refers to the in-game shop. In a JRPG, it is often a necessary stop to prepare for the next dungeon or restock supplies."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Auberge",
+            "Ville",
+            "Inventaire"
+          ],
+          "en": [
+            "Inn",
+            "Town",
+            "Inventory"
+          ]
+        }
+      },
+      "difficultyTier": 2
     },
     {
       "order": 20,
@@ -530,9 +915,13 @@
         "reading": "いらい",
         "romaji": "irai"
       },
-      "meaning": {
-        "fr": "Une demande ou mission confiée par quelqu'un.",
-        "en": "A request or mission given by someone."
+      "gloss": {
+        "fr": "Demande",
+        "en": "Request"
+      },
+      "definition": {
+        "fr": "Demande adressée au joueur par un PNJ, une guilde ou un panneau de missions.",
+        "en": "Request given to the player by an NPC, a guild or a job board."
       },
       "hints": {
         "hint1": {
@@ -545,9 +934,474 @@
         }
       },
       "explanation": {
-        "fr": "依頼 insiste sur l'idée de demande confiée au joueur. C'est très utile pour les quêtes annexes, les panneaux de missions et les guildes.",
-        "en": "依頼 emphasizes the idea of a request entrusted to the player. It is especially useful for side quests, job boards and guild missions."
-      }
+        "fr": "Ce mot désigne une demande confiée au joueur. Il est très utile pour les quêtes annexes, les panneaux de missions et les guildes.",
+        "en": "This word refers to a request given to the player. It is especially useful for side quests, mission boards and guilds."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Quête",
+            "Tableau de missions",
+            "Récompense"
+          ],
+          "en": [
+            "Quest",
+            "Mission board",
+            "Reward"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 21,
+      "jp": {
+        "term": "エンカウント",
+        "reading": "エンカウント",
+        "romaji": "enkaunto"
+      },
+      "gloss": {
+        "fr": "Rencontre ennemie",
+        "en": "Enemy encounter"
+      },
+      "definition": {
+        "fr": "Moment où un combat se déclenche contre un ennemi ou un groupe d'ennemis.",
+        "en": "Moment when a battle starts against an enemy or a group of enemies."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu avances d'un pas de trop et le combat démarre.",
+          "en": "You take one step too many and the battle starts."
+        },
+        "hint2": {
+          "fr": "Ça peut être visible sur la carte ou totalement aléatoire.",
+          "en": "It can be visible on the map or fully random."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le déclenchement d'un combat. Dans beaucoup de JRPG, il peut être aléatoire, scripté ou visible directement sur la carte.",
+        "en": "This word refers to the moment a battle starts. In many JRPGs, it can be random, scripted or visible directly on the map."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Embuscade",
+            "Début du combat",
+            "Piège de donjon"
+          ],
+          "en": [
+            "Ambush",
+            "Battle start",
+            "Dungeon trap"
+          ]
+        }
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 22,
+      "jp": {
+        "term": "インベントリ",
+        "reading": "インベントリ",
+        "romaji": "inbentori"
+      },
+      "gloss": {
+        "fr": "Inventaire",
+        "en": "Inventory"
+      },
+      "definition": {
+        "fr": "Liste complète des objets, équipements et ressources que tu transportes.",
+        "en": "Complete list of items, equipment and resources you carry."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu l'ouvres pour vérifier ce que tu possèdes.",
+          "en": "You open it to check what you own."
+        },
+        "hint2": {
+          "fr": "Items, clés, composants : tout peut s'y retrouver.",
+          "en": "Items, keys, crafting parts: everything can end up there."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'inventaire du joueur. Dans un JRPG, c'est là que tu retrouves tes objets, tes matériaux et parfois même ton équipement de réserve.",
+        "en": "This word refers to the player's inventory. In a JRPG, that is where you find your items, materials and sometimes spare equipment."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Objet",
+            "Menu boutique",
+            "Sac d'équipement"
+          ],
+          "en": [
+            "Item",
+            "Shop menu",
+            "Equipment bag"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 23,
+      "jp": {
+        "term": "宿屋",
+        "reading": "やどや",
+        "romaji": "yadoya"
+      },
+      "gloss": {
+        "fr": "Auberge",
+        "en": "Inn"
+      },
+      "definition": {
+        "fr": "Lieu où l'équipe se repose pour récupérer ses PV et parfois son mana.",
+        "en": "Place where the party rests to recover HP and sometimes mana."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu y dors avant de repartir à l'aventure.",
+          "en": "You sleep there before heading back out."
+        },
+        "hint2": {
+          "fr": "Ça coûte souvent quelques pièces en ville.",
+          "en": "It usually costs a few coins in town."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'auberge ou l'hôtel de la ville. Dans les JRPG, c'est souvent l'endroit classique pour récupérer complètement entre deux donjons.",
+        "en": "This word refers to the inn or hotel in town. In JRPGs, it is often the classic place to fully recover between dungeons."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Boutique",
+            "Village",
+            "Point de sauvegarde"
+          ],
+          "en": [
+            "Shop",
+            "Village",
+            "Save point"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 24,
+      "jp": {
+        "term": "宝箱",
+        "reading": "たからばこ",
+        "romaji": "takarabako"
+      },
+      "gloss": {
+        "fr": "Coffre au trésor",
+        "en": "Treasure chest"
+      },
+      "definition": {
+        "fr": "Conteneur qui cache un objet, de l'argent ou parfois un piège.",
+        "en": "Container hiding an item, money or sometimes a trap."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu en vois un au fond du couloir et tu fonces dessus.",
+          "en": "You spot one at the end of the hallway and rush toward it."
+        },
+        "hint2": {
+          "fr": "Parfois il récompense, parfois il te punit.",
+          "en": "Sometimes it rewards you, sometimes it punishes you."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le coffre au trésor. Dans un JRPG, c'est l'un des symboles les plus classiques de l'exploration et du butin.",
+        "en": "This word refers to a treasure chest. In a JRPG, it is one of the most classic symbols of exploration and loot."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Butin",
+            "Donjon",
+            "Objet clé"
+          ],
+          "en": [
+            "Loot",
+            "Dungeon",
+            "Key item"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 25,
+      "jp": {
+        "term": "マップ",
+        "reading": "マップ",
+        "romaji": "mappu"
+      },
+      "gloss": {
+        "fr": "Carte",
+        "en": "Map"
+      },
+      "definition": {
+        "fr": "Vue d'ensemble qui t'aide à te repérer dans une zone, un donjon ou le monde.",
+        "en": "Overview that helps you navigate an area, a dungeon or the world."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Sans ça, tu risques de tourner en rond.",
+          "en": "Without it, you may end up going in circles."
+        },
+        "hint2": {
+          "fr": "Elle peut être locale, mondiale ou révélée au fur et à mesure.",
+          "en": "It can be local, world-wide or revealed gradually."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la carte du monde, d'une zone ou d'un donjon. Dans les JRPG, elle sert autant à se repérer qu'à préparer la suite de sa progression.",
+        "en": "This word refers to the map of the world, an area or a dungeon. In JRPGs, it helps both with navigation and planning your next steps."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Donjon",
+            "Royaume",
+            "Zone de quête"
+          ],
+          "en": [
+            "Dungeon",
+            "Kingdom",
+            "Quest area"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 26,
+      "jp": {
+        "term": "町",
+        "reading": "まち",
+        "romaji": "machi"
+      },
+      "gloss": {
+        "fr": "Ville",
+        "en": "Town"
+      },
+      "definition": {
+        "fr": "Zone habitée où tu trouves boutiques, PNJ, auberge et quêtes.",
+        "en": "Inhabited area where you find shops, NPCs, an inn and quests."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu y reviens pour souffler entre deux donjons.",
+          "en": "You return there to breathe between two dungeons."
+        },
+        "hint2": {
+          "fr": "C'est souvent le centre calme avant de repartir en danger.",
+          "en": "It is often the calm hub before heading back into danger."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne une ville ou un bourg. Dans les JRPG, c'est souvent le lieu de repos, d'achats, de dialogues et de préparation avant le prochain objectif.",
+        "en": "This word refers to a town or small city. In JRPGs, it is often the place for rest, shopping, dialogue and preparation before the next objective."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Village",
+            "Royaume",
+            "Château"
+          ],
+          "en": [
+            "Village",
+            "Kingdom",
+            "Castle"
+          ]
+        }
+      },
+      "difficultyTier": 4
+    },
+    {
+      "order": 27,
+      "jp": {
+        "term": "村",
+        "reading": "むら",
+        "romaji": "mura"
+      },
+      "gloss": {
+        "fr": "Village",
+        "en": "Village"
+      },
+      "definition": {
+        "fr": "Petite zone habitée, souvent plus rurale ou plus simple qu'une ville.",
+        "en": "Small inhabited area, often more rural or simpler than a town."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le héros part souvent de là au début de l'histoire.",
+          "en": "The hero often starts there at the beginning of the story."
+        },
+        "hint2": {
+          "fr": "C'est plus modeste qu'une ville, mais très présent dans les RPG.",
+          "en": "It is more modest than a town, but very common in RPGs."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un village. Dans les JRPG, il sert souvent de point de départ tranquille, de refuge ou de lieu chargé d'émotion pour l'histoire.",
+        "en": "This word refers to a village. In JRPGs, it often serves as a peaceful starting point, a refuge or an emotionally important place in the story."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Ville",
+            "Auberge",
+            "Zone de départ"
+          ],
+          "en": [
+            "Town",
+            "Inn",
+            "Starting area"
+          ]
+        }
+      },
+      "difficultyTier": 4
+    },
+    {
+      "order": 28,
+      "jp": {
+        "term": "王国",
+        "reading": "おうこく",
+        "romaji": "ōkoku"
+      },
+      "gloss": {
+        "fr": "Royaume",
+        "en": "Kingdom"
+      },
+      "definition": {
+        "fr": "Territoire dirigé par un roi ou une reine dans un univers de fantasy.",
+        "en": "Territory ruled by a king or queen in a fantasy setting."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le roi donne parfois la mission principale.",
+          "en": "The king sometimes gives the main quest."
+        },
+        "hint2": {
+          "fr": "On parle ici d'un pays royal, pas juste d'une ville.",
+          "en": "Here it means a royal country, not just a town."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un royaume. Dans les JRPG fantasy, il revient souvent pour parler de guerre, de dynastie, de pouvoir royal ou du cadre général de l'aventure.",
+        "en": "This word refers to a kingdom. In fantasy JRPGs, it often comes up when talking about war, dynasty, royal power or the broader setting of the adventure."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Château",
+            "Ville",
+            "Nation"
+          ],
+          "en": [
+            "Castle",
+            "Town",
+            "Nation"
+          ]
+        }
+      },
+      "difficultyTier": 4
+    },
+    {
+      "order": 29,
+      "jp": {
+        "term": "城",
+        "reading": "しろ",
+        "romaji": "shiro"
+      },
+      "gloss": {
+        "fr": "Château",
+        "en": "Castle"
+      },
+      "definition": {
+        "fr": "Bâtiment fortifié lié au pouvoir royal, à une ville ou à un boss important.",
+        "en": "Fortified building tied to royal power, a city or an important boss."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le roi y habite souvent, ou le boss final s'en empare.",
+          "en": "The king often lives there, or the final boss takes it over."
+        },
+        "hint2": {
+          "fr": "C'est un lieu classique des JRPG fantasy.",
+          "en": "It is a classic location in fantasy JRPGs."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un château ou une forteresse. Dans les JRPG, c'est souvent un lieu important pour l'histoire, le pouvoir ou les grands affrontements.",
+        "en": "This word refers to a castle or fortress. In JRPGs, it is often an important place for story events, power or major battles."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Royaume",
+            "Forteresse",
+            "Ville"
+          ],
+          "en": [
+            "Kingdom",
+            "Fortress",
+            "Town"
+          ]
+        }
+      },
+      "difficultyTier": 4
+    },
+    {
+      "order": 30,
+      "jp": {
+        "term": "冒険者",
+        "reading": "ぼうけんしゃ",
+        "romaji": "bōkensha"
+      },
+      "gloss": {
+        "fr": "Aventurier",
+        "en": "Adventurer"
+      },
+      "definition": {
+        "fr": "Personne qui voyage, accepte des missions et affronte les dangers du monde.",
+        "en": "Person who travels, takes missions and faces the world's dangers."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le héros ou d'autres membres de la guilde peuvent porter ce titre.",
+          "en": "The hero or other guild members may carry this title."
+        },
+        "hint2": {
+          "fr": "C'est lié à l'aventure, mais c'est la personne, pas le concept.",
+          "en": "It is linked to adventure, but it is the person, not the concept."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un aventurier. Il est très courant dans les univers de fantasy et de guildes, où il décrit ceux qui partent en mission et affrontent les monstres.",
+        "en": "This word refers to an adventurer. It is very common in fantasy and guild settings, where it describes people who take missions and face monsters."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Héros",
+            "Membre de l'équipe",
+            "Combattant de guilde"
+          ],
+          "en": [
+            "Hero",
+            "Party member",
+            "Guild fighter"
+          ]
+        }
+      },
+      "difficultyTier": 4
     }
   ]
 }

@@ -22,6 +22,7 @@ const activePack = pack;
 const packLinks = getAllPacks().map((item) => ({
   id: item.id,
   name: item.locales.fr.name,
+  score: item.score?.readiness?.value ?? null,
 }));
 const adminNav = getAdminNavHtml("reader");
 
@@ -38,7 +39,25 @@ function getRomaji(word: PackReaderWord) {
 }
 
 function getMeaning(word: PackReaderWord) {
-  return word.meaning?.fr || "Contenu à enrichir.";
+  return word.gloss?.fr || word.meaning?.fr || "Contenu à enrichir.";
+}
+
+function getDefinition(word: PackReaderWord) {
+  return word.definition?.fr || word.gloss?.fr || word.meaning?.fr || "Définition à écrire.";
+}
+
+function getMeaningByLang(word: PackReaderWord) {
+  return {
+    fr: word.gloss?.fr || word.meaning?.fr || "Contenu à enrichir.",
+    en: word.gloss?.en || word.meaning?.en || "Content to enrich.",
+  };
+}
+
+function getDefinitionByLang(word: PackReaderWord) {
+  return {
+    fr: word.definition?.fr || word.gloss?.fr || word.meaning?.fr || "Définition à écrire.",
+    en: word.definition?.en || word.gloss?.en || word.meaning?.en || "Definition to write.",
+  };
 }
 
 function getHintOne(word: PackReaderWord) {
@@ -51,6 +70,144 @@ function getHintTwo(word: PackReaderWord) {
 
 function getExplanation(word: PackReaderWord) {
   return word.explanation?.fr || "Explanation à écrire.";
+}
+
+function getHintOneByLang(word: PackReaderWord) {
+  return {
+    fr: word.hints?.hint1?.fr || "Hint 1 à écrire.",
+    en: word.hints?.hint1?.en || "Hint 1 to write.",
+  };
+}
+
+function getHintTwoByLang(word: PackReaderWord) {
+  return {
+    fr: word.hints?.hint2?.fr || "Hint 2 à écrire.",
+    en: word.hints?.hint2?.en || "Hint 2 to write.",
+  };
+}
+
+function getExplanationByLang(word: PackReaderWord) {
+  return {
+    fr: word.explanation?.fr || "Explanation à écrire.",
+    en: word.explanation?.en || "Explanation to write.",
+  };
+}
+
+function getScoreTone(score: number | null) {
+  if (score === null) return "na";
+  if (score >= 100) return "perfect";
+  if (score >= 90) return "good";
+  if (score >= 75) return "mid";
+  return "bad";
+}
+
+function getReadinessValue() {
+  return activePack.score?.readiness?.value ?? null;
+}
+
+function getMinProdScore() {
+  return activePack.score?.readiness?.minProdScore ?? 90;
+}
+
+function getReviewLabel() {
+  switch (activePack.score?.readiness?.reviewStatus) {
+    case "validee":
+      return "Relecture validée";
+    case "faite":
+      return "Relecture faite";
+    case "partielle":
+      return "Relecture partielle";
+    case "non-relue":
+      return "Relecture non faite";
+    default:
+      return "Relecture n.c.";
+  }
+}
+
+function getReleaseLabel() {
+  switch (activePack.score?.readiness?.releaseStatus) {
+    case "prod":
+      return "PROD";
+    case "preprod":
+      return "PRÉPROD";
+    case "dev":
+      return "DEV";
+    default:
+      return "N.C.";
+  }
+}
+
+function getMissingToMax() {
+  const score = getReadinessValue();
+  return score === null ? null : 100 - score;
+}
+
+function getMissingToProd() {
+  const score = getReadinessValue();
+  const min = getMinProdScore();
+  return score === null ? null : Math.max(0, min - score);
+}
+
+function formatDelta(value: number | null) {
+  if (value === null) return "n.c.";
+  return value === 0 ? "0" : `-${value}`;
+}
+
+function getTierBreakdown() {
+  return activePack.tierBreakdown ?? null;
+}
+
+function getTransparentBreakdown() {
+  return activePack.transparentBreakdown ?? null;
+}
+
+function getGiftTone() {
+  return getTransparentBreakdown()?.tone ?? "ok";
+}
+
+function getWordKey(word: PackReaderWord) {
+  return word.existingWordId || getRomaji(word) || `word-${word.order}`;
+}
+
+function getTransparentWords() {
+  const ids = new Set(activePack.quiz?.transparentWordIds || []);
+  return activePack.words
+    .filter((word) => ids.has(getWordKey(word)))
+    .map((word) => ({
+      id: getWordKey(word),
+      order: word.order,
+      label: getRomaji(word) || word.existingWordId || `mot-${word.order}`,
+    }));
+}
+
+function getTierLabel(word: PackReaderWord) {
+  switch (word.difficultyTier) {
+    case 1:
+      return "Facile";
+    case 2:
+      return "Moyen";
+    case 3:
+      return "Difficile";
+    case 4:
+      return "Expert";
+    default:
+      return "n.c.";
+  }
+}
+
+function getTierTone(word: PackReaderWord) {
+  switch (word.difficultyTier) {
+    case 1:
+      return "easy";
+    case 2:
+      return "mid";
+    case 3:
+      return "hard";
+    case 4:
+      return "expert";
+    default:
+      return "na";
+  }
 }
 ---
 <!DOCTYPE html>
@@ -65,50 +222,158 @@ function getExplanation(word: PackReaderWord) {
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
       radial-gradient(ellipse 40% 40% at 90% 15%,rgba(34,211,238,.12) 0%,transparent 60%),
       #0a0911; }
-    .reader-wrap { width:min(1320px,calc(100% - 24px)); margin:0 auto; padding:88px 0 32px; }
+    .reader-wrap { width:min(1320px,calc(100% - 24px)); margin:0 auto; padding:16px 0 16px; }
     .reader-top,.reader-layout-card { background:rgba(15,12,26,.94); border:1px solid rgba(139,92,246,.18); border-radius:8px; box-shadow:0 12px 32px rgba(0,0,0,.32); }
-    .reader-top { padding:20px; margin-bottom:16px; }
+    .reader-top { padding:14px 16px; margin-bottom:12px; }
     .reader-kicker { display:inline-flex; align-items:center; gap:8px; min-height:32px; padding:0 12px; border-radius:8px; background:rgba(34,211,238,.12); border:1px solid rgba(34,211,238,.28); color:#22d3ee; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
     .reader-kicker::before { content:""; width:8px; height:8px; border-radius:999px; background:currentColor; }
-    .reader-title { margin:12px 0 8px; font-family:'Joystix',sans-serif; font-size:clamp(1.35rem,2.8vw,2.2rem); line-height:1.15; color:#fff; }
+    .reader-title { margin:10px 0 6px; font-family:'Joystix',sans-serif; font-size:clamp(1.12rem,2.1vw,1.7rem); line-height:1.12; color:#fff; }
     .reader-title span { color:#e879f9; }
-    .reader-copy { max-width:72ch; color:#c7c2df; font:500 1.02rem/1.62 'Rajdhani',sans-serif; }
+    .reader-copy { max-width:72ch; color:#c7c2df; font:500 .98rem/1.55 'Rajdhani',sans-serif; }
     .reader-layout { display:grid; grid-template-columns:280px minmax(0,1fr); gap:16px; align-items:start; }
     .reader-layout-card { padding:16px; }
-    .reader-side-title { color:#fff; font:700 1rem/1.2 'Rajdhani',sans-serif; margin-bottom:12px; }
+    .reader-side-title { color:#fff; font:700 1.08rem/1.2 'Rajdhani',sans-serif; margin:0; }
+    .reader-side-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; }
     .reader-pack-list { display:grid; gap:8px; }
-    .reader-pack-link { display:block; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; text-decoration:none; font:600 .95rem/1.4 'Rajdhani',sans-serif; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
+    .reader-pack-link { display:block; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; text-decoration:none; font:600 1.02rem/1.4 'Rajdhani',sans-serif; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
     .reader-pack-link:hover { border-color:rgba(139,92,246,.38); transform:translateY(-1px); }
     .reader-pack-link.active { border-color:rgba(232,121,249,.4); background:rgba(232,121,249,.08); color:#fff; }
-    .reader-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
-    .reader-action { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 16px; border-radius:8px; border:1px solid rgba(139,92,246,.22); background:rgba(139,92,246,.12); color:#a78bfa; text-decoration:none; font:700 .92rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
-    .reader-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
-    .review-card { display:grid; gap:12px; padding:16px; border-radius:8px; border:1px solid rgba(139,92,246,.16); background:rgba(15,12,26,.96); box-shadow:0 8px 24px rgba(0,0,0,.22); }
+    .reader-pack-link-head { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:12px; }
+    .reader-pack-name { min-width:0; color:inherit; }
+    .reader-pack-score { display:inline-flex; align-items:center; justify-content:center; min-height:28px; min-width:64px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#d7fbff; font:800 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }
+    .reader-pack-score.na { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#8f8aa7; }
+    .reader-pack-score.bad { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .reader-pack-score.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .reader-pack-score.good { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .reader-pack-score.perfect { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
+    .reader-bulk-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; white-space:nowrap; }
+    .reader-main { display:grid; gap:12px; }
+    .reader-pagination { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.03); }
+    .reader-pagination-info { color:#a9a3c3; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; text-transform:uppercase; }
+    .reader-pagination-controls { display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .reader-pagination-numbers { display:flex; align-items:center; gap:8px; padding:0; background:none; border:none; }
+    :global(.reader-pagination-btn) { display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:28px; padding:0 8px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#a9a3c3; font:800 .8rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; transition:border-color .18s ease, background .18s ease, color .18s ease, transform .18s ease; }
+    :global(.reader-pagination-btn:hover) { border-color:rgba(34,211,238,.28); background:rgba(34,211,238,.1); color:#d7fbff; transform:translateY(-1px); }
+    :global(.reader-pagination-btn.is-active) { border-color:rgba(34,211,238,.28); background:rgba(34,211,238,.14); color:#d7fbff; }
+    :global(.reader-pagination-btn.nav) { border-color:rgba(255,255,255,.14); background:rgba(255,255,255,.08); color:#ddd6fe; }
+    :global(.reader-pagination-btn.nav:hover) { border-color:rgba(34,211,238,.22); background:rgba(34,211,238,.08); color:#d7fbff; transform:translateY(-1px); }
+    :global(.reader-pagination-numbers > .reader-pagination-btn.page-num) { flex:0 0 32px; min-width:32px; width:32px; height:28px; padding:0; border:1px solid rgba(255,255,255,.22); background:rgba(19,23,38,.92); color:#f3efff; box-shadow:inset 0 -1px 0 rgba(0,0,0,.26), 0 0 0 1px rgba(255,255,255,.04); }
+    :global(.reader-pagination-numbers > .reader-pagination-btn.page-num:hover) { border-color:rgba(34,211,238,.42); background:rgba(18,45,62,.96); color:#d7fbff; box-shadow:inset 0 -1px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(34,211,238,.12); }
+    :global(.reader-pagination-numbers > .reader-pagination-btn.page-num.is-active) { border-color:rgba(34,211,238,.52); background:rgba(20,79,103,.95); color:#d7fbff; box-shadow:inset 0 -1px 0 rgba(0,0,0,.14), 0 0 0 1px rgba(34,211,238,.18); }
+    :global(.reader-pagination-btn:disabled) { opacity:.35; cursor:default; transform:none; }
+    .reader-cartouche { position:sticky; top:76px; z-index:8; display:grid; gap:8px; padding:12px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:
+      linear-gradient(180deg,rgba(34,211,238,.08),rgba(255,255,255,.02)),
+      rgba(15,12,26,.96); box-shadow:0 8px 24px rgba(0,0,0,.22); }
+    .reader-cartouche.compact { gap:8px; padding:10px 14px; }
+    .reader-cartouche.compact .reader-cartouche-sub,
+    .reader-cartouche.compact .reader-cartouche-grid,
+    .reader-cartouche.compact .reader-cartouche-breakdown,
+    .reader-cartouche.compact .reader-cartouche-tiers-total { display:none; }
+    .reader-cartouche.compact .reader-cartouche-head { align-items:center; }
+    .reader-cartouche.compact .reader-cartouche-title { font-size:1rem; }
+    .reader-cartouche.compact .reader-cartouche-score { min-height:34px; min-width:80px; padding:0 12px; font-size:.98rem; }
+    .reader-cartouche.compact .reader-cartouche-tiers { gap:0; padding:0; border:none; background:none; }
+    .reader-cartouche.compact .reader-cartouche-tier-chips { gap:6px; }
+    .reader-cartouche.compact .reader-cartouche-tier-chip { height:28px; padding:0 8px; font-size:.8rem; }
+    .reader-cartouche.compact .reader-cartouche-gift-link { height:28px; padding:0 8px; font-size:.8rem; }
+    .reader-cartouche.compact .reader-cartouche-tier-divider { height:18px; }
+    .reader-cartouche-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; align-items:start; }
+    .reader-cartouche-title { color:#fff; font:700 1.14rem/1.2 'Rajdhani',sans-serif; }
+    .reader-cartouche-sub { color:#8f8aa7; font:700 .86rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
+    .reader-cartouche-score { display:inline-flex; align-items:center; justify-content:center; min-height:40px; min-width:92px; padding:0 14px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#d7fbff; font:800 1.08rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }
+    .reader-cartouche-score.na { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#8f8aa7; }
+    .reader-cartouche-score.bad { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .reader-cartouche-score.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .reader-cartouche-score.good { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .reader-cartouche-score.perfect { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
+    .reader-cartouche-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+    .reader-cartouche-cell { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:36px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; font:700 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
+    .reader-cartouche-label { color:#8f8aa7; text-transform:uppercase; }
+    .reader-cartouche-value { color:#fff; text-align:right; }
+    .reader-cartouche-tiers { display:grid; gap:6px; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
+    .reader-cartouche-tiers-total { color:#fff; font:800 1rem/1.2 'Rajdhani',sans-serif; letter-spacing:.03em; }
+    .reader-cartouche-tier-chips { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .reader-cartouche-tier-chip { display:inline-flex; align-items:center; height:32px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); color:#fff; font:800 .86rem/1 'Rajdhani',sans-serif; letter-spacing:.03em; white-space:nowrap; box-sizing:border-box; }
+    .reader-cartouche-tier-chip.easy { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .reader-cartouche-tier-chip.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .reader-cartouche-tier-chip.hard { border-color:rgba(251,146,60,.28); background:rgba(251,146,60,.12); color:#fed7aa; }
+    .reader-cartouche-tier-chip.expert { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .reader-cartouche-tier-chip.toggleable { cursor:pointer; transition:border-color .18s ease, background .18s ease, transform .18s ease; }
+    .reader-cartouche-tier-chip.toggleable:hover { transform:translateY(-1px); }
+    .reader-cartouche-tier-chip.gift.gift-ok { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
+    .reader-cartouche-tier-chip.gift.gift-watch { border-color:rgba(251,191,36,.24); background:rgba(251,191,36,.1); color:#fde68a; }
+    .reader-cartouche-tier-chip.gift.gift-act { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .reader-cartouche-tier-divider { width:10px; height:32px; border-left:1px solid rgba(255,255,255,.18); margin:0 2px 0 6px; }
+    .reader-cartouche-gift-row { display:contents; }
+    .reader-cartouche-gift-list { display:contents; }
+    .reader-cartouche-gift-list[hidden] { display:none; }
+    .reader-cartouche-gift-link { display:inline-flex; align-items:center; height:32px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#ddd6fe; font:700 .84rem/1 'Rajdhani',sans-serif; text-decoration:none; letter-spacing:.03em; white-space:nowrap; box-sizing:border-box; }
+    .reader-cartouche-gift-link:hover { border-color:rgba(34,211,238,.26); background:rgba(34,211,238,.1); color:#d7fbff; }
+    .reader-cartouche-breakdown { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px; }
+    .reader-break-item { display:grid; gap:4px; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
+    .reader-break-label { color:#8f8aa7; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .reader-break-value { color:#fff; font:800 1.02rem/1 'Rajdhani',sans-serif; }
+    .reader-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; align-items:start; }
+    .review-card { display:grid; gap:10px; padding:12px; border-radius:8px; border:1px solid rgba(139,92,246,.16); background:rgba(15,12,26,.96); box-shadow:0 8px 24px rgba(0,0,0,.22); align-content:start; align-self:start; outline:none; transition:border-color .18s ease, box-shadow .18s ease; }
+    .review-card[data-active="true"] { border-color:rgba(34,211,238,.42); box-shadow:0 0 0 1px rgba(34,211,238,.18), 0 8px 24px rgba(0,0,0,.22); }
+    .review-card.flash-target { animation:giftFlash 2.2s ease; }
     .review-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; }
-    .review-order { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(139,92,246,.26); background:rgba(139,92,246,.12); color:#a78bfa; font:700 .84rem/1 'Rajdhani',sans-serif; letter-spacing:.06em; }
-    .review-id { color:#7f7898; font:600 .85rem/1.4 'Rajdhani',sans-serif; text-align:right; }
+    .review-meta-left { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .review-order { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(139,92,246,.26); background:rgba(139,92,246,.12); color:#a78bfa; font:700 .92rem/1 'Rajdhani',sans-serif; letter-spacing:.06em; }
+    .review-tier { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#c7c2df; font:800 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
+    .review-tier.easy { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .review-tier.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .review-tier.hard { border-color:rgba(251,146,60,.28); background:rgba(251,146,60,.12); color:#fed7aa; }
+    .review-tier.expert { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .review-tier.na { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#8f8aa7; }
+    .review-id { color:#7f7898; font:600 .92rem/1.4 'Rajdhani',sans-serif; text-align:right; }
     .review-tools { display:flex; align-items:center; gap:8px; }
-    .review-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; }
-    .review-word-wrap { text-align:center; padding:8px 0 4px; }
-    .review-assist { color:#22d3ee; font:500 1rem/1.4 'Rajdhani',sans-serif; margin-bottom:6px; }
+    .review-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; }
+    .review-word-wrap { text-align:center; padding:4px 0 2px; }
+    .review-assist { color:#22d3ee; font:600 1.18rem/1.42 'Rajdhani',sans-serif; margin-bottom:4px; }
     .review-word { color:#e879f9; font:700 clamp(2rem,3vw,3rem)/1.1 'Rajdhani',sans-serif; }
-    .review-reading { color:#c7c2df; font:500 1rem/1.5 'Rajdhani',sans-serif; }
-    .review-section { display:grid; gap:8px; }
-    .review-label { color:#8f8aa7; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
-    .review-question { color:#a9a3c3; font:500 1rem/1.55 'Rajdhani',sans-serif; text-align:center; }
-    .review-hints { display:grid; gap:8px; }
-    .review-hint { padding:12px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:rgba(34,211,238,.08); color:#d7fbff; font:500 .98rem/1.5 'Rajdhani',sans-serif; }
-    .review-answers { display:grid; grid-template-columns:1fr; gap:12px; }
-    .review-exp { padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.05); color:#c7c2df; font:500 .96rem/1.58 'Rajdhani',sans-serif; }
+    .review-reading { color:#c7c2df; font:500 1.08rem/1.5 'Rajdhani',sans-serif; }
+    .review-section { display:grid; gap:6px; }
+    .review-label { color:#8f8aa7; font:700 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .review-question { color:#a9a3c3; font:500 1.08rem/1.6 'Rajdhani',sans-serif; text-align:center; }
+    .review-hints { display:grid; gap:6px; }
+    .review-hint { padding:10px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:rgba(34,211,238,.08); color:#d7fbff; font:500 1.04rem/1.56 'Rajdhani',sans-serif; }
+    .review-answers { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .answer-btn { position:relative; display:grid; place-items:center; min-height:80px; padding:12px; }
+    .answer-key { position:absolute; top:10px; left:10px; z-index:2; display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:8px; border:1px solid rgba(255,255,255,.16); background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04)); box-shadow:inset 0 -2px 0 rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.18); color:#f8f7ff; font:800 .92rem/1 'Rajdhani',sans-serif; }
+    .answer-copy { position:relative; z-index:1; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; max-width:88%; text-align:center; font:700 1.02rem/1.3 'Rajdhani',sans-serif; }
+    .review-definition { padding:10px; border-radius:8px; border:1px solid rgba(232,121,249,.18); background:rgba(232,121,249,.08); color:#fff; font:600 1.08rem/1.6 'Rajdhani',sans-serif; }
+    .review-exp { padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.05); color:#c7c2df; font:500 1.02rem/1.62 'Rajdhani',sans-serif; }
     .review-card[data-state="pristine"] .review-hints { display:none; }
     .review-card[data-state="pristine"] .answer-btn { border-color:rgba(139,92,246,.3)!important; background:rgba(26,22,48,.8)!important; box-shadow:none!important; color:#e2d9f3!important; }
-    .review-card[data-state="pristine"] .answer-btn.correct { border-color:rgba(139,92,246,.3)!important; background:rgba(26,22,48,.8)!important; color:#e2d9f3!important; }
+    .review-card[data-state="pristine"] .answer-key { border-color:rgba(255,255,255,.12); background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03)); color:#f3efff; box-shadow:inset 0 -2px 0 rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.14); }
+    .review-card[data-state="pristine"] .review-definition-section { display:none; }
     .review-card[data-state="pristine"] .review-exp-section { display:none; }
+    .answer-btn.selected { transform:translateY(-1px); }
+    .answer-btn.correct .answer-key { border-color:rgba(74,222,128,.46); background:linear-gradient(180deg,rgba(74,222,128,.24),rgba(74,222,128,.12)); color:#d8ffe6; }
+    .answer-btn.wrong .answer-key { border-color:rgba(248,113,113,.44); background:linear-gradient(180deg,rgba(248,113,113,.24),rgba(248,113,113,.1)); color:#ffe0e0; }
+    .reader-scrolltop { position:fixed; right:max(16px,calc((100vw - min(1320px,calc(100vw - 24px))) / 2 - 60px)); bottom:16px; z-index:26; display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:8px; border:1px solid rgba(34,211,238,.26); background:rgba(15,12,26,.9); box-shadow:0 10px 24px rgba(0,0,0,.3); color:#22d3ee; font:800 1.2rem/1 'Rajdhani',sans-serif; cursor:pointer; backdrop-filter:blur(12px); }
+    .reader-scrolltop:hover { border-color:rgba(34,211,238,.46); background:rgba(34,211,238,.12); }
+    @keyframes giftFlash {
+      0% { border-color:rgba(74,222,128,.78); box-shadow:0 0 0 1px rgba(74,222,128,.4), 0 0 0 0 rgba(74,222,128,.18), 0 8px 24px rgba(0,0,0,.22); }
+      35% { border-color:rgba(74,222,128,.78); box-shadow:0 0 0 1px rgba(74,222,128,.4), 0 0 0 10px rgba(74,222,128,0), 0 10px 28px rgba(0,0,0,.24); }
+      100% { border-color:rgba(139,92,246,.16); box-shadow:0 8px 24px rgba(0,0,0,.22); }
+    }
     @media (max-width:1080px) {
+      .reader-cartouche { top:68px; }
       .reader-layout { grid-template-columns:1fr; }
+      .reader-cartouche-grid,
+      .reader-cartouche-breakdown { grid-template-columns:repeat(2,minmax(0,1fr)); }
     }
     @media (max-width:860px) {
       .reader-grid { grid-template-columns:1fr; }
+    }
+    @media (max-width:620px) {
+      .reader-cartouche { position:static; }
+      .reader-cartouche-head,
+      .reader-cartouche-grid,
+      .reader-cartouche-breakdown { grid-template-columns:1fr; }
+      .review-answers { grid-template-columns:1fr; }
     }
   </style>
   <style set:html={ADMIN_NAV_CSS}></style>
@@ -124,29 +389,134 @@ function getExplanation(word: PackReaderWord) {
 
     <section class="reader-layout">
       <aside class="reader-layout-card">
-        <div class="reader-side-title">Packs v0.1</div>
+        <div class="reader-side-head">
+          <div class="reader-side-title">Packs v0.1</div>
+          <button class="reader-bulk-toggle" type="button" data-toggle-all>Tout replier</button>
+        </div>
         <div class="reader-pack-list">
           {packLinks.map((link) => (
             <a
               class:list={["reader-pack-link", { active: link.id === activePack.id }]}
               href={`/admin/packs/${link.id}`}
             >
-              {link.name}
+              <span class="reader-pack-link-head">
+                <span class="reader-pack-name">{link.name}</span>
+                <span class:list={["reader-pack-score", getScoreTone(link.score)]}>{link.score === null ? "n.c." : `${link.score}/100`}</span>
+              </span>
             </a>
           ))}
         </div>
-        <div class="reader-actions">
-          <a class="reader-action" href="/admin">Retour admin</a>
-          <a class="reader-action" href="/admin/fx-lab">FX Lab</a>
-          <a class="reader-action" href="/admin/brand-system">Charte</a>
-        </div>
       </aside>
 
-      <div class="reader-grid">
-        {activePack.words.map((word) => (
-          <article class="review-card" data-admin-card data-state="revealed">
+      <div class="reader-main">
+        <section class="reader-cartouche" data-reader-cartouche>
+          {(() => {
+            const tiers = getTierBreakdown();
+            const transparent = getTransparentBreakdown();
+            const transparentWords = getTransparentWords();
+            return (
+              <>
+          <div class="reader-cartouche-head">
+            <div>
+              <div class="reader-cartouche-title">{activePack.locales.fr.name}</div>
+              <div class="reader-cartouche-sub">{activePack.locales.fr.description}</div>
+            </div>
+            <div class:list={["reader-cartouche-score", getScoreTone(getReadinessValue())]}>
+              {getReadinessValue() === null ? "n.c." : `${getReadinessValue()}/100`}
+            </div>
+          </div>
+          <div class="reader-cartouche-grid">
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Min prod</span>
+              <span class="reader-cartouche-value">{getMinProdScore()}/100</span>
+            </div>
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Delta prod</span>
+              <span class="reader-cartouche-value">{formatDelta(getMissingToProd())}</span>
+            </div>
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Delta max</span>
+              <span class="reader-cartouche-value">{formatDelta(getMissingToMax())}</span>
+            </div>
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Relecture</span>
+              <span class="reader-cartouche-value">{getReviewLabel()}</span>
+            </div>
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Release</span>
+              <span class="reader-cartouche-value">{getReleaseLabel()}</span>
+            </div>
+            <div class="reader-cartouche-cell">
+              <span class="reader-cartouche-label">Prod gate</span>
+              <span class="reader-cartouche-value">{activePack.score?.readiness?.readyForProd ? "OK" : "BLOQUÉ"}</span>
+            </div>
+          </div>
+          <div class="reader-cartouche-tiers">
+            <div class="reader-cartouche-tiers-total">{activePack.targetWordCount} mots</div>
+            <div class="reader-cartouche-tier-chips">
+              <span class="reader-cartouche-tier-chip easy">{tiers ? `${tiers.counts[1]} faciles · ${tiers.percents[1]}%` : "T1 n.c."}</span>
+              <span class="reader-cartouche-tier-chip mid">{tiers ? `${tiers.counts[2]} moyens · ${tiers.percents[2]}%` : "T2 n.c."}</span>
+              <span class="reader-cartouche-tier-chip hard">{tiers ? `${tiers.counts[3]} difficiles · ${tiers.percents[3]}%` : "T3 n.c."}</span>
+              <span class="reader-cartouche-tier-chip expert">{tiers ? `${tiers.counts[4]} experts · ${tiers.percents[4]}%` : "T4 n.c."}</span>
+              {transparent ? <span class="reader-cartouche-tier-divider" aria-hidden="true"></span> : null}
+              {transparent ? (
+                <div class="reader-cartouche-gift-row">
+                  <button class:list={["reader-cartouche-tier-chip", "gift", "toggleable", `gift-${getGiftTone()}`]} type="button" data-toggle-gifts aria-expanded="false">{`${transparent.count} cadeaux · ${transparent.percent}%`}</button>
+                  {transparentWords.length ? (
+                    <div class="reader-cartouche-gift-list" data-gift-list hidden>
+                      {transparentWords.map((word) => (
+                        <a class="reader-cartouche-gift-link" href={`#word-${word.order}`} data-gift-word={word.id} data-gift-order={word.order}>{`${word.order}. ${word.label}`}</a>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div class="reader-cartouche-breakdown">
+            <div class="reader-break-item">
+              <span class="reader-break-label">Taille : 15 points</span>
+              <span class="reader-break-value">{activePack.score?.readiness?.breakdown.packSize ?? "n.c."}/15</span>
+            </div>
+            <div class="reader-break-item">
+              <span class="reader-break-label">Tiers : 15 points</span>
+              <span class="reader-break-value">{activePack.score?.readiness?.breakdown.tierFit ?? "n.c."}/15</span>
+            </div>
+            <div class="reader-break-item">
+              <span class="reader-break-label">Contenu : 40 points</span>
+              <span class="reader-break-value">{activePack.score?.readiness?.breakdown.contentCompleteness ?? "n.c."}/40</span>
+            </div>
+            <div class="reader-break-item">
+              <span class="reader-break-label">Qualité quiz : 15 points</span>
+              <span class="reader-break-value">{activePack.score?.readiness?.breakdown.quizQuality ?? "n.c."}/15</span>
+            </div>
+            <div class="reader-break-item">
+              <span class="reader-break-label">Relecture : 15 points</span>
+              <span class="reader-break-value">{activePack.score?.readiness?.breakdown.editorialReview ?? "n.c."}/15</span>
+            </div>
+          </div>
+              </>
+            );
+          })()}
+        </section>
+
+        <div class="reader-pagination" data-reader-pagination>
+          <div class="reader-pagination-info" data-page-info></div>
+          <div class="reader-pagination-controls">
+            <button class="reader-pagination-btn nav" type="button" data-page-prev>←</button>
+            <div data-page-numbers class="reader-pagination-numbers"></div>
+            <button class="reader-pagination-btn nav" type="button" data-page-next>→</button>
+          </div>
+        </div>
+
+        <div class="reader-grid" data-reader-grid>
+          {activePack.words.map((word) => (
+          <article class="review-card" id={`word-${word.order}`} data-admin-card data-word-id={getWordKey(word)} data-word-order={word.order} data-state="revealed" data-correct-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-correct-index-en={word.quizPreview?.correctIndex.en ?? 0} data-selected-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-selected-index-en={word.quizPreview?.correctIndex.en ?? 0} tabindex="0">
             <div class="review-meta">
-              <span class="review-order">Mot {word.order}</span>
+              <div class="review-meta-left">
+                <span class="review-order">Mot {word.order}</span>
+                <span class:list={["review-tier", getTierTone(word)]}>{getTierLabel(word)}</span>
+              </div>
               <div class="review-tools">
                 <span class="review-id">{word.existingWordId || "Nouveau mot"}</span>
                 <button class="review-toggle" type="button" data-toggle-card>Avant réponse</button>
@@ -160,49 +530,331 @@ function getExplanation(word: PackReaderWord) {
             </div>
 
             <div class="review-section">
-              <p class="review-question">Que signifie ce mot dans l’univers du gaming ?</p>
+              <p class="review-question">
+                <span data-admin-i18n data-admin-fr="Que signifie ce mot ici ?" data-admin-en="What does this word mean here?">Que signifie ce mot ici ?</span>
+              </p>
             </div>
 
-            <div class="review-section">
-              <span class="review-label">Hints révélés</span>
+            <div class="review-section" data-revealed-only>
+              <span class="review-label"><span data-admin-i18n data-admin-fr="Hints révélés" data-admin-en="Revealed hints">Hints révélés</span></span>
               <div class="review-hints">
-                <div class="review-hint">1. {getHintOne(word)}</div>
-                <div class="review-hint">2. {getHintTwo(word)}</div>
+                <div class="review-hint"><span class="review-hint-prefix">1.</span> <span data-admin-i18n data-admin-fr={getHintOneByLang(word).fr} data-admin-en={getHintOneByLang(word).en}>{getHintOne(word)}</span></div>
+                <div class="review-hint"><span class="review-hint-prefix">2.</span> <span data-admin-i18n data-admin-fr={getHintTwoByLang(word).fr} data-admin-en={getHintTwoByLang(word).en}>{getHintTwo(word)}</span></div>
               </div>
             </div>
 
             <div class="review-section">
-              <span class="review-label">Réponses</span>
+              <span class="review-label"><span data-admin-i18n data-admin-fr="Réponses" data-admin-en="Answers">Réponses</span></span>
               <div class="review-answers">
-                {word.quizPreview?.answers.map((answer, answerIndex) => (
+                {word.quizPreview?.answers.fr.map((answer, answerIndex) => (
                   <button
-                    class:list={[
-                      "answer-btn",
-                      { correct: answerIndex === word.quizPreview?.correctIndex },
-                    ]}
+                    class="answer-btn"
                     type="button"
-                    disabled
+                    data-answer-index={answerIndex}
                   >
-                    <span>{answer}</span>
+                    <span class="answer-key">{answerIndex + 1}</span>
+                    <span class="answer-copy" data-admin-i18n data-admin-fr={answer} data-admin-en={word.quizPreview?.answers.en[answerIndex] || answer}>{answer}</span>
                   </button>
                 )) || (
-                  <button class="answer-btn correct" type="button" disabled>
-                    <span>{getMeaning(word)}</span>
+                  <button class="answer-btn" type="button" data-answer-index="0">
+                    <span class="answer-key">1</span>
+                    <span class="answer-copy" data-admin-i18n data-admin-fr={getMeaningByLang(word).fr} data-admin-en={getMeaningByLang(word).en}>{getMeaning(word)}</span>
                   </button>
                 )}
               </div>
             </div>
 
-            <div class="review-section review-exp-section">
-              <span class="review-label">Explication</span>
-              <div class="review-exp">{getExplanation(word)}</div>
+            <div class="review-section review-definition-section" data-revealed-only>
+              <span class="review-label"><span data-admin-i18n data-admin-fr="Définition" data-admin-en="Definition">Définition</span></span>
+              <div class="review-definition" data-admin-i18n data-admin-fr={getDefinitionByLang(word).fr} data-admin-en={getDefinitionByLang(word).en}>{getDefinition(word)}</div>
+            </div>
+
+            <div class="review-section review-exp-section" data-revealed-only>
+              <span class="review-label"><span data-admin-i18n data-admin-fr="Explication" data-admin-en="Explanation">Explication</span></span>
+              <div class="review-exp" data-admin-i18n data-admin-fr={getExplanationByLang(word).fr} data-admin-en={getExplanationByLang(word).en}>{getExplanation(word)}</div>
             </div>
           </article>
-        ))}
+          ))}
+        </div>
+        <div class="reader-pagination" data-reader-pagination>
+          <div class="reader-pagination-info" data-page-info></div>
+          <div class="reader-pagination-controls">
+            <button class="reader-pagination-btn nav" type="button" data-page-prev>←</button>
+            <div data-page-numbers class="reader-pagination-numbers"></div>
+            <button class="reader-pagination-btn nav" type="button" data-page-next>→</button>
+          </div>
+        </div>
       </div>
     </section>
   </main>
+  <button class="reader-scrolltop" type="button" aria-label="Remonter en haut" title="Remonter">↑</button>
   <script is:inline>
+    const scrollTopButton = document.querySelector(".reader-scrolltop");
+    const bulkToggle = document.querySelector("[data-toggle-all]");
+    const cartouche = document.querySelector("[data-reader-cartouche]");
+    const giftToggle = document.querySelector("[data-toggle-gifts]");
+    const giftList = document.querySelector("[data-gift-list]");
+    const cards = Array.from(document.querySelectorAll("[data-admin-card]")).filter(
+      (card) => card instanceof HTMLElement,
+    );
+    const paginationBars = Array.from(document.querySelectorAll("[data-reader-pagination]")).filter(
+      (bar) => bar instanceof HTMLElement,
+    );
+    const wordsPerPage = 10;
+    const totalPages = Math.max(1, Math.ceil(cards.length / wordsPerPage));
+    let activeCard = null;
+    let adminLang = document.documentElement.lang === "fr" ? "fr" : "en";
+    let activeGiftFlashTimeout = null;
+    let currentPage = 1;
+
+    function getCorrectIndex(card) {
+      return Number(card.dataset[`correctIndex${adminLang === "fr" ? "Fr" : "En"}`] ?? "-1");
+    }
+
+    function getSelectedIndex(card) {
+      return Number(card.dataset[`selectedIndex${adminLang === "fr" ? "Fr" : "En"}`] ?? "-1");
+    }
+
+    function setSelectedIndex(card, value) {
+      card.dataset[`selectedIndex${adminLang === "fr" ? "Fr" : "En"}`] = String(value);
+    }
+
+    function applyAdminLang(nextLang) {
+      adminLang = nextLang === "fr" ? "fr" : "en";
+      document.querySelectorAll("[data-admin-i18n]").forEach((node) => {
+        if (!(node instanceof HTMLElement)) {
+          return;
+        }
+        node.textContent = adminLang === "fr" ? node.dataset.adminFr || "" : node.dataset.adminEn || node.dataset.adminFr || "";
+      });
+      document.querySelectorAll("[data-admin-card]").forEach((card) => {
+        if (card instanceof HTMLElement) {
+          syncAnswerState(card);
+        }
+      });
+    }
+
+    function syncBulkToggle() {
+      if (!(bulkToggle instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      const cards = Array.from(document.querySelectorAll("[data-admin-card]")).filter(
+        (card) => card instanceof HTMLElement,
+      );
+      const allPristine = cards.every((card) => card.dataset.state === "pristine");
+      bulkToggle.textContent = allPristine ? "Tout révéler" : "Tout replier";
+    }
+
+    function syncCartoucheCompact() {
+      if (!(cartouche instanceof HTMLElement)) {
+        return;
+      }
+
+      cartouche.classList.toggle("compact", window.scrollY > 180);
+    }
+
+    function toggleGiftList(forceOpen) {
+      if (!(giftToggle instanceof HTMLButtonElement) || !(giftList instanceof HTMLElement)) {
+        return;
+      }
+
+      const nextState = typeof forceOpen === "boolean" ? forceOpen : giftList.hidden;
+      giftList.hidden = !nextState;
+      giftToggle.setAttribute("aria-expanded", nextState ? "true" : "false");
+    }
+
+    function flashCard(card) {
+      if (!(card instanceof HTMLElement)) {
+        return;
+      }
+
+      card.classList.remove("flash-target");
+      void card.offsetWidth;
+      card.classList.add("flash-target");
+
+      if (activeGiftFlashTimeout) {
+        window.clearTimeout(activeGiftFlashTimeout);
+      }
+
+      activeGiftFlashTimeout = window.setTimeout(() => {
+        card.classList.remove("flash-target");
+      }, 2200);
+    }
+
+    function setActiveCard(nextCard) {
+      if (!(nextCard instanceof HTMLElement)) {
+        return;
+      }
+
+      document.querySelectorAll("[data-admin-card][data-active='true']").forEach((card) => {
+        if (card instanceof HTMLElement) {
+          delete card.dataset.active;
+        }
+      });
+
+      nextCard.dataset.active = "true";
+      activeCard = nextCard;
+    }
+
+    function getPageFromUrl() {
+      const url = new URL(window.location.href);
+      const page = Number(url.searchParams.get("page") || "1");
+      return Number.isFinite(page) && page >= 1 && page <= totalPages ? page : 1;
+    }
+
+    function setPageInUrl(page) {
+      const url = new URL(window.location.href);
+      if (page <= 1) {
+        url.searchParams.delete("page");
+      } else {
+        url.searchParams.set("page", String(page));
+      }
+      window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function renderPagination() {
+      const start = (currentPage - 1) * wordsPerPage;
+      const end = Math.min(cards.length, start + wordsPerPage);
+
+      cards.forEach((card, index) => {
+        card.hidden = index < start || index >= end;
+      });
+
+      paginationBars.forEach((bar) => {
+        const info = bar.querySelector("[data-page-info]");
+        const prev = bar.querySelector("[data-page-prev]");
+        const next = bar.querySelector("[data-page-next]");
+        const numbers = bar.querySelector("[data-page-numbers]");
+
+        if (info instanceof HTMLElement) {
+          info.textContent = `Page ${currentPage}/${totalPages} · mots ${start + 1}-${end}`;
+        }
+
+        if (prev instanceof HTMLButtonElement) {
+          prev.disabled = currentPage === 1;
+        }
+
+        if (next instanceof HTMLButtonElement) {
+          next.disabled = currentPage === totalPages;
+        }
+
+        if (numbers instanceof HTMLElement) {
+          numbers.innerHTML = "";
+          for (let page = 1; page <= totalPages; page += 1) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "reader-pagination-btn page-num" + (page === currentPage ? " is-active" : "");
+            button.textContent = String(page);
+            button.dataset.page = String(page);
+            numbers.appendChild(button);
+          }
+        }
+      });
+    }
+
+    function setPage(page, options = {}) {
+      const nextPage = Math.min(totalPages, Math.max(1, page));
+      currentPage = nextPage;
+      renderPagination();
+      setPageInUrl(nextPage);
+
+      if (!options.silentScroll) {
+        requestAnimationFrame(() => {
+          syncCartoucheCompact();
+          const firstVisibleCard = cards.find((card) => !card.hidden);
+          if (!(firstVisibleCard instanceof HTMLElement)) {
+            return;
+          }
+
+          const topNav = document.querySelector(".admin-topnav");
+          const topNavHeight = topNav instanceof HTMLElement ? topNav.getBoundingClientRect().height : 0;
+          const cartoucheHeight = cartouche instanceof HTMLElement ? cartouche.getBoundingClientRect().height : 0;
+          const stickyOffset = topNavHeight + cartoucheHeight + 28;
+          const top = window.scrollY + firstVisibleCard.getBoundingClientRect().top - stickyOffset;
+          window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+        });
+      }
+    }
+
+    function revealCardPage(card, options = {}) {
+      const index = cards.indexOf(card);
+      if (index === -1) {
+        return;
+      }
+      const page = Math.floor(index / wordsPerPage) + 1;
+      setPage(page, options);
+    }
+
+    function syncAnswerState(card) {
+      const pristine = card.dataset.state === "pristine";
+      const selectedIndex = pristine ? -1 : getSelectedIndex(card);
+      const correctIndex = getCorrectIndex(card);
+
+      card.querySelectorAll("[data-answer-index]").forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        const answerIndex = Number(button.dataset.answerIndex ?? "-1");
+        button.classList.remove("selected", "correct", "wrong");
+
+        if (pristine) {
+          return;
+        }
+
+        if (answerIndex === correctIndex) {
+          button.classList.add("correct");
+        }
+
+        if (answerIndex === selectedIndex) {
+          button.classList.add("selected");
+          if (answerIndex !== correctIndex) {
+            button.classList.add("wrong");
+          }
+        }
+      });
+    }
+
+    function applyCardState(card, state) {
+      card.dataset.state = state;
+      if (state === "pristine") {
+        delete card.dataset.selectedIndexFr;
+        delete card.dataset.selectedIndexEn;
+      } else {
+        if (!card.dataset.selectedIndexFr) {
+          card.dataset.selectedIndexFr = card.dataset.correctIndexFr || "0";
+        }
+        if (!card.dataset.selectedIndexEn) {
+          card.dataset.selectedIndexEn = card.dataset.correctIndexEn || "0";
+        }
+      }
+      syncCardState(card);
+      syncAnswerState(card);
+      const toggle = card.querySelector("[data-toggle-card]");
+      if (toggle instanceof HTMLButtonElement) {
+        toggle.textContent = state === "pristine" ? "Voir correction" : "Avant réponse";
+      }
+      syncBulkToggle();
+    }
+
+    function syncCardState(card) {
+      const pristine = card.dataset.state === "pristine";
+      card.querySelectorAll("[data-revealed-only]").forEach((section) => {
+        if (section instanceof HTMLElement) {
+          section.hidden = pristine;
+        }
+      });
+    }
+
+    cards.forEach((card) => {
+      syncCardState(card);
+      syncAnswerState(card);
+      card.addEventListener("mouseenter", () => setActiveCard(card));
+      card.addEventListener("focusin", () => setActiveCard(card));
+      card.addEventListener("click", () => setActiveCard(card));
+    });
+
     document.querySelectorAll("[data-toggle-card]").forEach((button) => {
       button.addEventListener("click", () => {
         const card = button.closest("[data-admin-card]");
@@ -211,10 +863,159 @@ function getExplanation(word: PackReaderWord) {
         }
 
         const nextState = card.dataset.state === "pristine" ? "revealed" : "pristine";
-        card.dataset.state = nextState;
-        button.textContent = nextState === "pristine" ? "Voir correction" : "Avant réponse";
+        applyCardState(card, nextState);
       });
     });
+
+    document.querySelectorAll("[data-answer-index]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const card = button.closest("[data-admin-card]");
+        if (!(card instanceof HTMLElement) || !(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        setActiveCard(card);
+        card.dataset.state = "revealed";
+        setSelectedIndex(card, button.dataset.answerIndex || "0");
+        syncCardState(card);
+        syncAnswerState(card);
+        const toggle = card.querySelector("[data-toggle-card]");
+        if (toggle instanceof HTMLButtonElement) {
+          toggle.textContent = "Avant réponse";
+        }
+        syncBulkToggle();
+      });
+    });
+
+    if (giftToggle instanceof HTMLButtonElement) {
+      giftToggle.addEventListener("click", () => toggleGiftList());
+    }
+
+    if (giftList instanceof HTMLElement) {
+      giftList.querySelectorAll("[data-gift-word]").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const target = event.currentTarget;
+          if (!(target instanceof HTMLAnchorElement)) {
+            return;
+          }
+
+          event.preventDefault();
+          const order = target.dataset.giftOrder;
+          const card = order ? document.getElementById(`word-${order}`) : null;
+          if (!(card instanceof HTMLElement)) {
+            return;
+          }
+
+          revealCardPage(card, { silentScroll: true });
+          setActiveCard(card);
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+          flashCard(card);
+        });
+      });
+    }
+
+    if (bulkToggle instanceof HTMLButtonElement) {
+      bulkToggle.addEventListener("click", () => {
+        const cards = Array.from(document.querySelectorAll("[data-admin-card]")).filter(
+          (card) => card instanceof HTMLElement,
+        );
+
+        const shouldCollapse = cards.some((card) => card.dataset.state !== "pristine");
+        const nextState = shouldCollapse ? "pristine" : "revealed";
+
+        cards.forEach((card) => {
+          applyCardState(card, nextState);
+        });
+      });
+    }
+
+    if (scrollTopButton instanceof HTMLButtonElement) {
+      scrollTopButton.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+
+    paginationBars.forEach((bar) => {
+      bar.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        if (target.hasAttribute("data-page-prev")) {
+          setPage(currentPage - 1);
+          return;
+        }
+
+        if (target.hasAttribute("data-page-next")) {
+          setPage(currentPage + 1);
+          return;
+        }
+
+        const page = Number(target.dataset.page || "0");
+        if (page) {
+          setPage(page);
+        }
+      });
+    });
+
+    window.addEventListener("adminlangchange", (event) => {
+      const nextLang = event instanceof CustomEvent ? event.detail?.lang : null;
+      applyAdminLang(nextLang === "fr" ? "fr" : "en");
+    });
+
+    currentPage = getPageFromUrl();
+    renderPagination();
+    applyAdminLang(adminLang);
+    syncCartoucheCompact();
+    window.addEventListener("scroll", syncCartoucheCompact, { passive: true });
+
+    document.addEventListener("keydown", (event) => {
+      const target = event.target;
+      if (
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        (target instanceof HTMLElement && target.isContentEditable)
+      ) {
+        return;
+      }
+
+      const keyMap = {
+        Digit1: 0,
+        Digit2: 1,
+        Digit3: 2,
+        Digit4: 3,
+        Numpad1: 0,
+        Numpad2: 1,
+        Numpad3: 2,
+        Numpad4: 3,
+      };
+
+      const answerIndex = keyMap[event.code];
+      if (answerIndex === undefined) {
+        return;
+      }
+
+      const card = activeCard instanceof HTMLElement ? activeCard : cards.find((candidate) => !candidate.hidden) || cards[0];
+      if (!(card instanceof HTMLElement)) {
+        return;
+      }
+
+      const button = card.querySelector(`[data-answer-index="${answerIndex}"]`);
+      if (!(button instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      event.preventDefault();
+      button.click();
+    });
+
+    const firstCard = document.querySelector("[data-admin-card]");
+    if (firstCard instanceof HTMLElement) {
+      setActiveCard(firstCard);
+    }
+
+    syncBulkToggle();
   </script>
 </body>
 </html>

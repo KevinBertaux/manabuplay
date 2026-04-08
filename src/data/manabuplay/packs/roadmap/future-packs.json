@@ -1,0 +1,924 @@
+{
+  "version": "v0.x-roadmap",
+  "status": "candidate",
+  "notes": [
+    "Catalogue de mots réutilisables pour les packs après la v0.1.",
+    "Chaque entrée indique si le mot existe déjà dans le stock actuel ou s'il vient d'un distracteur jugé assez solide pour devenir un vrai mot plus tard.",
+    "Un mot peut pointer vers plusieurs packs possibles sans être encore confirmé."
+  ],
+  "candidateWords": [
+    {
+      "id": "gacha",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "gacha",
+      "jp": "ガチャ",
+      "assist": "Gacha",
+      "locales": {
+        "fr": {
+          "label": "Gacha"
+        },
+        "en": {
+          "label": "Gacha"
+        }
+      },
+      "candidatePackIds": [
+        "gacha-live-service"
+      ]
+    },
+    {
+      "id": "free-to-play",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "free-to-play",
+      "jp": "フリプレ",
+      "assist": "Free-to-Play",
+      "locales": {
+        "fr": {
+          "label": "Free-to-play"
+        },
+        "en": {
+          "label": "Free-to-play"
+        }
+      },
+      "candidatePackIds": [
+        "gacha-live-service"
+      ]
+    },
+    {
+      "id": "cheat",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "chito-cheat",
+      "jp": "チート",
+      "assist": "Chīto / Cheat",
+      "locales": {
+        "fr": {
+          "label": "Cheat"
+        },
+        "en": {
+          "label": "Cheat"
+        }
+      },
+      "candidatePackIds": [
+        "arcade-secrets-and-meta"
+      ]
+    },
+    {
+      "id": "lives-stock",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "zanki",
+      "jp": "残機",
+      "assist": "Zanki",
+      "locales": {
+        "fr": {
+          "label": "Stock de vies"
+        },
+        "en": {
+          "label": "Lives stock"
+        }
+      },
+      "candidatePackIds": [
+        "arcade-secrets-and-meta"
+      ]
+    },
+    {
+      "id": "hidden-character",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "kakushi-kara",
+      "jp": "隠しキャラ",
+      "assist": "Kakushi Kara",
+      "locales": {
+        "fr": {
+          "label": "Personnage caché"
+        },
+        "en": {
+          "label": "Hidden character"
+        }
+      },
+      "candidatePackIds": [
+        "arcade-secrets-and-meta"
+      ]
+    },
+    {
+      "id": "curse",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "noroi",
+      "jp": "呪い",
+      "assist": "Noroi",
+      "locales": {
+        "fr": {
+          "label": "Malédiction"
+        },
+        "en": {
+          "label": "Curse"
+        }
+      },
+      "candidatePackIds": [
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "legend",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "densetsu",
+      "jp": "伝説",
+      "assist": "Densetsu",
+      "locales": {
+        "fr": {
+          "label": "Légende"
+        },
+        "en": {
+          "label": "Legend"
+        }
+      },
+      "candidatePackIds": [
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "stealth",
+      "status": "existing-word",
+      "source": "legacy-mvp",
+      "existingWordId": "onmitsu",
+      "jp": "隠密",
+      "assist": "Onmitsu",
+      "locales": {
+        "fr": {
+          "label": "Furtivité"
+        },
+        "en": {
+          "label": "Stealth"
+        }
+      },
+      "candidatePackIds": [
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "spell",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Sort"
+        },
+        "en": {
+          "label": "Spell"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "equipment",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Équipement"
+        },
+        "en": {
+          "label": "Equipment"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment"
+      ]
+    },
+    {
+      "id": "summon",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Invocation"
+        },
+        "en": {
+          "label": "Summon"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "strategy",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Stratégie"
+        },
+        "en": {
+          "label": "Strategy"
+        }
+      },
+      "candidatePackIds": [
+        "arcade-secrets-and-meta",
+        "combat-and-boss"
+      ]
+    },
+    {
+      "id": "reward",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Récompense"
+        },
+        "en": {
+          "label": "Reward"
+        }
+      },
+      "candidatePackIds": [
+        "gacha-live-service",
+        "arcade-secrets-and-meta"
+      ]
+    },
+    {
+      "id": "guild",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Guilde"
+        },
+        "en": {
+          "label": "Guild"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "ambush",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Embuscade"
+        },
+        "en": {
+          "label": "Ambush"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "key-item",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Objet clé"
+        },
+        "en": {
+          "label": "Key item"
+        }
+      },
+      "candidatePackIds": [
+        "arcade-secrets-and-meta",
+        "japan-pop-city-daily-life"
+      ]
+    },
+    {
+      "id": "nation",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Nation"
+        },
+        "en": {
+          "label": "Nation"
+        }
+      },
+      "candidatePackIds": [
+        "dark-fantasy-legends-and-stealth",
+        "japan-pop-city-daily-life"
+      ]
+    },
+    {
+      "id": "fortress",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Forteresse"
+        },
+        "en": {
+          "label": "Fortress"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "hero",
+      "status": "candidate-word",
+      "source": "pack-1-distractor",
+      "locales": {
+        "fr": {
+          "label": "Héros"
+        },
+        "en": {
+          "label": "Hero"
+        }
+      },
+      "candidatePackIds": [
+        "anime-codes",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "elite-enemy",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Ennemi d'élite"
+        },
+        "en": {
+          "label": "Elite enemy"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "berserk",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Berserk"
+        },
+        "en": {
+          "label": "Berserk"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "transformation",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Transformation"
+        },
+        "en": {
+          "label": "Transformation"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "anime-codes"
+      ]
+    },
+    {
+      "id": "dark-lord",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Seigneur noir"
+        },
+        "en": {
+          "label": "Dark lord"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "fury",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Furie"
+        },
+        "en": {
+          "label": "Fury"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "shadow",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Ombre"
+        },
+        "en": {
+          "label": "Shadow"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "immunity",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Immunité"
+        },
+        "en": {
+          "label": "Immunity"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "poison",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Poison"
+        },
+        "en": {
+          "label": "Poison"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "guard",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Garde"
+        },
+        "en": {
+          "label": "Guard"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "classes-weapons-equipment"
+      ]
+    },
+    {
+      "id": "blaze",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Brasier"
+        },
+        "en": {
+          "label": "Blaze"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "annihilation",
+      "status": "candidate-word",
+      "source": "pack-2-distractor",
+      "locales": {
+        "fr": {
+          "label": "Anéantissement"
+        },
+        "en": {
+          "label": "Annihilation"
+        }
+      },
+      "candidatePackIds": [
+        "combat-and-boss",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "accessory",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Accessoire"
+        },
+        "en": {
+          "label": "Accessory"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "japan-pop-city-daily-life"
+      ]
+    },
+    {
+      "id": "assassin",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Assassin"
+        },
+        "en": {
+          "label": "Assassin"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "paladin",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Paladin"
+        },
+        "en": {
+          "label": "Paladin"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "lancer",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Lancier"
+        },
+        "en": {
+          "label": "Lancer"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "ranger",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Ranger"
+        },
+        "en": {
+          "label": "Ranger"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "healer",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Soigneur"
+        },
+        "en": {
+          "label": "Healer"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "wand",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Baguette"
+        },
+        "en": {
+          "label": "Wand"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "crossbow",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Arbalète"
+        },
+        "en": {
+          "label": "Crossbow"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "hammer",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Marteau"
+        },
+        "en": {
+          "label": "Hammer"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "mace",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Masse"
+        },
+        "en": {
+          "label": "Mace"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "halberd",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Hallebarde"
+        },
+        "en": {
+          "label": "Halberd"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "relic",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Relique"
+        },
+        "en": {
+          "label": "Relic"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "talisman",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Talisman"
+        },
+        "en": {
+          "label": "Talisman"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "dark-fantasy-legends-and-stealth"
+      ]
+    },
+    {
+      "id": "scholar",
+      "status": "candidate-word",
+      "source": "pack-3-distractor",
+      "locales": {
+        "fr": {
+          "label": "Érudit"
+        },
+        "en": {
+          "label": "Scholar"
+        }
+      },
+      "candidatePackIds": [
+        "classes-weapons-equipment",
+        "anime-codes"
+      ]
+    }
+  ],
+  "packs": [
+    {
+      "targetVersion": "v0.2",
+      "id": "gacha-live-service",
+      "slug": "gacha-live-service",
+      "themeId": "gaming",
+      "locales": {
+        "fr": {
+          "name": "Gacha & live service"
+        },
+        "en": {
+          "name": "Gacha & Live Service"
+        }
+      },
+      "candidateWordIds": [
+        "free-to-play",
+        "gacha",
+        "reward"
+      ],
+      "plannedWords": [
+        "課金",
+        "天井",
+        "ピックアップ",
+        "限定",
+        "配布",
+        "イベント",
+        "ログインボーナス",
+        "スタミナ",
+        "石",
+        "ガチャ券"
+      ]
+    },
+    {
+      "targetVersion": "v0.2",
+      "id": "arcade-secrets-and-meta",
+      "slug": "arcade-secrets-and-meta",
+      "themeId": "gaming",
+      "locales": {
+        "fr": {
+          "name": "Arcade, secrets & meta"
+        },
+        "en": {
+          "name": "Arcade, Secrets & Meta"
+        }
+      },
+      "candidateWordIds": [
+        "cheat",
+        "hidden-character",
+        "key-item",
+        "lives-stock",
+        "reward",
+        "strategy"
+      ],
+      "plannedWords": [
+        "裏技",
+        "隠し要素",
+        "コンティニュー",
+        "ハイスコア",
+        "ボーナスステージ",
+        "タイムアタック",
+        "ランキング",
+        "ノーコン",
+        "入力",
+        "解禁"
+      ]
+    },
+    {
+      "targetVersion": "v0.3",
+      "id": "dark-fantasy-legends-and-stealth",
+      "slug": "dark-fantasy-legends-and-stealth",
+      "themeId": "anime-and-manga",
+      "locales": {
+        "fr": {
+          "name": "Dark fantasy, légendes & furtivité"
+        },
+        "en": {
+          "name": "Dark Fantasy, Legends & Stealth"
+        }
+      },
+      "candidateWordIds": [
+        "ambush",
+        "annihilation",
+        "assassin",
+        "berserk",
+        "blaze",
+        "crossbow",
+        "curse",
+        "dark-lord",
+        "elite-enemy",
+        "fortress",
+        "fury",
+        "guild",
+        "halberd",
+        "hammer",
+        "healer",
+        "hero",
+        "immunity",
+        "lancer",
+        "legend",
+        "mace",
+        "nation",
+        "paladin",
+        "poison",
+        "ranger",
+        "relic",
+        "shadow",
+        "spell",
+        "stealth",
+        "summon",
+        "talisman",
+        "wand"
+      ],
+      "plannedWords": [
+        "忍者",
+        "暗殺",
+        "幻",
+        "亡霊",
+        "影",
+        "封印",
+        "古代",
+        "遺跡",
+        "秘宝",
+        "伝承"
+      ]
+    }
+  ],
+  "rejectedDistractors": [
+    "Argent du jeu",
+    "Objet de soin",
+    "Renforcement",
+    "Secret caché",
+    "Victoire en combat",
+    "Effet passif",
+    "Combo d'attaque",
+    "Mission confiée",
+    "Repos à l'auberge",
+    "Journal de quêtes",
+    "Classe de personnage",
+    "Tableau de missions",
+    "Début du combat",
+    "Piège de donjon",
+    "Menu boutique",
+    "Sac d'équipement",
+    "Point de sauvegarde",
+    "Zone de quête",
+    "Zone de départ",
+    "Membre de l'équipe",
+    "Combattant de guilde"
+  ]
+}

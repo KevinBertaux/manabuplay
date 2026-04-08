@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { ADMIN_NAV_CSS, getAdminNavHtml, type AdminNavKey } from "./admin-nav";
 
-type AdminDocName = "brand-system" | "fx-lab";
+type AdminDocName = "brand-system" | "fx-lab" | "answer-card-mockup" | "tier-breakdown-mockup";
 
 const rootDir = process.cwd();
 const docsDir = path.join(rootDir, "docs");
@@ -13,6 +13,9 @@ function readText(filePath: string) {
 }
 
 function getDocActiveKey(docName: AdminDocName): AdminNavKey {
+  if (docName === "answer-card-mockup" || docName === "tier-breakdown-mockup") {
+    return "mockups";
+  }
   return docName === "fx-lab" ? "fx-lab" : "brand-system";
 }
 
@@ -38,8 +41,24 @@ function inlineDocAssets(html: string, docName: AdminDocName) {
     .replaceAll('../public/fonts/Joystix.woff', '/fonts/Joystix.woff')
     .replaceAll('./fx-lab.html', '/admin/fx-lab')
     .replaceAll('./brand-system.html#fx-preview', '/admin/brand-system#fx-preview')
-    .replace('<main class="page">', `<main class="page">\n    ${adminNav}`)
-    .replace('<main class="page">\r\n', `<main class="page">\r\n    ${adminNav}\r\n`);
+    .replace(
+      "</head>",
+      docName === "answer-card-mockup" || docName === "tier-breakdown-mockup"
+        ? `<style>\n${ADMIN_NAV_CSS}\n</style>\n</head>`
+        : "</head>",
+    )
+    .replace(
+      docName === "answer-card-mockup" || docName === "tier-breakdown-mockup" ? "<body>" : "<main class=\"page\">",
+      docName === "answer-card-mockup" || docName === "tier-breakdown-mockup"
+        ? `<body>\n${adminNav}`
+        : `<main class="page">\n    ${adminNav}`,
+    )
+    .replace(
+      docName === "answer-card-mockup" || docName === "tier-breakdown-mockup" ? "<body>\r\n" : "<main class=\"page\">\r\n",
+      docName === "answer-card-mockup" || docName === "tier-breakdown-mockup"
+        ? `<body>\r\n${adminNav}\r\n`
+        : `<main class="page">\r\n    ${adminNav}\r\n`,
+    );
 }
 
 export function getAdminDocumentHtml(docName: AdminDocName) {
