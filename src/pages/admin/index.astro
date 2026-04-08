@@ -58,6 +58,10 @@ function formatDelta(value: number | null) {
 function getTierBreakdown(pack: (typeof packs)[number]) {
   return pack.tierBreakdown ?? null;
 }
+
+function getTransparentSummary(pack: (typeof packs)[number]) {
+  return pack.transparentBreakdown ?? null;
+}
 ---
 <!DOCTYPE html>
 <html lang="fr">
@@ -104,6 +108,8 @@ function getTierBreakdown(pack: (typeof packs)[number]) {
     .pack-strip-item { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:36px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.03); color:#c7c2df; font:700 .84rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
     .pack-strip-label { color:#8f8aa7; text-transform:uppercase; }
     .pack-strip-value { color:#fff; text-align:right; }
+    .pack-strip-value.gift-watch { color:#fde68a; }
+    .pack-strip-value.gift-act { color:#fecaca; }
     .pack-tiers { display:grid; gap:8px; }
     .pack-tier-chips { display:flex; flex-wrap:wrap; gap:8px; }
     .pack-tier-chip { display:inline-flex; align-items:center; min-height:30px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); color:#fff; font:800 .84rem/1 'Rajdhani',sans-serif; letter-spacing:.03em; white-space:nowrap; }
@@ -167,6 +173,7 @@ function getTierBreakdown(pack: (typeof packs)[number]) {
         {packs.map((pack) => {
           const readiness = getReadiness(pack);
           const tiers = getTierBreakdown(pack);
+          const transparent = getTransparentSummary(pack);
           return (
           <a class="pack-card" href={`/admin/packs/${pack.id}`}>
             <div class="pack-head">
@@ -197,6 +204,12 @@ function getTierBreakdown(pack: (typeof packs)[number]) {
               <div class="pack-strip-item">
                 <span class="pack-strip-label">Relecture</span>
                 <span class="pack-strip-value">{getReviewLabel(pack)}</span>
+              </div>
+              <div class="pack-strip-item">
+                <span class="pack-strip-label">Cadeaux</span>
+                <span class:list={["pack-strip-value", { "gift-watch": transparent?.tone === "watch", "gift-act": transparent?.tone === "act" }]}>
+                  {transparent ? `${transparent.count} · ${transparent.percent}%` : "n.c."}
+                </span>
               </div>
               <div class="pack-strip-item">
                 <span class="pack-strip-label">Delta prod</span>

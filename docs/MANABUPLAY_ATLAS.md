@@ -232,6 +232,24 @@ On évite :
 - les quasi synonymes paresseux
 - les libellés utilitaires qui sentent le placeholder
 
+### Mots “cadeaux”
+Certains mots sont trop transparents pour créer une vraie difficulté de traduction.
+
+Exemples typiques :
+- mot repris presque tel quel
+- mot international très peu transformé
+
+Pour `v0.1`, on ne crée pas de logique runtime spéciale.
+
+On suit plutôt un ratio pack-level :
+- objectif qualité : `<= 5%`
+- seuil de vigilance : `> 10%`
+- seuil d'action : `> 15%`
+
+Si un pack dépasse ces seuils :
+- on le relève
+- puis on dilue en ajoutant ou remplaçant quelques mots si nécessaire
+
 ---
 
 ## 8. Workflow éditorial pack
@@ -406,4 +424,3 @@ Référence lente :
 - modèle contenu
 - règles de travail
 - cible data
-

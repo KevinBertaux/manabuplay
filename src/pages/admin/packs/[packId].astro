@@ -157,6 +157,10 @@ function getTierBreakdown() {
   return activePack.tierBreakdown ?? null;
 }
 
+function getTransparentBreakdown() {
+  return activePack.transparentBreakdown ?? null;
+}
+
 function getTierLabel(word: PackReaderWord) {
   switch (word.difficultyTier) {
     case 1:
@@ -225,9 +229,21 @@ function getTierTone(word: PackReaderWord) {
     .reader-pack-score.perfect { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
     .reader-bulk-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; white-space:nowrap; }
     .reader-main { display:grid; gap:16px; }
-    .reader-cartouche { display:grid; gap:12px; padding:16px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:
+    .reader-cartouche { position:sticky; top:76px; z-index:8; display:grid; gap:12px; padding:16px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:
       linear-gradient(180deg,rgba(34,211,238,.08),rgba(255,255,255,.02)),
       rgba(15,12,26,.96); box-shadow:0 8px 24px rgba(0,0,0,.22); }
+    .reader-cartouche.compact { gap:8px; padding:10px 14px; }
+    .reader-cartouche.compact .reader-cartouche-sub,
+    .reader-cartouche.compact .reader-cartouche-grid,
+    .reader-cartouche.compact .reader-cartouche-breakdown,
+    .reader-cartouche.compact .reader-cartouche-tiers-total { display:none; }
+    .reader-cartouche.compact .reader-cartouche-head { align-items:center; }
+    .reader-cartouche.compact .reader-cartouche-title { font-size:1rem; }
+    .reader-cartouche.compact .reader-cartouche-score { min-height:34px; min-width:80px; padding:0 12px; font-size:.98rem; }
+    .reader-cartouche.compact .reader-cartouche-tiers { gap:0; padding:0; border:none; background:none; }
+    .reader-cartouche.compact .reader-cartouche-tier-chips { gap:6px; }
+    .reader-cartouche.compact .reader-cartouche-tier-chip { min-height:28px; padding:0 8px; font-size:.8rem; }
+    .reader-cartouche.compact .reader-cartouche-tier-divider { height:18px; }
     .reader-cartouche-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:start; }
     .reader-cartouche-title { color:#fff; font:700 1.14rem/1.2 'Rajdhani',sans-serif; }
     .reader-cartouche-sub { color:#8f8aa7; font:700 .86rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
@@ -243,12 +259,14 @@ function getTierTone(word: PackReaderWord) {
     .reader-cartouche-value { color:#fff; text-align:right; }
     .reader-cartouche-tiers { display:grid; gap:8px; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
     .reader-cartouche-tiers-total { color:#fff; font:800 1rem/1.2 'Rajdhani',sans-serif; letter-spacing:.03em; }
-    .reader-cartouche-tier-chips { display:flex; flex-wrap:wrap; gap:8px; }
+    .reader-cartouche-tier-chips { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
     .reader-cartouche-tier-chip { display:inline-flex; align-items:center; min-height:32px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); color:#fff; font:800 .86rem/1 'Rajdhani',sans-serif; letter-spacing:.03em; white-space:nowrap; }
     .reader-cartouche-tier-chip.easy { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
     .reader-cartouche-tier-chip.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
     .reader-cartouche-tier-chip.hard { border-color:rgba(251,146,60,.28); background:rgba(251,146,60,.12); color:#fed7aa; }
     .reader-cartouche-tier-chip.expert { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .reader-cartouche-tier-chip.gift { border-color:rgba(251,191,36,.24); background:rgba(251,191,36,.1); color:#fde68a; }
+    .reader-cartouche-tier-divider { width:10px; height:32px; border-left:1px solid rgba(255,255,255,.18); margin:0 2px 0 6px; }
     .reader-cartouche-breakdown { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; }
     .reader-break-item { display:grid; gap:6px; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
     .reader-break-label { color:#8f8aa7; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
@@ -294,6 +312,7 @@ function getTierTone(word: PackReaderWord) {
     .reader-scrolltop { position:fixed; right:max(16px,calc((100vw - min(1320px,calc(100vw - 24px))) / 2 - 60px)); bottom:16px; z-index:26; display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:8px; border:1px solid rgba(34,211,238,.26); background:rgba(15,12,26,.9); box-shadow:0 10px 24px rgba(0,0,0,.3); color:#22d3ee; font:800 1.2rem/1 'Rajdhani',sans-serif; cursor:pointer; backdrop-filter:blur(12px); }
     .reader-scrolltop:hover { border-color:rgba(34,211,238,.46); background:rgba(34,211,238,.12); }
     @media (max-width:1080px) {
+      .reader-cartouche { top:68px; }
       .reader-layout { grid-template-columns:1fr; }
       .reader-cartouche-grid,
       .reader-cartouche-breakdown { grid-template-columns:repeat(2,minmax(0,1fr)); }
@@ -302,6 +321,7 @@ function getTierTone(word: PackReaderWord) {
       .reader-grid { grid-template-columns:1fr; }
     }
     @media (max-width:620px) {
+      .reader-cartouche { position:static; }
       .reader-cartouche-head,
       .reader-cartouche-grid,
       .reader-cartouche-breakdown { grid-template-columns:1fr; }
@@ -341,9 +361,10 @@ function getTierTone(word: PackReaderWord) {
       </aside>
 
       <div class="reader-main">
-        <section class="reader-cartouche">
+        <section class="reader-cartouche" data-reader-cartouche>
           {(() => {
             const tiers = getTierBreakdown();
+            const transparent = getTransparentBreakdown();
             return (
               <>
           <div class="reader-cartouche-head">
@@ -388,6 +409,8 @@ function getTierTone(word: PackReaderWord) {
               <span class="reader-cartouche-tier-chip mid">{tiers ? `${tiers.counts[2]} moyens · ${tiers.percents[2]}%` : "T2 n.c."}</span>
               <span class="reader-cartouche-tier-chip hard">{tiers ? `${tiers.counts[3]} difficiles · ${tiers.percents[3]}%` : "T3 n.c."}</span>
               <span class="reader-cartouche-tier-chip expert">{tiers ? `${tiers.counts[4]} experts · ${tiers.percents[4]}%` : "T4 n.c."}</span>
+              {transparent ? <span class="reader-cartouche-tier-divider" aria-hidden="true"></span> : null}
+              {transparent ? <span class="reader-cartouche-tier-chip gift">{`${transparent.count} cadeaux · ${transparent.percent}%`}</span> : null}
             </div>
           </div>
           <div class="reader-cartouche-breakdown">
@@ -491,6 +514,7 @@ function getTierTone(word: PackReaderWord) {
   <script is:inline>
     const scrollTopButton = document.querySelector(".reader-scrolltop");
     const bulkToggle = document.querySelector("[data-toggle-all]");
+    const cartouche = document.querySelector("[data-reader-cartouche]");
     let activeCard = null;
     let adminLang = document.documentElement.lang === "fr" ? "fr" : "en";
 
@@ -531,6 +555,14 @@ function getTierTone(word: PackReaderWord) {
       );
       const allPristine = cards.every((card) => card.dataset.state === "pristine");
       bulkToggle.textContent = allPristine ? "Tout révéler" : "Tout replier";
+    }
+
+    function syncCartoucheCompact() {
+      if (!(cartouche instanceof HTMLElement)) {
+        return;
+      }
+
+      cartouche.classList.toggle("compact", window.scrollY > 180);
     }
 
     function setActiveCard(nextCard) {
@@ -678,6 +710,8 @@ function getTierTone(word: PackReaderWord) {
     });
 
     applyAdminLang(adminLang);
+    syncCartoucheCompact();
+    window.addEventListener("scroll", syncCartoucheCompact, { passive: true });
 
     document.addEventListener("keydown", (event) => {
       const target = event.target;

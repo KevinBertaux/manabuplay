@@ -87,6 +87,13 @@ export type PackReaderPack = {
       4: number;
     };
   };
+  transparentBreakdown?: {
+    count: number;
+    percent: number;
+    watchThreshold: number;
+    actThreshold: number;
+    tone: "ok" | "watch" | "act";
+  };
   score?: {
     readiness?: {
       value: number;
@@ -115,6 +122,9 @@ export type PackReaderPack = {
       name: string;
       description: string;
     };
+  };
+  quiz?: {
+    transparentWordIds?: string[];
   };
   words: PackReaderWord[];
 };
@@ -200,6 +210,28 @@ function buildTierBreakdown(words: PackReaderWord[]) {
     total,
     counts,
     percents,
+  };
+}
+
+function buildTransparentBreakdown(words: PackReaderWord[], transparentWordIds: string[] = []) {
+  const ids = new Set(transparentWordIds);
+  const count = words.filter((word) => {
+    const romaji = typeof word.jp === "string" ? undefined : word.jp?.romaji;
+    const wordId = word.existingWordId || romaji || `word-${word.order}`;
+    return ids.has(wordId);
+  }).length;
+  const total = words.length;
+  const percent = total ? Math.round((count / total) * 100) : 0;
+  const watchThreshold = 10;
+  const actThreshold = 15;
+  const tone = percent > actThreshold ? "act" : percent > watchThreshold ? "watch" : "ok";
+
+  return {
+    count,
+    percent,
+    watchThreshold,
+    actThreshold,
+    tone,
   };
 }
 
@@ -357,6 +389,7 @@ export function getPackById(packId: string) {
   return {
     ...pack,
     tierBreakdown: buildTierBreakdown(words),
+    transparentBreakdown: buildTransparentBreakdown(words, pack.quiz?.transparentWordIds || []),
     words,
   };
 }
