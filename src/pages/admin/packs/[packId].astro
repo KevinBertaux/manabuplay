@@ -224,12 +224,12 @@ function getTierTone(word: PackReaderWord) {
       #0a0911; }
     .reader-wrap { width:min(1320px,calc(100% - 24px)); margin:0 auto; padding:16px 0 16px; }
     .reader-top,.reader-layout-card { background:rgba(15,12,26,.94); border:1px solid rgba(139,92,246,.18); border-radius:8px; box-shadow:0 12px 32px rgba(0,0,0,.32); }
-    .reader-top { padding:20px; margin-bottom:16px; }
+    .reader-top { padding:14px 16px; margin-bottom:12px; }
     .reader-kicker { display:inline-flex; align-items:center; gap:8px; min-height:32px; padding:0 12px; border-radius:8px; background:rgba(34,211,238,.12); border:1px solid rgba(34,211,238,.28); color:#22d3ee; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
     .reader-kicker::before { content:""; width:8px; height:8px; border-radius:999px; background:currentColor; }
-    .reader-title { margin:12px 0 8px; font-family:'Joystix',sans-serif; font-size:clamp(1.35rem,2.8vw,2.2rem); line-height:1.15; color:#fff; }
+    .reader-title { margin:10px 0 6px; font-family:'Joystix',sans-serif; font-size:clamp(1.12rem,2.1vw,1.7rem); line-height:1.12; color:#fff; }
     .reader-title span { color:#e879f9; }
-    .reader-copy { max-width:72ch; color:#c7c2df; font:500 1.1rem/1.68 'Rajdhani',sans-serif; }
+    .reader-copy { max-width:72ch; color:#c7c2df; font:500 .98rem/1.55 'Rajdhani',sans-serif; }
     .reader-layout { display:grid; grid-template-columns:280px minmax(0,1fr); gap:16px; align-items:start; }
     .reader-layout-card { padding:16px; }
     .reader-side-title { color:#fff; font:700 1.08rem/1.2 'Rajdhani',sans-serif; margin:0; }
@@ -247,8 +247,21 @@ function getTierTone(word: PackReaderWord) {
     .reader-pack-score.good { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
     .reader-pack-score.perfect { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
     .reader-bulk-toggle { display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.1); color:#22d3ee; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; white-space:nowrap; }
-    .reader-main { display:grid; gap:16px; }
-    .reader-cartouche { position:sticky; top:76px; z-index:8; display:grid; gap:12px; padding:16px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:
+    .reader-main { display:grid; gap:12px; }
+    .reader-pagination { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.03); }
+    .reader-pagination-info { color:#a9a3c3; font:700 .88rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; text-transform:uppercase; }
+    .reader-pagination-controls { display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .reader-pagination-numbers { display:flex; align-items:center; gap:8px; padding:0; background:none; border:none; }
+    :global(.reader-pagination-btn) { display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:28px; padding:0 8px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#a9a3c3; font:800 .8rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; cursor:pointer; transition:border-color .18s ease, background .18s ease, color .18s ease, transform .18s ease; }
+    :global(.reader-pagination-btn:hover) { border-color:rgba(34,211,238,.28); background:rgba(34,211,238,.1); color:#d7fbff; transform:translateY(-1px); }
+    :global(.reader-pagination-btn.is-active) { border-color:rgba(34,211,238,.28); background:rgba(34,211,238,.14); color:#d7fbff; }
+    :global(.reader-pagination-btn.nav) { border-color:rgba(255,255,255,.14); background:rgba(255,255,255,.08); color:#ddd6fe; }
+    :global(.reader-pagination-btn.nav:hover) { border-color:rgba(34,211,238,.22); background:rgba(34,211,238,.08); color:#d7fbff; transform:translateY(-1px); }
+    :global(.reader-pagination-numbers > .reader-pagination-btn.page-num) { flex:0 0 32px; min-width:32px; width:32px; height:28px; padding:0; border:1px solid rgba(255,255,255,.22); background:rgba(19,23,38,.92); color:#f3efff; box-shadow:inset 0 -1px 0 rgba(0,0,0,.26), 0 0 0 1px rgba(255,255,255,.04); }
+    :global(.reader-pagination-numbers > .reader-pagination-btn.page-num:hover) { border-color:rgba(34,211,238,.42); background:rgba(18,45,62,.96); color:#d7fbff; box-shadow:inset 0 -1px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(34,211,238,.12); }
+    :global(.reader-pagination-numbers > .reader-pagination-btn.page-num.is-active) { border-color:rgba(34,211,238,.52); background:rgba(20,79,103,.95); color:#d7fbff; box-shadow:inset 0 -1px 0 rgba(0,0,0,.14), 0 0 0 1px rgba(34,211,238,.18); }
+    :global(.reader-pagination-btn:disabled) { opacity:.35; cursor:default; transform:none; }
+    .reader-cartouche { position:sticky; top:76px; z-index:8; display:grid; gap:8px; padding:12px; border-radius:8px; border:1px solid rgba(34,211,238,.18); background:
       linear-gradient(180deg,rgba(34,211,238,.08),rgba(255,255,255,.02)),
       rgba(15,12,26,.96); box-shadow:0 8px 24px rgba(0,0,0,.22); }
     .reader-cartouche.compact { gap:8px; padding:10px 14px; }
@@ -264,7 +277,7 @@ function getTierTone(word: PackReaderWord) {
     .reader-cartouche.compact .reader-cartouche-tier-chip { height:28px; padding:0 8px; font-size:.8rem; }
     .reader-cartouche.compact .reader-cartouche-gift-link { height:28px; padding:0 8px; font-size:.8rem; }
     .reader-cartouche.compact .reader-cartouche-tier-divider { height:18px; }
-    .reader-cartouche-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:start; }
+    .reader-cartouche-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; align-items:start; }
     .reader-cartouche-title { color:#fff; font:700 1.14rem/1.2 'Rajdhani',sans-serif; }
     .reader-cartouche-sub { color:#8f8aa7; font:700 .86rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
     .reader-cartouche-score { display:inline-flex; align-items:center; justify-content:center; min-height:40px; min-width:92px; padding:0 14px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#d7fbff; font:800 1.08rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; white-space:nowrap; }
@@ -273,11 +286,11 @@ function getTierTone(word: PackReaderWord) {
     .reader-cartouche-score.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
     .reader-cartouche-score.good { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
     .reader-cartouche-score.perfect { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
-    .reader-cartouche-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+    .reader-cartouche-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
     .reader-cartouche-cell { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:36px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; font:700 .9rem/1 'Rajdhani',sans-serif; letter-spacing:.04em; }
     .reader-cartouche-label { color:#8f8aa7; text-transform:uppercase; }
     .reader-cartouche-value { color:#fff; text-align:right; }
-    .reader-cartouche-tiers { display:grid; gap:8px; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
+    .reader-cartouche-tiers { display:grid; gap:6px; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
     .reader-cartouche-tiers-total { color:#fff; font:800 1rem/1.2 'Rajdhani',sans-serif; letter-spacing:.03em; }
     .reader-cartouche-tier-chips { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
     .reader-cartouche-tier-chip { display:inline-flex; align-items:center; height:32px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); color:#fff; font:800 .86rem/1 'Rajdhani',sans-serif; letter-spacing:.03em; white-space:nowrap; box-sizing:border-box; }
@@ -291,13 +304,13 @@ function getTierTone(word: PackReaderWord) {
     .reader-cartouche-tier-chip.gift.gift-watch { border-color:rgba(251,191,36,.24); background:rgba(251,191,36,.1); color:#fde68a; }
     .reader-cartouche-tier-chip.gift.gift-act { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
     .reader-cartouche-tier-divider { width:10px; height:32px; border-left:1px solid rgba(255,255,255,.18); margin:0 2px 0 6px; }
-    .reader-cartouche-gift-row { display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px; min-width:0; flex:0 1 auto; }
-    .reader-cartouche-gift-list { display:flex; flex-wrap:wrap; align-items:center; gap:8px; min-width:0; }
+    .reader-cartouche-gift-row { display:contents; }
+    .reader-cartouche-gift-list { display:contents; }
     .reader-cartouche-gift-list[hidden] { display:none; }
     .reader-cartouche-gift-link { display:inline-flex; align-items:center; height:32px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#ddd6fe; font:700 .84rem/1 'Rajdhani',sans-serif; text-decoration:none; letter-spacing:.03em; white-space:nowrap; box-sizing:border-box; }
     .reader-cartouche-gift-link:hover { border-color:rgba(34,211,238,.26); background:rgba(34,211,238,.1); color:#d7fbff; }
-    .reader-cartouche-breakdown { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; }
-    .reader-break-item { display:grid; gap:6px; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
+    .reader-cartouche-breakdown { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px; }
+    .reader-break-item { display:grid; gap:4px; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
     .reader-break-label { color:#8f8aa7; font:700 .82rem/1 'Rajdhani',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
     .reader-break-value { color:#fff; font:800 1.02rem/1 'Rajdhani',sans-serif; }
     .reader-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; align-items:start; }
@@ -487,9 +500,18 @@ function getTierTone(word: PackReaderWord) {
           })()}
         </section>
 
-        <div class="reader-grid">
+        <div class="reader-pagination" data-reader-pagination>
+          <div class="reader-pagination-info" data-page-info></div>
+          <div class="reader-pagination-controls">
+            <button class="reader-pagination-btn nav" type="button" data-page-prev>←</button>
+            <div data-page-numbers class="reader-pagination-numbers"></div>
+            <button class="reader-pagination-btn nav" type="button" data-page-next>→</button>
+          </div>
+        </div>
+
+        <div class="reader-grid" data-reader-grid>
           {activePack.words.map((word) => (
-          <article class="review-card" id={`word-${word.order}`} data-admin-card data-word-id={getWordKey(word)} data-state="revealed" data-correct-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-correct-index-en={word.quizPreview?.correctIndex.en ?? 0} data-selected-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-selected-index-en={word.quizPreview?.correctIndex.en ?? 0} tabindex="0">
+          <article class="review-card" id={`word-${word.order}`} data-admin-card data-word-id={getWordKey(word)} data-word-order={word.order} data-state="revealed" data-correct-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-correct-index-en={word.quizPreview?.correctIndex.en ?? 0} data-selected-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-selected-index-en={word.quizPreview?.correctIndex.en ?? 0} tabindex="0">
             <div class="review-meta">
               <div class="review-meta-left">
                 <span class="review-order">Mot {word.order}</span>
@@ -554,6 +576,14 @@ function getTierTone(word: PackReaderWord) {
           </article>
           ))}
         </div>
+        <div class="reader-pagination" data-reader-pagination>
+          <div class="reader-pagination-info" data-page-info></div>
+          <div class="reader-pagination-controls">
+            <button class="reader-pagination-btn nav" type="button" data-page-prev>←</button>
+            <div data-page-numbers class="reader-pagination-numbers"></div>
+            <button class="reader-pagination-btn nav" type="button" data-page-next>→</button>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -564,9 +594,18 @@ function getTierTone(word: PackReaderWord) {
     const cartouche = document.querySelector("[data-reader-cartouche]");
     const giftToggle = document.querySelector("[data-toggle-gifts]");
     const giftList = document.querySelector("[data-gift-list]");
+    const cards = Array.from(document.querySelectorAll("[data-admin-card]")).filter(
+      (card) => card instanceof HTMLElement,
+    );
+    const paginationBars = Array.from(document.querySelectorAll("[data-reader-pagination]")).filter(
+      (bar) => bar instanceof HTMLElement,
+    );
+    const wordsPerPage = 10;
+    const totalPages = Math.max(1, Math.ceil(cards.length / wordsPerPage));
     let activeCard = null;
     let adminLang = document.documentElement.lang === "fr" ? "fr" : "en";
     let activeGiftFlashTimeout = null;
+    let currentPage = 1;
 
     function getCorrectIndex(card) {
       return Number(card.dataset[`correctIndex${adminLang === "fr" ? "Fr" : "En"}`] ?? "-1");
@@ -658,6 +697,95 @@ function getTierTone(word: PackReaderWord) {
       activeCard = nextCard;
     }
 
+    function getPageFromUrl() {
+      const url = new URL(window.location.href);
+      const page = Number(url.searchParams.get("page") || "1");
+      return Number.isFinite(page) && page >= 1 && page <= totalPages ? page : 1;
+    }
+
+    function setPageInUrl(page) {
+      const url = new URL(window.location.href);
+      if (page <= 1) {
+        url.searchParams.delete("page");
+      } else {
+        url.searchParams.set("page", String(page));
+      }
+      window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function renderPagination() {
+      const start = (currentPage - 1) * wordsPerPage;
+      const end = Math.min(cards.length, start + wordsPerPage);
+
+      cards.forEach((card, index) => {
+        card.hidden = index < start || index >= end;
+      });
+
+      paginationBars.forEach((bar) => {
+        const info = bar.querySelector("[data-page-info]");
+        const prev = bar.querySelector("[data-page-prev]");
+        const next = bar.querySelector("[data-page-next]");
+        const numbers = bar.querySelector("[data-page-numbers]");
+
+        if (info instanceof HTMLElement) {
+          info.textContent = `Page ${currentPage}/${totalPages} · mots ${start + 1}-${end}`;
+        }
+
+        if (prev instanceof HTMLButtonElement) {
+          prev.disabled = currentPage === 1;
+        }
+
+        if (next instanceof HTMLButtonElement) {
+          next.disabled = currentPage === totalPages;
+        }
+
+        if (numbers instanceof HTMLElement) {
+          numbers.innerHTML = "";
+          for (let page = 1; page <= totalPages; page += 1) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "reader-pagination-btn page-num" + (page === currentPage ? " is-active" : "");
+            button.textContent = String(page);
+            button.dataset.page = String(page);
+            numbers.appendChild(button);
+          }
+        }
+      });
+    }
+
+    function setPage(page, options = {}) {
+      const nextPage = Math.min(totalPages, Math.max(1, page));
+      currentPage = nextPage;
+      renderPagination();
+      setPageInUrl(nextPage);
+
+      if (!options.silentScroll) {
+        requestAnimationFrame(() => {
+          syncCartoucheCompact();
+          const firstVisibleCard = cards.find((card) => !card.hidden);
+          if (!(firstVisibleCard instanceof HTMLElement)) {
+            return;
+          }
+
+          const topNav = document.querySelector(".admin-topnav");
+          const topNavHeight = topNav instanceof HTMLElement ? topNav.getBoundingClientRect().height : 0;
+          const cartoucheHeight = cartouche instanceof HTMLElement ? cartouche.getBoundingClientRect().height : 0;
+          const stickyOffset = topNavHeight + cartoucheHeight + 28;
+          const top = window.scrollY + firstVisibleCard.getBoundingClientRect().top - stickyOffset;
+          window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+        });
+      }
+    }
+
+    function revealCardPage(card, options = {}) {
+      const index = cards.indexOf(card);
+      if (index === -1) {
+        return;
+      }
+      const page = Math.floor(index / wordsPerPage) + 1;
+      setPage(page, options);
+    }
+
     function syncAnswerState(card) {
       const pristine = card.dataset.state === "pristine";
       const selectedIndex = pristine ? -1 : getSelectedIndex(card);
@@ -719,14 +847,12 @@ function getTierTone(word: PackReaderWord) {
       });
     }
 
-    document.querySelectorAll("[data-admin-card]").forEach((card) => {
-      if (card instanceof HTMLElement) {
-        syncCardState(card);
-        syncAnswerState(card);
-        card.addEventListener("mouseenter", () => setActiveCard(card));
-        card.addEventListener("focusin", () => setActiveCard(card));
-        card.addEventListener("click", () => setActiveCard(card));
-      }
+    cards.forEach((card) => {
+      syncCardState(card);
+      syncAnswerState(card);
+      card.addEventListener("mouseenter", () => setActiveCard(card));
+      card.addEventListener("focusin", () => setActiveCard(card));
+      card.addEventListener("click", () => setActiveCard(card));
     });
 
     document.querySelectorAll("[data-toggle-card]").forEach((button) => {
@@ -780,6 +906,7 @@ function getTierTone(word: PackReaderWord) {
             return;
           }
 
+          revealCardPage(card, { silentScroll: true });
           setActiveCard(card);
           card.scrollIntoView({ behavior: "smooth", block: "center" });
           flashCard(card);
@@ -808,11 +935,37 @@ function getTierTone(word: PackReaderWord) {
       });
     }
 
+    paginationBars.forEach((bar) => {
+      bar.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        if (target.hasAttribute("data-page-prev")) {
+          setPage(currentPage - 1);
+          return;
+        }
+
+        if (target.hasAttribute("data-page-next")) {
+          setPage(currentPage + 1);
+          return;
+        }
+
+        const page = Number(target.dataset.page || "0");
+        if (page) {
+          setPage(page);
+        }
+      });
+    });
+
     window.addEventListener("adminlangchange", (event) => {
       const nextLang = event instanceof CustomEvent ? event.detail?.lang : null;
       applyAdminLang(nextLang === "fr" ? "fr" : "en");
     });
 
+    currentPage = getPageFromUrl();
+    renderPagination();
     applyAdminLang(adminLang);
     syncCartoucheCompact();
     window.addEventListener("scroll", syncCartoucheCompact, { passive: true });
@@ -843,7 +996,7 @@ function getTierTone(word: PackReaderWord) {
         return;
       }
 
-      const card = activeCard instanceof HTMLElement ? activeCard : document.querySelector("[data-admin-card]");
+      const card = activeCard instanceof HTMLElement ? activeCard : cards.find((candidate) => !candidate.hidden) || cards[0];
       if (!(card instanceof HTMLElement)) {
         return;
       }
