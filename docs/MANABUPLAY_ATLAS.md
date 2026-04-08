@@ -438,3 +438,49 @@ Référence lente :
 - modèle contenu
 - règles de travail
 - cible data
+
+---
+
+## 15. Élargissement produit après `v0.1`
+
+### Point de départ
+Le coeur de ManabuPlay reste :
+- quiz de vocabulaire japonais
+- packs courts
+- apprentissage par imaginaire pop japonais
+
+### Ce que cela n'interdit pas
+À plus long terme, ManabuPlay peut devenir un site de quiz plus large, avec plusieurs pôles.
+
+Exemples possibles :
+- `vocabulaire`
+- `culture pop japonaise`
+- `quotidiens`
+- plus tard éventuellement :
+  - `trivia Japon`
+  - `micro-jeux`
+  - `packs spéciaux`
+
+### Condition importante
+Cet élargissement n'a de sens que si le coeur vocabulaire est déjà solide.
+
+Conditions minimales :
+- la boucle quiz vocabulaire marche
+- les packs sont compris et désirables
+- les métriques montrent une vraie traction
+- la rétention existe
+- le produit ne devient pas confus
+
+### Règle de marque
+ManabuPlay ne doit pas devenir un fourre-tout de quiz.
+
+Règle retenue :
+- le vocabulaire japonais reste le coeur
+- les autres modes éventuels deviennent des extensions
+- pas l'inverse
+
+### Lecture produit
+Donc :
+- en `0.1`, on reste strictement pack-first vocabulaire
+- en `1.0+`, une extension vers des quiz culturels ou quotidiens est probable
+- mais seulement si elle renforce la marque au lieu de diluer la promesse
