@@ -1389,5 +1389,23 @@
     "depth": {
       "value": 76
     }
+  },
+  "quiz": {
+    "transparentWordIds": [
+      "ramen",
+      "sushi",
+      "onigiri",
+      "matcha",
+      "shinkansen",
+      "Tokyo",
+      "Shibuya",
+      "Akihabara",
+      "onsen",
+      "yukata",
+      "izakaya",
+      "takoyaki",
+      "taiyaki",
+      "kimono"
+    ]
   }
 }
