@@ -144,14 +144,14 @@
       "quiz": {
         "distractors": {
           "fr": [
-            "Kuudere",
-            "Yandere",
-            "Deredere"
+            "Rivale froide",
+            "Amie distante",
+            "Personnage très affectueux"
           ],
           "en": [
-            "Kuudere",
-            "Yandere",
-            "Deredere"
+            "Cold rival",
+            "Distant friend",
+            "Very affectionate character"
           ]
         }
       },
@@ -393,12 +393,12 @@
         "romaji": "senpai"
       },
       "gloss": {
-        "fr": "Senpai",
-        "en": "Senpai"
+        "fr": "Aîné",
+        "en": "Senior"
       },
       "definition": {
-        "fr": "Personne plus avancée dans une école, un club ou une hiérarchie de groupe.",
-        "en": "Person who is senior to someone else in a school, club or group hierarchy."
+        "fr": "Aîné dans une école, un club ou une hiérarchie de groupe.",
+        "en": "Senior in a school, club or group hierarchy."
       },
       "hints": {
         "hint1": {
@@ -417,12 +417,12 @@
       "quiz": {
         "distractors": {
           "fr": [
-            "Kouhai",
+            "Junior du club",
             "Professeur",
             "Président du conseil"
           ],
           "en": [
-            "Kouhai",
+            "Junior club member",
             "Teacher",
             "Student council president"
           ]
@@ -719,8 +719,8 @@
       },
       "hints": {
         "hint1": {
-          "fr": "Ce mot fonctionne en paire avec senpai.",
-          "en": "This term works as a pair with senpai."
+          "fr": "Ce mot fonctionne en paire avec l'aîné.",
+          "en": "This term works as a pair with the senior."
         },
         "hint2": {
           "fr": "Il parle du rang inférieur ou du plus jeune dans le groupe.",
@@ -728,18 +728,18 @@
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne un junior dans une hiérarchie de groupe. Dans les anime scolaires, la relation senpai-kouhai est très codée.",
-        "en": "This word refers to a junior within a group hierarchy. In school anime, the senpai-kouhai relation is highly codified."
+        "fr": "Ce mot désigne un junior dans une hiérarchie de groupe. Dans les anime scolaires, la relation aîné-junior est très codée.",
+        "en": "This word refers to a junior within a group hierarchy. In school anime, the senior-junior relation is highly codified."
       },
       "quiz": {
         "distractors": {
           "fr": [
-            "Senpai",
+            "Aîné",
             "Nouvel élève",
             "Cadet du club"
           ],
           "en": [
-            "Senpai",
+            "Senior",
             "New student",
             "Junior club member"
           ]
@@ -824,12 +824,12 @@
       "quiz": {
         "distractors": {
           "fr": [
-            "Senpai",
+            "Aîné",
             "Président du club",
             "Mentor"
           ],
           "en": [
-            "Senpai",
+            "Senior",
             "Club president",
             "Mentor"
           ]
@@ -963,12 +963,12 @@
           "fr": [
             "Compagnon de classe",
             "Rival romantique",
-            "Kouhai"
+            "Junior du club"
           ],
           "en": [
             "Classmate",
             "Romantic rival",
-            "Kouhai"
+            "Junior club member"
           ]
         }
       },
@@ -1006,14 +1006,14 @@
       "quiz": {
         "distractors": {
           "fr": [
-            "Tsundere",
-            "Kuudere",
-            "Yandere"
+            "Rivale froide",
+            "Personnage distant",
+            "Amoureuse dangereuse"
           ],
           "en": [
-            "Tsundere",
-            "Kuudere",
-            "Yandere"
+            "Cold rival",
+            "Distant character",
+            "Dangerously obsessed lover"
           ]
         }
       },
@@ -1027,8 +1027,8 @@
         "romaji": "kuudere"
       },
       "gloss": {
-        "fr": "Kuudere",
-        "en": "Kuudere"
+        "fr": "Froide réservée",
+        "en": "Cold reserved type"
       },
       "definition": {
         "fr": "Personnage calme et froid en apparence, mais capable d'attachement discret.",
@@ -1051,14 +1051,14 @@
       "quiz": {
         "distractors": {
           "fr": [
-            "Tsundere",
-            "Yandere",
-            "Très affectueux"
+            "Rivale agressive",
+            "Amoureuse dangereuse",
+            "Personnage très affectueux"
           ],
           "en": [
-            "Tsundere",
-            "Yandere",
-            "Very lovey-dovey"
+            "Harsh rival",
+            "Dangerously obsessed lover",
+            "Very affectionate character"
           ]
         }
       },
@@ -1207,8 +1207,8 @@
         "romaji": "yandere"
       },
       "gloss": {
-        "fr": "Yandere",
-        "en": "Yandere"
+        "fr": "Amoureuse obsessionnelle",
+        "en": "Obsessive lover"
       },
       "definition": {
         "fr": "Personnage dont l'amour ou l'attachement bascule vers l'obsession et parfois la violence.",
@@ -1231,14 +1231,14 @@
       "quiz": {
         "distractors": {
           "fr": [
-            "Tsundere",
-            "Kuudere",
-            "Très affectueux"
+            "Rivale agressive",
+            "Personnage distant",
+            "Personnage très affectueux"
           ],
           "en": [
-            "Tsundere",
-            "Kuudere",
-            "Very lovey-dovey"
+            "Harsh rival",
+            "Distant character",
+            "Very affectionate character"
           ]
         }
       },
@@ -1278,12 +1278,12 @@
           "fr": [
             "Présidente de classe",
             "Étudiante studieuse",
-            "Kuudere"
+            "Froide réservée"
           ],
           "en": [
             "Class president",
             "Studious girl",
-            "Kuudere"
+            "Cold reserved type"
           ]
         }
       },
@@ -1323,12 +1323,12 @@
           "fr": [
             "Professeur",
             "Délégué de classe",
-            "Senpai"
+            "Aîné"
           ],
           "en": [
             "Teacher",
             "Class representative",
-            "Senpai"
+            "Senior"
           ]
         }
       },
@@ -1398,5 +1398,13 @@
     "depth": {
       "value": 76
     }
+  },
+  "quiz": {
+    "transparentWordIds": [
+      "tsundere",
+      "waifu",
+      "kuudere",
+      "yandere"
+    ]
   }
 }
