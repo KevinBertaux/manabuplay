@@ -224,7 +224,8 @@ function buildTransparentBreakdown(words: PackReaderWord[], transparentWordIds: 
   const percent = total ? Math.round((count / total) * 100) : 0;
   const watchThreshold = 10;
   const actThreshold = 15;
-  const tone = percent > actThreshold ? "act" : percent > watchThreshold ? "watch" : "ok";
+  const tone: NonNullable<PackReaderPack["transparentBreakdown"]>["tone"] =
+    percent > actThreshold ? "act" : percent > watchThreshold ? "watch" : "ok";
 
   return {
     count,
