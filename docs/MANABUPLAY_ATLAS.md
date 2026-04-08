@@ -241,6 +241,11 @@ Exemples typiques :
 
 Pour `v0.1`, on ne crée pas de logique runtime spéciale.
 
+Détection retenue :
+- un mot entre dans `transparentWordIds` si `romaji == gloss.fr`
+- ou si `romaji == gloss.en`
+- sans exception éditoriale supplémentaire
+
 On suit plutôt un ratio pack-level :
 - objectif qualité : `<= 5%`
 - seuil de vigilance : `> 10%`

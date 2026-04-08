@@ -439,5 +439,8 @@
     "depth": {
       "value": 76
     }
+  },
+  "quiz": {
+    "transparentWordIds": []
   }
 }
