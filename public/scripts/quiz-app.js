@@ -37,6 +37,24 @@
 
   function applyLang() {
     document.getElementById('htmlRoot').lang = currentLang;
+    const seoTitle = t('seo_title');
+    if (typeof seoTitle === 'string' && seoTitle) {
+      document.title = seoTitle;
+    }
+    const seoDescription = t('seo_description');
+    if (typeof seoDescription === 'string' && seoDescription) {
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', seoDescription);
+      }
+    }
+    const ogDescription = t('og_description');
+    if (typeof ogDescription === 'string' && ogDescription) {
+      const ogMetaDescription = document.querySelector('meta[property="og:description"]');
+      if (ogMetaDescription) {
+        ogMetaDescription.setAttribute('content', ogDescription);
+      }
+    }
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const v = t(el.dataset.i18n);
       if (typeof v === 'string') el.innerHTML = v;

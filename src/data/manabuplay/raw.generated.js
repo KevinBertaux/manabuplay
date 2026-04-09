@@ -10,10 +10,13 @@ export const MVP_DIFFICULTIES = [
 
 export const MVP_LANG = {
     en: {
+      seo_title:        "ManabuPlay — Learn Japanese Vocabulary Through Gaming & Pop Culture",
+      seo_description:  "A daily Japanese vocabulary quiz for gaming and pop culture fans who want to turn familiar words into real understanding.",
+      og_description:   "A daily Japanese quiz for gaming and pop culture fans who want to understand the words they already recognize.",
       nav_cta:          "Play Quiz →",
       hero_badge:       "FREE · No sign-up · 50 words · 4 difficulties",
       hero_tagline:     `Learn Japanese like a true <span style="color:var(--violet)">gamer</span>. Master the words behind your <span style="background:linear-gradient(90deg,var(--violet),var(--fuchsia));-webkit-background-clip:text;-webkit-text-fill-color:transparent">favorite anime &amp; JRPGs.</span>`,
-      hero_sub:         "From Boss to Reincarnation — every word you already know has a story. Pick your difficulty and test your level.",
+      hero_sub:         "You already know these anime and JRPG words. Start understanding them.",
       hero_cta:         "▶ START QUIZ — FREE",
       hero_how:         "How it works ↓",
       stat_words:       "WORDS",
@@ -81,10 +84,13 @@ export const MVP_LANG = {
       ]
     },
     fr: {
+      seo_title:        "ManabuPlay — Apprendre du vocabulaire japonais via le jeu vidéo et la pop culture",
+      seo_description:  "Un quiz quotidien de vocabulaire japonais pour les fans de jeu vidéo et de pop culture qui veulent transformer des mots familiers en vraie compréhension.",
+      og_description:   "Un quiz quotidien de japonais pour les fans de jeu vidéo et de pop culture qui veulent enfin comprendre des mots qu’ils reconnaissent déjà.",
       nav_cta:          "Jouer au Quiz →",
       hero_badge:       "GRATUIT · Sans inscription · 50 mots · 4 difficultés",
       hero_tagline:     `Apprends le japonais comme un vrai <span style="color:var(--violet)">gamer</span>. Maîtrise les mots de tes <span style="background:linear-gradient(90deg,var(--violet),var(--fuchsia));-webkit-background-clip:text;-webkit-text-fill-color:transparent">anime &amp; JRPGs préférés.</span>`,
-      hero_sub:         "De Boss à Réincarnation — chaque mot que tu connais déjà a une histoire. Choisis ta difficulté et teste ton niveau.",
+      hero_sub:         "Tu connais déjà ces mots d’anime et de JRPG. Commence à les comprendre.",
       hero_cta:         "▶ COMMENCER — GRATUIT",
       hero_how:         "Comment ça marche ↓",
       stat_words:       "MOTS",

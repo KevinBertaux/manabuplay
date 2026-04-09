@@ -102,6 +102,13 @@ Le plus petit produit qui exprime déjà la vision est :
 - des hints
 - une ambiance visuelle forte
 
+### Règles landing freemium `v0.1`
+- la landing vend d'abord la valeur
+- elle montre ensuite le quiz quotidien comme entrée libre
+- l'upgrade premium vient plus tard, après la preuve produit
+- aucune pub display sur la landing `v0.1`
+- ordre cible : `hero -> quiz -> features -> waitlist`
+
 Pas :
 - une plateforme d'apprentissage complète
 - un cours de japonais généraliste
