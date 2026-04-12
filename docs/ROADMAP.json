@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-04-12",
+    "updatedAt": "2026-04-13",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "A faire" },
@@ -164,7 +164,11 @@
           "status": "todo",
           "priority": "P0",
           "area": "growth",
-          "type": "infra"
+          "type": "infra",
+          "children": [
+            { "id": "attention-insight-pass", "title": "Faire 1 passe Attention Insight avant la release v0.1", "status": "todo" },
+            { "id": "clarity-setup", "title": "Poser Microsoft Clarity pour les premiers visiteurs reels", "status": "todo" }
+          ]
         },
         {
           "id": "v01-mobile-qa",

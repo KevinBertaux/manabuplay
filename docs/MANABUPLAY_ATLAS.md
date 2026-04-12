@@ -229,6 +229,14 @@ Ordre cible actuel :
 - `features`
 - `waitlist`
 
+Validation retenue avant et juste après livraison :
+- avant release `v0.1` :
+  - `1` passe prédictive d'attention sur la landing
+  - outil retenu : `Attention Insight`
+- sur les premiers visiteurs réels :
+  - heatmaps et recordings
+  - outil retenu : `Microsoft Clarity`
+
 ---
 
 ## 9. Quotidien, Libre, Archives
