@@ -1,4 +1,12 @@
-export type AdminNavKey = "hub" | "reader" | "catalog" | "wording" | "fx-lab" | "brand-system" | "mockups";
+export type AdminNavKey =
+  | "hub"
+  | "backlog"
+  | "reader"
+  | "catalog"
+  | "wording"
+  | "fx-lab"
+  | "brand-system"
+  | "mockups";
 
 export const ADMIN_NAV_CSS = `
 .admin-topnav{position:sticky;top:12px;z-index:30;display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 16px;padding:8px;border:1px solid rgba(139,92,246,.18);border-radius:8px;background:rgba(15,12,26,.9);backdrop-filter:blur(12px);box-shadow:0 12px 32px rgba(0,0,0,.26)}
@@ -14,6 +22,7 @@ export const ADMIN_NAV_CSS = `
 
 const items: Array<{ key?: AdminNavKey; activeKey?: AdminNavKey; href: string; label: string }> = [
   { key: "hub", href: "/admin", label: "Admin" },
+  { key: "backlog", href: "/admin/backlog", label: "Backlog" },
   { key: "reader", href: "/admin/packs", label: "Lecteur" },
   { key: "catalog", href: "/admin/catalog", label: "Catalogue" },
   { key: "wording", href: "/admin/landing-wording", label: "Wording" },

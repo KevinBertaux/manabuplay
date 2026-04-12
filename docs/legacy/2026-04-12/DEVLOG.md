@@ -33,7 +33,7 @@ La doctrine produit, contenu et data vit désormais dans :
 - `JRPG essentiels` : relu, stabilisé, `94/100`, `preprod`
 - `Combat & Boss` : relu, stabilisé, `93/100`, `preprod`
 - `Classes, armes & équipement` : relu, harmonisé, `93/100`, `preprod`
-- `Codes d'anime` : rédigé, harmonisé avant lecture, `82/100`, `dev`
+- `Codes d'anime` : relu, noté, `92/100`, `preprod`
 - `Japon pop : ville & quotidien` : rédigé, harmonisé avant lecture, `82/100`, `dev`
 
 ### Catalogue futur
@@ -113,6 +113,8 @@ La doctrine produit, contenu et data vit désormais dans :
 ### Produit / UX
 - [ ] refaire une grosse passe de wording sur la landing page
 - [ ] revoir le placement de certains éléments de la landing page
+- [ ] cadrer le mode `Libre`
+- [ ] décider si le `Quotidien` doit remonter en `v0.1` ou rester après
 - [ ] garantir une vraie qualité mobile first
 - [ ] découper la home en sections / composants propres
 - [ ] corriger les bugs restants du MVP
@@ -146,6 +148,7 @@ La doctrine produit, contenu et data vit désormais dans :
 - [ ] auth magic link
 - [ ] préférences persistées
 - [ ] option `romaji simplifié / romaji strict`
+- [ ] si besoin réel : sauvegardes JSON d'archives quotidiennes par année ou par mois
 - [ ] validation future des mots par usage réel si les métriques quiz le justifient
 
 ---
@@ -155,6 +158,9 @@ La doctrine produit, contenu et data vit désormais dans :
 - `normalizeAssistForDisplay` reste une béquille temporaire.
 - L'objectif reste d'afficher une romanisation propre sans dégrader la donnée source.
 - Le public doit voir surtout des packs ; les thèmes restent secondaires.
+- `Quotidien` / `Libre` / `Archives` sont désormais cadrés conceptuellement dans l'atlas.
+- en l'état, les archives n'ont pas de partage.
+- en l'état, pas de snapshot quotidien permanent ; la piste retenue plus tard est la sauvegarde JSON par année ou par mois si le besoin apparaît.
 - Les release notes devront pouvoir annoncer :
   - nouveaux mots
   - ajouts de mots dans les packs
