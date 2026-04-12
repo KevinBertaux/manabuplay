@@ -37,6 +37,15 @@ Phrase de travail :
 
 > ManabuPlay = apprendre du vocabulaire japonais à partir d'un imaginaire pop japonais déjà familier.
 
+Distinction retenue :
+- coeur éditorial :
+  - apprendre du vocabulaire japonais
+  - via un imaginaire pop japonais déjà familier
+- coeur produit :
+  - `Quotidien`
+  - `Libre` en `4` difficultés
+  - `Archives`
+
 ---
 
 ## 2. Public et promesse
@@ -133,7 +142,23 @@ Répartition de référence pour un pack de `30` mots :
 - `7` T3
 - `5` T4
 
-Cette répartition est une règle de pack `v0.1`, pas encore un ratio définitivement optimisé pour tous les modes futurs.
+Cette répartition n'est plus seulement une règle pack `v0.1`.
+Avec le cadrage actuel :
+- `Quotidien` : `4 / 3 / 2 / 1`
+- `Libre facile` : `6 / 3 / 1 / 0`
+- `Libre standard` : `4 / 3 / 2 / 1`
+- `Libre difficile` : `2 / 3 / 3 / 2`
+- `Libre expert` : `1 / 1 / 4 / 4`
+
+Le ratio théorique moyen devient :
+- `34%` T1
+- `26%` T2
+- `24%` T3
+- `16%` T4
+
+Ce qui donne comme répartitions de pack de référence :
+- pack `30` mots : `10 / 8 / 7 / 5`
+- pack `34` mots : `12 / 9 / 8 / 5`
 
 Taille de référence actuelle :
 - `30 mots`
@@ -230,6 +255,11 @@ Les `Archives` :
 - rejouent les anciens quotidiens
 - sont séparées du Quotidien courant
 - n'ont pas de partage
+- sont un `Quotidien` généré avec une date passée
+
+Conséquence :
+- les `Archives` n'ajoutent pas une nouvelle recette de tiers
+- elles réutilisent la recette du `Quotidien`
 
 Pour l'instant :
 - pas de snapshot permanent stocké en continu
@@ -243,13 +273,15 @@ Le `Libre` est :
 
 Ce qui est déjà fixé :
 - rôle produit du Libre
-- cooldown en `sessions`
-- mêmes règles de fraîcheur que le Quotidien à un niveau plus léger
+- `4` difficultés
+- `10` questions par session
+- cooldown en `2` sessions
 
-Ce qui n'est pas encore figé :
-- sa composition exacte
-- son nombre de questions
-- son ou ses presets finaux
+Recettes de travail retenues :
+- `Facile` : `6 T1 / 3 T2 / 1 T3 / 0 T4`
+- `Standard` : `4 T1 / 3 T2 / 2 T3 / 1 T4`
+- `Difficile` : `2 T1 / 3 T2 / 3 T3 / 2 T4`
+- `Expert` : `1 T1 / 1 T2 / 4 T3 / 4 T4`
 
 ### Règles minimales de fraîcheur
 - quota fixe par tiers

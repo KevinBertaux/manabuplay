@@ -102,7 +102,7 @@
             { "id": "pack-2", "title": "Combat & Boss a 93/100 en preprod", "status": "done" },
             { "id": "pack-3", "title": "Classes, armes & equipement a 93/100 en preprod", "status": "done" },
             { "id": "pack-4", "title": "Codes d'anime a 92/100 en preprod", "status": "done" },
-            { "id": "pack-5", "title": "Refondre pack 5 en vrai pack vocab-first", "status": "todo" }
+            { "id": "pack-5", "title": "Refondre pack 5 en vrai pack vocab-first et le realigner ensuite sur le ratio cible", "status": "todo" }
           ]
         },
         {
@@ -454,7 +454,23 @@
       "label": "Backlog non scope",
       "kind": "backlog",
       "summary": "Sujets gardes de cote tant qu'ils n'ont pas leur bonne version.",
-      "items": []
+      "items": [
+        {
+          "id": "backlog-pack-34-upgrade",
+          "title": "Passer les packs 1 a 4 a 34 mots selon le ratio cible",
+          "status": "todo",
+          "priority": "P1",
+          "area": "packs",
+          "type": "content",
+          "notes": "Cible par pack : +2 T1, +1 T2, +1 T3, +0 T4.",
+          "children": [
+            { "id": "pack-1-34", "title": "JRPG essentiels : ajouter 2 faciles, 1 moyen, 1 difficile, 0 expert", "status": "todo" },
+            { "id": "pack-2-34", "title": "Combat & Boss : ajouter 2 faciles, 1 moyen, 1 difficile, 0 expert", "status": "todo" },
+            { "id": "pack-3-34", "title": "Classes, armes & equipement : ajouter 2 faciles, 1 moyen, 1 difficile, 0 expert", "status": "todo" },
+            { "id": "pack-4-34", "title": "Codes d'anime : ajouter 2 faciles, 1 moyen, 1 difficile, 0 expert", "status": "todo" }
+          ]
+        }
+      ]
     }
   ]
 }
