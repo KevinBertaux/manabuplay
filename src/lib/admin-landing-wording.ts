@@ -196,40 +196,40 @@ const BASE_CARDS: LandingWordingCard[] = [
   {
     id: "hero_badge",
     label: { fr: "Badge hero", en: "Hero badge" },
-    status: "todo",
+    status: "done",
     zone: "body",
     current: {
-      score: 62,
-      verdict: "à reprendre",
+      score: 94,
+      verdict: "faite",
       text: {
-        en: "FREE · No sign-up · 50 words · 4 difficulties",
-        fr: "GRATUIT · Sans inscription · 50 mots · 4 difficultés",
+        en: "Daily quiz · No sign-up · Practice mode · 4 difficulties",
+        fr: "Quiz quotidien · Sans inscription · Mode entraînement · 4 difficultés",
       },
-      notes: "50 mots est fragile et bientôt faux",
+      notes: "version validée, claire sur le rendez-vous, l'absence de friction et l'existence d'un mode d'entraînement.",
     },
     variants: {
       A: {
-        score: 89,
+        score: 90,
         note: "plus humaine",
         text: {
-          en: "Free · No sign-up · 4 difficulty levels",
-          fr: "Gratuit · Sans inscription · 4 niveaux",
+          en: "Daily quiz · No sign-up · 4 difficulties",
+          fr: "Quiz quotidien · Sans inscription · 4 difficultés",
         },
       },
       B: {
-        score: 82,
-        note: "plus engageante",
+        score: 90,
+        note: "plus compacte",
         text: {
-          en: "Free quiz · Instant play · 4 levels",
-          fr: "Quiz gratuit · Démarrage immédiat · 4 niveaux",
+          en: "Daily quiz · No sign-up · Practice · 4 difficulties",
+          fr: "Quiz quotidien · Sans inscription · Entraînement · 4 difficultés",
         },
       },
       C: {
-        score: 89,
-        note: "meilleur équilibre",
+        score: 91,
+        note: "plus compacte avec ponctuation",
         text: {
-          en: "Free · No sign-up · Instant play · 4 levels",
-          fr: "Gratuit · Sans inscription · Démarrage immédiat · 4 niveaux",
+          en: "Daily quiz · No sign-up · Practice mode, 4 difficulties",
+          fr: "Quiz quotidien · Sans inscription · Mode entraînement, 4 difficultés",
         },
       },
     },
@@ -237,21 +237,21 @@ const BASE_CARDS: LandingWordingCard[] = [
   {
     id: "hero_tagline",
     label: { fr: "Tagline hero", en: "Hero tagline" },
-    status: "todo",
+    status: "done",
     zone: "body",
     current: {
-      score: 55,
-      verdict: "à reprendre",
+      score: 95,
+      verdict: "faite",
       text: {
-        en: "Learn Japanese like a true gamer. Master the words behind your favorite anime & JRPGs.",
-        fr: "Apprends le japonais comme un vrai gamer. Maîtrise les mots de tes anime & JRPGs préférés.",
+        en: "Learn Japanese vocabulary through gaming and pop culture.",
+        fr: "Apprends du vocabulaire japonais à travers le jeu vidéo et la pop culture.",
       },
-      notes: "like a true gamer est la ligne la moins humaine du lot",
+      notes: "version validée, plus nette sur la promesse centrale et sans l'ancien ton MVP gaming-only.",
     },
     variants: {
       A: {
-        score: 94,
-        note: "plus humaine",
+        score: 95,
+        note: "validée",
         text: {
           en: "Learn Japanese through anime, JRPGs and Japanese pop culture.",
           fr: "Apprends du vocabulaire japonais à travers les anime, les JRPG et la culture pop japonaise.",
@@ -319,40 +319,40 @@ const BASE_CARDS: LandingWordingCard[] = [
   {
     id: "hero_cta",
     label: { fr: "CTA hero", en: "Hero CTA" },
-    status: "todo",
+    status: "done",
     zone: "body",
     current: {
-      score: 72,
-      verdict: "retouche légère",
+      score: 95,
+      verdict: "faite",
       text: {
-        en: "▶ START QUIZ — FREE",
-        fr: "▶ COMMENCER — GRATUIT",
+        en: "Start the quiz",
+        fr: "Lancer le quiz",
       },
-      notes: "énergique mais un peu crié",
+      notes: "version validée, plus naturelle et plus fluide que les variantes avec quotidien ou gratuit.",
     },
     variants: {
       A: {
-        score: 91,
-        note: "plus humaine",
+        score: 94,
+        note: "plus précise",
         text: {
-          en: "Start the free quiz",
-          fr: "Lancer le quiz gratuit",
+          en: "Start the daily quiz",
+          fr: "Lancer le quiz quotidien",
         },
       },
       B: {
-        score: 83,
-        note: "plus engageante",
+        score: 91,
+        note: "plus littérale",
         text: {
-          en: "Play Free Now",
-          fr: "Jouer gratuitement",
+          en: "Play the daily quiz",
+          fr: "Jouer au quiz quotidien",
         },
       },
       C: {
-        score: 91,
-        note: "meilleur équilibre",
+        score: 89,
+        note: "plus douce",
         text: {
-          en: "Start the free quiz",
-          fr: "Lancer le quiz gratuit",
+          en: "Try the daily quiz",
+          fr: "Essayer le quiz quotidien",
         },
       },
     },
@@ -360,16 +360,16 @@ const BASE_CARDS: LandingWordingCard[] = [
   {
     id: "hero_how",
     label: { fr: "Lien hero", en: "Hero secondary link" },
-    status: "todo",
+    status: "done",
     zone: "body",
     current: {
-      score: 88,
-      verdict: "garder",
+      score: 93,
+      verdict: "faite",
       text: {
-        en: "How it works ↓",
-        fr: "Comment ça marche ↓",
+        en: "How it works",
+        fr: "Comment ça marche",
       },
-      notes: "déjà bon, la flèche peut rester ou non",
+      notes: "version validée, plus sobre et mieux adaptée à un placement secondaire sous le CTA principal.",
     },
     variants: {
       A: {
@@ -381,8 +381,8 @@ const BASE_CARDS: LandingWordingCard[] = [
         },
       },
       B: {
-        score: 87,
-        note: "plus engageante",
+        score: 89,
+        note: "plus CTA",
         text: {
           en: "See how it works",
           fr: "Voir comment ça marche",
@@ -401,40 +401,40 @@ const BASE_CARDS: LandingWordingCard[] = [
   {
     id: "hero_stats",
     label: { fr: "Stats hero", en: "Hero stats" },
-    status: "todo",
+    status: "done",
     zone: "body",
     current: {
-      score: 59,
-      verdict: "à reprendre",
+      score: 91,
+      verdict: "faite",
       text: {
-        en: "50 / 4 / 0¥ + WORDS / DIFFICULTIES / ALWAYS FREE",
-        fr: "50 / 4 / 0¥ + MOTS / DIFFICULTÉS / TOUJOURS GRATUIT",
+        en: "170 words / 4 difficulties / Free",
+        fr: "170 mots / 4 difficultés / Gratuit",
       },
-      notes: "lisible, mais 50 et 0¥ font gadget ou daté",
+      notes: "version retenue, plus crédible sur le volume réel et sans jargon interne.",
     },
     variants: {
       A: {
-        score: 87,
-        note: "plus humaine",
+        score: 90,
+        note: "plus simple",
         text: {
           en: "150 words / 5 packs / Free",
           fr: "150 mots / 5 packs / Gratuit",
         },
       },
       B: {
-        score: 84,
-        note: "plus engageante",
+        score: 91,
+        note: "validée",
         text: {
-          en: "5 packs / 4 levels / Free",
-          fr: "5 packs / 4 niveaux / Gratuit",
+          en: "170 words / 4 difficulties / Free",
+          fr: "170 mots / 4 difficultés / Gratuit",
         },
       },
       C: {
-        score: 90,
-        note: "meilleur équilibre",
+        score: 86,
+        note: "plus produit",
         text: {
-          en: "5 packs / 150 words / Free",
-          fr: "5 packs / 150 mots / Gratuit",
+          en: "170 words / Daily / 4 difficulties",
+          fr: "170 mots / Quotidien / 4 difficultés",
         },
       },
     },
