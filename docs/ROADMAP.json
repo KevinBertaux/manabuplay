@@ -239,6 +239,20 @@
           "type": "feature"
         },
         {
+          "id": "v01-legal-rgpd",
+          "title": "Poser les mentions legales et le socle RGPD pour la collecte d'emails",
+          "status": "todo",
+          "priority": "P0",
+          "area": "business",
+          "type": "feature",
+          "notes": "Inclut les mentions legales minimales, la politique de confidentialite, le consentement explicite et les infos utiles autour de la waitlist / newsletter.",
+          "children": [
+            { "id": "legal-mentions", "title": "Publier les mentions legales minimales", "status": "todo" },
+            { "id": "privacy-policy", "title": "Publier une politique de confidentialite claire", "status": "todo" },
+            { "id": "email-consent", "title": "Rendre le consentement email explicite dans la collecte", "status": "todo" }
+          ]
+        },
+        {
           "id": "v01-public-shell",
           "title": "Extraire le shell public et preparer la nouvelle navigation produit",
           "status": "todo",
