@@ -26,6 +26,7 @@ pnpm-debug.log*
 # playwright
 playwright-report/
 test-results/
+coverage/
 
 # local comparison artifacts
 .codex-temp/
