@@ -53,7 +53,7 @@
       "id": "v0.1",
       "label": "v0.1",
       "kind": "current",
-      "summary": "Stabiliser le MVP public vocab-first et poser la nouvelle architecture publique avant Daily, Libre et Archives.",
+      "summary": "Stabiliser le site public vocab-first et poser la nouvelle architecture publique avant Daily, Libre et Archives.",
       "items": [
         {
           "id": "v01-data-foundation",
@@ -125,7 +125,7 @@
         {
           "id": "v01-landing-wording",
           "title": "Finir le wording landing lot 1",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "landing",
           "type": "content",
@@ -137,7 +137,7 @@
             { "id": "hero-tagline", "title": "Tagline hero validee", "status": "done" },
             { "id": "hero-badge", "title": "Badge hero valide", "status": "done" },
             { "id": "hero-stats", "title": "Stats hero validees", "status": "done" },
-            { "id": "nav-cta", "title": "CTA nav", "status": "todo" },
+            { "id": "nav-cta", "title": "Retirer le faux CTA de nav", "status": "done" },
             { "id": "hero-secondary-link", "title": "Lien hero secondaire valide", "status": "done" },
             { "id": "hero-primary-cta", "title": "CTA hero principal valide", "status": "done" }
           ]
@@ -257,7 +257,7 @@
       "items": [
         {
           "id": "v02-daily",
-          "title": "Designer et shipper le Quotidien MVP",
+          "title": "Designer et shipper le Quotidien",
           "status": "todo",
           "priority": "P0",
           "area": "quiz",

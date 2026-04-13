@@ -8,13 +8,8 @@ const roadmap = getRoadmapData();
 const versionSummaries = getRoadmapVersionSummaries();
 const labels = getRoadmapLabelMap();
 
-const versionId = Astro.url.searchParams.get("version") ?? roadmap.meta.defaultVersionId;
-const statusFilter = Astro.url.searchParams.get("status") ?? "all";
-const sortKey = Astro.url.searchParams.get("sort") ?? "roadmap";
-
 const versionOptions = roadmap.versions;
-const selectedVersion =
-  versionOptions.find((version) => version.id === versionId) ??
+const defaultVersion =
   versionOptions.find((version) => version.id === roadmap.meta.defaultVersionId) ??
   versionOptions[0];
 
@@ -37,6 +32,22 @@ const kindLabels = {
   planned: "prévu",
   backlog: "backlog",
 } as const;
+
+function getSummary(versions: typeof roadmap.versions) {
+  return versions.reduce(
+    (totals, version) => {
+      totals.done += version.items.filter((item) => item.status === "done").length;
+      totals.total += version.items.length;
+      totals.childDone += version.items.reduce(
+        (sum, item) => sum + (item.children?.filter((child) => child.status === "done").length ?? 0),
+        0,
+      );
+      totals.childTotal += version.items.reduce((sum, item) => sum + (item.children?.length ?? 0), 0);
+      return totals;
+    },
+    { done: 0, total: 0, childDone: 0, childTotal: 0 },
+  );
+}
 
 function getStatusRank(status: string) {
   return status === "done" ? 1 : 0;
@@ -82,33 +93,22 @@ function sortItems(items: RoadmapItem[], mode: string) {
   return withIndex.map((entry) => entry.item);
 }
 
-const filteredItems = selectedVersion.items.filter((item) => {
-  if (statusFilter === "all") return true;
-  return item.status === statusFilter;
-});
-
-const items = sortItems(filteredItems, sortKey);
-const selectedSummary = versionSummaries.find((summary) => summary.id === selectedVersion.id);
-
-function getVersionHref(nextVersionId: string) {
-  const params = new URLSearchParams(Astro.url.searchParams);
-  params.set("version", nextVersionId);
-  return `/admin/backlog?${params.toString()}`;
-}
-
-function getStatusHref(nextStatus: string) {
-  const params = new URLSearchParams(Astro.url.searchParams);
-  params.set("version", selectedVersion.id);
-  params.set("status", nextStatus);
-  return `/admin/backlog?${params.toString()}`;
-}
-
-function getSortHref(nextSort: string) {
-  const params = new URLSearchParams(Astro.url.searchParams);
-  params.set("version", selectedVersion.id);
-  params.set("sort", nextSort);
-  return `/admin/backlog?${params.toString()}`;
-}
+const initialVersionBlocks = [
+  {
+    version: defaultVersion,
+    summary: versionSummaries.find((summary) => summary.id === defaultVersion.id),
+    items: sortItems(defaultVersion.items, "roadmap"),
+  },
+];
+const initialSummary = versionSummaries.find((summary) => summary.id === defaultVersion.id) ?? getSummary([defaultVersion]);
+const roadmapPayload = {
+  roadmap,
+  versionSummaries,
+  labels,
+  statusOptions,
+  sortOptions,
+  kindLabels,
+};
 ---
 <!DOCTYPE html>
 <html lang="fr">
@@ -117,7 +117,7 @@ function getSortHref(nextSort: string) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — Backlog</title>
   <meta name="robots" content="noindex, nofollow" />
-  <style>
+  <style is:global>
     .backlog-shell { min-height:100vh; background:
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
       radial-gradient(ellipse 40% 40% at 90% 15%,rgba(34,211,238,.14) 0%,transparent 60%),
@@ -155,6 +155,12 @@ function getSortHref(nextSort: string) {
     .backlog-version-meta { display:flex; flex-wrap:wrap; gap:8px; }
     .backlog-version-meta .backlog-chip { min-height:28px; font-size:.82rem; }
     .backlog-list { display:grid; gap:12px; }
+    .backlog-version-section { display:grid; gap:12px; }
+    .backlog-section-head { display:grid; gap:10px; padding:14px 16px; }
+    .backlog-section-title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+    .backlog-section-title { color:#fff; font:800 1.2rem/1.2 'Rajdhani',sans-serif; }
+    .backlog-section-copy { color:#a9a3c3; font:600 .98rem/1.55 'Rajdhani',sans-serif; }
+    .backlog-section-meta { display:flex; flex-wrap:wrap; gap:8px; }
     .backlog-item { padding:16px; display:grid; gap:12px; }
     .backlog-item.is-done { border-color:rgba(74,222,128,.24); background:rgba(74,222,128,.06); }
     .backlog-item-head { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }
@@ -203,8 +209,9 @@ function getSortHref(nextSort: string) {
       <div class="backlog-chip-row">
         <span class="backlog-chip is-accent">MAJ {roadmap.meta.updatedAt}</span>
         <span class="backlog-chip">{roadmap.versions.length} vues version</span>
-        <span class="backlog-chip">{selectedSummary?.done ?? 0}/{selectedSummary?.total ?? 0} items faits</span>
-        <span class="backlog-chip">{selectedSummary?.childDone ?? 0}/{selectedSummary?.childTotal ?? 0} sous-items faits</span>
+        <span class="backlog-chip" id="backlog-current-version-chip">{defaultVersion.label}</span>
+        <span class="backlog-chip" id="backlog-summary-items-chip">{initialSummary.done}/{initialSummary.total} items faits</span>
+        <span class="backlog-chip" id="backlog-summary-children-chip">{initialSummary.childDone}/{initialSummary.childTotal} sous-items faits</span>
       </div>
     </section>
 
@@ -212,10 +219,20 @@ function getSortHref(nextSort: string) {
       <div class="backlog-card backlog-control-card">
         <div class="backlog-control-kicker">Version</div>
         <div class="backlog-option-row">
+          <a
+            class="backlog-option"
+            data-role="version-option"
+            data-version-id="all"
+            href="/admin/backlog?version=all"
+          >
+            Toutes les versions
+          </a>
           {versionOptions.map((version) => (
             <a
-              class:list={["backlog-option", { "is-active": version.id === selectedVersion.id }]}
-              href={getVersionHref(version.id)}
+              class:list={["backlog-option", { "is-active": version.id === defaultVersion.id }]}
+              data-role="version-option"
+              data-version-id={version.id}
+              href={`/admin/backlog?version=${version.id}`}
             >
               {version.label}
             </a>
@@ -228,8 +245,10 @@ function getSortHref(nextSort: string) {
         <div class="backlog-option-row">
           {statusOptions.map((option) => (
             <a
-              class:list={["backlog-option", { "is-active": option.id === statusFilter }]}
-              href={getStatusHref(option.id)}
+              class:list={["backlog-option", { "is-active": option.id === "all" }]}
+              data-role="status-option"
+              data-status-id={option.id}
+              href={`/admin/backlog?version=${defaultVersion.id}&status=${option.id}`}
             >
               {option.label}
             </a>
@@ -242,8 +261,10 @@ function getSortHref(nextSort: string) {
         <div class="backlog-option-row">
           {sortOptions.map((option) => (
             <a
-              class:list={["backlog-option", { "is-active": option.id === sortKey }]}
-              href={getSortHref(option.id)}
+              class:list={["backlog-option", { "is-active": option.id === "roadmap" }]}
+              data-role="sort-option"
+              data-sort-id={option.id}
+              href={`/admin/backlog?version=${defaultVersion.id}&sort=${option.id}`}
             >
               {option.label}
             </a>
@@ -255,8 +276,10 @@ function getSortHref(nextSort: string) {
     <section class="backlog-versions">
       {versionSummaries.map((version) => (
         <a
-          class:list={["backlog-version-card", { "is-active": version.id === selectedVersion.id }]}
-          href={getVersionHref(version.id)}
+          class:list={["backlog-version-card", { "is-active": version.id === defaultVersion.id }]}
+          data-role="version-card"
+          data-version-id={version.id}
+          href={`/admin/backlog?version=${version.id}`}
         >
           <div class="backlog-version-head">
             <div class="backlog-version-title">{version.label}</div>
@@ -271,42 +294,298 @@ function getSortHref(nextSort: string) {
       ))}
     </section>
 
-    <section class="backlog-list">
-      {items.length === 0 ? (
+    <section class="backlog-list" id="backlog-list">
+      {initialVersionBlocks.length === 0 ? (
         <section class="backlog-card backlog-empty">
           Aucun item ne correspond au filtre actuel.
         </section>
       ) : (
-        items.map((item) => (
-          <article class:list={["backlog-item", { "is-done": item.status === "done" }]}>
-            <div class="backlog-item-head">
-              <div class="backlog-item-title-wrap">
-                <div class="backlog-item-title">{item.title}</div>
-                {item.notes && <p class="backlog-item-note">{item.notes}</p>}
-                <div class="backlog-item-meta">
-                  <span class:list={["backlog-meta-chip", `status-${item.status}`]}>{labels.status[item.status]}</span>
-                  <span class:list={["backlog-meta-chip", `priority-${item.priority.toLowerCase()}`]}>{item.priority}</span>
-                  <span class="backlog-meta-chip">{labels.area[item.area]}</span>
-                  <span class="backlog-meta-chip">{labels.type[item.type]}</span>
-                </div>
-              </div>
-              <div class="backlog-check">{item.status === "done" ? "✓" : "•"}</div>
-            </div>
-
-            {item.children && item.children.length > 0 && (
-              <div class="backlog-children">
-                {item.children.map((child) => (
-                  <div class:list={["backlog-child", { "is-done": child.status === "done" }]}>
-                    <span class="backlog-child-check">{child.status === "done" ? "✓" : "•"}</span>
-                    <span>{child.title}</span>
+        initialVersionBlocks.map((block) => (
+          <section class="backlog-version-section">
+            {block.items.map((item) => (
+              <article class:list={["backlog-item", { "is-done": item.status === "done" }]}>
+                <div class="backlog-item-head">
+                  <div class="backlog-item-title-wrap">
+                    <div class="backlog-item-title">{item.title}</div>
+                    {item.notes && <p class="backlog-item-note">{item.notes}</p>}
+                    <div class="backlog-item-meta">
+                      <span class:list={["backlog-meta-chip", `status-${item.status}`]}>{labels.status[item.status]}</span>
+                      <span class:list={["backlog-meta-chip", `priority-${item.priority.toLowerCase()}`]}>{item.priority}</span>
+                      <span class="backlog-meta-chip">{labels.area[item.area]}</span>
+                      <span class="backlog-meta-chip">{labels.type[item.type]}</span>
+                    </div>
                   </div>
-                ))}
-              </div>
-            )}
-          </article>
+                  <div class="backlog-check">{item.status === "done" ? "✓" : "•"}</div>
+                </div>
+
+                {item.children && item.children.length > 0 && (
+                  <div class="backlog-children">
+                    {item.children.map((child) => (
+                      <div class:list={["backlog-child", { "is-done": child.status === "done" }]}>
+                        <span class="backlog-child-check">{child.status === "done" ? "✓" : "•"}</span>
+                        <span>{child.title}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </article>
+            ))}
+          </section>
         ))
       )}
     </section>
   </main>
+  <script type="application/json" id="roadmap-data" set:html={JSON.stringify(roadmapPayload)}></script>
+  <script>
+    const roadmapPayloadElement = document.getElementById("roadmap-data");
+    const backlogList = document.getElementById("backlog-list");
+    const currentVersionChip = document.getElementById("backlog-current-version-chip");
+    const summaryItemsChip = document.getElementById("backlog-summary-items-chip");
+    const summaryChildrenChip = document.getElementById("backlog-summary-children-chip");
+
+    if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsChip && summaryChildrenChip) {
+      const payload = JSON.parse(roadmapPayloadElement.textContent || "{}");
+      const roadmap = payload.roadmap;
+      const versionSummaries = payload.versionSummaries;
+      const labels = payload.labels;
+      const kindLabels = payload.kindLabels;
+
+      const escapeHtml = (value) =>
+        String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+
+      const getStatusRank = (status) => (status === "done" ? 1 : 0);
+      const getPriorityRank = (priority) => {
+        switch (priority) {
+          case "P0":
+            return 0;
+          case "P1":
+            return 1;
+          case "P2":
+            return 2;
+          case "P3":
+            return 3;
+          default:
+            return 4;
+        }
+      };
+
+      const getSummary = (versions) =>
+        versions.reduce(
+          (totals, version) => {
+            totals.done += version.items.filter((item) => item.status === "done").length;
+            totals.total += version.items.length;
+            totals.childDone += version.items.reduce(
+              (sum, item) => sum + ((item.children || []).filter((child) => child.status === "done").length || 0),
+              0,
+            );
+            totals.childTotal += version.items.reduce((sum, item) => sum + ((item.children || []).length || 0), 0);
+            return totals;
+          },
+          { done: 0, total: 0, childDone: 0, childTotal: 0 },
+        );
+
+      const sortItems = (items, mode) => {
+        const withIndex = items.map((item, index) => ({ item, index }));
+
+        withIndex.sort((left, right) => {
+          if (mode === "status") {
+            const byStatus = getStatusRank(left.item.status) - getStatusRank(right.item.status);
+            if (byStatus !== 0) return byStatus;
+          }
+
+          if (mode === "priority") {
+            const byPriority = getPriorityRank(left.item.priority) - getPriorityRank(right.item.priority);
+            if (byPriority !== 0) return byPriority;
+          }
+
+          if (mode === "area") {
+            const byArea = labels.area[left.item.area].localeCompare(labels.area[right.item.area], "fr");
+            if (byArea !== 0) return byArea;
+          }
+
+          return left.index - right.index;
+        });
+
+        return withIndex.map((entry) => entry.item);
+      };
+
+      const getState = () => {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          versionId: params.get("version") || roadmap.meta.defaultVersionId,
+          statusFilter: params.get("status") || "all",
+          sortKey: params.get("sort") || "roadmap",
+        };
+      };
+
+      const getHref = (nextState) => {
+        const params = new URLSearchParams();
+        params.set("version", nextState.versionId);
+        params.set("status", nextState.statusFilter);
+        params.set("sort", nextState.sortKey);
+        return `/admin/backlog?${params.toString()}`;
+      };
+
+      const renderList = (state) => {
+        const selectedVersion = state.versionId === "all"
+          ? null
+          : roadmap.versions.find((version) => version.id === state.versionId) ||
+            roadmap.versions.find((version) => version.id === roadmap.meta.defaultVersionId) ||
+            roadmap.versions[0];
+        const visibleVersions = selectedVersion ? [selectedVersion] : roadmap.versions;
+        const versionBlocks = visibleVersions
+          .map((version) => {
+            const filteredItems = version.items.filter((item) => state.statusFilter === "all" || item.status === state.statusFilter);
+
+            return {
+              version,
+              summary: versionSummaries.find((summary) => summary.id === version.id),
+              items: sortItems(filteredItems, state.sortKey),
+            };
+          })
+          .filter((block) => block.items.length > 0);
+
+        const selectedSummary = selectedVersion
+          ? versionSummaries.find((summary) => summary.id === selectedVersion.id) || getSummary([selectedVersion])
+          : getSummary(roadmap.versions);
+
+        currentVersionChip.textContent = selectedVersion ? selectedVersion.label : "Lecture libre";
+        summaryItemsChip.textContent = `${selectedSummary.done}/${selectedSummary.total} items faits`;
+        summaryChildrenChip.textContent = `${selectedSummary.childDone}/${selectedSummary.childTotal} sous-items faits`;
+
+        if (versionBlocks.length === 0) {
+          backlogList.innerHTML = `
+            <section class="backlog-card backlog-empty">
+              Aucun item ne correspond au filtre actuel.
+            </section>
+          `;
+          return;
+        }
+
+        backlogList.innerHTML = versionBlocks
+          .map((block) => {
+            const sectionHead = selectedVersion
+              ? ""
+              : `
+                <section class="backlog-card backlog-section-head">
+                  <div class="backlog-section-title-row">
+                    <div class="backlog-section-title">${escapeHtml(block.version.label)}</div>
+                    <span class="backlog-version-kind ${escapeHtml(block.version.kind)}">${escapeHtml(kindLabels[block.version.kind])}</span>
+                  </div>
+                  <p class="backlog-section-copy">${escapeHtml(block.version.summary)}</p>
+                  <div class="backlog-section-meta">
+                    <span class="backlog-chip">${block.summary?.done ?? 0}/${block.summary?.total ?? 0} items faits</span>
+                    <span class="backlog-chip">${block.summary?.childDone ?? 0}/${block.summary?.childTotal ?? 0} sous-items faits</span>
+                  </div>
+                </section>
+              `;
+
+            const items = block.items
+              .map((item) => {
+                const children = (item.children || []).length
+                  ? `
+                    <div class="backlog-children">
+                      ${(item.children || [])
+                        .map(
+                          (child) => `
+                            <div class="backlog-child ${child.status === "done" ? "is-done" : ""}">
+                              <span class="backlog-child-check">${child.status === "done" ? "✓" : "•"}</span>
+                              <span>${escapeHtml(child.title)}</span>
+                            </div>
+                          `,
+                        )
+                        .join("")}
+                    </div>
+                  `
+                  : "";
+
+                return `
+                  <article class="backlog-item ${item.status === "done" ? "is-done" : ""}">
+                    <div class="backlog-item-head">
+                      <div class="backlog-item-title-wrap">
+                        <div class="backlog-item-title">${escapeHtml(item.title)}</div>
+                        ${item.notes ? `<p class="backlog-item-note">${escapeHtml(item.notes)}</p>` : ""}
+                        <div class="backlog-item-meta">
+                          <span class="backlog-meta-chip status-${escapeHtml(item.status)}">${escapeHtml(labels.status[item.status])}</span>
+                          <span class="backlog-meta-chip priority-${escapeHtml(item.priority.toLowerCase())}">${escapeHtml(item.priority)}</span>
+                          <span class="backlog-meta-chip">${escapeHtml(labels.area[item.area])}</span>
+                          <span class="backlog-meta-chip">${escapeHtml(labels.type[item.type])}</span>
+                        </div>
+                      </div>
+                      <div class="backlog-check">${item.status === "done" ? "✓" : "•"}</div>
+                    </div>
+                    ${children}
+                  </article>
+                `;
+              })
+              .join("");
+
+            return `<section class="backlog-version-section">${sectionHead}${items}</section>`;
+          })
+          .join("");
+      };
+
+      const syncControls = (state) => {
+        document.querySelectorAll("[data-role='version-option']").forEach((element) => {
+          const versionId = element.dataset.versionId || roadmap.meta.defaultVersionId;
+          element.classList.toggle("is-active", versionId === state.versionId);
+          element.setAttribute(
+            "href",
+            getHref({ versionId, statusFilter: state.statusFilter, sortKey: state.sortKey }),
+          );
+        });
+
+        document.querySelectorAll("[data-role='status-option']").forEach((element) => {
+          const statusId = element.dataset.statusId || "all";
+          element.classList.toggle("is-active", statusId === state.statusFilter);
+          element.setAttribute(
+            "href",
+            getHref({ versionId: state.versionId, statusFilter: statusId, sortKey: state.sortKey }),
+          );
+        });
+
+        document.querySelectorAll("[data-role='sort-option']").forEach((element) => {
+          const sortId = element.dataset.sortId || "roadmap";
+          element.classList.toggle("is-active", sortId === state.sortKey);
+          element.setAttribute(
+            "href",
+            getHref({ versionId: state.versionId, statusFilter: state.statusFilter, sortKey: sortId }),
+          );
+        });
+
+        document.querySelectorAll("[data-role='version-card']").forEach((element) => {
+          const versionId = element.dataset.versionId || roadmap.meta.defaultVersionId;
+          element.classList.toggle("is-active", versionId === state.versionId);
+          element.setAttribute(
+            "href",
+            getHref({ versionId, statusFilter: state.statusFilter, sortKey: state.sortKey }),
+          );
+        });
+      };
+
+      const render = () => {
+        const state = getState();
+        syncControls(state);
+        renderList(state);
+      };
+
+      render();
+      document.addEventListener("click", (event) => {
+        const target = event.target instanceof Element ? event.target.closest("[data-role]") : null;
+        if (!(target instanceof HTMLAnchorElement)) return;
+        event.preventDefault();
+        const href = target.getAttribute("href");
+        if (!href) return;
+        window.history.pushState({}, "", href);
+        render();
+      });
+      window.addEventListener("popstate", render);
+    }
+  </script>
 </body>
 </html>
