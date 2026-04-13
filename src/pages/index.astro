@@ -30,7 +30,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
           <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
         </svg>
       </div>
-      <span class="glow-violet" style="font-family:'Joystix',sans-serif;font-size:.85rem;color:#a78bfa;">
+      <span class="glow-violet" style="font-family:'Joystix',sans-serif;font-size:.94rem;color:#a78bfa;">
         Manabu<span style="color:#e879f9;">Play</span>
       </span>
     </div>
@@ -44,43 +44,45 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
   </nav>
 
   <!-- ══ HERO ══ -->
-  <section class="hero-bg grid-bg relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 pb-16 overflow-hidden">
+  <section class="hero-bg grid-bg relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-12 overflow-hidden" style="min-height:100svh;">
     <span class="kanji-bg" style="top:5%;left:-2%;transform:rotate(-15deg);color:var(--violet);">学</span>
     <span class="kanji-bg" style="bottom:5%;right:-2%;transform:rotate(10deg);color:var(--fuchsia);">遊</span>
     <div class="absolute w-64 h-64 rounded-full" style="top:20%;left:15%;background:radial-gradient(circle,rgba(139,92,246,.2) 0%,transparent 70%);animation:float 6s ease-in-out infinite;filter:blur(40px);"></div>
     <div class="absolute w-48 h-48 rounded-full" style="bottom:25%;right:10%;background:radial-gradient(circle,rgba(232,121,249,.2) 0%,transparent 70%);animation:float 8s ease-in-out infinite 2s;filter:blur(30px);"></div>
 
-    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 font-body text-sm font-600 border" style="border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.07);color:var(--cyan);">
-      <span class="w-2 h-2 rounded-full" style="background:var(--cyan);animation:pulse 2s infinite;"></span>
-      <span data-i18n="hero_badge"></span>
-    </div>
-
-    <h1 class="font-pixel leading-relaxed mb-6 relative" style="font-size:clamp(1.6rem,4vw,3rem);">
-      <span class="glitch-text block text-white" data-text="MANABU">MANABU</span>
-      <span class="block mt-2 glow-fuchsia" style="color:var(--fuchsia);">PLAY</span>
-    </h1>
-    <p class="font-body text-xl sm:text-2xl font-600 text-slate-300 max-w-2xl mb-4" data-i18n="hero_tagline"></p>
-    <p class="font-body text-lg text-slate-400 max-w-lg mb-10" data-i18n="hero_sub"></p>
-
-    <div class="flex flex-col sm:flex-row gap-4 items-center">
-      <a href="#quiz"><button class="cta-btn" data-i18n="hero_cta"></button></a>
-      <a href="#features" class="font-body font-600 text-slate-400 hover:text-slate-200 transition-colors text-base" data-i18n="hero_how"></a>
-    </div>
-
-    <div class="flex gap-8 mt-12 flex-wrap justify-center">
-      <div class="text-center">
-        <div class="font-pixel text-xl" style="color:var(--violet);">50</div>
-        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_words"></div>
+    <div class="w-full max-w-4xl mx-auto flex flex-col items-center">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 font-body text-base font-600 border" style="border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.07);color:var(--cyan);">
+        <span class="w-2 h-2 rounded-full" style="background:var(--cyan);animation:pulse 2s infinite;"></span>
+        <span data-i18n="hero_badge"></span>
       </div>
-      <div class="w-px bg-slate-800"></div>
-      <div class="text-center">
-        <div class="font-pixel text-xl" style="color:var(--fuchsia);">4</div>
-        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_diff"></div>
+
+      <div class="font-pixel leading-relaxed mb-6 relative flex items-center justify-center gap-3 flex-wrap" style="font-size:clamp(1.52rem,3.2vw,2.5rem);">
+        <span class="glitch-text text-white" data-text="MANABU">MANABU</span>
+        <span class="glow-fuchsia" style="color:var(--fuchsia);">PLAY</span>
       </div>
-      <div class="w-px bg-slate-800"></div>
-      <div class="text-center">
-        <div class="font-pixel text-xl" style="color:var(--cyan);">0¥</div>
-        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_free"></div>
+      <h1 class="font-body font-600 leading-snug text-slate-300 max-w-4xl mb-4" style="font-size:clamp(1.56rem,2.5vw,2.35rem);" data-i18n="hero_tagline"></h1>
+      <p class="font-body leading-relaxed text-slate-400 max-w-3xl mb-8" style="font-size:clamp(1.02rem,1.55vw,1.38rem);" data-i18n="hero_sub"></p>
+
+      <div class="hero-actions">
+        <a href="#quiz" class="cta-btn hero-cta inline-flex items-center justify-center" data-i18n="hero_cta"></a>
+        <a href="#features" class="font-body font-600 text-slate-400 hover:text-slate-200 transition-colors text-lg" data-i18n="hero_how"></a>
+      </div>
+
+      <div class="flex gap-8 mt-12 flex-wrap justify-center items-center">
+        <div class="text-center min-w-24">
+          <div class="font-pixel text-2xl" style="color:var(--violet);">170</div>
+          <div class="stat-label text-slate-500 mt-1" data-i18n="stat_words"></div>
+        </div>
+        <div class="w-px h-10 bg-slate-800 hidden sm:block"></div>
+        <div class="text-center min-w-24">
+          <div class="font-pixel text-2xl" style="color:var(--fuchsia);">4</div>
+          <div class="stat-label text-slate-500 mt-1" data-i18n="stat_diff"></div>
+        </div>
+        <div class="w-px h-10 bg-slate-800 hidden sm:block"></div>
+        <div class="text-center min-w-24">
+          <div class="font-pixel text-2xl" style="color:var(--cyan);">Free</div>
+          <div class="stat-label text-slate-500 mt-1" data-i18n="stat_free"></div>
+        </div>
       </div>
     </div>
 
@@ -91,14 +93,14 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
   </section>
 
   <!-- ══ QUIZ SECTION ══ -->
-  <section id="quiz" class="py-16 px-6 relative overflow-hidden">
+  <section id="quiz" class="py-14 px-6 relative overflow-hidden">
     <div class="absolute inset-0" style="background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(139,92,246,.08) 0%,transparent 70%);"></div>
     <div class="max-w-2xl mx-auto relative z-10">
 
       <div class="text-center mb-8 reveal">
         <p class="section-label" style="color:var(--violet);" data-i18n="quiz_label"></p>
         <h2 class="pixel-heading-md mt-4 text-white" data-i18n="quiz_title"></h2>
-        <p class="font-body text-lg text-slate-400 mt-4" data-i18n="quiz_sub"></p>
+        <p class="font-body text-xl text-slate-400 mt-4" data-i18n="quiz_sub"></p>
       </div>
 
       <div class="border-glow rounded-xl p-6 sm:p-8 reveal" style="background:rgba(15,12,26,.95);backdrop-filter:blur(16px);">
@@ -233,23 +235,23 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
     <div class="text-center mb-12 reveal">
       <p class="section-label" style="color:var(--cyan);" data-i18n="features_label"></p>
       <h2 class="pixel-heading-md mt-4 text-white" data-i18n="features_title"></h2>
-      <p class="font-body text-lg text-slate-400 mt-4 max-w-xl mx-auto" data-i18n="features_sub"></p>
+      <p class="font-body text-xl text-slate-400 mt-4 max-w-2xl mx-auto" data-i18n="features_sub"></p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div class="feature-card p-6 reveal">
         <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);">⚔️</div>
         <h3 class="pixel-card-title mb-4" style="color:#a78bfa;" data-i18n="feat1_title"></h3>
-        <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat1_body"></p>
+        <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat1_body"></p>
       </div>
       <div class="feature-card p-6 reveal" style="transition-delay:.1s;">
         <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(232,121,249,.15);border:1px solid rgba(232,121,249,.3);">🧠</div>
         <h3 class="pixel-card-title mb-4" style="color:#e879f9;" data-i18n="feat2_title"></h3>
-        <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat2_body"></p>
+        <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat2_body"></p>
       </div>
       <div class="feature-card p-6 reveal" style="transition-delay:.2s;">
         <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2);">🎮</div>
         <h3 class="pixel-card-title mb-4" style="color:#22d3ee;" data-i18n="feat3_title"></h3>
-        <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat3_body"></p>
+        <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat3_body"></p>
       </div>
     </div>
   </section>
@@ -260,7 +262,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
     <div class="max-w-xl mx-auto text-center relative z-10 reveal">
       <p class="section-label mb-4" style="color:var(--fuchsia);" data-i18n="email_label"></p>
       <h2 class="pixel-heading-md text-white leading-relaxed mb-4" data-i18n="email_title"></h2>
-      <p class="font-body text-lg text-slate-400 mb-8" data-i18n="email_sub"></p>
+      <p class="font-body text-xl text-slate-400 mb-8" data-i18n="email_sub"></p>
       <!-- Netlify Forms hidden bot-trap (required by Netlify) -->
       <form name="manabuplay-waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field"
             class="flex flex-col sm:flex-row gap-3">
