@@ -155,16 +155,16 @@ const BASE_CARDS: LandingWordingCard[] = [
   {
     id: "nav_cta",
     label: { fr: "CTA nav", en: "Nav CTA" },
-    status: "todo",
+    status: "done",
     zone: "body",
     current: {
-      score: 74,
-      verdict: "retouche légère",
+      score: 96,
+      verdict: "retiré",
       text: {
-        en: "Play Quiz →",
-        fr: "Jouer au Quiz →",
+        en: "Removed from the current public nav.",
+        fr: "Retiré de la nav publique actuelle.",
       },
-      notes: "EN correct, FR un peu moins naturel",
+      notes: "Décision produit validée : faux CTA supprimé. Il sera remplacé plus tard par une vraie navigation Daily / Practice / Archives.",
     },
     variants: {
       A: {

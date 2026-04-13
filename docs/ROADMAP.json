@@ -53,7 +53,7 @@
       "id": "v0.1",
       "label": "v0.1",
       "kind": "current",
-      "summary": "Stabiliser le MVP public vocab-first : landing, quiz, waitlist et premier catalogue de packs.",
+      "summary": "Stabiliser le MVP public vocab-first et poser la nouvelle architecture publique avant Daily, Libre et Archives.",
       "items": [
         {
           "id": "v01-data-foundation",
@@ -134,12 +134,12 @@
             { "id": "meta-description", "title": "Meta description validee", "status": "done" },
             { "id": "og-description", "title": "OG description validee", "status": "done" },
             { "id": "hero-sub", "title": "Sous-texte hero valide", "status": "done" },
-            { "id": "hero-tagline", "title": "Tagline hero", "status": "todo" },
-            { "id": "hero-badge", "title": "Badge hero", "status": "todo" },
-            { "id": "hero-stats", "title": "Stats hero", "status": "todo" },
+            { "id": "hero-tagline", "title": "Tagline hero validee", "status": "done" },
+            { "id": "hero-badge", "title": "Badge hero valide", "status": "done" },
+            { "id": "hero-stats", "title": "Stats hero validees", "status": "done" },
             { "id": "nav-cta", "title": "CTA nav", "status": "todo" },
-            { "id": "hero-secondary-link", "title": "Lien hero secondaire", "status": "todo" },
-            { "id": "hero-primary-cta", "title": "CTA hero principal", "status": "todo" }
+            { "id": "hero-secondary-link", "title": "Lien hero secondaire valide", "status": "done" },
+            { "id": "hero-primary-cta", "title": "CTA hero principal valide", "status": "done" }
           ]
         },
         {
@@ -157,6 +157,15 @@
           "priority": "P0",
           "area": "quiz",
           "type": "feature"
+        },
+        {
+          "id": "v01-hint-score-gameplay",
+          "title": "Lier le score et le gameplay public aux hints",
+          "status": "todo",
+          "priority": "P2",
+          "area": "quiz",
+          "type": "feature",
+          "notes": "A traiter apres hint2 + explanation visibles pour eviter de recalculer le gameplay dans le vide."
         },
         {
           "id": "v01-metrics",
@@ -188,11 +197,12 @@
         },
         {
           "id": "v01-default-locale",
-          "title": "Detecter et appliquer la langue locale par defaut",
+          "title": "Passer a une locale par URL et choisir une langue par defaut",
           "status": "todo",
           "priority": "P1",
           "area": "landing",
-          "type": "feature"
+          "type": "feature",
+          "notes": "Sortir du toggle client-side et preparer des pages equivalentes FR / EN."
         },
         {
           "id": "v01-waitlist",
@@ -201,6 +211,28 @@
           "priority": "P1",
           "area": "growth",
           "type": "feature"
+        },
+        {
+          "id": "v01-public-shell",
+          "title": "Extraire le shell public et preparer la nouvelle navigation produit",
+          "status": "todo",
+          "priority": "P0",
+          "area": "landing",
+          "type": "ux",
+          "notes": "Nettoyer la home monolithique, sortir le faux CTA nav et preparer un header Daily / Practice / Archives."
+        },
+        {
+          "id": "v01-public-routes-foundation",
+          "title": "Poser les fondations de la nouvelle architecture publique",
+          "status": "todo",
+          "priority": "P0",
+          "area": "core",
+          "type": "feature",
+          "children": [
+            { "id": "public-routes-fr-en", "title": "Creer les routes FR / EN stables pour la landing", "status": "todo" },
+            { "id": "public-routes-daily-practice-archives", "title": "Preparer les routes Daily / Practice / Archives", "status": "todo" },
+            { "id": "public-session-payload", "title": "Preparer un payload de session par mode au lieu du boot legacy unique", "status": "todo" }
+          ]
         },
         {
           "id": "v01-release",
@@ -270,6 +302,15 @@
           "priority": "P1",
           "area": "packs",
           "type": "research"
+        },
+        {
+          "id": "v02-home-cutover",
+          "title": "Basculer la landing sur la nouvelle architecture publique",
+          "status": "todo",
+          "priority": "P1",
+          "area": "landing",
+          "type": "ux",
+          "notes": "Faire du hero un vrai point d'entree Daily et retirer le flux ancre legacy une fois les nouvelles routes validees."
         },
         {
           "id": "v02-roadmap-wave-1",
