@@ -53,7 +53,7 @@
       "id": "v0.1",
       "label": "v0.1",
       "kind": "current",
-      "summary": "Stabiliser le site public vocab-first et poser la nouvelle architecture publique avant Daily, Libre et Archives.",
+      "summary": "Stabiliser le site public vocab-first, lancer le coeur produit Quotidien / Libre / Archives et poser la nouvelle architecture publique.",
       "items": [
         {
           "id": "v01-data-foundation",
@@ -159,6 +159,32 @@
           "type": "feature"
         },
         {
+          "id": "v01-daily",
+          "title": "Lancer le Quotidien",
+          "status": "todo",
+          "priority": "P0",
+          "area": "quiz",
+          "type": "feature"
+        },
+        {
+          "id": "v01-free",
+          "title": "Lancer le mode Libre",
+          "status": "todo",
+          "priority": "P0",
+          "area": "quiz",
+          "type": "feature",
+          "notes": "Le mode Libre est deja cadre : 4 difficultes, 10 questions, cooldown de 2 sessions."
+        },
+        {
+          "id": "v01-archives",
+          "title": "Ouvrir les Archives",
+          "status": "todo",
+          "priority": "P1",
+          "area": "quiz",
+          "type": "feature",
+          "notes": "Sans partage dans un premier temps."
+        },
+        {
           "id": "v01-hint-score-gameplay",
           "title": "Lier le score et le gameplay public aux hints",
           "status": "todo",
@@ -235,6 +261,20 @@
           ]
         },
         {
+          "id": "v01-tier-ratios",
+          "title": "Appliquer le ratio cible Daily / Libre aux packs initiaux",
+          "status": "todo",
+          "priority": "P1",
+          "area": "packs",
+          "type": "content",
+          "notes": "Le cadrage est fait : pack 30 mots = 10 / 8 / 7 / 5, pack 34 mots = 12 / 9 / 8 / 5.",
+          "children": [
+            { "id": "tier-ratios-cadrage", "title": "Fixer le ratio cible a partir des besoins Quotidien / Libre", "status": "done" },
+            { "id": "tier-ratios-pack-1-4", "title": "Passer les packs 1 a 4 a 34 mots selon le ratio cible", "status": "todo" },
+            { "id": "tier-ratios-pack-5", "title": "Realigner le pack 5 sur le ratio cible apres refonte", "status": "todo" }
+          ]
+        },
+        {
           "id": "v01-release",
           "title": "Preparer la sortie v0.1.0",
           "status": "todo",
@@ -253,35 +293,11 @@
       "id": "v0.2",
       "label": "v0.2",
       "kind": "planned",
-      "summary": "Installer la boucle de retour avec Quotidien, Libre, Archives et la premiere vague de packs roadmap.",
+      "summary": "Durcir la boucle de retour, renforcer la persistence et lancer la premiere vague de packs roadmap.",
       "items": [
         {
-          "id": "v02-daily",
-          "title": "Designer et shipper le Quotidien",
-          "status": "todo",
-          "priority": "P0",
-          "area": "quiz",
-          "type": "feature"
-        },
-        {
-          "id": "v02-free",
-          "title": "Definir et shipper le mode Libre",
-          "status": "todo",
-          "priority": "P0",
-          "area": "quiz",
-          "type": "feature"
-        },
-        {
-          "id": "v02-archives",
-          "title": "Shipper le mode Archives sans partage",
-          "status": "todo",
-          "priority": "P1",
-          "area": "quiz",
-          "type": "feature"
-        },
-        {
           "id": "v02-daily-persistence",
-          "title": "Persister la generation du Quotidien et les tentatives",
+          "title": "Durcir la persistence du Quotidien et des tentatives",
           "status": "todo",
           "priority": "P0",
           "area": "data",
@@ -289,19 +305,11 @@
         },
         {
           "id": "v02-streak-progress",
-          "title": "Shipper streak et progression visible",
+          "title": "Lancer streak et progression visible",
           "status": "todo",
           "priority": "P1",
           "area": "quiz",
           "type": "feature"
-        },
-        {
-          "id": "v02-tier-ratios",
-          "title": "Revalider les ratios de tiers contre les besoins du Quotidien et du Libre",
-          "status": "todo",
-          "priority": "P1",
-          "area": "packs",
-          "type": "research"
         },
         {
           "id": "v02-home-cutover",
@@ -314,7 +322,7 @@
         },
         {
           "id": "v02-roadmap-wave-1",
-          "title": "Shipper la premiere vague de packs roadmap apres v0.1",
+          "title": "Lancer la premiere vague de packs roadmap apres v0.1",
           "status": "todo",
           "priority": "P1",
           "area": "packs",
@@ -334,7 +342,7 @@
       "items": [
         {
           "id": "v03-roadmap-pack",
-          "title": "Shipper le pack roadmap Dark Fantasy, Legends & Stealth",
+          "title": "Lancer le pack roadmap Dark Fantasy, Legends & Stealth",
           "status": "todo",
           "priority": "P2",
           "area": "packs",
@@ -342,7 +350,7 @@
         },
         {
           "id": "v03-seo-content",
-          "title": "Shipper les packs SEO et le contenu landing de support",
+          "title": "Lancer les packs SEO et le contenu landing de support",
           "status": "todo",
           "priority": "P2",
           "area": "growth",
@@ -366,7 +374,7 @@
       "items": [
         {
           "id": "v04-auth",
-          "title": "Shipper auth magic link et preferences synchronisees",
+          "title": "Lancer auth magic link et preferences synchronisees",
           "status": "todo",
           "priority": "P2",
           "area": "data",
@@ -374,7 +382,7 @@
         },
         {
           "id": "v04-romaji-preference",
-          "title": "Shipper l'option romaji simplifie / strict",
+          "title": "Lancer l'option romaji simplifie / strict",
           "status": "todo",
           "priority": "P3",
           "area": "quiz",
@@ -422,7 +430,7 @@
       "items": [
         {
           "id": "v06-tts",
-          "title": "Shipper le TTS au clic dans le quiz public",
+          "title": "Lancer le TTS au clic dans le quiz public",
           "status": "todo",
           "priority": "P2",
           "area": "quiz",
@@ -500,21 +508,6 @@
       "kind": "backlog",
       "summary": "Sujets gardes de cote tant qu'ils n'ont pas leur bonne version.",
       "items": [
-        {
-          "id": "backlog-pack-34-upgrade",
-          "title": "Passer les packs 1 a 4 a 34 mots selon le ratio cible",
-          "status": "todo",
-          "priority": "P1",
-          "area": "packs",
-          "type": "content",
-          "notes": "Cible par pack : +2 T1, +1 T2, +1 T3, +0 T4.",
-          "children": [
-            { "id": "pack-1-34", "title": "JRPG essentiels : ajouter 2 faciles, 1 moyen, 1 difficile, 0 expert", "status": "todo" },
-            { "id": "pack-2-34", "title": "Combat & Boss : ajouter 2 faciles, 1 moyen, 1 difficile, 0 expert", "status": "todo" },
-            { "id": "pack-3-34", "title": "Classes, armes & equipement : ajouter 2 faciles, 1 moyen, 1 difficile, 0 expert", "status": "todo" },
-            { "id": "pack-4-34", "title": "Codes d'anime : ajouter 2 faciles, 1 moyen, 1 difficile, 0 expert", "status": "todo" }
-          ]
-        }
       ]
     }
   ]
