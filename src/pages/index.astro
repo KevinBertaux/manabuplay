@@ -10,11 +10,11 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ManabuPlay — Learn Japanese Through Gaming</title>
-  <meta name="description" content="Learn Japanese gaming vocabulary through an addictive quiz. Master the words behind your favorite anime & JRPG games. Free, fast, fun." />
+  <title>ManabuPlay — Learn Japanese Vocabulary Through Gaming & Pop Culture</title>
+  <meta name="description" content="A daily Japanese vocabulary quiz for gaming and pop culture fans who want to turn familiar words into real understanding." />
   <meta name="keywords" content="Japanese gaming vocabulary, learn Japanese, anime words, JRPG quiz, gaming language" />
-  <meta property="og:title" content="ManabuPlay — Learn Japanese Through Gaming" />
-  <meta property="og:description" content="Master Japanese gaming vocab. Free addictive quiz powered by anime & JRPG culture." />
+  <meta property="og:title" content="ManabuPlay — Learn Japanese Vocabulary Through Gaming & Pop Culture" />
+  <meta property="og:description" content="A daily Japanese quiz for gaming and pop culture fans who want to understand the words they already recognize." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#0a0911" />
 </head>
@@ -40,7 +40,6 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
         <span style="color:rgba(139,92,246,.2);font-size:.9rem;">|</span>
         <button class="lang-btn" id="btnFR" onclick="setLang('fr')">FR</button>
       </div>
-      <a href="#quiz" class="nav-link px-4 py-2 rounded-md border border-violet-500/30 hover:border-violet-400 transition-all hidden sm:block" style="color:#a78bfa;" data-i18n="nav_cta"></a>
     </div>
   </nav>
 
@@ -88,40 +87,6 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40">
       <div class="w-px h-8" style="background:linear-gradient(to bottom,transparent,var(--violet));"></div>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </section>
-
-  <!-- ══ AD TOP ══ -->
-  <div class="py-6 px-6 max-w-4xl mx-auto w-full">
-    <div class="ad-placeholder flex items-center justify-center p-4 min-h-24 reveal">
-      <div class="text-center"><p class="font-body text-sm text-slate-600 mb-1">Advertisement</p>
-      <!-- ✦ PASTE YOUR GOOGLE ADSENSE CODE HERE (TOP BANNER) ✦ --></div>
-    </div>
-  </div>
-
-  <!-- ══ FEATURES ══ -->
-  <section id="features" class="py-16 px-6 max-w-5xl mx-auto">
-    <div class="text-center mb-12 reveal">
-      <p class="section-label" style="color:var(--cyan);" data-i18n="features_label"></p>
-      <h2 class="pixel-heading-md mt-4 text-white" data-i18n="features_title"></h2>
-      <p class="font-body text-lg text-slate-400 mt-4 max-w-xl mx-auto" data-i18n="features_sub"></p>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div class="feature-card p-6 reveal">
-        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);">⚔️</div>
-        <h3 class="pixel-card-title mb-4" style="color:#a78bfa;" data-i18n="feat1_title"></h3>
-        <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat1_body"></p>
-      </div>
-      <div class="feature-card p-6 reveal" style="transition-delay:.1s;">
-        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(232,121,249,.15);border:1px solid rgba(232,121,249,.3);">🧠</div>
-        <h3 class="pixel-card-title mb-4" style="color:#e879f9;" data-i18n="feat2_title"></h3>
-        <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat2_body"></p>
-      </div>
-      <div class="feature-card p-6 reveal" style="transition-delay:.2s;">
-        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2);">🎮</div>
-        <h3 class="pixel-card-title mb-4" style="color:#22d3ee;" data-i18n="feat3_title"></h3>
-        <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat3_body"></p>
-      </div>
     </div>
   </section>
 
@@ -263,13 +228,31 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
     </div>
   </section>
 
-  <!-- ══ AD MID ══ -->
-  <div class="py-6 px-6 max-w-4xl mx-auto w-full">
-    <div class="ad-placeholder flex items-center justify-center p-4 min-h-32 reveal">
-      <div class="text-center"><p class="font-body text-sm text-slate-600 mb-1">Advertisement</p>
-      <!-- ✦ PASTE YOUR GOOGLE ADSENSE CODE HERE (MIDDLE RECTANGLE) ✦ --></div>
+  <!-- ══ FEATURES ══ -->
+  <section id="features" class="py-16 px-6 max-w-5xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <p class="section-label" style="color:var(--cyan);" data-i18n="features_label"></p>
+      <h2 class="pixel-heading-md mt-4 text-white" data-i18n="features_title"></h2>
+      <p class="font-body text-lg text-slate-400 mt-4 max-w-xl mx-auto" data-i18n="features_sub"></p>
     </div>
-  </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div class="feature-card p-6 reveal">
+        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);">⚔️</div>
+        <h3 class="pixel-card-title mb-4" style="color:#a78bfa;" data-i18n="feat1_title"></h3>
+        <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat1_body"></p>
+      </div>
+      <div class="feature-card p-6 reveal" style="transition-delay:.1s;">
+        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(232,121,249,.15);border:1px solid rgba(232,121,249,.3);">🧠</div>
+        <h3 class="pixel-card-title mb-4" style="color:#e879f9;" data-i18n="feat2_title"></h3>
+        <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat2_body"></p>
+      </div>
+      <div class="feature-card p-6 reveal" style="transition-delay:.2s;">
+        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2);">🎮</div>
+        <h3 class="pixel-card-title mb-4" style="color:#22d3ee;" data-i18n="feat3_title"></h3>
+        <p class="font-body text-base text-slate-400 leading-relaxed" data-i18n="feat3_body"></p>
+      </div>
+    </div>
+  </section>
 
   <!-- ══ EMAIL ══ -->
   <section id="notify" class="py-20 px-6 relative overflow-hidden">

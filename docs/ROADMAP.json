@@ -1,0 +1,514 @@
+{
+  "meta": {
+    "title": "ManabuPlay Roadmap",
+    "updatedAt": "2026-04-13",
+    "defaultVersionId": "v0.1",
+    "statuses": [
+      { "id": "todo", "label": "A faire" },
+      { "id": "done", "label": "Fait" }
+    ],
+    "priorities": [
+      { "id": "P0", "label": "P0" },
+      { "id": "P1", "label": "P1" },
+      { "id": "P2", "label": "P2" },
+      { "id": "P3", "label": "P3" }
+    ],
+    "areas": [
+      { "id": "core", "label": "Core" },
+      { "id": "landing", "label": "Landing" },
+      { "id": "quiz", "label": "Quiz" },
+      { "id": "packs", "label": "Packs" },
+      { "id": "admin", "label": "Admin" },
+      { "id": "data", "label": "Data" },
+      { "id": "growth", "label": "Growth" },
+      { "id": "business", "label": "Business" }
+    ],
+    "types": [
+      { "id": "feature", "label": "Feature" },
+      { "id": "content", "label": "Content" },
+      { "id": "ux", "label": "UX/UI" },
+      { "id": "infra", "label": "Infra" },
+      { "id": "research", "label": "Research" }
+    ]
+  },
+  "versions": [
+    {
+      "id": "mvp-2026-03-27",
+      "label": "MVP 2026-03-27",
+      "kind": "history",
+      "summary": "Premier MVP jouable et passage du prototype legacy vers Astro.",
+      "items": [
+        {
+          "id": "mvp-ship",
+          "title": "Ship le MVP jouable et restaurer la parite du legacy dans Astro",
+          "status": "done",
+          "priority": "P0",
+          "area": "core",
+          "type": "feature",
+          "notes": "Le repo Git visible commence au 1er avril, mais le jalon produit de reference reste le 27 mars 2026."
+        }
+      ]
+    },
+    {
+      "id": "v0.1",
+      "label": "v0.1",
+      "kind": "current",
+      "summary": "Stabiliser le site public vocab-first, lancer le coeur produit Quotidien / Libre / Archives et poser la nouvelle architecture publique.",
+      "items": [
+        {
+          "id": "v01-data-foundation",
+          "title": "Refondre la base de donnees du quiz vers un catalogue extensible",
+          "status": "done",
+          "priority": "P1",
+          "area": "data",
+          "type": "infra",
+          "notes": "Socle JSON/catatalog pose avant la suite du travail v0.1."
+        },
+        {
+          "id": "v01-brand-fx",
+          "title": "Poser la charte, le FX Lab et les garde-fous UI",
+          "status": "done",
+          "priority": "P2",
+          "area": "admin",
+          "type": "ux",
+          "notes": "Permet de travailler l'identite et les effets sans casser le site public."
+        },
+        {
+          "id": "v01-admin-reader",
+          "title": "Construire le reader admin, les mockups et le catalogue futur",
+          "status": "done",
+          "priority": "P1",
+          "area": "admin",
+          "type": "feature",
+          "notes": "Le hub admin existe deja pour relire les packs et travailler le produit."
+        },
+        {
+          "id": "v01-packs-draft",
+          "title": "Rediger les cinq packs initiaux",
+          "status": "done",
+          "priority": "P0",
+          "area": "packs",
+          "type": "content"
+        },
+        {
+          "id": "v01-packs-review",
+          "title": "Stabiliser le catalogue initial de packs",
+          "status": "todo",
+          "priority": "P0",
+          "area": "packs",
+          "type": "content",
+          "children": [
+            { "id": "pack-1", "title": "JRPG essentiels a 94/100 en preprod", "status": "done" },
+            { "id": "pack-2", "title": "Combat & Boss a 93/100 en preprod", "status": "done" },
+            { "id": "pack-3", "title": "Classes, armes & equipement a 93/100 en preprod", "status": "done" },
+            { "id": "pack-4", "title": "Codes d'anime a 92/100 en preprod", "status": "done" },
+            { "id": "pack-5", "title": "Refondre pack 5 en vrai pack vocab-first et le realigner ensuite sur le ratio cible", "status": "todo" }
+          ]
+        },
+        {
+          "id": "v01-transparent-signals",
+          "title": "Ajouter les signaux de review pack et le suivi des mots cadeaux",
+          "status": "done",
+          "priority": "P1",
+          "area": "packs",
+          "type": "feature"
+        },
+        {
+          "id": "v01-landing-workspace",
+          "title": "Creer l'espace de review du wording landing et replacer le flux principal",
+          "status": "done",
+          "priority": "P1",
+          "area": "landing",
+          "type": "ux",
+          "notes": "Flux actuel : hero -> quiz -> features -> waitlist, sans pub landing."
+        },
+        {
+          "id": "v01-landing-wording",
+          "title": "Finir le wording landing lot 1",
+          "status": "done",
+          "priority": "P0",
+          "area": "landing",
+          "type": "content",
+          "children": [
+            { "id": "seo-title", "title": "Title SEO valide", "status": "done" },
+            { "id": "meta-description", "title": "Meta description validee", "status": "done" },
+            { "id": "og-description", "title": "OG description validee", "status": "done" },
+            { "id": "hero-sub", "title": "Sous-texte hero valide", "status": "done" },
+            { "id": "hero-tagline", "title": "Tagline hero validee", "status": "done" },
+            { "id": "hero-badge", "title": "Badge hero valide", "status": "done" },
+            { "id": "hero-stats", "title": "Stats hero validees", "status": "done" },
+            { "id": "nav-cta", "title": "Retirer le faux CTA de nav", "status": "done" },
+            { "id": "hero-secondary-link", "title": "Lien hero secondaire valide", "status": "done" },
+            { "id": "hero-primary-cta", "title": "CTA hero principal valide", "status": "done" }
+          ]
+        },
+        {
+          "id": "v01-landing-placement-pass-2",
+          "title": "Faire une seconde passe fine de placement sur la landing",
+          "status": "todo",
+          "priority": "P1",
+          "area": "landing",
+          "type": "ux"
+        },
+        {
+          "id": "v01-public-quiz-hints",
+          "title": "Afficher hint2 et explanation dans le quiz public",
+          "status": "todo",
+          "priority": "P0",
+          "area": "quiz",
+          "type": "feature"
+        },
+        {
+          "id": "v01-daily",
+          "title": "Lancer le Quotidien",
+          "status": "todo",
+          "priority": "P0",
+          "area": "quiz",
+          "type": "feature"
+        },
+        {
+          "id": "v01-free",
+          "title": "Lancer le mode Libre",
+          "status": "todo",
+          "priority": "P0",
+          "area": "quiz",
+          "type": "feature",
+          "notes": "Le mode Libre est deja cadre : 4 difficultes, 10 questions, cooldown de 2 sessions."
+        },
+        {
+          "id": "v01-archives",
+          "title": "Ouvrir les Archives",
+          "status": "todo",
+          "priority": "P1",
+          "area": "quiz",
+          "type": "feature",
+          "notes": "Sans partage dans un premier temps."
+        },
+        {
+          "id": "v01-hint-score-gameplay",
+          "title": "Lier le score et le gameplay public aux hints",
+          "status": "todo",
+          "priority": "P2",
+          "area": "quiz",
+          "type": "feature",
+          "notes": "A traiter apres hint2 + explanation visibles pour eviter de recalculer le gameplay dans le vide."
+        },
+        {
+          "id": "v01-metrics",
+          "title": "Instrumenter les metriques produit et marketing essentielles",
+          "status": "todo",
+          "priority": "P0",
+          "area": "growth",
+          "type": "infra",
+          "children": [
+            { "id": "attention-insight-pass", "title": "Faire 1 passe Attention Insight avant la release v0.1", "status": "todo" },
+            { "id": "clarity-setup", "title": "Poser Microsoft Clarity pour les premiers visiteurs reels", "status": "todo" }
+          ]
+        },
+        {
+          "id": "v01-mobile-qa",
+          "title": "Faire une vraie passe mobile QA sur le site public",
+          "status": "todo",
+          "priority": "P1",
+          "area": "landing",
+          "type": "ux"
+        },
+        {
+          "id": "v01-playwright",
+          "title": "Proteger les flux publics critiques avec Playwright E2E",
+          "status": "todo",
+          "priority": "P1",
+          "area": "quiz",
+          "type": "infra"
+        },
+        {
+          "id": "v01-default-locale",
+          "title": "Passer a une locale par URL et choisir une langue par defaut",
+          "status": "todo",
+          "priority": "P1",
+          "area": "landing",
+          "type": "feature",
+          "notes": "Sortir du toggle client-side et preparer des pages equivalentes FR / EN."
+        },
+        {
+          "id": "v01-waitlist",
+          "title": "Stabiliser la waitlist pour la prod",
+          "status": "todo",
+          "priority": "P1",
+          "area": "growth",
+          "type": "feature"
+        },
+        {
+          "id": "v01-public-shell",
+          "title": "Extraire le shell public et preparer la nouvelle navigation produit",
+          "status": "todo",
+          "priority": "P0",
+          "area": "landing",
+          "type": "ux",
+          "notes": "Nettoyer la home monolithique, sortir le faux CTA nav et preparer un header Daily / Practice / Archives."
+        },
+        {
+          "id": "v01-public-routes-foundation",
+          "title": "Poser les fondations de la nouvelle architecture publique",
+          "status": "todo",
+          "priority": "P0",
+          "area": "core",
+          "type": "feature",
+          "children": [
+            { "id": "public-routes-fr-en", "title": "Creer les routes FR / EN stables pour la landing", "status": "todo" },
+            { "id": "public-routes-daily-practice-archives", "title": "Preparer les routes Daily / Practice / Archives", "status": "todo" },
+            { "id": "public-session-payload", "title": "Preparer un payload de session par mode au lieu du boot legacy unique", "status": "todo" }
+          ]
+        },
+        {
+          "id": "v01-tier-ratios",
+          "title": "Appliquer le ratio cible Daily / Libre aux packs initiaux",
+          "status": "todo",
+          "priority": "P1",
+          "area": "packs",
+          "type": "content",
+          "notes": "Le cadrage est fait : pack 30 mots = 10 / 8 / 7 / 5, pack 34 mots = 12 / 9 / 8 / 5.",
+          "children": [
+            { "id": "tier-ratios-cadrage", "title": "Fixer le ratio cible a partir des besoins Quotidien / Libre", "status": "done" },
+            { "id": "tier-ratios-pack-1-4", "title": "Passer les packs 1 a 4 a 34 mots selon le ratio cible", "status": "todo" },
+            { "id": "tier-ratios-pack-5", "title": "Realigner le pack 5 sur le ratio cible apres refonte", "status": "todo" }
+          ]
+        },
+        {
+          "id": "v01-release",
+          "title": "Preparer la sortie v0.1.0",
+          "status": "todo",
+          "priority": "P0",
+          "area": "core",
+          "type": "feature",
+          "children": [
+            { "id": "freeze-v01", "title": "Figer le scope v0.1", "status": "todo" },
+            { "id": "smoke-v01", "title": "Faire une smoke pass finale", "status": "todo" },
+            { "id": "release-branch-v01", "title": "Preparer la branche de prod", "status": "todo" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v0.2",
+      "label": "v0.2",
+      "kind": "planned",
+      "summary": "Durcir la boucle de retour, renforcer la persistence et lancer la premiere vague de packs roadmap.",
+      "items": [
+        {
+          "id": "v02-daily-persistence",
+          "title": "Durcir la persistence du Quotidien et des tentatives",
+          "status": "todo",
+          "priority": "P0",
+          "area": "data",
+          "type": "infra"
+        },
+        {
+          "id": "v02-streak-progress",
+          "title": "Lancer streak et progression visible",
+          "status": "todo",
+          "priority": "P1",
+          "area": "quiz",
+          "type": "feature"
+        },
+        {
+          "id": "v02-home-cutover",
+          "title": "Basculer la landing sur la nouvelle architecture publique",
+          "status": "todo",
+          "priority": "P1",
+          "area": "landing",
+          "type": "ux",
+          "notes": "Faire du hero un vrai point d'entree Daily et retirer le flux ancre legacy une fois les nouvelles routes validees."
+        },
+        {
+          "id": "v02-roadmap-wave-1",
+          "title": "Lancer la premiere vague de packs roadmap apres v0.1",
+          "status": "todo",
+          "priority": "P1",
+          "area": "packs",
+          "type": "content",
+          "children": [
+            { "id": "gacha-live-service", "title": "Pack Gacha & Live Service", "status": "todo" },
+            { "id": "arcade-secrets-meta", "title": "Pack Arcade, secrets & meta", "status": "todo" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v0.3",
+      "label": "v0.3",
+      "kind": "planned",
+      "summary": "Commencer la traction organique et la deuxieme couche de contenu.",
+      "items": [
+        {
+          "id": "v03-roadmap-pack",
+          "title": "Lancer le pack roadmap Dark Fantasy, Legends & Stealth",
+          "status": "todo",
+          "priority": "P2",
+          "area": "packs",
+          "type": "content"
+        },
+        {
+          "id": "v03-seo-content",
+          "title": "Lancer les packs SEO et le contenu landing de support",
+          "status": "todo",
+          "priority": "P2",
+          "area": "growth",
+          "type": "content"
+        },
+        {
+          "id": "v03-seo-target",
+          "title": "Atteindre 50 visites organiques par jour",
+          "status": "todo",
+          "priority": "P1",
+          "area": "growth",
+          "type": "research"
+        }
+      ]
+    },
+    {
+      "id": "v0.4",
+      "label": "v0.4",
+      "kind": "planned",
+      "summary": "Poser les premieres briques de retour user persistant.",
+      "items": [
+        {
+          "id": "v04-auth",
+          "title": "Lancer auth magic link et preferences synchronisees",
+          "status": "todo",
+          "priority": "P2",
+          "area": "data",
+          "type": "feature"
+        },
+        {
+          "id": "v04-romaji-preference",
+          "title": "Lancer l'option romaji simplifie / strict",
+          "status": "todo",
+          "priority": "P3",
+          "area": "quiz",
+          "type": "feature"
+        }
+      ]
+    },
+    {
+      "id": "v0.5",
+      "label": "v0.5",
+      "kind": "planned",
+      "summary": "Durcir le modele de donnees et la resilience avant de faire grossir le produit.",
+      "items": [
+        {
+          "id": "v05-content-model",
+          "title": "Refondre le modele de contenu vers pack / word / pack_word",
+          "status": "todo",
+          "priority": "P1",
+          "area": "data",
+          "type": "infra"
+        },
+        {
+          "id": "v05-loaders",
+          "title": "Durcir les loaders de packs avec graceful fallback",
+          "status": "todo",
+          "priority": "P2",
+          "area": "data",
+          "type": "infra"
+        },
+        {
+          "id": "v05-sandbox-pack",
+          "title": "Creer un pack sandbox pour migrations et tests de resilience",
+          "status": "todo",
+          "priority": "P3",
+          "area": "packs",
+          "type": "infra"
+        }
+      ]
+    },
+    {
+      "id": "v0.6",
+      "label": "v0.6",
+      "kind": "planned",
+      "summary": "Ajouter les couches secondaires de confort et de retention une fois le coeur prouve.",
+      "items": [
+        {
+          "id": "v06-tts",
+          "title": "Lancer le TTS au clic dans le quiz public",
+          "status": "todo",
+          "priority": "P2",
+          "area": "quiz",
+          "type": "feature"
+        },
+        {
+          "id": "v06-social-comparison",
+          "title": "Explorer la comparaison sociale au-dela du partage de score",
+          "status": "todo",
+          "priority": "P3",
+          "area": "growth",
+          "type": "research"
+        }
+      ]
+    },
+    {
+      "id": "v1.0",
+      "label": "v1.0",
+      "kind": "planned",
+      "summary": "Lancer la premiere vraie offre premium apres validation du coeur free.",
+      "items": [
+        {
+          "id": "v10-premium",
+          "title": "Lancer l'offre premium et le checkout",
+          "status": "todo",
+          "priority": "P1",
+          "area": "business",
+          "type": "feature"
+        },
+        {
+          "id": "v10-pricing-experiment",
+          "title": "Lancer le premier test de pricing apres validation",
+          "status": "todo",
+          "priority": "P2",
+          "area": "business",
+          "type": "research"
+        }
+      ]
+    },
+    {
+      "id": "v1.x-plus",
+      "label": "v1.x+",
+      "kind": "planned",
+      "summary": "Extensions longues apres validation du coeur vocab-first.",
+      "items": [
+        {
+          "id": "v1x-archive-backups",
+          "title": "Generer des sauvegardes JSON d'Archives par annee ou par mois si besoin",
+          "status": "todo",
+          "priority": "P3",
+          "area": "data",
+          "type": "infra"
+        },
+        {
+          "id": "v1x-badges",
+          "title": "Considérer des badges seulement si la retention le justifie",
+          "status": "todo",
+          "priority": "P3",
+          "area": "quiz",
+          "type": "research"
+        },
+        {
+          "id": "v1x-expansion",
+          "title": "Explorer l'extension du produit au-dela du vocab-first",
+          "status": "todo",
+          "priority": "P3",
+          "area": "core",
+          "type": "research"
+        }
+      ]
+    },
+    {
+      "id": "backlog-unscheduled",
+      "label": "Backlog non scope",
+      "kind": "backlog",
+      "summary": "Sujets gardes de cote tant qu'ils n'ont pas leur bonne version.",
+      "items": [
+      ]
+    }
+  ]
+}

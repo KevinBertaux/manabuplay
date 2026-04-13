@@ -32,6 +32,7 @@ npm run check
 
 ## Project Notes
 
-- Product roadmap: `DEVLOG.md`
-- Business strategy: `BUSINESS.md`
+- Product roadmap source: `docs/ROADMAP.json`
+- Product atlas: `docs/MANABUPLAY_ATLAS.md`
+- Business strategy: `docs/BUSINESS.md`
 - Target domain: `https://manabuplay.com`
