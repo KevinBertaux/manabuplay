@@ -36,8 +36,14 @@ async function seedPreset(
 
 async function loadBrandSystem(page: Page) {
   await page.goto(BRAND_SYSTEM_URL, { waitUntil: "domcontentloaded" });
-  await page.evaluate(() => document.fonts.ready);
-  await page.waitForLoadState("networkidle");
+  await page.evaluate(
+    () =>
+      Promise.race([
+        document.fonts.ready,
+        new Promise((resolve) => window.setTimeout(resolve, 2_000)),
+      ]),
+  );
+  await page.waitForTimeout(150);
   await expect(page).toHaveTitle(/ManabuPlay Brand System/);
 }
 
@@ -82,7 +88,7 @@ async function expectContained(page: Page, selectors: string[]) {
 }
 
 test.describe("brand system document", () => {
-  test("desktop layout stays contained", async ({ page }, testInfo) => {
+  test("desktop layout stays contained", async ({ page }) => {
     await seedPreset(page, {
       crt: 100,
       scanlines: 100,
@@ -127,13 +133,9 @@ test.describe("brand system document", () => {
       "#previews .phone",
     ]);
 
-    await page.screenshot({
-      path: testInfo.outputPath("brand-system-desktop.png"),
-      fullPage: true,
-    });
   });
 
-  test("mobile layout stays contained", async ({ page }, testInfo) => {
+  test("mobile layout stays contained", async ({ page }) => {
     await seedPreset(page, {
       crt: 72,
       scanlines: 64,
@@ -157,9 +159,5 @@ test.describe("brand system document", () => {
       "#previews .phone",
     ]);
 
-    await page.screenshot({
-      path: testInfo.outputPath("brand-system-mobile.png"),
-      fullPage: true,
-    });
   });
 });

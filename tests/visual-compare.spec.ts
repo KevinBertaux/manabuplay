@@ -10,7 +10,14 @@ import {
   preparePage,
 } from "./helpers/visual";
 
+const RUN_LEGACY_VISUAL_PARITY = process.env.PW_LEGACY_VISUAL_PARITY === "1";
+
 test.describe("Legacy MVP vs Astro MVP", () => {
+  test.skip(
+    !RUN_LEGACY_VISUAL_PARITY,
+    "Legacy parity is opt-in now that the public landing intentionally diverges from the MVP reference.",
+  );
+
   test("section-by-section visual parity", async ({ browser }, testInfo) => {
     const legacyPage = await browser.newPage();
     const astroPage = await browser.newPage();

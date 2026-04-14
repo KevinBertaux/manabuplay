@@ -11,6 +11,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "check:px-values": "node scripts/check-px-values.mjs",
     "check:ui": "npm run check:px-values && npm run build && playwright test tests/home-layout.spec.ts --workers=1 && playwright test tests/brand-system.spec.ts --workers=1 && playwright test tests/fx-lab.spec.ts --workers=1",
     "test:brand-system": "npm run build && playwright test tests/brand-system.spec.ts",
@@ -31,9 +33,11 @@
     "@tailwindcss/vite": "^4.2.2",
     "@types/node": "^25.5.0",
     "@types/pngjs": "^6.0.5",
+    "@vitest/coverage-v8": "^4.1.4",
     "pixelmatch": "^7.1.0",
     "pngjs": "^7.0.0",
     "tailwindcss": "^4.2.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.4"
   }
 }
