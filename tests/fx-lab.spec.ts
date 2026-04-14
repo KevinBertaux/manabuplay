@@ -25,8 +25,14 @@ async function seedPreset(page: Page, values: Record<string, number>, enabled?: 
 
 async function loadFxLab(page: Page) {
   await page.goto(FX_LAB_URL, { waitUntil: "domcontentloaded" });
-  await page.evaluate(() => document.fonts.ready);
-  await page.waitForLoadState("networkidle");
+  await page.evaluate(
+    () =>
+      Promise.race([
+        document.fonts.ready,
+        new Promise((resolve) => window.setTimeout(resolve, 2_000)),
+      ]),
+  );
+  await page.waitForTimeout(150);
   await expect(page).toHaveTitle(/ManabuPlay FX Lab/);
 }
 
@@ -45,7 +51,7 @@ async function expectNoHorizontalOverflow(page: Page) {
 }
 
 test.describe("fx lab document", () => {
-  test("desktop layout stays contained and copy flow responds", async ({ page }, testInfo) => {
+  test("desktop layout stays contained and copy flow responds", async ({ page }) => {
     await seedPreset(page, {
       crt: 88,
       scanlines: 42,
@@ -106,13 +112,9 @@ test.describe("fx lab document", () => {
     await expect(page.locator('iframe[data-iso-preview="hero"]')).toHaveAttribute("src", /4174\/lab\/hero-reference\//);
     await expect(page.locator('iframe[data-iso-preview="quiz"]')).toHaveAttribute("src", /4174\/lab\/quiz-reference\/#quiz/);
 
-    await page.screenshot({
-      path: testInfo.outputPath("fx-lab-desktop.png"),
-      fullPage: true,
-    });
   });
 
-  test("mobile layout stays contained", async ({ page }, testInfo) => {
+  test("mobile layout stays contained", async ({ page }) => {
     await seedPreset(page, {
       crt: 72,
       scanlines: 64,
@@ -127,9 +129,5 @@ test.describe("fx lab document", () => {
     await expectNoHorizontalOverflow(page);
     await expect(page.locator(".fx-lab-shell")).toBeVisible();
 
-    await page.screenshot({
-      path: testInfo.outputPath("fx-lab-mobile.png"),
-      fullPage: true,
-    });
   });
 });

@@ -6,6 +6,7 @@ import pixelmatch from "pixelmatch";
 
 export const LEGACY_URL = "http://127.0.0.1:4173/legacy/mvp-index.html";
 export const ASTRO_URL = "http://127.0.0.1:4174/";
+const WRITE_VISUAL_ARTIFACTS = process.env.PW_DEBUG_ARTIFACTS === "1";
 
 export type SectionName =
   | "nav"
@@ -93,6 +94,7 @@ export async function preparePage(page: Page, url: string): Promise<void> {
     }
     window.scrollTo(0, 0);
   });
+  await page.waitForTimeout(150);
 }
 
 export async function compareSectionShots(
@@ -112,7 +114,7 @@ export async function compareSectionShots(
   const legacyShot = await legacyLocator.screenshot({ animations: "disabled" });
   const astroShot = await astroLocator.screenshot({ animations: "disabled" });
 
-  return writeDiffArtifacts(section.name, legacyShot, astroShot, testInfo);
+  return writeDiffArtifacts(section, legacyShot, astroShot, testInfo);
 }
 
 export async function captureTypography(page: Page, selector: string): Promise<TypographySnapshot> {
@@ -138,7 +140,7 @@ export function normalizeFontFamily(fontFamily: string): string {
 }
 
 async function writeDiffArtifacts(
-  sectionName: string,
+  section: SectionSpec,
   legacyBuffer: Buffer,
   astroBuffer: Buffer,
   testInfo: TestInfo,
@@ -166,16 +168,20 @@ async function writeDiffArtifacts(
   );
   const diffRatio = diffPixels / (width * height);
 
-  const visualDir = path.join(testInfo.outputDir, "visual");
-  await fs.mkdir(visualDir, { recursive: true });
+  let legacyPath = "";
+  let astroPath = "";
+  let diffPath = "";
+  if (WRITE_VISUAL_ARTIFACTS || diffRatio > section.maxDiffRatio) {
+    const visualDir = path.join(testInfo.outputDir, "visual");
+    await fs.mkdir(visualDir, { recursive: true });
+    legacyPath = path.join(visualDir, `${section.name}-legacy.png`);
+    astroPath = path.join(visualDir, `${section.name}-astro.png`);
+    diffPath = path.join(visualDir, `${section.name}-diff.png`);
 
-  const legacyPath = path.join(visualDir, `${sectionName}-legacy.png`);
-  const astroPath = path.join(visualDir, `${sectionName}-astro.png`);
-  const diffPath = path.join(visualDir, `${sectionName}-diff.png`);
-
-  await fs.writeFile(legacyPath, legacyBuffer);
-  await fs.writeFile(astroPath, astroBuffer);
-  await fs.writeFile(diffPath, PNG.sync.write(diff));
+    await fs.writeFile(legacyPath, legacyBuffer);
+    await fs.writeFile(astroPath, astroBuffer);
+    await fs.writeFile(diffPath, PNG.sync.write(diff));
+  }
 
   return {
     diffPixels,

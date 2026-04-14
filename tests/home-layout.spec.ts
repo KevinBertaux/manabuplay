@@ -47,7 +47,7 @@ async function expectContained(page: Page, selectors: string[]) {
 }
 
 test.describe("home layout", () => {
-  test("desktop shell stays contained", async ({ page }, testInfo) => {
+  test("desktop shell stays contained", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 2200 });
     await loadHome(page);
 
@@ -61,13 +61,9 @@ test.describe("home layout", () => {
       "footer",
     ]);
 
-    await page.screenshot({
-      path: testInfo.outputPath("home-layout-desktop.png"),
-      fullPage: true,
-    });
   });
 
-  test("mobile shell stays contained", async ({ page }, testInfo) => {
+  test("mobile shell stays contained", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 1600 });
     await loadHome(page);
 
@@ -80,9 +76,5 @@ test.describe("home layout", () => {
       "footer",
     ]);
 
-    await page.screenshot({
-      path: testInfo.outputPath("home-layout-mobile.png"),
-      fullPage: true,
-    });
   });
 });
