@@ -126,18 +126,39 @@ const adminNav = getAdminNavHtml("waitlist");
   </main>
 
   <script>
-    const STORAGE_KEY = 'mp_waitlist_submissions';
-    const body = document.getElementById('waitlist-body');
-    const empty = document.getElementById('waitlist-empty');
-    const tableWrap = document.getElementById('waitlist-table-wrap');
-    const count = document.getElementById('waitlist-count');
-    const frCount = document.getElementById('waitlist-fr-count');
-    const enCount = document.getElementById('waitlist-en-count');
-    const panel = document.getElementById('waitlist-panel');
-    const status = document.getElementById('waitlist-status');
-    let statusTimer = null;
+    interface WaitlistSubmission {
+      email?: string;
+      lang?: string;
+      createdAt?: string;
+      source?: string;
+      page?: string;
+      [key: string]: unknown;
+    }
 
-    function readSubmissions() {
+    const STORAGE_KEY = 'mp_waitlist_submissions';
+
+    function getRequiredElement<T extends HTMLElement>(id: string) {
+      const element = document.getElementById(id);
+      if (!element) {
+        throw new Error(`Missing admin waitlist element: ${id}`);
+      }
+      return element as T;
+    }
+
+    const body = getRequiredElement<HTMLTableSectionElement>('waitlist-body');
+    const empty = getRequiredElement<HTMLDivElement>('waitlist-empty');
+    const tableWrap = getRequiredElement<HTMLDivElement>('waitlist-table-wrap');
+    const count = getRequiredElement<HTMLDivElement>('waitlist-count');
+    const frCount = getRequiredElement<HTMLDivElement>('waitlist-fr-count');
+    const enCount = getRequiredElement<HTMLDivElement>('waitlist-en-count');
+    const panel = getRequiredElement<HTMLElement>('waitlist-panel');
+    const status = getRequiredElement<HTMLDivElement>('waitlist-status');
+    const refreshButton = getRequiredElement<HTMLButtonElement>('waitlist-refresh');
+    const exportButton = getRequiredElement<HTMLButtonElement>('waitlist-export');
+    const clearButton = getRequiredElement<HTMLButtonElement>('waitlist-clear');
+    let statusTimer: number | undefined;
+
+    function readSubmissions(): WaitlistSubmission[] {
       try {
         const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
         return Array.isArray(data) ? data : [];
@@ -146,7 +167,7 @@ const adminNav = getAdminNavHtml("waitlist");
       }
     }
 
-    function escapeHtml(value) {
+    function escapeHtml(value: unknown) {
       return String(value ?? '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -155,9 +176,9 @@ const adminNav = getAdminNavHtml("waitlist");
         .replace(/'/g, '&#039;');
     }
 
-    function formatDate(value) {
+    function formatDate(value: unknown) {
       if (!value) return 'n.c.';
-      const date = new Date(value);
+      const date = new Date(String(value));
       if (Number.isNaN(date.getTime())) return 'n.c.';
       return new Intl.DateTimeFormat('fr-FR', {
         dateStyle: 'short',
@@ -165,8 +186,8 @@ const adminNav = getAdminNavHtml("waitlist");
       }).format(date);
     }
 
-    function formatExportStamp(date) {
-      const pad = (value) => String(value).padStart(2, '0');
+    function formatExportStamp(date: Date) {
+      const pad = (value: number) => String(value).padStart(2, '0');
       return [
         date.getFullYear(),
         pad(date.getMonth() + 1),
@@ -174,7 +195,7 @@ const adminNav = getAdminNavHtml("waitlist");
       ].join('-') + '-' + pad(date.getHours()) + pad(date.getMinutes());
     }
 
-    function render() {
+    function render(): WaitlistSubmission[] {
       const submissions = readSubmissions();
       const fr = submissions.filter((entry) => entry.lang === 'fr').length;
       const en = submissions.filter((entry) => entry.lang === 'en').length;
@@ -198,7 +219,7 @@ const adminNav = getAdminNavHtml("waitlist");
       return submissions;
     }
 
-    function showStatus(message) {
+    function showStatus(message: string) {
       window.clearTimeout(statusTimer);
       status.textContent = message;
       status.classList.add('is-visible');
@@ -240,9 +261,9 @@ const adminNav = getAdminNavHtml("waitlist");
       URL.revokeObjectURL(url);
     }
 
-    document.getElementById('waitlist-refresh').addEventListener('click', refreshWithFeedback);
-    document.getElementById('waitlist-export').addEventListener('click', exportCsv);
-    document.getElementById('waitlist-clear').addEventListener('click', () => {
+    refreshButton.addEventListener('click', refreshWithFeedback);
+    exportButton.addEventListener('click', exportCsv);
+    clearButton.addEventListener('click', () => {
       localStorage.removeItem(STORAGE_KEY);
       render();
     });
