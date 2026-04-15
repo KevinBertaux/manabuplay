@@ -43,11 +43,11 @@ const implementationSummary = getArchitectureImplementationSummary();
     .arch-hud::before { content:""; position:absolute; inset:0; pointer-events:none; background:
       linear-gradient(90deg,rgba(34,211,238,.08),transparent 18%,transparent 82%,rgba(232,121,249,.08)),
       repeating-linear-gradient(180deg,transparent 0,transparent 4px,rgba(255,255,255,.012) 4px,rgba(255,255,255,.012) 8px); }
-    .arch-summary-bar { position:relative; z-index:1; display:grid; grid-template-columns:minmax(0,3fr) minmax(0,3fr) minmax(0,6fr); gap:20px; align-items:center; padding:14px 18px; }
+    .arch-summary-bar { position:relative; z-index:1; display:grid; grid-template-columns:minmax(220px,2.4fr) minmax(460px,4.8fr) minmax(0,4.8fr); gap:18px; align-items:center; padding:14px 18px; }
     .arch-summary-bar + .arch-summary-bar { border-top:1px solid rgba(139,92,246,.14); }
     .arch-progress-title { color:#fff; font:800 1.18rem/1.1 'Chakra Petch',sans-serif; white-space:nowrap; }
-    .arch-chip-row { display:flex; flex-wrap:wrap; gap:8px; min-width:0; align-items:center; align-content:center; }
-    .arch-chip { display:inline-flex; align-items:center; min-height:34px; padding:0 14px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.035)); color:#f4f2ff; font:800 .9rem/1 'Chakra Petch',sans-serif; letter-spacing:.02em; white-space:nowrap; box-shadow:inset 0 1px 0 rgba(255,255,255,.04); }
+    .arch-chip-row { display:flex; flex-wrap:nowrap; gap:8px; min-width:0; align-items:center; align-content:center; overflow:hidden; }
+    .arch-chip { display:inline-flex; align-items:center; min-height:32px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.035)); color:#f4f2ff; font:800 .82rem/1 'Chakra Petch',sans-serif; letter-spacing:.01em; white-space:nowrap; box-shadow:inset 0 1px 0 rgba(255,255,255,.04); }
     .arch-progress-stack { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:14px; min-width:0; width:100%; }
     .arch-progress-track { width:100%; height:10px; border-radius:999px; background:rgba(255,255,255,.09); overflow:hidden; box-shadow:inset 0 1px 2px rgba(0,0,0,.35); }
     .arch-progress-fill { height:100%; border-radius:999px; background:linear-gradient(90deg,#22d3ee 0%,#7dd3fc 40%,#e879f9 100%); box-shadow:0 0 14px rgba(34,211,238,.22); min-width:16px; }
@@ -105,6 +105,7 @@ const implementationSummary = getArchitectureImplementationSummary();
       .arch-hero,.arch-phase,.arch-section-head { padding-left:16px; padding-right:16px; }
       .arch-hud { top:72px; }
       .arch-summary-bar { grid-template-columns:1fr; gap:14px; padding:14px 16px; }
+      .arch-chip-row { flex-wrap:wrap; overflow:visible; }
       .arch-file-row { grid-template-columns:1fr; }
       .arch-progress-stack { grid-template-columns:1fr; }
     }
@@ -142,18 +143,23 @@ const implementationSummary = getArchitectureImplementationSummary();
         </div>
         <div class="arch-chip-row">
           <span class="arch-chip">
+            <span data-admin-i18n data-admin-fr={`${summary.advanced} en validation`} data-admin-en={`${summary.advanced} in validation`}>
+              {summary.advanced} en validation
+            </span>
+          </span>
+          <span class="arch-chip">
             <span data-admin-i18n data-admin-fr={`${summary.active} en cours`} data-admin-en={`${summary.active} in progress`}>
               {summary.active} en cours
             </span>
           </span>
           <span class="arch-chip">
-            <span data-admin-i18n data-admin-fr={`${summary.framed} cadrées`} data-admin-en={`${summary.framed} framed`}>
-              {summary.framed} cadrées
+            <span data-admin-i18n data-admin-fr={`${summary.framed} prêts`} data-admin-en={`${summary.framed} ready`}>
+              {summary.framed} prêts
             </span>
           </span>
           <span class="arch-chip">
-            <span data-admin-i18n data-admin-fr={`${summary.cold} froides`} data-admin-en={`${summary.cold} cold`}>
-              {summary.cold} froides
+            <span data-admin-i18n data-admin-fr={`${summary.cold} backlog`} data-admin-en={`${summary.cold} backlog`}>
+              {summary.cold} backlog
             </span>
           </span>
         </div>
@@ -171,18 +177,23 @@ const implementationSummary = getArchitectureImplementationSummary();
         </div>
         <div class="arch-chip-row">
           <span class="arch-chip">
+            <span data-admin-i18n data-admin-fr={`${implementationSummary.advanced} en validation`} data-admin-en={`${implementationSummary.advanced} in validation`}>
+              {implementationSummary.advanced} en validation
+            </span>
+          </span>
+          <span class="arch-chip">
             <span data-admin-i18n data-admin-fr={`${implementationSummary.active} en cours`} data-admin-en={`${implementationSummary.active} in progress`}>
               {implementationSummary.active} en cours
             </span>
           </span>
           <span class="arch-chip">
-            <span data-admin-i18n data-admin-fr={`${implementationSummary.framed} cadrées`} data-admin-en={`${implementationSummary.framed} framed`}>
-              {implementationSummary.framed} cadrées
+            <span data-admin-i18n data-admin-fr={`${implementationSummary.framed} prêts`} data-admin-en={`${implementationSummary.framed} ready`}>
+              {implementationSummary.framed} prêts
             </span>
           </span>
           <span class="arch-chip">
-            <span data-admin-i18n data-admin-fr={`${implementationSummary.cold} froides`} data-admin-en={`${implementationSummary.cold} cold`}>
-              {implementationSummary.cold} froides
+            <span data-admin-i18n data-admin-fr={`${implementationSummary.cold} backlog`} data-admin-en={`${implementationSummary.cold} backlog`}>
+              {implementationSummary.cold} backlog
             </span>
           </span>
         </div>
@@ -203,10 +214,10 @@ const implementationSummary = getArchitectureImplementationSummary();
         <p class="arch-section-copy">
           <span
             data-admin-i18n
-            data-admin-fr="Tableau stratégique repris du chantier produit. La colonne avancement reste volontairement estimative : elle sert à visualiser où le projet est réellement chaud, cadré, ou encore froid."
-            data-admin-en="This is the strategic program reused from the product discussion. The progress column stays deliberately approximate: it shows where the project is truly hot, framed, or still cold."
+            data-admin-fr="Tableau stratégique repris du chantier produit. La colonne avancement reste volontairement estimative : elle sert à lire les sujets comme un kanban : en validation, en cours, prêt ou backlog."
+            data-admin-en="This is the strategic program reused from the product discussion. The progress column stays deliberately approximate: it reads the work as a kanban: in validation, in progress, ready, or backlog."
           >
-            Tableau stratégique repris du chantier produit. La colonne avancement reste volontairement estimative : elle sert à visualiser où le projet est réellement chaud, cadré, ou encore froid.
+            Tableau stratégique repris du chantier produit. La colonne avancement reste volontairement estimative : elle sert à lire les sujets comme un kanban : en validation, en cours, prêt ou backlog.
           </span>
         </p>
       </div>

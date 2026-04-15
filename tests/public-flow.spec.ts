@@ -35,13 +35,71 @@ test.describe("public flow", () => {
     await expect(page.locator("#answersGrid .answer-btn.correct")).toHaveCount(1);
   });
 
-  test("shows the waitlist success state from prior local submission", async ({ page }) => {
+  test("keeps the waitlist form usable on shared devices", async ({ page }) => {
     await page.addInitScript(() => {
       localStorage.setItem("mp_email_submitted", JSON.stringify(true));
     });
     await preparePage(page, ASTRO_URL);
 
-    await expect(page.locator("form[name='manabuplay-waitlist']")).toBeHidden();
+    await expect(page.locator("form[name='manabuplay-waitlist']")).toBeVisible();
+    await expect(page.locator("#emailSuccess")).toBeHidden();
+  });
+
+  test("stores local waitlist submissions and accepts plus addressing", async ({ page }) => {
+    await preparePage(page, ASTRO_URL);
+
+    await page.locator("#emailInput").fill("machin.truc+site@mail.tld");
+    await page.locator("form[name='manabuplay-waitlist'] button[type='submit']").click();
+
+    await expect(page.locator("form[name='manabuplay-waitlist']")).toBeVisible();
     await expect(page.locator("#emailSuccess")).toBeVisible();
+    await expect(page.locator("#emailInput")).toHaveValue("");
+
+    const submissions = await page.evaluate(() => JSON.parse(localStorage.getItem("mp_waitlist_submissions") || "[]"));
+    expect(submissions).toHaveLength(1);
+    expect(submissions[0]).toMatchObject({
+      email: "machin.truc+site@mail.tld",
+      source: "localStorage",
+      formName: "manabuplay-waitlist",
+    });
+  });
+
+  test("rejects URL-like invalid waitlist emails", async ({ page }) => {
+    await preparePage(page, ASTRO_URL);
+
+    await page.locator("#emailInput").fill("https//espaceclient.linxea.com/epargne@o.o");
+    await page.locator("form[name='manabuplay-waitlist'] button[type='submit']").click();
+
+    await expect(page.locator("#emailInput")).toHaveJSProperty("validationMessage", "Enter a valid email address.");
+    await expect(page.locator("#emailSuccess")).toBeHidden();
+    const submissions = await page.evaluate(() => JSON.parse(localStorage.getItem("mp_waitlist_submissions") || "[]"));
+    expect(submissions).toHaveLength(0);
+  });
+
+  test("shows repeatable feedback for two waitlist submissions in a row", async ({ page }) => {
+    await preparePage(page, ASTRO_URL);
+    const input = page.locator("#emailInput");
+    const submit = page.locator("form[name='manabuplay-waitlist'] button[type='submit']");
+    const success = page.locator("#emailSuccess");
+
+    await input.fill("first+site@mail.tld");
+    await submit.click();
+    await expect(success).toBeVisible();
+    await expect(success).toContainText("Thanks, you're on the list.");
+    await expect(submit).toHaveText("Saved");
+    await expect(input).toHaveValue("");
+
+    await input.fill("second+site@mail.tld");
+    await submit.click();
+    await expect(success).toHaveClass(/waitlist-success-pop/);
+    await expect(submit).toHaveText("Saved");
+
+    const submissions = await page.evaluate(() => JSON.parse(localStorage.getItem("mp_waitlist_submissions") || "[]"));
+    expect(submissions.map((entry: { email: string }) => entry.email)).toEqual([
+      "second+site@mail.tld",
+      "first+site@mail.tld",
+    ]);
+
+    await expect(success).toBeHidden({ timeout: 6000 });
   });
 });

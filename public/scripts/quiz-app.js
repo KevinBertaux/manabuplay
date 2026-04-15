@@ -25,6 +25,13 @@
     getLang()     { return LS.get('lang') || 'en'; },
     setLang(lang) { LS.set('lang', lang); },
   };
+  const WAITLIST_STORAGE_KEY = 'waitlist_submissions';
+  const WAITLIST_FORM_NAME = 'manabuplay-waitlist';
+  const WAITLIST_EMAIL_RE = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/;
+  const WAITLIST_SUCCESS_BUTTON_DELAY = 2800;
+  const WAITLIST_SUCCESS_MESSAGE_DELAY = 4000;
+  let waitlistButtonTimer = null;
+  let waitlistMessageTimer = null;
 
 
   // ══════════════════════════════════════════════════════════════
@@ -326,13 +333,116 @@
     }
   }
 
-  // ── EMAIL → NETLIFY FORMS ────────────────────────────────────
+  // ── EMAIL → LOCAL MOCK / NETLIFY FORMS ───────────────────────
+  function isLocalWaitlistMode() {
+    return ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname) || window.location.protocol === 'file:';
+  }
+
+  function normalizeEmail(value) {
+    return String(value || '').trim().toLowerCase();
+  }
+
+  function isValidWaitlistEmail(email) {
+    if (!WAITLIST_EMAIL_RE.test(email)) return false;
+    const [local, domain] = email.split('@');
+    if (!local || !domain) return false;
+    if (/[/:<>"\s]/.test(email)) return false;
+    if (local.startsWith('.') || local.endsWith('.') || local.includes('..')) return false;
+    const labels = domain.split('.');
+    if (labels.some((label) => !label || label.startsWith('-') || label.endsWith('-'))) return false;
+    const tld = labels[labels.length - 1];
+    return /^[a-z]{2,}$/i.test(tld);
+  }
+
+  function readWaitlistSubmissions() {
+    const submissions = LS.get(WAITLIST_STORAGE_KEY);
+    return Array.isArray(submissions) ? submissions : [];
+  }
+
+  function saveLocalWaitlistSubmission(email) {
+    const normalizedEmail = normalizeEmail(email);
+    const submissions = readWaitlistSubmissions();
+    const existing = submissions.find((entry) => normalizeEmail(entry.email) === normalizedEmail);
+
+    if (existing) {
+      return { submission: existing, duplicate: true };
+    }
+
+    const submission = {
+      email: normalizedEmail,
+      lang: currentLang,
+      source: 'localStorage',
+      formName: WAITLIST_FORM_NAME,
+      createdAt: new Date().toISOString(),
+      page: `${window.location.pathname}${window.location.hash || ''}`,
+    };
+    LS.set(WAITLIST_STORAGE_KEY, [submission, ...submissions]);
+    return { submission, duplicate: false };
+  }
+
+  function showWaitlistSuccess(form, input, success) {
+    const submitButton = form.querySelector('button[type="submit"]');
+    const successText = success.querySelector('span');
+    window.clearTimeout(waitlistButtonTimer);
+    window.clearTimeout(waitlistMessageTimer);
+
+    success.style.display = 'block';
+    success.classList.remove('waitlist-success-pop', 'waitlist-success-fade');
+    void success.offsetWidth;
+    success.classList.add('waitlist-success-pop');
+    if (successText) {
+      successText.textContent = t('email_ok');
+    }
+
+    input.value = '';
+    window.setTimeout(() => input.focus(), 150);
+
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = t('email_saved_cta');
+      submitButton.classList.add('waitlist-submit-saved');
+      waitlistButtonTimer = window.setTimeout(() => {
+        submitButton.textContent = t('email_cta');
+        submitButton.classList.remove('waitlist-submit-saved');
+      }, WAITLIST_SUCCESS_BUTTON_DELAY);
+    }
+
+    waitlistMessageTimer = window.setTimeout(() => {
+      success.classList.remove('waitlist-success-pop');
+      success.classList.add('waitlist-success-fade');
+      success.addEventListener('animationend', () => {
+        if (success.classList.contains('waitlist-success-fade')) {
+          success.style.display = 'none';
+          success.classList.remove('waitlist-success-fade');
+        }
+      }, { once: true });
+    }, WAITLIST_SUCCESS_MESSAGE_DELAY);
+  }
+
   async function handleEmailSubmit(e) {
     e.preventDefault();
     const form    = e.target;
-    const email   = document.getElementById('emailInput').value.trim();
+    const input   = document.getElementById('emailInput');
+    const email   = normalizeEmail(input.value);
     const btn     = form.querySelector('button[type="submit"]');
     const success = document.getElementById('emailSuccess');
+
+    input.setCustomValidity('');
+    if (!input.validity.valid || !isValidWaitlistEmail(email)) {
+      input.setCustomValidity(
+        currentLang === 'fr'
+          ? 'Entre une adresse email valide.'
+          : 'Enter a valid email address.'
+      );
+      input.reportValidity();
+      return;
+    }
+
+    if (isLocalWaitlistMode()) {
+      saveLocalWaitlistSubmission(email);
+      showWaitlistSuccess(form, input, success);
+      return;
+    }
 
     // Optimistic UI — disable button while sending
     const originalText = btn.textContent;
@@ -341,7 +451,7 @@
 
     try {
       const body = new URLSearchParams({
-        'form-name': 'manabuplay-waitlist',
+        'form-name': WAITLIST_FORM_NAME,
         'email':     email,
         'lang':      currentLang,
       });
@@ -353,10 +463,7 @@
       });
 
       if (res.ok) {
-        form.style.display      = 'none';
-        success.style.display   = 'block';
-        // Also store locally so we don't show the form again this session
-        LS.set('email_submitted', true);
+        showWaitlistSuccess(form, input, success);
       } else {
         throw new Error('Network response was not ok');
       }
@@ -430,11 +537,4 @@
   const waitlistForm = document.querySelector('form[name="manabuplay-waitlist"]');
   if (waitlistForm) {
     waitlistForm.addEventListener('submit', handleEmailSubmit);
-  }
-  // If email already submitted this session, show success directly
-  if (LS.get('email_submitted')) {
-    const f = document.querySelector('form[name="manabuplay-waitlist"]');
-    const s = document.getElementById('emailSuccess');
-    if (f) f.style.display = 'none';
-    if (s) s.style.display = 'block';
   }

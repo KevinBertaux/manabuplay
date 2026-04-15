@@ -123,6 +123,18 @@
     }
     .email-input::placeholder { color:rgba(167,139,250,.4); }
     .email-input:focus { border-color:var(--violet); box-shadow:0 0 16px rgba(139,92,246,.2); }
+    .waitlist-submit-saved { background:linear-gradient(135deg,var(--green),var(--cyan)); box-shadow:0 6px 28px rgba(34,211,238,.35),0 0 0 2px rgba(255,255,255,.12); }
+    .waitlist-success-pop { animation:waitlist-success-pop .42s ease; }
+    .waitlist-success-fade { animation:waitlist-success-fade .38s ease forwards; }
+    @keyframes waitlist-success-pop {
+      0% { opacity:.55; transform:translateY(6px) scale(.98); }
+      55% { opacity:1; transform:translateY(0) scale(1.02); }
+      100% { opacity:1; transform:translateY(0) scale(1); }
+    }
+    @keyframes waitlist-success-fade {
+      from { opacity:1; transform:translateY(0); }
+      to { opacity:0; transform:translateY(-4px); }
+    }
 
     /* AD */
     .ad-placeholder {

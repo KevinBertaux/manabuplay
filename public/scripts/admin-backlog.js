@@ -121,8 +121,8 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
       : getSummary(roadmap.versions);
 
     currentVersionChip.textContent = selectedVersion ? selectedVersion.label : "Lecture libre";
-    summaryItemsChip.textContent = `${selectedSummary.done}/${selectedSummary.total} items faits`;
-    summaryChildrenChip.textContent = `${selectedSummary.childDone}/${selectedSummary.childTotal} sous-items faits`;
+    summaryItemsChip.textContent = `${selectedSummary.done}/${selectedSummary.total} items terminés`;
+    summaryChildrenChip.textContent = `${selectedSummary.childDone}/${selectedSummary.childTotal} sous-items terminés`;
 
     if (versionBlocks.length === 0) {
       backlogList.innerHTML = `
@@ -145,8 +145,8 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
               </div>
               <p class="backlog-section-copy">${escapeHtml(block.version.summary)}</p>
               <div class="backlog-section-meta">
-                <span class="backlog-chip">${block.summary?.done ?? 0}/${block.summary?.total ?? 0} items faits</span>
-                <span class="backlog-chip">${block.summary?.childDone ?? 0}/${block.summary?.childTotal ?? 0} sous-items faits</span>
+                <span class="backlog-chip">${block.summary?.done ?? 0}/${block.summary?.total ?? 0} items terminés</span>
+                <span class="backlog-chip">${block.summary?.childDone ?? 0}/${block.summary?.childTotal ?? 0} sous-items terminés</span>
               </div>
             </section>
           `;

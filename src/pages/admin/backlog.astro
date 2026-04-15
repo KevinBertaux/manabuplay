@@ -15,13 +15,13 @@ const defaultVersion =
 
 const statusOptions = [
   { id: "all", label: "Tout" },
-  { id: "todo", label: "À faire" },
-  { id: "done", label: "Fait" },
+  { id: "todo", label: "Backlog" },
+  { id: "done", label: "Terminé" },
 ];
 
 const sortOptions = [
   { id: "roadmap", label: "Ordre roadmap" },
-  { id: "status", label: "À faire puis fait" },
+  { id: "status", label: "Backlog puis terminé" },
   { id: "priority", label: "Priorité" },
   { id: "area", label: "Zone" },
 ];
@@ -210,8 +210,8 @@ const roadmapPayload = {
         <span class="backlog-chip is-accent">MAJ {roadmap.meta.updatedAt}</span>
         <span class="backlog-chip">{roadmap.versions.length} vues version</span>
         <span class="backlog-chip" id="backlog-current-version-chip">{defaultVersion.label}</span>
-        <span class="backlog-chip" id="backlog-summary-items-chip">{initialSummary.done}/{initialSummary.total} items faits</span>
-        <span class="backlog-chip" id="backlog-summary-children-chip">{initialSummary.childDone}/{initialSummary.childTotal} sous-items faits</span>
+        <span class="backlog-chip" id="backlog-summary-items-chip">{initialSummary.done}/{initialSummary.total} items terminés</span>
+        <span class="backlog-chip" id="backlog-summary-children-chip">{initialSummary.childDone}/{initialSummary.childTotal} sous-items terminés</span>
       </div>
     </section>
 
@@ -287,8 +287,8 @@ const roadmapPayload = {
           </div>
           <p class="backlog-version-copy">{version.summary}</p>
           <div class="backlog-version-meta">
-            <span class="backlog-chip">{version.done}/{version.total} items faits</span>
-            <span class="backlog-chip">{version.childDone}/{version.childTotal} sous-items faits</span>
+            <span class="backlog-chip">{version.done}/{version.total} items terminés</span>
+            <span class="backlog-chip">{version.childDone}/{version.childTotal} sous-items terminés</span>
           </div>
         </a>
       ))}
