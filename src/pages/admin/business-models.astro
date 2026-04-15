@@ -1,0 +1,339 @@
+---
+import "../../styles/app.css";
+import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
+import {
+  getBusinessCoreProblem,
+  getPremiumLibraryModel,
+  getPricingRows,
+  getPricingStatusLabel,
+} from "../../lib/admin-business-models";
+
+const adminNav = getAdminNavHtml("business");
+const problem = getBusinessCoreProblem();
+const model = getPremiumLibraryModel();
+const rows = getPricingRows();
+const groups = rows.reduce(
+  (acc, row) => {
+    const existing = acc.find((group) => group.key === row.group.fr);
+    if (existing) {
+      existing.rows.push(row);
+      return acc;
+    }
+    acc.push({ key: row.group.fr, label: row.group, rows: [row] });
+    return acc;
+  },
+  [] as { key: string; label: (typeof rows)[number]["group"]; rows: typeof rows }[],
+);
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Business Models</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    .biz-shell { min-height:100vh; background:
+      radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
+      radial-gradient(ellipse 40% 40% at 90% 15%,rgba(34,211,238,.14) 0%,transparent 60%),
+      #0a0911; }
+    .biz-wrap { width:min(1440px,calc(100% - 24px)); margin:0 auto; padding:88px 0 32px; }
+    .biz-card,.biz-hero,.biz-pricing { background:rgba(15,12,26,.92); border:1px solid rgba(139,92,246,.18); border-radius:8px; box-shadow:0 12px 32px rgba(0,0,0,.32); }
+    .biz-hero { display:grid; gap:14px; padding:20px; margin-bottom:16px; }
+    .biz-eyebrow { display:inline-flex; align-items:center; gap:8px; min-height:32px; padding:0 12px; border-radius:8px; background:rgba(34,211,238,.12); border:1px solid rgba(34,211,238,.28); color:#22d3ee; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .biz-eyebrow::before { content:""; width:8px; height:8px; border-radius:999px; background:currentColor; }
+    .biz-title { margin:0; color:#fff; font-family:'Joystix',sans-serif; font-size:clamp(1.4rem,2.8vw,2.2rem); line-height:1.18; }
+    .biz-title span { color:#e879f9; }
+    .biz-copy { max-width:84ch; color:#c7c2df; font:500 1.04rem/1.64 'Chakra Petch',sans-serif; }
+    .biz-alert { display:grid; gap:10px; padding:16px; margin-bottom:16px; border-color:rgba(250,204,21,.24); background:
+      linear-gradient(180deg,rgba(250,204,21,.08),rgba(250,204,21,.02)),
+      rgba(15,12,26,.92); }
+    .biz-alert-title { color:#fde68a; font:900 .96rem/1 'Chakra Petch',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .biz-alert-copy { color:#f7e7ad; font:700 1rem/1.58 'Chakra Petch',sans-serif; }
+    .biz-model { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(340px,.8fr); gap:16px; padding:18px; margin-bottom:16px; }
+    .biz-model-title { color:#fff; font:800 1.36rem/1.18 'Chakra Petch',sans-serif; }
+    .biz-model-kicker { color:#22d3ee; font:800 .82rem/1 'Chakra Petch',sans-serif; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+    .biz-model-copy { color:#c7c2df; font:600 1rem/1.6 'Chakra Petch',sans-serif; }
+    .biz-model-side { display:grid; gap:12px; align-content:start; }
+    .biz-score { display:inline-flex; align-items:center; justify-content:center; min-height:40px; width:max-content; padding:0 14px; border-radius:8px; border:1px solid rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; font:900 1rem/1 'Chakra Petch',sans-serif; }
+    .biz-note { padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.03); }
+    .biz-note-title { color:#8f8aa7; font:800 .78rem/1 'Chakra Petch',sans-serif; letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px; }
+    .biz-note-copy { color:#fff; font:700 .94rem/1.5 'Chakra Petch',sans-serif; }
+    .biz-pricing { display:grid; gap:16px; padding:18px; }
+    .biz-pricing-title { color:#fff; font:800 1.18rem/1.2 'Chakra Petch',sans-serif; }
+    .biz-pricing-copy { color:#a9a3c3; font:600 .96rem/1.56 'Chakra Petch',sans-serif; }
+    .biz-pricing-wrap { overflow:visible; }
+    .biz-pricing-table { width:100%; table-layout:fixed; border-collapse:separate; border-spacing:0 10px; }
+    .biz-pricing-table th,.biz-pricing-table td { padding:14px 12px; text-align:center; }
+    .biz-pricing-table thead th { vertical-align:bottom; }
+    .biz-pricing-table thead th:first-child,
+    .biz-pricing-table tbody td:first-child { text-align:left; }
+    .biz-pricing-table tbody tr td { background:rgba(255,255,255,.03); border-top:1px solid rgba(255,255,255,.06); border-bottom:1px solid rgba(255,255,255,.06); }
+    .biz-pricing-table tbody tr td:first-child { border-left:1px solid rgba(255,255,255,.06); border-radius:8px 0 0 8px; }
+    .biz-pricing-table tbody tr td:last-child { border-right:1px solid rgba(255,255,255,.06); border-radius:0 8px 8px 0; }
+    .biz-pricing-table tbody tr:hover td { background:rgba(255,255,255,.045); }
+    .biz-group-row td { padding:18px 12px 6px; background:transparent!important; border:0!important; text-align:left!important; }
+    .biz-group-title { display:flex; align-items:center; gap:10px; color:#22d3ee; font:900 .86rem/1 'Chakra Petch',sans-serif; letter-spacing:.12em; text-transform:uppercase; }
+    .biz-group-title::after { content:""; flex:1; height:2px; background:linear-gradient(90deg,rgba(34,211,238,.36),transparent); }
+    .biz-col-free,.biz-col-premium { display:grid; gap:6px; justify-items:center; text-align:center; }
+    .biz-col-title { color:#fff; font:900 .92rem/1.14 'Chakra Petch',sans-serif; letter-spacing:.04em; text-transform:none; }
+    .biz-col-sub { color:#a9a3c3; font:700 .74rem/1.26 'Chakra Petch',sans-serif; text-transform:none; letter-spacing:.02em; }
+    .biz-col-free .biz-col-title { color:#d7fbff; }
+    .biz-col-premium .biz-col-title { color:#f5d0fe; }
+    .biz-rowhead { width:42%; }
+    .biz-rowstack { display:grid; gap:8px; }
+    .biz-rowlabel { color:#fff; font:800 .92rem/1.46 'Chakra Petch',sans-serif; }
+    .biz-rowlabel-wrap { display:flex; align-items:flex-start; gap:8px; }
+    .biz-rowmeta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .biz-help-wrap { position:relative; display:inline-flex; align-items:center; }
+    .biz-help {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:20px; height:20px; border-radius:999px;
+      border:1px solid rgba(34,211,238,.28); background:rgba(34,211,238,.1);
+      color:#b8f6ff; font:900 .72rem/1 'Chakra Petch',sans-serif; cursor:help;
+    }
+    .biz-help:focus-visible { outline:2px solid rgba(34,211,238,.6); outline-offset:2px; }
+    .biz-tooltip {
+      position:absolute; left:0; top:calc(100% + 8px); z-index:20;
+      width:min(320px,calc(100vw - 48px)); padding:10px 12px; border-radius:8px;
+      border:1px solid rgba(34,211,238,.18); background:rgba(11,16,27,.98);
+      box-shadow:0 12px 28px rgba(0,0,0,.34); color:#d7fbff;
+      font:700 .8rem/1.45 'Chakra Petch',sans-serif;
+      opacity:0; pointer-events:none; transform:translateY(-4px);
+      transition:opacity .14s ease, transform .14s ease;
+    }
+    .biz-help-wrap:hover .biz-tooltip,
+    .biz-help-wrap:focus-within .biz-tooltip {
+      opacity:1; pointer-events:auto; transform:translateY(0);
+    }
+    .biz-status { display:inline-flex; align-items:center; min-height:24px; padding:0 8px; border-radius:8px; border:1px solid rgba(255,255,255,.08); font:800 .72rem/1 'Chakra Petch',sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+    .biz-status.framed { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
+    .biz-status.to-frame { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .biz-target { display:inline-flex; align-items:center; min-height:24px; padding:0 8px; border-radius:8px; border:1px solid rgba(34,211,238,.2); background:rgba(34,211,238,.08); color:#b8f6ff; font:800 .72rem/1 'Chakra Petch',sans-serif; letter-spacing:.04em; text-transform:uppercase; }
+    .biz-note-inline { color:#8f8aa7; font:600 .78rem/1.42 'Chakra Petch',sans-serif; text-transform:none; letter-spacing:0; }
+    .biz-cell { font:800 .82rem/1.34 'Chakra Petch',sans-serif; text-transform:none; letter-spacing:.01em; }
+    .biz-cell.shared { color:#d7fbff; }
+    .biz-cell.free { color:#dcfce7; }
+    .biz-cell.premium { color:#f5d0fe; }
+    .biz-cell.open { color:#fde68a; }
+    @media (max-width:1080px) {
+      .biz-model { grid-template-columns:1fr; }
+      .biz-pricing-table th,.biz-pricing-table td { padding:12px 8px; }
+      .biz-col-title { font-size:.82rem; }
+      .biz-col-sub { font-size:.7rem; }
+      .biz-rowlabel { font-size:.86rem; }
+    }
+  </style>
+  <style set:html={ADMIN_NAV_CSS}></style>
+</head>
+<body class="text-slate-200 biz-shell">
+  <main class="biz-wrap">
+    <Fragment set:html={adminNav} />
+
+    <section class="biz-hero">
+      <span class="biz-eyebrow">Business</span>
+      <h1 class="biz-title">
+        <span data-admin-i18n data-admin-fr="Modele retenu" data-admin-en="Selected model">Modele retenu</span>
+        <span>·</span>
+        <span data-admin-i18n data-admin-fr="Bibliotheque premium" data-admin-en="Premium library">Bibliotheque premium</span>
+      </h1>
+      <p class="biz-copy">
+        <span
+          data-admin-i18n
+          data-admin-fr="On arrête de comparer trois pistes comme si elles se valaient encore. La direction retenue est claire : Daily gratuit, vraie découverte gratuite, puis profondeur de contenu et confort d'usage côté premium."
+          data-admin-en="We stop comparing three tracks as if they still carried the same weight. The chosen direction is clear: free Daily, real free discovery, then content depth and usage comfort on the premium side."
+        >
+          On arrête de comparer trois pistes comme si elles se valaient encore. La direction retenue est claire : Daily gratuit, vraie découverte gratuite, puis profondeur de contenu et confort d'usage côté premium.
+        </span>
+      </p>
+    </section>
+
+    <section class="biz-card biz-alert">
+      <div class="biz-alert-title" data-admin-i18n data-admin-fr="Le vrai probleme" data-admin-en="The real problem">
+        Le vrai probleme
+      </div>
+      <p class="biz-alert-copy" data-admin-i18n data-admin-fr={problem.fr} data-admin-en={problem.en}>
+        {problem.fr}
+      </p>
+    </section>
+
+    <section class="biz-card biz-model">
+      <div>
+        <div class="biz-model-kicker" data-admin-i18n data-admin-fr={model.kicker.fr} data-admin-en={model.kicker.en}>
+          {model.kicker.fr}
+        </div>
+        <div class="biz-model-title" data-admin-i18n data-admin-fr={model.title.fr} data-admin-en={model.title.en}>
+          {model.title.fr}
+        </div>
+        <p class="biz-model-copy" data-admin-i18n data-admin-fr={model.summary.fr} data-admin-en={model.summary.en}>
+          {model.summary.fr}
+        </p>
+      </div>
+
+      <div class="biz-model-side">
+        <div class="biz-score">{model.score}/100</div>
+        <section class="biz-note">
+          <div class="biz-note-title" data-admin-i18n data-admin-fr="Pourquoi c'est le bon modèle" data-admin-en="Why this is the right model">
+            Pourquoi c'est le bon modèle
+          </div>
+          <div class="biz-note-copy" data-admin-i18n data-admin-fr={model.whyNow.fr} data-admin-en={model.whyNow.en}>
+            {model.whyNow.fr}
+          </div>
+        </section>
+        <section class="biz-note">
+          <div class="biz-note-title" data-admin-i18n data-admin-fr="Quand Stripe OTP vient" data-admin-en="When Stripe OTP comes">
+            Quand Stripe OTP vient
+          </div>
+          <div class="biz-note-copy" data-admin-i18n data-admin-fr={model.timing.fr} data-admin-en={model.timing.en}>
+            {model.timing.fr}
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="biz-pricing">
+      <h2 class="biz-pricing-title" data-admin-i18n data-admin-fr="Projection Free / Premium" data-admin-en="Free / Premium projection">
+        Projection Free / Premium
+      </h2>
+      <p class="biz-pricing-copy">
+        <span
+          data-admin-i18n
+          data-admin-fr="Cette grille est pensée comme une future table de pricing du site. Elle ne cherche plus à comparer des modèles concurrents : elle fixe ce que le free garde, ce que le premium débloque, et ce qui reste encore à cadrer."
+          data-admin-en="This grid is meant as a future site pricing table. It no longer compares competing models: it fixes what free keeps, what premium unlocks, and what still needs framing."
+        >
+          Cette grille est pensée comme une future table de pricing du site. Elle ne cherche plus à comparer des modèles concurrents : elle fixe ce que le free garde, ce que le premium débloque, et ce qui reste encore à cadrer.
+        </span>
+      </p>
+
+      <div class="biz-pricing-wrap">
+        <table class="biz-pricing-table">
+          <colgroup>
+            <col style="width:42%" />
+            <col style="width:29%" />
+            <col style="width:29%" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th></th>
+              <th>
+                <div class="biz-col-free">
+                  <div class="biz-col-title">Free</div>
+                  <div class="biz-col-sub" data-admin-i18n data-admin-fr="découverte forte, usage borné" data-admin-en="strong discovery, bounded usage">
+                    découverte forte, usage borné
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="biz-col-premium">
+                  <div class="biz-col-title">Premium</div>
+                  <div class="biz-col-sub" data-admin-i18n data-admin-fr="contenu, profondeur, confort" data-admin-en="content, depth, comfort">
+                    contenu, profondeur, confort
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {groups.map((group) => (
+              <>
+                <tr class="biz-group-row">
+                  <td colspan="3">
+                    <div class="biz-group-title" data-admin-i18n data-admin-fr={group.label.fr} data-admin-en={group.label.en}>
+                      {group.label.fr}
+                    </div>
+                  </td>
+                </tr>
+                {group.rows.map((row) => {
+                  const status = getPricingStatusLabel(row.status);
+                  return (
+                    <tr>
+                      <td class="biz-rowhead">
+                        <div class="biz-rowstack">
+                          <div class="biz-rowlabel">
+                            <span class="biz-rowlabel-wrap">
+                              <span
+                                data-admin-i18n
+                                data-admin-fr={row.label.fr}
+                                data-admin-en={row.label.en}
+                              >
+                                {row.label.fr}
+                              </span>
+                              <span class="biz-help-wrap">
+                                <span
+                                  class="biz-help"
+                                  tabindex="0"
+                                  aria-label={row.tooltip.fr}
+                                  data-admin-i18n
+                                  data-admin-fr="?"
+                                  data-admin-en="?"
+                                >
+                                  ?
+                                </span>
+                                <span
+                                  class="biz-tooltip"
+                                  data-admin-i18n
+                                  data-admin-fr={row.tooltip.fr}
+                                  data-admin-en={row.tooltip.en}
+                                >
+                                  {row.tooltip.fr}
+                                </span>
+                              </span>
+                            </span>
+                          </div>
+                          <div class="biz-rowmeta">
+                            <span class:list={["biz-status", row.status]} data-admin-i18n data-admin-fr={status.fr} data-admin-en={status.en}>
+                              {status.fr}
+                            </span>
+                            <span class="biz-target" data-admin-i18n data-admin-fr={row.target.fr} data-admin-en={row.target.en}>
+                              {row.target.fr}
+                            </span>
+                            {row.note ? (
+                              <span class="biz-note-inline" data-admin-i18n data-admin-fr={row.note.fr} data-admin-en={row.note.en}>
+                                {row.note.fr}
+                              </span>
+                            ) : null}
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <span class:list={["biz-cell", row.free.tone]} data-admin-i18n data-admin-fr={row.free.text.fr} data-admin-en={row.free.text.en}>
+                          {row.free.text.fr}
+                        </span>
+                      </td>
+                      <td>
+                        <span class:list={["biz-cell", row.premium.tone]} data-admin-i18n data-admin-fr={row.premium.text.fr} data-admin-en={row.premium.text.en}>
+                          {row.premium.text.fr}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    (() => {
+      const update = (lang) => {
+        document.querySelectorAll("[data-admin-i18n]").forEach((node) => {
+          if (!(node instanceof HTMLElement)) return;
+          const value = lang === "fr" ? node.dataset.adminFr : node.dataset.adminEn;
+          if (typeof value === "string") node.innerHTML = value;
+          const ariaValue = lang === "fr" ? node.dataset.adminAriaFr : node.dataset.adminAriaEn;
+          if (typeof ariaValue === "string") node.setAttribute("aria-label", ariaValue);
+        });
+      };
+
+      update(document.documentElement.lang === "fr" ? "fr" : "en");
+      window.addEventListener("adminlangchange", (event) => {
+        const customEvent = event;
+        update(customEvent?.detail?.lang === "fr" ? "fr" : "en");
+      });
+    })();
+  </script>
+</body>
+</html>

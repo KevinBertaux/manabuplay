@@ -1,6 +1,7 @@
 export type AdminNavKey =
   | "hub"
   | "backlog"
+  | "business"
   | "architecture"
   | "reader"
   | "catalog"
@@ -24,6 +25,7 @@ export const ADMIN_NAV_CSS = `
 const items: Array<{ key?: AdminNavKey; activeKey?: AdminNavKey; href: string; label: string }> = [
   { key: "hub", href: "/admin", label: "Admin" },
   { key: "backlog", href: "/admin/backlog", label: "Backlog" },
+  { key: "business", href: "/admin/business-models", label: "Business" },
   { key: "architecture", href: "/admin/architecture-plan", label: "Architecture" },
   { key: "reader", href: "/admin/packs", label: "Lecteur" },
   { key: "catalog", href: "/admin/catalog", label: "Catalogue" },
