@@ -31,8 +31,5 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Astro type check
-        run: npm run check
-
-      - name: UI guard and Playwright smoke
-        run: npm run check:ui
+      - name: Project CI checks
+        run: npm run check:ci

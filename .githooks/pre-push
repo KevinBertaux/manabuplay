@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+echo "Running pre-push checks: npm run check:ci"
+npm run check:ci

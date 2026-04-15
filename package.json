@@ -14,6 +14,7 @@
     "test:unit": "vitest run",
     "test:coverage": "vitest run --coverage",
     "check:px-values": "node scripts/check-px-values.mjs",
+    "check:ci": "npm run check && npm run check:ui",
     "check:ui": "npm run check:px-values && npm run build && playwright test tests/home-layout.spec.ts --workers=1 && playwright test tests/brand-system.spec.ts --workers=1 && playwright test tests/fx-lab.spec.ts --workers=1",
     "test:brand-system": "npm run build && playwright test tests/brand-system.spec.ts",
     "test:fx-lab": "npm run build && playwright test tests/fx-lab.spec.ts",
