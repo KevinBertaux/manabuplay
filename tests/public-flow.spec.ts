@@ -1,19 +1,20 @@
 import { expect, test } from "@playwright/test";
-import { ASTRO_URL, preparePage } from "./helpers/visual";
+import { ASTRO_HOME_URL, preparePage } from "./helpers/visual";
 
 test.describe("public flow", () => {
   test("switches language and keeps the hero CTA prominent", async ({ page }) => {
-    await preparePage(page, ASTRO_URL);
+    await preparePage(page, ASTRO_HOME_URL);
 
     await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Start the quiz");
     await page.locator("#btnFR").click();
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
     await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Lancer le quiz");
     await expect(page.locator("[data-i18n='hero_tagline']")).toContainText("Apprends du vocabulaire japonais");
+    await expect(page.locator("#btnES")).toHaveCount(0);
   });
 
   test("starts a quiz session and reveals answer feedback", async ({ page }) => {
-    await preparePage(page, ASTRO_URL);
+    await preparePage(page, ASTRO_HOME_URL);
 
     await page.locator("[data-i18n='hero_cta']").click();
     await expect(page).toHaveURL(/#quiz/);
@@ -39,14 +40,14 @@ test.describe("public flow", () => {
     await page.addInitScript(() => {
       localStorage.setItem("mp_email_submitted", JSON.stringify(true));
     });
-    await preparePage(page, ASTRO_URL);
+    await preparePage(page, ASTRO_HOME_URL);
 
     await expect(page.locator("form[name='manabuplay-waitlist']")).toBeVisible();
     await expect(page.locator("#emailSuccess")).toBeHidden();
   });
 
   test("stores local waitlist submissions and accepts plus addressing", async ({ page }) => {
-    await preparePage(page, ASTRO_URL);
+    await preparePage(page, ASTRO_HOME_URL);
 
     await page.locator("#emailInput").fill("machin.truc+site@mail.tld");
     await page.locator("form[name='manabuplay-waitlist'] button[type='submit']").click();
@@ -65,7 +66,7 @@ test.describe("public flow", () => {
   });
 
   test("rejects URL-like invalid waitlist emails", async ({ page }) => {
-    await preparePage(page, ASTRO_URL);
+    await preparePage(page, ASTRO_HOME_URL);
 
     await page.locator("#emailInput").fill("https//espaceclient.linxea.com/epargne@o.o");
     await page.locator("form[name='manabuplay-waitlist'] button[type='submit']").click();
@@ -77,7 +78,7 @@ test.describe("public flow", () => {
   });
 
   test("shows repeatable feedback for two waitlist submissions in a row", async ({ page }) => {
-    await preparePage(page, ASTRO_URL);
+    await preparePage(page, ASTRO_HOME_URL);
     const input = page.locator("#emailInput");
     const submit = page.locator("form[name='manabuplay-waitlist'] button[type='submit']");
     const success = page.locator("#emailSuccess");

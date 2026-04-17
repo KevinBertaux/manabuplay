@@ -6,6 +6,7 @@
     throw new Error("ManabuPlay boot data is missing.");
   }
 
+  const MANABUPLAY_MODE = MANABUPLAY_BOOT.mode || window.__MANABUPLAY_MODE__ || 'legacy';
   const DIFFICULTIES = MANABUPLAY_BOOT.difficulties;
   let currentDiff = null;  // currently selected difficulty object
 
@@ -32,6 +33,10 @@
   const WAITLIST_SUCCESS_MESSAGE_DELAY = 4000;
   let waitlistButtonTimer = null;
   let waitlistMessageTimer = null;
+  const SUPPORTED_LANGS = ['en', 'fr'];
+  const LOCALIZED_ROUTES = ['daily', 'practice', 'archives'];
+  const PRACTICE_HISTORY_KEY = 'practice_sessions';
+  const PRACTICE_HISTORY_LIMIT = 8;
 
 
   // ══════════════════════════════════════════════════════════════
@@ -39,8 +44,37 @@
   // ══════════════════════════════════════════════════════════════
   const LANG = MANABUPLAY_BOOT.lang;
 
-  let currentLang = LS.getLang();
+  const pageLocale = SUPPORTED_LANGS.includes(window.__MANABUPLAY_LOCALE__) ? window.__MANABUPLAY_LOCALE__ : null;
+  let currentLang = pageLocale || (SUPPORTED_LANGS.includes(LS.getLang()) ? LS.getLang() : 'en');
   const t = k => (LANG[currentLang]?.[k] ?? LANG.en?.[k]) || '';
+
+  function localizedPath(lang, route) {
+    return `/${lang}/${route ? `${route}/` : ''}`;
+  }
+
+  function getCurrentLocalizedRoute() {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    if (!SUPPORTED_LANGS.includes(parts[0])) return '';
+    return LOCALIZED_ROUTES.includes(parts[1]) ? parts[1] : '';
+  }
+
+  function updateLocalizedLinks() {
+    const route = getCurrentLocalizedRoute();
+    const currentSearch = window.location.search;
+    document.querySelectorAll('[data-public-route]').forEach(link => {
+      const targetRoute = link.dataset.publicRoute;
+      if (LOCALIZED_ROUTES.includes(targetRoute)) {
+        link.setAttribute('href', localizedPath(currentLang, targetRoute));
+      }
+    });
+    document.querySelectorAll('[data-locale-home]').forEach(link => {
+      const targetLang = link.dataset.localeHome;
+      if (SUPPORTED_LANGS.includes(targetLang)) {
+        const searchSuffix = route === 'archives' ? currentSearch : '';
+        link.setAttribute('href', localizedPath(targetLang, route) + searchSuffix);
+      }
+    });
+  }
 
   function applyLang() {
     document.getElementById('htmlRoot').lang = currentLang;
@@ -69,8 +103,9 @@
     document.querySelectorAll('[data-i18n-ph]').forEach(el => {
       el.placeholder = t(el.dataset.i18nPh);
     });
-    document.getElementById('btnEN').classList.toggle('active', currentLang === 'en');
-    document.getElementById('btnFR').classList.toggle('active', currentLang === 'fr');
+    document.getElementById('btnEN')?.classList.toggle('active', currentLang === 'en');
+    document.getElementById('btnFR')?.classList.toggle('active', currentLang === 'fr');
+    updateLocalizedLinks();
     // Refresh copy button label if not in "copied" state
     const copyBtn = document.getElementById('shareBtnCopy');
     const copyLbl = document.getElementById('copyBtnLabel');
@@ -87,7 +122,15 @@
   }
 
   function setLang(lang) {
+    if (!SUPPORTED_LANGS.includes(lang)) return;
     if (lang === currentLang) return;
+    const currentRoute = getCurrentLocalizedRoute();
+    const isLocalizedPage = SUPPORTED_LANGS.includes(window.location.pathname.split('/').filter(Boolean)[0]);
+    if (isLocalizedPage) {
+      LS.setLang(lang);
+      window.location.href = localizedPath(lang, currentRoute) + window.location.search + window.location.hash;
+      return;
+    }
     currentLang = lang;
     LS.setLang(lang);
     const idx=state.currentIndex, sc=state.score, st=state.streak, bs=state.bestStreak;
@@ -104,7 +147,12 @@
   // ══════════════════════════════════════════════════════════════
   // 50 QUIZ WORDS — bilingual
   // ══════════════════════════════════════════════════════════════
-  const QUIZ_DATA = MANABUPLAY_BOOT.quizData;
+  const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
+  const SESSION_DATE_KEY = getSessionDateKey();
+  const QUIZ_DATA = MANABUPLAY_MODE === 'daily' || MANABUPLAY_MODE === 'archives'
+    ? buildDailyQuizData(RAW_QUIZ_DATA, SESSION_DATE_KEY)
+    : RAW_QUIZ_DATA;
+  let hintStage = 0;
 
 
   // QUIZ ENGINE
@@ -117,12 +165,181 @@
     return b;
   };
 
+  function getLocalDateKey(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function getArchiveConfig() {
+    return MANABUPLAY_BOOT.archive || {};
+  }
+
+  function getSessionDateKey() {
+    if (MANABUPLAY_MODE !== 'archives') {
+      return getLocalDateKey();
+    }
+    const archiveConfig = getArchiveConfig();
+    const selectedFromQuery = new URLSearchParams(window.location.search).get('date');
+    const selectedDate = selectedFromQuery || archiveConfig.selectedDate || getLocalDateKey();
+    const startDate = archiveConfig.startDate || selectedDate;
+    const latestDate = archiveConfig.latestDate || selectedDate;
+    const isValidFormat = /^\d{4}-\d{2}-\d{2}$/.test(selectedDate);
+    if (isValidFormat && selectedDate >= startDate && selectedDate <= latestDate) {
+      return selectedDate;
+    }
+    return archiveConfig.selectedDate || latestDate || getLocalDateKey();
+  }
+
+  function hashSeed(input) {
+    let hash = 2166136261;
+    for (let index = 0; index < input.length; index += 1) {
+      hash ^= input.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
+    }
+    return hash >>> 0;
+  }
+
+  function mulberry32(seed) {
+    let value = seed >>> 0;
+    return () => {
+      value = (value + 0x6d2b79f5) >>> 0;
+      let result = Math.imul(value ^ (value >>> 15), value | 1);
+      result ^= result + Math.imul(result ^ (result >>> 7), result | 61);
+      return ((result ^ (result >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function seededShuffle(items, seedSource) {
+    const random = mulberry32(hashSeed(seedSource));
+    const shuffled = [...items];
+    for (let index = shuffled.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(random() * (index + 1));
+      [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+    }
+    return shuffled;
+  }
+
+  function buildDailyQuizData(pool, dateKey) {
+    const dailyConfig = MANABUPLAY_BOOT.daily || {};
+    const targets = dailyConfig.tierTargets || { 1: 4, 2: 3, 3: 2, 4: 1 };
+    const questionCount = dailyConfig.questionCount || 10;
+    const selected = [];
+    const selectedIds = new Set();
+
+    Object.entries(targets).forEach(([tier, count]) => {
+      const tierPool = pool.filter((entry) => String(entry.tier || 1) === tier);
+      seededShuffle(tierPool, `${dateKey}:tier:${tier}`).slice(0, count).forEach((entry) => {
+        selected.push(entry);
+        selectedIds.add(entry.id);
+      });
+    });
+
+    if (selected.length < questionCount) {
+      seededShuffle(pool, `${dateKey}:fill`).forEach((entry) => {
+        if (selected.length >= questionCount || selectedIds.has(entry.id)) return;
+        selected.push(entry);
+        selectedIds.add(entry.id);
+      });
+    }
+
+    return seededShuffle(selected.slice(0, questionCount), `${dateKey}:order`);
+  }
+
+  function getPracticeConfig() {
+    return MANABUPLAY_BOOT.practice || { questionCount: 10, cooldownSessions: 2, recipes: {} };
+  }
+
+  function readPracticeSessions() {
+    const sessions = LS.get(PRACTICE_HISTORY_KEY);
+    return Array.isArray(sessions) ? sessions : [];
+  }
+
+  function getPracticeCooldownIds() {
+    const cooldownSessions = getPracticeConfig().cooldownSessions || 2;
+    const recentSessions = readPracticeSessions().slice(0, cooldownSessions);
+    return new Set(recentSessions.flatMap((session) => Array.isArray(session.wordIds) ? session.wordIds : []));
+  }
+
+  function savePracticeSession(diffId, questions) {
+    const currentSessions = readPracticeSessions();
+    const session = {
+      diffId,
+      completedAt: new Date().toISOString(),
+      wordIds: questions.map((question) => question.id),
+    };
+    LS.set(PRACTICE_HISTORY_KEY, [session, ...currentSessions].slice(0, PRACTICE_HISTORY_LIMIT));
+  }
+
+  function pickPracticeEntries(pool, desiredCount, seedSource, selectedIds, cooldownIds) {
+    const eligiblePool = pool.filter((entry) => !selectedIds.has(entry.id) && !cooldownIds.has(entry.id));
+    const fallbackPool = pool.filter((entry) => !selectedIds.has(entry.id));
+    const picks = seededShuffle(eligiblePool, `${seedSource}:eligible`).slice(0, desiredCount);
+
+    if (picks.length < desiredCount) {
+      seededShuffle(fallbackPool, `${seedSource}:fallback`).forEach((entry) => {
+        if (picks.length >= desiredCount) return;
+        if (picks.some((pick) => pick.id === entry.id)) return;
+        picks.push(entry);
+      });
+    }
+
+    picks.forEach((entry) => selectedIds.add(entry.id));
+    return picks;
+  }
+
+  function buildPracticeSession(diff) {
+    const practiceConfig = getPracticeConfig();
+    const tierTargets = diff?.tierTargets || practiceConfig.recipes?.[diff?.id] || {};
+    const selected = [];
+    const selectedIds = new Set();
+    const cooldownIds = getPracticeCooldownIds();
+
+    Object.entries(tierTargets).forEach(([tier, count]) => {
+      const tierPool = RAW_QUIZ_DATA.filter((entry) => String(entry.tier || 1) === tier);
+      selected.push(
+        ...pickPracticeEntries(
+          tierPool,
+          count,
+          `practice:${diff.id}:tier:${tier}:${Date.now()}`,
+          selectedIds,
+          cooldownIds,
+        ),
+      );
+    });
+
+    if (selected.length < (practiceConfig.questionCount || diff.words || 10)) {
+      selected.push(
+        ...pickPracticeEntries(
+          RAW_QUIZ_DATA,
+          (practiceConfig.questionCount || diff.words || 10) - selected.length,
+          `practice:${diff.id}:fill:${Date.now()}`,
+          selectedIds,
+          cooldownIds,
+        ),
+      );
+    }
+
+    return shuffle(selected);
+  }
+
   function buildQuestions(n) {
-    const pool = shuffle(QUIZ_DATA).slice(0, n);
-    return pool.map(q => {
+    const isDailyMode = MANABUPLAY_MODE === 'daily';
+    const isArchivesMode = MANABUPLAY_MODE === 'archives';
+    const isPracticeMode = MANABUPLAY_MODE === 'practice';
+    const isSeededMode = isDailyMode || isArchivesMode;
+    const pool = isSeededMode
+      ? QUIZ_DATA.slice(0, n)
+      : isPracticeMode
+        ? buildPracticeSession(currentDiff).slice(0, n)
+        : shuffle(QUIZ_DATA).slice(0, n);
+    return pool.map((q, index) => {
       const correctText = q.correct[currentLang] || q.correct.en;
       const wrongList   = q.wrong[currentLang]   || q.wrong.en;
-      const answers     = shuffle([correctText, ...shuffle(wrongList).slice(0,3)]);
+      const answerSeed = `${SESSION_DATE_KEY}:${q.id || q.word}:${currentLang}:${index}`;
+      const pickedWrong = isSeededMode ? seededShuffle(wrongList, `${answerSeed}:wrong`).slice(0,3) : shuffle(wrongList).slice(0,3);
+      const answers     = isSeededMode ? seededShuffle([correctText, ...pickedWrong], `${answerSeed}:answers`) : shuffle([correctText, ...pickedWrong]);
       return { ...q, correctText, answers };
     });
   }
@@ -137,13 +354,16 @@
       const bestLabel = best > 0
         ? `${t('diff_best')} <span style="color:${d.color};font-weight:700;">${best} pts</span>`
         : `<span style="color:rgba(255,255,255,.3);">${t('diff_no_best')}</span>`;
+      const bestMarkup = MANABUPLAY_MODE === 'archives'
+        ? ''
+        : `<div class="diff-best mt-1" style="color:rgba(255,255,255,.5);">${bestLabel}</div>`;
       const card = document.createElement('div');
       card.className = `diff-card ${d.cls}${currentDiff?.id === d.id ? ' selected' : ''}`;
       card.innerHTML = `
         <span class="diff-icon">${d.icon}</span>
         <div class="diff-name" style="color:${d.color};">${t('diff_'+d.id)}</div>
         <div class="diff-count" style="color:rgba(255,255,255,.6);">${d.words} ${t('diff_words')}</div>
-        <div class="diff-best mt-1" style="color:rgba(255,255,255,.5);">${bestLabel}</div>
+        ${bestMarkup}
       `;
       card.onclick = () => selectDiff(d);
       grid.appendChild(card);
@@ -183,14 +403,80 @@
   }
 
   // ── HINT ─────────────────────────────────────────────────────
-  function revealHint() {
-    document.getElementById('hintBtn').style.display  = 'none';
-    const zone    = document.getElementById('hintText');
-    const content = document.getElementById('hintContent');
-    zone.style.display = 'block';
-    content.classList.remove('hint-revealed');
-    void content.offsetWidth;
-    content.classList.add('hint-revealed');
+  function getLocalizedField(value) {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    return value[currentLang] || value.en || '';
+  }
+
+  function animateReveal(node) {
+    if (!node) return;
+    node.classList.remove('hint-revealed');
+    void node.offsetWidth;
+    node.classList.add('hint-revealed');
+  }
+
+  function setHintButtonLabel(key) {
+    const hintBtn = document.getElementById('hintBtn');
+    if (!hintBtn) return;
+    const label = hintBtn.querySelector('[data-i18n]');
+    if (label) label.textContent = t(key);
+  }
+
+  function hideHintButton() {
+    const hintBtn = document.getElementById('hintBtn');
+    if (hintBtn) hintBtn.style.display = 'none';
+  }
+
+  function renderExplanation(text, reveal = false) {
+    const explanationBox = document.getElementById('explanationBox');
+    const explanationContent = document.getElementById('explanationContent');
+    if (!explanationBox || !explanationContent) return;
+    if (!text) {
+      explanationBox.style.display = 'none';
+      explanationContent.textContent = '';
+      return;
+    }
+    explanationContent.textContent = text;
+    explanationBox.style.display = 'grid';
+    if (reveal) animateReveal(explanationBox);
+  }
+
+  function revealHint(forceAll = false) {
+    const q = state.questions[state.currentIndex];
+    if (!q) return;
+
+    const hintPrimary = getLocalizedField(q.hint);
+    const hintSecondary = getLocalizedField(q.hint2);
+    const previousStage = hintStage;
+    const zone = document.getElementById('hintText');
+    const primaryContent = document.getElementById('hintContent');
+    const secondaryRow = document.getElementById('hintTextSecondary');
+    const secondaryContent = document.getElementById('hint2Content');
+
+    if (!zone || !primaryContent) return;
+
+    zone.style.display = 'grid';
+
+    if (hintStage === 0 || forceAll) {
+      primaryContent.textContent = hintPrimary;
+      animateReveal(primaryContent);
+      hintStage = 1;
+    }
+
+    if ((forceAll || previousStage >= 1) && hintSecondary && secondaryRow && secondaryContent) {
+      secondaryRow.style.display = 'grid';
+      secondaryContent.textContent = hintSecondary;
+      animateReveal(secondaryRow);
+      hintStage = 2;
+    }
+
+    if (forceAll || !hintSecondary || hintStage >= 2) {
+      hideHintButton();
+      return;
+    }
+
+    setHintButtonLabel('hint_btn_more');
   }
 
   // ── RENDER QUESTION ──────────────────────────────────────────
@@ -214,12 +500,29 @@
     const hintBtn     = document.getElementById('hintBtn');
     const hintText    = document.getElementById('hintText');
     const hintContent = document.getElementById('hintContent');
-    hintBtn.style.display   = 'inline-flex';
-    hintText.style.display  = 'none';
-    hintContent.textContent = q.hint[currentLang] || q.hint.en;
-    hintContent.classList.remove('hint-revealed');
-    const hl = hintBtn.querySelector('[data-i18n]');
-    if (hl) hl.textContent = t('hint_btn');
+    const hintTextSecondary = document.getElementById('hintTextSecondary');
+    const hint2Content = document.getElementById('hint2Content');
+    const primaryHint = getLocalizedField(q.hint);
+    const secondaryHint = getLocalizedField(q.hint2);
+    hintStage = 0;
+    if (hintBtn) {
+      hintBtn.style.display = primaryHint || secondaryHint ? 'inline-flex' : 'none';
+      setHintButtonLabel('hint_btn');
+    }
+    if (hintText) hintText.style.display = 'none';
+    if (hintContent) {
+      hintContent.textContent = primaryHint;
+      hintContent.classList.remove('hint-revealed');
+    }
+    if (hintTextSecondary) {
+      hintTextSecondary.style.display = 'none';
+      hintTextSecondary.classList.remove('hint-revealed');
+    }
+    if (hint2Content) {
+      hint2Content.textContent = secondaryHint;
+      hint2Content.classList.remove('hint-revealed');
+    }
+    renderExplanation(getLocalizedField(q.explanation), false);
 
     // Answers
     const grid = document.getElementById('answersGrid');
@@ -244,7 +547,9 @@
     if (state.answered) return;
     state.answered = true;
     document.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
-    if (document.getElementById('hintText').style.display === 'none') revealHint();
+    revealHint(true);
+    const q = state.questions[state.currentIndex];
+    renderExplanation(getLocalizedField(q?.explanation), true);
 
     const isCorrect = chosen === correct;
     const fb = document.getElementById('feedback');
@@ -306,15 +611,29 @@
     document.getElementById('progressBar').style.width  = '100%';
     document.getElementById('progressText').textContent = `${total}/${total}`;
 
-    // localStorage — save best & show badge/msg
-    const isNewRecord = LS.setBest(currentDiff.id, state.score);
-    const badge = document.getElementById('newRecordBadge');
-    badge.style.display = isNewRecord ? 'block' : 'none';
+    if (MANABUPLAY_MODE === 'practice' && currentDiff) {
+      savePracticeSession(currentDiff.id, state.questions);
+    }
 
+    const badge = document.getElementById('newRecordBadge');
     const bestMsg = document.getElementById('bestScoreMsg');
-    const currentBest = LS.getBest(currentDiff.id);
-    const diffLabel = t('diff_'+currentDiff.id);
-    bestMsg.innerHTML = t('result_best_msg')(currentBest, diffLabel);
+    const shareRow = document.getElementById('shareRow');
+    const isArchiveMode = MANABUPLAY_MODE === 'archives';
+
+    if (isArchiveMode) {
+      badge.style.display = 'none';
+      bestMsg.style.display = 'none';
+      if (shareRow) shareRow.style.display = 'none';
+    } else {
+      // localStorage — save best & show badge/msg
+      const isNewRecord = LS.setBest(currentDiff.id, state.score);
+      badge.style.display = isNewRecord ? 'block' : 'none';
+      bestMsg.style.display = 'block';
+      const currentBest = LS.getBest(currentDiff.id);
+      const diffLabel = t('diff_'+currentDiff.id);
+      bestMsg.innerHTML = t('result_best_msg')(currentBest, diffLabel);
+      if (shareRow) shareRow.style.display = 'block';
+    }
 
     // Refresh diff grid best scores for next visit
     renderDiffGrid();

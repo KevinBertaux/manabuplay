@@ -25,10 +25,18 @@ The original static MVP is kept in `legacy/mvp-index.html` for migration.
 ```sh
 npm install
 npm run dev
+npm run check:quick
+npm run check:feature
+npm run qa:release
 npm run build
 npm run preview
-npm run check
 ```
+
+Validation levels:
+
+- `npm run check:quick`: fast static checks for small patches
+- `npm run check:feature`: unit tests + build + critical public Playwright flows
+- `npm run qa:release`: feature checks + coverage + admin E2E + legacy parity
 
 ## Project Notes
 

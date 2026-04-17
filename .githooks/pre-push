@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
 
-echo "Running pre-push checks: npm run check:ci"
-npm run check:ci
+echo "Running pre-push checks: npm run check:feature"
+npm run check:feature

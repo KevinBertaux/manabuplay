@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-04-13",
+    "updatedAt": "2026-04-17",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "Backlog" },
@@ -83,6 +83,15 @@
           "notes": "Le hub admin existe deja pour relire les packs et travailler le produit."
         },
         {
+          "id": "v01-admin-maintenance",
+          "title": "Ajouter une page admin de maintenance locale",
+          "status": "done",
+          "priority": "P2",
+          "area": "admin",
+          "type": "feature",
+          "notes": "Permet d'inspecter et purger les donnees locales navigateur pendant les tests produit."
+        },
+        {
           "id": "v01-packs-draft",
           "title": "Rediger les cinq packs initiaux",
           "status": "done",
@@ -153,7 +162,7 @@
         {
           "id": "v01-public-quiz-hints",
           "title": "Afficher hint2 et explanation dans le quiz public",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "quiz",
           "type": "feature"
@@ -161,7 +170,7 @@
         {
           "id": "v01-daily",
           "title": "Lancer le Quotidien",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "quiz",
           "type": "feature"
@@ -169,7 +178,7 @@
         {
           "id": "v01-free",
           "title": "Lancer le mode Libre",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "quiz",
           "type": "feature",
@@ -178,7 +187,7 @@
         {
           "id": "v01-archives",
           "title": "Ouvrir les Archives",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "quiz",
           "type": "feature",
@@ -216,7 +225,7 @@
         {
           "id": "v01-playwright",
           "title": "Proteger les flux publics critiques avec Playwright E2E",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "quiz",
           "type": "infra"
@@ -224,11 +233,11 @@
         {
           "id": "v01-default-locale",
           "title": "Passer a une locale par URL et choisir une langue par defaut",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "landing",
           "type": "feature",
-          "notes": "Sortir du toggle client-side et preparer des pages equivalentes FR / EN."
+          "notes": "v0.1 expose FR / EN uniquement. La racine / redirige selon la locale navigateur vers /fr/ ou /en/, fallback anglais. L'architecture garde ES sous le coude pour v1.0+, sans surface visible en prod."
         },
         {
           "id": "v01-waitlist",
@@ -263,7 +272,7 @@
         {
           "id": "v01-public-shell",
           "title": "Extraire le shell public et preparer la nouvelle navigation produit",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "landing",
           "type": "ux",
@@ -272,14 +281,14 @@
         {
           "id": "v01-public-routes-foundation",
           "title": "Poser les fondations de la nouvelle architecture publique",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "core",
           "type": "feature",
           "children": [
-            { "id": "public-routes-fr-en", "title": "Creer les routes FR / EN stables pour la landing", "status": "todo" },
-            { "id": "public-routes-daily-practice-archives", "title": "Preparer les routes Daily / Practice / Archives", "status": "todo" },
-            { "id": "public-session-payload", "title": "Preparer un payload de session par mode au lieu du boot legacy unique", "status": "todo" }
+            { "id": "public-routes-fr-en", "title": "Creer les routes FR / EN stables pour la landing", "status": "done" },
+            { "id": "public-routes-daily-practice-archives", "title": "Preparer les routes Daily / Practice / Archives par locale", "status": "done" },
+            { "id": "public-session-payload", "title": "Preparer un payload de session par mode au lieu du boot legacy unique", "status": "done" }
           ]
         },
         {

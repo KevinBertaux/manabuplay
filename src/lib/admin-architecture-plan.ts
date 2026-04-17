@@ -57,14 +57,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Élevé", en: "High" },
     priority: 2,
-    progress: 8,
+    progress: 100,
     whyNow: {
       fr: "Le produit ne peut plus rester une landing avec une ancre quiz. Les modes ont besoin de vraies routes.",
       en: "The product can no longer stay as a landing with a quiz anchor. Modes need real routes.",
     },
     note: {
-      fr: "Shell public, locale par URL, routes Daily / Practice / Archives et switch de langue équivalent.",
-      en: "Public shell, locale-by-URL, Daily / Practice / Archives routes, and equivalent language switching.",
+      fr: "Shell public, locale par URL, routes Daily / Practice / Archives en vrai et switch de langue cohérent sont en place. ES reste prévu côté architecture pour v1.0+, mais invisible en v0.1.",
+      en: "Public shell, locale-by-URL, real Daily / Practice / Archives routes, and coherent language switching are in place. ES remains planned in the architecture for v1.0+, but hidden in v0.1.",
     },
   },
   {
@@ -74,14 +74,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 3,
-    progress: 10,
+    progress: 100,
     whyNow: {
       fr: "C'est le moteur de retour principal. Sans lui, v0.1 présente surtout une fondation.",
       en: "It is the main return loop. Without it, v0.1 mostly presents a foundation.",
     },
     note: {
-      fr: "Recette cadrée : 10 questions, 4/3/2/1, nommage Quotidien #xxx du ...",
-      en: "Recipe is framed: 10 questions, 4/3/2/1, named Daily #xxx of ...",
+      fr: "Le Quotidien est branché : 10 questions, ratio 4/3/2/1 et tirage déterministe par date locale.",
+      en: "Daily is wired: 10 questions, a 4/3/2/1 mix, and deterministic local-date selection.",
     },
   },
   {
@@ -91,14 +91,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 4,
-    progress: 10,
+    progress: 100,
     whyNow: {
       fr: "Le Libre donne de la profondeur de session et évite que le produit soit seulement un rendez-vous quotidien.",
       en: "Practice adds session depth and prevents the product from being only a daily rendezvous.",
     },
     note: {
-      fr: "4 difficultés cadrées, cooldown 2 sessions. Reste à l'implémenter proprement.",
-      en: "4 difficulties are framed, with 2-session cooldown. Implementation remains.",
+      fr: "Le mode Libre est branché : 4 difficultés, 10 questions par session et cooldown de 2 sessions par mot.",
+      en: "Practice mode is wired: 4 difficulties, 10 questions per session, and a 2-session cooldown per word.",
     },
   },
   {
@@ -108,14 +108,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 5,
-    progress: 10,
+    progress: 100,
     whyNow: {
       fr: "Les archives rendent le Quotidien durable et donnent du contenu accessible sans inventer un nouveau mode.",
       en: "Archives make Daily durable and add accessible content without inventing another mode.",
     },
     note: {
-      fr: "Archives sans partage. Pas de snapshot permanent pour l'instant ; JSON de sauvegarde plus tard si nécessaire.",
-      en: "Archives without sharing. No permanent snapshot for now; JSON backups later if needed.",
+      fr: "Les Archives sont jouables par date passée, sans partage. Pas de snapshot permanent pour l'instant ; JSON de sauvegarde plus tard si nécessaire.",
+      en: "Archives are playable by past date, without sharing. No permanent snapshot for now; JSON backups later if needed.",
     },
   },
   {
@@ -159,14 +159,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 8,
-    progress: 0,
+    progress: 100,
     whyNow: {
       fr: "Le contenu existe déjà dans les packs, mais le quiz public ne l'exploite pas encore.",
       en: "The content already exists in packs, but the public quiz does not use it yet.",
     },
     note: {
-      fr: "A brancher côté joueur avant de juger la vraie qualité pédagogique.",
-      en: "Wire it player-side before judging the real learning quality.",
+      fr: "Branché côté joueur : hint1, hint2 et explanation sont maintenant visibles dans le quiz public.",
+      en: "Wired player-side: hint1, hint2, and explanation are now visible in the public quiz.",
     },
   },
   {
@@ -244,14 +244,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 13,
-    progress: 65,
+    progress: 100,
     whyNow: {
       fr: "La suite est maintenant stabilisée, mais les futurs parcours Daily / Practice / Archives devront être ajoutés.",
       en: "The suite is now stable, but future Daily / Practice / Archives flows must be added.",
     },
     note: {
-      fr: "Base solide : tests admin/public existants. Reste à couvrir les nouveaux modes.",
-      en: "Solid base: admin/public tests exist. New modes still need coverage.",
+      fr: "Base solide : tests admin/public couvrent maintenant Daily, Libre et Archives.",
+      en: "Solid base: admin/public tests now cover Daily, Practice, and Archives.",
     },
   },
   {
@@ -267,8 +267,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "Required before shipping if emails are collected, but it should wrap an already-working email flow.",
     },
     note: {
-      fr: "A garder pour la presque fin de v0.1 : mentions, privacy, consentement explicite.",
-      en: "Keep near the end of v0.1: legal notice, privacy, explicit consent.",
+      fr: "A traiter en fin de v0.1 : mentions, privacy, consentement explicite.",
+      en: "Handle toward the end of v0.1: legal notice, privacy, explicit consent.",
     },
   },
 ];
@@ -314,54 +314,39 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "public-shell-locale",
     order: 2,
-    progress: 8,
+    progress: 100,
     title: { fr: "Poser le shell public et la locale par URL", en: "Introduce public shell and locale-by-URL" },
     goal: {
-      fr: "Sortir progressivement du toggle client-side et préparer une vraie IA publique.",
-      en: "Move progressively away from the client-side toggle and prepare real public IA.",
+      fr: "Avoir un shell public localisé, des URLs stables par langue et une racine `/` qui redirige correctement.",
+      en: "Have a localized public shell, stable per-language URLs, and a `/` root that redirects correctly.",
     },
     guardrail: {
-      fr: "Le `/` actuel reste un filet de sécurité tant que `/fr` et `/en` ne sont pas stables.",
-      en: "The current `/` stays as a safety net until `/fr` and `/en` are stable.",
+      fr: "La racine `/` résout la locale navigateur vers `/fr/` ou `/en/`, avec fallback anglais.",
+      en: "Root `/` resolves the browser locale to `/fr/` or `/en/`, with English fallback.",
     },
     risk: { fr: "Moyen : changement de contrat i18n et SEO.", en: "Medium: changes the i18n and SEO contract." },
     files: [
       {
-        path: "src/lib/site-locale.ts",
+        path: "src/lib/public-locales.ts",
         action: "create",
-        note: { fr: "Définir locales, fallback et page équivalente.", en: "Define locales, fallback, and equivalent page mapping." },
+        note: { fr: "Définir locales publiques FR / EN et locales prévues plus tard.", en: "Define public FR / EN locales and later planned locales." },
       },
       {
-        path: "src/lib/site-routes.ts",
+        path: "src/lib/public-routes.ts",
         action: "create",
         note: { fr: "Centraliser les routes publiques et les routes produit.", en: "Centralize public and product routes." },
       },
       {
-        path: "src/components/public/PublicHeader.astro",
+        path: "src/pages/[locale]/index.astro",
         action: "create",
-        note: { fr: "Header partagé avec vraie nav produit, pas faux CTA.", en: "Shared header with real product nav, not a fake CTA." },
-      },
-      {
-        path: "src/components/public/LocaleSwitch.astro",
-        action: "create",
-        note: { fr: "Switch de langue vers l'URL équivalente.", en: "Language switch to equivalent URL." },
-      },
-      {
-        path: "src/pages/fr/index.astro",
-        action: "create",
-        note: { fr: "Landing FR stable.", en: "Stable FR landing." },
-      },
-      {
-        path: "src/pages/en/index.astro",
-        action: "create",
-        note: { fr: "Landing EN stable.", en: "Stable EN landing." },
+        note: { fr: "Entrée landing localisée FR / EN.", en: "Localized FR / EN landing entry." },
       },
     ],
   },
   {
     id: "product-routes",
     order: 3,
-    progress: 0,
+    progress: 100,
     title: { fr: "Créer Daily / Practice / Archives", en: "Create Daily / Practice / Archives" },
     goal: {
       fr: "Donner une route réelle à chaque mode du coeur produit.",
@@ -373,18 +358,13 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     },
     risk: { fr: "Fort : première vraie mutation de l'IA publique.", en: "High: first real public IA mutation." },
     files: [
-      { path: "src/pages/fr/daily.astro", action: "create", note: { fr: "Entrée Quotidien FR.", en: "FR Daily entry point." } },
-      { path: "src/pages/en/daily.astro", action: "create", note: { fr: "Entrée Quotidien EN.", en: "EN Daily entry point." } },
-      { path: "src/pages/fr/practice.astro", action: "create", note: { fr: "Entrée Libre FR.", en: "FR Practice entry point." } },
-      { path: "src/pages/en/practice.astro", action: "create", note: { fr: "Entrée Libre EN.", en: "EN Practice entry point." } },
-      { path: "src/pages/fr/archives.astro", action: "create", note: { fr: "Archives FR.", en: "FR Archives." } },
-      { path: "src/pages/en/archives.astro", action: "create", note: { fr: "Archives EN.", en: "EN Archives." } },
+      { path: "src/pages/[locale]/[mode].astro", action: "create", note: { fr: "Entrées Daily / Practice / Archives pour FR / EN.", en: "Daily / Practice / Archives entries for FR / EN." } },
     ],
   },
   {
     id: "session-builders",
     order: 4,
-    progress: 0,
+    progress: 100,
     title: { fr: "Séparer les payloads de session", en: "Split session payloads" },
     goal: {
       fr: "Remplacer le boot mono-pack par des builders Daily / Practice / Archives.",
@@ -410,11 +390,6 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         path: "src/lib/manabuplay-archives.ts",
         action: "create",
         note: { fr: "Archives par date passée.", en: "Archives by past date." },
-      },
-      {
-        path: "src/lib/manabuplay-session.ts",
-        action: "create",
-        note: { fr: "Contrat commun de session consommé par le front.", en: "Shared session contract consumed by the front-end." },
       },
       {
         path: "public/scripts/quiz-app.js",

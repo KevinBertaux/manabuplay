@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import {
-  ASTRO_URL,
+  ASTRO_HOME_URL,
   LEGACY_URL,
   SECTIONS,
   TYPOGRAPHY_SPECS,
@@ -22,7 +22,7 @@ test.describe("Legacy MVP vs Astro MVP", () => {
     const legacyPage = await browser.newPage();
     const astroPage = await browser.newPage();
 
-    await Promise.all([preparePage(legacyPage, LEGACY_URL), preparePage(astroPage, ASTRO_URL)]);
+    await Promise.all([preparePage(legacyPage, LEGACY_URL), preparePage(astroPage, ASTRO_HOME_URL)]);
 
     for (const section of SECTIONS) {
       const metrics = await compareSectionShots(legacyPage, astroPage, section, testInfo);
@@ -42,7 +42,7 @@ test.describe("Legacy MVP vs Astro MVP", () => {
     const legacyPage = await browser.newPage();
     const astroPage = await browser.newPage();
 
-    await Promise.all([preparePage(legacyPage, LEGACY_URL), preparePage(astroPage, ASTRO_URL)]);
+    await Promise.all([preparePage(legacyPage, LEGACY_URL), preparePage(astroPage, ASTRO_HOME_URL)]);
 
     for (const spec of TYPOGRAPHY_SPECS) {
       const legacyTypography = await captureTypography(legacyPage, spec.selector);
