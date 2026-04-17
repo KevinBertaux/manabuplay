@@ -4,6 +4,7 @@ import {
   ROOT_DIR,
   createAstroArgs,
   hasMultiAppWorkspace,
+  isAppReady,
   parseCliArgs,
   prefixStream,
   withDefaultPort,
@@ -11,9 +12,13 @@ import {
 
 const { app, forwardArgs } = parseCliArgs(process.argv.slice(2));
 
-if (!hasMultiAppWorkspace()) {
-  console.log("[dev] Multi-app workspace not ready yet. Falling back to the current monolith app.");
-  const args = createAstroArgs("dev", { forwardArgs });
+if (app && !isAppReady(app)) {
+  throw new Error(`App "${app}" is not ready yet.`);
+} else if (app && isAppReady(app)) {
+  const args = createAstroArgs("dev", {
+    app,
+    forwardArgs: withDefaultPort(forwardArgs, APP_PORTS[app] ?? APP_PORTS.web),
+  });
   const child = spawn(process.execPath, args, {
     cwd: ROOT_DIR,
     stdio: "inherit",
@@ -22,11 +27,9 @@ if (!hasMultiAppWorkspace()) {
   child.on("exit", (code) => {
     process.exit(code ?? 1);
   });
-} else if (app) {
-  const args = createAstroArgs("dev", {
-    app,
-    forwardArgs: withDefaultPort(forwardArgs, APP_PORTS[app] ?? APP_PORTS.web),
-  });
+} else if (!hasMultiAppWorkspace()) {
+  console.log("[dev] Multi-app workspace not ready yet. Falling back to the current monolith app.");
+  const args = createAstroArgs("dev", { forwardArgs });
   const child = spawn(process.execPath, args, {
     cwd: ROOT_DIR,
     stdio: "inherit",

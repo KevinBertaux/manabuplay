@@ -24,6 +24,11 @@ function getAppPagesDir(app) {
   return path.join(ROOT_DIR, "apps", app, "src", "pages");
 }
 
+function getCliConfigPath(app) {
+  const relativePath = path.relative(ROOT_DIR, APP_CONFIGS[app]);
+  return relativePath.startsWith(".") ? relativePath : `.${path.sep}${relativePath}`;
+}
+
 export function parseCliArgs(argv) {
   const forwardArgs = [];
   let app = null;
@@ -80,7 +85,7 @@ export function createAstroArgs(command, options = {}) {
   ensureAstroAvailable();
 
   if (app && isAppReady(app)) {
-    return [ASTRO_BIN, command, "--config", APP_CONFIGS[app], ...forwardArgs];
+    return [ASTRO_BIN, command, "--config", getCliConfigPath(app), ...forwardArgs];
   }
 
   if (hasMonolithApp()) {
