@@ -1,0 +1,373 @@
+---
+import DesignDocLayout from "../../../layouts/DesignDocLayout.astro";
+---
+<DesignDocLayout title="ManabuPlay — Mockup réponses quiz" active="mockups" containerClass="wrap">
+  <style is:global>
+    :root {
+      --bg: #090811;
+      --panel: rgba(15, 12, 26, 0.94);
+      --panel-soft: rgba(255, 255, 255, 0.04);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(139, 92, 246, 0.28);
+      --text: #f4f2ff;
+      --muted: #9e98b8;
+      --cyan: #22d3ee;
+      --pink: #e879f9;
+      --violet: #a78bfa;
+      --green: #4ade80;
+      --yellow: #facc15;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% -10%, rgba(139, 92, 246, 0.22) 0%, transparent 70%),
+        radial-gradient(ellipse 35% 35% at 92% 14%, rgba(34, 211, 238, 0.14) 0%, transparent 60%),
+        var(--bg);
+      color: var(--text);
+      font: 500 18px/1.55 "Chakra Petch", "Segoe UI", sans-serif;
+      padding: 24px 12px 40px;
+    }
+
+    .wrap {
+      width: min(1400px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero,
+    .variant {
+      background: var(--panel);
+      border: 1px solid rgba(139, 92, 246, 0.18);
+      border-radius: 8px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+    }
+
+    .hero {
+      padding: 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(34, 211, 238, 0.26);
+      background: rgba(34, 211, 238, 0.12);
+      color: var(--cyan);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    .hero h1 {
+      margin-top: 12px;
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.1;
+    }
+
+    .hero h1 span {
+      color: var(--pink);
+    }
+
+    .hero p {
+      margin-top: 10px;
+      max-width: 80ch;
+      color: #c9c4de;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .variant {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .variant-head {
+      display: grid;
+      gap: 6px;
+    }
+
+    .variant-kicker {
+      color: var(--cyan);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .variant p {
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .answer {
+      position: relative;
+      min-height: 88px;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: linear-gradient(180deg, rgba(26, 22, 48, 0.92), rgba(16, 14, 28, 0.96));
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .answer-copy {
+      color: #f4f2ff;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .answer-copy.two-lines {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .keycap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));
+      box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .current .answer {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .current .answer-copy {
+      padding-top: 2px;
+    }
+
+    .sticker .answer {
+      display: grid;
+      place-items: center;
+      padding: 18px 16px 14px;
+    }
+
+    .sticker .keycap {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 28px;
+      height: 28px;
+      font-size: 16px;
+      border-radius: 8px;
+      transform: rotate(-4deg);
+      z-index: 2;
+    }
+
+    .sticker .answer-copy {
+      text-align: center;
+      max-width: 88%;
+    }
+
+    .sticker-flat .keycap {
+      transform: none;
+      box-shadow:
+        inset 0 -2px 0 rgba(0, 0, 0, 0.18),
+        0 4px 10px rgba(0, 0, 0, 0.18);
+    }
+
+    .rail .answer {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rail .rail-col {
+      display: grid;
+      place-items: center;
+      align-self: stretch;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      padding-right: 10px;
+    }
+
+    .rail .answer-copy {
+      text-align: center;
+      padding-right: 4px;
+    }
+
+    .corner .answer {
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+
+    .corner .keycap {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 26px;
+      height: 26px;
+      font-size: 14px;
+      border-radius: 8px;
+      opacity: 0.92;
+    }
+
+    .corner .answer-copy {
+      text-align: center;
+      max-width: 84%;
+    }
+
+    .mock-note {
+      display: grid;
+      gap: 6px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--panel-soft);
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .mock-note strong {
+      color: var(--yellow);
+      font-weight: 700;
+    }
+
+    .good {
+      color: var(--green);
+    }
+
+    @media (max-width: 1100px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .answers {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <section class="hero">
+    <span class="eyebrow">Mockup UI</span>
+    <h1>Réponses quiz <span>badge 1 2 3 4</span></h1>
+    <p>Comparatif visuel de l’état actuel et de trois variantes. Le but est de garder des cartes de hauteur homogène, de mieux centrer le vrai contenu, et de rendre le raccourci clavier secondaire mais toujours identifiable.</p>
+  </section>
+
+  <section class="grid">
+    <article class="variant current">
+      <div class="variant-head">
+        <div class="variant-kicker">Actuel</div>
+        <h2>Badge dans le flux</h2>
+        <p>Lisible, mais le badge mange un peu la carte et pousse le texte.</p>
+      </div>
+      <div class="answers">
+        <div class="answer"><span class="keycap">1</span><span class="answer-copy two-lines">Points d'expérience</span></div>
+        <div class="answer"><span class="keycap">2</span><span class="answer-copy two-lines">Argent du jeu</span></div>
+        <div class="answer"><span class="keycap">3</span><span class="answer-copy two-lines">Stats du personnage</span></div>
+        <div class="answer"><span class="keycap">4</span><span class="answer-copy two-lines">Mission confiée par la guilde</span></div>
+      </div>
+      <div class="mock-note">
+        <strong>Effet :</strong> pratique, mais le badge concurrence le contenu principal.
+      </div>
+    </article>
+
+    <article class="variant sticker">
+      <div class="variant-head">
+        <div class="variant-kicker">Option A</div>
+        <h2>Sticker d’angle</h2>
+        <p><span class="good">Recommandée.</span> La réponse reste centrée, le raccourci devient un autocollant secondaire.</p>
+      </div>
+      <div class="answers">
+        <div class="answer"><span class="keycap">1</span><span class="answer-copy two-lines">Points d'expérience</span></div>
+        <div class="answer"><span class="keycap">2</span><span class="answer-copy two-lines">Argent du jeu</span></div>
+        <div class="answer"><span class="keycap">3</span><span class="answer-copy two-lines">Stats du personnage</span></div>
+        <div class="answer"><span class="keycap">4</span><span class="answer-copy two-lines">Mission confiée par la guilde</span></div>
+      </div>
+      <div class="mock-note">
+        <strong>Effet :</strong> le regard lit d’abord la réponse, puis le raccourci clavier.
+      </div>
+    </article>
+
+    <article class="variant sticker sticker-flat">
+      <div class="variant-head">
+        <div class="variant-kicker">Option A V2</div>
+        <h2>Sticker d’angle droit</h2>
+        <p><span class="good">Version plus sobre.</span> Même logique que A, mais sans effet penché ni côté “gadget”.</p>
+      </div>
+      <div class="answers">
+        <div class="answer"><span class="keycap">1</span><span class="answer-copy two-lines">Points d'expérience</span></div>
+        <div class="answer"><span class="keycap">2</span><span class="answer-copy two-lines">Argent du jeu</span></div>
+        <div class="answer"><span class="keycap">3</span><span class="answer-copy two-lines">Stats du personnage</span></div>
+        <div class="answer"><span class="keycap">4</span><span class="answer-copy two-lines">Mission confiée par la guilde</span></div>
+      </div>
+      <div class="mock-note">
+        <strong>Effet :</strong> même hiérarchie visuelle que A, avec un rendu plus propre pour le produit.
+      </div>
+    </article>
+
+    <article class="variant rail">
+      <div class="variant-head">
+        <div class="variant-kicker">Option B</div>
+        <h2>Rail gauche</h2>
+        <p>Plus sobre et plus “app”, avec une petite colonne dédiée au raccourci.</p>
+      </div>
+      <div class="answers">
+        <div class="answer"><span class="rail-col"><span class="keycap">1</span></span><span class="answer-copy two-lines">Points d'expérience</span></div>
+        <div class="answer"><span class="rail-col"><span class="keycap">2</span></span><span class="answer-copy two-lines">Argent du jeu</span></div>
+        <div class="answer"><span class="rail-col"><span class="keycap">3</span></span><span class="answer-copy two-lines">Stats du personnage</span></div>
+        <div class="answer"><span class="rail-col"><span class="keycap">4</span></span><span class="answer-copy two-lines">Mission confiée par la guilde</span></div>
+      </div>
+      <div class="mock-note">
+        <strong>Effet :</strong> propre et stable, mais moins “jeu” et moins léger que le sticker.
+      </div>
+    </article>
+
+    <article class="variant corner">
+      <div class="variant-head">
+        <div class="variant-kicker">Option C</div>
+        <h2>Coin haut droit discret</h2>
+        <p>Le badge s’efface davantage. La réponse gagne encore un peu de place.</p>
+      </div>
+      <div class="answers">
+        <div class="answer"><span class="keycap">1</span><span class="answer-copy two-lines">Points d'expérience</span></div>
+        <div class="answer"><span class="keycap">2</span><span class="answer-copy two-lines">Argent du jeu</span></div>
+        <div class="answer"><span class="keycap">3</span><span class="answer-copy two-lines">Stats du personnage</span></div>
+        <div class="answer"><span class="keycap">4</span><span class="answer-copy two-lines">Mission confiée par la guilde</span></div>
+      </div>
+      <div class="mock-note">
+        <strong>Effet :</strong> compact, mais le raccourci clavier est un peu moins immédiat à scanner.
+      </div>
+    </article>
+  </section>
+</DesignDocLayout>
