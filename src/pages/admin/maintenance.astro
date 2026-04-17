@@ -1,0 +1,323 @@
+---
+import "../../styles/app.css";
+import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
+
+const adminNav = getAdminNavHtml("maintenance");
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maintenance — Admin ManabuPlay</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    .maint-shell { min-height:100vh; background:
+      radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
+      radial-gradient(ellipse 40% 40% at 90% 15%,rgba(34,211,238,.14) 0%,transparent 60%),
+      #0a0911; }
+    .maint-wrap { width:min(1200px,calc(100% - 24px)); margin:0 auto; padding:88px 0 32px; }
+    .maint-card { background:rgba(15,12,26,.92); border:1px solid rgba(139,92,246,.18); border-radius:8px; box-shadow:0 12px 32px rgba(0,0,0,.32); }
+    .maint-hero { padding:20px; margin-bottom:16px; }
+    .maint-eyebrow { display:inline-flex; align-items:center; gap:8px; min-height:32px; padding:0 12px; border-radius:8px; background:rgba(34,211,238,.12); border:1px solid rgba(34,211,238,.28); color:#22d3ee; font:700 .82rem/1 'Chakra Petch',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .maint-eyebrow::before { content:""; width:8px; height:8px; border-radius:999px; background:currentColor; }
+    .maint-title { margin:12px 0 8px; font-family:'Joystix',sans-serif; font-size:clamp(1.45rem,3vw,2.4rem); color:#fff; line-height:1.15; }
+    .maint-copy { max-width:78ch; color:#c7c2df; font:500 1.08rem/1.68 'Chakra Petch',sans-serif; }
+    .maint-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-bottom:16px; }
+    .maint-stat { padding:16px; }
+    .maint-stat-label { color:#8f8aa7; font:800 .82rem/1 'Chakra Petch',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .maint-stat-value { margin-top:10px; color:#fff; font:800 2rem/1 'Chakra Petch',sans-serif; }
+    .maint-stat-note { margin-top:8px; color:#a9a3c3; font:600 .92rem/1.5 'Chakra Petch',sans-serif; }
+    .maint-panels { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:16px; align-items:start; }
+    .maint-panel { padding:16px; }
+    .maint-panel-title { color:#fff; font:800 1.22rem/1.2 'Chakra Petch',sans-serif; }
+    .maint-panel-copy { margin-top:8px; color:#a9a3c3; font:600 .98rem/1.6 'Chakra Petch',sans-serif; }
+    .maint-actions { display:grid; gap:10px; margin-top:16px; }
+    .maint-action { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:center; padding:14px; border:1px solid rgba(255,255,255,.08); border-radius:8px; background:rgba(255,255,255,.035); }
+    .maint-action-title { color:#fff; font:800 1rem/1.2 'Chakra Petch',sans-serif; }
+    .maint-action-note { margin-top:4px; color:#a9a3c3; font:600 .9rem/1.5 'Chakra Petch',sans-serif; }
+    .maint-button-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+    .maint-button { min-height:40px; padding:0 14px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#fff; font:800 .9rem/1 'Chakra Petch',sans-serif; letter-spacing:.04em; cursor:pointer; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
+    .maint-button:hover { border-color:rgba(34,211,238,.35); background:rgba(34,211,238,.1); transform:translateY(-1px); }
+    .maint-button.is-danger:hover { border-color:rgba(248,113,113,.35); background:rgba(248,113,113,.1); }
+    .maint-status { min-height:22px; margin:14px 0 0; color:#22d3ee; font:800 .92rem/1.4 'Chakra Petch',sans-serif; letter-spacing:.04em; opacity:0; transform:translateY(-4px); transition:opacity .18s ease,transform .18s ease; }
+    .maint-status.is-visible { opacity:1; transform:translateY(0); }
+    .maint-key-list { display:grid; gap:10px; margin-top:16px; }
+    .maint-key { padding:12px 14px; border:1px solid rgba(255,255,255,.08); border-radius:8px; background:rgba(255,255,255,.03); }
+    .maint-key-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+    .maint-key-name { color:#fff; font:800 .95rem/1.35 'Chakra Petch',sans-serif; word-break:break-word; }
+    .maint-key-badge { display:inline-flex; align-items:center; min-height:28px; padding:0 10px; border-radius:999px; border:1px solid rgba(139,92,246,.22); background:rgba(139,92,246,.12); color:#c4b5fd; font:800 .78rem/1 'Chakra Petch',sans-serif; letter-spacing:.05em; white-space:nowrap; }
+    .maint-key-preview { margin-top:8px; color:#a9a3c3; font:600 .88rem/1.55 'Chakra Petch',sans-serif; word-break:break-word; }
+    .maint-empty { display:none; margin-top:16px; padding:16px; border:1px dashed rgba(255,255,255,.12); border-radius:8px; color:#8f8aa7; font:700 .95rem/1.6 'Chakra Petch',sans-serif; }
+    .maint-note { margin-top:16px; color:#8f8aa7; font:600 .92rem/1.6 'Chakra Petch',sans-serif; }
+    @media (max-width:1024px) {
+      .maint-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .maint-panels { grid-template-columns:1fr; }
+    }
+    @media (max-width:720px) {
+      .maint-wrap { padding-top:72px; }
+      .maint-grid { grid-template-columns:1fr; }
+      .maint-action { grid-template-columns:1fr; }
+    }
+  </style>
+  <style set:html={ADMIN_NAV_CSS}></style>
+</head>
+<body class="text-slate-200 maint-shell">
+  <main class="maint-wrap">
+    <Fragment set:html={adminNav} />
+
+    <section class="maint-card maint-hero">
+      <span class="maint-eyebrow">Admin maintenance</span>
+      <h1 class="maint-title">Stockage navigateur et remise à zéro locale</h1>
+      <p class="maint-copy">
+        Cette page sert à diagnostiquer et purger les données front du navigateur courant sur l’origine active.
+        Ici, on parle du vrai <code>localStorage</code> et du <code>sessionStorage</code> visibles par cette page admin,
+        pas d’un profil Playwright isolé.
+      </p>
+    </section>
+
+    <section class="maint-grid" aria-label="Résumé maintenance">
+      <article class="maint-card maint-stat">
+        <div class="maint-stat-label">Origine</div>
+        <div class="maint-stat-value" id="maint-origin-count">-</div>
+        <div class="maint-stat-note" id="maint-origin-note">http://localhost:4321</div>
+      </article>
+      <article class="maint-card maint-stat">
+        <div class="maint-stat-label">Clés ManabuPlay</div>
+        <div class="maint-stat-value" id="maint-manabu-count">0</div>
+        <div class="maint-stat-note">Toutes les clés <code>mp_*</code> du navigateur courant.</div>
+      </article>
+      <article class="maint-card maint-stat">
+        <div class="maint-stat-label">Records Libre</div>
+        <div class="maint-stat-value" id="maint-best-count">0</div>
+        <div class="maint-stat-note">Clés <code>mp_best_*</code> par difficulté.</div>
+      </article>
+      <article class="maint-card maint-stat">
+        <div class="maint-stat-label">Sessions Libre</div>
+        <div class="maint-stat-value" id="maint-practice-count">0</div>
+        <div class="maint-stat-note">Historique du cooldown de 2 sessions.</div>
+      </article>
+    </section>
+
+    <section class="maint-panels">
+      <article class="maint-card maint-panel" id="maint-panel">
+        <h2 class="maint-panel-title">Actions ciblées</h2>
+        <p class="maint-panel-copy">
+          On garde des boutons précis pour éviter d’effacer trop large par réflexe. La purge globale reste disponible en dernier.
+        </p>
+
+        <div class="maint-actions">
+          <div class="maint-action">
+            <div>
+              <div class="maint-action-title">Effacer les records quiz</div>
+              <div class="maint-action-note">Supprime uniquement les meilleurs scores du Libre, par difficulté.</div>
+            </div>
+            <button class="maint-button" type="button" data-maint-action="clear-best">Effacer les records</button>
+          </div>
+
+          <div class="maint-action">
+            <div>
+              <div class="maint-action-title">Effacer les sessions Libre</div>
+              <div class="maint-action-note">Remet le cooldown du Libre à zéro en supprimant l’historique des sessions jouées.</div>
+            </div>
+            <button class="maint-button" type="button" data-maint-action="clear-practice">Effacer les sessions</button>
+          </div>
+
+          <div class="maint-action">
+            <div>
+              <div class="maint-action-title">Effacer la waitlist locale</div>
+              <div class="maint-action-note">Supprime les emails locaux et l’état “déjà inscrit” du CTA newsletter.</div>
+            </div>
+            <button class="maint-button" type="button" data-maint-action="clear-waitlist">Effacer la waitlist</button>
+          </div>
+
+          <div class="maint-action">
+            <div>
+              <div class="maint-action-title">Réinitialiser la langue locale</div>
+              <div class="maint-action-note">Supprime la préférence de langue stockée côté admin et côté site public.</div>
+            </div>
+            <button class="maint-button" type="button" data-maint-action="clear-lang">Réinitialiser la langue</button>
+          </div>
+
+          <div class="maint-action">
+            <div>
+              <div class="maint-action-title">Purge ManabuPlay complète</div>
+              <div class="maint-action-note">Supprime toutes les clés <code>mp_*</code> du <code>localStorage</code> et vide le <code>sessionStorage</code>.</div>
+            </div>
+            <button class="maint-button is-danger" type="button" data-maint-action="clear-all">Purge complète</button>
+          </div>
+        </div>
+
+        <div class="maint-button-row">
+          <button class="maint-button" type="button" id="maint-refresh">Rafraîchir l’état</button>
+        </div>
+
+        <div class="maint-status" id="maint-status" aria-live="polite"></div>
+        <p class="maint-note">
+          Important : ce panneau agit uniquement sur le navigateur et l’origine qui affichent cette page.
+          <code>localhost</code> et <code>127.0.0.1</code> restent deux stockages différents.
+        </p>
+      </article>
+
+      <aside class="maint-card maint-panel">
+        <h2 class="maint-panel-title">Clés détectées</h2>
+        <p class="maint-panel-copy">
+          Aperçu rapide des clés front actuellement présentes sur cette origine, pour voir immédiatement ce qui traîne.
+        </p>
+        <div class="maint-empty" id="maint-empty">Aucune clé <code>mp_*</code> détectée dans le <code>localStorage</code> courant.</div>
+        <div class="maint-key-list" id="maint-key-list"></div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    function getRequiredElement<T extends HTMLElement>(id: string): T {
+      const element = document.getElementById(id);
+      if (!element) {
+        throw new Error(`Missing maintenance element: ${id}`);
+      }
+      return element as T;
+    }
+
+    const MANABU_PREFIX = 'mp_';
+    const WAITLIST_KEY = 'mp_waitlist_submissions';
+    const EMAIL_SUBMITTED_KEY = 'mp_email_submitted';
+    const PRACTICE_KEY = 'mp_practice_sessions';
+    const LANG_KEY = 'mp_lang';
+    const originCount = getRequiredElement<HTMLDivElement>('maint-origin-count');
+    const originNote = getRequiredElement<HTMLDivElement>('maint-origin-note');
+    const manabuCount = getRequiredElement<HTMLDivElement>('maint-manabu-count');
+    const bestCount = getRequiredElement<HTMLDivElement>('maint-best-count');
+    const practiceCount = getRequiredElement<HTMLDivElement>('maint-practice-count');
+    const keyList = getRequiredElement<HTMLDivElement>('maint-key-list');
+    const emptyState = getRequiredElement<HTMLDivElement>('maint-empty');
+    const status = getRequiredElement<HTMLDivElement>('maint-status');
+    const refreshButton = getRequiredElement<HTMLButtonElement>('maint-refresh');
+    let statusTimer: number | undefined = undefined;
+
+    function getLocalStorageKeys(): string[] {
+      return Object.keys(localStorage).sort();
+    }
+
+    function getManabuKeys(): string[] {
+      return getLocalStorageKeys().filter((key) => key.startsWith(MANABU_PREFIX));
+    }
+
+    function safePreview(rawValue: unknown): string {
+      const value = String(rawValue ?? '');
+      if (value.length <= 96) return value;
+      return `${value.slice(0, 93)}...`;
+    }
+
+    function escapeHtml(value: unknown): string {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function readJson<T>(key: string, fallback: T): T {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) as T : fallback;
+      } catch (_) {
+        return fallback;
+      }
+    }
+
+    function setStatus(message: string): void {
+      window.clearTimeout(statusTimer);
+      status.textContent = message;
+      status.classList.add('is-visible');
+      statusTimer = window.setTimeout(() => {
+        status.classList.remove('is-visible');
+      }, 2200);
+    }
+
+    function renderKeyList(keys: string[]): void {
+      emptyState.style.display = keys.length ? 'none' : 'block';
+      keyList.innerHTML = keys.map((key) => {
+        const raw = localStorage.getItem(key);
+        return `
+          <div class="maint-key">
+            <div class="maint-key-head">
+              <div class="maint-key-name">${escapeHtml(key)}</div>
+              <span class="maint-key-badge">${escapeHtml(String((raw || '').length))} chars</span>
+            </div>
+            <div class="maint-key-preview">${escapeHtml(safePreview(raw))}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function render(): void {
+      const keys = getManabuKeys();
+      const bestKeys = keys.filter((key) => key.startsWith('mp_best_'));
+      const practiceSessions = readJson<unknown[]>(PRACTICE_KEY, []);
+
+      originCount.textContent = window.location.origin.replace(/^https?:\/\//, '');
+      originNote.textContent = window.location.origin;
+      manabuCount.textContent = String(keys.length);
+      bestCount.textContent = String(bestKeys.length);
+      practiceCount.textContent = String(Array.isArray(practiceSessions) ? practiceSessions.length : 0);
+      renderKeyList(keys);
+    }
+
+    function removeKeys(keys: string[]): void {
+      keys.forEach((key) => localStorage.removeItem(key));
+    }
+
+    function clearBestScores(): void {
+      removeKeys(getManabuKeys().filter((key) => key.startsWith('mp_best_')));
+      render();
+      setStatus('Records Libre effacés.');
+    }
+
+    function clearPracticeSessions(): void {
+      localStorage.removeItem(PRACTICE_KEY);
+      render();
+      setStatus('Sessions Libre effacées.');
+    }
+
+    function clearWaitlist(): void {
+      localStorage.removeItem(WAITLIST_KEY);
+      localStorage.removeItem(EMAIL_SUBMITTED_KEY);
+      render();
+      setStatus('Waitlist locale effacée.');
+    }
+
+    function clearLang(): void {
+      localStorage.removeItem(LANG_KEY);
+      render();
+      setStatus('Préférence de langue réinitialisée.');
+    }
+
+    function clearAllManabu(): void {
+      removeKeys(getManabuKeys());
+      sessionStorage.clear();
+      render();
+      setStatus('Stockage ManabuPlay vidé sur cette origine.');
+    }
+
+    document.querySelectorAll('[data-maint-action]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const action = button.getAttribute('data-maint-action');
+        if (action === 'clear-best') clearBestScores();
+        if (action === 'clear-practice') clearPracticeSessions();
+        if (action === 'clear-waitlist') clearWaitlist();
+        if (action === 'clear-lang') clearLang();
+        if (action === 'clear-all') clearAllManabu();
+      });
+    });
+
+    refreshButton?.addEventListener('click', () => {
+      render();
+      setStatus('État relu depuis le navigateur courant.');
+    });
+
+    render();
+  </script>
+</body>
+</html>

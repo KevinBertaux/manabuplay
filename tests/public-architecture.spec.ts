@@ -58,4 +58,37 @@ test.describe("public localized architecture", () => {
     await expect(page.locator("#progressText")).toHaveText("0/10");
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
   });
+
+  test("renders the real localized practice quiz", async ({ page }) => {
+    await page.goto(`${ASTRO_URL}fr/practice/`, { waitUntil: "domcontentloaded" });
+
+    await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
+    await expect(page.locator("h1")).toHaveText("Mode Libre");
+    await expect(page.locator("#diffGrid .diff-card")).toHaveCount(4);
+    await expect(page.locator("#diffGrid .diff-card").nth(1)).toContainText("STANDARD");
+
+    await page.locator("#diffGrid .diff-card").first().click();
+    await page.locator("#startBtn").click();
+
+    await expect(page.locator("#quizArea")).toBeVisible();
+    await expect(page.locator("#progressText")).toHaveText("0/10");
+    await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
+  });
+
+  test("renders archives by date and plays the selected archive", async ({ page }) => {
+    await page.goto(`${ASTRO_URL}fr/archives/?date=2026-04-16`, { waitUntil: "domcontentloaded" });
+
+    await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
+    await expect(page.locator("h1")).toHaveText("Archives");
+    await expect(page.locator("[data-archive-date='2026-04-16']")).toHaveClass(/is-active/);
+    await expect(page.locator("#archiveSelectedLabel")).toContainText("16 avril 2026");
+    await expect(page.locator("#diffGrid .diff-card")).toHaveCount(1);
+
+    await page.locator("#diffGrid .diff-card").click();
+    await page.locator("#startBtn").click();
+
+    await expect(page.locator("#quizArea")).toBeVisible();
+    await expect(page.locator("#progressText")).toHaveText("0/10");
+    await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
+  });
 });

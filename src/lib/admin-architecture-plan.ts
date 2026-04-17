@@ -57,14 +57,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Élevé", en: "High" },
     priority: 2,
-    progress: 25,
+    progress: 75,
     whyNow: {
       fr: "Le produit ne peut plus rester une landing avec une ancre quiz. Les modes ont besoin de vraies routes.",
       en: "The product can no longer stay as a landing with a quiz anchor. Modes need real routes.",
     },
     note: {
-      fr: "Shell public, locale par URL, routes Daily / Practice / Archives et switch de langue équivalent. ES reste prévu côté architecture pour v1.0+, mais invisible en v0.1.",
-      en: "Public shell, locale-by-URL, Daily / Practice / Archives routes, and equivalent language switching. ES remains planned in the architecture for v1.0+, but hidden in v0.1.",
+      fr: "Shell public, locale par URL, routes Daily / Practice / Archives en vrai et switch de langue cohérent. ES reste prévu côté architecture pour v1.0+, mais invisible en v0.1.",
+      en: "Public shell, locale-by-URL, real Daily / Practice / Archives routes, and coherent language switching. ES remains planned in the architecture for v1.0+, but hidden in v0.1.",
     },
   },
   {
@@ -74,14 +74,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 3,
-    progress: 10,
+    progress: 100,
     whyNow: {
       fr: "C'est le moteur de retour principal. Sans lui, v0.1 présente surtout une fondation.",
       en: "It is the main return loop. Without it, v0.1 mostly presents a foundation.",
     },
     note: {
-      fr: "Recette cadrée : 10 questions, 4/3/2/1, nommage Quotidien #xxx du ...",
-      en: "Recipe is framed: 10 questions, 4/3/2/1, named Daily #xxx of ...",
+      fr: "Le Quotidien est branché : 10 questions, ratio 4/3/2/1 et tirage déterministe par date locale.",
+      en: "Daily is wired: 10 questions, a 4/3/2/1 mix, and deterministic local-date selection.",
     },
   },
   {
@@ -91,14 +91,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 4,
-    progress: 10,
+    progress: 100,
     whyNow: {
       fr: "Le Libre donne de la profondeur de session et évite que le produit soit seulement un rendez-vous quotidien.",
       en: "Practice adds session depth and prevents the product from being only a daily rendezvous.",
     },
     note: {
-      fr: "4 difficultés cadrées, cooldown 2 sessions. Reste à l'implémenter proprement.",
-      en: "4 difficulties are framed, with 2-session cooldown. Implementation remains.",
+      fr: "Le mode Libre est branché : 4 difficultés, 10 questions par session et cooldown de 2 sessions par mot.",
+      en: "Practice mode is wired: 4 difficulties, 10 questions per session, and a 2-session cooldown per word.",
     },
   },
   {
@@ -108,14 +108,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 5,
-    progress: 10,
+    progress: 100,
     whyNow: {
       fr: "Les archives rendent le Quotidien durable et donnent du contenu accessible sans inventer un nouveau mode.",
       en: "Archives make Daily durable and add accessible content without inventing another mode.",
     },
     note: {
-      fr: "Archives sans partage. Pas de snapshot permanent pour l'instant ; JSON de sauvegarde plus tard si nécessaire.",
-      en: "Archives without sharing. No permanent snapshot for now; JSON backups later if needed.",
+      fr: "Les Archives sont jouables par date passée, sans partage. Pas de snapshot permanent pour l'instant ; JSON de sauvegarde plus tard si nécessaire.",
+      en: "Archives are playable by past date, without sharing. No permanent snapshot for now; JSON backups later if needed.",
     },
   },
   {
@@ -244,14 +244,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 13,
-    progress: 65,
+    progress: 100,
     whyNow: {
       fr: "La suite est maintenant stabilisée, mais les futurs parcours Daily / Practice / Archives devront être ajoutés.",
       en: "The suite is now stable, but future Daily / Practice / Archives flows must be added.",
     },
     note: {
-      fr: "Base solide : tests admin/public existants. Reste à couvrir les nouveaux modes.",
-      en: "Solid base: admin/public tests exist. New modes still need coverage.",
+      fr: "Base solide : tests admin/public couvrent maintenant Daily, Libre et Archives.",
+      en: "Solid base: admin/public tests now cover Daily, Practice, and Archives.",
     },
   },
   {
@@ -346,7 +346,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "product-routes",
     order: 3,
-    progress: 0,
+    progress: 100,
     title: { fr: "Créer Daily / Practice / Archives", en: "Create Daily / Practice / Archives" },
     goal: {
       fr: "Donner une route réelle à chaque mode du coeur produit.",
@@ -364,7 +364,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "session-builders",
     order: 4,
-    progress: 0,
+    progress: 75,
     title: { fr: "Séparer les payloads de session", en: "Split session payloads" },
     goal: {
       fr: "Remplacer le boot mono-pack par des builders Daily / Practice / Archives.",

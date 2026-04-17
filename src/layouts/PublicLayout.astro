@@ -83,6 +83,7 @@ function getLocaleHref(targetLocale: PublicLocale) {
           <a
             id={`btn${PUBLIC_LOCALE_LABELS[targetLocale]}`}
             class:list={["lang-btn", { active: locale === targetLocale }]}
+            data-locale-home={targetLocale}
             href={getLocaleHref(targetLocale)}
           >
             {PUBLIC_LOCALE_LABELS[targetLocale]}

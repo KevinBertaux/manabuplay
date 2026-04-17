@@ -1,7 +1,7 @@
 ---
 import PublicLayout from "../../layouts/PublicLayout.astro";
 import PublicQuiz from "../../components/public/PublicQuiz.astro";
-import { buildMvpBootData } from "../../data/manabuplay/catalog";
+import { buildDailyBootData } from "../../lib/manabuplay-daily";
 import { serializeForInlineScript } from "../../lib/serialize-inline-script";
 
 import { normalizePublicLocale } from "../../lib/public-locales";
@@ -12,7 +12,7 @@ export function getStaticPaths() {
 }
 
 const locale = normalizePublicLocale(Astro.params.locale);
-const bootData = buildMvpBootData();
+const bootData = buildDailyBootData();
 const lang = bootData.lang[locale] ?? bootData.lang.en;
 const bootDataScript = `window.__MANABUPLAY_LOCALE__ = ${JSON.stringify(locale)}; window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(bootData)};`;
 ---

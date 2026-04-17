@@ -6,7 +6,7 @@
     throw new Error("ManabuPlay boot data is missing.");
   }
 
-  const MANABUPLAY_MODE = MANABUPLAY_BOOT.mode || window.__MANABUPLAY_MODE__ || 'practice';
+  const MANABUPLAY_MODE = MANABUPLAY_BOOT.mode || window.__MANABUPLAY_MODE__ || 'legacy';
   const DIFFICULTIES = MANABUPLAY_BOOT.difficulties;
   let currentDiff = null;  // currently selected difficulty object
 
@@ -35,6 +35,8 @@
   let waitlistMessageTimer = null;
   const SUPPORTED_LANGS = ['en', 'fr'];
   const LOCALIZED_ROUTES = ['daily', 'practice', 'archives'];
+  const PRACTICE_HISTORY_KEY = 'practice_sessions';
+  const PRACTICE_HISTORY_LIMIT = 8;
 
 
   // ══════════════════════════════════════════════════════════════
@@ -58,6 +60,7 @@
 
   function updateLocalizedLinks() {
     const route = getCurrentLocalizedRoute();
+    const currentSearch = window.location.search;
     document.querySelectorAll('[data-public-route]').forEach(link => {
       const targetRoute = link.dataset.publicRoute;
       if (LOCALIZED_ROUTES.includes(targetRoute)) {
@@ -67,7 +70,8 @@
     document.querySelectorAll('[data-locale-home]').forEach(link => {
       const targetLang = link.dataset.localeHome;
       if (SUPPORTED_LANGS.includes(targetLang)) {
-        link.setAttribute('href', localizedPath(targetLang, route));
+        const searchSuffix = route === 'archives' ? currentSearch : '';
+        link.setAttribute('href', localizedPath(targetLang, route) + searchSuffix);
       }
     });
   }
@@ -124,7 +128,7 @@
     const isLocalizedPage = SUPPORTED_LANGS.includes(window.location.pathname.split('/').filter(Boolean)[0]);
     if (isLocalizedPage) {
       LS.setLang(lang);
-      window.location.href = localizedPath(lang, currentRoute) + window.location.hash;
+      window.location.href = localizedPath(lang, currentRoute) + window.location.search + window.location.hash;
       return;
     }
     currentLang = lang;
@@ -144,9 +148,9 @@
   // 50 QUIZ WORDS — bilingual
   // ══════════════════════════════════════════════════════════════
   const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
-  const DAILY_DATE_KEY = getLocalDateKey();
-  const QUIZ_DATA = MANABUPLAY_MODE === 'daily'
-    ? buildDailyQuizData(RAW_QUIZ_DATA, DAILY_DATE_KEY)
+  const SESSION_DATE_KEY = getSessionDateKey();
+  const QUIZ_DATA = MANABUPLAY_MODE === 'daily' || MANABUPLAY_MODE === 'archives'
+    ? buildDailyQuizData(RAW_QUIZ_DATA, SESSION_DATE_KEY)
     : RAW_QUIZ_DATA;
 
 
@@ -165,6 +169,26 @@
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+  }
+
+  function getArchiveConfig() {
+    return MANABUPLAY_BOOT.archive || {};
+  }
+
+  function getSessionDateKey() {
+    if (MANABUPLAY_MODE !== 'archives') {
+      return getLocalDateKey();
+    }
+    const archiveConfig = getArchiveConfig();
+    const selectedFromQuery = new URLSearchParams(window.location.search).get('date');
+    const selectedDate = selectedFromQuery || archiveConfig.selectedDate || getLocalDateKey();
+    const startDate = archiveConfig.startDate || selectedDate;
+    const latestDate = archiveConfig.latestDate || selectedDate;
+    const isValidFormat = /^\d{4}-\d{2}-\d{2}$/.test(selectedDate);
+    if (isValidFormat && selectedDate >= startDate && selectedDate <= latestDate) {
+      return selectedDate;
+    }
+    return archiveConfig.selectedDate || latestDate || getLocalDateKey();
   }
 
   function hashSeed(input) {
@@ -222,15 +246,99 @@
     return seededShuffle(selected.slice(0, questionCount), `${dateKey}:order`);
   }
 
+  function getPracticeConfig() {
+    return MANABUPLAY_BOOT.practice || { questionCount: 10, cooldownSessions: 2, recipes: {} };
+  }
+
+  function readPracticeSessions() {
+    const sessions = LS.get(PRACTICE_HISTORY_KEY);
+    return Array.isArray(sessions) ? sessions : [];
+  }
+
+  function getPracticeCooldownIds() {
+    const cooldownSessions = getPracticeConfig().cooldownSessions || 2;
+    const recentSessions = readPracticeSessions().slice(0, cooldownSessions);
+    return new Set(recentSessions.flatMap((session) => Array.isArray(session.wordIds) ? session.wordIds : []));
+  }
+
+  function savePracticeSession(diffId, questions) {
+    const currentSessions = readPracticeSessions();
+    const session = {
+      diffId,
+      completedAt: new Date().toISOString(),
+      wordIds: questions.map((question) => question.id),
+    };
+    LS.set(PRACTICE_HISTORY_KEY, [session, ...currentSessions].slice(0, PRACTICE_HISTORY_LIMIT));
+  }
+
+  function pickPracticeEntries(pool, desiredCount, seedSource, selectedIds, cooldownIds) {
+    const eligiblePool = pool.filter((entry) => !selectedIds.has(entry.id) && !cooldownIds.has(entry.id));
+    const fallbackPool = pool.filter((entry) => !selectedIds.has(entry.id));
+    const picks = seededShuffle(eligiblePool, `${seedSource}:eligible`).slice(0, desiredCount);
+
+    if (picks.length < desiredCount) {
+      seededShuffle(fallbackPool, `${seedSource}:fallback`).forEach((entry) => {
+        if (picks.length >= desiredCount) return;
+        if (picks.some((pick) => pick.id === entry.id)) return;
+        picks.push(entry);
+      });
+    }
+
+    picks.forEach((entry) => selectedIds.add(entry.id));
+    return picks;
+  }
+
+  function buildPracticeSession(diff) {
+    const practiceConfig = getPracticeConfig();
+    const tierTargets = diff?.tierTargets || practiceConfig.recipes?.[diff?.id] || {};
+    const selected = [];
+    const selectedIds = new Set();
+    const cooldownIds = getPracticeCooldownIds();
+
+    Object.entries(tierTargets).forEach(([tier, count]) => {
+      const tierPool = RAW_QUIZ_DATA.filter((entry) => String(entry.tier || 1) === tier);
+      selected.push(
+        ...pickPracticeEntries(
+          tierPool,
+          count,
+          `practice:${diff.id}:tier:${tier}:${Date.now()}`,
+          selectedIds,
+          cooldownIds,
+        ),
+      );
+    });
+
+    if (selected.length < (practiceConfig.questionCount || diff.words || 10)) {
+      selected.push(
+        ...pickPracticeEntries(
+          RAW_QUIZ_DATA,
+          (practiceConfig.questionCount || diff.words || 10) - selected.length,
+          `practice:${diff.id}:fill:${Date.now()}`,
+          selectedIds,
+          cooldownIds,
+        ),
+      );
+    }
+
+    return shuffle(selected);
+  }
+
   function buildQuestions(n) {
     const isDailyMode = MANABUPLAY_MODE === 'daily';
-    const pool = isDailyMode ? QUIZ_DATA.slice(0, n) : shuffle(QUIZ_DATA).slice(0, n);
+    const isArchivesMode = MANABUPLAY_MODE === 'archives';
+    const isPracticeMode = MANABUPLAY_MODE === 'practice';
+    const isSeededMode = isDailyMode || isArchivesMode;
+    const pool = isSeededMode
+      ? QUIZ_DATA.slice(0, n)
+      : isPracticeMode
+        ? buildPracticeSession(currentDiff).slice(0, n)
+        : shuffle(QUIZ_DATA).slice(0, n);
     return pool.map((q, index) => {
       const correctText = q.correct[currentLang] || q.correct.en;
       const wrongList   = q.wrong[currentLang]   || q.wrong.en;
-      const answerSeed = `${DAILY_DATE_KEY}:${q.id || q.word}:${currentLang}:${index}`;
-      const pickedWrong = isDailyMode ? seededShuffle(wrongList, `${answerSeed}:wrong`).slice(0,3) : shuffle(wrongList).slice(0,3);
-      const answers     = isDailyMode ? seededShuffle([correctText, ...pickedWrong], `${answerSeed}:answers`) : shuffle([correctText, ...pickedWrong]);
+      const answerSeed = `${SESSION_DATE_KEY}:${q.id || q.word}:${currentLang}:${index}`;
+      const pickedWrong = isSeededMode ? seededShuffle(wrongList, `${answerSeed}:wrong`).slice(0,3) : shuffle(wrongList).slice(0,3);
+      const answers     = isSeededMode ? seededShuffle([correctText, ...pickedWrong], `${answerSeed}:answers`) : shuffle([correctText, ...pickedWrong]);
       return { ...q, correctText, answers };
     });
   }
@@ -245,13 +353,16 @@
       const bestLabel = best > 0
         ? `${t('diff_best')} <span style="color:${d.color};font-weight:700;">${best} pts</span>`
         : `<span style="color:rgba(255,255,255,.3);">${t('diff_no_best')}</span>`;
+      const bestMarkup = MANABUPLAY_MODE === 'archives'
+        ? ''
+        : `<div class="diff-best mt-1" style="color:rgba(255,255,255,.5);">${bestLabel}</div>`;
       const card = document.createElement('div');
       card.className = `diff-card ${d.cls}${currentDiff?.id === d.id ? ' selected' : ''}`;
       card.innerHTML = `
         <span class="diff-icon">${d.icon}</span>
         <div class="diff-name" style="color:${d.color};">${t('diff_'+d.id)}</div>
         <div class="diff-count" style="color:rgba(255,255,255,.6);">${d.words} ${t('diff_words')}</div>
-        <div class="diff-best mt-1" style="color:rgba(255,255,255,.5);">${bestLabel}</div>
+        ${bestMarkup}
       `;
       card.onclick = () => selectDiff(d);
       grid.appendChild(card);
@@ -414,15 +525,29 @@
     document.getElementById('progressBar').style.width  = '100%';
     document.getElementById('progressText').textContent = `${total}/${total}`;
 
-    // localStorage — save best & show badge/msg
-    const isNewRecord = LS.setBest(currentDiff.id, state.score);
-    const badge = document.getElementById('newRecordBadge');
-    badge.style.display = isNewRecord ? 'block' : 'none';
+    if (MANABUPLAY_MODE === 'practice' && currentDiff) {
+      savePracticeSession(currentDiff.id, state.questions);
+    }
 
+    const badge = document.getElementById('newRecordBadge');
     const bestMsg = document.getElementById('bestScoreMsg');
-    const currentBest = LS.getBest(currentDiff.id);
-    const diffLabel = t('diff_'+currentDiff.id);
-    bestMsg.innerHTML = t('result_best_msg')(currentBest, diffLabel);
+    const shareRow = document.getElementById('shareRow');
+    const isArchiveMode = MANABUPLAY_MODE === 'archives';
+
+    if (isArchiveMode) {
+      badge.style.display = 'none';
+      bestMsg.style.display = 'none';
+      if (shareRow) shareRow.style.display = 'none';
+    } else {
+      // localStorage — save best & show badge/msg
+      const isNewRecord = LS.setBest(currentDiff.id, state.score);
+      badge.style.display = isNewRecord ? 'block' : 'none';
+      bestMsg.style.display = 'block';
+      const currentBest = LS.getBest(currentDiff.id);
+      const diffLabel = t('diff_'+currentDiff.id);
+      bestMsg.innerHTML = t('result_best_msg')(currentBest, diffLabel);
+      if (shareRow) shareRow.style.display = 'block';
+    }
 
     // Refresh diff grid best scores for next visit
     renderDiffGrid();

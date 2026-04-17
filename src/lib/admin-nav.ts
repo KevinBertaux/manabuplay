@@ -3,6 +3,7 @@ export type AdminNavKey =
   | "backlog"
   | "business"
   | "architecture"
+  | "maintenance"
   | "waitlist"
   | "reader"
   | "catalog"
@@ -38,6 +39,7 @@ const primaryItems: AdminNavLink[] = [
   { key: "backlog", href: "/admin/backlog", label: "Backlog" },
   { key: "architecture", href: "/admin/architecture-plan", label: "Architecture" },
   { key: "business", href: "/admin/business-models", label: "Business" },
+  { key: "maintenance", href: "/admin/maintenance", label: "Maintenance" },
   { key: "waitlist", href: "/admin/waitlist", label: "Waitlist" },
   { key: "wording", href: "/admin/landing-wording", label: "Wording" },
 ];

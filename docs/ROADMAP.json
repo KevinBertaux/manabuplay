@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-04-13",
+    "updatedAt": "2026-04-17",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "Backlog" },
@@ -161,7 +161,7 @@
         {
           "id": "v01-daily",
           "title": "Lancer le Quotidien",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "quiz",
           "type": "feature"
@@ -169,7 +169,7 @@
         {
           "id": "v01-free",
           "title": "Lancer le mode Libre",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "quiz",
           "type": "feature",
@@ -178,7 +178,7 @@
         {
           "id": "v01-archives",
           "title": "Ouvrir les Archives",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "quiz",
           "type": "feature",
@@ -216,7 +216,7 @@
         {
           "id": "v01-playwright",
           "title": "Proteger les flux publics critiques avec Playwright E2E",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "quiz",
           "type": "infra"
@@ -224,7 +224,7 @@
         {
           "id": "v01-default-locale",
           "title": "Passer a une locale par URL et choisir une langue par defaut",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "landing",
           "type": "feature",
@@ -263,7 +263,7 @@
         {
           "id": "v01-public-shell",
           "title": "Extraire le shell public et preparer la nouvelle navigation produit",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "landing",
           "type": "ux",
@@ -272,14 +272,14 @@
         {
           "id": "v01-public-routes-foundation",
           "title": "Poser les fondations de la nouvelle architecture publique",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "core",
           "type": "feature",
           "children": [
-            { "id": "public-routes-fr-en", "title": "Creer les routes FR / EN stables pour la landing", "status": "todo" },
-            { "id": "public-routes-daily-practice-archives", "title": "Preparer les routes Daily / Practice / Archives par locale", "status": "todo" },
-            { "id": "public-session-payload", "title": "Preparer un payload de session par mode au lieu du boot legacy unique", "status": "todo" }
+            { "id": "public-routes-fr-en", "title": "Creer les routes FR / EN stables pour la landing", "status": "done" },
+            { "id": "public-routes-daily-practice-archives", "title": "Preparer les routes Daily / Practice / Archives par locale", "status": "done" },
+            { "id": "public-session-payload", "title": "Preparer un payload de session par mode au lieu du boot legacy unique", "status": "done" }
           ]
         },
         {

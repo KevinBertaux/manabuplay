@@ -293,6 +293,48 @@
       font-weight:700;
       text-decoration:none;
     }
+    .public-archive-browser {
+      display:grid;
+      gap:var(--space-20);
+      margin-top:calc(var(--space-16) * -1);
+    }
+    .public-archive-head p:last-child {
+      margin-bottom:0;
+    }
+    .public-archive-chip-grid {
+      display:flex;
+      flex-wrap:wrap;
+      gap:var(--space-8);
+      justify-content:center;
+    }
+    .public-archive-chip {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:36px;
+      padding:0 var(--space-12);
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(139,92,246,.22);
+      background:rgba(26,22,48,.54);
+      color:rgba(226,217,243,.78);
+      text-decoration:none;
+      font-size:.92rem;
+      font-weight:700;
+      transition:border-color .15s ease,background .15s ease,color .15s ease,transform .15s ease;
+      white-space:nowrap;
+    }
+    .public-archive-chip:hover {
+      border-color:rgba(34,211,238,.38);
+      background:rgba(34,211,238,.08);
+      color:#fff;
+      transform:translateY(-1px);
+    }
+    .public-archive-chip.is-active {
+      border-color:rgba(232,121,249,.42);
+      background:rgba(232,121,249,.12);
+      color:#fff;
+      box-shadow:0 0 0 1px rgba(232,121,249,.18),0 0 18px rgba(232,121,249,.14);
+    }
 
     /* KANJI */
     .kanji-bg { position:absolute; font-size:10rem; opacity:.03; pointer-events:none; user-select:none; line-height:1; }
