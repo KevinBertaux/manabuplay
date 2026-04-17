@@ -1,0 +1,1407 @@
+{
+  "id": "anime-codes",
+  "slug": "anime-codes",
+  "themeId": "anime-and-manga",
+  "status": "content-draft",
+  "targetWordCount": 30,
+  "notes": [
+    "Quatrième pack enrichi pour validation éditoriale.",
+    "Répartition des tiers : 10 mots tier 1, 8 mots tier 2, 7 mots tier 3, 5 mots tier 4."
+  ],
+  "locales": {
+    "fr": {
+      "name": "Codes d’anime",
+      "description": "Les mots, codes et figures qu'on retrouve partout dans les anime et les mangas."
+    },
+    "en": {
+      "name": "Anime Codes",
+      "description": "Words, codes and recurring figures you keep seeing in anime and manga."
+    }
+  },
+  "score": {
+    "readiness": {
+      "value": 92,
+      "minProdScore": 90,
+      "readyForProd": true,
+      "reviewStatus": "faite",
+      "releaseStatus": "preprod",
+      "breakdown": {
+        "packSize": 15,
+        "tierFit": 15,
+        "contentCompleteness": 40,
+        "quizQuality": 12,
+        "editorialReview": 10
+      }
+    },
+    "depth": {
+      "value": 76
+    }
+  },
+  "quiz": {
+    "transparentWordIds": [
+      "waifu"
+    ]
+  },
+  "words": [
+    {
+      "order": 1,
+      "existingWordId": "isekai",
+      "jp": {
+        "term": "異世界",
+        "reading": "いせかい",
+        "romaji": "isekai"
+      },
+      "gloss": {
+        "fr": "Autre monde",
+        "en": "Other world"
+      },
+      "definition": {
+        "fr": "Univers parallèle où le héros est transporté, invoqué ou réincarné.",
+        "en": "Parallel world where the hero is transported, summoned or reincarnated."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le héros quitte le monde normal pour une autre réalité.",
+          "en": "The hero leaves the normal world for another reality."
+        },
+        "hint2": {
+          "fr": "C'est l'un des genres les plus reconnaissables des anime récents.",
+          "en": "It is one of the most recognizable genres in recent anime."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un autre monde. Dans les anime, il est devenu le terme clé pour les histoires de transport ou de réincarnation dans un univers différent.",
+        "en": "This word refers to another world. In anime, it became the key term for stories about being transported or reincarnated into a different universe."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Réincarnation",
+            "Monde fantastique",
+            "Portail magique"
+          ],
+          "en": [
+            "Reincarnation",
+            "Fantasy world",
+            "Magic portal"
+          ]
+        }
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 2,
+      "existingWordId": "nakama",
+      "jp": {
+        "term": "仲間",
+        "reading": "なかま",
+        "romaji": "nakama"
+      },
+      "gloss": {
+        "fr": "Compagnons",
+        "en": "Companions"
+      },
+      "definition": {
+        "fr": "Groupe d'alliés soudés qui avancent ensemble dans l'histoire.",
+        "en": "Tight-knit group of allies moving forward together in the story."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce ne sont pas juste des amis : ils partagent l'aventure.",
+          "en": "They are not just friends: they share the adventure."
+        },
+        "hint2": {
+          "fr": "Le mot évoque l'équipe, la confiance et le lien fort.",
+          "en": "The word evokes the team, trust and a strong bond."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne les compagnons d'aventure. Dans les anime, il porte une idée de loyauté et de route commune plus forte qu'un simple groupe d'amis.",
+        "en": "This word refers to adventure companions. In anime, it carries a stronger sense of loyalty and shared path than a simple group of friends."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Rivaux",
+            "Équipe",
+            "Amitié"
+          ],
+          "en": [
+            "Rivals",
+            "Team",
+            "Friendship"
+          ]
+        }
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 3,
+      "existingWordId": "tsundere",
+      "jp": {
+        "term": "ツンデレ",
+        "reading": "ツンデレ",
+        "romaji": "tsundere"
+      },
+      "gloss": {
+        "fr": "Froide puis tendre",
+        "en": "Cold then tender"
+      },
+      "definition": {
+        "fr": "Personnage d'abord froid ou agressif, puis plus tendre quand il baisse sa garde.",
+        "en": "Character who starts cold or harsh, then becomes softer once their guard drops."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Au début, ce personnage remballe ou frappe plus qu'il ne sourit.",
+          "en": "At first, this character snaps back or lashes out more than they smile."
+        },
+        "hint2": {
+          "fr": "Le mot combine une face dure et une face plus affectueuse.",
+          "en": "The term combines a harsh side and a more affectionate side."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un type de personnage très codé dans les anime. La personne paraît dure, distante ou explosive, puis laisse voir une part plus tendre.",
+        "en": "This word refers to a very codified anime character type. The person seems harsh, distant or explosive, then reveals a softer side."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Rivale froide",
+            "Amie distante",
+            "Personnage très affectueux"
+          ],
+          "en": [
+            "Cold rival",
+            "Distant friend",
+            "Very affectionate character"
+          ]
+        }
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 4,
+      "existingWordId": "waifu",
+      "jp": {
+        "term": "ワイフ",
+        "reading": "ワイフ",
+        "romaji": "waifu"
+      },
+      "gloss": {
+        "fr": "Waifu",
+        "en": "Waifu"
+      },
+      "definition": {
+        "fr": "Personnage fictif pour lequel un fan a une forte affection ou une préférence marquée.",
+        "en": "Fictional character a fan feels strong affection for or openly favors."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le mot est très utilisé dans le fandom otaku.",
+          "en": "This term is heavily used in otaku fandom."
+        },
+        "hint2": {
+          "fr": "Il ne parle pas d'un rôle narratif, mais d'un attachement de fan.",
+          "en": "It does not describe a narrative role, but a fan attachment."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne une favorite fictive dans le langage otaku. Il dit moins quelque chose du personnage lui-même que du lien affectif que le public projette sur lui.",
+        "en": "This word refers to a fictional favorite in otaku slang. It says less about the character itself than about the emotional attachment fans project onto them."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Idole",
+            "Favorite fictive",
+            "Crush d'anime"
+          ],
+          "en": [
+            "Idol",
+            "Fictional favorite",
+            "Anime crush"
+          ]
+        }
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 5,
+      "existingWordId": "tensei",
+      "jp": {
+        "term": "転生",
+        "reading": "てんせい",
+        "romaji": "tensei"
+      },
+      "gloss": {
+        "fr": "Réincarnation",
+        "en": "Reincarnation"
+      },
+      "definition": {
+        "fr": "Nouvelle vie obtenue après la mort ou le changement de monde d'un personnage.",
+        "en": "New life gained after a character dies or moves into another world."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le héros meurt ou change de monde, puis recommence ailleurs.",
+          "en": "The hero dies or changes worlds, then starts over elsewhere."
+        },
+        "hint2": {
+          "fr": "Le mot est très fréquent dans les titres d'isekai.",
+          "en": "The term is very common in isekai titles."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la réincarnation. Dans les anime récents, il est souvent lié à l'idée de recommencer une vie avec un nouveau corps ou un nouveau destin.",
+        "en": "This word refers to reincarnation. In recent anime, it is often tied to starting life over with a new body or a new destiny."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Autre monde",
+            "Destin",
+            "Renaissance magique"
+          ],
+          "en": [
+            "Other world",
+            "Destiny",
+            "Magical rebirth"
+          ]
+        }
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 6,
+      "existingWordId": "shujinkou",
+      "jp": {
+        "term": "主人公",
+        "reading": "しゅじんこう",
+        "romaji": "shujinkō"
+      },
+      "gloss": {
+        "fr": "Protagoniste",
+        "en": "Protagonist"
+      },
+      "definition": {
+        "fr": "Personnage principal autour duquel tourne l'histoire.",
+        "en": "Main character around whom the story revolves."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Sans ce personnage, l'histoire n'est plus la même.",
+          "en": "Without this character, the story is no longer the same."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas juste un héros : c'est le centre du récit.",
+          "en": "It is not just a hero: it is the center of the story."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le protagoniste. C'est le personnage principal que l'on suit le plus directement dans l'histoire.",
+        "en": "This word refers to the protagonist. It is the main character you follow most directly through the story."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Héros légendaire",
+            "Rival",
+            "Narrateur"
+          ],
+          "en": [
+            "Legendary hero",
+            "Rival",
+            "Narrator"
+          ]
+        }
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 7,
+      "jp": {
+        "term": "ライバル",
+        "reading": "ライバル",
+        "romaji": "raibaru"
+      },
+      "gloss": {
+        "fr": "Rival",
+        "en": "Rival"
+      },
+      "definition": {
+        "fr": "Adversaire important qui pousse le héros à progresser.",
+        "en": "Important opponent who pushes the hero to improve."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce personnage n'est pas toujours un ennemi total, mais il veut gagner.",
+          "en": "This character is not always a total enemy, but wants to win."
+        },
+        "hint2": {
+          "fr": "Le héros se mesure souvent à lui encore et encore.",
+          "en": "The hero often measures themselves against this person again and again."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le rival. Dans les anime, il sert souvent de miroir au héros et de moteur pour sa progression.",
+        "en": "This word refers to a rival. In anime, this character often acts as a mirror to the hero and a driver for their growth."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Antagoniste",
+            "Compagnon",
+            "Ami d'enfance"
+          ],
+          "en": [
+            "Antagonist",
+            "Companion",
+            "Childhood friend"
+          ]
+        }
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 8,
+      "jp": {
+        "term": "変身",
+        "reading": "へんしん",
+        "romaji": "henshin"
+      },
+      "gloss": {
+        "fr": "Transformation",
+        "en": "Transformation"
+      },
+      "definition": {
+        "fr": "Changement de forme qui donne un nouveau pouvoir, un costume ou une identité.",
+        "en": "Change of form that grants new power, a costume or an identity."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le personnage change d'apparence en plein moment clé.",
+          "en": "The character changes appearance in a key moment."
+        },
+        "hint2": {
+          "fr": "C'est un grand classique des séries d'action et de magical girls.",
+          "en": "It is a classic in action series and magical girl shows."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la transformation. Dans les anime, elle marque souvent un nouveau niveau de puissance ou un changement d'identité visible.",
+        "en": "This word refers to transformation. In anime, it often marks a new level of power or a visible change of identity."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Éveil",
+            "Forme héroïque",
+            "Costume magique"
+          ],
+          "en": [
+            "Awakening",
+            "Heroic form",
+            "Magic outfit"
+          ]
+        }
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 9,
+      "jp": {
+        "term": "先輩",
+        "reading": "せんぱい",
+        "romaji": "senpai"
+      },
+      "gloss": {
+        "fr": "Aîné",
+        "en": "Senior"
+      },
+      "definition": {
+        "fr": "Aîné dans une école, un club ou une hiérarchie de groupe.",
+        "en": "Senior in a school, club or group hierarchy."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce mot dépend d'une relation de rang ou d'ancienneté.",
+          "en": "This word depends on rank or seniority."
+        },
+        "hint2": {
+          "fr": "Dans les anime scolaires, on l'entend très souvent.",
+          "en": "In school anime, you hear it all the time."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un aîné dans une hiérarchie sociale ou scolaire. Il est devenu très connu hors du Japon à cause des anime.",
+        "en": "This word refers to a senior in a social or school hierarchy. It became widely known outside Japan because of anime."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Junior du club",
+            "Professeur",
+            "Président du conseil"
+          ],
+          "en": [
+            "Junior club member",
+            "Teacher",
+            "Student council president"
+          ]
+        }
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 10,
+      "jp": {
+        "term": "学園",
+        "reading": "がくえん",
+        "romaji": "gakuen"
+      },
+      "gloss": {
+        "fr": "Cadre scolaire",
+        "en": "School setting"
+      },
+      "definition": {
+        "fr": "Univers ou décor centré sur l'école, le lycée ou la vie étudiante.",
+        "en": "Story world or setting centered on school, high school or student life."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Clubs, couloirs, uniformes et salles de classe y reviennent souvent.",
+          "en": "Clubs, hallways, uniforms and classrooms often show up here."
+        },
+        "hint2": {
+          "fr": "Le mot parle d'un décor récurrent plus que d'un personnage.",
+          "en": "This word describes a recurring setting more than a character."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un cadre scolaire typique. Dans les anime, il renvoie à tout un univers de règles, de clubs et de relations d'école.",
+        "en": "This word refers to a typical school setting. In anime, it points to a whole world of rules, clubs and school relationships."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Vie de lycée",
+            "Festival scolaire",
+            "Club d'école"
+          ],
+          "en": [
+            "School life",
+            "School festival",
+            "School club"
+          ]
+        }
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 11,
+      "existingWordId": "eiyuu",
+      "jp": {
+        "term": "英雄",
+        "reading": "えいゆう",
+        "romaji": "eiyū"
+      },
+      "gloss": {
+        "fr": "Héros légendaire",
+        "en": "Legendary hero"
+      },
+      "definition": {
+        "fr": "Figure héroïque admirée pour ses exploits ou son rôle décisif dans l'histoire.",
+        "en": "Heroic figure admired for great deeds or a decisive role in the story."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce mot sonne plus grand qu'un simple héros du quotidien.",
+          "en": "This word sounds bigger than an everyday hero."
+        },
+        "hint2": {
+          "fr": "On l'associe souvent à un passé glorieux ou à une épopée.",
+          "en": "It is often tied to a glorious past or an epic tale."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un héros au sens noble et presque historique. Dans les anime et les RPG, il évoque une stature déjà reconnue ou destinée à marquer le monde.",
+        "en": "This word refers to a hero in a noble, almost historical sense. In anime and RPGs, it evokes a stature already recognized or meant to leave a mark on the world."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Protagoniste",
+            "Champion",
+            "Guerrier choisi"
+          ],
+          "en": [
+            "Protagonist",
+            "Champion",
+            "Chosen warrior"
+          ]
+        }
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 12,
+      "existingWordId": "unmei",
+      "jp": {
+        "term": "運命",
+        "reading": "うんめい",
+        "romaji": "unmei"
+      },
+      "gloss": {
+        "fr": "Destin",
+        "en": "Destiny"
+      },
+      "definition": {
+        "fr": "Force qui semble guider à l'avance la vie ou la rencontre des personnages.",
+        "en": "Force that seems to guide a character's life or encounters in advance."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Deux personnages se croisent comme si tout était déjà écrit.",
+          "en": "Two characters meet as if everything had already been written."
+        },
+        "hint2": {
+          "fr": "Ce mot apparaît souvent dans les romances et les grands drames.",
+          "en": "This word often appears in romances and major dramas."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le destin. Dans les anime, il sert à donner une impression de lien inévitable, de mission écrite ou de tragédie annoncée.",
+        "en": "This word refers to destiny. In anime, it helps create a feeling of inevitable bonds, written missions or announced tragedy."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Hasard",
+            "Prophétie",
+            "Lien du passé"
+          ],
+          "en": [
+            "Chance",
+            "Prophecy",
+            "Past bond"
+          ]
+        }
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 13,
+      "jp": {
+        "term": "悪役",
+        "reading": "あくやく",
+        "romaji": "akuyaku"
+      },
+      "gloss": {
+        "fr": "Méchant",
+        "en": "Villain"
+      },
+      "definition": {
+        "fr": "Personnage qui incarne le rôle de l'adversaire ou du mauvais camp.",
+        "en": "Character who fills the role of the adversary or the bad side."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce personnage s'oppose souvent au héros.",
+          "en": "This character often stands against the hero."
+        },
+        "hint2": {
+          "fr": "Le mot parle du rôle narratif plus que du niveau de puissance.",
+          "en": "The word is more about narrative role than power level."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le méchant ou l'antagoniste au sens de rôle. Dans les anime, il peut aller du bully scolaire au grand ennemi final.",
+        "en": "This word refers to the villain or antagonist in role terms. In anime, it can range from a school bully to the great final enemy."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Rival",
+            "Traître",
+            "Boss final"
+          ],
+          "en": [
+            "Rival",
+            "Traitor",
+            "Final boss"
+          ]
+        }
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 14,
+      "jp": {
+        "term": "友情",
+        "reading": "ゆうじょう",
+        "romaji": "yūjō"
+      },
+      "gloss": {
+        "fr": "Amitié",
+        "en": "Friendship"
+      },
+      "definition": {
+        "fr": "Lien affectif fort qui soutient le groupe et fait avancer l'histoire.",
+        "en": "Strong emotional bond that supports the group and drives the story forward."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce mot revient souvent dans les shonen les plus classiques.",
+          "en": "This word often shows up in classic shonen stories."
+        },
+        "hint2": {
+          "fr": "Le pouvoir du groupe ou du lien humain en dépend souvent.",
+          "en": "The power of the group or human bond often depends on it."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'amitié. Dans les anime, il peut devenir une vraie force narrative, morale ou même surnaturelle.",
+        "en": "This word refers to friendship. In anime, it can become a real narrative, emotional or even supernatural force."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Compagnons",
+            "Loyauté",
+            "Destin partagé"
+          ],
+          "en": [
+            "Companions",
+            "Loyalty",
+            "Shared destiny"
+          ]
+        }
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 15,
+      "jp": {
+        "term": "修行",
+        "reading": "しゅぎょう",
+        "romaji": "shugyō"
+      },
+      "gloss": {
+        "fr": "Entraînement",
+        "en": "Training"
+      },
+      "definition": {
+        "fr": "Période d'effort intense pour gagner en force, en technique ou en maîtrise.",
+        "en": "Period of intense effort to gain strength, technique or mastery."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le héros part souvent faire ça avant un grand combat.",
+          "en": "The hero often goes through this before a major fight."
+        },
+        "hint2": {
+          "fr": "Montagnes, maîtres exigeants et souffrance vont bien avec ce mot.",
+          "en": "Mountains, strict masters and hardship fit this word well."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'entraînement au sens exigeant et presque initiatique. Dans les anime, il sert à justifier une vraie progression du personnage.",
+        "en": "This word refers to training in a demanding, almost initiatory sense. In anime, it often justifies a real step up in the character's growth."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Éveil",
+            "Discipline",
+            "Épreuve"
+          ],
+          "en": [
+            "Awakening",
+            "Discipline",
+            "Trial"
+          ]
+        }
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 16,
+      "jp": {
+        "term": "後輩",
+        "reading": "こうはい",
+        "romaji": "kōhai"
+      },
+      "gloss": {
+        "fr": "Cadet",
+        "en": "Junior"
+      },
+      "definition": {
+        "fr": "Personne plus jeune ou plus récente dans une hiérarchie scolaire ou sociale.",
+        "en": "Person who is junior or newer within a school or social hierarchy."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce mot fonctionne en paire avec l'aîné.",
+          "en": "This term works as a pair with the senior."
+        },
+        "hint2": {
+          "fr": "Il parle du rang inférieur ou du plus jeune dans le groupe.",
+          "en": "It refers to the lower rank or younger person in the group."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un cadet dans une hiérarchie de groupe. Dans les anime scolaires, la relation aîné-cadet est très codée.",
+        "en": "This word refers to a junior within a group hierarchy. In school anime, the senior-junior relation is highly codified."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Aîné",
+            "Nouvel élève",
+            "Membre récent du club"
+          ],
+          "en": [
+            "Senior",
+            "New student",
+            "Newer club member"
+          ]
+        }
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 17,
+      "jp": {
+        "term": "秘密",
+        "reading": "ひみつ",
+        "romaji": "himitsu"
+      },
+      "gloss": {
+        "fr": "Secret",
+        "en": "Secret"
+      },
+      "definition": {
+        "fr": "Information cachée qui peut changer une relation, un passé ou toute l'intrigue.",
+        "en": "Hidden information that can change a relationship, a past or the entire plot."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Un personnage le cache jusqu'au moment dramatique.",
+          "en": "A character hides it until the dramatic moment."
+        },
+        "hint2": {
+          "fr": "Le mot est central dans beaucoup de romances et de drames.",
+          "en": "This word is central in many romances and dramas."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un secret. Dans les anime, il peut concerner un passé, un pouvoir, une identité ou un sentiment caché.",
+        "en": "This word refers to a secret. In anime, it can concern a past, a power, an identity or a hidden feeling."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Mensonge",
+            "Double identité",
+            "Mystère"
+          ],
+          "en": [
+            "Lie",
+            "Secret identity",
+            "Mystery"
+          ]
+        }
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 18,
+      "jp": {
+        "term": "先生",
+        "reading": "せんせい",
+        "romaji": "sensei"
+      },
+      "gloss": {
+        "fr": "Professeur",
+        "en": "Teacher"
+      },
+      "definition": {
+        "fr": "Adulte qui enseigne ou guide, souvent à l'école mais parfois aussi comme maître.",
+        "en": "Adult who teaches or guides, often at school but also sometimes as a master."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le mot peut désigner un enseignant ou un mentor.",
+          "en": "The term can describe a teacher or a mentor."
+        },
+        "hint2": {
+          "fr": "Dans les anime scolaires, il apparaît constamment.",
+          "en": "In school anime, it appears constantly."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un professeur ou une personne qu'on respecte comme maître. Selon le contexte, il dépasse le simple cadre de la salle de classe.",
+        "en": "This word refers to a teacher or someone respected as a master. Depending on the context, it goes beyond the classroom."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Aîné",
+            "Président du club",
+            "Mentor"
+          ],
+          "en": [
+            "Senior",
+            "Club president",
+            "Mentor"
+          ]
+        }
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 19,
+      "existingWordId": "saikyou",
+      "jp": {
+        "term": "最強",
+        "reading": "さいきょう",
+        "romaji": "saikyō"
+      },
+      "gloss": {
+        "fr": "Le plus fort",
+        "en": "The strongest"
+      },
+      "definition": {
+        "fr": "Statut de personnage présenté comme imbattable ou largement au-dessus du lot.",
+        "en": "Status of a character presented as unbeatable or far above the rest."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le mot sert souvent à vendre un héros overpowered.",
+          "en": "The term is often used to sell an overpowered hero."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas juste fort : c'est au sommet.",
+          "en": "It is not just strong: it is at the very top."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le plus fort. Dans les anime récents, il colle souvent aux héros ou antagonistes écrasants dès le départ.",
+        "en": "This word refers to the strongest. In recent anime, it often sticks to heroes or antagonists who overpower everyone from the start."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Héros légendaire",
+            "Invincible",
+            "Boss final"
+          ],
+          "en": [
+            "Legendary hero",
+            "Invincible",
+            "Final boss"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 20,
+      "existingWordId": "kami",
+      "jp": {
+        "term": "神",
+        "reading": "かみ",
+        "romaji": "kami"
+      },
+      "gloss": {
+        "fr": "Divinité",
+        "en": "Deity"
+      },
+      "definition": {
+        "fr": "Être divin, sacré ou supérieur qui dépasse les simples humains.",
+        "en": "Divine, sacred or superior being beyond ordinary humans."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce mot peut parler d'un dieu, mais aussi d'un être placé au-dessus de tous.",
+          "en": "This word can refer to a god, but also to a being placed above all others."
+        },
+        "hint2": {
+          "fr": "Dans certains anime, le héros veut rivaliser avec ça.",
+          "en": "In some anime, the hero wants to rival this."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne une divinité ou un être quasi divin. Dans les anime, il peut aller de la vraie figure religieuse à la puissance cosmique.",
+        "en": "This word refers to a deity or almost divine being. In anime, it can range from a real religious figure to a cosmic power."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Esprit",
+            "Héros légendaire",
+            "Être suprême"
+          ],
+          "en": [
+            "Spirit",
+            "Legendary hero",
+            "Supreme being"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 21,
+      "jp": {
+        "term": "幼なじみ",
+        "reading": "おさななじみ",
+        "romaji": "osananajimi"
+      },
+      "gloss": {
+        "fr": "Ami d'enfance",
+        "en": "Childhood friend"
+      },
+      "definition": {
+        "fr": "Personne connue depuis l'enfance, souvent liée à un vieux lien affectif.",
+        "en": "Person known since childhood, often tied to an old emotional bond."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce personnage connaît le héros depuis très longtemps.",
+          "en": "This character has known the hero for a very long time."
+        },
+        "hint2": {
+          "fr": "Dans les romances, ce rôle est devenu un grand classique.",
+          "en": "In romances, this role became a major classic."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'ami ou l'amie d'enfance. Dans les anime, il apporte souvent un passé commun, de la nostalgie ou une tension romantique.",
+        "en": "This word refers to a childhood friend. In anime, it often brings a shared past, nostalgia or romantic tension."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Compagnon de classe",
+            "Rival romantique",
+            "Junior du club"
+          ],
+          "en": [
+            "Classmate",
+            "Romantic rival",
+            "Junior club member"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 22,
+      "jp": {
+        "term": "デレデレ",
+        "reading": "デレデレ",
+        "romaji": "deredere"
+      },
+      "gloss": {
+        "fr": "Très affectueux",
+        "en": "Very lovey-dovey"
+      },
+      "definition": {
+        "fr": "Type de personnage ouvertement tendre, amoureux ou collant sans façade froide.",
+        "en": "Character type that is openly sweet, affectionate or clingy without a cold facade."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ici, le personnage cache beaucoup moins ses sentiments.",
+          "en": "Here, the character hides their feelings much less."
+        },
+        "hint2": {
+          "fr": "C'est plus doux et direct qu'un personnage froid puis tendre.",
+          "en": "It is softer and more direct than a cold-then-tender character."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un type très affectueux. Dans les anime, il sert à parler d'un personnage qui montre facilement sa tendresse ou son amour.",
+        "en": "This word refers to a very affectionate type. In anime, it is used for a character who easily shows tenderness or love."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Rivale froide",
+            "Personnage distant",
+            "Amoureuse dangereuse"
+          ],
+          "en": [
+            "Cold rival",
+            "Distant character",
+            "Dangerously obsessed lover"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 23,
+      "jp": {
+        "term": "クーデレ",
+        "reading": "クーデレ",
+        "romaji": "kuudere"
+      },
+      "gloss": {
+        "fr": "Froide réservée",
+        "en": "Cold reserved type"
+      },
+      "definition": {
+        "fr": "Personnage calme et froid en apparence, mais capable d'attachement discret.",
+        "en": "Character who looks calm and cold, but is capable of quiet affection."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ici, la distance vient plus du calme que de l'agressivité.",
+          "en": "Here, the distance comes more from calmness than aggression."
+        },
+        "hint2": {
+          "fr": "C'est une variante plus froide et silencieuse qu'un personnage froid puis tendre.",
+          "en": "It is a colder, quieter variant than a cold-then-tender character."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un personnage froid et posé. Dans les anime, il s'agit d'un type plus silencieux et retenu qu'un profil froid puis tendre classique.",
+        "en": "This word refers to a cold and composed character. In anime, it is a quieter, more restrained type than a classic cold-then-tender profile."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Rivale agressive",
+            "Amoureuse dangereuse",
+            "Personnage très affectueux"
+          ],
+          "en": [
+            "Harsh rival",
+            "Dangerously obsessed lover",
+            "Very affectionate character"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 24,
+      "jp": {
+        "term": "青春",
+        "reading": "せいしゅん",
+        "romaji": "seishun"
+      },
+      "gloss": {
+        "fr": "Jeunesse intense",
+        "en": "Youthful intensity"
+      },
+      "definition": {
+        "fr": "Idée de jeunesse vécue à fond, entre émotion, énergie et nostalgie future.",
+        "en": "Idea of youth lived intensely, with emotion, energy and future nostalgia."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le mot parle moins d'un âge précis que d'un sentiment de vie adolescente intense.",
+          "en": "The term is less about a precise age than a feeling of intense adolescent life."
+        },
+        "hint2": {
+          "fr": "On le retrouve beaucoup dans les séries de lycée et les drames jeunes.",
+          "en": "It shows up a lot in school series and youth dramas."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne une jeunesse intense et presque idéalisée. Dans les anime scolaires, il évoque l'énergie, les émotions et les moments qui comptent avant l'âge adulte.",
+        "en": "This word refers to an intense, almost idealized youth. In school anime, it evokes energy, emotion and the moments that matter before adulthood."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Vie de lycée",
+            "Premiers sentiments",
+            "Amitié"
+          ],
+          "en": [
+            "School life",
+            "First feelings",
+            "Friendship"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 25,
+      "jp": {
+        "term": "悪の組織",
+        "reading": "あくのそしき",
+        "romaji": "aku no soshiki"
+      },
+      "gloss": {
+        "fr": "Organisation du mal",
+        "en": "Evil organization"
+      },
+      "definition": {
+        "fr": "Groupe structuré qui sert d'ennemi collectif dans une série d'action ou de magical girl.",
+        "en": "Structured group that acts as a collective enemy in an action or magical girl series."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce n'est pas un seul méchant, mais tout un camp ennemi.",
+          "en": "It is not just one villain, but a whole enemy side."
+        },
+        "hint2": {
+          "fr": "Les héros affrontent souvent ses chefs, ses lieutenants puis sa base.",
+          "en": "Heroes often fight its bosses, lieutenants and then its base."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'organisation ennemie typique. Dans beaucoup d'anime, elle structure toute la série en fournissant un adversaire collectif et durable.",
+        "en": "This word refers to the typical enemy organization. In many anime, it structures the whole series by providing a collective long-term opponent."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Grand méchant",
+            "Armée du mal",
+            "Société secrète"
+          ],
+          "en": [
+            "Main villain",
+            "Army of evil",
+            "Secret society"
+          ]
+        }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 26,
+      "jp": {
+        "term": "魔法少女",
+        "reading": "まほうしょうじょ",
+        "romaji": "mahou shoujo"
+      },
+      "gloss": {
+        "fr": "Magical girl",
+        "en": "Magical girl"
+      },
+      "definition": {
+        "fr": "Héroïne qui se transforme pour combattre grâce à des pouvoirs magiques.",
+        "en": "Heroine who transforms to fight using magical powers."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Transformation, accessoires et combat contre le mal vont ensemble ici.",
+          "en": "Transformation, accessories and fighting evil all go together here."
+        },
+        "hint2": {
+          "fr": "C'est un grand genre à part entière de l'animation japonaise.",
+          "en": "It is a major genre of Japanese animation on its own."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la magical girl. C'est une figure majeure de l'anime, à la fois liée à la transformation, au combat et à l'identité secrète.",
+        "en": "This word refers to the magical girl. It is a major anime figure tied to transformation, battle and secret identity."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Héroïne magique",
+            "Transformation héroïque",
+            "Idole magique"
+          ],
+          "en": [
+            "Magical heroine",
+            "Heroic transformation",
+            "Magical idol"
+          ]
+        }
+      },
+      "difficultyTier": 4
+    },
+    {
+      "order": 27,
+      "jp": {
+        "term": "ヤンデレ",
+        "reading": "ヤンデレ",
+        "romaji": "yandere"
+      },
+      "gloss": {
+        "fr": "Amoureuse obsessionnelle",
+        "en": "Obsessive lover"
+      },
+      "definition": {
+        "fr": "Personnage dont l'amour ou l'attachement bascule vers l'obsession et parfois la violence.",
+        "en": "Character whose love or attachment turns into obsession and sometimes violence."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "L'affection ici peut devenir inquiétante ou dangereuse.",
+          "en": "Affection here can become frightening or dangerous."
+        },
+        "hint2": {
+          "fr": "Le mot mêle amour intense et dérive mentale.",
+          "en": "The term mixes intense love with mental instability."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un type de personnage devenu célèbre dans la culture anime. L'attachement amoureux y vire à l'obsession, à la jalousie ou à la violence.",
+        "en": "This word refers to a character type made famous by anime culture. The romantic attachment turns into obsession, jealousy or violence."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Rivale agressive",
+            "Personnage distant",
+            "Personnage très affectueux"
+          ],
+          "en": [
+            "Harsh rival",
+            "Distant character",
+            "Very affectionate character"
+          ]
+        }
+      },
+      "difficultyTier": 4
+    },
+    {
+      "order": 28,
+      "jp": {
+        "term": "メガネっ娘",
+        "reading": "メガネっこ",
+        "romaji": "meganekko"
+      },
+      "gloss": {
+        "fr": "Fille à lunettes",
+        "en": "Glasses girl"
+      },
+      "definition": {
+        "fr": "Type de personnage identifié par ses lunettes et le code visuel qui va avec.",
+        "en": "Character type identified by glasses and the visual code that comes with them."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le mot parle d'un détail visuel devenu un vrai code de personnage.",
+          "en": "The term refers to a visual detail that became a full character code."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas un rôle narratif, mais un type reconnaissable d'un coup d'œil.",
+          "en": "It is not a narrative role, but a type recognized at a glance."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne une fille à lunettes comme figure de personnage. Dans les anime, ce simple détail visuel peut devenir une identité de type à lui tout seul.",
+        "en": "This word refers to a glasses girl as a character figure. In anime, that simple visual detail can become a full identity marker on its own."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Présidente de classe",
+            "Étudiante studieuse",
+            "Froide réservée"
+          ],
+          "en": [
+            "Class president",
+            "Studious girl",
+            "Cold reserved type"
+          ]
+        }
+      },
+      "difficultyTier": 4
+    },
+    {
+      "order": 29,
+      "jp": {
+        "term": "会長",
+        "reading": "かいちょう",
+        "romaji": "kaichou"
+      },
+      "gloss": {
+        "fr": "Président du conseil",
+        "en": "Student council president"
+      },
+      "definition": {
+        "fr": "Figure d'autorité scolaire qui dirige le conseil des élèves.",
+        "en": "School authority figure who leads the student council."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Dans les anime scolaires, cette personne a souvent beaucoup de présence.",
+          "en": "In school anime, this person often has a lot of presence."
+        },
+        "hint2": {
+          "fr": "Le mot parle d'un poste de direction plus que d'un simple élève modèle.",
+          "en": "The term describes a leadership role more than just a model student."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le président du conseil des élèves. Dans les anime de lycée, ce rôle est souvent très codé et très visible.",
+        "en": "This word refers to the student council president. In high school anime, the role is often highly codified and very visible."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Professeur",
+            "Délégué de classe",
+            "Aîné"
+          ],
+          "en": [
+            "Teacher",
+            "Class representative",
+            "Senior"
+          ]
+        }
+      },
+      "difficultyTier": 4
+    },
+    {
+      "order": 30,
+      "jp": {
+        "term": "中二病",
+        "reading": "ちゅうにびょう",
+        "romaji": "chuunibyou"
+      },
+      "gloss": {
+        "fr": "Délire d'ado spécial",
+        "en": "Eighth-grader syndrome"
+      },
+      "definition": {
+        "fr": "Comportement d'adolescent qui se donne une aura spéciale, sombre ou surpuissante.",
+        "en": "Teen behavior that gives itself a special, dark or overpowered aura."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le personnage se croit plus mystérieux, maudit ou puissant qu'il ne l'est vraiment.",
+          "en": "The character believes they are more mysterious, cursed or powerful than they really are."
+        },
+        "hint2": {
+          "fr": "Ce code est devenu un trope comique bien connu.",
+          "en": "This code became a well-known comedic trope."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne un délire adolescent très codé, fait de postures spéciales, de noms grandioses et d'imaginaire sombre. C'est devenu un terme culte chez les fans d'anime.",
+        "en": "This word refers to a highly codified adolescent delusion made of dramatic poses, grand names and dark fantasy. It became a cult term among anime fans."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [
+            "Rôle de héros caché",
+            "Posture dramatique",
+            "Jeunesse intense"
+          ],
+          "en": [
+            "Hidden hero role",
+            "Dramatic pose",
+            "Youthful intensity"
+          ]
+        }
+      },
+      "difficultyTier": 4
+    }
+  ]
+}

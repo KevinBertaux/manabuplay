@@ -47,7 +47,7 @@ export type RoadmapCatalog = {
 
 const roadmapPath = path.join(
   process.cwd(),
-  "src",
+  "shared",
   "data",
   "manabuplay",
   "packs",

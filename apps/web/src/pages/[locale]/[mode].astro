@@ -1,10 +1,10 @@
 ---
 import PublicLayout from "../../layouts/PublicLayout.astro";
 import PublicQuiz from "../../components/PublicQuiz.astro";
-import { buildMvpBootData } from "../../../../../src/data/manabuplay/catalog";
-import { buildArchivesBootData, getArchiveDateKeys, getLatestArchiveDateKey } from "../../../../../src/lib/manabuplay-archives";
-import { buildDailyBootData } from "../../../../../src/lib/manabuplay-daily";
-import { buildPracticeBootData } from "../../../../../src/lib/manabuplay-practice";
+import { buildMvpBootData } from "../../../../../shared/data/manabuplay/catalog";
+import { buildArchivesBootData, getArchiveDateKeys, getLatestArchiveDateKey } from "../../../../../shared/lib/manabuplay-archives";
+import { buildDailyBootData } from "../../../../../shared/lib/manabuplay-daily";
+import { buildPracticeBootData } from "../../../../../shared/lib/manabuplay-practice";
 import { normalizePublicLocale } from "../../lib/public-locales";
 import {
   PUBLIC_MODE_COPY,
@@ -12,7 +12,7 @@ import {
   getLocalizedHomePath,
   getPublicStaticModePaths,
 } from "../../lib/public-routes";
-import { serializeForInlineScript } from "../../../../../src/lib/serialize-inline-script";
+import { serializeForInlineScript } from "../../../../../shared/lib/serialize-inline-script";
 
 export function getStaticPaths() {
   return getPublicStaticModePaths();

@@ -1,7 +1,7 @@
 ---
 import "../../../styles/admin.css";
-import { buildMvpBootData } from "../../../../../../src/data/manabuplay/catalog";
-import { serializeForInlineScript } from "../../../../../../src/lib/serialize-inline-script";
+import { buildMvpBootData } from "../../../../../../shared/data/manabuplay/catalog";
+import { serializeForInlineScript } from "../../../../../../shared/lib/serialize-inline-script";
 
 const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(buildMvpBootData())};`;
 ---

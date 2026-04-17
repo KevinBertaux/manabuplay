@@ -377,17 +377,17 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     risk: { fr: "Fort : mutation du runtime quiz.", en: "High: quiz runtime mutation." },
     files: [
       {
-        path: "src/lib/manabuplay-daily.ts",
+        path: "shared/lib/manabuplay-daily.ts",
         action: "create",
         note: { fr: "Générer le Quotidien par date/seed.", en: "Generate Daily by date/seed." },
       },
       {
-        path: "src/lib/manabuplay-practice.ts",
+        path: "shared/lib/manabuplay-practice.ts",
         action: "create",
         note: { fr: "Tirage Libre + 4 difficultés + cooldown sessions.", en: "Practice draw + 4 difficulties + session cooldown." },
       },
       {
-        path: "src/lib/manabuplay-archives.ts",
+        path: "shared/lib/manabuplay-archives.ts",
         action: "create",
         note: { fr: "Archives par date passée.", en: "Archives by past date." },
       },
@@ -414,12 +414,12 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     risk: { fr: "Moyen : qualité éditoriale plus lente que code.", en: "Medium: editorial quality is slower than code." },
     files: [
       {
-        path: "src/data/manabuplay/packs/v0.1/*.json",
+        path: "shared/data/manabuplay/packs/v0.1/*.json",
         action: "update",
         note: { fr: "Packs 1 à 4 vers 34 mots, pack 5 refondu.", en: "Packs 1 to 4 to 34 words, pack 5 rewritten." },
       },
       {
-        path: "src/data/manabuplay/catalog.ts",
+        path: "shared/data/manabuplay/catalog.ts",
         action: "update",
         note: { fr: "Exposer le contenu nécessaire aux builders de mode.", en: "Expose content needed by mode builders." },
       },

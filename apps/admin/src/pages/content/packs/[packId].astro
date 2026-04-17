@@ -1,8 +1,8 @@
 ---
 import "../../../styles/admin.css";
 import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../../lib/admin-nav";
-import type { PackReaderWord } from "../../../../../../src/lib/manabuplay-pack-reader";
-import { getAllPacks, getPackById } from "../../../../../../src/lib/manabuplay-pack-reader";
+import type { PackReaderWord } from "../../../../../../shared/lib/manabuplay-pack-reader";
+import { getAllPacks, getPackById } from "../../../../../../shared/lib/manabuplay-pack-reader";
 
 export function getStaticPaths() {
   return getAllPacks().map((pack) => ({
