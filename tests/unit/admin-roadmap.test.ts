@@ -37,6 +37,6 @@ describe("admin roadmap", () => {
     expect(labels.priority.P0).toBe("P0");
     expect(labels.area.landing).toBe("Landing");
     expect(labels.type.infra).toBe("Infra");
-    expect(labels.status.done).toBe("Fait");
+    expect(labels.status.done).toBe("Terminé");
   });
 });

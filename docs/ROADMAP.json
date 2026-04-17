@@ -228,7 +228,7 @@
           "priority": "P1",
           "area": "landing",
           "type": "feature",
-          "notes": "Sortir du toggle client-side et preparer des pages equivalentes FR / EN."
+          "notes": "v0.1 expose FR / EN uniquement. La racine / redirige selon la locale navigateur vers /fr/ ou /en/, fallback anglais. L'architecture garde ES sous le coude pour v1.0+, sans surface visible en prod."
         },
         {
           "id": "v01-waitlist",
@@ -278,7 +278,7 @@
           "type": "feature",
           "children": [
             { "id": "public-routes-fr-en", "title": "Creer les routes FR / EN stables pour la landing", "status": "todo" },
-            { "id": "public-routes-daily-practice-archives", "title": "Preparer les routes Daily / Practice / Archives", "status": "todo" },
+            { "id": "public-routes-daily-practice-archives", "title": "Preparer les routes Daily / Practice / Archives par locale", "status": "todo" },
             { "id": "public-session-payload", "title": "Preparer un payload de session par mode au lieu du boot legacy unique", "status": "todo" }
           ]
         },

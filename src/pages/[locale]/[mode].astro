@@ -1,0 +1,75 @@
+---
+import PublicLayout from "../../layouts/PublicLayout.astro";
+import PublicQuiz from "../../components/public/PublicQuiz.astro";
+import { buildMvpBootData } from "../../data/manabuplay/catalog";
+import { buildDailyBootData } from "../../lib/manabuplay-daily";
+import { normalizePublicLocale } from "../../lib/public-locales";
+import {
+  PUBLIC_MODE_COPY,
+  type PublicModeKey,
+  getLocalizedHomePath,
+  getPublicStaticModePaths,
+} from "../../lib/public-routes";
+import { serializeForInlineScript } from "../../lib/serialize-inline-script";
+
+export function getStaticPaths() {
+  return getPublicStaticModePaths();
+}
+
+const locale = normalizePublicLocale(Astro.params.locale);
+const mode = Astro.params.mode as PublicModeKey;
+const copy = PUBLIC_MODE_COPY[mode] ?? PUBLIC_MODE_COPY.daily;
+const isDailyMode = mode === "daily";
+const bootData = isDailyMode ? buildDailyBootData() : buildMvpBootData();
+const lang = bootData.lang[locale] ?? bootData.lang.en;
+const bootDataScript = `
+window.__MANABUPLAY_LOCALE__ = ${JSON.stringify(locale)};
+window.__MANABUPLAY_MODE__ = ${JSON.stringify(mode)};
+window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(bootData)};
+`;
+---
+<PublicLayout
+  locale={locale}
+  title={`${copy.title[locale]} — ManabuPlay`}
+  description={copy.description[locale]}
+  ogTitle={`${copy.title[locale]} — ManabuPlay`}
+  ogDescription={copy.description[locale]}
+  activeMode={mode}
+  bootDataScript={bootDataScript}
+  includeQuizRuntime={isDailyMode}
+>
+  {isDailyMode ? (
+    <main class="hero-bg grid-bg public-mode-page public-daily-page">
+      <article class="public-mode-card border-glow public-daily-intro">
+        <a class="public-back-link" href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
+        <p class="section-label" style="color:var(--cyan);">{copy.kicker[locale]}</p>
+        <h1 class="font-pixel glow-fuchsia">{copy.title[locale]}</h1>
+        <p>{copy.description[locale]}</p>
+        <div class="public-route-status">
+          <strong>{copy.status[locale]}</strong>
+          <span>{locale === "fr" ? "10 questions seedées par date locale." : "10 questions seeded from the local date."}</span>
+        </div>
+        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz">
+          {lang.hero_cta}
+        </a>
+      </article>
+      <PublicQuiz />
+    </main>
+  ) : (
+    <main class="hero-bg grid-bg public-mode-page">
+      <article class="public-mode-card border-glow">
+        <a class="public-back-link" href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
+        <p class="section-label" style="color:var(--cyan);">{copy.kicker[locale]}</p>
+        <h1 class="font-pixel glow-fuchsia">{copy.title[locale]}</h1>
+        <p>{copy.description[locale]}</p>
+        <div class="public-route-status">
+          <strong>{copy.status[locale]}</strong>
+          <span>Mode: {mode} · Locale: {locale}</span>
+        </div>
+        <a class="cta-btn hero-cta inline-flex items-center justify-center" href={getLocalizedHomePath(locale) + "#quiz"}>
+          {lang.hero_cta}
+        </a>
+      </article>
+    </main>
+  )}
+</PublicLayout>

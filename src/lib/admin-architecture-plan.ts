@@ -57,14 +57,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Élevé", en: "High" },
     priority: 2,
-    progress: 8,
+    progress: 25,
     whyNow: {
       fr: "Le produit ne peut plus rester une landing avec une ancre quiz. Les modes ont besoin de vraies routes.",
       en: "The product can no longer stay as a landing with a quiz anchor. Modes need real routes.",
     },
     note: {
-      fr: "Shell public, locale par URL, routes Daily / Practice / Archives et switch de langue équivalent.",
-      en: "Public shell, locale-by-URL, Daily / Practice / Archives routes, and equivalent language switching.",
+      fr: "Shell public, locale par URL, routes Daily / Practice / Archives et switch de langue équivalent. ES reste prévu côté architecture pour v1.0+, mais invisible en v0.1.",
+      en: "Public shell, locale-by-URL, Daily / Practice / Archives routes, and equivalent language switching. ES remains planned in the architecture for v1.0+, but hidden in v0.1.",
     },
   },
   {
@@ -314,47 +314,32 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "public-shell-locale",
     order: 2,
-    progress: 8,
+    progress: 25,
     title: { fr: "Poser le shell public et la locale par URL", en: "Introduce public shell and locale-by-URL" },
     goal: {
       fr: "Sortir progressivement du toggle client-side et préparer une vraie IA publique.",
       en: "Move progressively away from the client-side toggle and prepare real public IA.",
     },
     guardrail: {
-      fr: "Le `/` actuel reste un filet de sécurité tant que `/fr` et `/en` ne sont pas stables.",
-      en: "The current `/` stays as a safety net until `/fr` and `/en` are stable.",
+      fr: "La racine `/` résout la locale navigateur vers `/fr/` ou `/en/`, avec fallback anglais.",
+      en: "Root `/` resolves the browser locale to `/fr/` or `/en/`, with English fallback.",
     },
     risk: { fr: "Moyen : changement de contrat i18n et SEO.", en: "Medium: changes the i18n and SEO contract." },
     files: [
       {
-        path: "src/lib/site-locale.ts",
+        path: "src/lib/public-locales.ts",
         action: "create",
-        note: { fr: "Définir locales, fallback et page équivalente.", en: "Define locales, fallback, and equivalent page mapping." },
+        note: { fr: "Définir locales publiques FR / EN et locales prévues plus tard.", en: "Define public FR / EN locales and later planned locales." },
       },
       {
-        path: "src/lib/site-routes.ts",
+        path: "src/lib/public-routes.ts",
         action: "create",
         note: { fr: "Centraliser les routes publiques et les routes produit.", en: "Centralize public and product routes." },
       },
       {
-        path: "src/components/public/PublicHeader.astro",
+        path: "src/pages/[locale]/index.astro",
         action: "create",
-        note: { fr: "Header partagé avec vraie nav produit, pas faux CTA.", en: "Shared header with real product nav, not a fake CTA." },
-      },
-      {
-        path: "src/components/public/LocaleSwitch.astro",
-        action: "create",
-        note: { fr: "Switch de langue vers l'URL équivalente.", en: "Language switch to equivalent URL." },
-      },
-      {
-        path: "src/pages/fr/index.astro",
-        action: "create",
-        note: { fr: "Landing FR stable.", en: "Stable FR landing." },
-      },
-      {
-        path: "src/pages/en/index.astro",
-        action: "create",
-        note: { fr: "Landing EN stable.", en: "Stable EN landing." },
+        note: { fr: "Entrée landing localisée FR / EN.", en: "Localized FR / EN landing entry." },
       },
     ],
   },
@@ -373,12 +358,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     },
     risk: { fr: "Fort : première vraie mutation de l'IA publique.", en: "High: first real public IA mutation." },
     files: [
-      { path: "src/pages/fr/daily.astro", action: "create", note: { fr: "Entrée Quotidien FR.", en: "FR Daily entry point." } },
-      { path: "src/pages/en/daily.astro", action: "create", note: { fr: "Entrée Quotidien EN.", en: "EN Daily entry point." } },
-      { path: "src/pages/fr/practice.astro", action: "create", note: { fr: "Entrée Libre FR.", en: "FR Practice entry point." } },
-      { path: "src/pages/en/practice.astro", action: "create", note: { fr: "Entrée Libre EN.", en: "EN Practice entry point." } },
-      { path: "src/pages/fr/archives.astro", action: "create", note: { fr: "Archives FR.", en: "FR Archives." } },
-      { path: "src/pages/en/archives.astro", action: "create", note: { fr: "Archives EN.", en: "EN Archives." } },
+      { path: "src/pages/[locale]/[mode].astro", action: "create", note: { fr: "Entrées Daily / Practice / Archives pour FR / EN.", en: "Daily / Practice / Archives entries for FR / EN." } },
     ],
   },
   {

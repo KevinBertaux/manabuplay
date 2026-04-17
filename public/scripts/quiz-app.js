@@ -6,6 +6,7 @@
     throw new Error("ManabuPlay boot data is missing.");
   }
 
+  const MANABUPLAY_MODE = MANABUPLAY_BOOT.mode || window.__MANABUPLAY_MODE__ || 'practice';
   const DIFFICULTIES = MANABUPLAY_BOOT.difficulties;
   let currentDiff = null;  // currently selected difficulty object
 
@@ -32,6 +33,8 @@
   const WAITLIST_SUCCESS_MESSAGE_DELAY = 4000;
   let waitlistButtonTimer = null;
   let waitlistMessageTimer = null;
+  const SUPPORTED_LANGS = ['en', 'fr'];
+  const LOCALIZED_ROUTES = ['daily', 'practice', 'archives'];
 
 
   // ══════════════════════════════════════════════════════════════
@@ -39,8 +42,35 @@
   // ══════════════════════════════════════════════════════════════
   const LANG = MANABUPLAY_BOOT.lang;
 
-  let currentLang = LS.getLang();
+  const pageLocale = SUPPORTED_LANGS.includes(window.__MANABUPLAY_LOCALE__) ? window.__MANABUPLAY_LOCALE__ : null;
+  let currentLang = pageLocale || (SUPPORTED_LANGS.includes(LS.getLang()) ? LS.getLang() : 'en');
   const t = k => (LANG[currentLang]?.[k] ?? LANG.en?.[k]) || '';
+
+  function localizedPath(lang, route) {
+    return `/${lang}/${route ? `${route}/` : ''}`;
+  }
+
+  function getCurrentLocalizedRoute() {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    if (!SUPPORTED_LANGS.includes(parts[0])) return '';
+    return LOCALIZED_ROUTES.includes(parts[1]) ? parts[1] : '';
+  }
+
+  function updateLocalizedLinks() {
+    const route = getCurrentLocalizedRoute();
+    document.querySelectorAll('[data-public-route]').forEach(link => {
+      const targetRoute = link.dataset.publicRoute;
+      if (LOCALIZED_ROUTES.includes(targetRoute)) {
+        link.setAttribute('href', localizedPath(currentLang, targetRoute));
+      }
+    });
+    document.querySelectorAll('[data-locale-home]').forEach(link => {
+      const targetLang = link.dataset.localeHome;
+      if (SUPPORTED_LANGS.includes(targetLang)) {
+        link.setAttribute('href', localizedPath(targetLang, route));
+      }
+    });
+  }
 
   function applyLang() {
     document.getElementById('htmlRoot').lang = currentLang;
@@ -69,8 +99,9 @@
     document.querySelectorAll('[data-i18n-ph]').forEach(el => {
       el.placeholder = t(el.dataset.i18nPh);
     });
-    document.getElementById('btnEN').classList.toggle('active', currentLang === 'en');
-    document.getElementById('btnFR').classList.toggle('active', currentLang === 'fr');
+    document.getElementById('btnEN')?.classList.toggle('active', currentLang === 'en');
+    document.getElementById('btnFR')?.classList.toggle('active', currentLang === 'fr');
+    updateLocalizedLinks();
     // Refresh copy button label if not in "copied" state
     const copyBtn = document.getElementById('shareBtnCopy');
     const copyLbl = document.getElementById('copyBtnLabel');
@@ -87,7 +118,15 @@
   }
 
   function setLang(lang) {
+    if (!SUPPORTED_LANGS.includes(lang)) return;
     if (lang === currentLang) return;
+    const currentRoute = getCurrentLocalizedRoute();
+    const isLocalizedPage = SUPPORTED_LANGS.includes(window.location.pathname.split('/').filter(Boolean)[0]);
+    if (isLocalizedPage) {
+      LS.setLang(lang);
+      window.location.href = localizedPath(lang, currentRoute) + window.location.hash;
+      return;
+    }
     currentLang = lang;
     LS.setLang(lang);
     const idx=state.currentIndex, sc=state.score, st=state.streak, bs=state.bestStreak;
@@ -104,7 +143,11 @@
   // ══════════════════════════════════════════════════════════════
   // 50 QUIZ WORDS — bilingual
   // ══════════════════════════════════════════════════════════════
-  const QUIZ_DATA = MANABUPLAY_BOOT.quizData;
+  const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
+  const DAILY_DATE_KEY = getLocalDateKey();
+  const QUIZ_DATA = MANABUPLAY_MODE === 'daily'
+    ? buildDailyQuizData(RAW_QUIZ_DATA, DAILY_DATE_KEY)
+    : RAW_QUIZ_DATA;
 
 
   // QUIZ ENGINE
@@ -117,12 +160,77 @@
     return b;
   };
 
+  function getLocalDateKey(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function hashSeed(input) {
+    let hash = 2166136261;
+    for (let index = 0; index < input.length; index += 1) {
+      hash ^= input.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
+    }
+    return hash >>> 0;
+  }
+
+  function mulberry32(seed) {
+    let value = seed >>> 0;
+    return () => {
+      value = (value + 0x6d2b79f5) >>> 0;
+      let result = Math.imul(value ^ (value >>> 15), value | 1);
+      result ^= result + Math.imul(result ^ (result >>> 7), result | 61);
+      return ((result ^ (result >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function seededShuffle(items, seedSource) {
+    const random = mulberry32(hashSeed(seedSource));
+    const shuffled = [...items];
+    for (let index = shuffled.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(random() * (index + 1));
+      [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+    }
+    return shuffled;
+  }
+
+  function buildDailyQuizData(pool, dateKey) {
+    const dailyConfig = MANABUPLAY_BOOT.daily || {};
+    const targets = dailyConfig.tierTargets || { 1: 4, 2: 3, 3: 2, 4: 1 };
+    const questionCount = dailyConfig.questionCount || 10;
+    const selected = [];
+    const selectedIds = new Set();
+
+    Object.entries(targets).forEach(([tier, count]) => {
+      const tierPool = pool.filter((entry) => String(entry.tier || 1) === tier);
+      seededShuffle(tierPool, `${dateKey}:tier:${tier}`).slice(0, count).forEach((entry) => {
+        selected.push(entry);
+        selectedIds.add(entry.id);
+      });
+    });
+
+    if (selected.length < questionCount) {
+      seededShuffle(pool, `${dateKey}:fill`).forEach((entry) => {
+        if (selected.length >= questionCount || selectedIds.has(entry.id)) return;
+        selected.push(entry);
+        selectedIds.add(entry.id);
+      });
+    }
+
+    return seededShuffle(selected.slice(0, questionCount), `${dateKey}:order`);
+  }
+
   function buildQuestions(n) {
-    const pool = shuffle(QUIZ_DATA).slice(0, n);
-    return pool.map(q => {
+    const isDailyMode = MANABUPLAY_MODE === 'daily';
+    const pool = isDailyMode ? QUIZ_DATA.slice(0, n) : shuffle(QUIZ_DATA).slice(0, n);
+    return pool.map((q, index) => {
       const correctText = q.correct[currentLang] || q.correct.en;
       const wrongList   = q.wrong[currentLang]   || q.wrong.en;
-      const answers     = shuffle([correctText, ...shuffle(wrongList).slice(0,3)]);
+      const answerSeed = `${DAILY_DATE_KEY}:${q.id || q.word}:${currentLang}:${index}`;
+      const pickedWrong = isDailyMode ? seededShuffle(wrongList, `${answerSeed}:wrong`).slice(0,3) : shuffle(wrongList).slice(0,3);
+      const answers     = isDailyMode ? seededShuffle([correctText, ...pickedWrong], `${answerSeed}:answers`) : shuffle([correctText, ...pickedWrong]);
       return { ...q, correctText, answers };
     });
   }
