@@ -57,14 +57,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Élevé", en: "High" },
     priority: 2,
-    progress: 75,
+    progress: 100,
     whyNow: {
       fr: "Le produit ne peut plus rester une landing avec une ancre quiz. Les modes ont besoin de vraies routes.",
       en: "The product can no longer stay as a landing with a quiz anchor. Modes need real routes.",
     },
     note: {
-      fr: "Shell public, locale par URL, routes Daily / Practice / Archives en vrai et switch de langue cohérent. ES reste prévu côté architecture pour v1.0+, mais invisible en v0.1.",
-      en: "Public shell, locale-by-URL, real Daily / Practice / Archives routes, and coherent language switching. ES remains planned in the architecture for v1.0+, but hidden in v0.1.",
+      fr: "Shell public, locale par URL, routes Daily / Practice / Archives en vrai et switch de langue cohérent sont en place. ES reste prévu côté architecture pour v1.0+, mais invisible en v0.1.",
+      en: "Public shell, locale-by-URL, real Daily / Practice / Archives routes, and coherent language switching are in place. ES remains planned in the architecture for v1.0+, but hidden in v0.1.",
     },
   },
   {
@@ -267,8 +267,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "Required before shipping if emails are collected, but it should wrap an already-working email flow.",
     },
     note: {
-      fr: "A garder pour la presque fin de v0.1 : mentions, privacy, consentement explicite.",
-      en: "Keep near the end of v0.1: legal notice, privacy, explicit consent.",
+      fr: "A traiter en fin de v0.1 : mentions, privacy, consentement explicite.",
+      en: "Handle toward the end of v0.1: legal notice, privacy, explicit consent.",
     },
   },
 ];
@@ -314,11 +314,11 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "public-shell-locale",
     order: 2,
-    progress: 25,
+    progress: 100,
     title: { fr: "Poser le shell public et la locale par URL", en: "Introduce public shell and locale-by-URL" },
     goal: {
-      fr: "Sortir progressivement du toggle client-side et préparer une vraie IA publique.",
-      en: "Move progressively away from the client-side toggle and prepare real public IA.",
+      fr: "Avoir un shell public localisé, des URLs stables par langue et une racine `/` qui redirige correctement.",
+      en: "Have a localized public shell, stable per-language URLs, and a `/` root that redirects correctly.",
     },
     guardrail: {
       fr: "La racine `/` résout la locale navigateur vers `/fr/` ou `/en/`, avec fallback anglais.",
@@ -364,7 +364,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "session-builders",
     order: 4,
-    progress: 75,
+    progress: 100,
     title: { fr: "Séparer les payloads de session", en: "Split session payloads" },
     goal: {
       fr: "Remplacer le boot mono-pack par des builders Daily / Practice / Archives.",
@@ -390,11 +390,6 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         path: "src/lib/manabuplay-archives.ts",
         action: "create",
         note: { fr: "Archives par date passée.", en: "Archives by past date." },
-      },
-      {
-        path: "src/lib/manabuplay-session.ts",
-        action: "create",
-        note: { fr: "Contrat commun de session consommé par le front.", en: "Shared session contract consumed by the front-end." },
       },
       {
         path: "public/scripts/quiz-app.js",

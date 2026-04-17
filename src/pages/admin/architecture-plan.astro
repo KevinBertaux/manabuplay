@@ -332,10 +332,10 @@ const implementationSummary = getArchitectureImplementationSummary();
         <p class="arch-section-copy">
           <span
             data-admin-i18n
-            data-admin-fr="Ordre recommandé pour passer de l'état actuel à une vraie architecture Daily / Practice / Archives sans tout casser. Le principe : corriger d'abord les incohérences locales, poser ensuite la locale par URL, puis seulement ouvrir les nouvelles routes produit."
-            data-admin-en="Recommended order to move from the current state to a real Daily / Practice / Archives architecture without breaking everything. The principle: first fix the local inconsistencies, then introduce locale-by-URL, and only after that open the new product routes."
+            data-admin-fr="Cette séquence a servi de plan de migration vers la vraie architecture publique. Elle reste utile comme trace de ce qui est déjà posé en v0.1 et de ce qu'il reste à finir avant la coupe finale."
+            data-admin-en="This sequence served as the migration plan toward the real public architecture. It remains useful as a record of what is already in place in v0.1 and what still needs finishing before the final cutover."
           >
-            Ordre recommandé pour passer de l'état actuel à une vraie architecture Daily / Practice / Archives sans tout casser. Le principe : corriger d'abord les incohérences locales, poser ensuite la locale par URL, puis seulement ouvrir les nouvelles routes produit.
+            Cette séquence a servi de plan de migration vers la vraie architecture publique. Elle reste utile comme trace de ce qui est déjà posé en v0.1 et de ce qu'il reste à finir avant la coupe finale.
           </span>
         </p>
       </div>
@@ -444,10 +444,10 @@ const implementationSummary = getArchitectureImplementationSummary();
         <p class="arch-footnote">
           <span
             data-admin-i18n
-            data-admin-fr="Règle de coupe : on ne retire l'ancien flux `#quiz` qu'une fois les routes Daily / Practice / Archives, la locale par URL et le moteur de session commun validés sur le shell public."
-            data-admin-en="Cut line: do not remove the old `#quiz` flow until the Daily / Practice / Archives routes, locale-by-URL, and the shared session engine are all validated on the public shell."
+            data-admin-fr="Règle de coupe : les routes produit sont validées. Le prochain vrai cutover consiste à retirer le flux home `#quiz` legacy quand la landing v0.2 basculera proprement sur la nouvelle architecture publique."
+            data-admin-en="Cut line: product routes are validated. The next real cutover is removing the legacy home `#quiz` flow once the v0.2 landing cleanly switches to the new public architecture."
           >
-            Règle de coupe : on ne retire l'ancien flux `#quiz` qu'une fois les routes Daily / Practice / Archives, la locale par URL et le moteur de session commun validés sur le shell public.
+            Règle de coupe : les routes produit sont validées. Le prochain vrai cutover consiste à retirer le flux home `#quiz` legacy quand la landing v0.2 basculera proprement sur la nouvelle architecture publique.
           </span>
         </p>
       </section>

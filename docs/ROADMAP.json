@@ -83,6 +83,15 @@
           "notes": "Le hub admin existe deja pour relire les packs et travailler le produit."
         },
         {
+          "id": "v01-admin-maintenance",
+          "title": "Ajouter une page admin de maintenance locale",
+          "status": "done",
+          "priority": "P2",
+          "area": "admin",
+          "type": "feature",
+          "notes": "Permet d'inspecter et purger les donnees locales navigateur pendant les tests produit."
+        },
+        {
           "id": "v01-packs-draft",
           "title": "Rediger les cinq packs initiaux",
           "status": "done",
