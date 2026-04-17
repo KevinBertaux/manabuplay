@@ -1,0 +1,89 @@
+---
+import "../../../styles/admin.css";
+import { buildMvpBootData } from "../../../../../../src/data/manabuplay/catalog";
+import { serializeForInlineScript } from "../../../../../../src/lib/serialize-inline-script";
+
+const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(buildMvpBootData())};`;
+---
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ManabuPlay Admin — Hero Reference</title>
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+<body class="text-slate-200">
+  <nav class="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-2"
+       style="background:rgba(10,9,17,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(139,92,246,.15);">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-md flex items-center justify-center text-white flex-shrink-0"
+           style="background:linear-gradient(135deg,var(--violet),var(--fuchsia));">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <span class="glow-violet" style="font-family:'Joystix',sans-serif;font-size:.85rem;color:#a78bfa;">
+        Manabu<span style="color:#e879f9;">Play</span>
+      </span>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1 px-2 py-1 rounded-md" style="background:rgba(26,22,48,.8);border:1px solid rgba(139,92,246,.15);">
+        <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+        <span style="color:rgba(139,92,246,.2);font-size:.9rem;">|</span>
+        <button class="lang-btn" id="btnFR" onclick="setLang('fr')">FR</button>
+      </div>
+      <a href="#quiz" class="nav-link px-4 py-2 rounded-md border border-violet-500/30 hover:border-violet-400 transition-all hidden sm:block" style="color:#a78bfa;" data-i18n="nav_cta"></a>
+    </div>
+  </nav>
+
+  <section class="hero-bg grid-bg relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 pb-16 overflow-hidden">
+    <span class="kanji-bg" style="top:5%;left:-2%;transform:rotate(-15deg);color:var(--violet);">学</span>
+    <span class="kanji-bg" style="bottom:5%;right:-2%;transform:rotate(10deg);color:var(--fuchsia);">遊</span>
+    <div class="absolute w-64 h-64 rounded-full" style="top:20%;left:15%;background:radial-gradient(circle,rgba(139,92,246,.2) 0%,transparent 70%);animation:float 6s ease-in-out infinite;filter:blur(40px);"></div>
+    <div class="absolute w-48 h-48 rounded-full" style="bottom:25%;right:10%;background:radial-gradient(circle,rgba(232,121,249,.2) 0%,transparent 70%);animation:float 8s ease-in-out infinite 2s;filter:blur(30px);"></div>
+
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 font-body text-sm font-600 border" style="border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.07);color:var(--cyan);">
+      <span class="w-2 h-2 rounded-full" style="background:var(--cyan);animation:pulse 2s infinite;"></span>
+      <span data-i18n="hero_badge"></span>
+    </div>
+
+    <h1 class="font-pixel leading-relaxed mb-6 relative" style="font-size:clamp(1.6rem,4vw,3rem);">
+      <span class="glitch-text block text-white" data-text="MANABU">MANABU</span>
+      <span class="block mt-2 glow-fuchsia" style="color:var(--fuchsia);">PLAY</span>
+    </h1>
+    <p class="font-body text-xl sm:text-2xl font-600 text-slate-300 max-w-2xl mb-4" data-i18n="hero_tagline"></p>
+    <p class="font-body text-lg text-slate-400 max-w-lg mb-10" data-i18n="hero_sub"></p>
+
+    <div class="flex flex-col sm:flex-row gap-4 items-center">
+      <a href="#quiz"><button class="cta-btn" data-i18n="hero_cta"></button></a>
+      <a href="#features" class="font-body font-600 text-slate-400 hover:text-slate-200 transition-colors text-base" data-i18n="hero_how"></a>
+    </div>
+
+    <div class="flex gap-8 mt-12 flex-wrap justify-center">
+      <div class="text-center">
+        <div class="font-pixel text-xl" style="color:var(--violet);">50</div>
+        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_words"></div>
+      </div>
+      <div class="w-px bg-slate-800"></div>
+      <div class="text-center">
+        <div class="font-pixel text-xl" style="color:var(--fuchsia);">4</div>
+        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_diff"></div>
+      </div>
+      <div class="w-px bg-slate-800"></div>
+      <div class="text-center">
+        <div class="font-pixel text-xl" style="color:var(--cyan);">0¥</div>
+        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_free"></div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40">
+      <div class="w-px h-8" style="background:linear-gradient(to bottom,transparent,var(--violet));"></div>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </section>
+
+  <script is:inline set:html={bootDataScript}></script>
+  <script is:inline src="/scripts/quiz-app.js"></script>
+</body>
+</html>
