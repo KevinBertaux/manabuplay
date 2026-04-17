@@ -2,7 +2,16 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { extname, join, relative } from "node:path";
 
 const ROOT = process.cwd();
-const TARGET_DIRS = ["src", "docs", "public"];
+const TARGET_DIRS = [
+  "src",
+  "docs",
+  "public",
+  "apps/web/src",
+  "apps/web/public",
+  "apps/admin/src",
+  "apps/admin/public",
+  "shared",
+];
 const TARGET_EXTENSIONS = new Set([".astro", ".css", ".html"]);
 const IGNORED_DIRS = new Set([
   ".astro",

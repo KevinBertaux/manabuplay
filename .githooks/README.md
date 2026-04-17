@@ -1,6 +1,6 @@
 # Git Hooks
 
-This repository uses a versioned `pre-push` hook to run feature-level checks before pushing.
+This repository uses a versioned `pre-push` hook.
 
 Enable it once per clone:
 
@@ -8,19 +8,19 @@ Enable it once per clone:
 git config core.hooksPath .githooks
 ```
 
-The current workflow is:
+Current validation levels:
 
 ```sh
 npm run check:quick
 ```
 
-- fast static/local guard for small patches
+- quick local validation
 
 ```sh
 npm run check:feature
 ```
 
-- feature-level validation used by the `pre-push` hook and CI
+- feature-level validation for real code changes and CI
 
 ```sh
 npm run qa:release
@@ -31,5 +31,7 @@ npm run qa:release
 The hook runs:
 
 ```sh
-npm run check:feature
+npm run check
 ```
+
+It also skips branch deletions and empty pushes, so `git push origin --delete ...` no longer pays the full validation cost.

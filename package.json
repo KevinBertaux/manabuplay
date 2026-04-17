@@ -3,16 +3,25 @@
   "private": true,
   "type": "module",
   "version": "0.1.0",
+  "workspaces": [
+    "apps/*"
+  ],
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "node scripts/dev.mjs --app web",
+    "dev:admin": "node scripts/dev.mjs --app admin",
+    "build": "node scripts/build.mjs",
+    "build:web": "node scripts/build.mjs --app web",
+    "build:admin": "node scripts/build.mjs --app admin",
     "preview": "astro preview",
-    "check": "astro check",
-    "check:quick": "npm run check && npm run check:px-values",
-    "check:feature": "npm run check:quick && npm run test:unit && npm run build && npm run test:e2e:ui-guards && npm run test:e2e:critical",
+    "check": "node scripts/check.mjs",
+    "check:web": "node scripts/check.mjs --app web",
+    "check:admin": "node scripts/check.mjs --app admin",
+    "check:quick": "npm run check",
+    "check:feature": "node scripts/check-feature.mjs",
     "qa:release": "npm run check:feature && npm run test:coverage && npm run test:e2e:admin && npm run test:e2e:legacy-parity",
     "test:unit": "vitest run",
     "test:coverage": "vitest run --coverage",

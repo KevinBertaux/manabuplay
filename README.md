@@ -24,8 +24,8 @@ The original static MVP is kept in `legacy/mvp-index.html` for migration.
 
 ```sh
 npm install
-npm run dev
-npm run check:quick
+npm run dev -- --host 0.0.0.0
+npm run check
 npm run check:feature
 npm run qa:release
 npm run build
@@ -34,9 +34,15 @@ npm run preview
 
 Validation levels:
 
-- `npm run check:quick`: fast static checks for small patches
+- `npm run check`: quick local checks
 - `npm run check:feature`: unit tests + build + critical public Playwright flows
 - `npm run qa:release`: feature checks + coverage + admin E2E + legacy parity
+
+Workspace notes:
+
+- `npm run dev -- --host 0.0.0.0` is the canonical local command
+- `npm run build` is the canonical full build command
+- the repository still falls back to the current monolith app until the split is finished
 
 ## Project Notes
 
