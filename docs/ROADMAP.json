@@ -162,7 +162,7 @@
         {
           "id": "v01-public-quiz-hints",
           "title": "Afficher hint2 et explanation dans le quiz public",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "quiz",
           "type": "feature"

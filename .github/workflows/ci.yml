@@ -31,5 +31,5 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Project CI checks
-        run: npm run check:ci
+      - name: Project feature checks
+        run: npm run check:feature

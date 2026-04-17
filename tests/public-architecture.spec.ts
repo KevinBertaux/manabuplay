@@ -73,6 +73,17 @@ test.describe("public localized architecture", () => {
     await expect(page.locator("#quizArea")).toBeVisible();
     await expect(page.locator("#progressText")).toHaveText("0/10");
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
+    await page.locator("#hintBtn").click();
+    await expect(page.locator("#hintText")).toBeVisible();
+    await expect(page.locator("#hintContent")).toBeVisible();
+    await page.evaluate(() => {
+      if (typeof window.revealHint === "function") {
+        window.revealHint();
+      }
+    });
+    await expect(page.locator("#hintTextSecondary")).toBeVisible();
+    await page.locator("#answersGrid .answer-btn").first().click();
+    await expect(page.locator("#explanationBox")).toBeVisible();
   });
 
   test("renders archives by date and plays the selected archive", async ({ page }) => {

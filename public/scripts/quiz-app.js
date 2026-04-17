@@ -152,6 +152,7 @@
   const QUIZ_DATA = MANABUPLAY_MODE === 'daily' || MANABUPLAY_MODE === 'archives'
     ? buildDailyQuizData(RAW_QUIZ_DATA, SESSION_DATE_KEY)
     : RAW_QUIZ_DATA;
+  let hintStage = 0;
 
 
   // QUIZ ENGINE
@@ -402,14 +403,80 @@
   }
 
   // ── HINT ─────────────────────────────────────────────────────
-  function revealHint() {
-    document.getElementById('hintBtn').style.display  = 'none';
-    const zone    = document.getElementById('hintText');
-    const content = document.getElementById('hintContent');
-    zone.style.display = 'block';
-    content.classList.remove('hint-revealed');
-    void content.offsetWidth;
-    content.classList.add('hint-revealed');
+  function getLocalizedField(value) {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    return value[currentLang] || value.en || '';
+  }
+
+  function animateReveal(node) {
+    if (!node) return;
+    node.classList.remove('hint-revealed');
+    void node.offsetWidth;
+    node.classList.add('hint-revealed');
+  }
+
+  function setHintButtonLabel(key) {
+    const hintBtn = document.getElementById('hintBtn');
+    if (!hintBtn) return;
+    const label = hintBtn.querySelector('[data-i18n]');
+    if (label) label.textContent = t(key);
+  }
+
+  function hideHintButton() {
+    const hintBtn = document.getElementById('hintBtn');
+    if (hintBtn) hintBtn.style.display = 'none';
+  }
+
+  function renderExplanation(text, reveal = false) {
+    const explanationBox = document.getElementById('explanationBox');
+    const explanationContent = document.getElementById('explanationContent');
+    if (!explanationBox || !explanationContent) return;
+    if (!text) {
+      explanationBox.style.display = 'none';
+      explanationContent.textContent = '';
+      return;
+    }
+    explanationContent.textContent = text;
+    explanationBox.style.display = 'grid';
+    if (reveal) animateReveal(explanationBox);
+  }
+
+  function revealHint(forceAll = false) {
+    const q = state.questions[state.currentIndex];
+    if (!q) return;
+
+    const hintPrimary = getLocalizedField(q.hint);
+    const hintSecondary = getLocalizedField(q.hint2);
+    const previousStage = hintStage;
+    const zone = document.getElementById('hintText');
+    const primaryContent = document.getElementById('hintContent');
+    const secondaryRow = document.getElementById('hintTextSecondary');
+    const secondaryContent = document.getElementById('hint2Content');
+
+    if (!zone || !primaryContent) return;
+
+    zone.style.display = 'grid';
+
+    if (hintStage === 0 || forceAll) {
+      primaryContent.textContent = hintPrimary;
+      animateReveal(primaryContent);
+      hintStage = 1;
+    }
+
+    if ((forceAll || previousStage >= 1) && hintSecondary && secondaryRow && secondaryContent) {
+      secondaryRow.style.display = 'grid';
+      secondaryContent.textContent = hintSecondary;
+      animateReveal(secondaryRow);
+      hintStage = 2;
+    }
+
+    if (forceAll || !hintSecondary || hintStage >= 2) {
+      hideHintButton();
+      return;
+    }
+
+    setHintButtonLabel('hint_btn_more');
   }
 
   // ── RENDER QUESTION ──────────────────────────────────────────
@@ -433,12 +500,29 @@
     const hintBtn     = document.getElementById('hintBtn');
     const hintText    = document.getElementById('hintText');
     const hintContent = document.getElementById('hintContent');
-    hintBtn.style.display   = 'inline-flex';
-    hintText.style.display  = 'none';
-    hintContent.textContent = q.hint[currentLang] || q.hint.en;
-    hintContent.classList.remove('hint-revealed');
-    const hl = hintBtn.querySelector('[data-i18n]');
-    if (hl) hl.textContent = t('hint_btn');
+    const hintTextSecondary = document.getElementById('hintTextSecondary');
+    const hint2Content = document.getElementById('hint2Content');
+    const primaryHint = getLocalizedField(q.hint);
+    const secondaryHint = getLocalizedField(q.hint2);
+    hintStage = 0;
+    if (hintBtn) {
+      hintBtn.style.display = primaryHint || secondaryHint ? 'inline-flex' : 'none';
+      setHintButtonLabel('hint_btn');
+    }
+    if (hintText) hintText.style.display = 'none';
+    if (hintContent) {
+      hintContent.textContent = primaryHint;
+      hintContent.classList.remove('hint-revealed');
+    }
+    if (hintTextSecondary) {
+      hintTextSecondary.style.display = 'none';
+      hintTextSecondary.classList.remove('hint-revealed');
+    }
+    if (hint2Content) {
+      hint2Content.textContent = secondaryHint;
+      hint2Content.classList.remove('hint-revealed');
+    }
+    renderExplanation(getLocalizedField(q.explanation), false);
 
     // Answers
     const grid = document.getElementById('answersGrid');
@@ -463,7 +547,9 @@
     if (state.answered) return;
     state.answered = true;
     document.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
-    if (document.getElementById('hintText').style.display === 'none') revealHint();
+    revealHint(true);
+    const q = state.questions[state.currentIndex];
+    renderExplanation(getLocalizedField(q?.explanation), true);
 
     const isCorrect = chosen === correct;
     const fb = document.getElementById('feedback');

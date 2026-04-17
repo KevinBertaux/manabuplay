@@ -159,14 +159,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 8,
-    progress: 0,
+    progress: 100,
     whyNow: {
       fr: "Le contenu existe déjà dans les packs, mais le quiz public ne l'exploite pas encore.",
       en: "The content already exists in packs, but the public quiz does not use it yet.",
     },
     note: {
-      fr: "A brancher côté joueur avant de juger la vraie qualité pédagogique.",
-      en: "Wire it player-side before judging the real learning quality.",
+      fr: "Branché côté joueur : hint1, hint2 et explanation sont maintenant visibles dans le quiz public.",
+      en: "Wired player-side: hint1, hint2, and explanation are now visible in the public quiz.",
     },
   },
   {
