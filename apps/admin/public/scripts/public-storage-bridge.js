@@ -7,18 +7,43 @@ const REQUEST_TIMEOUT_MS = 4000;
 let bridgeFramePromise = null;
 let bridgeReadyPromise = null;
 let requestCounter = 0;
+let activePublicOrigin = null;
 const pendingRequests = new Map();
 
-function getPublicOrigin() {
-  return `${window.location.protocol}//${window.location.hostname}:${PUBLIC_PORT}`;
+function isLoopbackHost(hostname) {
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1" || hostname === "[::1]";
 }
 
-function getBridgeUrl() {
-  return `${getPublicOrigin()}${BRIDGE_PATH}`;
+function getOriginCandidates(port) {
+  const protocol = window.location.protocol;
+  const currentHost = window.location.hostname || "localhost";
+  const hosts = [currentHost];
+
+  if (isLoopbackHost(currentHost)) {
+    ["localhost", "127.0.0.1"].forEach((host) => {
+      if (!hosts.includes(host)) {
+        hosts.push(host);
+      }
+    });
+  }
+
+  return hosts.map((host) => `${protocol}//${host}:${port}`);
+}
+
+function getPublicOriginCandidates() {
+  return getOriginCandidates(PUBLIC_PORT);
+}
+
+function getPublicOrigin() {
+  return activePublicOrigin || getPublicOriginCandidates()[0];
+}
+
+function getBridgeUrl(origin) {
+  return `${origin}${BRIDGE_PATH}`;
 }
 
 function handleBridgeMessage(event) {
-  if (event.origin !== getPublicOrigin()) {
+  if (!getPublicOriginCandidates().includes(event.origin)) {
     return;
   }
 
@@ -45,14 +70,10 @@ function handleBridgeMessage(event) {
 
 window.addEventListener("message", handleBridgeMessage);
 
-function ensureBridgeFrame() {
-  if (bridgeFramePromise) {
-    return bridgeFramePromise;
-  }
-
-  bridgeFramePromise = new Promise((resolve, reject) => {
+function mountBridgeFrame(origin) {
+  return new Promise((resolve, reject) => {
     const iframe = document.createElement("iframe");
-    iframe.src = getBridgeUrl();
+    iframe.src = getBridgeUrl(origin);
     iframe.setAttribute("aria-hidden", "true");
     iframe.tabIndex = -1;
     iframe.style.position = "fixed";
@@ -65,7 +86,8 @@ function ensureBridgeFrame() {
     iframe.style.right = "0";
 
     const timer = window.setTimeout(() => {
-      reject(new Error(`Bridge iframe not reachable at ${getBridgeUrl()}`));
+      iframe.remove();
+      reject(new Error(`Bridge iframe not reachable at ${getBridgeUrl(origin)}`));
     }, REQUEST_TIMEOUT_MS);
 
     iframe.addEventListener("load", () => {
@@ -75,11 +97,9 @@ function ensureBridgeFrame() {
 
     document.body.appendChild(iframe);
   });
-
-  return bridgeFramePromise;
 }
 
-function sendBridgeRequest(iframe, action, payload) {
+function sendBridgeRequest(iframe, action, payload, origin = getPublicOrigin()) {
   return new Promise((resolve, reject) => {
     const requestId = `bridge_${Date.now()}_${++requestCounter}`;
     const timer = window.setTimeout(() => {
@@ -96,21 +116,57 @@ function sendBridgeRequest(iframe, action, payload) {
         action,
         payload,
       },
-      getPublicOrigin(),
+      origin,
     );
   });
 }
 
-async function ensureBridgeReady() {
-  if (!bridgeReadyPromise) {
-    bridgeReadyPromise = (async () => {
-      const iframe = await ensureBridgeFrame();
-      await sendBridgeRequest(iframe, "ping");
-      return iframe;
-    })();
+async function ensureBridgeFrame() {
+  if (bridgeFramePromise) {
+    return bridgeFramePromise;
   }
 
-  return bridgeReadyPromise;
+  bridgeFramePromise = (async () => {
+    let lastError = null;
+
+    for (const origin of getPublicOriginCandidates()) {
+      try {
+        const iframe = await mountBridgeFrame(origin);
+        try {
+          await sendBridgeRequest(iframe, "ping", undefined, origin);
+          activePublicOrigin = origin;
+          return iframe;
+        } catch (error) {
+          iframe.remove();
+          lastError = error;
+        }
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    throw lastError || new Error("Public storage bridge unavailable.");
+  })();
+
+  try {
+    return await bridgeFramePromise;
+  } catch (error) {
+    bridgeFramePromise = null;
+    throw error;
+  }
+}
+
+async function ensureBridgeReady() {
+  if (!bridgeReadyPromise) {
+    bridgeReadyPromise = ensureBridgeFrame();
+  }
+
+  try {
+    return await bridgeReadyPromise;
+  } catch (error) {
+    bridgeReadyPromise = null;
+    throw error;
+  }
 }
 
 export async function requestPublicStorage(action, payload) {

@@ -20,8 +20,24 @@ export const prerender = true;
       const PRACTICE_KEY = "mp_practice_sessions";
       const LANG_KEY = "mp_lang";
 
-      function getAllowedOrigin() {
-        return `${window.location.protocol}//${window.location.hostname}:4322`;
+      function isLoopbackHost(hostname) {
+        return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1" || hostname === "[::1]";
+      }
+
+      function getAllowedOrigins() {
+        const protocol = window.location.protocol;
+        const currentHost = window.location.hostname || "localhost";
+        const hosts = [currentHost];
+
+        if (isLoopbackHost(currentHost)) {
+          ["localhost", "127.0.0.1"].forEach((host) => {
+            if (!hosts.includes(host)) {
+              hosts.push(host);
+            }
+          });
+        }
+
+        return hosts.map((host) => `${protocol}//${host}:4322`);
       }
 
       function getLocalStorageKeys() {
@@ -113,7 +129,7 @@ export const prerender = true;
       };
 
       window.addEventListener("message", (event) => {
-        if (event.origin !== getAllowedOrigin()) {
+        if (!getAllowedOrigins().includes(event.origin)) {
           return;
         }
 

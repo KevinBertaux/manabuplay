@@ -50,7 +50,7 @@ const groups: AdminNavGroup[] = [
     label: "Contenu",
     keys: ["packs", "catalog"],
     items: [
-      { key: "packs", href: "/content/packs", label: "Packs" },
+      { key: "packs", href: "/content/packs/", label: "Packs" },
       { key: "catalog", href: "/content/catalog", label: "Catalogue" },
     ],
   },

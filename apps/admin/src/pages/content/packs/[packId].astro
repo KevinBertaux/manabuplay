@@ -391,7 +391,7 @@ function getTierTone(word: PackReaderWord) {
           {packLinks.map((link) => (
             <a
               class:list={["reader-pack-link", { active: link.id === activePack.id }]}
-              href={`/content/packs/${link.id}`}
+              href={`/content/packs/${link.id}/`}
             >
               <span class="reader-pack-link-head">
                 <span class="reader-pack-name">{link.name}</span>

@@ -154,7 +154,7 @@ function getTransparentSummary(pack: (typeof packs)[number]) {
           const tiers = getTierBreakdown(pack);
           const transparent = getTransparentSummary(pack);
           return (
-            <a class="pack-card" href={`/content/packs/${pack.id}`}>
+            <a class="pack-card" href={`/content/packs/${pack.id}/`}>
               <div class="pack-head">
                 <div class="pack-name">{pack.locales.fr.name}</div>
                 <div class:list={["pack-score", getScoreTone(readiness)]}>

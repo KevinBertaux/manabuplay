@@ -154,7 +154,7 @@ function getTransparentSummary(pack: (typeof packs)[number]) {
         <div class="tool-title">Collecte email</div>
         <p class="tool-copy">Lecture des inscriptions locales, export CSV daté et contrôle du parcours avant smoke test Netlify Forms.</p>
       </a>
-      <a class="admin-card tool-card" href="/content/packs">
+      <a class="admin-card tool-card" href="/content/packs/">
         <div class="tool-kicker">Pack Reader</div>
         <div class="tool-title">Lecteur de pack</div>
         <p class="tool-copy">Vue continue de toutes les cartes d’un pack, avec hints révélés et bonne réponse affichée.</p>
@@ -205,7 +205,7 @@ function getTransparentSummary(pack: (typeof packs)[number]) {
           const tiers = getTierBreakdown(pack);
           const transparent = getTransparentSummary(pack);
           return (
-          <a class="pack-card" href={`/content/packs/${pack.id}`}>
+          <a class="pack-card" href={`/content/packs/${pack.id}/`}>
             <div class="pack-head">
               <div class="pack-name">{pack.locales.fr.name}</div>
               <div class:list={["pack-score", getScoreTone(readiness)]}>

@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { ADMIN_URL } from "./helpers/admin";
 
-const PACKS_URL = `${ADMIN_URL}content/packs`;
+const PACKS_URL = `${ADMIN_URL}content/packs/`;
 
 test.describe("admin packs", () => {
   test("lists the current pack set with readiness signals", async ({ page }) => {
@@ -16,7 +16,7 @@ test.describe("admin packs", () => {
   });
 
   test("opens a pack detail page with gifts and pagination", async ({ page }) => {
-    await page.goto(`${PACKS_URL}/japan-pop-city-daily-life`, { waitUntil: "domcontentloaded" });
+    await page.goto(`${PACKS_URL}japan-pop-city-daily-life/`, { waitUntil: "domcontentloaded" });
 
     await expect(page.locator("[data-reader-cartouche]")).toContainText("14 cadeaux");
     await expect(page.locator("[data-admin-card]").first()).toBeVisible();
