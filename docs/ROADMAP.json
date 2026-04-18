@@ -180,11 +180,11 @@
         {
           "id": "v01-tailwind-surface-1",
           "title": "Migrer une premiere surface publique stable vers Tailwind v4",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "landing",
           "type": "ux",
-          "notes": "Ne pas viser toute la landing d'un coup. Choisir une surface lisible, a forte repetition, et laisser les animations / pages de reference hors migration si elles n'apportent pas de gain net."
+          "notes": "Premiere surface migree : navigation publique + routes Daily / Practice / Archives. Les animations, le quiz et les references design restent hors migration tant qu'il n'y a pas de gain net."
         },
         {
           "id": "v01-public-quiz-hints",
