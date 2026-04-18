@@ -2,7 +2,6 @@
 import PublicLayout from "../../layouts/PublicLayout.astro";
 import PublicQuiz from "../../components/PublicQuiz.astro";
 import { buildDailyBootData } from "../../../../../shared/lib/manabuplay-daily";
-import { serializeForInlineScript } from "../../../../../shared/lib/serialize-inline-script";
 
 import { normalizePublicLocale } from "../../lib/public-locales";
 import { getPublicStaticLocalePaths } from "../../lib/public-routes";
@@ -14,7 +13,23 @@ export function getStaticPaths() {
 const locale = normalizePublicLocale(Astro.params.locale);
 const bootData = buildDailyBootData();
 const lang = bootData.lang[locale] ?? bootData.lang.en;
-const bootDataScript = `window.__MANABUPLAY_LOCALE__ = ${JSON.stringify(locale)}; window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(bootData)};`;
+const bootPayload = {
+  locale,
+  data: bootData,
+};
+const heroSectionClass =
+  "hero-bg grid-bg relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 pb-12 pt-24 text-center";
+const heroBadgeClass =
+  "mb-8 inline-flex items-center gap-2 rounded-full border border-[rgba(34,211,238,.3)] bg-[rgba(34,211,238,.07)] px-4 py-2 font-body text-base font-[600] text-[var(--cyan)]";
+const heroTitleClass =
+  "relative mb-6 flex flex-wrap items-center justify-center gap-3 font-pixel text-[clamp(1.52rem,3.2vw,2.5rem)] leading-relaxed";
+const heroTaglineClass =
+  "mb-4 max-w-4xl font-body text-[clamp(1.56rem,2.5vw,2.35rem)] font-[600] leading-snug text-slate-300";
+const heroSubClass =
+  "mb-8 max-w-3xl font-body text-[clamp(1.02rem,1.55vw,1.38rem)] leading-relaxed text-slate-400";
+const statValueClass = "font-pixel text-2xl";
+const featureIconBaseClass =
+  "mb-4 flex h-11 w-11 items-center justify-center rounded-lg border text-2xl";
 ---
 <PublicLayout
   locale={locale}
@@ -22,29 +37,29 @@ const bootDataScript = `window.__MANABUPLAY_LOCALE__ = ${JSON.stringify(locale)}
   description={lang.seo_description}
   ogTitle={lang.seo_title}
   ogDescription={lang.og_description}
-  bootDataScript={bootDataScript}
+  bootPayload={bootPayload}
   includeQuizRuntime
 >
 
   <!-- ══ HERO ══ -->
-  <section class="hero-bg grid-bg relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-12 overflow-hidden" style="min-height:100svh;">
-    <span class="kanji-bg" style="top:5%;left:-2%;transform:rotate(-15deg);color:var(--violet);">学</span>
-    <span class="kanji-bg" style="bottom:5%;right:-2%;transform:rotate(10deg);color:var(--fuchsia);">遊</span>
-    <div class="absolute w-64 h-64 rounded-full" style="top:20%;left:15%;background:radial-gradient(circle,rgba(139,92,246,.2) 0%,transparent 70%);animation:float 6s ease-in-out infinite;filter:blur(40px);"></div>
-    <div class="absolute w-48 h-48 rounded-full" style="bottom:25%;right:10%;background:radial-gradient(circle,rgba(232,121,249,.2) 0%,transparent 70%);animation:float 8s ease-in-out infinite 2s;filter:blur(30px);"></div>
+  <section class={heroSectionClass}>
+    <span class="kanji-bg left-[-2%] top-[5%] rotate-[-15deg] text-[var(--violet)]">学</span>
+    <span class="kanji-bg bottom-[5%] right-[-2%] rotate-[10deg] text-[var(--fuchsia)]">遊</span>
+    <div class="absolute left-[15%] top-[20%] h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(139,92,246,.2)_0%,transparent_70%)] blur-[40px] [animation:float_6s_ease-in-out_infinite]"></div>
+    <div class="absolute bottom-[25%] right-[10%] h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(232,121,249,.2)_0%,transparent_70%)] blur-[30px] [animation:float_8s_ease-in-out_infinite_2s]"></div>
 
     <div class="w-full max-w-4xl mx-auto flex flex-col items-center">
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 font-body text-base font-600 border" style="border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.07);color:var(--cyan);">
-        <span class="w-2 h-2 rounded-full" style="background:var(--cyan);animation:pulse 2s infinite;"></span>
+      <div class={heroBadgeClass}>
+        <span class="h-2 w-2 rounded-full bg-[var(--cyan)] [animation:pulse_2s_infinite]"></span>
         <span data-i18n="hero_badge"></span>
       </div>
 
-      <div class="font-pixel leading-relaxed mb-6 relative flex items-center justify-center gap-3 flex-wrap" style="font-size:clamp(1.52rem,3.2vw,2.5rem);">
+      <div class={heroTitleClass}>
         <span class="glitch-text text-white" data-text="MANABU">MANABU</span>
-        <span class="glow-fuchsia" style="color:var(--fuchsia);">PLAY</span>
+        <span class="glow-fuchsia text-[var(--fuchsia)]">PLAY</span>
       </div>
-      <h1 class="font-body font-600 leading-snug text-slate-300 max-w-4xl mb-4" style="font-size:clamp(1.56rem,2.5vw,2.35rem);" data-i18n="hero_tagline"></h1>
-      <p class="font-body leading-relaxed text-slate-400 max-w-3xl mb-8" style="font-size:clamp(1.02rem,1.55vw,1.38rem);" data-i18n="hero_sub"></p>
+      <h1 class={heroTaglineClass} data-i18n="hero_tagline"></h1>
+      <p class={heroSubClass} data-i18n="hero_sub"></p>
 
       <div class="hero-actions">
         <a href="#quiz" class="cta-btn hero-cta inline-flex items-center justify-center" data-i18n="hero_cta"></a>
@@ -53,24 +68,24 @@ const bootDataScript = `window.__MANABUPLAY_LOCALE__ = ${JSON.stringify(locale)}
 
       <div class="flex gap-8 mt-12 flex-wrap justify-center items-center">
         <div class="text-center min-w-24">
-          <div class="font-pixel text-2xl" style="color:var(--violet);">170</div>
+          <div class:list={[statValueClass, "text-[var(--violet)]"]}>170</div>
           <div class="stat-label text-slate-500 mt-1" data-i18n="stat_words"></div>
         </div>
         <div class="w-px h-10 bg-slate-800 hidden sm:block"></div>
         <div class="text-center min-w-24">
-          <div class="font-pixel text-2xl" style="color:var(--fuchsia);">4</div>
+          <div class:list={[statValueClass, "text-[var(--fuchsia)]"]}>4</div>
           <div class="stat-label text-slate-500 mt-1" data-i18n="stat_diff"></div>
         </div>
         <div class="w-px h-10 bg-slate-800 hidden sm:block"></div>
         <div class="text-center min-w-24">
-          <div class="font-pixel text-2xl" style="color:var(--cyan);">Free</div>
+          <div class:list={[statValueClass, "text-[var(--cyan)]"]}>Free</div>
           <div class="stat-label text-slate-500 mt-1" data-i18n="stat_free"></div>
         </div>
       </div>
     </div>
 
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40">
-      <div class="w-px h-8" style="background:linear-gradient(to bottom,transparent,var(--violet));"></div>
+      <div class="h-8 w-px bg-[linear-gradient(to_bottom,transparent,var(--violet))]"></div>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
     </div>
   </section>
@@ -80,24 +95,24 @@ const bootDataScript = `window.__MANABUPLAY_LOCALE__ = ${JSON.stringify(locale)}
   <!-- ══ FEATURES ══ -->
   <section id="features" class="py-16 px-6 max-w-5xl mx-auto">
     <div class="text-center mb-12 reveal">
-      <p class="section-label" style="color:var(--cyan);" data-i18n="features_label"></p>
+      <p class="section-label text-[var(--cyan)]" data-i18n="features_label"></p>
       <h2 class="pixel-heading-md mt-4 text-white" data-i18n="features_title"></h2>
       <p class="font-body text-xl text-slate-400 mt-4 max-w-2xl mx-auto" data-i18n="features_sub"></p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div class="feature-card p-6 reveal">
-        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);">⚔️</div>
-        <h3 class="pixel-card-title mb-4" style="color:#a78bfa;" data-i18n="feat1_title"></h3>
+        <div class:list={[featureIconBaseClass, "border-[rgba(139,92,246,.3)] bg-[rgba(139,92,246,.15)]"]}>⚔️</div>
+        <h3 class="pixel-card-title mb-4 text-[#a78bfa]" data-i18n="feat1_title"></h3>
         <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat1_body"></p>
       </div>
-      <div class="feature-card p-6 reveal" style="transition-delay:.1s;">
-        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(232,121,249,.15);border:1px solid rgba(232,121,249,.3);">🧠</div>
-        <h3 class="pixel-card-title mb-4" style="color:#e879f9;" data-i18n="feat2_title"></h3>
+      <div class="feature-card reveal p-6 delay-100">
+        <div class:list={[featureIconBaseClass, "border-[rgba(232,121,249,.3)] bg-[rgba(232,121,249,.15)]"]}>🧠</div>
+        <h3 class="pixel-card-title mb-4 text-[#e879f9]" data-i18n="feat2_title"></h3>
         <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat2_body"></p>
       </div>
-      <div class="feature-card p-6 reveal" style="transition-delay:.2s;">
-        <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4 text-2xl" style="background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2);">🎮</div>
-        <h3 class="pixel-card-title mb-4" style="color:#22d3ee;" data-i18n="feat3_title"></h3>
+      <div class="feature-card reveal p-6 delay-200">
+        <div class:list={[featureIconBaseClass, "border-[rgba(34,211,238,.2)] bg-[rgba(34,211,238,.1)]"]}>🎮</div>
+        <h3 class="pixel-card-title mb-4 text-[#22d3ee]" data-i18n="feat3_title"></h3>
         <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat3_body"></p>
       </div>
     </div>
@@ -105,9 +120,9 @@ const bootDataScript = `window.__MANABUPLAY_LOCALE__ = ${JSON.stringify(locale)}
 
   <!-- ══ EMAIL ══ -->
   <section id="notify" class="py-20 px-6 relative overflow-hidden">
-    <div class="absolute inset-0" style="background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(232,121,249,.07) 0%,transparent 70%);"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(232,121,249,.07)_0%,transparent_70%)]"></div>
     <div class="max-w-xl mx-auto text-center relative z-10 reveal">
-      <p class="section-label mb-4" style="color:var(--fuchsia);" data-i18n="email_label"></p>
+      <p class="section-label mb-4 text-[var(--fuchsia)]" data-i18n="email_label"></p>
       <h2 class="pixel-heading-md text-white leading-relaxed mb-4" data-i18n="email_title"></h2>
       <p class="font-body text-xl text-slate-400 mb-8" data-i18n="email_sub"></p>
       <!-- Netlify Forms hidden bot-trap (required by Netlify) -->
@@ -115,23 +130,23 @@ const bootDataScript = `window.__MANABUPLAY_LOCALE__ = ${JSON.stringify(locale)}
             class="flex flex-col sm:flex-row gap-3">
         <!-- Hidden fields required by Netlify -->
         <input type="hidden" name="form-name" value="manabuplay-waitlist" />
-        <p class="hidden" style="display:none;"><label>Don't fill this out: <input name="bot-field"/></label></p>
+        <p class="hidden"><label>Don't fill this out: <input name="bot-field"/></label></p>
         <!-- Visible fields -->
         <input type="email" id="emailInput" name="email" class="email-input flex-1" data-i18n-ph="email_ph" required autocomplete="email"/>
-        <button type="submit" class="cta-btn whitespace-nowrap" style="font-size:.72rem;" data-i18n="email_cta"></button>
+        <button type="submit" class="cta-btn whitespace-nowrap text-[.72rem]" data-i18n="email_cta"></button>
       </form>
-      <div id="emailSuccess" style="display:none;" class="mt-5">
-        <span class="font-pixel" style="font-size:.78rem;color:var(--cyan);" data-i18n="email_ok"></span>
+      <div id="emailSuccess" class="mt-5 hidden">
+        <span class="font-pixel text-[.78rem] text-[var(--cyan)]" data-i18n="email_ok"></span>
       </div>
       <p class="font-body text-sm text-slate-600 mt-5" data-i18n="email_legal"></p>
     </div>
   </section>
 
   <!-- ══ FOOTER ══ -->
-  <footer class="border-t py-8 px-6" style="border-color:rgba(139,92,246,.15);">
+  <footer class="border-t border-[rgba(139,92,246,.15)] px-6 py-8">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-2">
-        <span class="glow-violet" style="font-family:'Joystix',sans-serif;font-size:.78rem;color:#a78bfa;">Manabu<span style="color:#e879f9;">Play</span></span>
+        <span class="glow-violet font-['Joystix',sans-serif] text-[.78rem] text-[#a78bfa]">Manabu<span class="text-[#e879f9]">Play</span></span>
         <span class="text-slate-700">•</span>
         <span class="font-body text-sm text-slate-600"><span data-i18n="footer_by"></span> <span class="text-slate-400 font-600">Kxis</span></span>
       </div>

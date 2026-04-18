@@ -34,7 +34,9 @@ function walkDirectory(directoryPath) {
     const source = fs.readFileSync(nextPath, "utf8");
     counters.styleAttributes += (source.match(/\bstyle=/g) || []).length;
     counters.inlineEventHandlers += (source.match(/\bon[a-z]+=/g) || []).length;
-    counters.inlineScripts += (source.match(/<script[^>]*(?:is:inline|set:html=)/g) || []).length;
+    counters.inlineScripts += (
+      source.match(/<script\b(?=[^>]*(?:set:html=|is:inline))(?![^>]*\bsrc=)[^>]*>/g) || []
+    ).length;
     counters.styleBlocks += (source.match(/<style\b/g) || []).length;
   }
 }
