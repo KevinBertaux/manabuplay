@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-04-17",
+    "updatedAt": "2026-04-18",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "Backlog" },
@@ -90,6 +90,15 @@
           "area": "admin",
           "type": "feature",
           "notes": "Permet d'inspecter et purger les donnees locales navigateur pendant les tests produit."
+        },
+        {
+          "id": "v01-repo-split",
+          "title": "Finaliser le split du repo en web public + dashboard admin",
+          "status": "done",
+          "priority": "P1",
+          "area": "core",
+          "type": "infra",
+          "notes": "Le repo ne depend plus du monolithe racine : apps/web, apps/admin, shared et suites de tests separees."
         },
         {
           "id": "v01-packs-draft",

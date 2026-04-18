@@ -1,0 +1,530 @@
+---
+import "../../styles/admin.css";
+import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
+import {
+  getLandingWordingCards,
+  getLandingWordingProgress,
+} from "../../lib/admin-landing-wording";
+
+const adminNav = getAdminNavHtml("wording");
+const cards = getLandingWordingCards();
+const progress = getLandingWordingProgress();
+const summaryCard = cards.find((card) => card.isSummary);
+const groupedCards = [
+  {
+    key: "head",
+    label: { fr: "Head", en: "Head" },
+    cards: cards.filter((card) => !card.isSummary && card.zone === "head"),
+  },
+  {
+    key: "body",
+    label: { fr: "Body", en: "Body" },
+    cards: cards.filter((card) => !card.isSummary && card.zone === "body"),
+  },
+];
+
+const rowLabels = {
+  current: { fr: "Actuel", en: "Current" },
+  A: { fr: "Var A", en: "Var A" },
+  B: { fr: "Var B", en: "Var B" },
+  C: { fr: "Var C", en: "Var C" },
+};
+
+function getTone(score: number) {
+  if (score >= 90) return "excellent";
+  if (score >= 80) return "good";
+  if (score >= 70) return "mid";
+  return "bad";
+}
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Landing Wording</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    html { scroll-behavior:smooth; }
+    .wording-shell { min-height:100vh; background:
+      radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
+      radial-gradient(ellipse 40% 40% at 90% 15%,rgba(34,211,238,.14) 0%,transparent 60%),
+      #0a0911; }
+    .wording-wrap { width:min(1520px,calc(100% - 24px)); margin:0 auto; padding:88px 0 32px; }
+    .wording-card,.wording-hero { background:rgba(15,12,26,.92); border:1px solid rgba(139,92,246,.18); border-radius:8px; box-shadow:0 12px 32px rgba(0,0,0,.32); }
+    .wording-hero { padding:20px; margin-bottom:16px; }
+    .wording-eyebrow { display:inline-flex; align-items:center; gap:8px; min-height:32px; padding:0 12px; border-radius:8px; background:rgba(34,211,238,.12); border:1px solid rgba(34,211,238,.28); color:#22d3ee; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .wording-eyebrow::before { content:""; width:8px; height:8px; border-radius:999px; background:currentColor; }
+    .wording-title { margin:12px 0 8px; font-family:'Joystix',sans-serif; font-size:clamp(1.35rem,2.6vw,2.2rem); color:#fff; line-height:1.15; }
+    .wording-title span { color:#e879f9; }
+    .wording-copy { max-width:78ch; color:#c7c2df; font:500 1.05rem/1.62 'Chakra Petch',sans-serif; }
+    .wording-summary { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .wording-chip { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); color:#fff; font:800 .88rem/1 'Chakra Petch',sans-serif; letter-spacing:.03em; white-space:nowrap; }
+    .wording-chip.is-progress { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
+    .wording-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:12px; }
+    .wording-card { padding:0; overflow:hidden; }
+    .wording-card[open] { border-color:rgba(232,121,249,.24); }
+    .wording-card-summary { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 18px; cursor:pointer; list-style:none; }
+    .wording-card-summary::-webkit-details-marker { display:none; }
+    .wording-card-summary:hover { background:rgba(255,255,255,.03); }
+    .wording-card-head { display:flex; align-items:center; justify-content:space-between; gap:12px; flex:1 1 auto; min-width:0; }
+    .wording-card-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .wording-card-title { color:#fff; font:700 1.34rem/1.2 'Chakra Petch',sans-serif; }
+    .wording-card-id { color:#8f8aa7; font:700 .9rem/1 'Chakra Petch',sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+    .wording-card-body { display:grid; gap:12px; padding:0 18px 18px; border-top:1px solid rgba(255,255,255,.06); }
+    .wording-card-toggle { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#c7c2df; font:900 1rem/1 'Chakra Petch',sans-serif; flex:0 0 auto; transition:transform .18s ease,border-color .18s ease,background .18s ease,color .18s ease; }
+    .wording-card-summary:hover .wording-card-toggle { border-color:rgba(139,92,246,.34); background:rgba(139,92,246,.1); color:#fff; }
+    .wording-card[open] .wording-card-toggle { transform:rotate(180deg); border-color:rgba(232,121,249,.34); background:rgba(232,121,249,.1); color:#fff; }
+    .wording-status { display:inline-flex; align-items:center; min-height:28px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#8f8aa7; font:800 .78rem/1 'Chakra Petch',sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+    .wording-status.done { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
+    .wording-status.summary { border-color:rgba(139,92,246,.26); background:rgba(139,92,246,.14); color:#ddd6fe; }
+    .wording-current-score { display:inline-flex; align-items:center; gap:8px; flex:0 0 auto; }
+    .wording-group { display:grid; gap:12px; }
+    .wording-group-sep { display:flex; align-items:center; gap:12px; padding:4px 0; }
+    .wording-group-line { flex:1 1 auto; height:2px; background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(139,92,246,.4),rgba(255,255,255,.08)); }
+    .wording-group-title { color:#c7c2df; font:800 .88rem/1 'Chakra Petch',sans-serif; letter-spacing:.14em; text-transform:uppercase; white-space:nowrap; }
+    .wording-group-grid { display:grid; gap:12px; }
+    .wording-stack { display:grid; gap:10px; }
+    .wording-row { display:grid; gap:8px; padding:14px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
+    .wording-row.is-current-done { border-color:rgba(74,222,128,.28); background:rgba(74,222,128,.08); }
+    .wording-row.is-muted { opacity:.46; filter:saturate(.72); }
+    .wording-row-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .wording-row-label { color:#fff; font:800 1rem/1 'Chakra Petch',sans-serif; letter-spacing:.04em; }
+    .wording-row-note { color:#8f8aa7; font:700 .84rem/1 'Chakra Petch',sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+    .wording-score { display:inline-flex; align-items:center; justify-content:center; min-height:34px; min-width:72px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05); color:#fff; font:800 .98rem/1 'Chakra Petch',sans-serif; letter-spacing:.03em; white-space:nowrap; }
+    .wording-score.excellent { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
+    .wording-score.good { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
+    .wording-score.mid { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
+    .wording-score.bad { border-color:rgba(248,113,113,.28); background:rgba(248,113,113,.12); color:#fecaca; }
+    .wording-text { color:#c7c2df; font:600 1.12rem/1.62 'Chakra Petch',sans-serif; }
+    .wording-text.current { color:#f3efff; }
+    .wording-footnote { color:#8f8aa7; font:600 .96rem/1.56 'Chakra Petch',sans-serif; }
+    .wording-backtop { position:fixed; right:16px; bottom:16px; z-index:24; display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:8px; border:1px solid rgba(139,92,246,.24); background:rgba(15,12,26,.88); box-shadow:0 12px 28px rgba(0,0,0,.28); color:#f3efff; font:900 1.1rem/1 'Chakra Petch',sans-serif; text-decoration:none; transition:border-color .18s ease,background .18s ease,color .18s ease,transform .18s ease; }
+    .wording-backtop:hover { border-color:rgba(232,121,249,.38); background:rgba(232,121,249,.12); color:#fff; transform:translateY(-1px); }
+    @media (max-width:980px) {
+      .wording-wrap { width:min(100%,calc(100% - 20px)); }
+      .wording-card-summary { padding:14px 16px; align-items:flex-start; }
+      .wording-card-body { padding:0 16px 16px; }
+      .wording-card-head { align-items:flex-start; }
+      .wording-card-title { font-size:1.22rem; }
+      .wording-text { font-size:1.02rem; }
+      .wording-current-score { align-self:flex-start; }
+    }
+  </style>
+  <style set:html={ADMIN_NAV_CSS}></style>
+</head>
+<body class="text-slate-200 wording-shell">
+  <main class="wording-wrap" id="wording-top">
+    <Fragment set:html={adminNav} />
+
+    <section class="wording-hero">
+      <span class="wording-eyebrow">Landing wording</span>
+      <h1 class="wording-title">
+        <span data-admin-i18n data-admin-fr="Lot 1" data-admin-en="Lot 1">Lot 1</span>
+        <span>·</span>
+        <span data-admin-i18n data-admin-fr="SEO, nav et hero" data-admin-en="SEO, nav and hero">SEO, nav et hero</span>
+      </h1>
+      <p class="wording-copy">
+        <span
+          data-admin-i18n
+          data-admin-fr="Comparatif bloc par bloc entre le wording actuel et les variantes A, B, C. Le but est de juger le naturel, l’alignement produit et la clarté, sans rien réécrire à l’aveugle."
+          data-admin-en="Block-by-block comparison between the current wording and variants A, B, C. The goal is to judge naturalness, product alignment and clarity before rewriting anything."
+        >
+          Comparatif bloc par bloc entre le wording actuel et les variantes A, B, C. Le but est de juger le naturel, l’alignement produit et la clarté, sans rien réécrire à l’aveugle.
+        </span>
+      </p>
+      <div class="wording-summary">
+        <span class="wording-chip">
+          <span data-admin-i18n data-admin-fr={`${cards.length} cartes`} data-admin-en={`${cards.length} cards`}>
+            {cards.length} cartes
+          </span>
+        </span>
+        <span class="wording-chip is-progress">
+          <span data-admin-i18n data-admin-fr={`${progress.done}/${progress.total} blocs validés`} data-admin-en={`${progress.done}/${progress.total} validated blocks`}>
+            {progress.done}/{progress.total} blocs validés
+          </span>
+        </span>
+        <span class="wording-chip">
+          <span data-admin-i18n data-admin-fr="Méthode" data-admin-en="Method">Méthode</span>
+          : /100
+        </span>
+        <span class="wording-chip">
+          <span data-admin-i18n data-admin-fr="Naturel + alignement + clarté" data-admin-en="Naturalness + alignment + clarity">Naturel + alignement + clarté</span>
+        </span>
+      </div>
+    </section>
+
+    <section class="wording-grid">
+      {summaryCard && (() => {
+        const card = summaryCard;
+        const variantA = card.variants.A;
+        const variantB = card.variants.B;
+        const variantC = card.variants.C;
+        const isDone = card.status === "done";
+        return (
+          <details class="wording-card">
+            <summary class="wording-card-summary">
+              <div class="wording-card-head">
+                <div class="wording-card-meta">
+                  <div
+                    class="wording-card-title"
+                    data-admin-i18n
+                    data-admin-fr={card.label.fr}
+                    data-admin-en={card.label.en}
+                  >
+                    {card.label.fr}
+                  </div>
+                  <span class:list={["wording-status", "summary"]}>
+                    <span data-admin-i18n data-admin-fr="vue globale" data-admin-en="global view">vue globale</span>
+                  </span>
+                </div>
+                <div class="wording-current-score">
+                  <div class:list={["wording-score", getTone(card.current.score)]}>
+                    {card.current.score}/100
+                  </div>
+                  <span class="wording-card-toggle" aria-hidden="true">⌄</span>
+                </div>
+              </div>
+            </summary>
+
+            <div class="wording-card-body">
+              <div class="wording-card-id">{card.id}</div>
+              <div class="wording-stack">
+                <section class:list={["wording-row", { "is-current-done": isDone }]}>
+                  <div class="wording-row-head">
+                    <div>
+                      <div
+                        class="wording-row-label"
+                        data-admin-i18n
+                        data-admin-fr={rowLabels.current.fr}
+                        data-admin-en={rowLabels.current.en}
+                      >
+                        {rowLabels.current.fr}
+                      </div>
+                      <div class="wording-row-note">{card.current.verdict}</div>
+                    </div>
+                    <div class:list={["wording-score", getTone(card.current.score)]}>
+                      {card.current.score}/100
+                    </div>
+                  </div>
+                  <div
+                    class="wording-text current"
+                    data-admin-i18n
+                    data-admin-fr={card.current.text.fr || card.current.text.en}
+                    data-admin-en={card.current.text.en}
+                  >
+                    {card.current.text.fr || card.current.text.en}
+                  </div>
+                  <div class="wording-footnote">{card.current.notes}</div>
+                </section>
+
+                {variantA && (
+                  <section class="wording-row">
+                    <div class="wording-row-head">
+                      <div>
+                        <div
+                          class="wording-row-label"
+                          data-admin-i18n
+                          data-admin-fr={rowLabels.A.fr}
+                          data-admin-en={rowLabels.A.en}
+                        >
+                          {rowLabels.A.fr}
+                        </div>
+                        <div class="wording-row-note">{variantA.note}</div>
+                      </div>
+                      <div class:list={["wording-score", getTone(variantA.score)]}>
+                        {variantA.score}/100
+                      </div>
+                    </div>
+                    <div
+                      class="wording-text"
+                      data-admin-i18n
+                      data-admin-fr={variantA.text.fr}
+                      data-admin-en={variantA.text.en}
+                    >
+                      {variantA.text.fr}
+                    </div>
+                  </section>
+                )}
+
+                {variantB && (
+                  <section class="wording-row">
+                    <div class="wording-row-head">
+                      <div>
+                        <div
+                          class="wording-row-label"
+                          data-admin-i18n
+                          data-admin-fr={rowLabels.B.fr}
+                          data-admin-en={rowLabels.B.en}
+                        >
+                          {rowLabels.B.fr}
+                        </div>
+                        <div class="wording-row-note">{variantB.note}</div>
+                      </div>
+                      <div class:list={["wording-score", getTone(variantB.score)]}>
+                        {variantB.score}/100
+                      </div>
+                    </div>
+                    <div
+                      class="wording-text"
+                      data-admin-i18n
+                      data-admin-fr={variantB.text.fr}
+                      data-admin-en={variantB.text.en}
+                    >
+                      {variantB.text.fr}
+                    </div>
+                  </section>
+                )}
+
+                {variantC && (
+                  <section class="wording-row">
+                    <div class="wording-row-head">
+                      <div>
+                        <div
+                          class="wording-row-label"
+                          data-admin-i18n
+                          data-admin-fr={rowLabels.C.fr}
+                          data-admin-en={rowLabels.C.en}
+                        >
+                          {rowLabels.C.fr}
+                        </div>
+                        <div class="wording-row-note">{variantC.note}</div>
+                      </div>
+                      <div class:list={["wording-score", getTone(variantC.score)]}>
+                        {variantC.score}/100
+                      </div>
+                    </div>
+                    <div
+                      class="wording-text"
+                      data-admin-i18n
+                      data-admin-fr={variantC.text.fr}
+                      data-admin-en={variantC.text.en}
+                    >
+                      {variantC.text.fr}
+                    </div>
+                  </section>
+                )}
+              </div>
+            </div>
+          </details>
+        );
+      })()}
+
+      {groupedCards.map((group) => (
+        <section class="wording-group">
+          <div class="wording-group-sep">
+            <div class="wording-group-line"></div>
+            <div
+              class="wording-group-title"
+              data-admin-i18n
+              data-admin-fr={group.label.fr}
+              data-admin-en={group.label.en}
+            >
+              {group.label.fr}
+            </div>
+            <div class="wording-group-line"></div>
+          </div>
+
+          <div class="wording-group-grid">
+      {group.cards.map((card) => {
+        const variantA = card.variants.A;
+        const variantB = card.variants.B;
+        const variantC = card.variants.C;
+        const isDone = card.status === "done";
+        return (
+          <details class="wording-card">
+            <summary class="wording-card-summary">
+              <div class="wording-card-head">
+                <div class="wording-card-meta">
+                  <div
+                    class="wording-card-title"
+                    data-admin-i18n
+                    data-admin-fr={card.label.fr}
+                    data-admin-en={card.label.en}
+                  >
+                    {card.label.fr}
+                  </div>
+                  {!card.isSummary && (
+                    <span class:list={["wording-status", { done: isDone }]}>
+                      <span
+                        data-admin-i18n
+                        data-admin-fr={isDone ? "fait" : "à traiter"}
+                        data-admin-en={isDone ? "done" : "to do"}
+                      >
+                        {isDone ? "fait" : "à traiter"}
+                      </span>
+                    </span>
+                  )}
+                  {card.isSummary && (
+                    <span class:list={["wording-status", "summary"]}>
+                      <span data-admin-i18n data-admin-fr="vue globale" data-admin-en="global view">vue globale</span>
+                    </span>
+                  )}
+                </div>
+                <div class="wording-current-score">
+                  <div class:list={["wording-score", getTone(card.current.score)]}>
+                    {card.current.score}/100
+                  </div>
+                  <span class="wording-card-toggle" aria-hidden="true">⌄</span>
+                </div>
+              </div>
+            </summary>
+
+            <div class="wording-card-body">
+              <div class="wording-card-id">{card.id}</div>
+              <div class="wording-stack">
+                <section class:list={["wording-row", { "is-current-done": isDone }]}>
+                  <div class="wording-row-head">
+                    <div>
+                      <div
+                        class="wording-row-label"
+                        data-admin-i18n
+                        data-admin-fr={rowLabels.current.fr}
+                        data-admin-en={rowLabels.current.en}
+                      >
+                        {rowLabels.current.fr}
+                      </div>
+                      <div class="wording-row-note">{card.current.verdict}</div>
+                    </div>
+                    <div class:list={["wording-score", getTone(card.current.score)]}>
+                      {card.current.score}/100
+                    </div>
+                  </div>
+                  <div
+                    class="wording-text current"
+                    data-admin-i18n
+                    data-admin-fr={card.current.text.fr || card.current.text.en}
+                    data-admin-en={card.current.text.en}
+                  >
+                    {card.current.text.fr || card.current.text.en}
+                  </div>
+                  <div class="wording-footnote">{card.current.notes}</div>
+                </section>
+
+                {variantA && (
+                  <section class:list={["wording-row", { "is-muted": isDone }]}>
+                    <div class="wording-row-head">
+                      <div>
+                        <div
+                          class="wording-row-label"
+                          data-admin-i18n
+                          data-admin-fr={rowLabels.A.fr}
+                          data-admin-en={rowLabels.A.en}
+                        >
+                          {rowLabels.A.fr}
+                        </div>
+                        <div class="wording-row-note">{variantA.note}</div>
+                      </div>
+                      <div class:list={["wording-score", getTone(variantA.score)]}>
+                        {variantA.score}/100
+                      </div>
+                    </div>
+                    <div
+                      class="wording-text"
+                      data-admin-i18n
+                      data-admin-fr={variantA.text.fr}
+                      data-admin-en={variantA.text.en}
+                    >
+                      {variantA.text.fr}
+                    </div>
+                  </section>
+                )}
+
+                {variantB && (
+                  <section class:list={["wording-row", { "is-muted": isDone }]}>
+                    <div class="wording-row-head">
+                      <div>
+                        <div
+                          class="wording-row-label"
+                          data-admin-i18n
+                          data-admin-fr={rowLabels.B.fr}
+                          data-admin-en={rowLabels.B.en}
+                        >
+                          {rowLabels.B.fr}
+                        </div>
+                        <div class="wording-row-note">{variantB.note}</div>
+                      </div>
+                      <div class:list={["wording-score", getTone(variantB.score)]}>
+                        {variantB.score}/100
+                      </div>
+                    </div>
+                    <div
+                      class="wording-text"
+                      data-admin-i18n
+                      data-admin-fr={variantB.text.fr}
+                      data-admin-en={variantB.text.en}
+                    >
+                      {variantB.text.fr}
+                    </div>
+                  </section>
+                )}
+
+                {variantC && (
+                  <section class:list={["wording-row", { "is-muted": isDone }]}>
+                    <div class="wording-row-head">
+                      <div>
+                        <div
+                          class="wording-row-label"
+                          data-admin-i18n
+                          data-admin-fr={rowLabels.C.fr}
+                          data-admin-en={rowLabels.C.en}
+                        >
+                          {rowLabels.C.fr}
+                        </div>
+                        <div class="wording-row-note">{variantC.note}</div>
+                      </div>
+                      <div class:list={["wording-score", getTone(variantC.score)]}>
+                        {variantC.score}/100
+                      </div>
+                    </div>
+                    <div
+                      class="wording-text"
+                      data-admin-i18n
+                      data-admin-fr={variantC.text.fr}
+                      data-admin-en={variantC.text.en}
+                    >
+                      {variantC.text.fr}
+                    </div>
+                  </section>
+                )}
+              </div>
+            </div>
+          </details>
+        );
+      })}
+          </div>
+        </section>
+      ))}
+    </section>
+  </main>
+  <a
+    class="wording-backtop"
+    href="#wording-top"
+    aria-label="Retour en haut"
+    title="Retour en haut"
+  >
+    ↑
+  </a>
+
+  <script is:inline>
+    (() => {
+      const update = (lang) => {
+        document.querySelectorAll("[data-admin-i18n]").forEach((node) => {
+          if (!(node instanceof HTMLElement)) return;
+          const value = lang === "fr" ? node.dataset.adminFr : node.dataset.adminEn;
+          if (typeof value === "string") {
+            node.innerHTML = value;
+          }
+        });
+      };
+
+      update(document.documentElement.lang === "fr" ? "fr" : "en");
+      window.addEventListener("adminlangchange", (event) => {
+        const customEvent = event;
+        const lang = customEvent?.detail?.lang === "fr" ? "fr" : "en";
+        update(lang);
+      });
+    })();
+  </script>
+</body>
+</html>

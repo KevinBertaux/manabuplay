@@ -1,0 +1,191 @@
+---
+import PublicLayout from "../../layouts/PublicLayout.astro";
+import PublicQuiz from "../../components/PublicQuiz.astro";
+import { buildMvpBootData } from "../../../../../shared/data/manabuplay/catalog";
+import { buildArchivesBootData, getArchiveDateKeys, getLatestArchiveDateKey } from "../../../../../shared/lib/manabuplay-archives";
+import { buildDailyBootData } from "../../../../../shared/lib/manabuplay-daily";
+import { buildPracticeBootData } from "../../../../../shared/lib/manabuplay-practice";
+import { normalizePublicLocale } from "../../lib/public-locales";
+import {
+  PUBLIC_MODE_COPY,
+  type PublicModeKey,
+  getLocalizedHomePath,
+  getPublicStaticModePaths,
+} from "../../lib/public-routes";
+import { serializeForInlineScript } from "../../../../../shared/lib/serialize-inline-script";
+
+export function getStaticPaths() {
+  return getPublicStaticModePaths();
+}
+
+const locale = normalizePublicLocale(Astro.params.locale);
+const mode = Astro.params.mode as PublicModeKey;
+const copy = PUBLIC_MODE_COPY[mode] ?? PUBLIC_MODE_COPY.daily;
+const isDailyMode = mode === "daily";
+const isPracticeMode = mode === "practice";
+const isArchivesMode = mode === "archives";
+const isQuizMode = isDailyMode || isPracticeMode || isArchivesMode;
+const archiveDates = isArchivesMode ? getArchiveDateKeys() : [];
+const latestArchiveDate = isArchivesMode ? getLatestArchiveDateKey() : null;
+const bootData = isDailyMode
+  ? buildDailyBootData()
+  : isPracticeMode
+    ? buildPracticeBootData()
+    : isArchivesMode
+      ? buildArchivesBootData(latestArchiveDate ?? undefined)
+    : buildMvpBootData();
+const lang = bootData.lang[locale] ?? bootData.lang.en;
+const bootDataScript = `
+window.__MANABUPLAY_LOCALE__ = ${JSON.stringify(locale)};
+window.__MANABUPLAY_MODE__ = ${JSON.stringify(mode)};
+window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(bootData)};
+`;
+---
+<PublicLayout
+  locale={locale}
+  title={`${copy.title[locale]} — ManabuPlay`}
+  description={copy.description[locale]}
+  ogTitle={`${copy.title[locale]} — ManabuPlay`}
+  ogDescription={copy.description[locale]}
+  activeMode={mode}
+  bootDataScript={bootDataScript}
+  includeQuizRuntime={isQuizMode}
+>
+  {isDailyMode ? (
+    <main class="hero-bg grid-bg public-mode-page public-daily-page">
+      <article class="public-mode-card border-glow public-daily-intro">
+        <a class="public-back-link" href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
+        <p class="section-label" style="color:var(--cyan);">{copy.kicker[locale]}</p>
+        <h1 class="font-pixel glow-fuchsia">{copy.title[locale]}</h1>
+        <p>{copy.description[locale]}</p>
+        <div class="public-route-status">
+          <strong>{copy.status[locale]}</strong>
+          <span>{locale === "fr" ? "10 questions seedées par date locale." : "10 questions seeded from the local date."}</span>
+        </div>
+        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz">
+          {lang.hero_cta}
+        </a>
+      </article>
+      <PublicQuiz />
+    </main>
+  ) : isPracticeMode ? (
+    <main class="hero-bg grid-bg public-mode-page public-practice-page">
+      <article class="public-mode-card border-glow public-daily-intro">
+        <a class="public-back-link" href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
+        <p class="section-label" style="color:var(--cyan);">{copy.kicker[locale]}</p>
+        <h1 class="font-pixel glow-fuchsia">{copy.title[locale]}</h1>
+        <p>{copy.description[locale]}</p>
+        <div class="public-route-status">
+          <strong>{copy.status[locale]}</strong>
+          <span>
+            {locale === "fr"
+              ? "4 difficultés, 10 questions, cooldown de 2 sessions."
+              : "4 difficulties, 10 questions, 2-session cooldown."}
+          </span>
+        </div>
+        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz">
+          {lang.hero_cta}
+        </a>
+      </article>
+      <PublicQuiz />
+    </main>
+  ) : isArchivesMode ? (
+    <main class="hero-bg grid-bg public-mode-page public-archives-page">
+      <article class="public-mode-card border-glow public-daily-intro">
+        <a class="public-back-link" href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
+        <p class="section-label" style="color:var(--cyan);">{copy.kicker[locale]}</p>
+        <h1 class="font-pixel glow-fuchsia">{copy.title[locale]}</h1>
+        <p>{copy.description[locale]}</p>
+        <div class="public-route-status">
+          <strong>{copy.status[locale]}</strong>
+          <span
+            id="archiveSelectedLabel"
+            data-default-date={latestArchiveDate ?? ""}
+            data-prefix-fr="Archive sélectionnée"
+            data-prefix-en="Selected archive"
+          >
+            {locale === "fr"
+              ? `Archive sélectionnée : ${latestArchiveDate}`
+              : `Selected archive: ${latestArchiveDate}`}
+          </span>
+        </div>
+        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz">
+          {locale === "fr" ? "Jouer cette archive" : "Play this archive"}
+        </a>
+      </article>
+
+      <section class="public-mode-card border-glow public-archive-browser" id="archives-list">
+        <div class="public-archive-head">
+          <p class="section-label" style="color:var(--violet);">
+            {locale === "fr" ? "ARCHIVES DISPONIBLES" : "AVAILABLE ARCHIVES"}
+          </p>
+          <p>
+            {locale === "fr"
+              ? "Chaque archive rejoue le Quotidien d'une date passée. Pas de partage pour v0.1."
+              : "Each archive replays the Daily from a past date. No sharing in v0.1."}
+          </p>
+        </div>
+        <div class="public-archive-chip-grid">
+          {archiveDates.map((dateKey) => (
+            <a
+              class:list={["public-archive-chip", { "is-active": dateKey === latestArchiveDate }]}
+              href={`?date=${dateKey}`}
+              data-archive-date={dateKey}
+            >
+              {new Intl.DateTimeFormat(locale, {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              }).format(new Date(`${dateKey}T12:00:00`))}
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <PublicQuiz />
+
+      <script is:inline>
+        (() => {
+          const label = document.getElementById("archiveSelectedLabel");
+          const params = new URLSearchParams(window.location.search);
+          const selectedDate = params.get("date");
+          const fallbackDate = label?.getAttribute("data-default-date") || "";
+          const activeDate = selectedDate && /^\d{4}-\d{2}-\d{2}$/.test(selectedDate)
+            ? selectedDate
+            : fallbackDate;
+          if (label && activeDate) {
+            const langCode = document.documentElement.lang === "fr" ? "fr-FR" : "en-US";
+            const prefix = document.documentElement.lang === "fr"
+              ? label.getAttribute("data-prefix-fr")
+              : label.getAttribute("data-prefix-en");
+            const formatted = new Intl.DateTimeFormat(langCode, {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            }).format(new Date(`${activeDate}T12:00:00`));
+            label.textContent = `${prefix}: ${formatted}`;
+          }
+          document.querySelectorAll("[data-archive-date]").forEach((chip) => {
+            chip.classList.toggle("is-active", chip.getAttribute("data-archive-date") === activeDate);
+          });
+        })();
+      </script>
+    </main>
+  ) : (
+    <main class="hero-bg grid-bg public-mode-page">
+      <article class="public-mode-card border-glow">
+        <a class="public-back-link" href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
+        <p class="section-label" style="color:var(--cyan);">{copy.kicker[locale]}</p>
+        <h1 class="font-pixel glow-fuchsia">{copy.title[locale]}</h1>
+        <p>{copy.description[locale]}</p>
+        <div class="public-route-status">
+          <strong>{copy.status[locale]}</strong>
+          <span>Mode: {mode} · Locale: {locale}</span>
+        </div>
+        <a class="cta-btn hero-cta inline-flex items-center justify-center" href={getLocalizedHomePath(locale) + "#quiz"}>
+          {lang.hero_cta}
+        </a>
+      </article>
+    </main>
+  )}
+</PublicLayout>

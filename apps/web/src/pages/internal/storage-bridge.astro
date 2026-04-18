@@ -1,0 +1,153 @@
+---
+export const prerender = true;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>ManabuPlay Storage Bridge</title>
+</head>
+<body>
+  <script is:inline>
+    (() => {
+      const ADMIN_SOURCE = "manabu-admin-dashboard";
+      const BRIDGE_SOURCE = "manabu-web-storage-bridge";
+      const MANABU_PREFIX = "mp_";
+      const WAITLIST_KEY = "mp_waitlist_submissions";
+      const EMAIL_SUBMITTED_KEY = "mp_email_submitted";
+      const PRACTICE_KEY = "mp_practice_sessions";
+      const LANG_KEY = "mp_lang";
+
+      function getAllowedOrigin() {
+        return `${window.location.protocol}//${window.location.hostname}:4322`;
+      }
+
+      function getLocalStorageKeys() {
+        return Object.keys(localStorage).sort();
+      }
+
+      function getManabuKeys() {
+        return getLocalStorageKeys().filter((key) => key.startsWith(MANABU_PREFIX));
+      }
+
+      function safePreview(rawValue) {
+        const value = String(rawValue ?? "");
+        return value.length <= 96 ? value : `${value.slice(0, 93)}...`;
+      }
+
+      function readJson(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : fallback;
+        } catch (_) {
+          return fallback;
+        }
+      }
+
+      function inspectStorage() {
+        const keys = getManabuKeys();
+        const practiceSessions = readJson(PRACTICE_KEY, []);
+
+        return {
+          origin: window.location.origin,
+          keys: keys.map((key) => {
+            const raw = localStorage.getItem(key) ?? "";
+            return {
+              key,
+              length: String(raw).length,
+              preview: safePreview(raw),
+            };
+          }),
+          manabuCount: keys.length,
+          bestCount: keys.filter((key) => key.startsWith("mp_best_")).length,
+          practiceCount: Array.isArray(practiceSessions) ? practiceSessions.length : 0,
+        };
+      }
+
+      function readWaitlist() {
+        const submissions = readJson(WAITLIST_KEY, []);
+        return {
+          origin: window.location.origin,
+          submissions: Array.isArray(submissions) ? submissions : [],
+        };
+      }
+
+      function removeKeys(keys) {
+        keys.forEach((key) => localStorage.removeItem(key));
+      }
+
+      const actions = {
+        ping() {
+          return { origin: window.location.origin, ready: true };
+        },
+        inspectStorage() {
+          return inspectStorage();
+        },
+        readWaitlist() {
+          return readWaitlist();
+        },
+        clearWaitlist() {
+          localStorage.removeItem(WAITLIST_KEY);
+          localStorage.removeItem(EMAIL_SUBMITTED_KEY);
+          return readWaitlist();
+        },
+        clearBest() {
+          removeKeys(getManabuKeys().filter((key) => key.startsWith("mp_best_")));
+          return inspectStorage();
+        },
+        clearPractice() {
+          localStorage.removeItem(PRACTICE_KEY);
+          return inspectStorage();
+        },
+        clearLang() {
+          localStorage.removeItem(LANG_KEY);
+          return inspectStorage();
+        },
+        clearAll() {
+          removeKeys(getManabuKeys());
+          sessionStorage.clear();
+          return inspectStorage();
+        },
+      };
+
+      window.addEventListener("message", (event) => {
+        if (event.origin !== getAllowedOrigin()) {
+          return;
+        }
+
+        const message = event.data;
+        if (!message || message.source !== ADMIN_SOURCE || typeof message.action !== "string") {
+          return;
+        }
+
+        const respond = (payload) => {
+          event.source?.postMessage(
+            {
+              source: BRIDGE_SOURCE,
+              requestId: message.requestId,
+              ...payload,
+            },
+            event.origin,
+          );
+        };
+
+        try {
+          const handler = actions[message.action];
+          if (!handler) {
+            throw new Error(`Unknown bridge action: ${message.action}`);
+          }
+
+          respond({ ok: true, data: handler(message.payload) });
+        } catch (error) {
+          respond({
+            ok: false,
+            error: error instanceof Error ? error.message : "Unknown bridge error",
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

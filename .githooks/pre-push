@@ -1,5 +1,21 @@
 #!/bin/sh
 set -eu
 
-echo "Running pre-push checks: npm run check:feature"
-npm run check:feature
+all_zero="0000000000000000000000000000000000000000"
+should_skip=1
+
+while read -r local_ref local_sha remote_ref remote_sha
+do
+  if [ -n "${local_sha:-}" ] && [ "$local_sha" != "$all_zero" ]; then
+    should_skip=0
+    break
+  fi
+done
+
+if [ "$should_skip" -eq 1 ]; then
+  echo "Skipping pre-push checks for ref deletion or empty push."
+  exit 0
+fi
+
+echo "Running pre-push checks: npm run check"
+npm run check
