@@ -29,7 +29,17 @@ const sections = [
       "Le site public vit dans `apps/web`.",
       "Le dashboard vit dans `apps/admin`.",
       "Le métier partagé vit dans `shared` : logique quiz, données communes et couches de styles transverses.",
+      "La tête de l'app admin est centralisée dans les layouts : meta, robots, favicon, generator et theme-color ne se redéclarent pas page par page.",
       "Tant qu'une app n'est pas prête, les commandes ciblées doivent échouer clairement, pas fallback silencieusement.",
+    ],
+  },
+  {
+    title: "Layouts admin",
+    items: [
+      "`AdminLayout` : pages dashboard normales avec nav et shell admin.",
+      "`DesignDocLayout` : documents design qui gardent leur surface dédiée mais héritent du layout racine admin.",
+      "`AdminReferenceLayout` : mires internes isolées sans nav dashboard, pour les références hero / quiz et les usages similaires.",
+      "Règle : une nouvelle page admin choisit un de ces 3 layouts. On n'écrit plus `html/head/body` directement dans une page.",
     ],
   },
   {

@@ -21,15 +21,20 @@ const {
 } = Astro.props;
 
 const adminNav = getAdminNavHtml(activeNav);
+const fullTitle = /ManabuPlay|Admin/.test(title) ? title : `${title} — Dashboard ManabuPlay`;
 ---
 <!DOCTYPE html>
 <html lang={lang}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
+  <meta name="generator" content={Astro.generator} />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0a0911" />
+  <title>{fullTitle}</title>
   {description && <meta name="description" content={description} />}
   <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <style set:html={ADMIN_NAV_CSS}></style>
   <slot name="head" />
 </head>
