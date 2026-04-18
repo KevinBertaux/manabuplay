@@ -1,6 +1,14 @@
 # ManabuPlay
 
-Foundation branch for `v0.1`.
+Repository for `v0.1`, now split into two Astro apps.
+
+## Workspace
+
+- `apps/web`: public ManabuPlay site
+- `apps/admin`: local admin dashboard
+- `shared`: shared quiz data and business logic
+- `docs`: roadmap, atlas, business notes
+- `legacy`: original MVP kept for migration and parity checks
 
 ## Stack
 
@@ -8,23 +16,13 @@ Foundation branch for `v0.1`.
 - TypeScript
 - Tailwind CSS 4
 
-## Purpose
-
-This branch replaces the original single-file MVP with a maintainable foundation
-for:
-
-- quiz gameplay
-- content packs
-- SEO pages
-- future monetization flows
-
-The original static MVP is kept in `legacy/mvp-index.html` for migration.
-
 ## Commands
 
 ```sh
 npm install
 npm run dev -- --host 0.0.0.0
+npm run dev -- --host 0.0.0.0 --app web
+npm run dev -- --host 0.0.0.0 --app admin
 npm run check
 npm run check:feature
 npm run qa:release
@@ -38,11 +36,15 @@ Validation levels:
 - `npm run check:feature`: unit tests + build + critical public Playwright flows
 - `npm run qa:release`: feature checks + coverage + admin E2E + legacy parity
 
-Workspace notes:
+Preview:
 
-- `npm run dev -- --host 0.0.0.0` is the canonical local command
-- `npm run build` is the canonical full build command
-- the repository still falls back to the current monolith app until the split is finished
+- `npm run preview` previews `apps/web`
+- `npm run preview:web` and `npm run preview:admin` target one app explicitly
+
+Ports:
+
+- `4321` for `web`
+- `4322` for `admin`
 
 ## Project Notes
 

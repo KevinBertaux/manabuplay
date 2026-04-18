@@ -4,7 +4,7 @@ import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../../lib/admin-nav";
 import { getAllPacks } from "../../../../../../shared/lib/manabuplay-pack-reader";
 
 const packs = getAllPacks();
-const adminNav = getAdminNavHtml("reader");
+const adminNav = getAdminNavHtml("packs");
 
 function getReadiness(pack: (typeof packs)[number]) {
   return pack.score?.readiness?.value ?? null;

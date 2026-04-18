@@ -12,10 +12,11 @@ if (app && !isAppReady(app)) {
   throw new Error(`App "${app}" is not ready yet.`);
 } else if (app && isAppReady(app)) {
   await runNodeProcess(createAstroArgs("build", { app, forwardArgs }));
-} else if (hasMultiAppWorkspace()) {
+} else {
+  if (!hasMultiAppWorkspace()) {
+    throw new Error("The multi-app workspace is incomplete. Expected apps/web and apps/admin.");
+  }
+
   await runNodeProcess(createAstroArgs("build", { app: "web", forwardArgs }));
   await runNodeProcess(createAstroArgs("build", { app: "admin", forwardArgs }));
-} else {
-  console.log("[build] Multi-app workspace not ready yet. Building the current monolith app.");
-  await runNodeProcess(createAstroArgs("build", { forwardArgs }));
 }

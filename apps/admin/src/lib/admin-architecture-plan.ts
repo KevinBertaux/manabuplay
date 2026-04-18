@@ -446,7 +446,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     risk: { fr: "Moyen : dernière ligne droite avec beaucoup de petites surfaces.", en: "Medium: final stretch with many small surfaces." },
     files: [
       {
-        path: "src/pages/index.astro",
+        path: "apps/web/src/pages/[locale]/index.astro",
         action: "update",
         note: { fr: "Wording final du corps de landing après les vrais modes.", en: "Final landing body wording after real modes." },
       },
@@ -456,12 +456,12 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         note: { fr: "Couvrir Daily / Practice / Archives + waitlist.", en: "Cover Daily / Practice / Archives + waitlist." },
       },
       {
-        path: "src/pages/legal/*.astro",
+        path: "apps/web/src/pages/legal/*.astro",
         action: "create",
         note: { fr: "Mentions légales, privacy et consentement email explicite.", en: "Legal notice, privacy, and explicit email consent." },
       },
       {
-        path: "public/scripts/analytics*.js",
+        path: "apps/web/public/scripts/analytics*.js",
         action: "create",
         note: { fr: "Clarity et métriques minimales.", en: "Clarity and minimal metrics." },
       },

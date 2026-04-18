@@ -1,12 +1,28 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { ADMIN_URL } from "../helpers/admin";
 
 const FX_LAB_URL = `${ADMIN_URL}design/fx/`;
 const STORAGE_KEY = "manabuplay_fx_preset_v1";
 
-async function seedPreset(page, values, enabled) {
+type FxPresetValues = {
+  crt: number;
+  scanlines: number;
+  noise: number;
+  glow: number;
+  glitch: number;
+  ambient: number;
+};
+
+type FxPresetEnabled = Partial<Record<keyof FxPresetValues, boolean>>;
+
+type FxSeedPayload = {
+  key: string;
+  value: string;
+};
+
+async function seedPreset(page: Page, values: FxPresetValues, enabled?: FxPresetEnabled) {
   await page.addInitScript(
-    ({ key, value }) => window.localStorage.setItem(key, value),
+    ({ key, value }: FxSeedPayload) => window.localStorage.setItem(key, value),
     {
       key: STORAGE_KEY,
       value: JSON.stringify({
@@ -24,7 +40,7 @@ async function seedPreset(page, values, enabled) {
   );
 }
 
-async function getOverflowMetrics(page) {
+async function getOverflowMetrics(page: Page) {
   return page.evaluate(() => {
     const doc = document.documentElement;
     return {
@@ -44,7 +60,7 @@ test.describe("fx lab document", () => {
       glow: 66,
       glitch: 18,
       ambient: 36,
-    });
+    }, undefined);
     await page.setViewportSize({ width: 1440, height: 2200 });
     await page.goto(FX_LAB_URL, { waitUntil: "domcontentloaded" });
 
@@ -71,7 +87,7 @@ test.describe("fx lab document", () => {
       glow: 62,
       glitch: 28,
       ambient: 48,
-    });
+    }, undefined);
     await page.setViewportSize({ width: 390, height: 1800 });
     await page.goto(FX_LAB_URL, { waitUntil: "domcontentloaded" });
 

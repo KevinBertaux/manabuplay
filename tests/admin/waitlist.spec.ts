@@ -1,12 +1,21 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { ADMIN_URL, PUBLIC_URL } from "./helpers/admin";
 
 const WAITLIST_URL = `${ADMIN_URL}ops/waitlist/`;
 const PUBLIC_FR_URL = `${PUBLIC_URL}fr/`;
 
-async function seedPublicWaitlist(page, entries) {
+type WaitlistEntry = {
+  email: string;
+  lang: string;
+  source?: string;
+  formName?: string;
+  createdAt?: string;
+  page?: string;
+};
+
+async function seedPublicWaitlist(page: Page, entries: WaitlistEntry[] | null) {
   await page.goto(PUBLIC_FR_URL, { waitUntil: "domcontentloaded" });
-  await page.evaluate((payload) => {
+  await page.evaluate((payload: WaitlistEntry[] | null) => {
     if (payload === null) {
       localStorage.removeItem("mp_waitlist_submissions");
       return;

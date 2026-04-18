@@ -27,18 +27,11 @@ if (app && !isAppReady(app)) {
   child.on("exit", (code) => {
     process.exit(code ?? 1);
   });
-} else if (!hasMultiAppWorkspace()) {
-  console.log("[dev] Multi-app workspace not ready yet. Falling back to the current monolith app.");
-  const args = createAstroArgs("dev", { forwardArgs });
-  const child = spawn(process.execPath, args, {
-    cwd: ROOT_DIR,
-    stdio: "inherit",
-  });
-
-  child.on("exit", (code) => {
-    process.exit(code ?? 1);
-  });
 } else {
+  if (!hasMultiAppWorkspace()) {
+    throw new Error("The multi-app workspace is incomplete. Expected apps/web and apps/admin.");
+  }
+
   const children = [];
 
   function stopAll() {

@@ -18,8 +18,6 @@ const APP_CONFIGS = {
   admin: path.join(ROOT_DIR, "apps", "admin", "astro.config.mjs"),
 };
 
-const ROOT_ASTRO_CONFIG = path.join(ROOT_DIR, "astro.config.mjs");
-
 function getAppPagesDir(app) {
   return path.join(ROOT_DIR, "apps", app, "src", "pages");
 }
@@ -53,10 +51,6 @@ export function parseCliArgs(argv) {
   return { app, forwardArgs };
 }
 
-export function hasMonolithApp() {
-  return existsSync(ROOT_ASTRO_CONFIG);
-}
-
 export function isAppReady(app) {
   return existsSync(APP_CONFIGS[app]) && existsSync(getAppPagesDir(app));
 }
@@ -88,15 +82,11 @@ export function createAstroArgs(command, options = {}) {
     return [ASTRO_BIN, command, "--config", getCliConfigPath(app), ...forwardArgs];
   }
 
-  if (hasMonolithApp()) {
-    return [ASTRO_BIN, command, ...forwardArgs];
-  }
-
   if (app) {
-    throw new Error(`App "${app}" is not ready yet and no monolith fallback is available.`);
+    throw new Error(`App "${app}" is not ready yet.`);
   }
 
-  throw new Error("No runnable Astro app was found.");
+  throw new Error("No runnable Astro app was found. Expected apps/web and apps/admin to be ready.");
 }
 
 export function runNodeProcess(args, options = {}) {

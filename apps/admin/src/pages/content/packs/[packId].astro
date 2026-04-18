@@ -24,7 +24,7 @@ const packLinks = getAllPacks().map((item) => ({
   name: item.locales.fr.name,
   score: item.score?.readiness?.value ?? null,
 }));
-const adminNav = getAdminNavHtml("reader");
+const adminNav = getAdminNavHtml("packs");
 
 function getTerm(word: PackReaderWord) {
   return typeof word.jp === "string" ? word.jp : word.jp.term;

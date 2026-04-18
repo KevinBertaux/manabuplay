@@ -1,13 +1,36 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { ADMIN_URL } from "../helpers/admin";
 
 const BRAND_SYSTEM_URL = `${ADMIN_URL}design/brand-system/`;
 const STORAGE_KEY = "manabuplay_fx_preset_v1";
 const BRAND_PREVIEW_STORAGE_KEY = "manabuplay_fx_brand_preview_enabled_v1";
 
-async function seedPreset(page, values, enabled, brandPreviewEnabled = true) {
+type FxPresetValues = {
+  crt: number;
+  scanlines: number;
+  noise: number;
+  glow: number;
+  glitch: number;
+  ambient: number;
+};
+
+type FxPresetEnabled = Partial<Record<keyof FxPresetValues, boolean>>;
+
+type BrandSeedPayload = {
+  key: string;
+  value: string;
+  brandKey: string;
+  brandValue: string;
+};
+
+async function seedPreset(
+  page: Page,
+  values: FxPresetValues,
+  enabled?: FxPresetEnabled,
+  brandPreviewEnabled = true,
+) {
   await page.addInitScript(
-    ({ key, value, brandKey, brandValue }) => {
+    ({ key, value, brandKey, brandValue }: BrandSeedPayload) => {
       window.localStorage.setItem(key, value);
       window.localStorage.setItem(brandKey, brandValue);
     },
@@ -30,7 +53,7 @@ async function seedPreset(page, values, enabled, brandPreviewEnabled = true) {
   );
 }
 
-async function getOverflowMetrics(page) {
+async function getOverflowMetrics(page: Page) {
   return page.evaluate(() => {
     const doc = document.documentElement;
     return {
@@ -50,7 +73,7 @@ test.describe("brand system document", () => {
       glow: 82,
       glitch: 40,
       ambient: 64,
-    });
+    }, undefined);
     await page.setViewportSize({ width: 1440, height: 2200 });
     await page.goto(BRAND_SYSTEM_URL, { waitUntil: "domcontentloaded" });
 
@@ -74,7 +97,7 @@ test.describe("brand system document", () => {
       glow: 62,
       glitch: 28,
       ambient: 48,
-    });
+    }, undefined);
     await page.setViewportSize({ width: 390, height: 1600 });
     await page.goto(BRAND_SYSTEM_URL, { waitUntil: "domcontentloaded" });
 
