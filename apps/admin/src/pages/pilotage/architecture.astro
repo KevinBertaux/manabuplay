@@ -1,6 +1,5 @@
 ---
-import "../../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
+import AdminLayout from "../../layouts/AdminLayout.astro";
 import {
   getArchitectureExecutionSteps,
   getArchitectureExecutionSummary,
@@ -11,19 +10,19 @@ import {
   getArchitectureStatusTone,
 } from "../../lib/admin-architecture-plan";
 
-const adminNav = getAdminNavHtml("architecture");
 const steps = getArchitectureExecutionSteps();
 const summary = getArchitectureExecutionSummary();
 const phases = getArchitectureImplementationPhases();
 const implementationSummary = getArchitectureImplementationSummary();
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — Architecture Plan</title>
-  <meta name="robots" content="noindex, nofollow" />
+<AdminLayout
+  title="Admin — Architecture Plan"
+  activeNav="architecture"
+  description="Programme des priorités produit et plan de migration de l'architecture publique."
+  bodyClass="text-slate-200 arch-shell"
+  containerClass="arch-wrap"
+>
+  <Fragment slot="head">
   <style>
     .arch-shell { min-height:100vh; background:
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
@@ -110,11 +109,7 @@ const implementationSummary = getArchitectureImplementationSummary();
       .arch-progress-stack { grid-template-columns:1fr; }
     }
   </style>
-  <style set:html={ADMIN_NAV_CSS}></style>
-</head>
-<body class="text-slate-200 arch-shell">
-  <main class="arch-wrap">
-    <Fragment set:html={adminNav} />
+  </Fragment>
 
     <section class="arch-hero">
       <span class="arch-eyebrow">Architecture</span>
@@ -452,9 +447,7 @@ const implementationSummary = getArchitectureImplementationSummary();
         </p>
       </section>
     </section>
-  </main>
-
-  <script is:inline>
+  <script slot="scripts" is:inline>
     (() => {
       const update = (lang) => {
         document.querySelectorAll("[data-admin-i18n]").forEach((node) => {
@@ -474,5 +467,4 @@ const implementationSummary = getArchitectureImplementationSummary();
       });
     })();
   </script>
-</body>
-</html>
+</AdminLayout>

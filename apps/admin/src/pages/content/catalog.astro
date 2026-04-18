@@ -1,11 +1,8 @@
 ---
-import "../../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
+import AdminLayout from "../../layouts/AdminLayout.astro";
 import { getRoadmapCatalog } from "../../lib/manabuplay-roadmap";
 
 const catalog = getRoadmapCatalog();
-const adminNav = getAdminNavHtml("catalog");
-
 const existingWords = catalog.candidateWords.filter((word) => word.status === "existing-word");
 const candidateWords = catalog.candidateWords.filter((word) => word.status === "candidate-word");
 
@@ -13,13 +10,14 @@ function getSourceLabel(source: string) {
   return source === "legacy-mvp" ? "Mot existant" : "Distracteur promu";
 }
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Catalogue futur — ManabuPlay Admin</title>
-  <meta name="robots" content="noindex, nofollow" />
+<AdminLayout
+  title="Catalogue futur — ManabuPlay Admin"
+  activeNav="catalog"
+  description="Catalogue des mots réutilisables et packs futurs hors lecteur de pack jouable."
+  bodyClass="text-slate-200 catalog-shell"
+  containerClass="catalog-wrap"
+>
+  <Fragment slot="head">
   <style>
     .catalog-shell { min-height:100vh; background:
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
@@ -82,11 +80,7 @@ function getSourceLabel(source: string) {
       .catalog-stats { grid-template-columns:1fr; }
     }
   </style>
-  <style set:html={ADMIN_NAV_CSS}></style>
-</head>
-<body class="text-slate-200 catalog-shell">
-  <main class="catalog-wrap">
-    <Fragment set:html={adminNav} />
+  </Fragment>
 
     <section class="catalog-card catalog-hero">
       <span class="catalog-eyebrow">Catalogue futur</span>
@@ -232,6 +226,4 @@ function getSourceLabel(source: string) {
         {catalog.rejectedDistractors.map((word) => <span class="catalog-reject">{word}</span>)}
       </div>
     </section>
-  </main>
-</body>
-</html>
+</AdminLayout>

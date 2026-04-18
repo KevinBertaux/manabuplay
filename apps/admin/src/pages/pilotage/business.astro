@@ -1,6 +1,5 @@
 ---
-import "../../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
+import AdminLayout from "../../layouts/AdminLayout.astro";
 import {
   getBusinessCoreProblem,
   getPremiumLibraryModel,
@@ -8,7 +7,6 @@ import {
   getPricingStatusLabel,
 } from "../../lib/admin-business-models";
 
-const adminNav = getAdminNavHtml("business");
 const problem = getBusinessCoreProblem();
 const model = getPremiumLibraryModel();
 const rows = getPricingRows();
@@ -25,13 +23,14 @@ const groups = rows.reduce(
   [] as { key: string; label: (typeof rows)[number]["group"]; rows: typeof rows }[],
 );
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — Business Models</title>
-  <meta name="robots" content="noindex, nofollow" />
+<AdminLayout
+  title="Admin — Business Models"
+  activeNav="business"
+  description="Projection Free / Premium du modèle Bibliothèque premium pour ManabuPlay."
+  bodyClass="text-slate-200 biz-shell"
+  containerClass="biz-wrap"
+>
+  <Fragment slot="head">
   <style>
     .biz-shell { min-height:100vh; background:
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
@@ -124,11 +123,7 @@ const groups = rows.reduce(
       .biz-rowlabel { font-size:.86rem; }
     }
   </style>
-  <style set:html={ADMIN_NAV_CSS}></style>
-</head>
-<body class="text-slate-200 biz-shell">
-  <main class="biz-wrap">
-    <Fragment set:html={adminNav} />
+  </Fragment>
 
     <section class="biz-hero">
       <span class="biz-eyebrow">Business</span>
@@ -314,9 +309,7 @@ const groups = rows.reduce(
         </table>
       </div>
     </section>
-  </main>
-
-  <script is:inline>
+  <script slot="scripts" is:inline>
     (() => {
       const update = (lang) => {
         document.querySelectorAll("[data-admin-i18n]").forEach((node) => {
@@ -335,5 +328,4 @@ const groups = rows.reduce(
       });
     })();
   </script>
-</body>
-</html>
+</AdminLayout>

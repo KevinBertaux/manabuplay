@@ -1,6 +1,5 @@
 ---
-import "../../../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../../lib/admin-nav";
+import AdminLayout from "../../../layouts/AdminLayout.astro";
 import type { PackReaderWord } from "../../../../../../shared/lib/manabuplay-pack-reader";
 import { getAllPacks, getPackById } from "../../../../../../shared/lib/manabuplay-pack-reader";
 
@@ -24,8 +23,6 @@ const packLinks = getAllPacks().map((item) => ({
   name: item.locales.fr.name,
   score: item.score?.readiness?.value ?? null,
 }));
-const adminNav = getAdminNavHtml("packs");
-
 function getTerm(word: PackReaderWord) {
   return typeof word.jp === "string" ? word.jp : word.jp.term;
 }
@@ -210,13 +207,14 @@ function getTierTone(word: PackReaderWord) {
   }
 }
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{activePack.locales.fr.name} — Admin Pack Reader</title>
-  <meta name="robots" content="noindex, nofollow" />
+<AdminLayout
+  title={`${activePack.locales.fr.name} — Admin Pack Reader`}
+  activeNav="packs"
+  description={`Lecteur détaillé du pack ${activePack.locales.fr.name} avec cartes, tiers et score de readiness.`}
+  bodyClass="text-slate-200 reader-shell"
+  containerClass="reader-wrap"
+>
+  <Fragment slot="head">
   <style>
     .reader-shell { min-height:100vh; background:
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
@@ -376,11 +374,7 @@ function getTierTone(word: PackReaderWord) {
       .review-answers { grid-template-columns:1fr; }
     }
   </style>
-  <style set:html={ADMIN_NAV_CSS}></style>
-</head>
-<body class="text-slate-200 reader-shell">
-  <main class="reader-wrap">
-    <Fragment set:html={adminNav} />
+  </Fragment>
     <section class="reader-top">
       <span class="reader-kicker">Admin Pack Reader</span>
       <h1 class="reader-title">{activePack.locales.fr.name} <span>— vue continue</span></h1>
@@ -586,9 +580,8 @@ function getTierTone(word: PackReaderWord) {
         </div>
       </div>
     </section>
-  </main>
-  <button class="reader-scrolltop" type="button" aria-label="Remonter en haut" title="Remonter">↑</button>
-  <script is:inline>
+  <button slot="scripts" class="reader-scrolltop" type="button" aria-label="Remonter en haut" title="Remonter">↑</button>
+  <script slot="scripts" is:inline>
     const scrollTopButton = document.querySelector(".reader-scrolltop");
     const bulkToggle = document.querySelector("[data-toggle-all]");
     const cartouche = document.querySelector("[data-reader-cartouche]");
@@ -1017,5 +1010,4 @@ function getTierTone(word: PackReaderWord) {
 
     syncBulkToggle();
   </script>
-</body>
-</html>
+</AdminLayout>

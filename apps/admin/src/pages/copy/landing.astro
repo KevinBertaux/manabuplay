@@ -1,12 +1,10 @@
 ---
-import "../../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
+import AdminLayout from "../../layouts/AdminLayout.astro";
 import {
   getLandingWordingCards,
   getLandingWordingProgress,
 } from "../../lib/admin-landing-wording";
 
-const adminNav = getAdminNavHtml("wording");
 const cards = getLandingWordingCards();
 const progress = getLandingWordingProgress();
 const summaryCard = cards.find((card) => card.isSummary);
@@ -37,13 +35,14 @@ function getTone(score: number) {
   return "bad";
 }
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — Landing Wording</title>
-  <meta name="robots" content="noindex, nofollow" />
+<AdminLayout
+  title="Admin — Landing Wording"
+  activeNav="wording"
+  description="Comparatif bloc par bloc du wording landing entre l'actuel et les variantes A, B, C."
+  bodyClass="text-slate-200 wording-shell"
+  containerClass="wording-wrap"
+>
+  <Fragment slot="head">
   <style>
     html { scroll-behavior:smooth; }
     .wording-shell { min-height:100vh; background:
@@ -111,11 +110,8 @@ function getTone(score: number) {
       .wording-current-score { align-self:flex-start; }
     }
   </style>
-  <style set:html={ADMIN_NAV_CSS}></style>
-</head>
-<body class="text-slate-200 wording-shell">
-  <main class="wording-wrap" id="wording-top">
-    <Fragment set:html={adminNav} />
+  </Fragment>
+  <div id="wording-top">
 
     <section class="wording-hero">
       <span class="wording-eyebrow">Landing wording</span>
@@ -496,8 +492,9 @@ function getTone(score: number) {
         </section>
       ))}
     </section>
-  </main>
+  </div>
   <a
+    slot="scripts"
     class="wording-backtop"
     href="#wording-top"
     aria-label="Retour en haut"
@@ -506,7 +503,7 @@ function getTone(score: number) {
     ↑
   </a>
 
-  <script is:inline>
+  <script slot="scripts" is:inline>
     (() => {
       const update = (lang) => {
         document.querySelectorAll("[data-admin-i18n]").forEach((node) => {
@@ -526,5 +523,4 @@ function getTone(score: number) {
       });
     })();
   </script>
-</body>
-</html>
+</AdminLayout>
