@@ -89,7 +89,7 @@ const localeSwitchClass = "flex items-center gap-1 rounded-md border border-[rgb
         </a>
       ))}
     </div>
-    <div class={localeSwitchClass}>
+    <div class={`${localeSwitchClass} public-locale-switch`}>
       {PUBLIC_LOCALES.map((targetLocale, index) => (
         <>
           {index > 0 && <span>|</span>}

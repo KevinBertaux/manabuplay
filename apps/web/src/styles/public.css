@@ -3,8 +3,4 @@
 @config "../../../../tailwind.config.cjs";
 @import "tailwindcss";
 
-@import "../../../../shared/styles/foundation.css";
-@import "../../../../shared/styles/animations.css";
-@import "../../../../shared/styles/controls.css";
-@import "../../../../shared/styles/quiz.css";
-@import "../../../../shared/styles/typography.css";
+@import "../../../../shared/styles/shared.css";

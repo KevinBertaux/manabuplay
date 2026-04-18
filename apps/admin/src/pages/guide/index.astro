@@ -39,7 +39,7 @@ const sections = [
     title: "CSS / Tailwind v4",
     items: [
       "Tailwind v4 est déjà branché dans les 2 apps, mais le repo reste volontairement en mode hybride : utilities Tailwind + couches CSS partagées.",
-      "Les couches communes vivent maintenant dans `shared/styles` : `foundation.css`, `animations.css`, `controls.css`, `quiz.css`, `public-routes.css`, `typography.css`.",
+      "Les couches communes vivent maintenant dans `shared/styles`, agrégées par `shared.css` au-dessus de `foundation.css`, `animations.css`, `controls.css`, `quiz.css` et `typography.css`.",
       "Règle de migration : ne pas refaire tout le site en Tailwind d'un coup. On migre par surface stable, avec un avant/après lisible et sans casser le rendu.",
       "Ordre recommandé : 1) surface publique la plus touchée, 2) composants ou sections répétées, 3) admin seulement quand il devient une vraie app Astro avec layout racine propre.",
       "Ce qui doit rester hors Tailwind tant qu'il n'y a pas de gain net : animations complexes, styles de référence design, pages mockup, et rustines historiques qu'on prévoit de supprimer.",

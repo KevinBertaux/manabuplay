@@ -142,10 +142,7 @@ const archiveChipActiveClass = "border-[rgba(232,121,249,.42)] bg-[rgba(232,121,
         <div class={archiveChipGridClass}>
           {archiveDates.map((dateKey) => (
             <a
-              class:list={[
-                archiveChipBaseClass,
-                dateKey === latestArchiveDate ? archiveChipActiveClass : archiveChipInactiveClass,
-              ]}
+              class={`${archiveChipBaseClass} public-archive-chip ${dateKey === latestArchiveDate ? `${archiveChipActiveClass} is-active` : archiveChipInactiveClass}`}
               href={`?date=${dateKey}`}
               data-archive-date={dateKey}
             >
@@ -184,6 +181,7 @@ const archiveChipActiveClass = "border-[rgba(232,121,249,.42)] bg-[rgba(232,121,
           }
           document.querySelectorAll("[data-archive-date]").forEach((chip) => {
             const isActive = chip.getAttribute("data-archive-date") === activeDate;
+            chip.classList.toggle("is-active", isActive);
             chip.classList.toggle("border-[rgba(232,121,249,.42)]", isActive);
             chip.classList.toggle("bg-[rgba(232,121,249,.12)]", isActive);
             chip.classList.toggle("text-white", isActive);

@@ -15,7 +15,7 @@ Repository for `v0.1`, now split into two Astro apps.
 - Astro 6
 - TypeScript
 - Tailwind CSS 4
-- Shared CSS layers in `shared/styles`
+- Shared CSS layers in `shared/styles` via `shared/styles/shared.css`
 - Current styling mode: hybrid Tailwind utilities + dedicated CSS layers
 
 ## Commands
