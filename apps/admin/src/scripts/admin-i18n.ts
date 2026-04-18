@@ -11,9 +11,7 @@ export function updateAdminLocalizedNodes(lang: AdminLang): void {
     }
 
     const localizedValue =
-      lang === "fr"
-        ? node.dataset.adminFr
-        : node.dataset.adminEn || node.dataset.adminFr;
+      lang === "fr" ? node.dataset.adminFr : node.dataset.adminEn || node.dataset.adminFr;
     if (typeof localizedValue === "string") {
       node.innerHTML = localizedValue;
     }

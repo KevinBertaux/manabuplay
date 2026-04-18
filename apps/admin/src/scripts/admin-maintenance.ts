@@ -1,7 +1,4 @@
-import {
-  getPublicStorageOrigin,
-  requestPublicStorage,
-} from "./public-storage-bridge";
+import { getPublicStorageOrigin, requestPublicStorage } from "./public-storage-bridge";
 
 type StorageKeyPreview = {
   key: string;
@@ -67,9 +64,7 @@ function setStatus(message: string): void {
   }, 2200);
 }
 
-function renderKeyList(
-  keys: { key: string; length: number; preview: string }[],
-): void {
+function renderKeyList(keys: { key: string; length: number; preview: string }[]): void {
   emptyState.style.display = keys.length ? "none" : "block";
   keyList.innerHTML = keys
     .map(

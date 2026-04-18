@@ -1,7 +1,4 @@
-import {
-  getPublicStorageOrigin,
-  requestPublicStorage,
-} from "./public-storage-bridge";
+import { getPublicStorageOrigin, requestPublicStorage } from "./public-storage-bridge";
 
 type WaitlistEntry = {
   email?: string;

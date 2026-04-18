@@ -8,9 +8,9 @@ const giftList = document.querySelector("[data-gift-list]");
 const cards = Array.from(document.querySelectorAll("[data-admin-card]")).filter(
   (card): card is HTMLElement => card instanceof HTMLElement,
 );
-const paginationBars = Array.from(
-  document.querySelectorAll("[data-reader-pagination]"),
-).filter((bar): bar is HTMLElement => bar instanceof HTMLElement);
+const paginationBars = Array.from(document.querySelectorAll("[data-reader-pagination]")).filter(
+  (bar): bar is HTMLElement => bar instanceof HTMLElement,
+);
 const wordsPerPage = 10;
 const totalPages = Math.max(1, Math.ceil(cards.length / wordsPerPage));
 let activeCard: HTMLElement | null = null;

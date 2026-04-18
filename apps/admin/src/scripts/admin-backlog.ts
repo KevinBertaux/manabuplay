@@ -100,10 +100,14 @@ if (
         totals.done += version.items.filter((item) => item.status === "done").length;
         totals.total += version.items.length;
         totals.childDone += version.items.reduce(
-          (sum, item) => sum + (item.children || []).filter((child) => child.status === "done").length,
+          (sum, item) =>
+            sum + (item.children || []).filter((child) => child.status === "done").length,
           0,
         );
-        totals.childTotal += version.items.reduce((sum, item) => sum + (item.children || []).length, 0);
+        totals.childTotal += version.items.reduce(
+          (sum, item) => sum + (item.children || []).length,
+          0,
+        );
         return totals;
       },
       { done: 0, total: 0, childDone: 0, childTotal: 0 },
@@ -306,8 +310,7 @@ if (
   render();
 
   document.addEventListener("click", (event) => {
-    const target =
-      event.target instanceof Element ? event.target.closest("[data-role]") : null;
+    const target = event.target instanceof Element ? event.target.closest("[data-role]") : null;
     if (!(target instanceof HTMLAnchorElement)) return;
 
     event.preventDefault();
