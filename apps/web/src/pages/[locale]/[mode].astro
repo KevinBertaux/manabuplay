@@ -40,6 +40,19 @@ window.__MANABUPLAY_LOCALE__ = ${JSON.stringify(locale)};
 window.__MANABUPLAY_MODE__ = ${JSON.stringify(mode)};
 window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(bootData)};
 `;
+
+const modeMainClass = "hero-bg grid min-h-[100svh] place-items-center px-6 pb-8 pt-28";
+const modeCardClass = "border-glow w-full max-w-[920px] rounded-xl bg-[rgba(15,12,26,.94)] px-6 py-8 text-center sm:p-10 lg:p-14";
+const modeTitleClass = "mx-auto my-4 max-w-[760px] font-pixel text-[clamp(1.4rem,3vw,2.3rem)] leading-[1.55] text-white";
+const modeDescriptionClass = "mx-auto mb-6 max-w-[720px] text-[clamp(1.05rem,1.7vw,1.28rem)] leading-[1.7] text-[rgba(226,217,243,.74)]";
+const routeStatusClass = "mx-auto my-6 grid max-w-[560px] gap-2 rounded-lg border border-[rgba(34,211,238,.22)] bg-[rgba(34,211,238,.07)] p-4 text-white";
+const routeStatusLabelClass = "text-[.9rem] font-bold uppercase tracking-[.04em] text-[var(--cyan)]";
+const backLinkClass = "font-bold text-[var(--cyan)] no-underline";
+const archiveBrowserClass = "border-glow mt-[-16px] grid w-full max-w-[920px] gap-5 rounded-xl bg-[rgba(15,12,26,.94)] px-6 py-8 text-center sm:p-10 lg:p-14";
+const archiveChipGridClass = "flex flex-wrap justify-center gap-2";
+const archiveChipBaseClass = "inline-flex min-h-9 items-center justify-center whitespace-nowrap rounded-full border px-3 text-[.92rem] font-bold transition duration-150";
+const archiveChipInactiveClass = "border-[rgba(139,92,246,.22)] bg-[rgba(26,22,48,.54)] text-[rgba(226,217,243,.78)] hover:-translate-y-px hover:border-[rgba(34,211,238,.38)] hover:bg-[rgba(34,211,238,.08)] hover:text-white";
+const archiveChipActiveClass = "border-[rgba(232,121,249,.42)] bg-[rgba(232,121,249,.12)] text-white shadow-[0_0_0_1px_rgba(232,121,249,.18),0_0_18px_rgba(232,121,249,.14)]";
 ---
 <PublicLayout
   locale={locale}
@@ -52,15 +65,15 @@ window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(bootData)};
   includeQuizRuntime={isQuizMode}
 >
   {isDailyMode ? (
-    <main class="hero-bg grid-bg public-mode-page public-daily-page">
-      <article class="public-mode-card border-glow public-daily-intro">
-        <a class="public-back-link" href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
+    <main class={modeMainClass}>
+      <article class={modeCardClass}>
+        <a class={backLinkClass} href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
         <p class="section-label" style="color:var(--cyan);">{copy.kicker[locale]}</p>
-        <h1 class="font-pixel glow-fuchsia">{copy.title[locale]}</h1>
-        <p>{copy.description[locale]}</p>
-        <div class="public-route-status">
-          <strong>{copy.status[locale]}</strong>
-          <span>{locale === "fr" ? "10 questions seedées par date locale." : "10 questions seeded from the local date."}</span>
+        <h1 class:list={[modeTitleClass, "glow-fuchsia"]}>{copy.title[locale]}</h1>
+        <p class={modeDescriptionClass}>{copy.description[locale]}</p>
+        <div class={routeStatusClass}>
+          <strong class={routeStatusLabelClass}>{copy.status[locale]}</strong>
+          <span class={routeStatusLabelClass}>{locale === "fr" ? "10 questions seedées par date locale." : "10 questions seeded from the local date."}</span>
         </div>
         <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz">
           {lang.hero_cta}
@@ -69,15 +82,15 @@ window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(bootData)};
       <PublicQuiz />
     </main>
   ) : isPracticeMode ? (
-    <main class="hero-bg grid-bg public-mode-page public-practice-page">
-      <article class="public-mode-card border-glow public-daily-intro">
-        <a class="public-back-link" href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
+    <main class={modeMainClass}>
+      <article class={modeCardClass}>
+        <a class={backLinkClass} href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
         <p class="section-label" style="color:var(--cyan);">{copy.kicker[locale]}</p>
-        <h1 class="font-pixel glow-fuchsia">{copy.title[locale]}</h1>
-        <p>{copy.description[locale]}</p>
-        <div class="public-route-status">
-          <strong>{copy.status[locale]}</strong>
-          <span>
+        <h1 class:list={[modeTitleClass, "glow-fuchsia"]}>{copy.title[locale]}</h1>
+        <p class={modeDescriptionClass}>{copy.description[locale]}</p>
+        <div class={routeStatusClass}>
+          <strong class={routeStatusLabelClass}>{copy.status[locale]}</strong>
+          <span class={routeStatusLabelClass}>
             {locale === "fr"
               ? "4 difficultés, 10 questions, cooldown de 2 sessions."
               : "4 difficulties, 10 questions, 2-session cooldown."}
@@ -90,15 +103,16 @@ window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(bootData)};
       <PublicQuiz />
     </main>
   ) : isArchivesMode ? (
-    <main class="hero-bg grid-bg public-mode-page public-archives-page">
-      <article class="public-mode-card border-glow public-daily-intro">
-        <a class="public-back-link" href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
+    <main class={modeMainClass}>
+      <article class={modeCardClass}>
+        <a class={backLinkClass} href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
         <p class="section-label" style="color:var(--cyan);">{copy.kicker[locale]}</p>
-        <h1 class="font-pixel glow-fuchsia">{copy.title[locale]}</h1>
-        <p>{copy.description[locale]}</p>
-        <div class="public-route-status">
-          <strong>{copy.status[locale]}</strong>
+        <h1 class:list={[modeTitleClass, "glow-fuchsia"]}>{copy.title[locale]}</h1>
+        <p class={modeDescriptionClass}>{copy.description[locale]}</p>
+        <div class={routeStatusClass}>
+          <strong class={routeStatusLabelClass}>{copy.status[locale]}</strong>
           <span
+            class={routeStatusLabelClass}
             id="archiveSelectedLabel"
             data-default-date={latestArchiveDate ?? ""}
             data-prefix-fr="Archive sélectionnée"
@@ -114,21 +128,21 @@ window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(bootData)};
         </a>
       </article>
 
-      <section class="public-mode-card border-glow public-archive-browser" id="archives-list">
-        <div class="public-archive-head">
+      <section class={archiveBrowserClass} id="archives-list">
+        <div>
           <p class="section-label" style="color:var(--violet);">
             {locale === "fr" ? "ARCHIVES DISPONIBLES" : "AVAILABLE ARCHIVES"}
           </p>
-          <p>
+          <p class={modeDescriptionClass}>
             {locale === "fr"
               ? "Chaque archive rejoue le Quotidien d'une date passée. Pas de partage pour v0.1."
               : "Each archive replays the Daily from a past date. No sharing in v0.1."}
           </p>
         </div>
-        <div class="public-archive-chip-grid">
+        <div class={archiveChipGridClass}>
           {archiveDates.map((dateKey) => (
             <a
-              class:list={["public-archive-chip", { "is-active": dateKey === latestArchiveDate }]}
+              class={`${archiveChipBaseClass} public-archive-chip ${dateKey === latestArchiveDate ? `${archiveChipActiveClass} is-active` : archiveChipInactiveClass}`}
               href={`?date=${dateKey}`}
               data-archive-date={dateKey}
             >
@@ -166,21 +180,29 @@ window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(bootData)};
             label.textContent = `${prefix}: ${formatted}`;
           }
           document.querySelectorAll("[data-archive-date]").forEach((chip) => {
-            chip.classList.toggle("is-active", chip.getAttribute("data-archive-date") === activeDate);
+            const isActive = chip.getAttribute("data-archive-date") === activeDate;
+            chip.classList.toggle("is-active", isActive);
+            chip.classList.toggle("border-[rgba(232,121,249,.42)]", isActive);
+            chip.classList.toggle("bg-[rgba(232,121,249,.12)]", isActive);
+            chip.classList.toggle("text-white", isActive);
+            chip.classList.toggle("shadow-[0_0_0_1px_rgba(232,121,249,.18),0_0_18px_rgba(232,121,249,.14)]", isActive);
+            chip.classList.toggle("border-[rgba(139,92,246,.22)]", !isActive);
+            chip.classList.toggle("bg-[rgba(26,22,48,.54)]", !isActive);
+            chip.classList.toggle("text-[rgba(226,217,243,.78)]", !isActive);
           });
         })();
       </script>
     </main>
   ) : (
-    <main class="hero-bg grid-bg public-mode-page">
-      <article class="public-mode-card border-glow">
-        <a class="public-back-link" href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
+    <main class={modeMainClass}>
+      <article class={modeCardClass}>
+        <a class={backLinkClass} href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
         <p class="section-label" style="color:var(--cyan);">{copy.kicker[locale]}</p>
-        <h1 class="font-pixel glow-fuchsia">{copy.title[locale]}</h1>
-        <p>{copy.description[locale]}</p>
-        <div class="public-route-status">
-          <strong>{copy.status[locale]}</strong>
-          <span>Mode: {mode} · Locale: {locale}</span>
+        <h1 class:list={[modeTitleClass, "glow-fuchsia"]}>{copy.title[locale]}</h1>
+        <p class={modeDescriptionClass}>{copy.description[locale]}</p>
+        <div class={routeStatusClass}>
+          <strong class={routeStatusLabelClass}>{copy.status[locale]}</strong>
+          <span class={routeStatusLabelClass}>Mode: {mode} · Locale: {locale}</span>
         </div>
         <a class="cta-btn hero-cta inline-flex items-center justify-center" href={getLocalizedHomePath(locale) + "#quiz"}>
           {lang.hero_cta}

@@ -38,6 +38,14 @@ const {
 function getLocaleHref(targetLocale: PublicLocale) {
   return activeMode ? getLocalizedModePath(targetLocale, activeMode) : getLocalizedHomePath(targetLocale);
 }
+
+const topNavClass = "fixed inset-x-0 top-0 z-50 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 border-b border-[rgba(139,92,246,.15)] bg-[rgba(10,9,17,.85)] px-6 py-2 backdrop-blur-[16px] max-[760px]:grid-cols-[1fr_auto] max-[760px]:gap-2 max-[760px]:px-3";
+const brandLinkClass = "flex min-w-0 items-center gap-3 no-underline";
+const navGroupClass = "flex min-w-0 items-center justify-center gap-2 max-[760px]:col-span-full max-[760px]:justify-start max-[760px]:overflow-x-auto max-[760px]:pb-[2px]";
+const navLinkBaseClass = "whitespace-nowrap rounded-lg border bg-[rgba(26,22,48,.34)] px-3 py-2 font-body text-[.98rem] font-bold text-[rgba(226,217,243,.72)] transition-[color,border-color,background] duration-150";
+const navLinkInactiveClass = "border-[rgba(139,92,246,.14)] hover:border-[rgba(34,211,238,.38)] hover:bg-[rgba(34,211,238,.08)] hover:text-white";
+const navLinkActiveClass = "border-[rgba(34,211,238,.38)] bg-[rgba(34,211,238,.08)] text-white";
+const localeSwitchClass = "flex items-center gap-1 rounded-md border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1 text-[rgba(139,92,246,.25)]";
 ---
 <!DOCTYPE html>
 <html lang={locale} id="htmlRoot">
@@ -53,8 +61,8 @@ function getLocaleHref(targetLocale: PublicLocale) {
   <meta name="theme-color" content="#0a0911" />
 </head>
 <body class="text-slate-200">
-  <nav class="fixed top-0 inset-x-0 z-50 public-top-nav">
-    <a class="flex items-center gap-3 public-brand-link" href={getLocalizedHomePath(locale)} aria-label="ManabuPlay">
+  <nav class={topNavClass}>
+    <a class={brandLinkClass} href={getLocalizedHomePath(locale)} aria-label="ManabuPlay">
       <span class="w-9 h-9 rounded-md flex items-center justify-center text-white flex-shrink-0"
             style="background:linear-gradient(135deg,var(--violet),var(--fuchsia));">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -65,18 +73,23 @@ function getLocaleHref(targetLocale: PublicLocale) {
         Manabu<span style="color:#e879f9;">Play</span>
       </span>
     </a>
-    <div class="public-nav-links" aria-label="Product navigation">
+    <div class={navGroupClass} aria-label="Product navigation">
       {PUBLIC_MODE_KEYS.map((modeKey) => (
         <a
           href={getLocalizedModePath(locale, modeKey)}
           data-public-route={modeKey}
           aria-current={modeKey === activeMode ? "page" : undefined}
+          class:list={[
+            navLinkBaseClass,
+            modeKey === activeMode ? navLinkActiveClass : navLinkInactiveClass,
+            { "max-[760px]:text-[.9rem]": true },
+          ]}
         >
           {PUBLIC_MODE_COPY[modeKey].navLabel[locale]}
         </a>
       ))}
     </div>
-    <div class="flex items-center gap-1 px-2 py-1 rounded-md public-locale-switch">
+    <div class={`${localeSwitchClass} public-locale-switch`}>
       {PUBLIC_LOCALES.map((targetLocale, index) => (
         <>
           {index > 0 && <span>|</span>}
