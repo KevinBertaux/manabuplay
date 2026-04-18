@@ -1,0 +1,39 @@
+---
+import "../../../../shared/styles/shared.css";
+import "../styles/admin.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: string;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description,
+  lang = "en",
+  bodyClass = "text-slate-200",
+} = Astro.props;
+
+const fullTitle = /ManabuPlay|Admin/.test(title) ? title : `${title} — Dashboard ManabuPlay`;
+---
+<!DOCTYPE html>
+<html lang={lang} id="htmlRoot">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0a0911" />
+  <title>{fullTitle}</title>
+  {description && <meta name="description" content={description} />}
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <slot name="head" />
+</head>
+<body class={bodyClass}>
+  <slot />
+  <slot name="scripts" />
+</body>
+</html>

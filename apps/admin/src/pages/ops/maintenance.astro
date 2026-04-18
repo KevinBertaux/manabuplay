@@ -1,16 +1,14 @@
 ---
-import "../../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
-
-const adminNav = getAdminNavHtml("maintenance");
+import AdminLayout from "../../layouts/AdminLayout.astro";
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maintenance — Admin ManabuPlay</title>
-  <meta name="robots" content="noindex, nofollow" />
+<AdminLayout
+  title="Maintenance — Admin ManabuPlay"
+  activeNav="maintenance"
+  description="Diagnostic et purge du vrai stockage navigateur du site public ciblé via bridge local."
+  bodyClass="text-slate-200 maint-shell"
+  containerClass="maint-wrap"
+>
+  <Fragment slot="head">
   <style>
     .maint-shell { min-height:100vh; background:
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
@@ -60,11 +58,7 @@ const adminNav = getAdminNavHtml("maintenance");
       .maint-action { grid-template-columns:1fr; }
     }
   </style>
-  <style set:html={ADMIN_NAV_CSS}></style>
-</head>
-<body class="text-slate-200 maint-shell">
-  <main class="maint-wrap">
-    <Fragment set:html={adminNav} />
+  </Fragment>
 
     <section class="maint-card maint-hero">
       <span class="maint-eyebrow">Admin maintenance</span>
@@ -168,8 +162,5 @@ const adminNav = getAdminNavHtml("maintenance");
         <div class="maint-key-list" id="maint-key-list"></div>
       </aside>
     </section>
-  </main>
-
-  <script type="module" is:inline src="/scripts/admin-maintenance.js"></script>
-</body>
-</html>
+  <script slot="scripts" type="module" is:inline src="/scripts/admin-maintenance.js"></script>
+</AdminLayout>

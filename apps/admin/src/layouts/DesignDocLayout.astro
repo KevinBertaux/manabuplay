@@ -1,10 +1,11 @@
 ---
-import "../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml, type AdminNavKey } from "../lib/admin-nav";
+import AdminLayout from "./AdminLayout.astro";
+import type { AdminNavKey } from "../lib/admin-nav";
 
 interface Props {
   title: string;
   active: AdminNavKey;
+  description?: string;
   lang?: string;
   containerClass?: string;
   bodyClass?: string;
@@ -13,28 +14,25 @@ interface Props {
 const {
   title,
   active,
+  description,
   lang = "fr",
   containerClass = "page",
   bodyClass = "",
 } = Astro.props;
-
-const adminNav = getAdminNavHtml(active);
 ---
-<!DOCTYPE html>
-<html lang={lang}>
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="robots" content="noindex, nofollow" />
-  <style set:html={ADMIN_NAV_CSS}></style>
-  <slot name="head" />
-</head>
-<body class={bodyClass}>
-  <main class={containerClass}>
-    <Fragment set:html={adminNav} />
-    <slot />
-  </main>
-  <slot name="scripts" />
-</body>
-</html>
+<AdminLayout
+  title={title}
+  activeNav={active}
+  description={description}
+  lang={lang}
+  bodyClass={bodyClass}
+  containerClass={containerClass}
+>
+  <Fragment slot="head">
+    <slot name="head" />
+  </Fragment>
+  <slot />
+  <Fragment slot="scripts">
+    <slot name="scripts" />
+  </Fragment>
+</AdminLayout>

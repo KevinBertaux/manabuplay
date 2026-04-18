@@ -1,16 +1,14 @@
 ---
-import "../../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
-
-const adminNav = getAdminNavHtml("waitlist");
+import AdminLayout from "../../layouts/AdminLayout.astro";
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Waitlist locale — Admin ManabuPlay</title>
-  <meta name="robots" content="noindex, nofollow" />
+<AdminLayout
+  title="Waitlist locale — Admin ManabuPlay"
+  activeNav="waitlist"
+  description="Lecture, export et purge de la collecte email locale du site public via bridge local."
+  bodyClass="text-slate-200 waitlist-shell"
+  containerClass="waitlist-wrap"
+>
+  <Fragment slot="head">
   <style>
     .waitlist-shell { min-height:100vh; background:
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
@@ -57,11 +55,7 @@ const adminNav = getAdminNavHtml("waitlist");
       .waitlist-wrap { padding-top:4.25rem; }
     }
   </style>
-  <style set:html={ADMIN_NAV_CSS}></style>
-</head>
-<body class="text-slate-200 waitlist-shell">
-  <main class="waitlist-wrap">
-    <Fragment set:html={adminNav} />
+  </Fragment>
     <section class="waitlist-card waitlist-hero">
       <span class="waitlist-eyebrow">0.1 waitlist</span>
       <h1 class="waitlist-title">Collecte email locale</h1>
@@ -123,8 +117,5 @@ const adminNav = getAdminNavHtml("waitlist");
         pas la délivrabilité réelle d’un email ni la réception Netlify.
       </p>
     </section>
-  </main>
-
-  <script type="module" is:inline src="/scripts/admin-waitlist.js"></script>
-</body>
-</html>
+  <script slot="scripts" type="module" is:inline src="/scripts/admin-waitlist.js"></script>
+</AdminLayout>
