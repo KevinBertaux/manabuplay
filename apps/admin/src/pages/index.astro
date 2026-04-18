@@ -1,10 +1,8 @@
 ---
-import "../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml } from "../lib/admin-nav";
+import AdminLayout from "../layouts/AdminLayout.astro";
 import { getAllPacks } from "../../../../shared/lib/manabuplay-pack-reader";
 
 const packs = getAllPacks();
-const adminNav = getAdminNavHtml("hub");
 
 function getReadiness(pack: (typeof packs)[number]) {
   return pack.score?.readiness?.value ?? null;
@@ -63,13 +61,14 @@ function getTransparentSummary(pack: (typeof packs)[number]) {
   return pack.transparentBreakdown ?? null;
 }
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — ManabuPlay</title>
-  <meta name="robots" content="noindex, nofollow" />
+<AdminLayout
+  title="Admin — ManabuPlay"
+  activeNav="hub"
+  description="Hub local pour piloter le produit, relire les packs, vérifier le design et suivre les opérations."
+  bodyClass="text-slate-200 admin-shell"
+  containerClass="admin-wrap"
+>
+  <Fragment slot="head">
   <style>
     .admin-shell { min-height:100vh; background:
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
@@ -122,11 +121,7 @@ function getTransparentSummary(pack: (typeof packs)[number]) {
       .pack-strip { grid-template-columns:1fr; }
     }
   </style>
-  <style set:html={ADMIN_NAV_CSS}></style>
-</head>
-<body class="text-slate-200 admin-shell">
-  <main class="admin-wrap">
-    <Fragment set:html={adminNav} />
+  </Fragment>
     <section class="admin-card admin-hero">
       <span class="admin-eyebrow">Admin</span>
       <h1 class="admin-title">Manabu<span>Play</span> Admin</h1>
@@ -260,6 +255,4 @@ function getTransparentSummary(pack: (typeof packs)[number]) {
         })}
       </div>
     </section>
-  </main>
-</body>
-</html>
+</AdminLayout>

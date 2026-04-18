@@ -1,8 +1,5 @@
 ---
-import "../../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
-
-const adminNav = getAdminNavHtml("guide");
+import AdminLayout from "../../layouts/AdminLayout.astro";
 
 const sections = [
   {
@@ -48,13 +45,14 @@ const sections = [
   },
 ];
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Guide — Dashboard ManabuPlay</title>
-  <meta name="robots" content="noindex, nofollow" />
+<AdminLayout
+  title="Guide — Dashboard ManabuPlay"
+  activeNav="guide"
+  description="Repères rapides sur le découpage du repo, les commandes utiles et la doctrine CSS du dashboard."
+  bodyClass="text-slate-200 guide-shell"
+  containerClass="guide-wrap"
+>
+  <Fragment slot="head">
   <style>
     .guide-shell { min-height:100vh; background:
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
@@ -73,11 +71,7 @@ const sections = [
     .guide-list { display:grid; gap:10px; margin-top:14px; }
     .guide-item { color:#c7c2df; font:600 .98rem/1.58 'Chakra Petch',sans-serif; padding:12px 14px; border:1px solid rgba(255,255,255,.08); border-radius:8px; background:rgba(255,255,255,.03); }
   </style>
-  <style set:html={ADMIN_NAV_CSS}></style>
-</head>
-<body class="text-slate-200 guide-shell">
-  <main class="guide-wrap">
-    <Fragment set:html={adminNav} />
+  </Fragment>
 
     <section class="guide-card guide-hero">
       <span class="guide-eyebrow">Guide local</span>
@@ -101,6 +95,4 @@ const sections = [
         </article>
       ))}
     </section>
-  </main>
-</body>
-</html>
+</AdminLayout>

@@ -1,9 +1,7 @@
 ---
-import "../../styles/admin.css";
-import { ADMIN_NAV_CSS, getAdminNavHtml } from "../../lib/admin-nav";
+import AdminLayout from "../../layouts/AdminLayout.astro";
 import { getRoadmapData, getRoadmapLabelMap, getRoadmapVersionSummaries, type RoadmapItem } from "../../lib/admin-roadmap";
 
-const adminNav = getAdminNavHtml("backlog");
 const roadmap = getRoadmapData();
 const versionSummaries = getRoadmapVersionSummaries();
 const labels = getRoadmapLabelMap();
@@ -110,13 +108,14 @@ const roadmapPayload = {
   kindLabels,
 };
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — Backlog</title>
-  <meta name="robots" content="noindex, nofollow" />
+<AdminLayout
+  title="Admin — Backlog"
+  activeNav="backlog"
+  description="Lecture du travail par version à partir de docs/ROADMAP.json, sans dépendre de GitHub Projects."
+  bodyClass="text-slate-200 backlog-shell"
+  containerClass="backlog-wrap"
+>
+  <Fragment slot="head">
   <style is:global>
     .backlog-shell { min-height:100vh; background:
       radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
@@ -194,11 +193,7 @@ const roadmapPayload = {
       .backlog-check { width:36px; height:36px; }
     }
   </style>
-  <style set:html={ADMIN_NAV_CSS}></style>
-</head>
-<body class="text-slate-200 backlog-shell">
-  <main class="backlog-wrap">
-    <Fragment set:html={adminNav} />
+  </Fragment>
 
     <section class="backlog-hero">
       <span class="backlog-eyebrow">Roadmap</span>
@@ -334,8 +329,12 @@ const roadmapPayload = {
         ))
       )}
     </section>
-  </main>
-  <script is:inline type="application/json" id="roadmap-data" set:html={JSON.stringify(roadmapPayload)}></script>
-  <script is:inline type="module" src="/scripts/admin-backlog.js"></script>
-</body>
-</html>
+  <script
+    slot="scripts"
+    is:inline
+    type="application/json"
+    id="roadmap-data"
+    set:html={JSON.stringify(roadmapPayload)}
+  ></script>
+  <script slot="scripts" is:inline type="module" src="/scripts/admin-backlog.js"></script>
+</AdminLayout>

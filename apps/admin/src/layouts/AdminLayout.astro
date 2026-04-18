@@ -1,0 +1,43 @@
+---
+import "../styles/admin.css";
+import { ADMIN_NAV_CSS, getAdminNavHtml, type AdminNavKey } from "../lib/admin-nav";
+
+interface Props {
+  title: string;
+  activeNav: AdminNavKey;
+  description?: string;
+  lang?: string;
+  bodyClass?: string;
+  containerClass?: string;
+}
+
+const {
+  title,
+  activeNav,
+  description,
+  lang = "fr",
+  bodyClass = "",
+  containerClass = "",
+} = Astro.props;
+
+const adminNav = getAdminNavHtml(activeNav);
+---
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  {description && <meta name="description" content={description} />}
+  <meta name="robots" content="noindex, nofollow" />
+  <style set:html={ADMIN_NAV_CSS}></style>
+  <slot name="head" />
+</head>
+<body class={bodyClass}>
+  <main class={containerClass}>
+    <Fragment set:html={adminNav} />
+    <slot />
+  </main>
+  <slot name="scripts" />
+</body>
+</html>
