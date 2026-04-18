@@ -273,24 +273,6 @@ function mulberry32(seed: number) {
   };
 }
 
-function shuffleAnswers(correct: string, distractors: string[], seedSource: string) {
-  const entries = [
-    { label: correct, correct: true },
-    ...distractors.slice(0, 3).map((label) => ({ label, correct: false })),
-  ];
-  const random = mulberry32(hashSeed(seedSource));
-
-  for (let index = entries.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.floor(random() * (index + 1));
-    [entries[index], entries[swapIndex]] = [entries[swapIndex], entries[index]];
-  }
-
-  return {
-    answers: entries.map((entry) => entry.label),
-    correctIndex: entries.findIndex((entry) => entry.correct),
-  };
-}
-
 function shuffleParallelAnswers(
   correctFr: string,
   distractorsFr: string[],
