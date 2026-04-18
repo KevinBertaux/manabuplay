@@ -4,3 +4,12 @@
 @import "tailwindcss";
 
 @import "../../../../shared/styles/shared.css";
+
+.admin-topnav__group[open] .admin-topnav__summary svg {
+  transform: rotate(180deg);
+}
+
+.admin-topnav__lang-btn.is-active {
+  background: rgba(139, 92, 246, 0.2);
+  color: #fff;
+}

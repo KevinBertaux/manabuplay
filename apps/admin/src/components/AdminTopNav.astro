@@ -1,0 +1,122 @@
+---
+import {
+  ADMIN_GROUPS,
+  ADMIN_PRIMARY_ITEMS,
+  isAdminNavGroupActive,
+  isAdminNavItemActive,
+  type AdminNavKey,
+} from "../lib/admin-nav";
+
+interface Props {
+  active: AdminNavKey;
+}
+
+const { active } = Astro.props;
+
+const navLinkClass =
+  "admin-topnav__link inline-flex min-h-10 items-center justify-center rounded-lg border border-white/8 bg-white/4 px-3.5 text-center font-body text-[0.9rem] font-bold leading-none tracking-[0.04em] text-[#c7c2df] no-underline transition-all duration-200 ease-out hover:-translate-y-px hover:border-violet-400/40 hover:bg-violet-500/8 hover:text-white";
+const summaryClass =
+  "admin-topnav__summary inline-flex min-h-10 cursor-pointer list-none items-center justify-center gap-2 rounded-lg border border-white/8 bg-white/4 px-3.5 font-body text-[0.9rem] font-bold leading-none tracking-[0.04em] text-[#c7c2df] transition-all duration-200 ease-out hover:-translate-y-px hover:border-violet-400/40 hover:bg-violet-500/8 hover:text-white [&::-webkit-details-marker]:hidden";
+---
+<nav
+  class="admin-topnav sticky top-3 z-30 mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-violet-500/20 bg-[#0f0c1ae6] p-2 shadow-[0_12px_32px_rgba(0,0,0,.26)] backdrop-blur-[12px]"
+  data-admin-topnav
+>
+  {
+    ADMIN_PRIMARY_ITEMS.map((item) => (
+      <a
+        class:list={[
+          navLinkClass,
+          {
+            "border-fuchsia-400/45 bg-fuchsia-500/10 text-white": isAdminNavItemActive(item, active),
+          },
+        ]}
+        href={item.href}
+      >
+        {item.label}
+      </a>
+    ))
+  }
+
+  {
+    ADMIN_GROUPS.map((group) => {
+      const isActive = isAdminNavGroupActive(group, active);
+
+      return (
+        <details class:list={["admin-topnav__group relative", { "is-active": isActive }]} open={isActive} data-admin-group>
+          <summary
+            class:list={[
+              summaryClass,
+              { "border-fuchsia-400/45 bg-fuchsia-500/10 text-white": isActive },
+            ]}
+          >
+            <span>{group.label}</span>
+            <svg
+              class="size-3 shrink-0 opacity-75 transition-transform duration-200 ease-out group-open:rotate-180"
+              viewBox="0 0 12 12"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <path d="M2 4.5 6 8l4-3.5" />
+            </svg>
+          </summary>
+          <div class="admin-topnav__menu absolute left-0 top-[calc(100%+8px)] z-50 grid min-w-[210px] gap-1.5 rounded-lg border border-violet-500/25 bg-[#0f0c1afa] p-2 shadow-[0_18px_42px_rgba(0,0,0,.34)]">
+            {
+              group.items.map((item) => (
+                <a
+                  class:list={[
+                    navLinkClass,
+                    "justify-start whitespace-nowrap",
+                    {
+                      "border-fuchsia-400/45 bg-fuchsia-500/10 text-white": isAdminNavItemActive(
+                        item,
+                        active,
+                      ),
+                    },
+                  ]}
+                  href={item.href}
+                >
+                  {item.label}
+                </a>
+              ))
+            }
+          </div>
+        </details>
+      );
+    })
+  }
+
+  <span class="admin-topnav__spacer flex-1"></span>
+
+  <a
+    class={navLinkClass}
+    data-admin-public
+    href="http://localhost:4321/"
+    target="_blank"
+    rel="noreferrer"
+  >
+    ManabuPlay
+  </a>
+
+  <div
+    class="admin-topnav__lang inline-flex min-h-10 items-center gap-1 rounded-lg border border-white/8 bg-white/4 p-1"
+    aria-label="Language switch"
+  >
+    <button
+      class="admin-topnav__lang-btn inline-flex min-h-[30px] min-w-10 items-center justify-center rounded-lg bg-transparent px-2.5 font-body text-[0.84rem] font-extrabold leading-none tracking-[0.06em] text-[#8f8aa7] transition-colors duration-200 ease-out hover:text-white"
+      type="button"
+      data-admin-lang="fr"
+    >
+      FR
+    </button>
+    <button
+      class="admin-topnav__lang-btn inline-flex min-h-[30px] min-w-10 items-center justify-center rounded-lg bg-transparent px-2.5 font-body text-[0.84rem] font-extrabold leading-none tracking-[0.06em] text-[#8f8aa7] transition-colors duration-200 ease-out hover:text-white"
+      type="button"
+      data-admin-lang="en"
+    >
+      EN
+    </button>
+  </div>
+</nav>
