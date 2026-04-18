@@ -31,8 +31,19 @@ const sections = [
     items: [
       "Le site public vit dans `apps/web`.",
       "Le dashboard vit dans `apps/admin`.",
-      "Le métier partagé ira dans `shared` au lot suivant, pas avant.",
+      "Le métier partagé vit dans `shared` : logique quiz, données communes et couches de styles transverses.",
       "Tant qu'une app n'est pas prête, les commandes ciblées doivent échouer clairement, pas fallback silencieusement.",
+    ],
+  },
+  {
+    title: "CSS / Tailwind v4",
+    items: [
+      "Tailwind v4 est déjà branché dans les 2 apps, mais le repo reste volontairement en mode hybride : utilities Tailwind + couches CSS partagées.",
+      "Les couches communes vivent maintenant dans `shared/styles` : `foundation.css`, `animations.css`, `controls.css`, `quiz.css`, `public-routes.css`, `typography.css`.",
+      "Règle de migration : ne pas refaire tout le site en Tailwind d'un coup. On migre par surface stable, avec un avant/après lisible et sans casser le rendu.",
+      "Ordre recommandé : 1) surface publique la plus touchée, 2) composants ou sections répétées, 3) admin seulement quand il devient une vraie app Astro avec layout racine propre.",
+      "Ce qui doit rester hors Tailwind tant qu'il n'y a pas de gain net : animations complexes, styles de référence design, pages mockup, et rustines historiques qu'on prévoit de supprimer.",
+      "Avant toute vraie migration visuelle, réduire les `style=\"\"` inline et les blocs `<style>` de page quand ils sont répétitifs ou qu'ils fuient hors de leur zone.",
     ],
   },
 ];
@@ -73,7 +84,8 @@ const sections = [
       <h1 class="guide-title">Repères du dashboard</h1>
       <p class="guide-copy">
         Cette page sert de rappel rapide : comment le repo est découpé, quelles commandes lancer, et où se trouvent les zones du dashboard
-        maintenant que l’interne sort du site public.
+        maintenant que l’interne sort du site public. Elle sert aussi de doctrine légère pour le CSS et Tailwind v4, afin d’éviter
+        un refactor UI diffus et mal séquencé.
       </p>
     </section>
 

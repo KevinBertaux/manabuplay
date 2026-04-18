@@ -101,6 +101,15 @@
           "notes": "Le repo ne depend plus du monolithe racine : apps/web, apps/admin, shared et suites de tests separees."
         },
         {
+          "id": "v01-css-tailwind-strategy",
+          "title": "Cadrer la strategie CSS / Tailwind v4 post-split",
+          "status": "done",
+          "priority": "P1",
+          "area": "landing",
+          "type": "research",
+          "notes": "Etat confirme : Tailwind v4 est deja branche, mais le repo reste hybride. Decision prise : migrer par surface stable, en commencant par le public, pas en rewrite global."
+        },
+        {
           "id": "v01-packs-draft",
           "title": "Rediger les cinq packs initiaux",
           "status": "done",
@@ -167,6 +176,15 @@
           "priority": "P1",
           "area": "landing",
           "type": "ux"
+        },
+        {
+          "id": "v01-tailwind-surface-1",
+          "title": "Migrer une premiere surface publique stable vers Tailwind v4",
+          "status": "todo",
+          "priority": "P1",
+          "area": "landing",
+          "type": "ux",
+          "notes": "Ne pas viser toute la landing d'un coup. Choisir une surface lisible, a forte repetition, et laisser les animations / pages de reference hors migration si elles n'apportent pas de gain net."
         },
         {
           "id": "v01-public-quiz-hints",
