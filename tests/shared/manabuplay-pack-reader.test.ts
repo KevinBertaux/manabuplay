@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getAllPacks, getPackById, getPackIndex } from "../../src/lib/manabuplay-pack-reader";
+import { getAllPacks, getPackById, getPackIndex } from "../../shared/lib/manabuplay-pack-reader";
 
 describe("manabuplay pack reader", () => {
   it("loads the pack index", () => {

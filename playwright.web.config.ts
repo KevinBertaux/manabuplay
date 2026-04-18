@@ -6,7 +6,7 @@ const pythonCommand = process.platform === "win32" ? "python" : "python3";
 
 export default defineConfig({
   testDir: "./tests",
-  testMatch: ["**/home-layout.spec.ts", "**/public-*.spec.ts"],
+  testMatch: ["**/web/**/*.spec.ts"],
   fullyParallel: false,
   timeout: 60_000,
   expect: {
@@ -28,7 +28,7 @@ export default defineConfig({
     },
     {
       command: `${pythonCommand} -m http.server 4174 --bind 127.0.0.1`,
-      cwd: path.join(repoRoot, "dist"),
+      cwd: path.join(repoRoot, "dist", "web"),
       url: "http://127.0.0.1:4174/",
       reuseExistingServer: true,
       timeout: 30_000,

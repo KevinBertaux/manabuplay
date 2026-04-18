@@ -6,20 +6,27 @@ import { PNG } from "pngjs";
 import pixelmatch from "pixelmatch";
 
 const root = process.cwd();
-const distDir = path.join(root, "dist");
+const webDistDir = path.join(root, "dist", "web");
+const adminDistDir = path.join(root, "dist", "admin");
 const outDir = path.join(root, ".codex-temp", "fx-lab-iso");
 const reportPath = path.join(outDir, "report.json");
-const baseUrl = "http://127.0.0.1:4274";
+const webBaseUrl = "http://127.0.0.1:4274";
+const adminBaseUrl = "http://127.0.0.1:4275";
 
 await fs.mkdir(outDir, { recursive: true });
 
-const server = spawn("python", ["-m", "http.server", "4274", "--bind", "127.0.0.1"], {
-  cwd: distDir,
+const webServer = spawn("python", ["-m", "http.server", "4274", "--bind", "127.0.0.1"], {
+  cwd: webDistDir,
+  stdio: "ignore",
+});
+
+const adminServer = spawn("python", ["-m", "http.server", "4275", "--bind", "127.0.0.1"], {
+  cwd: adminDistDir,
   stdio: "ignore",
 });
 
 try {
-  await waitForServer(`${baseUrl}/`);
+  await Promise.all([waitForServer(`${webBaseUrl}/`), waitForServer(`${adminBaseUrl}/`)]);
 
   const browser = await chromium.launch({ headless: true });
   try {
@@ -28,9 +35,9 @@ try {
     const quizPage = await browser.newPage({ viewport: { width: 1440, height: 2200 } });
 
     await Promise.all([
-      preparePage(sitePage, `${baseUrl}/`, "[data-i18n='hero_badge']"),
-      preparePage(heroPage, `${baseUrl}/lab/hero-reference/`, "[data-i18n='hero_badge']"),
-      preparePage(quizPage, `${baseUrl}/lab/quiz-reference/`, "#diffGrid .diff-card"),
+      preparePage(sitePage, `${webBaseUrl}/`, "[data-i18n='hero_badge']"),
+      preparePage(heroPage, `${adminBaseUrl}/design/references/hero/`, "[data-i18n='hero_badge']"),
+      preparePage(quizPage, `${adminBaseUrl}/design/references/quiz/#quiz`, "#diffGrid .diff-card"),
     ]);
 
     const results = [
@@ -50,8 +57,11 @@ try {
     await browser.close();
   }
 } finally {
-  if (!server.killed) {
-    server.kill("SIGKILL");
+  if (!webServer.killed) {
+    webServer.kill("SIGKILL");
+  }
+  if (!adminServer.killed) {
+    adminServer.kill("SIGKILL");
   }
 }
 

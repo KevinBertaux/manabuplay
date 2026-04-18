@@ -4,7 +4,7 @@ import {
   getRoadmapLabelMap,
   getRoadmapVersion,
   getRoadmapVersionSummaries,
-} from "../../src/lib/admin-roadmap";
+} from "../../../apps/admin/src/lib/admin-roadmap";
 
 describe("admin roadmap", () => {
   it("loads the roadmap data from docs", () => {

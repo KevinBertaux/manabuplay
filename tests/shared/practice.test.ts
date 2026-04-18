@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildPracticeBootData } from "../../src/lib/manabuplay-practice";
+import { buildPracticeBootData } from "../../shared/lib/manabuplay-practice";
 
 describe("practice boot data", () => {
   it("exposes the four framed practice recipes and cooldown settings", () => {

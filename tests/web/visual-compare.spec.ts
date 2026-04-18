@@ -8,7 +8,7 @@ import {
   compareSectionShots,
   normalizeFontFamily,
   preparePage,
-} from "./helpers/visual";
+} from "../helpers/visual";
 
 const RUN_LEGACY_VISUAL_PARITY = process.env.PW_LEGACY_VISUAL_PARITY === "1";
 

@@ -5,12 +5,9 @@ const repoRoot = path.resolve(".");
 const pythonCommand = process.platform === "win32" ? "python" : "python3";
 
 export default defineConfig({
-  testDir: "./tests",
+  testDir: ".",
   testMatch: [
-    "**/admin-*.spec.ts",
-    "**/brand-system.spec.ts",
-    "**/fx-lab.spec.ts",
-    "**/visual-compare.spec.ts",
+    "tests/admin/**/*.spec.ts",
   ],
   fullyParallel: false,
   timeout: 60_000,
@@ -32,9 +29,16 @@ export default defineConfig({
       timeout: 30_000,
     },
     {
-      command: `${pythonCommand} -m http.server 4174 --bind 127.0.0.1`,
-      cwd: path.join(repoRoot, "dist"),
-      url: "http://127.0.0.1:4174/",
+      command: `${pythonCommand} -m http.server 4321 --bind 127.0.0.1`,
+      cwd: path.join(repoRoot, "dist", "web"),
+      url: "http://127.0.0.1:4321/",
+      reuseExistingServer: true,
+      timeout: 30_000,
+    },
+    {
+      command: `${pythonCommand} -m http.server 4322 --bind 127.0.0.1`,
+      cwd: path.join(repoRoot, "dist", "admin"),
+      url: "http://127.0.0.1:4322/",
       reuseExistingServer: true,
       timeout: 30_000,
     },

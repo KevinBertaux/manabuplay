@@ -8,7 +8,7 @@ import {
   PACKS,
   RELEASES,
   WORDS,
-} from "../../src/data/manabuplay/catalog";
+} from "../../shared/data/manabuplay/catalog";
 
 describe("catalog", () => {
   it("exposes the frozen release, pack, and difficulty metadata", () => {

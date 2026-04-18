@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildArchivesBootData, getArchiveDateKeys, getLatestArchiveDateKey } from "../../src/lib/manabuplay-archives";
+import { buildArchivesBootData, getArchiveDateKeys, getLatestArchiveDateKey } from "../../shared/lib/manabuplay-archives";
 
 describe("buildArchivesBootData", () => {
   it("builds archive mode with one playable archive run", () => {

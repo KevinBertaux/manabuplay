@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { ASTRO_HOME_URL, preparePage } from "./helpers/visual";
+import { ASTRO_HOME_URL, preparePage } from "../helpers/visual";
 
 async function loadHome(page: Page) {
   await preparePage(page, ASTRO_HOME_URL);

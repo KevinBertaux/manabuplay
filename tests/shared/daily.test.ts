@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildDailyBootData } from "../../src/lib/manabuplay-daily";
+import { buildDailyBootData } from "../../shared/lib/manabuplay-daily";
 
 describe("daily boot data", () => {
   it("exposes a single 10-question daily difficulty backed by the v0.1 pack pool", () => {

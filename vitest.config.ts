@@ -3,19 +3,13 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     environment: "node",
-    include: ["tests/**/*.test.ts"],
+    include: ["tests/admin/unit/**/*.test.ts", "tests/shared/**/*.test.ts"],
     coverage: {
       provider: "v8",
       reporter: ["text", "html"],
       include: [
-        "src/lib/serialize-inline-script.ts",
-        "src/lib/admin-nav.ts",
-        "src/lib/admin-roadmap.ts",
-        "src/lib/manabuplay-roadmap.ts",
-        "src/lib/manabuplay-pack-reader.ts",
-        "src/lib/admin-documents.ts",
-        "src/data/manabuplay/catalog.ts",
         "shared/lib/**/*.ts",
+        "shared/data/**/*.ts",
         "apps/admin/src/lib/**/*.ts",
       ],
       thresholds: {

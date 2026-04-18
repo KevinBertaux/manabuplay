@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { ASTRO_HOME_URL, preparePage } from "./helpers/visual";
+import { ASTRO_HOME_URL, preparePage } from "../helpers/visual";
 
 test.describe("public flow", () => {
   test("switches language and keeps the hero CTA prominent", async ({ page }) => {

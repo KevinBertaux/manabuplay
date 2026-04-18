@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getRoadmapCatalog } from "../../src/lib/manabuplay-roadmap";
+import { getRoadmapCatalog } from "../../../apps/admin/src/lib/manabuplay-roadmap";
 
 describe("manabuplay roadmap catalog", () => {
   it("loads the future packs roadmap catalog", () => {

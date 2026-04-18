@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { ASTRO_URL } from "./helpers/visual";
+import { ASTRO_URL } from "../helpers/visual";
 
 const LOCALES = [
   { locale: "en", tagline: "Learn Japanese vocabulary", daily: "Daily" },

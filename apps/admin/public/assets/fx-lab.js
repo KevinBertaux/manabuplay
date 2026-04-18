@@ -239,10 +239,12 @@
   }
 
   function getIsoPreviewBase() {
-    const protocol = window.location.protocol === "file:" ? "http:" : window.location.protocol;
-    const host = window.location.hostname || "127.0.0.1";
-    const port = window.location.port ? String(Number(window.location.port) + 1) : "4174";
-    return `${protocol}//${host}:${port}`;
+    if (window.location.protocol === "file:") {
+      return "http://127.0.0.1:4174";
+    }
+
+    const origin = window.location.origin;
+    return origin === "null" ? "http://127.0.0.1:4174" : origin;
   }
 
   function hydrateIsoPreviews() {

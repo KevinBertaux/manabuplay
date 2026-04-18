@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { serializeForInlineScript } from "../../src/lib/serialize-inline-script";
+import { serializeForInlineScript } from "../../shared/lib/serialize-inline-script";
 
 describe("serializeForInlineScript", () => {
   it("serializes primitive values", () => {

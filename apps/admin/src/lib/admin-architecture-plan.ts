@@ -305,7 +305,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         note: { fr: "Lire les emails locaux, rafraîchir, effacer et exporter un CSV daté.", en: "Read local emails, refresh, clear, and export a dated CSV." },
       },
       {
-        path: "tests/public-flow.spec.ts",
+        path: "tests/web/public-flow.spec.ts",
         action: "update",
         note: { fr: "Couvrir validation email, soumission et état déjà inscrit.", en: "Cover email validation, submission, and already-subscribed state." },
       },
@@ -451,7 +451,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         note: { fr: "Wording final du corps de landing après les vrais modes.", en: "Final landing body wording after real modes." },
       },
       {
-        path: "tests/public-flow.spec.ts",
+        path: "tests/web/public-flow.spec.ts",
         action: "update",
         note: { fr: "Couvrir Daily / Practice / Archives + waitlist.", en: "Cover Daily / Practice / Archives + waitlist." },
       },
