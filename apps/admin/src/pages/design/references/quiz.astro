@@ -1,19 +1,16 @@
 ---
-import "../../../styles/admin.css";
+import AdminReferenceLayout from "../../../layouts/AdminReferenceLayout.astro";
 import { buildMvpBootData } from "../../../../../../shared/data/manabuplay/catalog";
 import { serializeForInlineScript } from "../../../../../../shared/lib/serialize-inline-script";
 
 const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(buildMvpBootData())};`;
 ---
-<!DOCTYPE html>
-<html lang="en" id="htmlRoot">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ManabuPlay Admin — Quiz Reference</title>
-  <meta name="robots" content="noindex, nofollow" />
-</head>
-<body class="text-slate-200">
+<AdminReferenceLayout
+  title="ManabuPlay Admin — Quiz Reference"
+  description="Mire interne isolée du parcours public pour comparer quiz et landing hors dashboard."
+  lang="en"
+  bodyClass="text-slate-200"
+>
   <nav class="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-2"
        style="background:rgba(10,9,17,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(139,92,246,.15);">
     <div class="flex items-center gap-3">
@@ -236,7 +233,6 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
     </div>
   </section>
 
-  <script is:inline set:html={bootDataScript}></script>
-  <script is:inline src="/scripts/quiz-app.js"></script>
-</body>
-</html>
+  <script slot="scripts" is:inline set:html={bootDataScript}></script>
+  <script slot="scripts" is:inline src="/scripts/quiz-app.js"></script>
+</AdminReferenceLayout>
