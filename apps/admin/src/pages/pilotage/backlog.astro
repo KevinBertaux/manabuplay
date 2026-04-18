@@ -111,90 +111,11 @@ const roadmapPayload = {
 <AdminLayout
   title="Admin — Backlog"
   activeNav="backlog"
+  pageId="backlog"
   description="Lecture du travail par version à partir de docs/ROADMAP.json, sans dépendre de GitHub Projects."
   bodyClass="text-slate-200 backlog-shell"
   containerClass="backlog-wrap"
 >
-  <Fragment slot="head">
-  <style is:global>
-    .backlog-shell { min-height:100vh; background:
-      radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
-      radial-gradient(ellipse 40% 40% at 90% 15%,rgba(34,211,238,.14) 0%,transparent 60%),
-      #0a0911; }
-    .backlog-wrap { width:min(1440px,calc(100% - 24px)); margin:0 auto; padding:88px 0 32px; }
-    .backlog-card,.backlog-hero,.backlog-version-card,.backlog-item { background:rgba(15,12,26,.92); border:1px solid rgba(139,92,246,.18); border-radius:8px; box-shadow:0 12px 32px rgba(0,0,0,.32); }
-    .backlog-hero { padding:20px; margin-bottom:16px; display:grid; gap:14px; }
-    .backlog-eyebrow { display:inline-flex; align-items:center; gap:8px; min-height:32px; padding:0 12px; border-radius:8px; background:rgba(34,211,238,.12); border:1px solid rgba(34,211,238,.28); color:#22d3ee; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
-    .backlog-eyebrow::before { content:""; width:8px; height:8px; border-radius:999px; background:currentColor; }
-    .backlog-title { margin:0; font-family:'Joystix',sans-serif; font-size:clamp(1.45rem,2.8vw,2.25rem); color:#fff; line-height:1.15; }
-    .backlog-title span { color:#e879f9; }
-    .backlog-copy { max-width:80ch; color:#c7c2df; font:500 1.05rem/1.64 'Chakra Petch',sans-serif; }
-    .backlog-chip-row { display:flex; flex-wrap:wrap; gap:8px; }
-    .backlog-chip { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); color:#fff; font:800 .88rem/1 'Chakra Petch',sans-serif; letter-spacing:.03em; white-space:nowrap; }
-    .backlog-chip.is-accent { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
-    .backlog-controls { display:grid; gap:14px; margin-bottom:16px; }
-    .backlog-control-card { padding:14px; }
-    .backlog-control-kicker { color:#8f8aa7; font:800 .82rem/1 'Chakra Petch',sans-serif; letter-spacing:.1em; text-transform:uppercase; margin-bottom:10px; }
-    .backlog-option-row { display:flex; flex-wrap:wrap; gap:8px; }
-    .backlog-option { display:inline-flex; align-items:center; min-height:34px; padding:0 12px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#c7c2df; text-decoration:none; font:800 .9rem/1 'Chakra Petch',sans-serif; letter-spacing:.03em; transition:border-color .18s ease,background .18s ease,color .18s ease,transform .18s ease; }
-    .backlog-option:hover { border-color:rgba(139,92,246,.36); background:rgba(139,92,246,.08); color:#fff; transform:translateY(-1px); }
-    .backlog-option.is-active { border-color:rgba(232,121,249,.34); background:rgba(232,121,249,.12); color:#fff; }
-    .backlog-versions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:16px; }
-    .backlog-version-card { display:grid; gap:10px; padding:14px; text-decoration:none; color:inherit; transition:border-color .18s ease,transform .18s ease,background .18s ease; }
-    .backlog-version-card:hover { border-color:rgba(139,92,246,.34); background:rgba(139,92,246,.06); transform:translateY(-1px); }
-    .backlog-version-card.is-active { border-color:rgba(232,121,249,.36); background:rgba(232,121,249,.08); }
-    .backlog-version-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
-    .backlog-version-title { color:#fff; font:800 1.06rem/1.2 'Chakra Petch',sans-serif; }
-    .backlog-version-kind { display:inline-flex; align-items:center; justify-content:center; min-height:28px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#c7c2df; font:800 .78rem/1 'Chakra Petch',sans-serif; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap; }
-    .backlog-version-kind.history { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
-    .backlog-version-kind.current { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
-    .backlog-version-kind.planned { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
-    .backlog-version-kind.backlog { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#c7c2df; }
-    .backlog-version-copy { color:#a9a3c3; font:600 .96rem/1.5 'Chakra Petch',sans-serif; min-height:3em; }
-    .backlog-version-meta { display:flex; flex-wrap:wrap; gap:8px; }
-    .backlog-version-meta .backlog-chip { min-height:28px; font-size:.82rem; }
-    .backlog-list { display:grid; gap:12px; }
-    .backlog-version-section { display:grid; gap:12px; }
-    .backlog-section-head { display:grid; gap:10px; padding:14px 16px; }
-    .backlog-section-title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
-    .backlog-section-title { color:#fff; font:800 1.2rem/1.2 'Chakra Petch',sans-serif; }
-    .backlog-section-copy { color:#a9a3c3; font:600 .98rem/1.55 'Chakra Petch',sans-serif; }
-    .backlog-section-meta { display:flex; flex-wrap:wrap; gap:8px; }
-    .backlog-item { padding:16px; display:grid; gap:12px; }
-    .backlog-item.is-done { border-color:rgba(74,222,128,.24); background:rgba(74,222,128,.06); }
-    .backlog-item-head { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }
-    .backlog-item-title-wrap { display:grid; gap:6px; min-width:0; }
-    .backlog-item-title { color:#fff; font:800 1.18rem/1.25 'Chakra Petch',sans-serif; }
-    .backlog-item.is-done .backlog-item-title { color:#d9fbe3; }
-    .backlog-item-note { color:#a9a3c3; font:600 .98rem/1.56 'Chakra Petch',sans-serif; }
-    .backlog-item-meta { display:flex; flex-wrap:wrap; gap:8px; }
-    .backlog-meta-chip { display:inline-flex; align-items:center; min-height:28px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#fff; font:800 .8rem/1 'Chakra Petch',sans-serif; letter-spacing:.04em; text-transform:uppercase; }
-    .backlog-meta-chip.status-done { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
-    .backlog-meta-chip.status-todo { border-color:rgba(248,113,113,.26); background:rgba(248,113,113,.12); color:#fecaca; }
-    .backlog-meta-chip.priority-p0 { border-color:rgba(248,113,113,.3); background:rgba(248,113,113,.14); color:#fecaca; }
-    .backlog-meta-chip.priority-p1 { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
-    .backlog-meta-chip.priority-p2 { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
-    .backlog-meta-chip.priority-p3 { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#c7c2df; }
-    .backlog-check { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:#8f8aa7; font:900 1rem/1 'Chakra Petch',sans-serif; flex:0 0 auto; }
-    .backlog-item.is-done .backlog-check { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
-    .backlog-children { display:grid; gap:8px; }
-    .backlog-child { display:flex; align-items:flex-start; gap:10px; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.03); color:#c7c2df; font:700 .94rem/1.45 'Chakra Petch',sans-serif; }
-    .backlog-child.is-done { border-color:rgba(74,222,128,.22); background:rgba(74,222,128,.08); color:#dcfce7; }
-    .backlog-child-check { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:999px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:#8f8aa7; font:900 .82rem/1 'Chakra Petch',sans-serif; flex:0 0 auto; margin-top:0; }
-    .backlog-child.is-done .backlog-child-check { border-color:rgba(74,222,128,.3); background:rgba(74,222,128,.14); color:#dcfce7; }
-    .backlog-empty { padding:20px; color:#a9a3c3; font:600 1rem/1.6 'Chakra Petch',sans-serif; }
-    @media (max-width:1100px) {
-      .backlog-versions { grid-template-columns:repeat(2,minmax(0,1fr)); }
-    }
-    @media (max-width:760px) {
-      .backlog-wrap { width:min(100%,calc(100% - 20px)); }
-      .backlog-versions { grid-template-columns:1fr; }
-      .backlog-item-head,.backlog-version-head { align-items:flex-start; }
-      .backlog-check { width:36px; height:36px; }
-    }
-  </style>
-  </Fragment>
-
     <section class="backlog-hero">
       <span class="backlog-eyebrow">Roadmap</span>
       <h1 class="backlog-title">Manabu<span>Play</span> backlog</h1>
@@ -336,5 +257,4 @@ const roadmapPayload = {
     id="roadmap-data"
     set:html={JSON.stringify(roadmapPayload)}
   ></script>
-  <script slot="scripts" is:inline type="module" src="/scripts/admin-backlog.js"></script>
 </AdminLayout>

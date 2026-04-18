@@ -18,99 +18,11 @@ const implementationSummary = getArchitectureImplementationSummary();
 <AdminLayout
   title="Admin — Architecture Plan"
   activeNav="architecture"
+  pageId="architecture"
   description="Programme des priorités produit et plan de migration de l'architecture publique."
   bodyClass="text-slate-200 arch-shell"
   containerClass="arch-wrap"
 >
-  <Fragment slot="head">
-  <style>
-    .arch-shell { min-height:100vh; background:
-      radial-gradient(ellipse 70% 45% at 50% -10%,rgba(139,92,246,.22) 0%,transparent 70%),
-      radial-gradient(ellipse 40% 40% at 90% 15%,rgba(34,211,238,.14) 0%,transparent 60%),
-      #0a0911; }
-    .arch-wrap { width:min(1520px,calc(100% - 24px)); margin:0 auto; padding:88px 0 32px; }
-    .arch-card,.arch-hero,.arch-phase,.arch-table-shell { background:rgba(15,12,26,.92); border:1px solid rgba(139,92,246,.18); border-radius:8px; box-shadow:0 12px 32px rgba(0,0,0,.32); }
-    .arch-hero { padding:20px; display:grid; gap:14px; margin-bottom:16px; }
-    .arch-eyebrow { display:inline-flex; align-items:center; gap:8px; min-height:32px; padding:0 12px; border-radius:8px; background:rgba(34,211,238,.12); border:1px solid rgba(34,211,238,.28); color:#22d3ee; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
-    .arch-eyebrow::before { content:""; width:8px; height:8px; border-radius:999px; background:currentColor; }
-    .arch-title { margin:0; font-family:'Joystix',sans-serif; font-size:clamp(1.42rem,2.8vw,2.3rem); color:#fff; line-height:1.16; }
-    .arch-title span { color:#e879f9; }
-    .arch-copy { max-width:82ch; color:#c7c2df; font:500 1.05rem/1.64 'Chakra Petch',sans-serif; }
-    .arch-hud { position:sticky; top:76px; z-index:24; display:grid; gap:0; margin-bottom:16px; border:1px solid rgba(139,92,246,.18); border-radius:8px; background:
-      linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),
-      rgba(10,9,17,.9); backdrop-filter:blur(16px); box-shadow:0 14px 30px rgba(0,0,0,.24); overflow:hidden; }
-    .arch-hud::before { content:""; position:absolute; inset:0; pointer-events:none; background:
-      linear-gradient(90deg,rgba(34,211,238,.08),transparent 18%,transparent 82%,rgba(232,121,249,.08)),
-      repeating-linear-gradient(180deg,transparent 0,transparent 4px,rgba(255,255,255,.012) 4px,rgba(255,255,255,.012) 8px); }
-    .arch-summary-bar { position:relative; z-index:1; display:grid; grid-template-columns:minmax(220px,2.4fr) minmax(460px,4.8fr) minmax(0,4.8fr); gap:18px; align-items:center; padding:14px 18px; }
-    .arch-summary-bar + .arch-summary-bar { border-top:1px solid rgba(139,92,246,.14); }
-    .arch-progress-title { color:#fff; font:800 1.18rem/1.1 'Chakra Petch',sans-serif; white-space:nowrap; }
-    .arch-chip-row { display:flex; flex-wrap:nowrap; gap:8px; min-width:0; align-items:center; align-content:center; overflow:hidden; }
-    .arch-chip { display:inline-flex; align-items:center; min-height:32px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.035)); color:#f4f2ff; font:800 .82rem/1 'Chakra Petch',sans-serif; letter-spacing:.01em; white-space:nowrap; box-shadow:inset 0 1px 0 rgba(255,255,255,.04); }
-    .arch-progress-stack { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:14px; min-width:0; width:100%; }
-    .arch-progress-track { width:100%; height:10px; border-radius:999px; background:rgba(255,255,255,.09); overflow:hidden; box-shadow:inset 0 1px 2px rgba(0,0,0,.35); }
-    .arch-progress-fill { height:100%; border-radius:999px; background:linear-gradient(90deg,#22d3ee 0%,#7dd3fc 40%,#e879f9 100%); box-shadow:0 0 14px rgba(34,211,238,.22); min-width:16px; }
-    .arch-progress-percent { color:#d8d4eb; font:800 .98rem/1 'Chakra Petch',sans-serif; letter-spacing:.02em; white-space:nowrap; }
-    .arch-section { display:grid; gap:12px; margin-top:16px; }
-    .arch-section-head { padding:18px 20px; display:grid; gap:8px; }
-    .arch-section-title { color:#fff; font:800 1.28rem/1.2 'Chakra Petch',sans-serif; }
-    .arch-section-copy { color:#a9a3c3; font:600 1rem/1.56 'Chakra Petch',sans-serif; }
-    .arch-table-shell { overflow:hidden; }
-    .arch-table-wrap { overflow-x:auto; }
-    .arch-table { width:100%; border-collapse:collapse; min-width:1240px; }
-    .arch-table th,.arch-table td { padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.06); vertical-align:top; text-align:left; }
-    .arch-table thead th { color:#8f8aa7; font:800 .82rem/1 'Chakra Petch',sans-serif; letter-spacing:.1em; text-transform:uppercase; background:rgba(255,255,255,.03); white-space:nowrap; }
-    .arch-table tbody tr:hover { background:rgba(255,255,255,.02); }
-    .arch-rank { color:#fff; font:900 1rem/1 'Chakra Petch',sans-serif; }
-    .arch-step-title { color:#fff; font:800 1.02rem/1.26 'Chakra Petch',sans-serif; margin-bottom:8px; }
-    .arch-step-note { color:#a9a3c3; font:600 .96rem/1.54 'Chakra Petch',sans-serif; }
-    .arch-pill { display:inline-flex; align-items:center; justify-content:center; min-height:28px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#fff; font:800 .8rem/1 'Chakra Petch',sans-serif; letter-spacing:.04em; white-space:nowrap; }
-    .arch-pill.priority { border-color:rgba(232,121,249,.28); background:rgba(232,121,249,.12); color:#f5d0fe; }
-    .arch-status { display:inline-flex; align-items:center; min-height:28px; padding:0 10px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#c7c2df; font:800 .8rem/1 'Chakra Petch',sans-serif; letter-spacing:.05em; text-transform:uppercase; white-space:nowrap; }
-    .arch-status.done { border-color:rgba(74,222,128,.34); background:rgba(74,222,128,.14); color:#dcfce7; }
-    .arch-status.advanced { border-color:rgba(34,211,238,.24); background:rgba(34,211,238,.12); color:#d7fbff; }
-    .arch-status.active { border-color:rgba(250,204,21,.28); background:rgba(250,204,21,.12); color:#fde68a; }
-    .arch-status.framed { border-color:rgba(232,121,249,.28); background:rgba(232,121,249,.12); color:#f5d0fe; }
-    .arch-status.cold { border-color:rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:#c7c2df; }
-    .arch-progress-cell { display:grid; gap:8px; min-width:220px; }
-    .arch-progress-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; color:#c7c2df; font:800 .88rem/1 'Chakra Petch',sans-serif; }
-    .arch-progress-mini { height:8px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; }
-    .arch-progress-mini-fill { height:100%; border-radius:999px; background:linear-gradient(90deg,rgba(34,211,238,.82),rgba(232,121,249,.82)); }
-    .arch-why { color:#c7c2df; font:600 .96rem/1.56 'Chakra Petch',sans-serif; min-width:280px; }
-    .arch-phases { display:grid; gap:12px; }
-    .arch-phase { padding:16px; display:grid; gap:14px; }
-    .arch-phase-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
-    .arch-phase-kicker { color:#22d3ee; font:800 .82rem/1 'Chakra Petch',sans-serif; letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px; }
-    .arch-phase-title { color:#fff; font:800 1.18rem/1.24 'Chakra Petch',sans-serif; }
-    .arch-phase-copy { color:#c7c2df; font:600 1rem/1.58 'Chakra Petch',sans-serif; }
-    .arch-phase-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
-    .arch-phase-block { padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.03); display:grid; gap:6px; }
-    .arch-phase-block-label { color:#8f8aa7; font:800 .78rem/1 'Chakra Petch',sans-serif; letter-spacing:.1em; text-transform:uppercase; }
-    .arch-phase-block-copy { color:#fff; font:700 .94rem/1.48 'Chakra Petch',sans-serif; }
-    .arch-file-list { display:grid; gap:8px; }
-    .arch-file-row { display:grid; grid-template-columns:150px minmax(240px,360px) minmax(0,1fr); gap:10px; align-items:start; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.03); }
-    .arch-file-action { display:inline-flex; align-items:center; justify-content:center; min-height:30px; padding:0 10px; border-radius:8px; border:1px solid rgba(34,211,238,.22); background:rgba(34,211,238,.12); color:#d7fbff; font:800 .82rem/1 'Chakra Petch',sans-serif; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap; }
-    .arch-file-path { color:#fff; font:800 .92rem/1.4 'Chakra Petch',sans-serif; word-break:break-word; }
-    .arch-file-path code { color:#f3efff; font-size:.94rem; }
-    .arch-file-note { color:#c7c2df; font:600 .96rem/1.52 'Chakra Petch',sans-serif; }
-    .arch-footnote { color:#8f8aa7; font:600 .94rem/1.54 'Chakra Petch',sans-serif; }
-    @media (max-width:1180px) {
-      .arch-phase-grid { grid-template-columns:1fr; }
-      .arch-file-row { grid-template-columns:130px 1fr; }
-      .arch-file-note { grid-column:1 / -1; }
-    }
-    @media (max-width:760px) {
-      .arch-wrap { width:min(100%,calc(100% - 20px)); }
-      .arch-hero,.arch-phase,.arch-section-head { padding-left:16px; padding-right:16px; }
-      .arch-hud { top:72px; }
-      .arch-summary-bar { grid-template-columns:1fr; gap:14px; padding:14px 16px; }
-      .arch-chip-row { flex-wrap:wrap; overflow:visible; }
-      .arch-file-row { grid-template-columns:1fr; }
-      .arch-progress-stack { grid-template-columns:1fr; }
-    }
-  </style>
-  </Fragment>
-
     <section class="arch-hero">
       <span class="arch-eyebrow">Architecture</span>
       <h1 class="arch-title">
@@ -159,9 +71,9 @@ const implementationSummary = getArchitectureImplementationSummary();
           </span>
         </div>
         <div class="arch-progress-stack">
-          <div class="arch-progress-track" aria-hidden="true">
-            <div class="arch-progress-fill" style={`width:${summary.average}%`}></div>
-          </div>
+          <progress class="arch-progress-meter" max="100" value={summary.average}>
+            {summary.average}
+          </progress>
           <div class="arch-progress-percent">{summary.average}%</div>
         </div>
       </section>
@@ -193,9 +105,9 @@ const implementationSummary = getArchitectureImplementationSummary();
           </span>
         </div>
         <div class="arch-progress-stack">
-          <div class="arch-progress-track" aria-hidden="true">
-            <div class="arch-progress-fill" style={`width:${implementationSummary.average}%`}></div>
-          </div>
+          <progress class="arch-progress-meter" max="100" value={implementationSummary.average}>
+            {implementationSummary.average}
+          </progress>
           <div class="arch-progress-percent">{implementationSummary.average}%</div>
         </div>
       </section>
@@ -295,9 +207,9 @@ const implementationSummary = getArchitectureImplementationSummary();
                             </span>
                           </span>
                         </div>
-                        <div class="arch-progress-mini" aria-hidden="true">
-                          <div class="arch-progress-mini-fill" style={`width:${step.progress}%`}></div>
-                        </div>
+                        <progress class="arch-progress-mini" max="100" value={step.progress}>
+                          {step.progress}
+                        </progress>
                       </div>
                     </td>
                     <td>
@@ -447,24 +359,4 @@ const implementationSummary = getArchitectureImplementationSummary();
         </p>
       </section>
     </section>
-  <script slot="scripts" is:inline>
-    (() => {
-      const update = (lang) => {
-        document.querySelectorAll("[data-admin-i18n]").forEach((node) => {
-          if (!(node instanceof HTMLElement)) return;
-          const value = lang === "fr" ? node.dataset.adminFr : node.dataset.adminEn;
-          if (typeof value === "string") {
-            node.innerHTML = value;
-          }
-        });
-      };
-
-      update(document.documentElement.lang === "fr" ? "fr" : "en");
-      window.addEventListener("adminlangchange", (event) => {
-        const customEvent = event;
-        const lang = customEvent?.detail?.lang === "fr" ? "fr" : "en";
-        update(lang);
-      });
-    })();
-  </script>
 </AdminLayout>

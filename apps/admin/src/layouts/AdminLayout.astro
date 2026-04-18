@@ -1,5 +1,6 @@
 ---
 import "../styles/admin.css";
+import "../styles/admin-pages.css";
 import AdminTopNav from "../components/AdminTopNav.astro";
 import type { AdminNavKey } from "../lib/admin-nav";
 
@@ -10,6 +11,7 @@ interface Props {
   lang?: string;
   bodyClass?: string;
   containerClass?: string;
+  pageId?: string;
 }
 
 const {
@@ -19,6 +21,7 @@ const {
   lang = "fr",
   bodyClass = "",
   containerClass = "",
+  pageId = "",
 } = Astro.props;
 
 const fullTitle = /ManabuPlay|Admin/.test(title) ? title : `${title} — Dashboard ManabuPlay`;
@@ -37,12 +40,13 @@ const fullTitle = /ManabuPlay|Admin/.test(title) ? title : `${title} — Dashboa
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <slot name="head" />
 </head>
-<body class={bodyClass}>
+<body class={bodyClass} data-admin-page={pageId}>
   <main class={containerClass}>
     <AdminTopNav active={activeNav} />
     <slot />
   </main>
   <script src="../scripts/admin-topnav.ts"></script>
+  <script src="../scripts/admin-page-bootstrap.ts"></script>
   <slot name="scripts" />
 </body>
 </html>
