@@ -28,9 +28,18 @@ test.describe("public localized architecture", () => {
       await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", locale);
       await expect(page.locator("h1")).toContainText(tagline);
       await expect(page.locator("[data-public-route='daily']")).toContainText(daily);
-      await expect(page.locator("[data-public-route='daily']")).toHaveAttribute("href", `/${locale}/daily/`);
-      await expect(page.locator("[data-public-route='practice']")).toHaveAttribute("href", `/${locale}/practice/`);
-      await expect(page.locator("[data-public-route='archives']")).toHaveAttribute("href", `/${locale}/archives/`);
+      await expect(page.locator("[data-public-route='daily']")).toHaveAttribute(
+        "href",
+        `/${locale}/daily/`,
+      );
+      await expect(page.locator("[data-public-route='practice']")).toHaveAttribute(
+        "href",
+        `/${locale}/practice/`,
+      );
+      await expect(page.locator("[data-public-route='archives']")).toHaveAttribute(
+        "href",
+        `/${locale}/archives/`,
+      );
     });
   }
 
@@ -39,7 +48,10 @@ test.describe("public localized architecture", () => {
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
     await expect(page.locator("h1")).toHaveText("Mode Libre");
-    await expect(page.locator(".public-locale-switch a", { hasText: "EN" })).toHaveAttribute("href", "/en/practice/");
+    await expect(page.locator(".public-locale-switch a", { hasText: "EN" })).toHaveAttribute(
+      "href",
+      "/en/practice/",
+    );
     await expect(page.locator(".public-locale-switch a", { hasText: "ES" })).toHaveCount(0);
   });
 

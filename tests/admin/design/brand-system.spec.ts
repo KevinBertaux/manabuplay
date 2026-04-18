@@ -66,14 +66,18 @@ async function getOverflowMetrics(page: Page) {
 
 test.describe("brand system document", () => {
   test("desktop view stays contained and brand preview can be toggled", async ({ page }) => {
-    await seedPreset(page, {
-      crt: 100,
-      scanlines: 100,
-      noise: 54,
-      glow: 82,
-      glitch: 40,
-      ambient: 64,
-    }, undefined);
+    await seedPreset(
+      page,
+      {
+        crt: 100,
+        scanlines: 100,
+        noise: 54,
+        glow: 82,
+        glitch: 40,
+        ambient: 64,
+      },
+      undefined,
+    );
     await page.setViewportSize({ width: 1440, height: 2200 });
     await page.goto(BRAND_SYSTEM_URL, { waitUntil: "domcontentloaded" });
 
@@ -90,14 +94,18 @@ test.describe("brand system document", () => {
   });
 
   test("mobile view stays contained", async ({ page }) => {
-    await seedPreset(page, {
-      crt: 72,
-      scanlines: 64,
-      noise: 38,
-      glow: 62,
-      glitch: 28,
-      ambient: 48,
-    }, undefined);
+    await seedPreset(
+      page,
+      {
+        crt: 72,
+        scanlines: 64,
+        noise: 38,
+        glow: 62,
+        glitch: 28,
+        ambient: 48,
+      },
+      undefined,
+    );
     await page.setViewportSize({ width: 390, height: 1600 });
     await page.goto(BRAND_SYSTEM_URL, { waitUntil: "domcontentloaded" });
 

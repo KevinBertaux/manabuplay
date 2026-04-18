@@ -38,9 +38,7 @@
     }
   },
   "quiz": {
-    "transparentWordIds": [
-      "mana-mp"
-    ]
+    "transparentWordIds": ["mana-mp"]
   },
   "words": [
     {
@@ -75,16 +73,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Points d'expérience",
-            "Compétence",
-            "Stats du personnage"
-          ],
-          "en": [
-            "Experience points",
-            "Skill",
-            "Character stats"
-          ]
+          "fr": ["Points d'expérience", "Compétence", "Stats du personnage"],
+          "en": ["Experience points", "Skill", "Character stats"]
         }
       },
       "difficultyTier": 1
@@ -121,16 +111,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Argent du jeu",
-            "Mana",
-            "Stats du personnage"
-          ],
-          "en": [
-            "In-game money",
-            "Mana",
-            "Character stats"
-          ]
+          "fr": ["Argent du jeu", "Mana", "Stats du personnage"],
+          "en": ["In-game money", "Mana", "Character stats"]
         }
       },
       "difficultyTier": 2
@@ -167,16 +149,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Magie",
-            "Sort",
-            "Soin"
-          ],
-          "en": [
-            "Magic",
-            "Spell",
-            "Healing"
-          ]
+          "fr": ["Magie", "Sort", "Soin"],
+          "en": ["Magic", "Spell", "Healing"]
         }
       },
       "difficultyTier": 1
@@ -213,16 +187,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Mana",
-            "Objet de soin",
-            "Renforcement"
-          ],
-          "en": [
-            "Mana",
-            "Healing item",
-            "Buff"
-          ]
+          "fr": ["Mana", "Objet de soin", "Renforcement"],
+          "en": ["Mana", "Healing item", "Buff"]
         }
       },
       "difficultyTier": 2
@@ -259,16 +225,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Sort",
-            "Mana",
-            "Invocation"
-          ],
-          "en": [
-            "Spell",
-            "Mana",
-            "Summon"
-          ]
+          "fr": ["Sort", "Mana", "Invocation"],
+          "en": ["Spell", "Mana", "Summon"]
         }
       },
       "difficultyTier": 1
@@ -305,16 +263,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Stratégie",
-            "Quête",
-            "Secret caché"
-          ],
-          "en": [
-            "Strategy",
-            "Quest",
-            "Hidden secret"
-          ]
+          "fr": ["Stratégie", "Quête", "Secret caché"],
+          "en": ["Strategy", "Quest", "Hidden secret"]
         }
       },
       "difficultyTier": 2
@@ -351,16 +301,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Sauvegarde",
-            "Quête",
-            "Victoire en combat"
-          ],
-          "en": [
-            "Save",
-            "Quest",
-            "Battle victory"
-          ]
+          "fr": ["Sauvegarde", "Quête", "Victoire en combat"],
+          "en": ["Save", "Quest", "Battle victory"]
         }
       },
       "difficultyTier": 1
@@ -397,16 +339,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Donjon",
-            "Carte",
-            "Coffre au trésor"
-          ],
-          "en": [
-            "Dungeon",
-            "Map",
-            "Treasure chest"
-          ]
+          "fr": ["Donjon", "Carte", "Coffre au trésor"],
+          "en": ["Dungeon", "Map", "Treasure chest"]
         }
       },
       "difficultyTier": 3
@@ -443,16 +377,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Monter de niveau",
-            "Mana",
-            "Équipement"
-          ],
-          "en": [
-            "Level up",
-            "Mana",
-            "Equipment"
-          ]
+          "fr": ["Monter de niveau", "Mana", "Équipement"],
+          "en": ["Level up", "Mana", "Equipment"]
         }
       },
       "difficultyTier": 2
@@ -489,16 +415,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Magie",
-            "Effet passif",
-            "Combo d'attaque"
-          ],
-          "en": [
-            "Magic",
-            "Passive effect",
-            "Attack combo"
-          ]
+          "fr": ["Magie", "Effet passif", "Combo d'attaque"],
+          "en": ["Magic", "Passive effect", "Attack combo"]
         }
       },
       "difficultyTier": 1
@@ -534,16 +452,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Mission confiée",
-            "Récompense",
-            "Aventure"
-          ],
-          "en": [
-            "Assigned task",
-            "Reward",
-            "Adventure"
-          ]
+          "fr": ["Mission confiée", "Récompense", "Aventure"],
+          "en": ["Assigned task", "Reward", "Adventure"]
         }
       },
       "difficultyTier": 1
@@ -579,16 +489,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Équipement",
-            "Butin",
-            "Inventaire"
-          ],
-          "en": [
-            "Equipment",
-            "Loot",
-            "Inventory"
-          ]
+          "fr": ["Équipement", "Butin", "Inventaire"],
+          "en": ["Equipment", "Loot", "Inventory"]
         }
       },
       "difficultyTier": 1
@@ -624,16 +526,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Labyrinthe",
-            "Coffre au trésor",
-            "Carte"
-          ],
-          "en": [
-            "Maze",
-            "Treasure chest",
-            "Map"
-          ]
+          "fr": ["Labyrinthe", "Coffre au trésor", "Carte"],
+          "en": ["Maze", "Treasure chest", "Map"]
         }
       },
       "difficultyTier": 1
@@ -669,16 +563,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Chargement",
-            "Repos à l'auberge",
-            "Journal de quêtes"
-          ],
-          "en": [
-            "Load",
-            "Rest at the inn",
-            "Quest log"
-          ]
+          "fr": ["Chargement", "Repos à l'auberge", "Journal de quêtes"],
+          "en": ["Load", "Rest at the inn", "Quest log"]
         }
       },
       "difficultyTier": 1
@@ -714,16 +600,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Sauvegarde",
-            "Inventaire",
-            "Boutique"
-          ],
-          "en": [
-            "Save",
-            "Inventory",
-            "Shop"
-          ]
+          "fr": ["Sauvegarde", "Inventaire", "Boutique"],
+          "en": ["Save", "Inventory", "Shop"]
         }
       },
       "difficultyTier": 1
@@ -759,16 +637,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Guilde",
-            "Aventurier",
-            "Classe de personnage"
-          ],
-          "en": [
-            "Guild",
-            "Adventurer",
-            "Character class"
-          ]
+          "fr": ["Guilde", "Aventurier", "Classe de personnage"],
+          "en": ["Guild", "Adventurer", "Character class"]
         }
       },
       "difficultyTier": 2
@@ -804,16 +674,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Aventurier",
-            "Quête",
-            "Royaume"
-          ],
-          "en": [
-            "Adventurer",
-            "Quest",
-            "Kingdom"
-          ]
+          "fr": ["Aventurier", "Quête", "Royaume"],
+          "en": ["Adventurer", "Quest", "Kingdom"]
         }
       },
       "difficultyTier": 3
@@ -849,16 +711,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Coffre au trésor",
-            "Équipement",
-            "Récompense"
-          ],
-          "en": [
-            "Treasure chest",
-            "Equipment",
-            "Reward"
-          ]
+          "fr": ["Coffre au trésor", "Équipement", "Récompense"],
+          "en": ["Treasure chest", "Equipment", "Reward"]
         }
       },
       "difficultyTier": 2
@@ -894,16 +748,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Auberge",
-            "Ville",
-            "Inventaire"
-          ],
-          "en": [
-            "Inn",
-            "Town",
-            "Inventory"
-          ]
+          "fr": ["Auberge", "Ville", "Inventaire"],
+          "en": ["Inn", "Town", "Inventory"]
         }
       },
       "difficultyTier": 2
@@ -939,16 +785,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Quête",
-            "Tableau de missions",
-            "Récompense"
-          ],
-          "en": [
-            "Quest",
-            "Mission board",
-            "Reward"
-          ]
+          "fr": ["Quête", "Tableau de missions", "Récompense"],
+          "en": ["Quest", "Mission board", "Reward"]
         }
       },
       "difficultyTier": 3
@@ -984,16 +822,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Embuscade",
-            "Début du combat",
-            "Piège de donjon"
-          ],
-          "en": [
-            "Ambush",
-            "Battle start",
-            "Dungeon trap"
-          ]
+          "fr": ["Embuscade", "Début du combat", "Piège de donjon"],
+          "en": ["Ambush", "Battle start", "Dungeon trap"]
         }
       },
       "difficultyTier": 2
@@ -1029,16 +859,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Objet",
-            "Menu boutique",
-            "Sac d'équipement"
-          ],
-          "en": [
-            "Item",
-            "Shop menu",
-            "Equipment bag"
-          ]
+          "fr": ["Objet", "Menu boutique", "Sac d'équipement"],
+          "en": ["Item", "Shop menu", "Equipment bag"]
         }
       },
       "difficultyTier": 3
@@ -1074,16 +896,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Boutique",
-            "Village",
-            "Point de sauvegarde"
-          ],
-          "en": [
-            "Shop",
-            "Village",
-            "Save point"
-          ]
+          "fr": ["Boutique", "Village", "Point de sauvegarde"],
+          "en": ["Shop", "Village", "Save point"]
         }
       },
       "difficultyTier": 3
@@ -1119,16 +933,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Butin",
-            "Donjon",
-            "Objet clé"
-          ],
-          "en": [
-            "Loot",
-            "Dungeon",
-            "Key item"
-          ]
+          "fr": ["Butin", "Donjon", "Objet clé"],
+          "en": ["Loot", "Dungeon", "Key item"]
         }
       },
       "difficultyTier": 3
@@ -1164,16 +970,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Donjon",
-            "Royaume",
-            "Zone de quête"
-          ],
-          "en": [
-            "Dungeon",
-            "Kingdom",
-            "Quest area"
-          ]
+          "fr": ["Donjon", "Royaume", "Zone de quête"],
+          "en": ["Dungeon", "Kingdom", "Quest area"]
         }
       },
       "difficultyTier": 3
@@ -1209,16 +1007,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Village",
-            "Royaume",
-            "Château"
-          ],
-          "en": [
-            "Village",
-            "Kingdom",
-            "Castle"
-          ]
+          "fr": ["Village", "Royaume", "Château"],
+          "en": ["Village", "Kingdom", "Castle"]
         }
       },
       "difficultyTier": 4
@@ -1254,16 +1044,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Ville",
-            "Auberge",
-            "Zone de départ"
-          ],
-          "en": [
-            "Town",
-            "Inn",
-            "Starting area"
-          ]
+          "fr": ["Ville", "Auberge", "Zone de départ"],
+          "en": ["Town", "Inn", "Starting area"]
         }
       },
       "difficultyTier": 4
@@ -1299,16 +1081,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Château",
-            "Ville",
-            "Nation"
-          ],
-          "en": [
-            "Castle",
-            "Town",
-            "Nation"
-          ]
+          "fr": ["Château", "Ville", "Nation"],
+          "en": ["Castle", "Town", "Nation"]
         }
       },
       "difficultyTier": 4
@@ -1344,16 +1118,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Royaume",
-            "Forteresse",
-            "Ville"
-          ],
-          "en": [
-            "Kingdom",
-            "Fortress",
-            "Town"
-          ]
+          "fr": ["Royaume", "Forteresse", "Ville"],
+          "en": ["Kingdom", "Fortress", "Town"]
         }
       },
       "difficultyTier": 4
@@ -1389,16 +1155,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Héros",
-            "Membre de l'équipe",
-            "Combattant de guilde"
-          ],
-          "en": [
-            "Hero",
-            "Party member",
-            "Guild fighter"
-          ]
+          "fr": ["Héros", "Membre de l'équipe", "Combattant de guilde"],
+          "en": ["Hero", "Party member", "Guild fighter"]
         }
       },
       "difficultyTier": 4

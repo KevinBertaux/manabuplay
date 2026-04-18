@@ -326,8 +326,10 @@ export function getPackById(packId: string) {
 
   const words = pack.words.map((word, index) => {
     const legacy = word.existingWordId ? legacyQuizById.get(word.existingWordId) : null;
-    const correctFr = word.gloss?.fr || word.meaning?.fr || legacy?.correct.fr || "Réponse à écrire.";
-    const correctEn = word.gloss?.en || word.meaning?.en || legacy?.correct.en || "Answer to write.";
+    const correctFr =
+      word.gloss?.fr || word.meaning?.fr || legacy?.correct.fr || "Réponse à écrire.";
+    const correctEn =
+      word.gloss?.en || word.meaning?.en || legacy?.correct.en || "Answer to write.";
     const distractorsFr =
       word.quiz?.distractors?.fr?.slice(0, 3) ||
       pickGlossDistractors(packGlosses, correctFr, index * 2);

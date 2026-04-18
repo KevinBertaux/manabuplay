@@ -41,7 +41,8 @@ const BASE_CARDS: LandingWordingCard[] = [
         en: "ManabuPlay — Learn Japanese Vocabulary Through Gaming & Pop Culture",
         fr: "ManabuPlay — Apprendre du vocabulaire japonais via le jeu vidéo et la pop culture",
       },
-      notes: "title par langue validé, plus clair sur le territoire culturel que sur le format produit.",
+      notes:
+        "title par langue validé, plus clair sur le territoire culturel que sur le format produit.",
     },
     variants: {
       A: {
@@ -82,7 +83,8 @@ const BASE_CARDS: LandingWordingCard[] = [
         en: "A daily Japanese vocabulary quiz for gaming and pop culture fans who want to turn familiar words into real understanding.",
         fr: "Un quiz quotidien de vocabulaire japonais pour les fans de jeu vidéo et de pop culture qui veulent transformer des mots familiers en vraie compréhension.",
       },
-      notes: "version C validée, plus claire sur la promesse quotidienne sans retomber dans le vieux MVP gaming.",
+      notes:
+        "version C validée, plus claire sur la promesse quotidienne sans retomber dans le vieux MVP gaming.",
     },
     variants: {
       A: {
@@ -123,7 +125,8 @@ const BASE_CARDS: LandingWordingCard[] = [
         en: "A daily Japanese quiz for gaming and pop culture fans who want to understand the words they already recognize.",
         fr: "Un quiz quotidien de japonais pour les fans de jeu vidéo et de pop culture qui veulent enfin comprendre des mots qu’ils reconnaissent déjà.",
       },
-      notes: "version C validée, plus naturelle pour un aperçu de partage et mieux alignée avec le hero.",
+      notes:
+        "version C validée, plus naturelle pour un aperçu de partage et mieux alignée avec le hero.",
     },
     variants: {
       A: {
@@ -164,7 +167,8 @@ const BASE_CARDS: LandingWordingCard[] = [
         en: "Removed from the current public nav.",
         fr: "Retiré de la nav publique actuelle.",
       },
-      notes: "Décision produit validée : faux CTA supprimé. Il sera remplacé plus tard par une vraie navigation Daily / Practice / Archives.",
+      notes:
+        "Décision produit validée : faux CTA supprimé. Il sera remplacé plus tard par une vraie navigation Daily / Practice / Archives.",
     },
     variants: {
       A: {
@@ -205,7 +209,8 @@ const BASE_CARDS: LandingWordingCard[] = [
         en: "Daily quiz · No sign-up · Practice mode · 4 difficulties",
         fr: "Quiz quotidien · Sans inscription · Mode entraînement · 4 difficultés",
       },
-      notes: "version validée, claire sur le rendez-vous, l'absence de friction et l'existence d'un mode d'entraînement.",
+      notes:
+        "version validée, claire sur le rendez-vous, l'absence de friction et l'existence d'un mode d'entraînement.",
     },
     variants: {
       A: {
@@ -246,7 +251,8 @@ const BASE_CARDS: LandingWordingCard[] = [
         en: "Learn Japanese vocabulary through gaming and pop culture.",
         fr: "Apprends du vocabulaire japonais à travers le jeu vidéo et la pop culture.",
       },
-      notes: "version validée, plus nette sur la promesse centrale et sans l'ancien ton MVP gaming-only.",
+      notes:
+        "version validée, plus nette sur la promesse centrale et sans l'ancien ton MVP gaming-only.",
     },
     variants: {
       A: {
@@ -328,7 +334,8 @@ const BASE_CARDS: LandingWordingCard[] = [
         en: "Start the quiz",
         fr: "Lancer le quiz",
       },
-      notes: "version validée, plus naturelle et plus fluide que les variantes avec quotidien ou gratuit.",
+      notes:
+        "version validée, plus naturelle et plus fluide que les variantes avec quotidien ou gratuit.",
     },
     variants: {
       A: {
@@ -369,7 +376,8 @@ const BASE_CARDS: LandingWordingCard[] = [
         en: "How it works",
         fr: "Comment ça marche",
       },
-      notes: "version validée, plus sobre et mieux adaptée à un placement secondaire sous le CTA principal.",
+      notes:
+        "version validée, plus sobre et mieux adaptée à un placement secondaire sous le CTA principal.",
     },
     variants: {
       A: {

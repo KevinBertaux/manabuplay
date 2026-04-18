@@ -53,7 +53,9 @@ test.describe("admin waitlist", () => {
     const downloadPromise = page.waitForEvent("download");
     await page.locator("#waitlist-export").click();
     const download = await downloadPromise;
-    expect(download.suggestedFilename()).toMatch(/^manabuplay-waitlist-local-\d{4}-\d{2}-\d{2}-\d{4}\.csv$/);
+    expect(download.suggestedFilename()).toMatch(
+      /^manabuplay-waitlist-local-\d{4}-\d{2}-\d{2}-\d{4}\.csv$/,
+    );
 
     await page.locator("#waitlist-clear").click();
     await expect(page.locator("#waitlist-count")).toHaveText("0");

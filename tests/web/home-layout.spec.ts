@@ -60,7 +60,6 @@ test.describe("home layout", () => {
       "#notify form",
       "footer",
     ]);
-
   });
 
   test("mobile shell stays contained", async ({ page }) => {
@@ -75,6 +74,5 @@ test.describe("home layout", () => {
       "#notify form",
       "footer",
     ]);
-
   });
 });

@@ -37,11 +37,7 @@ const VISUAL_EFFECT_PROPERTIES = new Set([
   "text-shadow",
   "transform",
 ]);
-const TYPOGRAPHY_EXEMPT_PROPERTIES = new Set([
-  "letter-spacing",
-  "line-height",
-  "word-spacing",
-]);
+const TYPOGRAPHY_EXEMPT_PROPERTIES = new Set(["letter-spacing", "line-height", "word-spacing"]);
 const SPACING_PROPERTIES = new Set([
   "bottom",
   "column-gap",
@@ -332,4 +328,6 @@ if (issues.length > 0) {
   process.exit(1);
 }
 
-console.log(`Design px guard OK: ${files.length} file(s) checked, all values follow project rules.`);
+console.log(
+  `Design px guard OK: ${files.length} file(s) checked, all values follow project rules.`,
+);

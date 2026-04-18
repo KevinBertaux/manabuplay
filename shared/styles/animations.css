@@ -1,58 +1,151 @@
 /* GLITCH */
-.glitch-text { position:relative; animation:glitch-self 3s infinite; }
+.glitch-text {
+  position: relative;
+  animation: glitch-self 3s infinite;
+}
 .glitch-text::before,
-.glitch-text::after { content:attr(data-text); position:absolute; top:0; left:0; width:100%; }
-.glitch-text::before { color:var(--fuchsia); animation:glitch-1 3s infinite; clip-path:polygon(0 0,100% 0,100% 45%,0 45%); }
-.glitch-text::after  { color:var(--cyan); animation:glitch-2 3s infinite; clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%); }
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.glitch-text::before {
+  color: var(--fuchsia);
+  animation: glitch-1 3s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+.glitch-text::after {
+  color: var(--cyan);
+  animation: glitch-2 3s infinite;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
 
 @keyframes glitch-self {
-  0%,89%,100% { transform:translate(0); }
-  90% { transform:translate(-2px,2px); }
-  92% { transform:translate(2px,-2px); }
+  0%,
+  89%,
+  100% {
+    transform: translate(0);
+  }
+  90% {
+    transform: translate(-2px, 2px);
+  }
+  92% {
+    transform: translate(2px, -2px);
+  }
 }
 
 @keyframes glitch-1 {
-  0%,88%,100% { transform:none; opacity:0; }
-  90% { transform:translate(-4px,-2px); opacity:.8; }
-  92% { transform:translate(4px,2px); opacity:.8; }
-  94% { opacity:0; }
+  0%,
+  88%,
+  100% {
+    transform: none;
+    opacity: 0;
+  }
+  90% {
+    transform: translate(-4px, -2px);
+    opacity: 0.8;
+  }
+  92% {
+    transform: translate(4px, 2px);
+    opacity: 0.8;
+  }
+  94% {
+    opacity: 0;
+  }
 }
 
 @keyframes glitch-2 {
-  0%,88%,100% { transform:none; opacity:0; }
-  91% { transform:translate(4px,2px); opacity:.7; }
-  93% { transform:translate(-4px,-2px); opacity:.7; }
-  95% { opacity:0; }
+  0%,
+  88%,
+  100% {
+    transform: none;
+    opacity: 0;
+  }
+  91% {
+    transform: translate(4px, 2px);
+    opacity: 0.7;
+  }
+  93% {
+    transform: translate(-4px, -2px);
+    opacity: 0.7;
+  }
+  95% {
+    opacity: 0;
+  }
 }
 
 @keyframes float {
-  0%,100% { transform:translateY(0); }
-  50% { transform:translateY(-12px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 @keyframes waitlist-success-pop {
-  0% { opacity:.55; transform:translateY(6px) scale(.98); }
-  55% { opacity:1; transform:translateY(0) scale(1.02); }
-  100% { opacity:1; transform:translateY(0) scale(1); }
+  0% {
+    opacity: 0.55;
+    transform: translateY(6px) scale(0.98);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(0) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes waitlist-success-fade {
-  from { opacity:1; transform:translateY(0); }
-  to { opacity:0; transform:translateY(-4px); }
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
 }
 
 @keyframes scorePopIn {
-  0% { transform:scale(.5) rotate(-10deg); opacity:0; }
-  70% { transform:scale(1.2) rotate(3deg); }
-  100% { transform:scale(1) rotate(0deg); opacity:1; }
+  0% {
+    transform: scale(0.5) rotate(-10deg);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.2) rotate(3deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
 @keyframes particle-fly {
-  0% { transform:translate(0,0) scale(1); opacity:1; }
-  100% { transform:translate(var(--tx),var(--ty)) scale(0); opacity:0; }
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0);
+    opacity: 0;
+  }
 }
 
 @keyframes hintReveal {
-  0% { opacity:0; transform:translateY(-8px) scale(.95); filter:blur(4px); }
-  100% { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
 }

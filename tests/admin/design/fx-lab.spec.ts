@@ -53,14 +53,18 @@ async function getOverflowMetrics(page: Page) {
 
 test.describe("fx lab document", () => {
   test("desktop view stays contained and the preview reacts", async ({ page }) => {
-    await seedPreset(page, {
-      crt: 88,
-      scanlines: 42,
-      noise: 24,
-      glow: 66,
-      glitch: 18,
-      ambient: 36,
-    }, undefined);
+    await seedPreset(
+      page,
+      {
+        crt: 88,
+        scanlines: 42,
+        noise: 24,
+        glow: 66,
+        glitch: 18,
+        ambient: 36,
+      },
+      undefined,
+    );
     await page.setViewportSize({ width: 1440, height: 2200 });
     await page.goto(FX_LAB_URL, { waitUntil: "domcontentloaded" });
 
@@ -80,14 +84,18 @@ test.describe("fx lab document", () => {
   });
 
   test("mobile view stays contained", async ({ page }) => {
-    await seedPreset(page, {
-      crt: 72,
-      scanlines: 64,
-      noise: 38,
-      glow: 62,
-      glitch: 28,
-      ambient: 48,
-    }, undefined);
+    await seedPreset(
+      page,
+      {
+        crt: 72,
+        scanlines: 64,
+        noise: 38,
+        glow: 62,
+        glitch: 28,
+        ambient: 48,
+      },
+      undefined,
+    );
     await page.setViewportSize({ width: 390, height: 1800 });
     await page.goto(FX_LAB_URL, { waitUntil: "domcontentloaded" });
 

@@ -127,9 +127,17 @@
           "children": [
             { "id": "pack-1", "title": "JRPG essentiels a 94/100 en preprod", "status": "done" },
             { "id": "pack-2", "title": "Combat & Boss a 93/100 en preprod", "status": "done" },
-            { "id": "pack-3", "title": "Classes, armes & equipement a 93/100 en preprod", "status": "done" },
+            {
+              "id": "pack-3",
+              "title": "Classes, armes & equipement a 93/100 en preprod",
+              "status": "done"
+            },
             { "id": "pack-4", "title": "Codes d'anime a 92/100 en preprod", "status": "done" },
-            { "id": "pack-5", "title": "Refondre pack 5 en vrai pack vocab-first et le realigner ensuite sur le ratio cible", "status": "todo" }
+            {
+              "id": "pack-5",
+              "title": "Refondre pack 5 en vrai pack vocab-first et le realigner ensuite sur le ratio cible",
+              "status": "todo"
+            }
           ]
         },
         {
@@ -165,7 +173,11 @@
             { "id": "hero-badge", "title": "Badge hero valide", "status": "done" },
             { "id": "hero-stats", "title": "Stats hero validees", "status": "done" },
             { "id": "nav-cta", "title": "Retirer le faux CTA de nav", "status": "done" },
-            { "id": "hero-secondary-link", "title": "Lien hero secondaire valide", "status": "done" },
+            {
+              "id": "hero-secondary-link",
+              "title": "Lien hero secondaire valide",
+              "status": "done"
+            },
             { "id": "hero-primary-cta", "title": "CTA hero principal valide", "status": "done" }
           ]
         },
@@ -237,8 +249,16 @@
           "area": "growth",
           "type": "infra",
           "children": [
-            { "id": "attention-insight-pass", "title": "Faire 1 passe Attention Insight avant la release v0.1", "status": "todo" },
-            { "id": "clarity-setup", "title": "Poser Microsoft Clarity pour les premiers visiteurs reels", "status": "todo" }
+            {
+              "id": "attention-insight-pass",
+              "title": "Faire 1 passe Attention Insight avant la release v0.1",
+              "status": "todo"
+            },
+            {
+              "id": "clarity-setup",
+              "title": "Poser Microsoft Clarity pour les premiers visiteurs reels",
+              "status": "todo"
+            }
           ]
         },
         {
@@ -275,11 +295,31 @@
           "type": "feature",
           "notes": "Le flux local est valide : localStorage, page admin, export CSV date, validation email et feedback multi-inscription. Il reste la verification Netlify Forms en deploy et le lien avec le cadrage RGPD.",
           "children": [
-            { "id": "waitlist-local-submit", "title": "Valider la saisie locale sur poste partage et les inscriptions successives", "status": "done" },
-            { "id": "waitlist-admin-page", "title": "Afficher les emails locaux dans une page admin avec refresh, clear et export CSV date", "status": "done" },
-            { "id": "waitlist-email-validation", "title": "Renforcer la validation de forme email en gardant le + autorise", "status": "done" },
-            { "id": "waitlist-netlify-smoke", "title": "Verifier sur deploy que Netlify Forms detecte et recoit les soumissions", "status": "todo" },
-            { "id": "waitlist-rgpd-link", "title": "Relier le formulaire au cadrage RGPD v0.1 une fois la collecte locale validee", "status": "todo" }
+            {
+              "id": "waitlist-local-submit",
+              "title": "Valider la saisie locale sur poste partage et les inscriptions successives",
+              "status": "done"
+            },
+            {
+              "id": "waitlist-admin-page",
+              "title": "Afficher les emails locaux dans une page admin avec refresh, clear et export CSV date",
+              "status": "done"
+            },
+            {
+              "id": "waitlist-email-validation",
+              "title": "Renforcer la validation de forme email en gardant le + autorise",
+              "status": "done"
+            },
+            {
+              "id": "waitlist-netlify-smoke",
+              "title": "Verifier sur deploy que Netlify Forms detecte et recoit les soumissions",
+              "status": "todo"
+            },
+            {
+              "id": "waitlist-rgpd-link",
+              "title": "Relier le formulaire au cadrage RGPD v0.1 une fois la collecte locale validee",
+              "status": "todo"
+            }
           ]
         },
         {
@@ -291,9 +331,21 @@
           "type": "feature",
           "notes": "Inclut les mentions legales minimales, la politique de confidentialite, le consentement explicite et les infos utiles autour de la waitlist / newsletter.",
           "children": [
-            { "id": "legal-mentions", "title": "Publier les mentions legales minimales", "status": "todo" },
-            { "id": "privacy-policy", "title": "Publier une politique de confidentialite claire", "status": "todo" },
-            { "id": "email-consent", "title": "Rendre le consentement email explicite dans la collecte", "status": "todo" }
+            {
+              "id": "legal-mentions",
+              "title": "Publier les mentions legales minimales",
+              "status": "todo"
+            },
+            {
+              "id": "privacy-policy",
+              "title": "Publier une politique de confidentialite claire",
+              "status": "todo"
+            },
+            {
+              "id": "email-consent",
+              "title": "Rendre le consentement email explicite dans la collecte",
+              "status": "todo"
+            }
           ]
         },
         {
@@ -313,9 +365,21 @@
           "area": "core",
           "type": "feature",
           "children": [
-            { "id": "public-routes-fr-en", "title": "Creer les routes FR / EN stables pour la landing", "status": "done" },
-            { "id": "public-routes-daily-practice-archives", "title": "Preparer les routes Daily / Practice / Archives par locale", "status": "done" },
-            { "id": "public-session-payload", "title": "Preparer un payload de session par mode au lieu du boot legacy unique", "status": "done" }
+            {
+              "id": "public-routes-fr-en",
+              "title": "Creer les routes FR / EN stables pour la landing",
+              "status": "done"
+            },
+            {
+              "id": "public-routes-daily-practice-archives",
+              "title": "Preparer les routes Daily / Practice / Archives par locale",
+              "status": "done"
+            },
+            {
+              "id": "public-session-payload",
+              "title": "Preparer un payload de session par mode au lieu du boot legacy unique",
+              "status": "done"
+            }
           ]
         },
         {
@@ -327,9 +391,21 @@
           "type": "content",
           "notes": "Le cadrage est fait : pack 30 mots = 10 / 8 / 7 / 5, pack 34 mots = 12 / 9 / 8 / 5.",
           "children": [
-            { "id": "tier-ratios-cadrage", "title": "Fixer le ratio cible a partir des besoins Quotidien / Libre", "status": "done" },
-            { "id": "tier-ratios-pack-1-4", "title": "Passer les packs 1 a 4 a 34 mots selon le ratio cible", "status": "todo" },
-            { "id": "tier-ratios-pack-5", "title": "Realigner le pack 5 sur le ratio cible apres refonte", "status": "todo" }
+            {
+              "id": "tier-ratios-cadrage",
+              "title": "Fixer le ratio cible a partir des besoins Quotidien / Libre",
+              "status": "done"
+            },
+            {
+              "id": "tier-ratios-pack-1-4",
+              "title": "Passer les packs 1 a 4 a 34 mots selon le ratio cible",
+              "status": "todo"
+            },
+            {
+              "id": "tier-ratios-pack-5",
+              "title": "Realigner le pack 5 sur le ratio cible apres refonte",
+              "status": "todo"
+            }
           ]
         },
         {
@@ -396,7 +472,11 @@
           "type": "content",
           "children": [
             { "id": "gacha-live-service", "title": "Pack Gacha & Live Service", "status": "todo" },
-            { "id": "arcade-secrets-meta", "title": "Pack Arcade, secrets & meta", "status": "todo" }
+            {
+              "id": "arcade-secrets-meta",
+              "title": "Pack Arcade, secrets & meta",
+              "status": "todo"
+            }
           ]
         }
       ]
@@ -574,8 +654,7 @@
       "label": "Backlog non scope",
       "kind": "backlog",
       "summary": "Sujets gardes de cote tant qu'ils n'ont pas leur bonne version.",
-      "items": [
-      ]
+      "items": []
     }
   ]
 }

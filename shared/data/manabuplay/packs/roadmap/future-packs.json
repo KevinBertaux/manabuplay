@@ -22,9 +22,7 @@
           "label": "Gacha"
         }
       },
-      "candidatePackIds": [
-        "gacha-live-service"
-      ]
+      "candidatePackIds": ["gacha-live-service"]
     },
     {
       "id": "free-to-play",
@@ -41,9 +39,7 @@
           "label": "Free-to-play"
         }
       },
-      "candidatePackIds": [
-        "gacha-live-service"
-      ]
+      "candidatePackIds": ["gacha-live-service"]
     },
     {
       "id": "cheat",
@@ -60,9 +56,7 @@
           "label": "Cheat"
         }
       },
-      "candidatePackIds": [
-        "arcade-secrets-and-meta"
-      ]
+      "candidatePackIds": ["arcade-secrets-and-meta"]
     },
     {
       "id": "lives-stock",
@@ -79,9 +73,7 @@
           "label": "Lives stock"
         }
       },
-      "candidatePackIds": [
-        "arcade-secrets-and-meta"
-      ]
+      "candidatePackIds": ["arcade-secrets-and-meta"]
     },
     {
       "id": "hidden-character",
@@ -98,9 +90,7 @@
           "label": "Hidden character"
         }
       },
-      "candidatePackIds": [
-        "arcade-secrets-and-meta"
-      ]
+      "candidatePackIds": ["arcade-secrets-and-meta"]
     },
     {
       "id": "curse",
@@ -117,9 +107,7 @@
           "label": "Curse"
         }
       },
-      "candidatePackIds": [
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "legend",
@@ -136,9 +124,7 @@
           "label": "Legend"
         }
       },
-      "candidatePackIds": [
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "stealth",
@@ -155,9 +141,7 @@
           "label": "Stealth"
         }
       },
-      "candidatePackIds": [
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "spell",
@@ -189,9 +173,7 @@
           "label": "Equipment"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment"]
     },
     {
       "id": "summon",
@@ -205,10 +187,7 @@
           "label": "Summon"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "strategy",
@@ -222,10 +201,7 @@
           "label": "Strategy"
         }
       },
-      "candidatePackIds": [
-        "arcade-secrets-and-meta",
-        "combat-and-boss"
-      ]
+      "candidatePackIds": ["arcade-secrets-and-meta", "combat-and-boss"]
     },
     {
       "id": "reward",
@@ -239,10 +215,7 @@
           "label": "Reward"
         }
       },
-      "candidatePackIds": [
-        "gacha-live-service",
-        "arcade-secrets-and-meta"
-      ]
+      "candidatePackIds": ["gacha-live-service", "arcade-secrets-and-meta"]
     },
     {
       "id": "guild",
@@ -256,10 +229,7 @@
           "label": "Guild"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "ambush",
@@ -273,10 +243,7 @@
           "label": "Ambush"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "key-item",
@@ -290,10 +257,7 @@
           "label": "Key item"
         }
       },
-      "candidatePackIds": [
-        "arcade-secrets-and-meta",
-        "japan-pop-city-daily-life"
-      ]
+      "candidatePackIds": ["arcade-secrets-and-meta", "japan-pop-city-daily-life"]
     },
     {
       "id": "nation",
@@ -307,10 +271,7 @@
           "label": "Nation"
         }
       },
-      "candidatePackIds": [
-        "dark-fantasy-legends-and-stealth",
-        "japan-pop-city-daily-life"
-      ]
+      "candidatePackIds": ["dark-fantasy-legends-and-stealth", "japan-pop-city-daily-life"]
     },
     {
       "id": "fortress",
@@ -324,10 +285,7 @@
           "label": "Fortress"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "hero",
@@ -341,10 +299,7 @@
           "label": "Hero"
         }
       },
-      "candidatePackIds": [
-        "anime-codes",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["anime-codes", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "elite-enemy",
@@ -358,10 +313,7 @@
           "label": "Elite enemy"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "berserk",
@@ -375,10 +327,7 @@
           "label": "Berserk"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "transformation",
@@ -392,10 +341,7 @@
           "label": "Transformation"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "anime-codes"
-      ]
+      "candidatePackIds": ["combat-and-boss", "anime-codes"]
     },
     {
       "id": "dark-lord",
@@ -409,10 +355,7 @@
           "label": "Dark lord"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "fury",
@@ -426,10 +369,7 @@
           "label": "Fury"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "shadow",
@@ -443,10 +383,7 @@
           "label": "Shadow"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "immunity",
@@ -460,10 +397,7 @@
           "label": "Immunity"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "poison",
@@ -477,10 +411,7 @@
           "label": "Poison"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "guard",
@@ -494,10 +425,7 @@
           "label": "Guard"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "classes-weapons-equipment"
-      ]
+      "candidatePackIds": ["combat-and-boss", "classes-weapons-equipment"]
     },
     {
       "id": "blaze",
@@ -511,10 +439,7 @@
           "label": "Blaze"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "annihilation",
@@ -528,10 +453,7 @@
           "label": "Annihilation"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "accessory",
@@ -545,10 +467,7 @@
           "label": "Accessory"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "japan-pop-city-daily-life"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "japan-pop-city-daily-life"]
     },
     {
       "id": "assassin",
@@ -562,10 +481,7 @@
           "label": "Assassin"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "paladin",
@@ -579,10 +495,7 @@
           "label": "Paladin"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "lancer",
@@ -596,10 +509,7 @@
           "label": "Lancer"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "ranger",
@@ -613,10 +523,7 @@
           "label": "Ranger"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "healer",
@@ -630,10 +537,7 @@
           "label": "Healer"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "wand",
@@ -647,10 +551,7 @@
           "label": "Wand"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "crossbow",
@@ -664,10 +565,7 @@
           "label": "Crossbow"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "hammer",
@@ -681,10 +579,7 @@
           "label": "Hammer"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "mace",
@@ -698,10 +593,7 @@
           "label": "Mace"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "halberd",
@@ -715,10 +607,7 @@
           "label": "Halberd"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "relic",
@@ -732,10 +621,7 @@
           "label": "Relic"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "talisman",
@@ -749,10 +635,7 @@
           "label": "Talisman"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "scholar",
@@ -766,10 +649,7 @@
           "label": "Scholar"
         }
       },
-      "candidatePackIds": [
-        "classes-weapons-equipment",
-        "anime-codes"
-      ]
+      "candidatePackIds": ["classes-weapons-equipment", "anime-codes"]
     }
   ],
   "packs": [
@@ -786,11 +666,7 @@
           "name": "Gacha & Live Service"
         }
       },
-      "candidateWordIds": [
-        "free-to-play",
-        "gacha",
-        "reward"
-      ],
+      "candidateWordIds": ["free-to-play", "gacha", "reward"],
       "plannedWords": [
         "課金",
         "天井",
@@ -884,18 +760,7 @@
         "talisman",
         "wand"
       ],
-      "plannedWords": [
-        "忍者",
-        "暗殺",
-        "幻",
-        "亡霊",
-        "影",
-        "封印",
-        "古代",
-        "遺跡",
-        "秘宝",
-        "伝承"
-      ]
+      "plannedWords": ["忍者", "暗殺", "幻", "亡霊", "影", "封印", "古代", "遺跡", "秘宝", "伝承"]
     }
   ],
   "rejectedDistractors": [

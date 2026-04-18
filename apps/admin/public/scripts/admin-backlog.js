@@ -4,7 +4,13 @@ const currentVersionChip = document.getElementById("backlog-current-version-chip
 const summaryItemsChip = document.getElementById("backlog-summary-items-chip");
 const summaryChildrenChip = document.getElementById("backlog-summary-children-chip");
 
-if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsChip && summaryChildrenChip) {
+if (
+  roadmapPayloadElement &&
+  backlogList &&
+  currentVersionChip &&
+  summaryItemsChip &&
+  summaryChildrenChip
+) {
   const payload = JSON.parse(roadmapPayloadElement.textContent || "{}");
   const roadmap = payload.roadmap;
   const versionSummaries = payload.versionSummaries;
@@ -42,10 +48,14 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
         totals.done += version.items.filter((item) => item.status === "done").length;
         totals.total += version.items.length;
         totals.childDone += version.items.reduce(
-          (sum, item) => sum + (item.children || []).filter((child) => child.status === "done").length,
+          (sum, item) =>
+            sum + (item.children || []).filter((child) => child.status === "done").length,
           0,
         );
-        totals.childTotal += version.items.reduce((sum, item) => sum + (item.children || []).length, 0);
+        totals.childTotal += version.items.reduce(
+          (sum, item) => sum + (item.children || []).length,
+          0,
+        );
         return totals;
       },
       { done: 0, total: 0, childDone: 0, childTotal: 0 },
@@ -61,12 +71,16 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
       }
 
       if (mode === "priority") {
-        const byPriority = getPriorityRank(left.item.priority) - getPriorityRank(right.item.priority);
+        const byPriority =
+          getPriorityRank(left.item.priority) - getPriorityRank(right.item.priority);
         if (byPriority !== 0) return byPriority;
       }
 
       if (mode === "area") {
-        const byArea = labels.area[left.item.area].localeCompare(labels.area[right.item.area], "fr");
+        const byArea = labels.area[left.item.area].localeCompare(
+          labels.area[right.item.area],
+          "fr",
+        );
         if (byArea !== 0) return byArea;
       }
 
@@ -117,7 +131,8 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
       .filter((block) => block.items.length > 0);
 
     const selectedSummary = selectedVersion
-      ? versionSummaries.find((summary) => summary.id === selectedVersion.id) || getSummary([selectedVersion])
+      ? versionSummaries.find((summary) => summary.id === selectedVersion.id) ||
+        getSummary([selectedVersion])
       : getSummary(roadmap.versions);
 
     currentVersionChip.textContent = selectedVersion ? selectedVersion.label : "Lecture libre";

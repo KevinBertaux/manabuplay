@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - "v*/**"
       - "chore/**"
       - "design/**"
       - "refactor/**"
@@ -30,6 +31,9 @@ jobs:
 
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
+
+      - name: Formatting check
+        run: npm run format:check
 
       - name: Project feature checks
         run: npm run check:feature

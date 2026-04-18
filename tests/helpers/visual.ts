@@ -33,10 +33,18 @@ export interface TypographySpec {
 export const SECTIONS: SectionSpec[] = [
   { name: "nav", maxDiffRatio: 0.002, getLocator: (page) => page.locator("nav") },
   { name: "hero", maxDiffRatio: 0.002, getLocator: (page) => page.locator("section.hero-bg") },
-  { name: "top-ad", maxDiffRatio: 0.002, getLocator: (page) => page.locator(".ad-placeholder").nth(0) },
+  {
+    name: "top-ad",
+    maxDiffRatio: 0.002,
+    getLocator: (page) => page.locator(".ad-placeholder").nth(0),
+  },
   { name: "features", maxDiffRatio: 0.0025, getLocator: (page) => page.locator("#features") },
   { name: "quiz", maxDiffRatio: 0.0025, getLocator: (page) => page.locator("#quiz") },
-  { name: "mid-ad", maxDiffRatio: 0.002, getLocator: (page) => page.locator(".ad-placeholder").nth(1) },
+  {
+    name: "mid-ad",
+    maxDiffRatio: 0.002,
+    getLocator: (page) => page.locator(".ad-placeholder").nth(1),
+  },
   { name: "notify", maxDiffRatio: 0.0025, getLocator: (page) => page.locator("#notify") },
   { name: "footer", maxDiffRatio: 0.002, getLocator: (page) => page.locator("footer") },
 ];
@@ -159,14 +167,9 @@ async function writeDiffArtifacts(
   PNG.bitblt(legacyPng, expandedLegacy, 0, 0, legacyPng.width, legacyPng.height, 0, 0);
   PNG.bitblt(astroPng, expandedAstro, 0, 0, astroPng.width, astroPng.height, 0, 0);
 
-  const diffPixels = pixelmatch(
-    expandedLegacy.data,
-    expandedAstro.data,
-    diff.data,
-    width,
-    height,
-    { threshold: 0.1 },
-  );
+  const diffPixels = pixelmatch(expandedLegacy.data, expandedAstro.data, diff.data, width, height, {
+    threshold: 0.1,
+  });
   const diffRatio = diffPixels / (width * height);
 
   let legacyPath = "";

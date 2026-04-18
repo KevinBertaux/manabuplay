@@ -11,7 +11,12 @@ let activePublicOrigin = null;
 const pendingRequests = new Map();
 
 function isLoopbackHost(hostname) {
-  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1" || hostname === "[::1]";
+  return (
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "::1" ||
+    hostname === "[::1]"
+  );
 }
 
 function getOriginCandidates(port) {
@@ -90,10 +95,14 @@ function mountBridgeFrame(origin) {
       reject(new Error(`Bridge iframe not reachable at ${getBridgeUrl(origin)}`));
     }, REQUEST_TIMEOUT_MS);
 
-    iframe.addEventListener("load", () => {
-      window.clearTimeout(timer);
-      resolve(iframe);
-    }, { once: true });
+    iframe.addEventListener(
+      "load",
+      () => {
+        window.clearTimeout(timer);
+        resolve(iframe);
+      },
+      { once: true },
+    );
 
     document.body.appendChild(iframe);
   });

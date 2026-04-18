@@ -2,6 +2,7 @@ import { runNpmScript } from "./workspace-utils.mjs";
 
 const scripts = [
   "check",
+  "format:check",
   "test:unit",
   "build",
   "test:e2e:ui-guards",

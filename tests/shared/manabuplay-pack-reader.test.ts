@@ -29,7 +29,9 @@ describe("manabuplay pack reader", () => {
     const pack = getPackById("japan-pop-city-daily-life");
 
     expect(pack?.transparentBreakdown?.tone).toBe("act");
-    expect(pack?.transparentBreakdown?.percent).toBeGreaterThan(pack?.transparentBreakdown?.actThreshold ?? 0);
+    expect(pack?.transparentBreakdown?.percent).toBeGreaterThan(
+      pack?.transparentBreakdown?.actThreshold ?? 0,
+    );
   });
 
   it("builds quiz previews with four answers and a shared correct index", () => {
@@ -40,8 +42,12 @@ describe("manabuplay pack reader", () => {
     expect(word?.quizPreview?.answers.fr).toHaveLength(4);
     expect(word?.quizPreview?.answers.en).toHaveLength(4);
     expect(word?.quizPreview?.correctIndex.fr).toBe(word?.quizPreview?.correctIndex.en);
-    expect(word?.quizPreview?.answers.fr[word?.quizPreview?.correctIndex.fr ?? 0]).toBe(word?.quizPreview?.correct.fr);
-    expect(word?.quizPreview?.answers.en[word?.quizPreview?.correctIndex.en ?? 0]).toBe(word?.quizPreview?.correct.en);
+    expect(word?.quizPreview?.answers.fr[word?.quizPreview?.correctIndex.fr ?? 0]).toBe(
+      word?.quizPreview?.correct.fr,
+    );
+    expect(word?.quizPreview?.answers.en[word?.quizPreview?.correctIndex.en ?? 0]).toBe(
+      word?.quizPreview?.correct.en,
+    );
   });
 
   it("still builds previews for planned words that do not have a legacy word id", () => {

@@ -15,7 +15,9 @@ test.describe("admin backlog", () => {
     await page.locator('[data-role="version-option"][data-version-id="v0.2"]').click();
     await expect(page).toHaveURL(/version=v0\.2/);
     await expect(page.locator("#backlog-current-version-chip")).toHaveText("v0.2");
-    await expect(page.locator("#backlog-list")).toContainText("Lancer streak et progression visible");
+    await expect(page.locator("#backlog-list")).toContainText(
+      "Lancer streak et progression visible",
+    );
   });
 
   test("reads all versions without depending on v0.1", async ({ page }) => {
@@ -24,6 +26,8 @@ test.describe("admin backlog", () => {
     await expect(page.locator("#backlog-list")).toBeVisible();
     await expect(page.locator("#backlog-current-version-chip")).toHaveText("Lecture libre");
     await expect(page.locator("#backlog-list")).toContainText("Lancer le Quotidien");
-    await expect(page.locator("#backlog-list")).toContainText("Atteindre 50 visites organiques par jour");
+    await expect(page.locator("#backlog-list")).toContainText(
+      "Atteindre 50 visites organiques par jour",
+    );
   });
 });

@@ -73,16 +73,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Dragon",
-            "Démon roi",
-            "Ennemi d'élite"
-          ],
-          "en": [
-            "Dragon",
-            "Demon king",
-            "Elite enemy"
-          ]
+          "fr": ["Dragon", "Démon roi", "Ennemi d'élite"],
+          "en": ["Dragon", "Demon king", "Elite enemy"]
         }
       },
       "difficultyTier": 1
@@ -119,16 +111,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Coopération",
-            "Contre-attaque",
-            "Coup final"
-          ],
-          "en": [
-            "Cooperation",
-            "Counterattack",
-            "Finishing move"
-          ]
+          "fr": ["Coopération", "Contre-attaque", "Coup final"],
+          "en": ["Cooperation", "Counterattack", "Finishing move"]
         }
       },
       "difficultyTier": 1
@@ -165,16 +149,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Magie",
-            "Éveil",
-            "Technique ultime"
-          ],
-          "en": [
-            "Magic",
-            "Awakening",
-            "Finishing move"
-          ]
+          "fr": ["Magie", "Éveil", "Technique ultime"],
+          "en": ["Magic", "Awakening", "Finishing move"]
         }
       },
       "difficultyTier": 1
@@ -211,16 +187,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Éveil",
-            "Technique ultime",
-            "Berserk"
-          ],
-          "en": [
-            "Awakening",
-            "Finishing move",
-            "Berserk"
-          ]
+          "fr": ["Éveil", "Technique ultime", "Berserk"],
+          "en": ["Awakening", "Finishing move", "Berserk"]
         }
       },
       "difficultyTier": 4
@@ -257,16 +225,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Transformation",
-            "Domination totale",
-            "Art secret"
-          ],
-          "en": [
-            "Transformation",
-            "Overwhelming supremacy",
-            "Secret art"
-          ]
+          "fr": ["Transformation", "Domination totale", "Art secret"],
+          "en": ["Transformation", "Overwhelming supremacy", "Secret art"]
         }
       },
       "difficultyTier": 2
@@ -303,16 +263,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Boss",
-            "Dragon",
-            "Seigneur noir"
-          ],
-          "en": [
-            "Boss",
-            "Dragon",
-            "Dark lord"
-          ]
+          "fr": ["Boss", "Dragon", "Seigneur noir"],
+          "en": ["Boss", "Dragon", "Dark lord"]
         }
       },
       "difficultyTier": 2
@@ -349,16 +301,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Combo",
-            "Art secret",
-            "Attaque finale"
-          ],
-          "en": [
-            "Combo",
-            "Secret art",
-            "Final attack"
-          ]
+          "fr": ["Combo", "Art secret", "Attaque finale"],
+          "en": ["Combo", "Secret art", "Final attack"]
         }
       },
       "difficultyTier": 4
@@ -395,16 +339,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Combo",
-            "Contre-attaque",
-            "Buff d'équipe"
-          ],
-          "en": [
-            "Combo",
-            "Counterattack",
-            "Team buff"
-          ]
+          "fr": ["Combo", "Contre-attaque", "Buff d'équipe"],
+          "en": ["Combo", "Counterattack", "Team buff"]
         }
       },
       "difficultyTier": 3
@@ -441,16 +377,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Éveil",
-            "Furie",
-            "Mode berserk"
-          ],
-          "en": [
-            "Awakening",
-            "Fury",
-            "Berserk mode"
-          ]
+          "fr": ["Éveil", "Furie", "Mode berserk"],
+          "en": ["Awakening", "Fury", "Berserk mode"]
         }
       },
       "difficultyTier": 3
@@ -487,16 +415,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Ombre",
-            "Flamme",
-            "Malédiction"
-          ],
-          "en": [
-            "Shadow",
-            "Flame",
-            "Curse"
-          ]
+          "fr": ["Ombre", "Flamme", "Malédiction"],
+          "en": ["Shadow", "Flame", "Curse"]
         }
       },
       "difficultyTier": 2
@@ -533,16 +453,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Boss",
-            "Monstre ancien",
-            "Démon roi"
-          ],
-          "en": [
-            "Boss",
-            "Ancient monster",
-            "Demon king"
-          ]
+          "fr": ["Boss", "Monstre ancien", "Démon roi"],
+          "en": ["Boss", "Ancient monster", "Demon king"]
         }
       },
       "difficultyTier": 2
@@ -578,16 +490,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Défense",
-            "Dégâts",
-            "Contre-attaque"
-          ],
-          "en": [
-            "Defense",
-            "Damage",
-            "Counterattack"
-          ]
+          "fr": ["Défense", "Dégâts", "Contre-attaque"],
+          "en": ["Defense", "Damage", "Counterattack"]
         }
       },
       "difficultyTier": 1
@@ -623,16 +527,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Dégâts",
-            "Faiblesse",
-            "Attaque finale"
-          ],
-          "en": [
-            "Damage",
-            "Weakness",
-            "Finishing attack"
-          ]
+          "fr": ["Dégâts", "Faiblesse", "Attaque finale"],
+          "en": ["Damage", "Weakness", "Finishing attack"]
         }
       },
       "difficultyTier": 1
@@ -668,16 +564,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Défense",
-            "Contre-attaque",
-            "Résistance"
-          ],
-          "en": [
-            "Defense",
-            "Counterattack",
-            "Resistance"
-          ]
+          "fr": ["Défense", "Contre-attaque", "Résistance"],
+          "en": ["Defense", "Counterattack", "Resistance"]
         }
       },
       "difficultyTier": 1
@@ -713,16 +601,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Résistance",
-            "Point faible élémentaire",
-            "Armure cassée"
-          ],
-          "en": [
-            "Resistance",
-            "Elemental weak point",
-            "Broken armor"
-          ]
+          "fr": ["Résistance", "Point faible élémentaire", "Armure cassée"],
+          "en": ["Resistance", "Elemental weak point", "Broken armor"]
         }
       },
       "difficultyTier": 1
@@ -758,16 +638,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Faiblesse",
-            "Défense",
-            "Immunité"
-          ],
-          "en": [
-            "Weakness",
-            "Defense",
-            "Immunity"
-          ]
+          "fr": ["Faiblesse", "Défense", "Immunité"],
+          "en": ["Weakness", "Defense", "Immunity"]
         }
       },
       "difficultyTier": 2
@@ -803,16 +675,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Debuff",
-            "Soin",
-            "Renforcement temporaire"
-          ],
-          "en": [
-            "Debuff",
-            "Healing",
-            "Temporary boost"
-          ]
+          "fr": ["Debuff", "Soin", "Renforcement temporaire"],
+          "en": ["Debuff", "Healing", "Temporary boost"]
         }
       },
       "difficultyTier": 1
@@ -848,16 +712,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Buff",
-            "Malus de statut",
-            "Affaiblissement"
-          ],
-          "en": [
-            "Buff",
-            "Status penalty",
-            "Weakening effect"
-          ]
+          "fr": ["Buff", "Malus de statut", "Affaiblissement"],
+          "en": ["Buff", "Status penalty", "Weakening effect"]
         }
       },
       "difficultyTier": 2
@@ -893,16 +749,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Esquive",
-            "Coopération",
-            "Riposte"
-          ],
-          "en": [
-            "Evasion",
-            "Cooperation",
-            "Return strike"
-          ]
+          "fr": ["Esquive", "Coopération", "Riposte"],
+          "en": ["Evasion", "Cooperation", "Return strike"]
         }
       },
       "difficultyTier": 2
@@ -938,16 +786,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Debuff",
-            "Poison",
-            "Malédiction"
-          ],
-          "en": [
-            "Debuff",
-            "Poison",
-            "Curse"
-          ]
+          "fr": ["Debuff", "Poison", "Malédiction"],
+          "en": ["Debuff", "Poison", "Curse"]
         }
       },
       "difficultyTier": 2
@@ -983,16 +823,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Esquive",
-            "Résistance",
-            "Garde"
-          ],
-          "en": [
-            "Evasion",
-            "Resistance",
-            "Guard"
-          ]
+          "fr": ["Esquive", "Résistance", "Garde"],
+          "en": ["Evasion", "Resistance", "Guard"]
         }
       },
       "difficultyTier": 1
@@ -1028,16 +860,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Attaque",
-            "Coup critique",
-            "Faiblesse"
-          ],
-          "en": [
-            "Attack",
-            "Critical hit",
-            "Weakness"
-          ]
+          "fr": ["Attaque", "Coup critique", "Faiblesse"],
+          "en": ["Attack", "Critical hit", "Weakness"]
         }
       },
       "difficultyTier": 1
@@ -1073,16 +897,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Technique ultime",
-            "Éveil",
-            "Style de combat"
-          ],
-          "en": [
-            "Finishing move",
-            "Awakening",
-            "Combat style"
-          ]
+          "fr": ["Technique ultime", "Éveil", "Style de combat"],
+          "en": ["Finishing move", "Awakening", "Combat style"]
         }
       },
       "difficultyTier": 4
@@ -1118,16 +934,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Coup critique",
-            "Technique ultime",
-            "Attaque éclair"
-          ],
-          "en": [
-            "Critical hit",
-            "Finishing move",
-            "Quick strike"
-          ]
+          "fr": ["Coup critique", "Technique ultime", "Attaque éclair"],
+          "en": ["Critical hit", "Finishing move", "Quick strike"]
         }
       },
       "difficultyTier": 3
@@ -1163,16 +971,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Portée",
-            "Explosion de zone",
-            "Attaque multiple"
-          ],
-          "en": [
-            "Range",
-            "Area burst",
-            "Multi-hit attack"
-          ]
+          "fr": ["Portée", "Explosion de zone", "Attaque multiple"],
+          "en": ["Range", "Area burst", "Multi-hit attack"]
         }
       },
       "difficultyTier": 3
@@ -1208,16 +1008,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Percée",
-            "Attaque frontale",
-            "Bond offensif"
-          ],
-          "en": [
-            "Breakthrough",
-            "Frontal attack",
-            "Leaping strike"
-          ]
+          "fr": ["Percée", "Attaque frontale", "Bond offensif"],
+          "en": ["Breakthrough", "Frontal attack", "Leaping strike"]
         }
       },
       "difficultyTier": 3
@@ -1253,16 +1045,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Ténèbres",
-            "Explosion",
-            "Brasier"
-          ],
-          "en": [
-            "Darkness",
-            "Explosion",
-            "Blaze"
-          ]
+          "fr": ["Ténèbres", "Explosion", "Brasier"],
+          "en": ["Darkness", "Explosion", "Blaze"]
         }
       },
       "difficultyTier": 3
@@ -1298,16 +1082,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Art secret",
-            "Coup tranchant",
-            "Style de sabre"
-          ],
-          "en": [
-            "Secret art",
-            "Slashing move",
-            "Sword style"
-          ]
+          "fr": ["Art secret", "Coup tranchant", "Style de sabre"],
+          "en": ["Secret art", "Slashing move", "Sword style"]
         }
       },
       "difficultyTier": 4
@@ -1343,16 +1119,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Explosion",
-            "Carnage",
-            "Anéantissement"
-          ],
-          "en": [
-            "Explosion",
-            "Massacre",
-            "Annihilation"
-          ]
+          "fr": ["Explosion", "Carnage", "Anéantissement"],
+          "en": ["Explosion", "Massacre", "Annihilation"]
         }
       },
       "difficultyTier": 4
@@ -1388,16 +1156,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Technique à l'épée",
-            "Un seul coup",
-            "Charge"
-          ],
-          "en": [
-            "Sword technique",
-            "Single decisive blow",
-            "Charge"
-          ]
+          "fr": ["Technique à l'épée", "Un seul coup", "Charge"],
+          "en": ["Sword technique", "Single decisive blow", "Charge"]
         }
       },
       "difficultyTier": 3

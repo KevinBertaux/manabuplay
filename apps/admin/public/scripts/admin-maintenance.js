@@ -44,7 +44,9 @@ function setStatus(message) {
 
 function renderKeyList(keys) {
   emptyState.style.display = keys.length ? "none" : "block";
-  keyList.innerHTML = keys.map((entry) => `
+  keyList.innerHTML = keys
+    .map(
+      (entry) => `
     <div class="maint-key">
       <div class="maint-key-head">
         <div class="maint-key-name">${escapeHtml(entry.key)}</div>
@@ -52,11 +54,16 @@ function renderKeyList(keys) {
       </div>
       <div class="maint-key-preview">${escapeHtml(safePreview(entry.preview))}</div>
     </div>
-  `).join("");
+  `,
+    )
+    .join("");
 }
 
 function renderStorageState(state) {
-  originCount.textContent = String(state.origin || getPublicStorageOrigin()).replace(/^https?:\/\//, "");
+  originCount.textContent = String(state.origin || getPublicStorageOrigin()).replace(
+    /^https?:\/\//,
+    "",
+  );
   originNote.textContent = String(state.origin || getPublicStorageOrigin());
   manabuCount.textContent = String(state.manabuCount || 0);
   bestCount.textContent = String(state.bestCount || 0);
@@ -84,7 +91,9 @@ async function refreshState(feedbackMessage) {
     }
     return state;
   } catch (error) {
-    renderBridgeUnavailable(error instanceof Error ? error.message : "Bridge maintenance indisponible.");
+    renderBridgeUnavailable(
+      error instanceof Error ? error.message : "Bridge maintenance indisponible.",
+    );
     setStatus("Bridge maintenance indisponible.");
     throw error;
   }
@@ -121,7 +130,9 @@ document.querySelectorAll("[data-maint-action]").forEach((button) => {
       };
       setStatus(`${messages[bridgeAction]} (${result.origin})`);
     } catch (error) {
-      renderBridgeUnavailable(error instanceof Error ? error.message : "Bridge maintenance indisponible.");
+      renderBridgeUnavailable(
+        error instanceof Error ? error.message : "Bridge maintenance indisponible.",
+      );
       setStatus("Bridge maintenance indisponible.");
     }
   });

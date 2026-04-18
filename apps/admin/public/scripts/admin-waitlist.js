@@ -43,11 +43,12 @@ function formatDate(value) {
 
 function formatExportStamp(date) {
   const pad = (value) => String(value).padStart(2, "0");
-  return [
-    date.getFullYear(),
-    pad(date.getMonth() + 1),
-    pad(date.getDate()),
-  ].join("-") + "-" + pad(date.getHours()) + pad(date.getMinutes());
+  return (
+    [date.getFullYear(), pad(date.getMonth() + 1), pad(date.getDate())].join("-") +
+    "-" +
+    pad(date.getHours()) +
+    pad(date.getMinutes())
+  );
 }
 
 function showStatus(message) {
@@ -74,15 +75,19 @@ function renderSubmissions(submissions) {
   empty.style.display = lastSubmissions.length ? "none" : "block";
   tableWrap.style.display = lastSubmissions.length ? "block" : "none";
 
-  body.innerHTML = lastSubmissions.map((entry) => `
+  body.innerHTML = lastSubmissions
+    .map(
+      (entry) => `
     <tr>
       <td class="waitlist-email">${escapeHtml(entry.email)}</td>
-      <td>${escapeHtml(String((entry.lang || "n.c.")).toUpperCase())}</td>
+      <td>${escapeHtml(String(entry.lang || "n.c.").toUpperCase())}</td>
       <td>${escapeHtml(formatDate(entry.createdAt))}</td>
       <td>${escapeHtml(entry.source || "localStorage")}</td>
       <td>${escapeHtml(entry.page || "/")}</td>
     </tr>
-  `).join("");
+  `,
+    )
+    .join("");
 }
 
 function renderBridgeUnavailable(message) {
@@ -115,18 +120,26 @@ async function refreshWithFeedback() {
         : `Aucun email trouvé sur ${result.origin} à ${time}.`,
     );
   } catch (error) {
-    renderBridgeUnavailable(error instanceof Error ? error.message : "Bridge waitlist indisponible.");
+    renderBridgeUnavailable(
+      error instanceof Error ? error.message : "Bridge waitlist indisponible.",
+    );
     showStatus("Bridge waitlist indisponible.");
   }
 }
 
 function exportCsv() {
   const header = ["email", "lang", "createdAt", "source", "page"];
-  const rows = lastSubmissions.map((entry) => header.map((key) => {
-    const value = String(entry[key] ?? "").replace(/"/g, "\"\"");
-    return `"${value}"`;
-  }).join(","));
-  const blob = new Blob([[header.join(","), ...rows].join("\n")], { type: "text/csv;charset=utf-8" });
+  const rows = lastSubmissions.map((entry) =>
+    header
+      .map((key) => {
+        const value = String(entry[key] ?? "").replace(/"/g, '""');
+        return `"${value}"`;
+      })
+      .join(","),
+  );
+  const blob = new Blob([[header.join(","), ...rows].join("\n")], {
+    type: "text/csv;charset=utf-8",
+  });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -143,7 +156,9 @@ clearButton.addEventListener("click", async () => {
     renderSubmissions(result.submissions);
     showStatus(`Waitlist locale effacée sur ${result.origin}.`);
   } catch (error) {
-    renderBridgeUnavailable(error instanceof Error ? error.message : "Bridge waitlist indisponible.");
+    renderBridgeUnavailable(
+      error instanceof Error ? error.message : "Bridge waitlist indisponible.",
+    );
     showStatus("Bridge waitlist indisponible.");
   }
 });
