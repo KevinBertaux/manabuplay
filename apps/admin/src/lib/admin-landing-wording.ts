@@ -418,7 +418,8 @@ const BASE_CARDS: LandingWordingCard[] = [
         en: "150 words / 5 packs / Free",
         fr: "150 mots / 5 packs / Gratuit",
       },
-      notes: "version canonique v0.1, alignée sur le volume réel jouable public et sans jargon interne.",
+      notes:
+        "version canonique v0.1, alignée sur le volume réel jouable public et sans jargon interne.",
     },
     variants: {
       A: {
