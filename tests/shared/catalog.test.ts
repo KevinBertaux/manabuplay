@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
-  buildLegacyQuizData,
-  buildMvpBootData,
+  buildCatalogBootData,
+  buildCatalogQuizData,
   DIFFICULTIES,
   MANABU_CATALOG,
   PACK_ENTRIES,
@@ -27,7 +27,7 @@ describe("catalog", () => {
   });
 
   it("builds legacy quiz data for the default pack", () => {
-    const quizData = buildLegacyQuizData();
+    const quizData = buildCatalogQuizData();
 
     expect(quizData.length).toBe(WORDS.length);
     expect(quizData[0]).toHaveProperty("word");
@@ -36,7 +36,7 @@ describe("catalog", () => {
   });
 
   it("returns an empty quiz list for an unknown pack", () => {
-    expect(buildLegacyQuizData("unknown-pack")).toEqual([]);
+    expect(buildCatalogQuizData("unknown-pack")).toEqual([]);
   });
 
   it("throws if a pack entry references an unknown word id", () => {
@@ -48,19 +48,21 @@ describe("catalog", () => {
     PACK_ENTRIES[0].wordId = "missing-word";
 
     try {
-      expect(() => buildLegacyQuizData()).toThrow(/Unknown wordId/);
+      expect(() => buildCatalogQuizData()).toThrow(/Unknown wordId/);
     } finally {
       PACK_ENTRIES[0].wordId = originalWordId;
     }
   });
 
-  it("builds the MVP boot payload from the catalog", () => {
-    const payload = buildMvpBootData();
+  it("builds the catalog boot payload from the catalog", () => {
+    const payload = buildCatalogBootData();
 
     expect(payload.catalog.defaultPackId).toBe("gaming-core");
     expect(payload.quizData).toHaveLength(WORDS.length);
     expect(payload.difficulties).toEqual(DIFFICULTIES);
     expect(payload.lang).toHaveProperty("en");
     expect(payload.lang).toHaveProperty("fr");
+    expect(payload.lang.en.stat_words).toBe("150 WORDS");
+    expect(payload.lang.fr.stat_words).toBe("150 MOTS");
   });
 });

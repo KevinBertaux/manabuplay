@@ -126,10 +126,10 @@ export function getPricingRows(): PricingRow[] {
       },
       status: "framed",
       target: { fr: "v0.1", en: "v0.1" },
-      note: { fr: "Cadré : 170 free, reste payant.", en: "Framed: 170 free, rest paid." },
-      free: { text: { fr: "170", en: "170" }, tone: "free" },
+      note: { fr: "Cadré : 150 free en v0.1, reste payant.", en: "Framed: 150 free in v0.1, rest paid." },
+      free: { text: { fr: "150", en: "150" }, tone: "free" },
       premium: {
-        text: { fr: "170 + bibliothèque complète", en: "170 + full library" },
+        text: { fr: "150 + bibliothèque complète", en: "150 + full library" },
         tone: "premium",
       },
     },

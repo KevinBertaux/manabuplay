@@ -1,7 +1,7 @@
 ---
 import PublicLayout from "../../layouts/PublicLayout.astro";
 import PublicQuiz from "../../components/PublicQuiz.astro";
-import { buildMvpBootData } from "../../../../../shared/data/manabuplay/catalog";
+import { buildCatalogBootData } from "../../../../../shared/data/manabuplay/catalog";
 import { buildArchivesBootData, getArchiveDateKeys, getLatestArchiveDateKey } from "../../../../../shared/lib/manabuplay-archives";
 import { buildDailyBootData } from "../../../../../shared/lib/manabuplay-daily";
 import { buildPracticeBootData } from "../../../../../shared/lib/manabuplay-practice";
@@ -32,7 +32,7 @@ const bootData = isDailyMode
     ? buildPracticeBootData()
     : isArchivesMode
       ? buildArchivesBootData(latestArchiveDate ?? undefined)
-    : buildMvpBootData();
+    : buildCatalogBootData();
 const lang = bootData.lang[locale] ?? bootData.lang.en;
 const bootPayload = {
   locale,

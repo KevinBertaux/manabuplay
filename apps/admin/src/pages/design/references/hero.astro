@@ -1,9 +1,9 @@
 ---
 import AdminReferenceLayout from "../../../layouts/AdminReferenceLayout.astro";
-import { buildMvpBootData } from "../../../../../../shared/data/manabuplay/catalog";
+import { buildCatalogBootData } from "../../../../../../shared/data/manabuplay/catalog";
 import { serializeForInlineScript } from "../../../../../../shared/lib/serialize-inline-script";
 
-const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(buildMvpBootData())};`;
+const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(buildCatalogBootData())};`;
 ---
 <AdminReferenceLayout
   title="ManabuPlay Admin — Hero Reference"
@@ -59,7 +59,7 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
 
     <div class="flex gap-8 mt-12 flex-wrap justify-center">
       <div class="text-center">
-        <div class="font-pixel text-xl" style="color:var(--violet);">50</div>
+        <div class="font-pixel text-xl" style="color:var(--violet);">150</div>
         <div class="stat-label text-slate-500 mt-1" data-i18n="stat_words"></div>
       </div>
       <div class="w-px bg-slate-800"></div>

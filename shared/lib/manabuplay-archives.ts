@@ -1,4 +1,4 @@
-import { buildMvpBootData } from "../data/manabuplay/catalog";
+import { buildCatalogBootData } from "../data/manabuplay/catalog";
 import { buildV01QuizPool } from "./manabuplay-quiz-pool";
 
 const ARCHIVE_START_DATE = "2026-01-01";
@@ -50,7 +50,7 @@ export function getArchiveDateKeys(referenceDate = new Date()) {
 }
 
 export function buildArchivesBootData(selectedDate = getLatestArchiveDateKey()) {
-  const base = buildMvpBootData();
+  const base = buildCatalogBootData();
   const latestDate = getLatestArchiveDateKey();
 
   return {

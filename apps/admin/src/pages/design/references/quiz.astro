@@ -1,9 +1,9 @@
 ---
 import AdminReferenceLayout from "../../../layouts/AdminReferenceLayout.astro";
-import { buildMvpBootData } from "../../../../../../shared/data/manabuplay/catalog";
+import { buildCatalogBootData } from "../../../../../../shared/data/manabuplay/catalog";
 import { serializeForInlineScript } from "../../../../../../shared/lib/serialize-inline-script";
 
-const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(buildMvpBootData())};`;
+const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(buildCatalogBootData())};`;
 ---
 <AdminReferenceLayout
   title="ManabuPlay Admin — Quiz Reference"

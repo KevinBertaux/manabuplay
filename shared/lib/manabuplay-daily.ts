@@ -1,4 +1,4 @@
-import { buildMvpBootData } from "../data/manabuplay/catalog";
+import { buildCatalogBootData } from "../data/manabuplay/catalog";
 import { buildV01QuizPool } from "./manabuplay-quiz-pool";
 
 const DAILY_QUESTION_COUNT = 10;
@@ -21,7 +21,7 @@ const DAILY_DIFFICULTY = [
 ];
 
 export function buildDailyBootData() {
-  const base = buildMvpBootData();
+  const base = buildCatalogBootData();
 
   return {
     ...base,
