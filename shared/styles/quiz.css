@@ -125,17 +125,51 @@
   line-height: 1.8;
   margin-bottom: 6px;
 }
+.diff-card.diff-easy .diff-name {
+  color: #4ade80;
+}
+.diff-card.diff-normal .diff-name {
+  color: var(--cyan);
+}
+.diff-card.diff-hard .diff-name {
+  color: var(--fuchsia);
+}
+.diff-card.diff-expert .diff-name {
+  color: var(--red);
+}
 .diff-count {
   font-family: "Chakra Petch", sans-serif;
   font-size: 1rem;
   font-weight: 700;
-  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.6);
 }
 .diff-best {
   font-family: "Chakra Petch", sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   margin-top: 6px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.diff-best-value {
+  font-weight: 700;
+}
+.diff-best-value.diff-easy {
+  color: #4ade80;
+}
+.diff-best-value.diff-normal {
+  color: var(--cyan);
+}
+.diff-best-value.diff-hard {
+  color: var(--fuchsia);
+}
+.diff-best-value.diff-expert {
+  color: var(--red);
+}
+.diff-no-best {
+  color: rgba(255, 255, 255, 0.3);
+}
+.best-score-highlight {
+  color: #a78bfa;
 }
 
 /* START BUTTON */

@@ -1,4 +1,14 @@
+import type {
+  Difficulty,
+  ResultTier,
+  RuntimeState,
+  StorageAdapter,
+  WaitlistSubmission,
+} from "./runtime-types";
+
 const WAITLIST_EMAIL_RE = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/;
+
+type TranslateFn = (key: string) => string | ResultTier[] | undefined;
 
 export function createRevealObserver() {
   const observer = new IntersectionObserver(
@@ -14,19 +24,19 @@ export function createRevealObserver() {
   );
 
   return {
-    observeAll(selector) {
+    observeAll(selector: string) {
       document.querySelectorAll(selector).forEach((element) => observer.observe(element));
     },
   };
 }
 
-function normalizeEmail(value) {
+function normalizeEmail(value: string): string {
   return String(value || "")
     .trim()
     .toLowerCase();
 }
 
-function isValidWaitlistEmail(email) {
+function isValidWaitlistEmail(email: string): boolean {
   if (!WAITLIST_EMAIL_RE.test(email)) return false;
   const [local, domain] = email.split("@");
   if (!local || !domain) return false;
@@ -38,7 +48,7 @@ function isValidWaitlistEmail(email) {
   return /^[a-z]{2,}$/i.test(tld);
 }
 
-function isLocalWaitlistMode() {
+function isLocalWaitlistMode(): boolean {
   return (
     ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname) ||
     window.location.protocol === "file:"
@@ -53,16 +63,24 @@ export function createWaitlistController({
   waitlistFormName,
   successButtonDelay,
   successMessageDelay,
+}: {
+  storage: StorageAdapter;
+  currentLangRef: () => string;
+  t: TranslateFn;
+  waitlistStorageKey: string;
+  waitlistFormName: string;
+  successButtonDelay: number;
+  successMessageDelay: number;
 }) {
-  let waitlistButtonTimer = null;
-  let waitlistMessageTimer = null;
+  let waitlistButtonTimer: number | null = null;
+  let waitlistMessageTimer: number | null = null;
 
-  function readWaitlistSubmissions() {
+  function readWaitlistSubmissions(): WaitlistSubmission[] {
     const submissions = storage.get(waitlistStorageKey);
-    return Array.isArray(submissions) ? submissions : [];
+    return Array.isArray(submissions) ? (submissions as WaitlistSubmission[]) : [];
   }
 
-  function saveLocalWaitlistSubmission(email) {
+  function saveLocalWaitlistSubmission(email: string) {
     const normalizedEmail = normalizeEmail(email);
     const submissions = readWaitlistSubmissions();
     const existing = submissions.find((entry) => normalizeEmail(entry.email) === normalizedEmail);
@@ -71,7 +89,7 @@ export function createWaitlistController({
       return { submission: existing, duplicate: true };
     }
 
-    const submission = {
+    const submission: WaitlistSubmission = {
       email: normalizedEmail,
       lang: currentLangRef(),
       source: "localStorage",
@@ -83,18 +101,23 @@ export function createWaitlistController({
     return { submission, duplicate: false };
   }
 
-  function showWaitlistSuccess(form, input, success) {
-    const submitButton = form.querySelector('button[type="submit"]');
-    const successText = success.querySelector("span");
-    window.clearTimeout(waitlistButtonTimer);
-    window.clearTimeout(waitlistMessageTimer);
+  function showWaitlistSuccess(
+    form: HTMLFormElement,
+    input: HTMLInputElement,
+    success: HTMLElement,
+  ) {
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const successText = success.querySelector<HTMLSpanElement>("span");
+    if (waitlistButtonTimer) window.clearTimeout(waitlistButtonTimer);
+    if (waitlistMessageTimer) window.clearTimeout(waitlistMessageTimer);
 
     success.style.display = "block";
     success.classList.remove("waitlist-success-pop", "waitlist-success-fade");
     void success.offsetWidth;
     success.classList.add("waitlist-success-pop");
     if (successText) {
-      successText.textContent = t("email_ok");
+      const okText = t("email_ok");
+      successText.textContent = typeof okText === "string" ? okText : "";
     }
 
     input.value = "";
@@ -102,10 +125,12 @@ export function createWaitlistController({
 
     if (submitButton) {
       submitButton.disabled = false;
-      submitButton.textContent = t("email_saved_cta");
+      const savedLabel = t("email_saved_cta");
+      submitButton.textContent = typeof savedLabel === "string" ? savedLabel : "Saved";
       submitButton.classList.add("waitlist-submit-saved");
       waitlistButtonTimer = window.setTimeout(() => {
-        submitButton.textContent = t("email_cta");
+        const idleLabel = t("email_cta");
+        submitButton.textContent = typeof idleLabel === "string" ? idleLabel : "Submit";
         submitButton.classList.remove("waitlist-submit-saved");
       }, successButtonDelay);
     }
@@ -126,13 +151,17 @@ export function createWaitlistController({
     }, successMessageDelay);
   }
 
-  async function handleEmailSubmit(event) {
+  async function handleEmailSubmit(event: SubmitEvent) {
     event.preventDefault();
-    const form = event.target;
+    const form = event.currentTarget;
+    if (!(form instanceof HTMLFormElement)) return;
+
     const input = document.getElementById("emailInput");
-    const email = normalizeEmail(input.value);
-    const button = form.querySelector('button[type="submit"]');
     const success = document.getElementById("emailSuccess");
+    if (!(input instanceof HTMLInputElement) || !(success instanceof HTMLElement)) return;
+
+    const email = normalizeEmail(input.value);
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
 
     input.setCustomValidity("");
     if (!input.validity.valid || !isValidWaitlistEmail(email)) {
@@ -151,9 +180,11 @@ export function createWaitlistController({
       return;
     }
 
-    const originalText = button.textContent;
-    button.disabled = true;
-    button.textContent = "...";
+    const originalText = button?.textContent || "";
+    if (button) {
+      button.disabled = true;
+      button.textContent = "...";
+    }
 
     try {
       const body = new URLSearchParams({
@@ -175,33 +206,52 @@ export function createWaitlistController({
       }
     } catch (error) {
       console.warn("Netlify form submit error:", error);
-      button.disabled = false;
-      button.textContent = originalText;
+      if (button) {
+        button.disabled = false;
+        button.textContent = originalText;
+      }
       success.style.display = "block";
-      success.querySelector("span").textContent =
-        currentLangRef() === "fr"
-          ? "⚠ Réessaie dans un instant…"
-          : "⚠ Something went wrong, please retry.";
+      const span = success.querySelector<HTMLSpanElement>("span");
+      if (span) {
+        span.textContent =
+          currentLangRef() === "fr"
+            ? "⚠ Réessaie dans un instant…"
+            : "⚠ Something went wrong, please retry.";
+      }
     }
   }
 
   return { handleEmailSubmit };
 }
 
-export function createShareController({ state, getCurrentDiff, getCurrentLang, t }) {
-  function buildShareText() {
+export function createShareController({
+  state,
+  getCurrentDiff,
+  getCurrentLang,
+  getResults,
+  t,
+}: {
+  state: RuntimeState;
+  getCurrentDiff: () => Difficulty | null;
+  getCurrentLang: () => string;
+  getResults: () => ResultTier[];
+  t: TranslateFn;
+}) {
+  function buildShareText(): string {
     const total = state.questions.length;
     const pct = Math.round((state.score / (total * 15)) * 100);
     const currentDiff = getCurrentDiff();
-    const diffLabel = t(`diff_${currentDiff.id}`);
-    const tier =
-      t("results").find((result) => pct >= result.min) || t("results")[t("results").length - 1];
+    const diffKey = currentDiff ? `diff_${currentDiff.id}` : "diff_normal";
+    const diffLabel = t(diffKey);
+    const results = getResults();
+    const tier = results.find((result) => pct >= result.min) || results[results.length - 1];
     const filled = Math.round(pct / 10);
     const bar = "🟪".repeat(filled) + "⬛".repeat(10 - filled);
+    const safeDiffLabel = typeof diffLabel === "string" ? diffLabel : currentDiff?.id || "normal";
 
     return getCurrentLang() === "fr"
-      ? `${tier.emoji} ManabuPlay — Quiz Gaming Japonais\nDifficulté : ${diffLabel} | ${state.correct}/${total} réponses justes\nScore : ${state.score} pts (${pct}%)\n${bar}\nTeste ton niveau 👇`
-      : `${tier.emoji} ManabuPlay — Japanese Gaming Quiz\nDifficulty: ${diffLabel} | ${state.correct}/${total} correct\nScore: ${state.score} pts (${pct}%)\n${bar}\nTest your level 👇`;
+      ? `${tier.emoji} ManabuPlay — Quiz Gaming Japonais\nDifficulté : ${safeDiffLabel} | ${state.correct}/${total} réponses justes\nScore : ${state.score} pts (${pct}%)\n${bar}\nTeste ton niveau 👇`
+      : `${tier.emoji} ManabuPlay — Japanese Gaming Quiz\nDifficulty: ${safeDiffLabel} | ${state.correct}/${total} correct\nScore: ${state.score} pts (${pct}%)\n${bar}\nTest your level 👇`;
   }
 
   function shareOnX() {
@@ -220,14 +270,18 @@ export function createShareController({ state, getCurrentDiff, getCurrentLang, t
     const button = document.getElementById("shareBtnCopy");
     const label = document.getElementById("copyBtnLabel");
 
+    if (!(button instanceof HTMLButtonElement) || !(label instanceof HTMLElement)) return;
+
     navigator.clipboard
       .writeText(text)
       .then(() => {
         button.classList.add("copied");
-        label.textContent = t("result_share_copied");
+        const copiedText = t("result_share_copied");
+        label.textContent = typeof copiedText === "string" ? copiedText : "Copied!";
         setTimeout(() => {
           button.classList.remove("copied");
-          label.textContent = t("result_share_copy");
+          const idleText = t("result_share_copy");
+          label.textContent = typeof idleText === "string" ? idleText : "Copy Link";
         }, 2200);
       })
       .catch(() => {

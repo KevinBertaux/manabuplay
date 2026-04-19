@@ -1,4 +1,13 @@
-export function shuffle(items) {
+import type {
+  ArchiveConfig,
+  PracticeConfig,
+  QuizBootData,
+  QuizEntry,
+  QuizQuestion,
+  StorageAdapter,
+} from "./runtime-types";
+
+export function shuffle<T>(items: T[]): T[] {
   const shuffled = [...items];
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
     const swapIndex = Math.floor(Math.random() * (index + 1));
@@ -7,14 +16,22 @@ export function shuffle(items) {
   return shuffled;
 }
 
-export function getLocalDateKey(date = new Date()) {
+export function getLocalDateKey(date = new Date()): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
 
-export function getSessionDateKey({ mode, archiveConfig = {}, search = "" }) {
+export function getSessionDateKey({
+  mode,
+  archiveConfig = {},
+  search = "",
+}: {
+  mode: string;
+  archiveConfig?: ArchiveConfig;
+  search?: string;
+}): string {
   if (mode !== "archives") {
     return getLocalDateKey();
   }
@@ -32,7 +49,7 @@ export function getSessionDateKey({ mode, archiveConfig = {}, search = "" }) {
   return archiveConfig.selectedDate || latestDate || getLocalDateKey();
 }
 
-function hashSeed(input) {
+function hashSeed(input: string): number {
   let hash = 2166136261;
   for (let index = 0; index < input.length; index += 1) {
     hash ^= input.charCodeAt(index);
@@ -41,7 +58,7 @@ function hashSeed(input) {
   return hash >>> 0;
 }
 
-function mulberry32(seed) {
+function mulberry32(seed: number): () => number {
   let value = seed >>> 0;
   return () => {
     value = (value + 0x6d2b79f5) >>> 0;
@@ -51,7 +68,7 @@ function mulberry32(seed) {
   };
 }
 
-function seededShuffle(items, seedSource) {
+function seededShuffle<T>(items: T[], seedSource: string): T[] {
   const random = mulberry32(hashSeed(seedSource));
   const shuffled = [...items];
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
@@ -61,11 +78,19 @@ function seededShuffle(items, seedSource) {
   return shuffled;
 }
 
-export function buildDailyQuizData({ pool, dateKey, dailyConfig = {} }) {
-  const targets = dailyConfig.tierTargets || { 1: 4, 2: 3, 3: 2, 4: 1 };
-  const questionCount = dailyConfig.questionCount || 10;
-  const selected = [];
-  const selectedIds = new Set();
+export function buildDailyQuizData({
+  pool,
+  dateKey,
+  dailyConfig = {},
+}: {
+  pool: QuizEntry[];
+  dateKey: string;
+  dailyConfig?: QuizBootData["daily"];
+}): QuizEntry[] {
+  const targets = dailyConfig?.tierTargets || { 1: 4, 2: 3, 3: 2, 4: 1 };
+  const questionCount = dailyConfig?.questionCount || 10;
+  const selected: QuizEntry[] = [];
+  const selectedIds = new Set<string>();
 
   Object.entries(targets).forEach(([tier, count]) => {
     const tierPool = pool.filter((entry) => String(entry.tier || 1) === tier);
@@ -88,24 +113,50 @@ export function buildDailyQuizData({ pool, dateKey, dailyConfig = {} }) {
   return seededShuffle(selected.slice(0, questionCount), `${dateKey}:order`);
 }
 
-export function getPracticeConfig(boot) {
+export function getPracticeConfig(boot: QuizBootData): PracticeConfig {
   return boot.practice || { questionCount: 10, cooldownSessions: 2, recipes: {} };
 }
 
-function readPracticeSessions(storage, historyKey) {
+function readPracticeSessions(storage: StorageAdapter, historyKey: string) {
   const sessions = storage.get(historyKey);
   return Array.isArray(sessions) ? sessions : [];
 }
 
-function getPracticeCooldownIds({ storage, historyKey, practiceConfig }) {
+function getPracticeCooldownIds({
+  storage,
+  historyKey,
+  practiceConfig,
+}: {
+  storage: StorageAdapter;
+  historyKey: string;
+  practiceConfig: PracticeConfig;
+}) {
   const cooldownSessions = practiceConfig.cooldownSessions || 2;
   const recentSessions = readPracticeSessions(storage, historyKey).slice(0, cooldownSessions);
   return new Set(
-    recentSessions.flatMap((session) => (Array.isArray(session.wordIds) ? session.wordIds : [])),
+    recentSessions.flatMap((session) => {
+      const wordIds =
+        typeof session === "object" && session && "wordIds" in session
+          ? (session as { wordIds?: string[] }).wordIds
+          : [];
+      return Array.isArray(wordIds) ? wordIds : [];
+    }),
   );
 }
 
-export function savePracticeSession({ storage, historyKey, historyLimit, diffId, questions }) {
+export function savePracticeSession({
+  storage,
+  historyKey,
+  historyLimit,
+  diffId,
+  questions,
+}: {
+  storage: StorageAdapter;
+  historyKey: string;
+  historyLimit: number;
+  diffId: string;
+  questions: QuizQuestion[];
+}) {
   const currentSessions = readPracticeSessions(storage, historyKey);
   const session = {
     diffId,
@@ -115,7 +166,13 @@ export function savePracticeSession({ storage, historyKey, historyLimit, diffId,
   storage.set(historyKey, [session, ...currentSessions].slice(0, historyLimit));
 }
 
-function pickPracticeEntries(pool, desiredCount, seedSource, selectedIds, cooldownIds) {
+function pickPracticeEntries(
+  pool: QuizEntry[],
+  desiredCount: number,
+  seedSource: string,
+  selectedIds: Set<string>,
+  cooldownIds: Set<string>,
+): QuizEntry[] {
   const eligiblePool = pool.filter(
     (entry) => !selectedIds.has(entry.id) && !cooldownIds.has(entry.id),
   );
@@ -134,12 +191,24 @@ function pickPracticeEntries(pool, desiredCount, seedSource, selectedIds, cooldo
   return picks;
 }
 
-function buildPracticeSession({ practiceConfig, rawQuizData, currentDiff, storage, historyKey }) {
+function buildPracticeSession({
+  practiceConfig,
+  rawQuizData,
+  currentDiff,
+  storage,
+  historyKey,
+}: {
+  practiceConfig: PracticeConfig;
+  rawQuizData: QuizEntry[];
+  currentDiff: { id: string; words: number; tierTargets?: Record<string, number> } | null;
+  storage: StorageAdapter;
+  historyKey: string;
+}): QuizEntry[] {
   if (!currentDiff) return [];
 
-  const tierTargets = currentDiff?.tierTargets || practiceConfig.recipes?.[currentDiff.id] || {};
-  const selected = [];
-  const selectedIds = new Set();
+  const tierTargets = currentDiff.tierTargets || practiceConfig.recipes?.[currentDiff.id] || {};
+  const selected: QuizEntry[] = [];
+  const selectedIds = new Set<string>();
   const cooldownIds = getPracticeCooldownIds({ storage, historyKey, practiceConfig });
 
   Object.entries(tierTargets).forEach(([tier, count]) => {
@@ -182,7 +251,18 @@ export function buildQuestions({
   boot,
   storage,
   historyKey,
-}) {
+}: {
+  mode: string;
+  count: number;
+  quizData: QuizEntry[];
+  rawQuizData: QuizEntry[];
+  currentLang: string;
+  currentDiff: { id: string; words: number; tierTargets?: Record<string, number> } | null;
+  sessionDateKey: string;
+  boot: QuizBootData;
+  storage: StorageAdapter;
+  historyKey: string;
+}): QuizQuestion[] {
   const isDailyMode = mode === "daily";
   const isArchivesMode = mode === "archives";
   const isPracticeMode = mode === "practice";
@@ -202,7 +282,7 @@ export function buildQuestions({
 
   return pool.map((question, index) => {
     const correctText = question.correct[currentLang] || question.correct.en;
-    const wrongList = question.wrong[currentLang] || question.wrong.en;
+    const wrongList = question.wrong[currentLang] || question.wrong.en || [];
     const answerSeed = `${sessionDateKey}:${question.id || question.word}:${currentLang}:${index}`;
     const pickedWrong = isSeededMode
       ? seededShuffle(wrongList, `${answerSeed}:wrong`).slice(0, 3)

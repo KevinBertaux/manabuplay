@@ -3,17 +3,27 @@ import {
   buildQuestions,
   getSessionDateKey,
   savePracticeSession,
-} from "/scripts/quiz-app/session.js";
+} from "./quiz-app/session";
 import {
   createRevealObserver,
   createShareController,
   createWaitlistController,
-} from "/scripts/quiz-app/engagement.js";
+} from "./quiz-app/engagement";
+import type {
+  BootTranslationValue,
+  Difficulty,
+  QuizBootData,
+  QuizQuestion,
+  ResultTier,
+  RuntimeState,
+  StorageAdapter,
+} from "./quiz-app/runtime-types";
 
-const MANABUPLAY_BOOT = window.__MANABUPLAY_DATA__;
-if (!MANABUPLAY_BOOT) {
+const bootData = window.__MANABUPLAY_DATA__ as QuizBootData | undefined;
+if (!bootData) {
   throw new Error("ManabuPlay boot data is missing.");
 }
+const MANABUPLAY_BOOT: QuizBootData = bootData;
 
 const MANABUPLAY_MODE = MANABUPLAY_BOOT.mode || window.__MANABUPLAY_MODE__ || "legacy";
 const DIFFICULTIES = MANABUPLAY_BOOT.difficulties;
@@ -21,15 +31,15 @@ const WAITLIST_STORAGE_KEY = "waitlist_submissions";
 const WAITLIST_FORM_NAME = "manabuplay-waitlist";
 const WAITLIST_SUCCESS_BUTTON_DELAY = 2800;
 const WAITLIST_SUCCESS_MESSAGE_DELAY = 4000;
-const SUPPORTED_LANGS = ["en", "fr"];
-const LOCALIZED_ROUTES = ["daily", "practice", "archives"];
+const SUPPORTED_LANGS = ["en", "fr"] as const;
+const LOCALIZED_ROUTES = ["daily", "practice", "archives"] as const;
 const PRACTICE_HISTORY_KEY = "practice_sessions";
 const PRACTICE_HISTORY_LIMIT = 8;
 const LANG = MANABUPLAY_BOOT.lang;
 
-let currentDiff = null;
+let currentDiff: Difficulty | null = null;
 let hintStage = 0;
-let state = {
+let state: RuntimeState = {
   questions: [],
   currentIndex: 0,
   score: 0,
@@ -39,23 +49,25 @@ let state = {
   correct: 0,
 };
 
-const LS = {
-  get(key) {
+const LS: StorageAdapter = {
+  get<T = unknown>(key: string): T | null {
     try {
-      return JSON.parse(localStorage.getItem(`mp_${key}`));
+      return JSON.parse(localStorage.getItem(`mp_${key}`) || "null") as T | null;
     } catch {
       return null;
     }
   },
-  set(key, value) {
+  set(key: string, value: unknown) {
     try {
       localStorage.setItem(`mp_${key}`, JSON.stringify(value));
-    } catch {}
+    } catch {
+      // Ignore localStorage write failures in private mode or restricted browsers.
+    }
   },
-  getBest(diffId) {
-    return LS.get(`best_${diffId}`) || 0;
+  getBest(diffId: string): number {
+    return LS.get<number>(`best_${diffId}`) || 0;
   },
-  setBest(diffId, score) {
+  setBest(diffId: string, score: number): boolean {
     const previousBest = LS.getBest(diffId);
     if (score > previousBest) {
       LS.set(`best_${diffId}`, score);
@@ -63,55 +75,52 @@ const LS = {
     }
     return false;
   },
-  getLang() {
-    return LS.get("lang") || "en";
+  getLang(): string {
+    return LS.get<string>("lang") || "en";
   },
-  setLang(lang) {
+  setLang(lang: string) {
     LS.set("lang", lang);
   },
 };
 
-const pageLocale = SUPPORTED_LANGS.includes(window.__MANABUPLAY_LOCALE__)
+const pageLocale = SUPPORTED_LANGS.includes(
+  window.__MANABUPLAY_LOCALE__ as (typeof SUPPORTED_LANGS)[number],
+)
   ? window.__MANABUPLAY_LOCALE__
   : null;
-let currentLang = pageLocale || (SUPPORTED_LANGS.includes(LS.getLang()) ? LS.getLang() : "en");
-const t = (key) => (LANG[currentLang]?.[key] ?? LANG.en?.[key]) || "";
+let currentLang =
+  pageLocale ||
+  (SUPPORTED_LANGS.includes(LS.getLang() as (typeof SUPPORTED_LANGS)[number])
+    ? LS.getLang()
+    : "en");
 
-function formatBestScoreMessage(score, diff) {
-  const formatter = t("result_best_msg");
-  if (typeof formatter === "function") {
-    return formatter(score, diff);
-  }
-  return currentLang === "fr"
-    ? `Ton record en ${diff} : <strong style="color:#a78bfa">${score} pts</strong>`
-    : `Your best on ${diff}: <strong style="color:#a78bfa">${score} pts</strong>`;
+const t = (key: string): BootTranslationValue =>
+  (LANG[currentLang]?.[key] ?? LANG.en?.[key]) as BootTranslationValue;
+
+function getResults(): ResultTier[] {
+  const results = t("results");
+  return Array.isArray(results) ? (results as ResultTier[]) : [];
 }
 
-function formatCorrectFeedback(points) {
-  const formatter = t("fb_correct");
-  if (typeof formatter === "function") {
-    return formatter(points);
-  }
+function formatBestScoreMessage(score: number, diff: string): string {
+  return currentLang === "fr"
+    ? `Ton record en ${diff} : <strong class="best-score-highlight">${score} pts</strong>`
+    : `Your best on ${diff}: <strong class="best-score-highlight">${score} pts</strong>`;
+}
+
+function formatCorrectFeedback(points: number): string {
   return currentLang === "fr"
     ? `✓ 正解! (Seikai) — Correct ! +${points} pts`
     : `✓ 正解! (Seikai) — Correct! +${points} pts`;
 }
 
-function formatComboFeedback(streak, points) {
-  const formatter = t("fb_combo");
-  if (typeof formatter === "function") {
-    return formatter(streak, points);
-  }
+function formatComboFeedback(streak: number, points: number): string {
   return currentLang === "fr"
     ? `🔥 COMBO x${streak} ! +${points} pts — 正解! (Seikai = Correct !)`
     : `🔥 COMBO x${streak}! +${points} pts — 正解! (Seikai = Correct!)`;
 }
 
-function formatWrongFeedback(answer) {
-  const formatter = t("fb_wrong");
-  if (typeof formatter === "function") {
-    return formatter(answer);
-  }
+function formatWrongFeedback(answer: string): string {
   return currentLang === "fr"
     ? `✗ 不正解 (Fuseikai) — La réponse : "${answer}"`
     : `✗ 不正解 (Fuseikai) — The answer: "${answer}"`;
@@ -132,41 +141,52 @@ const QUIZ_DATA =
       })
     : RAW_QUIZ_DATA;
 
-function localizedPath(lang, route) {
+function localizedPath(lang: string, route: string): string {
   return `/${lang}/${route ? `${route}/` : ""}`;
 }
 
-function getCurrentLocalizedRoute() {
+function getCurrentLocalizedRoute(): string {
   const parts = window.location.pathname.split("/").filter(Boolean);
-  if (!SUPPORTED_LANGS.includes(parts[0])) return "";
-  return LOCALIZED_ROUTES.includes(parts[1]) ? parts[1] : "";
+  if (!SUPPORTED_LANGS.includes(parts[0] as (typeof SUPPORTED_LANGS)[number])) return "";
+  return LOCALIZED_ROUTES.includes(parts[1] as (typeof LOCALIZED_ROUTES)[number]) ? parts[1] : "";
 }
 
-function getLocalizedField(value) {
+function getLocalizedField(value: string | Record<string, string | undefined> | undefined): string {
   if (!value) return "";
   if (typeof value === "string") return value;
   return value[currentLang] || value.en || "";
 }
 
+function getRequiredElement<T extends HTMLElement>(id: string): T {
+  const element = document.getElementById(id);
+  if (!(element instanceof HTMLElement)) {
+    throw new Error(`Required element #${id} is missing.`);
+  }
+  return element as T;
+}
+
 function updateLocalizedLinks() {
   const route = getCurrentLocalizedRoute();
   const currentSearch = window.location.search;
-  document.querySelectorAll("[data-public-route]").forEach((link) => {
+  document.querySelectorAll<HTMLAnchorElement>("[data-public-route]").forEach((link) => {
     const targetRoute = link.dataset.publicRoute;
-    if (LOCALIZED_ROUTES.includes(targetRoute)) {
+    if (
+      targetRoute &&
+      LOCALIZED_ROUTES.includes(targetRoute as (typeof LOCALIZED_ROUTES)[number])
+    ) {
       link.setAttribute("href", localizedPath(currentLang, targetRoute));
     }
   });
-  document.querySelectorAll("[data-locale-home]").forEach((link) => {
+  document.querySelectorAll<HTMLAnchorElement>("[data-locale-home]").forEach((link) => {
     const targetLang = link.dataset.localeHome;
-    if (SUPPORTED_LANGS.includes(targetLang)) {
+    if (targetLang && SUPPORTED_LANGS.includes(targetLang as (typeof SUPPORTED_LANGS)[number])) {
       const searchSuffix = route === "archives" ? currentSearch : "";
       link.setAttribute("href", localizedPath(targetLang, route) + searchSuffix);
     }
   });
 }
 
-function buildQuestionsForCurrentDiff(wordCount) {
+function buildQuestionsForCurrentDiff(wordCount: number): QuizQuestion[] {
   return buildQuestions({
     mode: MANABUPLAY_MODE,
     count: wordCount,
@@ -182,7 +202,10 @@ function buildQuestionsForCurrentDiff(wordCount) {
 }
 
 function applyLang() {
-  document.getElementById("htmlRoot").lang = currentLang;
+  const htmlRoot = document.getElementById("htmlRoot");
+  if (htmlRoot) {
+    htmlRoot.lang = currentLang;
+  }
 
   const seoTitle = t("seo_title");
   if (typeof seoTitle === "string" && seoTitle) {
@@ -191,7 +214,7 @@ function applyLang() {
 
   const seoDescription = t("seo_description");
   if (typeof seoDescription === "string" && seoDescription) {
-    const metaDescription = document.querySelector('meta[name="description"]');
+    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute("content", seoDescription);
     }
@@ -199,18 +222,21 @@ function applyLang() {
 
   const ogDescription = t("og_description");
   if (typeof ogDescription === "string" && ogDescription) {
-    const ogMetaDescription = document.querySelector('meta[property="og:description"]');
+    const ogMetaDescription = document.querySelector<HTMLMetaElement>(
+      'meta[property="og:description"]',
+    );
     if (ogMetaDescription) {
       ogMetaDescription.setAttribute("content", ogDescription);
     }
   }
 
-  document.querySelectorAll("[data-i18n]").forEach((element) => {
-    const value = t(element.dataset.i18n);
+  document.querySelectorAll<HTMLElement>("[data-i18n]").forEach((element) => {
+    const value = t(element.dataset.i18n || "");
     if (typeof value === "string") element.innerHTML = value;
   });
-  document.querySelectorAll("[data-i18n-ph]").forEach((element) => {
-    element.placeholder = t(element.dataset.i18nPh);
+  document.querySelectorAll<HTMLInputElement>("[data-i18n-ph]").forEach((element) => {
+    const value = t(element.dataset.i18nPh || "");
+    element.placeholder = typeof value === "string" ? value : "";
   });
   document.getElementById("btnEN")?.classList.toggle("active", currentLang === "en");
   document.getElementById("btnFR")?.classList.toggle("active", currentLang === "fr");
@@ -219,24 +245,28 @@ function applyLang() {
   const copyButton = document.getElementById("shareBtnCopy");
   const copyLabel = document.getElementById("copyBtnLabel");
   if (copyButton && copyLabel && !copyButton.classList.contains("copied")) {
-    copyLabel.textContent = t("result_share_copy");
+    const label = t("result_share_copy");
+    copyLabel.textContent = typeof label === "string" ? label : "";
   }
 
   renderDiffGrid();
 
   const nextButton = document.getElementById("nextBtn");
   if (nextButton && !nextButton.classList.contains("opacity-0")) {
-    nextButton.textContent =
+    const label =
       state.currentIndex >= state.questions.length - 1 ? t("see_results") : t("next_word");
+    nextButton.textContent = typeof label === "string" ? label : "";
   }
 }
 
-function setLang(lang) {
-  if (!SUPPORTED_LANGS.includes(lang) || lang === currentLang) return;
+function setLang(lang: string) {
+  if (!SUPPORTED_LANGS.includes(lang as (typeof SUPPORTED_LANGS)[number]) || lang === currentLang)
+    return;
 
   const currentRoute = getCurrentLocalizedRoute();
+  const firstPathPart = window.location.pathname.split("/").filter(Boolean)[0];
   const isLocalizedPage = SUPPORTED_LANGS.includes(
-    window.location.pathname.split("/").filter(Boolean)[0],
+    firstPathPart as (typeof SUPPORTED_LANGS)[number],
   );
 
   if (isLocalizedPage) {
@@ -263,32 +293,35 @@ function setLang(lang) {
   }
 
   applyLang();
-  if (document.getElementById("quizArea").style.display !== "none") {
+  const quizArea = getRequiredElement<HTMLElement>("quizArea");
+  if (quizArea.style.display !== "none") {
     renderQuestion();
   }
 }
 
 function renderDiffGrid() {
   const grid = document.getElementById("diffGrid");
-  if (!grid) return;
+  if (!(grid instanceof HTMLElement)) return;
 
   grid.innerHTML = "";
   DIFFICULTIES.forEach((difficulty) => {
     const best = LS.getBest(difficulty.id);
+    const diffBestLabel = t("diff_best");
+    const diffNoBestLabel = t("diff_no_best");
     const bestLabel =
       best > 0
-        ? `${t("diff_best")} <span style="color:${difficulty.color};font-weight:700;">${best} pts</span>`
-        : `<span style="color:rgba(255,255,255,.3);">${t("diff_no_best")}</span>`;
+        ? `${typeof diffBestLabel === "string" ? diffBestLabel : "Best:"} <span class="diff-best-value ${difficulty.cls}">${best} pts</span>`
+        : `<span class="diff-no-best">${typeof diffNoBestLabel === "string" ? diffNoBestLabel : "No record"}</span>`;
     const bestMarkup =
-      MANABUPLAY_MODE === "archives"
-        ? ""
-        : `<div class="diff-best mt-1" style="color:rgba(255,255,255,.5);">${bestLabel}</div>`;
+      MANABUPLAY_MODE === "archives" ? "" : `<div class="diff-best mt-1">${bestLabel}</div>`;
+    const diffWordsLabel = t("diff_words");
+    const diffTitle = t(`diff_${difficulty.id}`);
     const card = document.createElement("div");
     card.className = `diff-card ${difficulty.cls}${currentDiff?.id === difficulty.id ? " selected" : ""}`;
     card.innerHTML = `
       <span class="diff-icon">${difficulty.icon}</span>
-      <div class="diff-name" style="color:${difficulty.color};">${t(`diff_${difficulty.id}`)}</div>
-      <div class="diff-count" style="color:rgba(255,255,255,.6);">${difficulty.words} ${t("diff_words")}</div>
+      <div class="diff-name">${typeof diffTitle === "string" ? diffTitle : difficulty.id}</div>
+      <div class="diff-count">${difficulty.words} ${typeof diffWordsLabel === "string" ? diffWordsLabel : "words"}</div>
       ${bestMarkup}
     `;
     card.onclick = () => selectDiff(difficulty);
@@ -296,35 +329,38 @@ function renderDiffGrid() {
   });
 }
 
-function selectDiff(difficulty) {
+function selectDiff(difficulty: Difficulty) {
   currentDiff = difficulty;
   renderDiffGrid();
-  document.getElementById("startBtn")?.classList.add("ready");
+  getRequiredElement<HTMLButtonElement>("startBtn").classList.add("ready");
 }
 
-function animateReveal(node) {
+function animateReveal(node: HTMLElement | null) {
   if (!node) return;
   node.classList.remove("hint-revealed");
   void node.offsetWidth;
   node.classList.add("hint-revealed");
 }
 
-function setHintButtonLabel(key) {
+function setHintButtonLabel(key: string) {
   const hintButton = document.getElementById("hintBtn");
-  if (!hintButton) return;
-  const label = hintButton.querySelector("[data-i18n]");
-  if (label) label.textContent = t(key);
+  if (!(hintButton instanceof HTMLElement)) return;
+  const label = hintButton.querySelector<HTMLElement>("[data-i18n]");
+  if (!label) return;
+  const text = t(key);
+  label.textContent = typeof text === "string" ? text : "";
 }
 
 function hideHintButton() {
   const hintButton = document.getElementById("hintBtn");
-  if (hintButton) hintButton.style.display = "none";
+  if (hintButton instanceof HTMLElement) hintButton.style.display = "none";
 }
 
-function renderExplanation(text, reveal = false) {
+function renderExplanation(text: string, reveal = false) {
   const explanationBox = document.getElementById("explanationBox");
   const explanationContent = document.getElementById("explanationContent");
-  if (!explanationBox || !explanationContent) return;
+  if (!(explanationBox instanceof HTMLElement) || !(explanationContent instanceof HTMLElement))
+    return;
 
   if (!text) {
     explanationBox.style.display = "none";
@@ -349,7 +385,7 @@ function revealHint(forceAll = false) {
   const secondaryRow = document.getElementById("hintTextSecondary");
   const secondaryContent = document.getElementById("hint2Content");
 
-  if (!zone || !primaryContent) return;
+  if (!(zone instanceof HTMLElement) || !(primaryContent instanceof HTMLElement)) return;
 
   zone.style.display = "grid";
 
@@ -359,7 +395,12 @@ function revealHint(forceAll = false) {
     hintStage = 1;
   }
 
-  if ((forceAll || previousStage >= 1) && hintSecondary && secondaryRow && secondaryContent) {
+  if (
+    (forceAll || previousStage >= 1) &&
+    hintSecondary &&
+    secondaryRow instanceof HTMLElement &&
+    secondaryContent instanceof HTMLElement
+  ) {
     secondaryRow.style.display = "grid";
     secondaryContent.textContent = hintSecondary;
     animateReveal(secondaryRow);
@@ -378,17 +419,18 @@ function renderQuestion() {
   const question = state.questions[state.currentIndex];
   const total = state.questions.length;
 
-  document.getElementById("progressBar").style.width = `${(state.currentIndex / total) * 100}%`;
-  document.getElementById("progressText").textContent = `${state.currentIndex}/${total}`;
-  document.getElementById("scoreDisplay").textContent = state.score;
-  document.getElementById("streakDisplay").textContent =
+  getRequiredElement<HTMLElement>("progressBar").style.width =
+    `${(state.currentIndex / total) * 100}%`;
+  getRequiredElement<HTMLElement>("progressText").textContent = `${state.currentIndex}/${total}`;
+  getRequiredElement<HTMLElement>("scoreDisplay").textContent = String(state.score);
+  getRequiredElement<HTMLElement>("streakDisplay").textContent =
     state.streak >= 2 ? `🔥 x${state.streak}` : "";
 
   const level = state.score < 30 ? "I" : state.score < 80 ? "II" : state.score < 180 ? "III" : "IV";
-  document.getElementById("levelDisplay").textContent = level;
-  document.getElementById("wordKana").textContent = question.kana;
-  document.getElementById("wordDisplay").textContent = question.word;
-  document.getElementById("wordCategory").textContent =
+  getRequiredElement<HTMLElement>("levelDisplay").textContent = level;
+  getRequiredElement<HTMLElement>("wordKana").textContent = question.kana;
+  getRequiredElement<HTMLElement>("wordDisplay").textContent = question.word;
+  getRequiredElement<HTMLElement>("wordCategory").textContent =
     question.cat[currentLang] || question.cat.en;
 
   const hintButton = document.getElementById("hintBtn");
@@ -400,26 +442,26 @@ function renderQuestion() {
   const secondaryHint = getLocalizedField(question.hint2);
   hintStage = 0;
 
-  if (hintButton) {
+  if (hintButton instanceof HTMLElement) {
     hintButton.style.display = primaryHint || secondaryHint ? "inline-flex" : "none";
     setHintButtonLabel("hint_btn");
   }
-  if (hintText) hintText.style.display = "none";
-  if (hintContent) {
+  if (hintText instanceof HTMLElement) hintText.style.display = "none";
+  if (hintContent instanceof HTMLElement) {
     hintContent.textContent = primaryHint;
     hintContent.classList.remove("hint-revealed");
   }
-  if (hintTextSecondary) {
+  if (hintTextSecondary instanceof HTMLElement) {
     hintTextSecondary.style.display = "none";
     hintTextSecondary.classList.remove("hint-revealed");
   }
-  if (hint2Content) {
+  if (hint2Content instanceof HTMLElement) {
     hint2Content.textContent = secondaryHint;
     hint2Content.classList.remove("hint-revealed");
   }
   renderExplanation(getLocalizedField(question.explanation), false);
 
-  const answersGrid = document.getElementById("answersGrid");
+  const answersGrid = getRequiredElement<HTMLElement>("answersGrid");
   answersGrid.innerHTML = "";
   question.answers.forEach((answer) => {
     const button = document.createElement("button");
@@ -429,15 +471,15 @@ function renderQuestion() {
     answersGrid.appendChild(button);
   });
 
-  const feedback = document.getElementById("feedback");
+  const feedback = getRequiredElement<HTMLElement>("feedback");
   feedback.style.display = "none";
   feedback.textContent = "";
-  const nextButton = document.getElementById("nextBtn");
+  const nextButton = getRequiredElement<HTMLElement>("nextBtn");
   nextButton.classList.add("opacity-0", "pointer-events-none");
   state.answered = false;
 }
 
-function spawnParticles(button, color) {
+function spawnParticles(button: HTMLButtonElement, color: string) {
   const rect = button.getBoundingClientRect();
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
@@ -451,11 +493,11 @@ function spawnParticles(button, color) {
   }
 }
 
-function handleAnswer(button, chosen, correct) {
+function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string) {
   if (state.answered) return;
   state.answered = true;
 
-  document.querySelectorAll(".answer-btn").forEach((answerButton) => {
+  document.querySelectorAll<HTMLButtonElement>(".answer-btn").forEach((answerButton) => {
     answerButton.disabled = true;
   });
 
@@ -464,7 +506,7 @@ function handleAnswer(button, chosen, correct) {
   renderExplanation(getLocalizedField(question?.explanation), true);
 
   const isCorrect = chosen === correct;
-  const feedback = document.getElementById("feedback");
+  const feedback = getRequiredElement<HTMLElement>("feedback");
   feedback.style.display = "block";
 
   if (isCorrect) {
@@ -481,8 +523,8 @@ function handleAnswer(button, chosen, correct) {
   } else {
     button.classList.add("wrong");
     state.streak = 0;
-    document.querySelectorAll(".answer-btn").forEach((answerButton) => {
-      if (answerButton.querySelector("span").textContent === correct) {
+    document.querySelectorAll<HTMLButtonElement>(".answer-btn").forEach((answerButton) => {
+      if (answerButton.querySelector("span")?.textContent === correct) {
         answerButton.classList.add("correct");
       }
     });
@@ -492,36 +534,37 @@ function handleAnswer(button, chosen, correct) {
     feedback.textContent = formatWrongFeedback(shortAnswer);
   }
 
-  document.getElementById("scoreDisplay").textContent = state.score;
-  document.getElementById("streakDisplay").textContent =
+  getRequiredElement<HTMLElement>("scoreDisplay").textContent = String(state.score);
+  getRequiredElement<HTMLElement>("streakDisplay").textContent =
     state.streak >= 2 ? `🔥 x${state.streak}` : "";
 
-  const nextButton = document.getElementById("nextBtn");
+  const nextButton = getRequiredElement<HTMLElement>("nextBtn");
   nextButton.classList.remove("opacity-0", "pointer-events-none");
-  nextButton.textContent =
+  const label =
     state.currentIndex >= state.questions.length - 1 ? t("see_results") : t("next_word");
+  nextButton.textContent = typeof label === "string" ? label : "";
 }
 
 function showResults() {
-  document.getElementById("progressRow").style.display = "none";
-  document.getElementById("hudRow").style.display = "none";
-  document.getElementById("quizArea").style.display = "none";
-  document.getElementById("resultsArea").style.display = "block";
+  getRequiredElement<HTMLElement>("progressRow").style.display = "none";
+  getRequiredElement<HTMLElement>("hudRow").style.display = "none";
+  getRequiredElement<HTMLElement>("quizArea").style.display = "none";
+  getRequiredElement<HTMLElement>("resultsArea").style.display = "block";
 
   const total = state.questions.length;
   const pct = Math.round((state.score / (total * 15)) * 100);
-  const tier =
-    t("results").find((result) => pct >= result.min) || t("results")[t("results").length - 1];
+  const results = getResults();
+  const tier = results.find((result) => pct >= result.min) || results[results.length - 1];
 
-  document.getElementById("finalEmoji").textContent = tier.emoji;
-  document.getElementById("finalTitle").textContent = tier.title;
-  document.getElementById("finalMsg").textContent = tier.msg;
-  document.getElementById("finalScore").textContent = `${state.score} pts`;
-  document.getElementById("finalCorrect").textContent = `${state.correct}/${total}`;
-  document.getElementById("finalPercent").textContent = `${pct}%`;
-  document.getElementById("finalStreak").textContent = state.bestStreak;
-  document.getElementById("progressBar").style.width = "100%";
-  document.getElementById("progressText").textContent = `${total}/${total}`;
+  getRequiredElement<HTMLElement>("finalEmoji").textContent = tier?.emoji || "🏆";
+  getRequiredElement<HTMLElement>("finalTitle").textContent = tier?.title || "";
+  getRequiredElement<HTMLElement>("finalMsg").textContent = tier?.msg || "";
+  getRequiredElement<HTMLElement>("finalScore").textContent = `${state.score} pts`;
+  getRequiredElement<HTMLElement>("finalCorrect").textContent = `${state.correct}/${total}`;
+  getRequiredElement<HTMLElement>("finalPercent").textContent = `${pct}%`;
+  getRequiredElement<HTMLElement>("finalStreak").textContent = String(state.bestStreak);
+  getRequiredElement<HTMLElement>("progressBar").style.width = "100%";
+  getRequiredElement<HTMLElement>("progressText").textContent = `${total}/${total}`;
 
   if (MANABUPLAY_MODE === "practice" && currentDiff) {
     savePracticeSession({
@@ -533,23 +576,24 @@ function showResults() {
     });
   }
 
-  const badge = document.getElementById("newRecordBadge");
-  const bestMessage = document.getElementById("bestScoreMsg");
+  const badge = getRequiredElement<HTMLElement>("newRecordBadge");
+  const bestMessage = getRequiredElement<HTMLElement>("bestScoreMsg");
   const shareRow = document.getElementById("shareRow");
   const isArchiveMode = MANABUPLAY_MODE === "archives";
 
   if (isArchiveMode) {
     badge.style.display = "none";
     bestMessage.style.display = "none";
-    if (shareRow) shareRow.style.display = "none";
-  } else {
+    if (shareRow instanceof HTMLElement) shareRow.style.display = "none";
+  } else if (currentDiff) {
     const isNewRecord = LS.setBest(currentDiff.id, state.score);
     badge.style.display = isNewRecord ? "block" : "none";
     bestMessage.style.display = "block";
     const currentBest = LS.getBest(currentDiff.id);
-    const diffLabel = t(`diff_${currentDiff.id}`);
+    const diffLabelValue = t(`diff_${currentDiff.id}`);
+    const diffLabel = typeof diffLabelValue === "string" ? diffLabelValue : currentDiff.id;
     bestMessage.innerHTML = formatBestScoreMessage(currentBest, diffLabel);
-    if (shareRow) shareRow.style.display = "block";
+    if (shareRow instanceof HTMLElement) shareRow.style.display = "block";
   }
 
   renderDiffGrid();
@@ -568,20 +612,20 @@ function launchQuiz() {
     correct: 0,
   };
 
-  document.getElementById("diffArea").style.display = "none";
-  document.getElementById("progressRow").style.display = "flex";
-  document.getElementById("hudRow").style.display = "flex";
-  document.getElementById("quizArea").style.display = "block";
-  document.getElementById("resultsArea").style.display = "none";
+  getRequiredElement<HTMLElement>("diffArea").style.display = "none";
+  getRequiredElement<HTMLElement>("progressRow").style.display = "flex";
+  getRequiredElement<HTMLElement>("hudRow").style.display = "flex";
+  getRequiredElement<HTMLElement>("quizArea").style.display = "block";
+  getRequiredElement<HTMLElement>("resultsArea").style.display = "none";
   renderQuestion();
 }
 
 function goToDiffPicker() {
-  document.getElementById("diffArea").style.display = "block";
-  document.getElementById("progressRow").style.display = "none";
-  document.getElementById("hudRow").style.display = "none";
-  document.getElementById("quizArea").style.display = "none";
-  document.getElementById("resultsArea").style.display = "none";
+  getRequiredElement<HTMLElement>("diffArea").style.display = "block";
+  getRequiredElement<HTMLElement>("progressRow").style.display = "none";
+  getRequiredElement<HTMLElement>("hudRow").style.display = "none";
+  getRequiredElement<HTMLElement>("quizArea").style.display = "none";
+  getRequiredElement<HTMLElement>("resultsArea").style.display = "none";
   renderDiffGrid();
 }
 
@@ -612,6 +656,7 @@ const shareController = createShareController({
   state,
   getCurrentDiff: () => currentDiff,
   getCurrentLang: () => currentLang,
+  getResults,
   t,
 });
 
@@ -620,7 +665,7 @@ renderDiffGrid();
 createRevealObserver().observeAll(".reveal");
 
 const waitlistForm = document.querySelector('form[name="manabuplay-waitlist"]');
-if (waitlistForm) {
+if (waitlistForm instanceof HTMLFormElement) {
   waitlistForm.addEventListener("submit", waitlistController.handleEmailSubmit);
 }
 
