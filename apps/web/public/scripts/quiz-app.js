@@ -77,6 +77,46 @@ const pageLocale = SUPPORTED_LANGS.includes(window.__MANABUPLAY_LOCALE__)
 let currentLang = pageLocale || (SUPPORTED_LANGS.includes(LS.getLang()) ? LS.getLang() : "en");
 const t = (key) => (LANG[currentLang]?.[key] ?? LANG.en?.[key]) || "";
 
+function formatBestScoreMessage(score, diff) {
+  const formatter = t("result_best_msg");
+  if (typeof formatter === "function") {
+    return formatter(score, diff);
+  }
+  return currentLang === "fr"
+    ? `Ton record en ${diff} : <strong style="color:#a78bfa">${score} pts</strong>`
+    : `Your best on ${diff}: <strong style="color:#a78bfa">${score} pts</strong>`;
+}
+
+function formatCorrectFeedback(points) {
+  const formatter = t("fb_correct");
+  if (typeof formatter === "function") {
+    return formatter(points);
+  }
+  return currentLang === "fr"
+    ? `✓ 正解! (Seikai) — Correct ! +${points} pts`
+    : `✓ 正解! (Seikai) — Correct! +${points} pts`;
+}
+
+function formatComboFeedback(streak, points) {
+  const formatter = t("fb_combo");
+  if (typeof formatter === "function") {
+    return formatter(streak, points);
+  }
+  return currentLang === "fr"
+    ? `🔥 COMBO x${streak} ! +${points} pts — 正解! (Seikai = Correct !)`
+    : `🔥 COMBO x${streak}! +${points} pts — 正解! (Seikai = Correct!)`;
+}
+
+function formatWrongFeedback(answer) {
+  const formatter = t("fb_wrong");
+  if (typeof formatter === "function") {
+    return formatter(answer);
+  }
+  return currentLang === "fr"
+    ? `✗ 不正解 (Fuseikai) — La réponse : "${answer}"`
+    : `✗ 不正解 (Fuseikai) — The answer: "${answer}"`;
+}
+
 const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
 const SESSION_DATE_KEY = getSessionDateKey({
   mode: MANABUPLAY_MODE,
@@ -436,7 +476,7 @@ function handleAnswer(button, chosen, correct) {
     state.score += bonus;
     feedback.style.color = "var(--green)";
     feedback.textContent =
-      state.streak >= 3 ? t("fb_combo")(state.streak, bonus) : t("fb_correct")(bonus);
+      state.streak >= 3 ? formatComboFeedback(state.streak, bonus) : formatCorrectFeedback(bonus);
     spawnParticles(button, "#4ade80");
   } else {
     button.classList.add("wrong");
@@ -449,7 +489,7 @@ function handleAnswer(button, chosen, correct) {
     feedback.style.color = "var(--red)";
     const shortAnswer =
       correct.split(" ").slice(0, 7).join(" ") + (correct.split(" ").length > 7 ? "…" : "");
-    feedback.textContent = t("fb_wrong")(shortAnswer);
+    feedback.textContent = formatWrongFeedback(shortAnswer);
   }
 
   document.getElementById("scoreDisplay").textContent = state.score;
@@ -508,7 +548,7 @@ function showResults() {
     bestMessage.style.display = "block";
     const currentBest = LS.getBest(currentDiff.id);
     const diffLabel = t(`diff_${currentDiff.id}`);
-    bestMessage.innerHTML = t("result_best_msg")(currentBest, diffLabel);
+    bestMessage.innerHTML = formatBestScoreMessage(currentBest, diffLabel);
     if (shareRow) shareRow.style.display = "block";
   }
 
