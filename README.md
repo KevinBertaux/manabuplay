@@ -8,7 +8,7 @@ Repository for `v0.1`, now split into two Astro apps.
 - `apps/admin`: local admin dashboard
 - `shared`: shared quiz data and business logic
 - `docs`: roadmap, atlas, business notes
-- `legacy`: original MVP kept for migration and parity checks
+- `legacy`: only the parity reference and archived snapshots kept for migration memory
 
 ## Stack
 
