@@ -16,9 +16,9 @@ export const RELEASES: ReleaseNote[] = [
   {
     id: CURRENT_RELEASE_ID,
     date: "2026-04-02",
-    title: "Pack-first catalog foundation",
+    title: "Pack-first catalog baseline",
     summary:
-      "Freeze the scalable content schema in code and migrate the 50-word MVP into a shared catalog.",
+      "Freeze the scalable content schema in code and migrate the legacy 50-word seed into a shared catalog.",
   },
 ];
 
@@ -35,17 +35,19 @@ export const PACKS: PackDefinition[] = [
     locales: {
       en: {
         name: "Gaming Core",
-        description: "The original 50-word ManabuPlay MVP pack covering core gaming and anime vocabulary.",
+        description:
+          "The original 50-word legacy seed pack covering core gaming and anime vocabulary.",
         seoTitle: "Japanese Gaming Vocabulary Quiz | ManabuPlay",
         seoDescription:
-          "Train on the original 50-word ManabuPlay MVP pack and learn core Japanese gaming vocabulary.",
+          "Train on the original 50-word ManabuPlay legacy seed pack and learn core Japanese gaming vocabulary.",
       },
       fr: {
         name: "Gaming Core",
-        description: "Le pack MVP original de 50 mots ManabuPlay autour du vocabulaire gaming et anime.",
+        description:
+          "Le pack seed legacy original de 50 mots ManabuPlay autour du vocabulaire gaming et anime.",
         seoTitle: "Quiz de vocabulaire japonais gaming | ManabuPlay",
         seoDescription:
-          "Travaille le pack MVP original de 50 mots ManabuPlay et apprends le vocabulaire japonais gaming essentiel.",
+          "Travaille le pack seed legacy original de 50 mots ManabuPlay et apprends le vocabulaire japonais gaming essentiel.",
       },
     },
   },
@@ -167,9 +169,8 @@ export const MANABU_CATALOG: ManabuCatalog = {
 
 const wordsById = new Map(WORDS.map((word) => [word.id, word]));
 
-export function buildLegacyQuizData(packId = DEFAULT_PACK_ID): RawQuizEntry[] {
-  return PACK_ENTRIES
-    .filter((entry) => entry.packId === packId)
+export function buildCatalogQuizData(packId = DEFAULT_PACK_ID): RawQuizEntry[] {
+  return PACK_ENTRIES.filter((entry) => entry.packId === packId)
     .sort((left, right) => left.order - right.order)
     .map((entry) => {
       const word = wordsById.get(entry.wordId);
@@ -188,12 +189,33 @@ export function buildLegacyQuizData(packId = DEFAULT_PACK_ID): RawQuizEntry[] {
     });
 }
 
-export function buildMvpBootData() {
+function withCurrentProductCopy(lang: typeof MVP_LANG) {
+  return {
+    ...lang,
+    en: {
+      ...lang.en,
+      stat_words: "150 WORDS",
+    },
+    fr: {
+      ...lang.fr,
+      stat_words: "150 MOTS",
+    },
+    es: {
+      ...lang.es,
+      stat_words: "150 PALABRAS",
+    },
+  };
+}
+
+export function buildCatalogBootData() {
   return {
     catalog: MANABU_CATALOG,
     defaultPackId: DEFAULT_PACK_ID,
     difficulties: DIFFICULTIES,
-    lang: MVP_LANG,
-    quizData: buildLegacyQuizData(DEFAULT_PACK_ID),
+    lang: withCurrentProductCopy(MVP_LANG),
+    quizData: buildCatalogQuizData(DEFAULT_PACK_ID),
   };
 }
+
+export const buildLegacyQuizData = buildCatalogQuizData;
+export const buildMvpBootData = buildCatalogBootData;

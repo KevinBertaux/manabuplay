@@ -1,18 +1,10 @@
 ---
 import { DEFAULT_PUBLIC_LOCALE, PUBLIC_LOCALES } from "../lib/public-locales";
 
-const supportedLocales = JSON.stringify(PUBLIC_LOCALES);
-const fallbackLocale = JSON.stringify(DEFAULT_PUBLIC_LOCALE);
-const redirectScript = `
-(function () {
-  var supported = ${supportedLocales};
-  var fallback = ${fallbackLocale};
-  var preferred = (navigator.languages || [navigator.language || fallback])
-    .map(function (lang) { return String(lang || '').toLowerCase().split('-')[0]; })
-    .find(function (lang) { return supported.indexOf(lang) !== -1; }) || fallback;
-  window.location.replace('/' + preferred + '/' + window.location.search + window.location.hash);
-})();
-`;
+const redirectPayload = {
+  supportedLocales: PUBLIC_LOCALES,
+  fallbackLocale: DEFAULT_PUBLIC_LOCALE,
+};
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -21,17 +13,18 @@ const redirectScript = `
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, follow" />
   <title>ManabuPlay</title>
-  <script is:inline set:html={redirectScript}></script>
+  <template id="public-root-redirect-data">{JSON.stringify(redirectPayload)}</template>
+  <script src="../scripts/public-root-redirect.ts"></script>
 </head>
-<body style="margin:0;background:#0a0911;color:#f3f1ff;font-family:sans-serif;">
-  <main style="min-height:100svh;display:grid;place-items:center;text-align:center;padding:24px;">
+<body class="m-0 bg-[#0a0911] font-sans text-[#f3f1ff]">
+  <main class="grid min-h-[100svh] place-items-center p-6 text-center">
     <div>
       <h1>ManabuPlay</h1>
       <p>Choose your language.</p>
       <p>
-        <a href="/en/" style="color:#22d3ee;">English</a>
+        <a class="text-[#22d3ee]" href="/en/">English</a>
         <span aria-hidden="true"> · </span>
-        <a href="/fr/" style="color:#22d3ee;">Français</a>
+        <a class="text-[#22d3ee]" href="/fr/">Français</a>
       </p>
     </div>
   </main>

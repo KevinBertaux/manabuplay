@@ -6,9 +6,7 @@ const pythonCommand = process.platform === "win32" ? "python" : "python3";
 
 export default defineConfig({
   testDir: ".",
-  testMatch: [
-    "tests/admin/**/*.spec.ts",
-  ],
+  testMatch: ["tests/admin/**/*.spec.ts"],
   fullyParallel: false,
   timeout: 60_000,
   expect: {

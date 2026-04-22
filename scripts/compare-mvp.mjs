@@ -181,14 +181,9 @@ async function compareSection(legacyPage, astroPage, section) {
   PNG.bitblt(legacyPng, expandedLegacy, 0, 0, legacyPng.width, legacyPng.height, 0, 0);
   PNG.bitblt(astroPng, expandedAstro, 0, 0, astroPng.width, astroPng.height, 0, 0);
 
-  const diffPixels = pixelmatch(
-    expandedLegacy.data,
-    expandedAstro.data,
-    diff.data,
-    width,
-    height,
-    { threshold: 0.1 },
-  );
+  const diffPixels = pixelmatch(expandedLegacy.data, expandedAstro.data, diff.data, width, height, {
+    threshold: 0.1,
+  });
   const diffRatio = diffPixels / (width * height);
 
   const legacyPath = path.join(tempDir, `${section.name}-legacy.png`);

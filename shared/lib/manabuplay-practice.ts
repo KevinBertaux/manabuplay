@@ -1,4 +1,4 @@
-import { buildMvpBootData } from "../data/manabuplay/catalog";
+import { buildCatalogBootData } from "../data/manabuplay/catalog";
 import { buildV01QuizPool } from "./manabuplay-quiz-pool";
 
 const PRACTICE_QUESTION_COUNT = 10;
@@ -40,7 +40,7 @@ const PRACTICE_DIFFICULTIES = [
 ] as const;
 
 export function buildPracticeBootData() {
-  const base = buildMvpBootData();
+  const base = buildCatalogBootData();
 
   return {
     ...base,

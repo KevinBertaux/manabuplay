@@ -11,16 +11,26 @@ test.describe("admin landing wording", () => {
     await expect(page.locator(".wording-grid")).toBeVisible();
 
     await page.locator("[data-admin-lang='fr']").click();
-    await page.locator(".wording-card-summary").filter({ hasText: /Hero badge|Badge hero/ }).first().click();
-    await expect(page.locator(".wording-card").filter({ hasText: /Hero badge|Badge hero/ }).first()).toContainText(
-      "Quiz quotidien · Sans inscription · Mode entraînement · 4 difficultés",
-    );
+    await page
+      .locator(".wording-card-summary")
+      .filter({ hasText: /Hero badge|Badge hero/ })
+      .first()
+      .click();
+    await expect(
+      page
+        .locator(".wording-card")
+        .filter({ hasText: /Hero badge|Badge hero/ })
+        .first(),
+    ).toContainText("Quiz quotidien · Sans inscription · Mode entraînement · 4 difficultés");
 
     await page.locator("[data-admin-lang='en']").click();
     await expect(page.locator(".wording-title")).toContainText("Lot 1");
     await expect(page.locator(".wording-title")).toContainText("SEO, nav and hero");
-    await expect(page.locator(".wording-card").filter({ hasText: /Hero tagline|Tagline hero/ }).first()).toContainText(
-      "Learn Japanese vocabulary through gaming and pop culture.",
-    );
+    await expect(
+      page
+        .locator(".wording-card")
+        .filter({ hasText: /Hero tagline|Tagline hero/ })
+        .first(),
+    ).toContainText("Learn Japanese vocabulary through gaming and pop culture.");
   });
 });

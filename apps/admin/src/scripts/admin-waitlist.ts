@@ -1,11 +1,19 @@
-import { getPublicStorageOrigin, requestPublicStorage } from "./public-storage-bridge.js";
+import { getPublicStorageOrigin, requestPublicStorage } from "./public-storage-bridge";
 
-function getRequiredElement(id) {
+type WaitlistEntry = {
+  email?: string;
+  lang?: string;
+  createdAt?: string;
+  source?: string;
+  page?: string;
+};
+
+function getRequiredElement<T extends HTMLElement>(id: string): T {
   const element = document.getElementById(id);
-  if (!element) {
+  if (!(element instanceof HTMLElement)) {
     throw new Error(`Missing admin waitlist element: ${id}`);
   }
-  return element;
+  return element as T;
 }
 
 const body = getRequiredElement("waitlist-body");
@@ -16,13 +24,13 @@ const frCount = getRequiredElement("waitlist-fr-count");
 const enCount = getRequiredElement("waitlist-en-count");
 const panel = getRequiredElement("waitlist-panel");
 const status = getRequiredElement("waitlist-status");
-const refreshButton = getRequiredElement("waitlist-refresh");
-const exportButton = getRequiredElement("waitlist-export");
-const clearButton = getRequiredElement("waitlist-clear");
-let statusTimer;
-let lastSubmissions = [];
+const refreshButton = getRequiredElement<HTMLButtonElement>("waitlist-refresh");
+const exportButton = getRequiredElement<HTMLButtonElement>("waitlist-export");
+const clearButton = getRequiredElement<HTMLButtonElement>("waitlist-clear");
+let statusTimer: number | undefined;
+let lastSubmissions: WaitlistEntry[] = [];
 
-function escapeHtml(value) {
+function escapeHtml(value: unknown): string {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -31,7 +39,7 @@ function escapeHtml(value) {
     .replace(/'/g, "&#039;");
 }
 
-function formatDate(value) {
+function formatDate(value: unknown): string {
   if (!value) return "n.c.";
   const date = new Date(String(value));
   if (Number.isNaN(date.getTime())) return "n.c.";
@@ -41,16 +49,17 @@ function formatDate(value) {
   }).format(date);
 }
 
-function formatExportStamp(date) {
-  const pad = (value) => String(value).padStart(2, "0");
-  return [
-    date.getFullYear(),
-    pad(date.getMonth() + 1),
-    pad(date.getDate()),
-  ].join("-") + "-" + pad(date.getHours()) + pad(date.getMinutes());
+function formatExportStamp(date: Date): string {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return (
+    [date.getFullYear(), pad(date.getMonth() + 1), pad(date.getDate())].join("-") +
+    "-" +
+    pad(date.getHours()) +
+    pad(date.getMinutes())
+  );
 }
 
-function showStatus(message) {
+function showStatus(message: string): void {
   window.clearTimeout(statusTimer);
   status.textContent = message;
   status.classList.add("is-visible");
@@ -62,7 +71,7 @@ function showStatus(message) {
   }, 1800);
 }
 
-function renderSubmissions(submissions) {
+function renderSubmissions(submissions: WaitlistEntry[]): void {
   lastSubmissions = Array.isArray(submissions) ? submissions : [];
 
   const fr = lastSubmissions.filter((entry) => entry.lang === "fr").length;
@@ -74,18 +83,22 @@ function renderSubmissions(submissions) {
   empty.style.display = lastSubmissions.length ? "none" : "block";
   tableWrap.style.display = lastSubmissions.length ? "block" : "none";
 
-  body.innerHTML = lastSubmissions.map((entry) => `
+  body.innerHTML = lastSubmissions
+    .map(
+      (entry) => `
     <tr>
       <td class="waitlist-email">${escapeHtml(entry.email)}</td>
-      <td>${escapeHtml(String((entry.lang || "n.c.")).toUpperCase())}</td>
+      <td>${escapeHtml(String(entry.lang || "n.c.").toUpperCase())}</td>
       <td>${escapeHtml(formatDate(entry.createdAt))}</td>
       <td>${escapeHtml(entry.source || "localStorage")}</td>
       <td>${escapeHtml(entry.page || "/")}</td>
     </tr>
-  `).join("");
+  `,
+    )
+    .join("");
 }
 
-function renderBridgeUnavailable(message) {
+function renderBridgeUnavailable(message: string): void {
   count.textContent = "0";
   frCount.textContent = "0";
   enCount.textContent = "0";
@@ -95,13 +108,15 @@ function renderBridgeUnavailable(message) {
   empty.textContent = `${message} Vérifie que ManabuPlay tourne bien sur ${getPublicStorageOrigin()}.`;
 }
 
-async function fetchSubmissions() {
-  const result = await requestPublicStorage("readWaitlist");
+async function fetchSubmissions(): Promise<{ origin: string; submissions: WaitlistEntry[] }> {
+  const result = await requestPublicStorage<{ origin: string; submissions: WaitlistEntry[] }>(
+    "readWaitlist",
+  );
   renderSubmissions(result.submissions);
   return result;
 }
 
-async function refreshWithFeedback() {
+async function refreshWithFeedback(): Promise<void> {
   try {
     const result = await fetchSubmissions();
     const time = new Intl.DateTimeFormat("fr-FR", {
@@ -115,18 +130,26 @@ async function refreshWithFeedback() {
         : `Aucun email trouvé sur ${result.origin} à ${time}.`,
     );
   } catch (error) {
-    renderBridgeUnavailable(error instanceof Error ? error.message : "Bridge waitlist indisponible.");
+    renderBridgeUnavailable(
+      error instanceof Error ? error.message : "Bridge waitlist indisponible.",
+    );
     showStatus("Bridge waitlist indisponible.");
   }
 }
 
-function exportCsv() {
+function exportCsv(): void {
   const header = ["email", "lang", "createdAt", "source", "page"];
-  const rows = lastSubmissions.map((entry) => header.map((key) => {
-    const value = String(entry[key] ?? "").replace(/"/g, "\"\"");
-    return `"${value}"`;
-  }).join(","));
-  const blob = new Blob([[header.join(","), ...rows].join("\n")], { type: "text/csv;charset=utf-8" });
+  const rows = lastSubmissions.map((entry) =>
+    header
+      .map((key) => {
+        const value = String(entry[key as keyof WaitlistEntry] ?? "").replace(/"/g, '""');
+        return `"${value}"`;
+      })
+      .join(","),
+  );
+  const blob = new Blob([[header.join(","), ...rows].join("\n")], {
+    type: "text/csv;charset=utf-8",
+  });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -135,15 +158,21 @@ function exportCsv() {
   URL.revokeObjectURL(url);
 }
 
-refreshButton.addEventListener("click", refreshWithFeedback);
+refreshButton.addEventListener("click", () => {
+  void refreshWithFeedback();
+});
 exportButton.addEventListener("click", exportCsv);
 clearButton.addEventListener("click", async () => {
   try {
-    const result = await requestPublicStorage("clearWaitlist");
+    const result = await requestPublicStorage<{ origin: string; submissions: WaitlistEntry[] }>(
+      "clearWaitlist",
+    );
     renderSubmissions(result.submissions);
     showStatus(`Waitlist locale effacée sur ${result.origin}.`);
   } catch (error) {
-    renderBridgeUnavailable(error instanceof Error ? error.message : "Bridge waitlist indisponible.");
+    renderBridgeUnavailable(
+      error instanceof Error ? error.message : "Bridge waitlist indisponible.",
+    );
     showStatus("Bridge waitlist indisponible.");
   }
 });

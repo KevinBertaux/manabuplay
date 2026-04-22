@@ -9,7 +9,9 @@ test.describe("public flow", () => {
     await page.locator("#btnFR").click();
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
     await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Lancer le quiz");
-    await expect(page.locator("[data-i18n='hero_tagline']")).toContainText("Apprends du vocabulaire japonais");
+    await expect(page.locator("[data-i18n='hero_tagline']")).toContainText(
+      "Apprends du vocabulaire japonais",
+    );
     await expect(page.locator("#btnES")).toHaveCount(0);
   });
 
@@ -56,7 +58,9 @@ test.describe("public flow", () => {
     await expect(page.locator("#emailSuccess")).toBeVisible();
     await expect(page.locator("#emailInput")).toHaveValue("");
 
-    const submissions = await page.evaluate(() => JSON.parse(localStorage.getItem("mp_waitlist_submissions") || "[]"));
+    const submissions = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("mp_waitlist_submissions") || "[]"),
+    );
     expect(submissions).toHaveLength(1);
     expect(submissions[0]).toMatchObject({
       email: "machin.truc+site@mail.tld",
@@ -71,9 +75,14 @@ test.describe("public flow", () => {
     await page.locator("#emailInput").fill("https//espaceclient.linxea.com/epargne@o.o");
     await page.locator("form[name='manabuplay-waitlist'] button[type='submit']").click();
 
-    await expect(page.locator("#emailInput")).toHaveJSProperty("validationMessage", "Enter a valid email address.");
+    await expect(page.locator("#emailInput")).toHaveJSProperty(
+      "validationMessage",
+      "Enter a valid email address.",
+    );
     await expect(page.locator("#emailSuccess")).toBeHidden();
-    const submissions = await page.evaluate(() => JSON.parse(localStorage.getItem("mp_waitlist_submissions") || "[]"));
+    const submissions = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("mp_waitlist_submissions") || "[]"),
+    );
     expect(submissions).toHaveLength(0);
   });
 
@@ -95,7 +104,9 @@ test.describe("public flow", () => {
     await expect(success).toHaveClass(/waitlist-success-pop/);
     await expect(submit).toHaveText("Saved");
 
-    const submissions = await page.evaluate(() => JSON.parse(localStorage.getItem("mp_waitlist_submissions") || "[]"));
+    const submissions = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("mp_waitlist_submissions") || "[]"),
+    );
     expect(submissions.map((entry: { email: string }) => entry.email)).toEqual([
       "second+site@mail.tld",
       "first+site@mail.tld",

@@ -22,7 +22,10 @@ test.describe("Legacy MVP vs Astro MVP", () => {
     const legacyPage = await browser.newPage();
     const astroPage = await browser.newPage();
 
-    await Promise.all([preparePage(legacyPage, LEGACY_URL), preparePage(astroPage, ASTRO_HOME_URL)]);
+    await Promise.all([
+      preparePage(legacyPage, LEGACY_URL),
+      preparePage(astroPage, ASTRO_HOME_URL),
+    ]);
 
     for (const section of SECTIONS) {
       const metrics = await compareSectionShots(legacyPage, astroPage, section, testInfo);
@@ -31,10 +34,12 @@ test.describe("Legacy MVP vs Astro MVP", () => {
         contentType: "application/json",
       });
 
-      expect.soft(
-        metrics.diffRatio,
-        `${section.name} diff ratio ${metrics.diffRatio.toFixed(6)} exceeds ${section.maxDiffRatio}. Diff: ${metrics.diffPath}`,
-      ).toBeLessThanOrEqual(section.maxDiffRatio);
+      expect
+        .soft(
+          metrics.diffRatio,
+          `${section.name} diff ratio ${metrics.diffRatio.toFixed(6)} exceeds ${section.maxDiffRatio}. Diff: ${metrics.diffPath}`,
+        )
+        .toBeLessThanOrEqual(section.maxDiffRatio);
     }
   });
 
@@ -42,7 +47,10 @@ test.describe("Legacy MVP vs Astro MVP", () => {
     const legacyPage = await browser.newPage();
     const astroPage = await browser.newPage();
 
-    await Promise.all([preparePage(legacyPage, LEGACY_URL), preparePage(astroPage, ASTRO_HOME_URL)]);
+    await Promise.all([
+      preparePage(legacyPage, LEGACY_URL),
+      preparePage(astroPage, ASTRO_HOME_URL),
+    ]);
 
     for (const spec of TYPOGRAPHY_SPECS) {
       const legacyTypography = await captureTypography(legacyPage, spec.selector);
@@ -54,25 +62,24 @@ test.describe("Legacy MVP vs Astro MVP", () => {
       });
 
       expect.soft(astroTypography.text, `${spec.name} text differs`).toBe(legacyTypography.text);
-      expect.soft(
-        normalizeFontFamily(astroTypography.fontFamily),
-        `${spec.name} font family differs`,
-      ).toBe(normalizeFontFamily(legacyTypography.fontFamily));
-      expect.soft(astroTypography.fontWeight, `${spec.name} font weight differs`).toBe(
-        legacyTypography.fontWeight,
-      );
-      expect.soft(astroTypography.fontSize, `${spec.name} font size differs`).toBe(
-        legacyTypography.fontSize,
-      );
-      expect.soft(astroTypography.lineHeight, `${spec.name} line height differs`).toBe(
-        legacyTypography.lineHeight,
-      );
-      expect.soft(astroTypography.letterSpacing, `${spec.name} letter spacing differs`).toBe(
-        legacyTypography.letterSpacing,
-      );
-      expect.soft(astroTypography.textTransform, `${spec.name} text transform differs`).toBe(
-        legacyTypography.textTransform,
-      );
+      expect
+        .soft(normalizeFontFamily(astroTypography.fontFamily), `${spec.name} font family differs`)
+        .toBe(normalizeFontFamily(legacyTypography.fontFamily));
+      expect
+        .soft(astroTypography.fontWeight, `${spec.name} font weight differs`)
+        .toBe(legacyTypography.fontWeight);
+      expect
+        .soft(astroTypography.fontSize, `${spec.name} font size differs`)
+        .toBe(legacyTypography.fontSize);
+      expect
+        .soft(astroTypography.lineHeight, `${spec.name} line height differs`)
+        .toBe(legacyTypography.lineHeight);
+      expect
+        .soft(astroTypography.letterSpacing, `${spec.name} letter spacing differs`)
+        .toBe(legacyTypography.letterSpacing);
+      expect
+        .soft(astroTypography.textTransform, `${spec.name} text transform differs`)
+        .toBe(legacyTypography.textTransform);
     }
   });
 });

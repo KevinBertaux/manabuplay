@@ -4,17 +4,29 @@ const PUBLIC_PORT = "4321";
 const BRIDGE_PATH = "/internal/storage-bridge/";
 const REQUEST_TIMEOUT_MS = 4000;
 
-let bridgeFramePromise = null;
-let bridgeReadyPromise = null;
+let bridgeFramePromise: Promise<HTMLIFrameElement> | null = null;
+let bridgeReadyPromise: Promise<HTMLIFrameElement> | null = null;
 let requestCounter = 0;
-let activePublicOrigin = null;
-const pendingRequests = new Map();
+let activePublicOrigin: string | null = null;
+const pendingRequests = new Map<
+  string,
+  {
+    resolve: (value: unknown) => void;
+    reject: (reason?: unknown) => void;
+    timer: number;
+  }
+>();
 
-function isLoopbackHost(hostname) {
-  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1" || hostname === "[::1]";
+function isLoopbackHost(hostname: string): boolean {
+  return (
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "::1" ||
+    hostname === "[::1]"
+  );
 }
 
-function getOriginCandidates(port) {
+function getOriginCandidates(port: string): string[] {
   const protocol = window.location.protocol;
   const currentHost = window.location.hostname || "localhost";
   const hosts = [currentHost];
@@ -30,19 +42,19 @@ function getOriginCandidates(port) {
   return hosts.map((host) => `${protocol}//${host}:${port}`);
 }
 
-function getPublicOriginCandidates() {
+function getPublicOriginCandidates(): string[] {
   return getOriginCandidates(PUBLIC_PORT);
 }
 
-function getPublicOrigin() {
+function getPublicOrigin(): string {
   return activePublicOrigin || getPublicOriginCandidates()[0];
 }
 
-function getBridgeUrl(origin) {
+function getBridgeUrl(origin: string): string {
   return `${origin}${BRIDGE_PATH}`;
 }
 
-function handleBridgeMessage(event) {
+function handleBridgeMessage(event: MessageEvent): void {
   if (!getPublicOriginCandidates().includes(event.origin)) {
     return;
   }
@@ -70,7 +82,7 @@ function handleBridgeMessage(event) {
 
 window.addEventListener("message", handleBridgeMessage);
 
-function mountBridgeFrame(origin) {
+function mountBridgeFrame(origin: string): Promise<HTMLIFrameElement> {
   return new Promise((resolve, reject) => {
     const iframe = document.createElement("iframe");
     iframe.src = getBridgeUrl(origin);
@@ -90,16 +102,25 @@ function mountBridgeFrame(origin) {
       reject(new Error(`Bridge iframe not reachable at ${getBridgeUrl(origin)}`));
     }, REQUEST_TIMEOUT_MS);
 
-    iframe.addEventListener("load", () => {
-      window.clearTimeout(timer);
-      resolve(iframe);
-    }, { once: true });
+    iframe.addEventListener(
+      "load",
+      () => {
+        window.clearTimeout(timer);
+        resolve(iframe);
+      },
+      { once: true },
+    );
 
     document.body.appendChild(iframe);
   });
 }
 
-function sendBridgeRequest(iframe, action, payload, origin = getPublicOrigin()) {
+function sendBridgeRequest<T = unknown>(
+  iframe: HTMLIFrameElement,
+  action: string,
+  payload?: unknown,
+  origin = getPublicOrigin(),
+): Promise<T> {
   return new Promise((resolve, reject) => {
     const requestId = `bridge_${Date.now()}_${++requestCounter}`;
     const timer = window.setTimeout(() => {
@@ -107,7 +128,11 @@ function sendBridgeRequest(iframe, action, payload, origin = getPublicOrigin()) 
       reject(new Error(`Bridge request timed out for action "${action}"`));
     }, REQUEST_TIMEOUT_MS);
 
-    pendingRequests.set(requestId, { resolve, reject, timer });
+    pendingRequests.set(requestId, {
+      resolve: (value) => resolve(value as T),
+      reject,
+      timer,
+    });
 
     iframe.contentWindow?.postMessage(
       {
@@ -121,13 +146,13 @@ function sendBridgeRequest(iframe, action, payload, origin = getPublicOrigin()) 
   });
 }
 
-async function ensureBridgeFrame() {
+async function ensureBridgeFrame(): Promise<HTMLIFrameElement> {
   if (bridgeFramePromise) {
     return bridgeFramePromise;
   }
 
   bridgeFramePromise = (async () => {
-    let lastError = null;
+    let lastError: unknown = null;
 
     for (const origin of getPublicOriginCandidates()) {
       try {
@@ -156,7 +181,7 @@ async function ensureBridgeFrame() {
   }
 }
 
-async function ensureBridgeReady() {
+async function ensureBridgeReady(): Promise<HTMLIFrameElement> {
   if (!bridgeReadyPromise) {
     bridgeReadyPromise = ensureBridgeFrame();
   }
@@ -169,11 +194,14 @@ async function ensureBridgeReady() {
   }
 }
 
-export async function requestPublicStorage(action, payload) {
+export async function requestPublicStorage<T = unknown>(
+  action: string,
+  payload?: unknown,
+): Promise<T> {
   const iframe = await ensureBridgeReady();
-  return sendBridgeRequest(iframe, action, payload);
+  return sendBridgeRequest<T>(iframe, action, payload);
 }
 
-export function getPublicStorageOrigin() {
+export function getPublicStorageOrigin(): string {
   return getPublicOrigin();
 }

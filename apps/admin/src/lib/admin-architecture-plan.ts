@@ -287,27 +287,42 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
       fr: "Ne pas marquer terminé tant que Netlify Forms n'a pas été testé sur un deploy.",
       en: "Do not mark complete until Netlify Forms has been tested on a deploy.",
     },
-    risk: { fr: "Faible à moyen : périmètre local et isolable.", en: "Low to medium: local and isolatable scope." },
+    risk: {
+      fr: "Faible à moyen : périmètre local et isolable.",
+      en: "Low to medium: local and isolatable scope.",
+    },
     files: [
       {
         path: "apps/web/src/pages/[locale]/index.astro",
         action: "update",
-        note: { fr: "Stabiliser le formulaire waitlist et ses états visibles.", en: "Stabilize the waitlist form and visible states." },
+        note: {
+          fr: "Stabiliser le formulaire waitlist et ses états visibles.",
+          en: "Stabilize the waitlist form and visible states.",
+        },
       },
       {
-        path: "apps/web/public/scripts/quiz-app.js",
+        path: "apps/web/src/scripts/quiz-app.ts",
         action: "update",
-        note: { fr: "Isoler la logique de soumission email / état submitted.", en: "Isolate email submission / submitted state logic." },
+        note: {
+          fr: "Isoler la logique de soumission email / état submitted.",
+          en: "Isolate email submission / submitted state logic.",
+        },
       },
       {
         path: "apps/admin/src/pages/ops/waitlist.astro",
         action: "create",
-        note: { fr: "Lire les emails locaux, rafraîchir, effacer et exporter un CSV daté.", en: "Read local emails, refresh, clear, and export a dated CSV." },
+        note: {
+          fr: "Lire les emails locaux, rafraîchir, effacer et exporter un CSV daté.",
+          en: "Read local emails, refresh, clear, and export a dated CSV.",
+        },
       },
       {
         path: "tests/web/public-flow.spec.ts",
         action: "update",
-        note: { fr: "Couvrir validation email, soumission et état déjà inscrit.", en: "Cover email validation, submission, and already-subscribed state." },
+        note: {
+          fr: "Couvrir validation email, soumission et état déjà inscrit.",
+          en: "Cover email validation, submission, and already-subscribed state.",
+        },
       },
     ],
   },
@@ -315,7 +330,10 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     id: "public-shell-locale",
     order: 2,
     progress: 100,
-    title: { fr: "Poser le shell public et la locale par URL", en: "Introduce public shell and locale-by-URL" },
+    title: {
+      fr: "Poser le shell public et la locale par URL",
+      en: "Introduce public shell and locale-by-URL",
+    },
     goal: {
       fr: "Avoir un shell public localisé, des URLs stables par langue et une racine `/` qui redirige correctement.",
       en: "Have a localized public shell, stable per-language URLs, and a `/` root that redirects correctly.",
@@ -324,17 +342,26 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
       fr: "La racine `/` résout la locale navigateur vers `/fr/` ou `/en/`, avec fallback anglais.",
       en: "Root `/` resolves the browser locale to `/fr/` or `/en/`, with English fallback.",
     },
-    risk: { fr: "Moyen : changement de contrat i18n et SEO.", en: "Medium: changes the i18n and SEO contract." },
+    risk: {
+      fr: "Moyen : changement de contrat i18n et SEO.",
+      en: "Medium: changes the i18n and SEO contract.",
+    },
     files: [
       {
         path: "apps/web/src/lib/public-locales.ts",
         action: "create",
-        note: { fr: "Définir locales publiques FR / EN et locales prévues plus tard.", en: "Define public FR / EN locales and later planned locales." },
+        note: {
+          fr: "Définir locales publiques FR / EN et locales prévues plus tard.",
+          en: "Define public FR / EN locales and later planned locales.",
+        },
       },
       {
         path: "apps/web/src/lib/public-routes.ts",
         action: "create",
-        note: { fr: "Centraliser les routes publiques et les routes produit.", en: "Centralize public and product routes." },
+        note: {
+          fr: "Centraliser les routes publiques et les routes produit.",
+          en: "Centralize public and product routes.",
+        },
       },
       {
         path: "apps/web/src/pages/[locale]/index.astro",
@@ -356,9 +383,19 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
       fr: "Les routes vivent d'abord en parallèle de l'ancien flux `#quiz`.",
       en: "Routes first live alongside the old `#quiz` flow.",
     },
-    risk: { fr: "Fort : première vraie mutation de l'IA publique.", en: "High: first real public IA mutation." },
+    risk: {
+      fr: "Fort : première vraie mutation de l'IA publique.",
+      en: "High: first real public IA mutation.",
+    },
     files: [
-      { path: "apps/web/src/pages/[locale]/[mode].astro", action: "create", note: { fr: "Entrées Daily / Practice / Archives pour FR / EN.", en: "Daily / Practice / Archives entries for FR / EN." } },
+      {
+        path: "apps/web/src/pages/[locale]/[mode].astro",
+        action: "create",
+        note: {
+          fr: "Entrées Daily / Practice / Archives pour FR / EN.",
+          en: "Daily / Practice / Archives entries for FR / EN.",
+        },
+      },
     ],
   },
   {
@@ -384,7 +421,10 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
       {
         path: "shared/lib/manabuplay-practice.ts",
         action: "create",
-        note: { fr: "Tirage Libre + 4 difficultés + cooldown sessions.", en: "Practice draw + 4 difficulties + session cooldown." },
+        note: {
+          fr: "Tirage Libre + 4 difficultés + cooldown sessions.",
+          en: "Practice draw + 4 difficulties + session cooldown.",
+        },
       },
       {
         path: "shared/lib/manabuplay-archives.ts",
@@ -392,9 +432,12 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         note: { fr: "Archives par date passée.", en: "Archives by past date." },
       },
       {
-        path: "apps/web/public/scripts/quiz-app.js",
+        path: "apps/web/src/scripts/quiz-app.ts",
         action: "update",
-        note: { fr: "Consommer un payload injecté au lieu du quiz legacy unique.", en: "Consume injected payload instead of unique legacy quiz." },
+        note: {
+          fr: "Consommer un payload injecté au lieu du quiz legacy unique.",
+          en: "Consume injected payload instead of unique legacy quiz.",
+        },
       },
     ],
   },
@@ -411,22 +454,34 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
       fr: "Ne pas gonfler les packs avec des mots cadeaux juste pour atteindre un chiffre.",
       en: "Do not pad packs with giveaway words just to hit a number.",
     },
-    risk: { fr: "Moyen : qualité éditoriale plus lente que code.", en: "Medium: editorial quality is slower than code." },
+    risk: {
+      fr: "Moyen : qualité éditoriale plus lente que code.",
+      en: "Medium: editorial quality is slower than code.",
+    },
     files: [
       {
         path: "shared/data/manabuplay/packs/v0.1/*.json",
         action: "update",
-        note: { fr: "Packs 1 à 4 vers 34 mots, pack 5 refondu.", en: "Packs 1 to 4 to 34 words, pack 5 rewritten." },
+        note: {
+          fr: "Packs 1 à 4 vers 34 mots, pack 5 refondu.",
+          en: "Packs 1 to 4 to 34 words, pack 5 rewritten.",
+        },
       },
       {
         path: "shared/data/manabuplay/catalog.ts",
         action: "update",
-        note: { fr: "Exposer le contenu nécessaire aux builders de mode.", en: "Expose content needed by mode builders." },
+        note: {
+          fr: "Exposer le contenu nécessaire aux builders de mode.",
+          en: "Expose content needed by mode builders.",
+        },
       },
       {
         path: "tests/unit",
         action: "update",
-        note: { fr: "Couvrir ratios, cooldown et tirages de session.", en: "Cover ratios, cooldown, and session draws." },
+        note: {
+          fr: "Couvrir ratios, cooldown et tirages de session.",
+          en: "Cover ratios, cooldown, and session draws.",
+        },
       },
     ],
   },
@@ -443,22 +498,34 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
       fr: "RGPD et mentions légales arrivent ici, pas avant la collecte mail fonctionnelle.",
       en: "GDPR and legal notices arrive here, not before the email collection works.",
     },
-    risk: { fr: "Moyen : dernière ligne droite avec beaucoup de petites surfaces.", en: "Medium: final stretch with many small surfaces." },
+    risk: {
+      fr: "Moyen : dernière ligne droite avec beaucoup de petites surfaces.",
+      en: "Medium: final stretch with many small surfaces.",
+    },
     files: [
       {
         path: "apps/web/src/pages/[locale]/index.astro",
         action: "update",
-        note: { fr: "Wording final du corps de landing après les vrais modes.", en: "Final landing body wording after real modes." },
+        note: {
+          fr: "Wording final du corps de landing après les vrais modes.",
+          en: "Final landing body wording after real modes.",
+        },
       },
       {
         path: "tests/web/public-flow.spec.ts",
         action: "update",
-        note: { fr: "Couvrir Daily / Practice / Archives + waitlist.", en: "Cover Daily / Practice / Archives + waitlist." },
+        note: {
+          fr: "Couvrir Daily / Practice / Archives + waitlist.",
+          en: "Cover Daily / Practice / Archives + waitlist.",
+        },
       },
       {
         path: "apps/web/src/pages/legal/*.astro",
         action: "create",
-        note: { fr: "Mentions légales, privacy et consentement email explicite.", en: "Legal notice, privacy, and explicit email consent." },
+        note: {
+          fr: "Mentions légales, privacy et consentement email explicite.",
+          en: "Legal notice, privacy, and explicit email consent.",
+        },
       },
       {
         path: "apps/web/public/scripts/analytics*.js",
@@ -491,7 +558,8 @@ export function getArchitectureExecutionSummary() {
     total,
     average,
     done: EXECUTION_STEPS.filter((step) => getExecutionStatus(step.progress) === "done").length,
-    advanced: EXECUTION_STEPS.filter((step) => getExecutionStatus(step.progress) === "advanced").length,
+    advanced: EXECUTION_STEPS.filter((step) => getExecutionStatus(step.progress) === "advanced")
+      .length,
     active: EXECUTION_STEPS.filter((step) => getExecutionStatus(step.progress) === "active").length,
     framed: EXECUTION_STEPS.filter((step) => getExecutionStatus(step.progress) === "framed").length,
     cold: EXECUTION_STEPS.filter((step) => getExecutionStatus(step.progress) === "cold").length,
@@ -511,11 +579,17 @@ export function getArchitectureImplementationSummary() {
   return {
     total,
     average,
-    done: IMPLEMENTATION_PHASES.filter((phase) => getExecutionStatus(phase.progress) === "done").length,
-    advanced: IMPLEMENTATION_PHASES.filter((phase) => getExecutionStatus(phase.progress) === "advanced").length,
-    active: IMPLEMENTATION_PHASES.filter((phase) => getExecutionStatus(phase.progress) === "active").length,
-    framed: IMPLEMENTATION_PHASES.filter((phase) => getExecutionStatus(phase.progress) === "framed").length,
-    cold: IMPLEMENTATION_PHASES.filter((phase) => getExecutionStatus(phase.progress) === "cold").length,
+    done: IMPLEMENTATION_PHASES.filter((phase) => getExecutionStatus(phase.progress) === "done")
+      .length,
+    advanced: IMPLEMENTATION_PHASES.filter(
+      (phase) => getExecutionStatus(phase.progress) === "advanced",
+    ).length,
+    active: IMPLEMENTATION_PHASES.filter((phase) => getExecutionStatus(phase.progress) === "active")
+      .length,
+    framed: IMPLEMENTATION_PHASES.filter((phase) => getExecutionStatus(phase.progress) === "framed")
+      .length,
+    cold: IMPLEMENTATION_PHASES.filter((phase) => getExecutionStatus(phase.progress) === "cold")
+      .length,
   };
 }
 
@@ -538,7 +612,9 @@ export function getArchitectureStatusTone(progress: number) {
   return getExecutionStatus(progress);
 }
 
-export function getArchitectureFileActionLabel(action: ArchitecturePlanFile["action"]): LocalizedText {
+export function getArchitectureFileActionLabel(
+  action: ArchitecturePlanFile["action"],
+): LocalizedText {
   switch (action) {
     case "create":
       return { fr: "créer", en: "create" };

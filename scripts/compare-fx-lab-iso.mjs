@@ -142,14 +142,9 @@ async function compareSection(name, sitePage, previewPage, selector) {
   PNG.bitblt(sitePng, expandedSite, 0, 0, sitePng.width, sitePng.height, 0, 0);
   PNG.bitblt(previewPng, expandedPreview, 0, 0, previewPng.width, previewPng.height, 0, 0);
 
-  const diffPixels = pixelmatch(
-    expandedSite.data,
-    expandedPreview.data,
-    diff.data,
-    width,
-    height,
-    { threshold: 0.1 },
-  );
+  const diffPixels = pixelmatch(expandedSite.data, expandedPreview.data, diff.data, width, height, {
+    threshold: 0.1,
+  });
   const diffRatio = diffPixels / (width * height);
 
   await fs.writeFile(diffPath, PNG.sync.write(diff));

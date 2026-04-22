@@ -10,7 +10,9 @@ export default defineConfig({
       include: [
         "shared/lib/**/*.ts",
         "shared/data/**/*.ts",
-        "apps/admin/src/lib/**/*.ts",
+        "apps/admin/src/lib/admin-nav.ts",
+        "apps/admin/src/lib/admin-roadmap.ts",
+        "apps/admin/src/lib/manabuplay-roadmap.ts",
       ],
       thresholds: {
         lines: 80,

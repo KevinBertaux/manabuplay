@@ -88,16 +88,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Joli",
-            "Pop",
-            "Stylé"
-          ],
-          "en": [
-            "Pretty",
-            "Pop",
-            "Stylish"
-          ]
+          "fr": ["Joli", "Pop", "Stylé"],
+          "en": ["Pretty", "Pop", "Stylish"]
         }
       },
       "difficultyTier": 1
@@ -133,16 +125,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Temple",
-            "Jardin sacré",
-            "Porte torii"
-          ],
-          "en": [
-            "Temple",
-            "Sacred garden",
-            "Torii gate"
-          ]
+          "fr": ["Temple", "Jardin sacré", "Porte torii"],
+          "en": ["Temple", "Sacred garden", "Torii gate"]
         }
       },
       "difficultyTier": 1
@@ -178,16 +162,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Sanctuaire shinto",
-            "Pagode",
-            "Lieu sacré"
-          ],
-          "en": [
-            "Shinto shrine",
-            "Pagoda",
-            "Sacred site"
-          ]
+          "fr": ["Sanctuaire shinto", "Pagode", "Lieu sacré"],
+          "en": ["Shinto shrine", "Pagoda", "Sacred site"]
         }
       },
       "difficultyTier": 1
@@ -223,16 +199,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Printemps",
-            "Parc en fleurs",
-            "Feuille d'érable"
-          ],
-          "en": [
-            "Spring",
-            "Blossom park",
-            "Maple leaf"
-          ]
+          "fr": ["Printemps", "Parc en fleurs", "Feuille d'érable"],
+          "en": ["Spring", "Blossom park", "Maple leaf"]
         }
       },
       "difficultyTier": 1
@@ -268,16 +236,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Udon",
-            "Soupe japonaise",
-            "Bol de nouilles"
-          ],
-          "en": [
-            "Udon",
-            "Japanese soup",
-            "Noodle bowl"
-          ]
+          "fr": ["Udon", "Soupe japonaise", "Bol de nouilles"],
+          "en": ["Udon", "Japanese soup", "Noodle bowl"]
         }
       },
       "difficultyTier": 1
@@ -313,16 +273,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Sashimi",
-            "Riz vinaigré",
-            "Plateau japonais"
-          ],
-          "en": [
-            "Sashimi",
-            "Vinegared rice",
-            "Japanese platter"
-          ]
+          "fr": ["Sashimi", "Riz vinaigré", "Plateau japonais"],
+          "en": ["Sashimi", "Vinegared rice", "Japanese platter"]
         }
       },
       "difficultyTier": 1
@@ -358,16 +310,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Bento",
-            "Snack de riz",
-            "Boulettes de riz"
-          ],
-          "en": [
-            "Bento",
-            "Rice snack",
-            "Rice balls"
-          ]
+          "fr": ["Bento", "Snack de riz", "Boulettes de riz"],
+          "en": ["Bento", "Rice snack", "Rice balls"]
         }
       },
       "difficultyTier": 1
@@ -403,16 +347,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Onigiri",
-            "Boîte repas",
-            "Repas du midi"
-          ],
-          "en": [
-            "Onigiri",
-            "Lunch box",
-            "Packed lunch"
-          ]
+          "fr": ["Onigiri", "Boîte repas", "Repas du midi"],
+          "en": ["Onigiri", "Lunch box", "Packed lunch"]
         }
       },
       "difficultyTier": 1
@@ -448,16 +384,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Thé vert",
-            "Dessert japonais",
-            "Boisson au thé"
-          ],
-          "en": [
-            "Green tea",
-            "Japanese dessert",
-            "Tea drink"
-          ]
+          "fr": ["Thé vert", "Dessert japonais", "Boisson au thé"],
+          "en": ["Green tea", "Japanese dessert", "Tea drink"]
         }
       },
       "difficultyTier": 1
@@ -493,16 +421,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Train rapide",
-            "Métro",
-            "Gare"
-          ],
-          "en": [
-            "Fast train",
-            "Subway",
-            "Station"
-          ]
+          "fr": ["Train rapide", "Métro", "Gare"],
+          "en": ["Fast train", "Subway", "Station"]
         }
       },
       "difficultyTier": 1
@@ -538,16 +458,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Kyoto",
-            "Capitale japonaise",
-            "Grande métropole"
-          ],
-          "en": [
-            "Kyoto",
-            "Japanese capital",
-            "Major metropolis"
-          ]
+          "fr": ["Kyoto", "Capitale japonaise", "Grande métropole"],
+          "en": ["Kyoto", "Japanese capital", "Major metropolis"]
         }
       },
       "difficultyTier": 2
@@ -583,16 +495,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Akihabara",
-            "Centre de Tokyo",
-            "Quartier branché"
-          ],
-          "en": [
-            "Akihabara",
-            "Central Tokyo",
-            "Trendy district"
-          ]
+          "fr": ["Akihabara", "Centre de Tokyo", "Quartier branché"],
+          "en": ["Akihabara", "Central Tokyo", "Trendy district"]
         }
       },
       "difficultyTier": 2
@@ -628,16 +532,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Shibuya",
-            "Quartier geek",
-            "Centre de l'électronique"
-          ],
-          "en": [
-            "Shibuya",
-            "Geek district",
-            "Electronics hub"
-          ]
+          "fr": ["Shibuya", "Quartier geek", "Centre de l'électronique"],
+          "en": ["Shibuya", "Geek district", "Electronics hub"]
         }
       },
       "difficultyTier": 2
@@ -673,16 +569,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Bain public",
-            "Source chaude",
-            "Ryokan"
-          ],
-          "en": [
-            "Public bath",
-            "Hot spring",
-            "Ryokan"
-          ]
+          "fr": ["Bain public", "Source chaude", "Ryokan"],
+          "en": ["Public bath", "Hot spring", "Ryokan"]
         }
       },
       "difficultyTier": 2
@@ -718,16 +606,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Feu d'artifice",
-            "Sortie d'été",
-            "Fête de rue"
-          ],
-          "en": [
-            "Fireworks",
-            "Summer outing",
-            "Street fair"
-          ]
+          "fr": ["Feu d'artifice", "Sortie d'été", "Fête de rue"],
+          "en": ["Fireworks", "Summer outing", "Street fair"]
         }
       },
       "difficultyTier": 2
@@ -763,16 +643,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Kimono",
-            "Tenue d'été",
-            "Habit traditionnel"
-          ],
-          "en": [
-            "Kimono",
-            "Summer outfit",
-            "Traditional garment"
-          ]
+          "fr": ["Kimono", "Tenue d'été", "Habit traditionnel"],
+          "en": ["Kimono", "Summer outfit", "Traditional garment"]
         }
       },
       "difficultyTier": 2
@@ -808,16 +680,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Restaurant de quartier",
-            "Bar japonais",
-            "Repas du soir"
-          ],
-          "en": [
-            "Neighborhood restaurant",
-            "Japanese bar",
-            "Evening meal"
-          ]
+          "fr": ["Restaurant de quartier", "Bar japonais", "Repas du soir"],
+          "en": ["Neighborhood restaurant", "Japanese bar", "Evening meal"]
         }
       },
       "difficultyTier": 2
@@ -853,16 +717,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Rues de la ville",
-            "Centre-ville",
-            "Quartier commerçant"
-          ],
-          "en": [
-            "City streets",
-            "Downtown",
-            "Shopping district"
-          ]
+          "fr": ["Rues de la ville", "Centre-ville", "Quartier commerçant"],
+          "en": ["City streets", "Downtown", "Shopping district"]
         }
       },
       "difficultyTier": 2
@@ -898,16 +754,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Volcan célèbre",
-            "Montagne sacrée",
-            "Paysage japonais"
-          ],
-          "en": [
-            "Famous volcano",
-            "Sacred mountain",
-            "Japanese landscape"
-          ]
+          "fr": ["Volcan célèbre", "Montagne sacrée", "Paysage japonais"],
+          "en": ["Famous volcano", "Sacred mountain", "Japanese landscape"]
         }
       },
       "difficultyTier": 3
@@ -943,16 +791,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Trajet",
-            "Vacances",
-            "Aventure"
-          ],
-          "en": [
-            "Trip",
-            "Vacation",
-            "Adventure"
-          ]
+          "fr": ["Trajet", "Vacances", "Aventure"],
+          "en": ["Trip", "Vacation", "Adventure"]
         }
       },
       "difficultyTier": 3
@@ -988,16 +828,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Train",
-            "Quai",
-            "Métro"
-          ],
-          "en": [
-            "Train",
-            "Platform",
-            "Subway"
-          ]
+          "fr": ["Train", "Quai", "Métro"],
+          "en": ["Train", "Platform", "Subway"]
         }
       },
       "difficultyTier": 3
@@ -1033,16 +865,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Shinkansen",
-            "Métro",
-            "Gare"
-          ],
-          "en": [
-            "Shinkansen",
-            "Subway",
-            "Station"
-          ]
+          "fr": ["Shinkansen", "Métro", "Gare"],
+          "en": ["Shinkansen", "Subway", "Station"]
         }
       },
       "difficultyTier": 3
@@ -1078,16 +902,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Épicerie de nuit",
-            "Magasin du coin",
-            "Bento shop"
-          ],
-          "en": [
-            "Late-night grocery",
-            "Corner store",
-            "Bento shop"
-          ]
+          "fr": ["Épicerie de nuit", "Magasin du coin", "Bento shop"],
+          "en": ["Late-night grocery", "Corner store", "Bento shop"]
         }
       },
       "difficultyTier": 3
@@ -1123,16 +939,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Train local",
-            "Métro",
-            "Arrêt de bus"
-          ],
-          "en": [
-            "Commuter train",
-            "Subway",
-            "Bus stop"
-          ]
+          "fr": ["Train local", "Métro", "Arrêt de bus"],
+          "en": ["Commuter train", "Subway", "Bus stop"]
         }
       },
       "difficultyTier": 3
@@ -1168,16 +976,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Train local",
-            "Gare",
-            "Ligne souterraine"
-          ],
-          "en": [
-            "Commuter train",
-            "Station",
-            "Underground line"
-          ]
+          "fr": ["Train local", "Gare", "Ligne souterraine"],
+          "en": ["Commuter train", "Station", "Underground line"]
         }
       },
       "difficultyTier": 4
@@ -1213,16 +1013,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Snack de festival",
-            "Street food japonaise",
-            "Boulettes salées"
-          ],
-          "en": [
-            "Festival snack",
-            "Japanese street food",
-            "Savory balls"
-          ]
+          "fr": ["Snack de festival", "Street food japonaise", "Boulettes salées"],
+          "en": ["Festival snack", "Japanese street food", "Savory balls"]
         }
       },
       "difficultyTier": 4
@@ -1258,16 +1050,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Dessert de rue",
-            "Snack en forme de poisson",
-            "Gaufre japonaise"
-          ],
-          "en": [
-            "Street dessert",
-            "Fish-shaped snack",
-            "Japanese waffle"
-          ]
+          "fr": ["Dessert de rue", "Snack en forme de poisson", "Gaufre japonaise"],
+          "en": ["Street dessert", "Fish-shaped snack", "Japanese waffle"]
         }
       },
       "difficultyTier": 4
@@ -1303,16 +1087,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Salon de thé",
-            "Petit café",
-            "Restaurant de quartier"
-          ],
-          "en": [
-            "Tea room",
-            "Small cafe",
-            "Neighborhood restaurant"
-          ]
+          "fr": ["Salon de thé", "Petit café", "Restaurant de quartier"],
+          "en": ["Tea room", "Small cafe", "Neighborhood restaurant"]
         }
       },
       "difficultyTier": 4
@@ -1348,16 +1124,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Carte de transport",
-            "Billet de train",
-            "Portique de gare"
-          ],
-          "en": [
-            "Transport card",
-            "Train ticket",
-            "Station gate"
-          ]
+          "fr": ["Carte de transport", "Billet de train", "Portique de gare"],
+          "en": ["Transport card", "Train ticket", "Station gate"]
         }
       },
       "difficultyTier": 4
@@ -1393,16 +1161,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Yukata",
-            "Habit traditionnel",
-            "Tenue de cérémonie"
-          ],
-          "en": [
-            "Yukata",
-            "Traditional outfit",
-            "Ceremonial garment"
-          ]
+          "fr": ["Yukata", "Habit traditionnel", "Tenue de cérémonie"],
+          "en": ["Yukata", "Traditional outfit", "Ceremonial garment"]
         }
       },
       "difficultyTier": 3

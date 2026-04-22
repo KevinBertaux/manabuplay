@@ -38,9 +38,7 @@
     }
   },
   "quiz": {
-    "transparentWordIds": [
-      "katana"
-    ]
+    "transparentWordIds": ["katana"]
   },
   "words": [
     {
@@ -75,16 +73,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Guerrier",
-            "Chevalier",
-            "Champion"
-          ],
-          "en": [
-            "Warrior",
-            "Knight",
-            "Champion"
-          ]
+          "fr": ["Guerrier", "Chevalier", "Champion"],
+          "en": ["Warrior", "Knight", "Champion"]
         }
       },
       "difficultyTier": 1
@@ -121,16 +111,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Prêtre",
-            "Sage",
-            "Sorcier"
-          ],
-          "en": [
-            "Priest",
-            "Sage",
-            "Sorcerer"
-          ]
+          "fr": ["Prêtre", "Sage", "Sorcier"],
+          "en": ["Priest", "Sage", "Sorcerer"]
         }
       },
       "difficultyTier": 1
@@ -167,16 +149,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Archer",
-            "Assassin",
-            "Moine"
-          ],
-          "en": [
-            "Archer",
-            "Assassin",
-            "Monk"
-          ]
+          "fr": ["Archer", "Assassin", "Moine"],
+          "en": ["Archer", "Assassin", "Monk"]
         }
       },
       "difficultyTier": 1
@@ -213,16 +187,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Arme",
-            "Armure",
-            "Accessoire"
-          ],
-          "en": [
-            "Weapon",
-            "Armor",
-            "Accessory"
-          ]
+          "fr": ["Arme", "Armure", "Accessoire"],
+          "en": ["Weapon", "Armor", "Accessory"]
         }
       },
       "difficultyTier": 1
@@ -259,16 +225,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Équipement",
-            "Réparation",
-            "Éveil"
-          ],
-          "en": [
-            "Equipment",
-            "Repair",
-            "Awakening"
-          ]
+          "fr": ["Équipement", "Réparation", "Éveil"],
+          "en": ["Equipment", "Repair", "Awakening"]
         }
       },
       "difficultyTier": 2
@@ -305,16 +263,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Katana",
-            "Lance",
-            "Dague"
-          ],
-          "en": [
-            "Katana",
-            "Spear",
-            "Dagger"
-          ]
+          "fr": ["Katana", "Lance", "Dague"],
+          "en": ["Katana", "Spear", "Dagger"]
         }
       },
       "difficultyTier": 1
@@ -351,16 +301,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Armure",
-            "Casque",
-            "Gantelet"
-          ],
-          "en": [
-            "Armor",
-            "Helmet",
-            "Gauntlet"
-          ]
+          "fr": ["Armure", "Casque", "Gantelet"],
+          "en": ["Armor", "Helmet", "Gauntlet"]
         }
       },
       "difficultyTier": 1
@@ -397,16 +339,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Bouclier",
-            "Résistance",
-            "Parade"
-          ],
-          "en": [
-            "Shield",
-            "Resistance",
-            "Guard"
-          ]
+          "fr": ["Bouclier", "Résistance", "Parade"],
+          "en": ["Shield", "Resistance", "Guard"]
         }
       },
       "difficultyTier": 2
@@ -443,16 +377,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Épée",
-            "Relique sacrée",
-            "Arme ancestrale"
-          ],
-          "en": [
-            "Sword",
-            "Sacred relic",
-            "Ancient weapon"
-          ]
+          "fr": ["Épée", "Relique sacrée", "Arme ancestrale"],
+          "en": ["Sword", "Sacred relic", "Ancient weapon"]
         }
       },
       "difficultyTier": 2
@@ -489,16 +415,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Destin",
-            "Précision",
-            "Critique"
-          ],
-          "en": [
-            "Fate",
-            "Accuracy",
-            "Critical rate"
-          ]
+          "fr": ["Destin", "Précision", "Critique"],
+          "en": ["Fate", "Accuracy", "Critical rate"]
         }
       },
       "difficultyTier": 2
@@ -534,16 +452,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Héros",
-            "Chevalier",
-            "Moine"
-          ],
-          "en": [
-            "Hero",
-            "Knight",
-            "Monk"
-          ]
+          "fr": ["Héros", "Chevalier", "Moine"],
+          "en": ["Hero", "Knight", "Monk"]
         }
       },
       "difficultyTier": 1
@@ -579,16 +489,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Voleur",
-            "Lancier",
-            "Ranger"
-          ],
-          "en": [
-            "Thief",
-            "Lancer",
-            "Ranger"
-          ]
+          "fr": ["Voleur", "Lancier", "Ranger"],
+          "en": ["Thief", "Lancer", "Ranger"]
         }
       },
       "difficultyTier": 1
@@ -624,16 +526,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Mage",
-            "Sage",
-            "Soigneur"
-          ],
-          "en": [
-            "Mage",
-            "Sage",
-            "Healer"
-          ]
+          "fr": ["Mage", "Sage", "Soigneur"],
+          "en": ["Mage", "Sage", "Healer"]
         }
       },
       "difficultyTier": 2
@@ -669,16 +563,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Guerrier",
-            "Paladin",
-            "Gardien"
-          ],
-          "en": [
-            "Warrior",
-            "Paladin",
-            "Guardian"
-          ]
+          "fr": ["Guerrier", "Paladin", "Gardien"],
+          "en": ["Warrior", "Paladin", "Guardian"]
         }
       },
       "difficultyTier": 1
@@ -714,16 +600,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Arc",
-            "Baguette",
-            "Amulette"
-          ],
-          "en": [
-            "Bow",
-            "Wand",
-            "Amulet"
-          ]
+          "fr": ["Arc", "Baguette", "Amulette"],
+          "en": ["Bow", "Wand", "Amulet"]
         }
       },
       "difficultyTier": 2
@@ -759,16 +637,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Bâton",
-            "Lance",
-            "Arbalète"
-          ],
-          "en": [
-            "Staff",
-            "Spear",
-            "Crossbow"
-          ]
+          "fr": ["Bâton", "Lance", "Arbalète"],
+          "en": ["Staff", "Spear", "Crossbow"]
         }
       },
       "difficultyTier": 2
@@ -804,16 +674,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Bouclier",
-            "Casque",
-            "Équipement"
-          ],
-          "en": [
-            "Shield",
-            "Helmet",
-            "Equipment"
-          ]
+          "fr": ["Bouclier", "Casque", "Équipement"],
+          "en": ["Shield", "Helmet", "Equipment"]
         }
       },
       "difficultyTier": 1
@@ -849,16 +711,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Armure",
-            "Gantelet",
-            "Bouclier"
-          ],
-          "en": [
-            "Armor",
-            "Gauntlet",
-            "Shield"
-          ]
+          "fr": ["Armure", "Gantelet", "Bouclier"],
+          "en": ["Armor", "Gauntlet", "Shield"]
         }
       },
       "difficultyTier": 2
@@ -894,16 +748,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Épée",
-            "Katana",
-            "Couteau"
-          ],
-          "en": [
-            "Sword",
-            "Katana",
-            "Knife"
-          ]
+          "fr": ["Épée", "Katana", "Couteau"],
+          "en": ["Sword", "Katana", "Knife"]
         }
       },
       "difficultyTier": 3
@@ -939,16 +785,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Marteau",
-            "Lance",
-            "Masse"
-          ],
-          "en": [
-            "Hammer",
-            "Spear",
-            "Mace"
-          ]
+          "fr": ["Marteau", "Lance", "Masse"],
+          "en": ["Hammer", "Spear", "Mace"]
         }
       },
       "difficultyTier": 3
@@ -984,16 +822,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Épée",
-            "Dague",
-            "Lance"
-          ],
-          "en": [
-            "Sword",
-            "Dagger",
-            "Spear"
-          ]
+          "fr": ["Épée", "Dague", "Lance"],
+          "en": ["Sword", "Dagger", "Spear"]
         }
       },
       "difficultyTier": 3
@@ -1029,16 +859,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Hache",
-            "Arc",
-            "Hallebarde"
-          ],
-          "en": [
-            "Axe",
-            "Bow",
-            "Halberd"
-          ]
+          "fr": ["Hache", "Arc", "Hallebarde"],
+          "en": ["Axe", "Bow", "Halberd"]
         }
       },
       "difficultyTier": 3
@@ -1074,16 +896,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Équipement",
-            "Armure",
-            "Épée"
-          ],
-          "en": [
-            "Equipment",
-            "Armor",
-            "Sword"
-          ]
+          "fr": ["Équipement", "Armure", "Épée"],
+          "en": ["Equipment", "Armor", "Sword"]
         }
       },
       "difficultyTier": 3
@@ -1119,16 +933,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Équipement",
-            "Armure",
-            "Bouclier"
-          ],
-          "en": [
-            "Equipment",
-            "Armor",
-            "Shield"
-          ]
+          "fr": ["Équipement", "Armure", "Bouclier"],
+          "en": ["Equipment", "Armor", "Shield"]
         }
       },
       "difficultyTier": 3
@@ -1164,16 +970,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Amulette",
-            "Accessoire",
-            "Casque"
-          ],
-          "en": [
-            "Amulet",
-            "Accessory",
-            "Helmet"
-          ]
+          "fr": ["Amulette", "Accessoire", "Casque"],
+          "en": ["Amulet", "Accessory", "Helmet"]
         }
       },
       "difficultyTier": 4
@@ -1209,16 +1007,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Bague",
-            "Relique",
-            "Talisman"
-          ],
-          "en": [
-            "Ring",
-            "Relic",
-            "Talisman"
-          ]
+          "fr": ["Bague", "Relique", "Talisman"],
+          "en": ["Ring", "Relic", "Talisman"]
         }
       },
       "difficultyTier": 4
@@ -1254,16 +1044,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Mage",
-            "Prêtre",
-            "Érudit"
-          ],
-          "en": [
-            "Mage",
-            "Priest",
-            "Scholar"
-          ]
+          "fr": ["Mage", "Prêtre", "Érudit"],
+          "en": ["Mage", "Priest", "Scholar"]
         }
       },
       "difficultyTier": 4
@@ -1299,16 +1081,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Guerrier",
-            "Prêtre",
-            "Voleur"
-          ],
-          "en": [
-            "Warrior",
-            "Priest",
-            "Thief"
-          ]
+          "fr": ["Guerrier", "Prêtre", "Voleur"],
+          "en": ["Warrior", "Priest", "Thief"]
         }
       },
       "difficultyTier": 4
@@ -1344,16 +1118,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Armure",
-            "Amulette",
-            "Bâton"
-          ],
-          "en": [
-            "Armor",
-            "Amulet",
-            "Staff"
-          ]
+          "fr": ["Armure", "Amulette", "Bâton"],
+          "en": ["Armor", "Amulet", "Staff"]
         }
       },
       "difficultyTier": 3
@@ -1389,16 +1155,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Casque",
-            "Bouclier",
-            "Armure"
-          ],
-          "en": [
-            "Helmet",
-            "Shield",
-            "Armor"
-          ]
+          "fr": ["Casque", "Bouclier", "Armure"],
+          "en": ["Helmet", "Shield", "Armor"]
         }
       },
       "difficultyTier": 4

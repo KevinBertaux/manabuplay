@@ -18,6 +18,6 @@ test.describe("admin business models", () => {
     await page.locator("[data-admin-lang='en']").click();
     await expect(page.locator(".biz-title")).toContainText("Selected model");
     await expect(page.locator(".biz-model-title")).toContainText("Premium library");
-    await expect(page.locator(".biz-pricing-table")).toContainText("170 + full library");
+    await expect(page.locator(".biz-pricing-table")).toContainText("150 + full library");
   });
 });

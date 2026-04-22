@@ -66,7 +66,11 @@ export function ensureAstroAvailable() {
 }
 
 export function withDefaultPort(args, port) {
-  if (args.includes("--port") || args.includes("-p") || args.some((arg) => arg.startsWith("--port="))) {
+  if (
+    args.includes("--port") ||
+    args.includes("-p") ||
+    args.some((arg) => arg.startsWith("--port="))
+  ) {
     return args;
   }
 
@@ -104,7 +108,11 @@ export function runNodeProcess(args, options = {}) {
         return;
       }
 
-      reject(new Error(signal ? `Process stopped with signal ${signal}` : `Process exited with code ${code}`));
+      reject(
+        new Error(
+          signal ? `Process stopped with signal ${signal}` : `Process exited with code ${code}`,
+        ),
+      );
     });
   });
 }
@@ -129,7 +137,13 @@ export function runNpmScript(scriptName) {
         return;
       }
 
-      reject(new Error(signal ? `npm run ${scriptName} stopped with signal ${signal}` : `npm run ${scriptName} exited with code ${code}`));
+      reject(
+        new Error(
+          signal
+            ? `npm run ${scriptName} stopped with signal ${signal}`
+            : `npm run ${scriptName} exited with code ${code}`,
+        ),
+      );
     });
   });
 }

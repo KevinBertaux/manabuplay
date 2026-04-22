@@ -38,9 +38,7 @@
     }
   },
   "quiz": {
-    "transparentWordIds": [
-      "waifu"
-    ]
+    "transparentWordIds": ["waifu"]
   },
   "words": [
     {
@@ -75,16 +73,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Réincarnation",
-            "Monde fantastique",
-            "Portail magique"
-          ],
-          "en": [
-            "Reincarnation",
-            "Fantasy world",
-            "Magic portal"
-          ]
+          "fr": ["Réincarnation", "Monde fantastique", "Portail magique"],
+          "en": ["Reincarnation", "Fantasy world", "Magic portal"]
         }
       },
       "difficultyTier": 1
@@ -121,16 +111,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Rivaux",
-            "Équipe",
-            "Amitié"
-          ],
-          "en": [
-            "Rivals",
-            "Team",
-            "Friendship"
-          ]
+          "fr": ["Rivaux", "Équipe", "Amitié"],
+          "en": ["Rivals", "Team", "Friendship"]
         }
       },
       "difficultyTier": 1
@@ -167,16 +149,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Rivale froide",
-            "Amie distante",
-            "Personnage très affectueux"
-          ],
-          "en": [
-            "Cold rival",
-            "Distant friend",
-            "Very affectionate character"
-          ]
+          "fr": ["Rivale froide", "Amie distante", "Personnage très affectueux"],
+          "en": ["Cold rival", "Distant friend", "Very affectionate character"]
         }
       },
       "difficultyTier": 1
@@ -213,16 +187,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Idole",
-            "Favorite fictive",
-            "Crush d'anime"
-          ],
-          "en": [
-            "Idol",
-            "Fictional favorite",
-            "Anime crush"
-          ]
+          "fr": ["Idole", "Favorite fictive", "Crush d'anime"],
+          "en": ["Idol", "Fictional favorite", "Anime crush"]
         }
       },
       "difficultyTier": 1
@@ -259,16 +225,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Autre monde",
-            "Destin",
-            "Renaissance magique"
-          ],
-          "en": [
-            "Other world",
-            "Destiny",
-            "Magical rebirth"
-          ]
+          "fr": ["Autre monde", "Destin", "Renaissance magique"],
+          "en": ["Other world", "Destiny", "Magical rebirth"]
         }
       },
       "difficultyTier": 1
@@ -305,16 +263,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Héros légendaire",
-            "Rival",
-            "Narrateur"
-          ],
-          "en": [
-            "Legendary hero",
-            "Rival",
-            "Narrator"
-          ]
+          "fr": ["Héros légendaire", "Rival", "Narrateur"],
+          "en": ["Legendary hero", "Rival", "Narrator"]
         }
       },
       "difficultyTier": 1
@@ -350,16 +300,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Antagoniste",
-            "Compagnon",
-            "Ami d'enfance"
-          ],
-          "en": [
-            "Antagonist",
-            "Companion",
-            "Childhood friend"
-          ]
+          "fr": ["Antagoniste", "Compagnon", "Ami d'enfance"],
+          "en": ["Antagonist", "Companion", "Childhood friend"]
         }
       },
       "difficultyTier": 1
@@ -395,16 +337,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Éveil",
-            "Forme héroïque",
-            "Costume magique"
-          ],
-          "en": [
-            "Awakening",
-            "Heroic form",
-            "Magic outfit"
-          ]
+          "fr": ["Éveil", "Forme héroïque", "Costume magique"],
+          "en": ["Awakening", "Heroic form", "Magic outfit"]
         }
       },
       "difficultyTier": 1
@@ -440,16 +374,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Junior du club",
-            "Professeur",
-            "Président du conseil"
-          ],
-          "en": [
-            "Junior club member",
-            "Teacher",
-            "Student council president"
-          ]
+          "fr": ["Junior du club", "Professeur", "Président du conseil"],
+          "en": ["Junior club member", "Teacher", "Student council president"]
         }
       },
       "difficultyTier": 1
@@ -485,16 +411,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Vie de lycée",
-            "Festival scolaire",
-            "Club d'école"
-          ],
-          "en": [
-            "School life",
-            "School festival",
-            "School club"
-          ]
+          "fr": ["Vie de lycée", "Festival scolaire", "Club d'école"],
+          "en": ["School life", "School festival", "School club"]
         }
       },
       "difficultyTier": 1
@@ -531,16 +449,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Protagoniste",
-            "Champion",
-            "Guerrier choisi"
-          ],
-          "en": [
-            "Protagonist",
-            "Champion",
-            "Chosen warrior"
-          ]
+          "fr": ["Protagoniste", "Champion", "Guerrier choisi"],
+          "en": ["Protagonist", "Champion", "Chosen warrior"]
         }
       },
       "difficultyTier": 2
@@ -577,16 +487,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Hasard",
-            "Prophétie",
-            "Lien du passé"
-          ],
-          "en": [
-            "Chance",
-            "Prophecy",
-            "Past bond"
-          ]
+          "fr": ["Hasard", "Prophétie", "Lien du passé"],
+          "en": ["Chance", "Prophecy", "Past bond"]
         }
       },
       "difficultyTier": 2
@@ -622,16 +524,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Rival",
-            "Traître",
-            "Boss final"
-          ],
-          "en": [
-            "Rival",
-            "Traitor",
-            "Final boss"
-          ]
+          "fr": ["Rival", "Traître", "Boss final"],
+          "en": ["Rival", "Traitor", "Final boss"]
         }
       },
       "difficultyTier": 2
@@ -667,16 +561,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Compagnons",
-            "Loyauté",
-            "Destin partagé"
-          ],
-          "en": [
-            "Companions",
-            "Loyalty",
-            "Shared destiny"
-          ]
+          "fr": ["Compagnons", "Loyauté", "Destin partagé"],
+          "en": ["Companions", "Loyalty", "Shared destiny"]
         }
       },
       "difficultyTier": 2
@@ -712,16 +598,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Éveil",
-            "Discipline",
-            "Épreuve"
-          ],
-          "en": [
-            "Awakening",
-            "Discipline",
-            "Trial"
-          ]
+          "fr": ["Éveil", "Discipline", "Épreuve"],
+          "en": ["Awakening", "Discipline", "Trial"]
         }
       },
       "difficultyTier": 2
@@ -757,16 +635,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Aîné",
-            "Nouvel élève",
-            "Membre récent du club"
-          ],
-          "en": [
-            "Senior",
-            "New student",
-            "Newer club member"
-          ]
+          "fr": ["Aîné", "Nouvel élève", "Membre récent du club"],
+          "en": ["Senior", "New student", "Newer club member"]
         }
       },
       "difficultyTier": 2
@@ -802,16 +672,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Mensonge",
-            "Double identité",
-            "Mystère"
-          ],
-          "en": [
-            "Lie",
-            "Secret identity",
-            "Mystery"
-          ]
+          "fr": ["Mensonge", "Double identité", "Mystère"],
+          "en": ["Lie", "Secret identity", "Mystery"]
         }
       },
       "difficultyTier": 2
@@ -847,16 +709,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Aîné",
-            "Président du club",
-            "Mentor"
-          ],
-          "en": [
-            "Senior",
-            "Club president",
-            "Mentor"
-          ]
+          "fr": ["Aîné", "Président du club", "Mentor"],
+          "en": ["Senior", "Club president", "Mentor"]
         }
       },
       "difficultyTier": 2
@@ -893,16 +747,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Héros légendaire",
-            "Invincible",
-            "Boss final"
-          ],
-          "en": [
-            "Legendary hero",
-            "Invincible",
-            "Final boss"
-          ]
+          "fr": ["Héros légendaire", "Invincible", "Boss final"],
+          "en": ["Legendary hero", "Invincible", "Final boss"]
         }
       },
       "difficultyTier": 3
@@ -939,16 +785,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Esprit",
-            "Héros légendaire",
-            "Être suprême"
-          ],
-          "en": [
-            "Spirit",
-            "Legendary hero",
-            "Supreme being"
-          ]
+          "fr": ["Esprit", "Héros légendaire", "Être suprême"],
+          "en": ["Spirit", "Legendary hero", "Supreme being"]
         }
       },
       "difficultyTier": 3
@@ -984,16 +822,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Compagnon de classe",
-            "Rival romantique",
-            "Junior du club"
-          ],
-          "en": [
-            "Classmate",
-            "Romantic rival",
-            "Junior club member"
-          ]
+          "fr": ["Compagnon de classe", "Rival romantique", "Junior du club"],
+          "en": ["Classmate", "Romantic rival", "Junior club member"]
         }
       },
       "difficultyTier": 3
@@ -1029,16 +859,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Rivale froide",
-            "Personnage distant",
-            "Amoureuse dangereuse"
-          ],
-          "en": [
-            "Cold rival",
-            "Distant character",
-            "Dangerously obsessed lover"
-          ]
+          "fr": ["Rivale froide", "Personnage distant", "Amoureuse dangereuse"],
+          "en": ["Cold rival", "Distant character", "Dangerously obsessed lover"]
         }
       },
       "difficultyTier": 3
@@ -1074,16 +896,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Rivale agressive",
-            "Amoureuse dangereuse",
-            "Personnage très affectueux"
-          ],
-          "en": [
-            "Harsh rival",
-            "Dangerously obsessed lover",
-            "Very affectionate character"
-          ]
+          "fr": ["Rivale agressive", "Amoureuse dangereuse", "Personnage très affectueux"],
+          "en": ["Harsh rival", "Dangerously obsessed lover", "Very affectionate character"]
         }
       },
       "difficultyTier": 3
@@ -1119,16 +933,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Vie de lycée",
-            "Premiers sentiments",
-            "Amitié"
-          ],
-          "en": [
-            "School life",
-            "First feelings",
-            "Friendship"
-          ]
+          "fr": ["Vie de lycée", "Premiers sentiments", "Amitié"],
+          "en": ["School life", "First feelings", "Friendship"]
         }
       },
       "difficultyTier": 3
@@ -1164,16 +970,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Grand méchant",
-            "Armée du mal",
-            "Société secrète"
-          ],
-          "en": [
-            "Main villain",
-            "Army of evil",
-            "Secret society"
-          ]
+          "fr": ["Grand méchant", "Armée du mal", "Société secrète"],
+          "en": ["Main villain", "Army of evil", "Secret society"]
         }
       },
       "difficultyTier": 3
@@ -1209,16 +1007,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Héroïne magique",
-            "Transformation héroïque",
-            "Idole magique"
-          ],
-          "en": [
-            "Magical heroine",
-            "Heroic transformation",
-            "Magical idol"
-          ]
+          "fr": ["Héroïne magique", "Transformation héroïque", "Idole magique"],
+          "en": ["Magical heroine", "Heroic transformation", "Magical idol"]
         }
       },
       "difficultyTier": 4
@@ -1254,16 +1044,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Rivale agressive",
-            "Personnage distant",
-            "Personnage très affectueux"
-          ],
-          "en": [
-            "Harsh rival",
-            "Distant character",
-            "Very affectionate character"
-          ]
+          "fr": ["Rivale agressive", "Personnage distant", "Personnage très affectueux"],
+          "en": ["Harsh rival", "Distant character", "Very affectionate character"]
         }
       },
       "difficultyTier": 4
@@ -1299,16 +1081,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Présidente de classe",
-            "Étudiante studieuse",
-            "Froide réservée"
-          ],
-          "en": [
-            "Class president",
-            "Studious girl",
-            "Cold reserved type"
-          ]
+          "fr": ["Présidente de classe", "Étudiante studieuse", "Froide réservée"],
+          "en": ["Class president", "Studious girl", "Cold reserved type"]
         }
       },
       "difficultyTier": 4
@@ -1344,16 +1118,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Professeur",
-            "Délégué de classe",
-            "Aîné"
-          ],
-          "en": [
-            "Teacher",
-            "Class representative",
-            "Senior"
-          ]
+          "fr": ["Professeur", "Délégué de classe", "Aîné"],
+          "en": ["Teacher", "Class representative", "Senior"]
         }
       },
       "difficultyTier": 4
@@ -1389,16 +1155,8 @@
       },
       "quiz": {
         "distractors": {
-          "fr": [
-            "Rôle de héros caché",
-            "Posture dramatique",
-            "Jeunesse intense"
-          ],
-          "en": [
-            "Hidden hero role",
-            "Dramatic pose",
-            "Youthful intensity"
-          ]
+          "fr": ["Rôle de héros caché", "Posture dramatique", "Jeunesse intense"],
+          "en": ["Hidden hero role", "Dramatic pose", "Youthful intensity"]
         }
       },
       "difficultyTier": 4

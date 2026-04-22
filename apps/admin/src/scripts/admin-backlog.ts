@@ -1,17 +1,75 @@
+import type {
+  RoadmapArea,
+  RoadmapItem,
+  RoadmapPriority,
+  RoadmapStatus,
+  RoadmapType,
+  RoadmapVersion,
+} from "../lib/admin-roadmap";
+
+type RoadmapLabels = {
+  priority: Record<RoadmapPriority, string>;
+  area: Record<RoadmapArea, string>;
+  type: Record<RoadmapType, string>;
+  status: Record<RoadmapStatus, string>;
+};
+
+type VersionSummary = {
+  id: string;
+  label: string;
+  kind: RoadmapVersion["kind"];
+  summary: string;
+  done: number;
+  total: number;
+  childDone: number;
+  childTotal: number;
+};
+
+type RoadmapPayload = {
+  roadmap: {
+    meta: {
+      defaultVersionId: string;
+    };
+    versions: RoadmapVersion[];
+  };
+  versionSummaries: VersionSummary[];
+  labels: RoadmapLabels;
+  kindLabels: Record<RoadmapVersion["kind"], string>;
+};
+
+type BacklogState = {
+  versionId: string;
+  statusFilter: string;
+  sortKey: string;
+};
+
+type Summary = {
+  done: number;
+  total: number;
+  childDone: number;
+  childTotal: number;
+};
+
 const roadmapPayloadElement = document.getElementById("roadmap-data");
 const backlogList = document.getElementById("backlog-list");
 const currentVersionChip = document.getElementById("backlog-current-version-chip");
 const summaryItemsChip = document.getElementById("backlog-summary-items-chip");
 const summaryChildrenChip = document.getElementById("backlog-summary-children-chip");
 
-if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsChip && summaryChildrenChip) {
-  const payload = JSON.parse(roadmapPayloadElement.textContent || "{}");
+if (
+  roadmapPayloadElement &&
+  backlogList &&
+  currentVersionChip &&
+  summaryItemsChip &&
+  summaryChildrenChip
+) {
+  const payload = JSON.parse(roadmapPayloadElement.textContent || "{}") as RoadmapPayload;
   const roadmap = payload.roadmap;
   const versionSummaries = payload.versionSummaries;
   const labels = payload.labels;
   const kindLabels = payload.kindLabels;
 
-  const escapeHtml = (value) =>
+  const escapeHtml = (value: unknown) =>
     String(value)
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
@@ -19,9 +77,9 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#39;");
 
-  const getStatusRank = (status) => (status === "done" ? 1 : 0);
+  const getStatusRank = (status: string) => (status === "done" ? 1 : 0);
 
-  const getPriorityRank = (priority) => {
+  const getPriorityRank = (priority: string) => {
     switch (priority) {
       case "P0":
         return 0;
@@ -36,22 +94,26 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
     }
   };
 
-  const getSummary = (versions) =>
+  const getSummary = (versions: RoadmapVersion[]): Summary =>
     versions.reduce(
       (totals, version) => {
         totals.done += version.items.filter((item) => item.status === "done").length;
         totals.total += version.items.length;
         totals.childDone += version.items.reduce(
-          (sum, item) => sum + (item.children || []).filter((child) => child.status === "done").length,
+          (sum, item) =>
+            sum + (item.children || []).filter((child) => child.status === "done").length,
           0,
         );
-        totals.childTotal += version.items.reduce((sum, item) => sum + (item.children || []).length, 0);
+        totals.childTotal += version.items.reduce(
+          (sum, item) => sum + (item.children || []).length,
+          0,
+        );
         return totals;
       },
       { done: 0, total: 0, childDone: 0, childTotal: 0 },
     );
 
-  const sortItems = (items, mode) => {
+  const sortItems = (items: RoadmapItem[], mode: string): RoadmapItem[] => {
     const withIndex = items.map((item, index) => ({ item, index }));
 
     withIndex.sort((left, right) => {
@@ -61,12 +123,16 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
       }
 
       if (mode === "priority") {
-        const byPriority = getPriorityRank(left.item.priority) - getPriorityRank(right.item.priority);
+        const byPriority =
+          getPriorityRank(left.item.priority) - getPriorityRank(right.item.priority);
         if (byPriority !== 0) return byPriority;
       }
 
       if (mode === "area") {
-        const byArea = labels.area[left.item.area].localeCompare(labels.area[right.item.area], "fr");
+        const byArea = labels.area[left.item.area].localeCompare(
+          labels.area[right.item.area],
+          "fr",
+        );
         if (byArea !== 0) return byArea;
       }
 
@@ -76,7 +142,7 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
     return withIndex.map((entry) => entry.item);
   };
 
-  const getState = () => {
+  const getState = (): BacklogState => {
     const params = new URLSearchParams(window.location.search);
     return {
       versionId: params.get("version") || roadmap.meta.defaultVersionId,
@@ -85,7 +151,7 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
     };
   };
 
-  const getHref = (nextState) => {
+  const getHref = (nextState: BacklogState) => {
     const params = new URLSearchParams();
     params.set("version", nextState.versionId);
     params.set("status", nextState.statusFilter);
@@ -93,7 +159,7 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
     return `/pilotage/backlog?${params.toString()}`;
   };
 
-  const renderList = (state) => {
+  const renderList = (state: BacklogState) => {
     const selectedVersion =
       state.versionId === "all"
         ? null
@@ -117,7 +183,8 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
       .filter((block) => block.items.length > 0);
 
     const selectedSummary = selectedVersion
-      ? versionSummaries.find((summary) => summary.id === selectedVersion.id) || getSummary([selectedVersion])
+      ? versionSummaries.find((summary) => summary.id === selectedVersion.id) ||
+        getSummary([selectedVersion])
       : getSummary(roadmap.versions);
 
     currentVersionChip.textContent = selectedVersion ? selectedVersion.label : "Lecture libre";
@@ -196,9 +263,9 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
       .join("");
   };
 
-  const syncControls = (state) => {
+  const syncControls = (state: BacklogState) => {
     document.querySelectorAll("[data-role='version-option']").forEach((element) => {
-      const versionId = element.dataset.versionId || roadmap.meta.defaultVersionId;
+      const versionId = element.getAttribute("data-version-id") || roadmap.meta.defaultVersionId;
       element.classList.toggle("is-active", versionId === state.versionId);
       element.setAttribute(
         "href",
@@ -207,7 +274,7 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
     });
 
     document.querySelectorAll("[data-role='status-option']").forEach((element) => {
-      const statusId = element.dataset.statusId || "all";
+      const statusId = element.getAttribute("data-status-id") || "all";
       element.classList.toggle("is-active", statusId === state.statusFilter);
       element.setAttribute(
         "href",
@@ -216,7 +283,7 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
     });
 
     document.querySelectorAll("[data-role='sort-option']").forEach((element) => {
-      const sortId = element.dataset.sortId || "roadmap";
+      const sortId = element.getAttribute("data-sort-id") || "roadmap";
       element.classList.toggle("is-active", sortId === state.sortKey);
       element.setAttribute(
         "href",
@@ -225,7 +292,7 @@ if (roadmapPayloadElement && backlogList && currentVersionChip && summaryItemsCh
     });
 
     document.querySelectorAll("[data-role='version-card']").forEach((element) => {
-      const versionId = element.dataset.versionId || roadmap.meta.defaultVersionId;
+      const versionId = element.getAttribute("data-version-id") || roadmap.meta.defaultVersionId;
       element.classList.toggle("is-active", versionId === state.versionId);
       element.setAttribute(
         "href",

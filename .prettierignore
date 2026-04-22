@@ -1,0 +1,12 @@
+.astro/
+.codex-temp/
+coverage/
+dist/
+legacy/
+node_modules/
+playwright-report/
+test-results/
+tmp/
+docs/**/*.html
+docs/assets/**
+apps/**/*.astro

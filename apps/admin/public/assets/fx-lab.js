@@ -42,7 +42,9 @@
         const valueInput = valueInputs[key];
         const enabledInput = enabledInputs[key];
         values[key] =
-          valueInput instanceof HTMLInputElement ? Number(valueInput.value) : FX.DEFAULT_VALUES[key];
+          valueInput instanceof HTMLInputElement
+            ? Number(valueInput.value)
+            : FX.DEFAULT_VALUES[key];
         enabled[key] =
           enabledInput instanceof HTMLInputElement ? enabledInput.checked : FX.DEFAULT_ENABLED[key];
       }
@@ -371,9 +373,7 @@
       correctButton.classList.add("correct");
       feedbackNode.classList.add("is-good");
       feedbackNode.textContent =
-        streak >= 3
-          ? `Correct +${bonus} pts · combo x${streak}`
-          : `Correct +${bonus} pts`;
+        streak >= 3 ? `Correct +${bonus} pts · combo x${streak}` : `Correct +${bonus} pts`;
       pulseScore(`+${bonus}`, "#22d3ee");
       spawnParticles(correctButton, "#4ade80");
       renderHud();

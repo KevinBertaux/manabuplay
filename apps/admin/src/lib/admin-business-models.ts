@@ -126,9 +126,15 @@ export function getPricingRows(): PricingRow[] {
       },
       status: "framed",
       target: { fr: "v0.1", en: "v0.1" },
-      note: { fr: "Cadré : 170 free, reste payant.", en: "Framed: 170 free, rest paid." },
-      free: { text: { fr: "170", en: "170" }, tone: "free" },
-      premium: { text: { fr: "170 + bibliothèque complète", en: "170 + full library" }, tone: "premium" },
+      note: {
+        fr: "Cadré : 150 free en v0.1, reste payant.",
+        en: "Framed: 150 free in v0.1, rest paid.",
+      },
+      free: { text: { fr: "150", en: "150" }, tone: "free" },
+      premium: {
+        text: { fr: "150 + bibliothèque complète", en: "150 + full library" },
+        tone: "premium",
+      },
     },
     {
       group: { fr: "Catalogue", en: "Catalog" },
@@ -141,7 +147,10 @@ export function getPricingRows(): PricingRow[] {
       target: { fr: "v0.1", en: "v0.1" },
       note: { fr: "Cadré : 5 free, reste payant.", en: "Framed: 5 free, rest paid." },
       free: { text: { fr: "5", en: "5" }, tone: "free" },
-      premium: { text: { fr: "5 + tous les packs premium", en: "5 + all premium packs" }, tone: "premium" },
+      premium: {
+        text: { fr: "5 + tous les packs premium", en: "5 + all premium packs" },
+        tone: "premium",
+      },
     },
     {
       group: { fr: "Catalogue", en: "Catalog" },
@@ -152,9 +161,15 @@ export function getPricingRows(): PricingRow[] {
       },
       status: "to-frame",
       target: { fr: "v0.2+", en: "v0.2+" },
-      note: { fr: "Valeur catalogue / découverte. Cible free : 2 thèmes gratuits, dont JRPG en premier.", en: "Catalog / discovery value. Free target: 2 free themes, starting with JRPG." },
+      note: {
+        fr: "Valeur catalogue / découverte. Cible free : 2 thèmes gratuits, dont JRPG en premier.",
+        en: "Catalog / discovery value. Free target: 2 free themes, starting with JRPG.",
+      },
       free: { text: { fr: "2 thèmes gratuits", en: "2 free themes" }, tone: "free" },
-      premium: { text: { fr: "tous les thèmes premium", en: "all premium themes" }, tone: "premium" },
+      premium: {
+        text: { fr: "tous les thèmes premium", en: "all premium themes" },
+        tone: "premium",
+      },
     },
     {
       group: { fr: "Progression", en: "Progression" },
@@ -213,8 +228,17 @@ export function getPricingRows(): PricingRow[] {
       },
       status: "framed",
       target: { fr: "v1.0", en: "v1.0" },
-      note: { fr: "A garder free : un compte ne doit pas être le paywall.", en: "Keep free: an account should not be the paywall." },
-      free: { text: { fr: "email, profil, préférences, newsletter", en: "email, profile, preferences, newsletter" }, tone: "shared" },
+      note: {
+        fr: "A garder free : un compte ne doit pas être le paywall.",
+        en: "Keep free: an account should not be the paywall.",
+      },
+      free: {
+        text: {
+          fr: "email, profil, préférences, newsletter",
+          en: "email, profile, preferences, newsletter",
+        },
+        tone: "shared",
+      },
       premium: { text: { fr: "idem", en: "same" }, tone: "shared" },
     },
     {
@@ -226,9 +250,15 @@ export function getPricingRows(): PricingRow[] {
       },
       status: "to-frame",
       target: { fr: "v1.0+", en: "v1.0+" },
-      note: { fr: "Candidat premium : vend la mémoire produit, pas le droit de se connecter.", en: "Premium candidate: sells product memory, not the right to sign in." },
+      note: {
+        fr: "Candidat premium : vend la mémoire produit, pas le droit de se connecter.",
+        en: "Premium candidate: sells product memory, not the right to sign in.",
+      },
       free: { text: { fr: "sync légère à cadrer", en: "light sync to frame" }, tone: "open" },
-      premium: { text: { fr: "sync avancée + mémoire complète", en: "advanced sync + full memory" }, tone: "premium" },
+      premium: {
+        text: { fr: "sync avancée + mémoire complète", en: "advanced sync + full memory" },
+        tone: "premium",
+      },
     },
     {
       group: { fr: "Compte utilisateur", en: "User account" },
@@ -239,7 +269,10 @@ export function getPricingRows(): PricingRow[] {
       },
       status: "to-frame",
       target: { fr: "v1.x+", en: "v1.x+" },
-      note: { fr: "Bon candidat premium, mais pas nécessaire en v0.1.", en: "Likely premium, but not needed in v0.1." },
+      note: {
+        fr: "Bon candidat premium, mais pas nécessaire en v0.1.",
+        en: "Likely premium, but not needed in v0.1.",
+      },
       free: { text: { fr: "à cadrer", en: "to frame" }, tone: "open" },
       premium: { text: { fr: "probablement oui", en: "likely yes" }, tone: "open" },
     },
@@ -252,7 +285,10 @@ export function getPricingRows(): PricingRow[] {
       },
       status: "to-frame",
       target: { fr: "v1.x+", en: "v1.x+" },
-      note: { fr: "Plutôt levier de rétention que moteur de paiement.", en: "More of a retention lever than a payment driver." },
+      note: {
+        fr: "Plutôt levier de rétention que moteur de paiement.",
+        en: "More of a retention lever than a payment driver.",
+      },
       free: { text: { fr: "à cadrer", en: "to frame" }, tone: "open" },
       premium: { text: { fr: "plutôt non", en: "likely no" }, tone: "open" },
     },
@@ -278,7 +314,10 @@ export function getPricingRows(): PricingRow[] {
       },
       status: "to-frame",
       target: { fr: "v1.x+", en: "v1.x+" },
-      note: { fr: "Très compatible avec la logique bibliothèque premium.", en: "Very compatible with premium-library logic." },
+      note: {
+        fr: "Très compatible avec la logique bibliothèque premium.",
+        en: "Very compatible with premium-library logic.",
+      },
       free: { text: { fr: "à cadrer", en: "to frame" }, tone: "open" },
       premium: { text: { fr: "probablement oui", en: "likely yes" }, tone: "open" },
     },
@@ -291,7 +330,10 @@ export function getPricingRows(): PricingRow[] {
       },
       status: "to-frame",
       target: { fr: "v0.6+", en: "v0.6+" },
-      note: { fr: "Très compatible avec premium plus tard.", en: "Very compatible with premium later." },
+      note: {
+        fr: "Très compatible avec premium plus tard.",
+        en: "Very compatible with premium later.",
+      },
       free: { text: { fr: "à cadrer", en: "to frame" }, tone: "open" },
       premium: { text: { fr: "probablement oui", en: "likely yes" }, tone: "open" },
     },

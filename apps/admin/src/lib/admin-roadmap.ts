@@ -100,15 +100,19 @@ export function getRoadmapLabelMap() {
   const roadmap = getRoadmapData();
 
   return {
-    priority: Object.fromEntries(roadmap.meta.priorities.map((entry) => [entry.id, entry.label])) as Record<
-      RoadmapPriority,
+    priority: Object.fromEntries(
+      roadmap.meta.priorities.map((entry) => [entry.id, entry.label]),
+    ) as Record<RoadmapPriority, string>,
+    area: Object.fromEntries(roadmap.meta.areas.map((entry) => [entry.id, entry.label])) as Record<
+      RoadmapArea,
       string
     >,
-    area: Object.fromEntries(roadmap.meta.areas.map((entry) => [entry.id, entry.label])) as Record<RoadmapArea, string>,
-    type: Object.fromEntries(roadmap.meta.types.map((entry) => [entry.id, entry.label])) as Record<RoadmapType, string>,
-    status: Object.fromEntries(roadmap.meta.statuses.map((entry) => [entry.id, entry.label])) as Record<
-      RoadmapStatus,
+    type: Object.fromEntries(roadmap.meta.types.map((entry) => [entry.id, entry.label])) as Record<
+      RoadmapType,
       string
     >,
+    status: Object.fromEntries(
+      roadmap.meta.statuses.map((entry) => [entry.id, entry.label]),
+    ) as Record<RoadmapStatus, string>,
   };
 }
