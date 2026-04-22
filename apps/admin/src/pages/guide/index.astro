@@ -29,6 +29,7 @@ const sections = [
       "`npm run dev -- --host 0.0.0.0` : lance le repo en mode dev.",
       "`npm run dev -- --host 0.0.0.0 --app web` : cible ManabuPlay.",
       "`npm run dev -- --host 0.0.0.0 --app admin` : cible le dashboard.",
+      "`npm --workspace @manabuplay/admin run dev` : lance l'app admin depuis son propre package workspace.",
       "`npm run build` : build des 2 apps quand elles sont prêtes.",
       "`npm run build:web` / `npm run build:admin` : build ciblé.",
       "`npm run check` : socle local obligatoire, avec Astro check, ESLint, Prettier et ratchet inline. C'est aussi le contrat du pre-push.",
@@ -50,6 +51,7 @@ const sections = [
     items: [
       "Le site public vit dans `apps/web`.",
       "Le dashboard vit dans `apps/admin`.",
+      "Le dashboard a maintenant son propre package workspace, son branding de tête et ses scripts locaux. Il n'est plus seulement piloté comme une annexe implicite du repo racine.",
       "Le metier partage vit dans `shared` : logique quiz, donnees communes et couches de styles transverses.",
       "La tête de l'app admin est centralisée dans les layouts : meta, robots, favicon, generator et theme-color ne se redéclarent pas page par page.",
       "Tant qu'une app n'est pas prête, les commandes ciblées doivent échouer clairement, pas fallback silencieusement.",
