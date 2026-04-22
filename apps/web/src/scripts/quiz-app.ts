@@ -19,6 +19,15 @@ import type {
   StorageAdapter,
 } from "./quiz-app/runtime-types";
 
+type QuizAction =
+  | "launchQuiz"
+  | "revealHint"
+  | "nextQuestion"
+  | "replayDifficulty"
+  | "goToDiffPicker"
+  | "shareOnX"
+  | "copyShareLink";
+
 const bootData = window.__MANABUPLAY_DATA__ as QuizBootData | undefined;
 if (!bootData) {
   throw new Error("ManabuPlay boot data is missing.");
@@ -88,7 +97,7 @@ const pageLocale = SUPPORTED_LANGS.includes(
 )
   ? window.__MANABUPLAY_LOCALE__
   : null;
-let currentLang =
+const currentLang =
   pageLocale ||
   (SUPPORTED_LANGS.includes(LS.getLang() as (typeof SUPPORTED_LANGS)[number])
     ? LS.getLang()
@@ -273,46 +282,6 @@ function applyLang() {
   }
 }
 
-function setLang(lang: string) {
-  if (!SUPPORTED_LANGS.includes(lang as (typeof SUPPORTED_LANGS)[number]) || lang === currentLang)
-    return;
-
-  const currentRoute = getCurrentLocalizedRoute();
-  const firstPathPart = window.location.pathname.split("/").filter(Boolean)[0];
-  const isLocalizedPage = SUPPORTED_LANGS.includes(
-    firstPathPart as (typeof SUPPORTED_LANGS)[number],
-  );
-
-  if (isLocalizedPage) {
-    LS.setLang(lang);
-    window.location.href =
-      localizedPath(lang, currentRoute) + window.location.search + window.location.hash;
-    return;
-  }
-
-  currentLang = lang;
-  LS.setLang(lang);
-  const currentIndex = state.currentIndex;
-  const score = state.score;
-  const streak = state.streak;
-  const bestStreak = state.bestStreak;
-
-  if (currentDiff) {
-    state.questions = buildQuestionsForCurrentDiff(currentDiff.words);
-    state.currentIndex = Math.min(currentIndex, state.questions.length - 1);
-    state.score = score;
-    state.streak = streak;
-    state.bestStreak = bestStreak;
-    state.answered = false;
-  }
-
-  applyLang();
-  const quizArea = getRequiredElement<HTMLElement>("quizArea");
-  if (!quizArea.hidden) {
-    renderQuestion();
-  }
-}
-
 function renderDiffGrid() {
   const grid = document.getElementById("diffGrid");
   if (!(grid instanceof HTMLElement)) return;
@@ -332,13 +301,14 @@ function renderDiffGrid() {
     const diffTitle = t(`diff_${difficulty.id}`);
     const card = document.createElement("div");
     card.className = `diff-card ${difficulty.cls}${currentDiff?.id === difficulty.id ? " selected" : ""}`;
+    card.dataset.diffId = difficulty.id;
     card.innerHTML = `
       <span class="diff-icon">${difficulty.icon}</span>
       <div class="diff-name">${typeof diffTitle === "string" ? diffTitle : difficulty.id}</div>
       <div class="diff-count">${difficulty.words} ${typeof diffWordsLabel === "string" ? diffWordsLabel : "words"}</div>
       ${bestMarkup}
     `;
-    card.onclick = () => selectDiff(difficulty);
+    card.addEventListener("click", () => selectDiff(difficulty));
     grid.appendChild(card);
   });
 }
@@ -485,7 +455,7 @@ function renderQuestion() {
     const button = document.createElement("button");
     button.className = "answer-btn";
     button.innerHTML = `<span>${answer}</span>`;
-    button.onclick = () => handleAnswer(button, answer, question.correctText);
+    button.addEventListener("click", () => handleAnswer(button, answer, question.correctText));
     answersGrid.appendChild(button);
   });
 
@@ -684,20 +654,32 @@ const shareController = createShareController({
   t,
 });
 
+const actionHandlers: Record<QuizAction, () => void> = {
+  launchQuiz,
+  revealHint: () => revealHint(),
+  nextQuestion,
+  replayDifficulty,
+  goToDiffPicker,
+  shareOnX: shareController.shareOnX,
+  copyShareLink: shareController.copyShareLink,
+};
+
+function bindQuizActions() {
+  document.querySelectorAll<HTMLElement>("[data-quiz-action]").forEach((element) => {
+    element.addEventListener("click", () => {
+      const action = element.dataset.quizAction as QuizAction | undefined;
+      if (!action) return;
+      actionHandlers[action]?.();
+    });
+  });
+}
+
 applyLang();
 renderDiffGrid();
 createRevealObserver().observeAll(".reveal");
+bindQuizActions();
 
 const waitlistForm = document.querySelector('form[name="manabuplay-waitlist"]');
 if (waitlistForm instanceof HTMLFormElement) {
   waitlistForm.addEventListener("submit", waitlistController.handleEmailSubmit);
 }
-
-window.setLang = setLang;
-window.launchQuiz = launchQuiz;
-window.revealHint = revealHint;
-window.nextQuestion = nextQuestion;
-window.replayDifficulty = replayDifficulty;
-window.goToDiffPicker = goToDiffPicker;
-window.shareOnX = shareController.shareOnX;
-window.copyShareLink = shareController.copyShareLink;

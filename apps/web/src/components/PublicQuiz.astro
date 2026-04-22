@@ -18,7 +18,7 @@
             <!-- injected by JS -->
           </div>
           <div class="text-center">
-            <button class="start-btn" id="startBtn" onclick="launchQuiz()" data-i18n="diff_start"></button>
+            <button class="start-btn" id="startBtn" data-quiz-action="launchQuiz" data-i18n="diff_start"></button>
           </div>
         </div>
 
@@ -54,7 +54,7 @@
           </div>
 
           <div class="text-center mb-6" id="hintZone">
-            <button class="hint-reveal-btn" id="hintBtn" onclick="revealHint()">
+            <button class="hint-reveal-btn" id="hintBtn" data-quiz-action="revealHint">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
               </svg>
@@ -80,7 +80,7 @@
             <p class="font-body quiz-explanation-copy" id="explanationContent"></p>
           </div>
           <div class="mt-6 text-center">
-            <button id="nextBtn" class="cta-btn opacity-0 pointer-events-none" onclick="nextQuestion()">…</button>
+            <button id="nextBtn" class="cta-btn opacity-0 pointer-events-none" data-quiz-action="nextQuestion">…</button>
           </div>
         </div>
 
@@ -117,8 +117,8 @@
           <!-- Best score display -->
           <p class="font-body text-base text-slate-500 mb-6" id="bestScoreMsg"></p>
           <div class="flex flex-col sm:flex-row gap-3 justify-center">
-            <button class="cta-btn" onclick="replayDifficulty()" data-i18n="result_replay"></button>
-            <button class="cta-btn quiz-secondary-cta" onclick="goToDiffPicker()" data-i18n="result_change_diff"></button>
+            <button class="cta-btn" data-quiz-action="replayDifficulty" data-i18n="result_replay"></button>
+            <button class="cta-btn quiz-secondary-cta" data-quiz-action="goToDiffPicker" data-i18n="result_change_diff"></button>
           </div>
 
           <!-- Share row -->
@@ -126,14 +126,14 @@
             <p class="font-body text-sm text-slate-500 mb-3" data-i18n="result_share"></p>
             <div class="flex gap-3 justify-center flex-wrap">
               <!-- X / Twitter -->
-              <button class="share-btn share-btn-x" onclick="shareOnX()" id="shareBtnX">
+              <button class="share-btn share-btn-x" data-quiz-action="shareOnX" id="shareBtnX">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
                 <span data-i18n="result_share_x"></span>
               </button>
               <!-- Copy link -->
-              <button class="share-btn share-btn-copy" onclick="copyShareLink()" id="shareBtnCopy">
+              <button class="share-btn share-btn-copy" data-quiz-action="copyShareLink" id="shareBtnCopy">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="10" y="10" width="12" height="12" rx="2"/><path d="M6 16H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"/>
                 </svg>

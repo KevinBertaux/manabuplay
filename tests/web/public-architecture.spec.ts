@@ -88,11 +88,7 @@ test.describe("public localized architecture", () => {
     await page.locator("#hintBtn").click();
     await expect(page.locator("#hintText")).toBeVisible();
     await expect(page.locator("#hintContent")).toBeVisible();
-    await page.evaluate(() => {
-      if (typeof window.revealHint === "function") {
-        window.revealHint();
-      }
-    });
+    await page.locator("#hintBtn").click();
     await expect(page.locator("#hintTextSecondary")).toBeVisible();
     await page.locator("#answersGrid .answer-btn").first().click();
     await expect(page.locator("#explanationBox")).toBeVisible();
