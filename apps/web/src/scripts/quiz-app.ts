@@ -165,6 +165,20 @@ function getRequiredElement<T extends HTMLElement>(id: string): T {
   return element as T;
 }
 
+function showElement(element: HTMLElement, displayClass?: string) {
+  element.hidden = false;
+  if (displayClass) {
+    element.classList.add(displayClass);
+  }
+}
+
+function hideElement(element: HTMLElement, displayClass?: string) {
+  element.hidden = true;
+  if (displayClass) {
+    element.classList.remove(displayClass);
+  }
+}
+
 function updateLocalizedLinks() {
   const route = getCurrentLocalizedRoute();
   const currentSearch = window.location.search;
@@ -294,7 +308,7 @@ function setLang(lang: string) {
 
   applyLang();
   const quizArea = getRequiredElement<HTMLElement>("quizArea");
-  if (quizArea.style.display !== "none") {
+  if (!quizArea.hidden) {
     renderQuestion();
   }
 }
@@ -353,7 +367,7 @@ function setHintButtonLabel(key: string) {
 
 function hideHintButton() {
   const hintButton = document.getElementById("hintBtn");
-  if (hintButton instanceof HTMLElement) hintButton.style.display = "none";
+  if (hintButton instanceof HTMLElement) hideElement(hintButton, "inline-flex");
 }
 
 function renderExplanation(text: string, reveal = false) {
@@ -363,13 +377,13 @@ function renderExplanation(text: string, reveal = false) {
     return;
 
   if (!text) {
-    explanationBox.style.display = "none";
+    hideElement(explanationBox);
     explanationContent.textContent = "";
     return;
   }
 
   explanationContent.textContent = text;
-  explanationBox.style.display = "grid";
+  showElement(explanationBox, "grid");
   if (reveal) animateReveal(explanationBox);
 }
 
@@ -387,7 +401,7 @@ function revealHint(forceAll = false) {
 
   if (!(zone instanceof HTMLElement) || !(primaryContent instanceof HTMLElement)) return;
 
-  zone.style.display = "grid";
+  showElement(zone, "grid");
 
   if (hintStage === 0 || forceAll) {
     primaryContent.textContent = hintPrimary;
@@ -401,7 +415,7 @@ function revealHint(forceAll = false) {
     secondaryRow instanceof HTMLElement &&
     secondaryContent instanceof HTMLElement
   ) {
-    secondaryRow.style.display = "grid";
+    showElement(secondaryRow, "grid");
     secondaryContent.textContent = hintSecondary;
     animateReveal(secondaryRow);
     hintStage = 2;
@@ -443,16 +457,20 @@ function renderQuestion() {
   hintStage = 0;
 
   if (hintButton instanceof HTMLElement) {
-    hintButton.style.display = primaryHint || secondaryHint ? "inline-flex" : "none";
+    if (primaryHint || secondaryHint) {
+      showElement(hintButton, "inline-flex");
+    } else {
+      hideElement(hintButton, "inline-flex");
+    }
     setHintButtonLabel("hint_btn");
   }
-  if (hintText instanceof HTMLElement) hintText.style.display = "none";
+  if (hintText instanceof HTMLElement) hideElement(hintText, "grid");
   if (hintContent instanceof HTMLElement) {
     hintContent.textContent = primaryHint;
     hintContent.classList.remove("hint-revealed");
   }
   if (hintTextSecondary instanceof HTMLElement) {
-    hintTextSecondary.style.display = "none";
+    hideElement(hintTextSecondary, "grid");
     hintTextSecondary.classList.remove("hint-revealed");
   }
   if (hint2Content instanceof HTMLElement) {
@@ -472,7 +490,8 @@ function renderQuestion() {
   });
 
   const feedback = getRequiredElement<HTMLElement>("feedback");
-  feedback.style.display = "none";
+  hideElement(feedback);
+  feedback.classList.remove("is-correct", "is-wrong");
   feedback.textContent = "";
   const nextButton = getRequiredElement<HTMLElement>("nextBtn");
   nextButton.classList.add("opacity-0", "pointer-events-none");
@@ -507,7 +526,8 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
 
   const isCorrect = chosen === correct;
   const feedback = getRequiredElement<HTMLElement>("feedback");
-  feedback.style.display = "block";
+  showElement(feedback, "block");
+  feedback.classList.remove("is-correct", "is-wrong");
 
   if (isCorrect) {
     button.classList.add("correct");
@@ -516,7 +536,7 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
     if (state.streak > state.bestStreak) state.bestStreak = state.streak;
     const bonus = state.streak >= 3 ? 15 : state.streak >= 2 ? 12 : 10;
     state.score += bonus;
-    feedback.style.color = "var(--green)";
+    feedback.classList.add("is-correct");
     feedback.textContent =
       state.streak >= 3 ? formatComboFeedback(state.streak, bonus) : formatCorrectFeedback(bonus);
     spawnParticles(button, "#4ade80");
@@ -528,7 +548,7 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
         answerButton.classList.add("correct");
       }
     });
-    feedback.style.color = "var(--red)";
+    feedback.classList.add("is-wrong");
     const shortAnswer =
       correct.split(" ").slice(0, 7).join(" ") + (correct.split(" ").length > 7 ? "…" : "");
     feedback.textContent = formatWrongFeedback(shortAnswer);
@@ -546,10 +566,10 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
 }
 
 function showResults() {
-  getRequiredElement<HTMLElement>("progressRow").style.display = "none";
-  getRequiredElement<HTMLElement>("hudRow").style.display = "none";
-  getRequiredElement<HTMLElement>("quizArea").style.display = "none";
-  getRequiredElement<HTMLElement>("resultsArea").style.display = "block";
+  hideElement(getRequiredElement<HTMLElement>("progressRow"), "flex");
+  hideElement(getRequiredElement<HTMLElement>("hudRow"), "flex");
+  hideElement(getRequiredElement<HTMLElement>("quizArea"));
+  showElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
 
   const total = state.questions.length;
   const pct = Math.round((state.score / (total * 15)) * 100);
@@ -582,18 +602,22 @@ function showResults() {
   const isArchiveMode = MANABUPLAY_MODE === "archives";
 
   if (isArchiveMode) {
-    badge.style.display = "none";
-    bestMessage.style.display = "none";
-    if (shareRow instanceof HTMLElement) shareRow.style.display = "none";
+    hideElement(badge, "block");
+    hideElement(bestMessage, "block");
+    if (shareRow instanceof HTMLElement) hideElement(shareRow, "block");
   } else if (currentDiff) {
     const isNewRecord = LS.setBest(currentDiff.id, state.score);
-    badge.style.display = isNewRecord ? "block" : "none";
-    bestMessage.style.display = "block";
+    if (isNewRecord) {
+      showElement(badge, "block");
+    } else {
+      hideElement(badge, "block");
+    }
+    showElement(bestMessage, "block");
     const currentBest = LS.getBest(currentDiff.id);
     const diffLabelValue = t(`diff_${currentDiff.id}`);
     const diffLabel = typeof diffLabelValue === "string" ? diffLabelValue : currentDiff.id;
     bestMessage.innerHTML = formatBestScoreMessage(currentBest, diffLabel);
-    if (shareRow instanceof HTMLElement) shareRow.style.display = "block";
+    if (shareRow instanceof HTMLElement) showElement(shareRow, "block");
   }
 
   renderDiffGrid();
@@ -612,20 +636,20 @@ function launchQuiz() {
     correct: 0,
   };
 
-  getRequiredElement<HTMLElement>("diffArea").style.display = "none";
-  getRequiredElement<HTMLElement>("progressRow").style.display = "flex";
-  getRequiredElement<HTMLElement>("hudRow").style.display = "flex";
-  getRequiredElement<HTMLElement>("quizArea").style.display = "block";
-  getRequiredElement<HTMLElement>("resultsArea").style.display = "none";
+  hideElement(getRequiredElement<HTMLElement>("diffArea"));
+  showElement(getRequiredElement<HTMLElement>("progressRow"), "flex");
+  showElement(getRequiredElement<HTMLElement>("hudRow"), "flex");
+  showElement(getRequiredElement<HTMLElement>("quizArea"), "block");
+  hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   renderQuestion();
 }
 
 function goToDiffPicker() {
-  getRequiredElement<HTMLElement>("diffArea").style.display = "block";
-  getRequiredElement<HTMLElement>("progressRow").style.display = "none";
-  getRequiredElement<HTMLElement>("hudRow").style.display = "none";
-  getRequiredElement<HTMLElement>("quizArea").style.display = "none";
-  getRequiredElement<HTMLElement>("resultsArea").style.display = "none";
+  showElement(getRequiredElement<HTMLElement>("diffArea"), "block");
+  hideElement(getRequiredElement<HTMLElement>("progressRow"), "flex");
+  hideElement(getRequiredElement<HTMLElement>("hudRow"), "flex");
+  hideElement(getRequiredElement<HTMLElement>("quizArea"), "block");
+  hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   renderDiffGrid();
 }
 

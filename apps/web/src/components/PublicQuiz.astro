@@ -1,19 +1,19 @@
   <!-- ══ QUIZ SECTION ══ -->
   <section id="quiz" class="py-14 px-6 relative overflow-hidden">
-    <div class="absolute inset-0" style="background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(139,92,246,.08) 0%,transparent 70%);"></div>
+    <div class="quiz-section-glow absolute inset-0"></div>
     <div class="max-w-2xl mx-auto relative z-10">
 
       <div class="text-center mb-8 reveal">
-        <p class="section-label" style="color:var(--violet);" data-i18n="quiz_label"></p>
+        <p class="section-label quiz-label-violet" data-i18n="quiz_label"></p>
         <h2 class="pixel-heading-md mt-4 text-white" data-i18n="quiz_title"></h2>
         <p class="font-body text-xl text-slate-400 mt-4" data-i18n="quiz_sub"></p>
       </div>
 
-      <div class="border-glow rounded-xl p-6 sm:p-8 reveal" style="background:rgba(15,12,26,.95);backdrop-filter:blur(16px);">
+      <div class="border-glow quiz-shell rounded-xl p-6 sm:p-8 reveal">
 
         <!-- ══ DIFFICULTY PICKER ══ -->
         <div id="diffArea">
-          <p class="section-label text-center mb-6" style="color:var(--fuchsia);" data-i18n="diff_title"></p>
+          <p class="section-label quiz-label-fuchsia text-center mb-6" data-i18n="diff_title"></p>
           <div class="grid grid-cols-2 gap-4 mb-6" id="diffGrid">
             <!-- injected by JS -->
           </div>
@@ -23,20 +23,20 @@
         </div>
 
         <!-- ══ PROGRESS ══ -->
-        <div id="progressRow" style="display:none;" class="flex items-center gap-3 mb-6">
-          <div class="flex-1 h-1 rounded-full" style="background:rgba(139,92,246,.15);">
-            <div class="progress-bar" id="progressBar" style="width:0%;"></div>
+        <div id="progressRow" hidden class="flex items-center gap-3 mb-6">
+          <div class="quiz-progress-track flex-1 h-1 rounded-full">
+            <div class="progress-bar" id="progressBar"></div>
           </div>
           <span class="progress-text text-slate-400" id="progressText">0/10</span>
         </div>
 
         <!-- ══ HUD ══ -->
-        <div id="hudRow" style="display:none;" class="flex justify-between items-center mb-6">
+        <div id="hudRow" hidden class="flex justify-between items-center mb-6">
           <div class="flex items-center gap-2">
             <span class="hud-label text-slate-500" data-i18n="hud_score"></span>
-            <span class="font-pixel text-base" id="scoreDisplay" style="color:var(--violet);">0</span>
+            <span class="font-pixel text-base quiz-score-value" id="scoreDisplay">0</span>
           </div>
-          <span class="font-pixel text-sm" id="streakDisplay" style="color:var(--fuchsia);"></span>
+          <span class="font-pixel text-sm quiz-streak-value" id="streakDisplay"></span>
           <div class="flex items-center gap-2">
             <span class="hud-label text-slate-500" data-i18n="hud_level"></span>
             <span class="font-pixel text-base text-white" id="levelDisplay">I</span>
@@ -44,13 +44,13 @@
         </div>
 
         <!-- ══ QUIZ AREA ══ -->
-        <div id="quizArea" style="display:none;">
+        <div id="quizArea" hidden>
           <div class="text-center mb-6">
-            <div class="inline-block px-4 py-2 rounded-lg mb-4 border" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.3);">
-              <span class="font-body text-sm tracking-widest uppercase font-700" style="color:#a78bfa;" id="wordCategory"></span>
+            <div class="quiz-word-category inline-block px-4 py-2 rounded-lg mb-4 border">
+              <span class="font-body text-sm tracking-widest uppercase font-700 quiz-word-category-text" id="wordCategory"></span>
             </div>
             <div id="wordKana" class="word-assist"></div>
-            <div class="font-pixel text-4xl sm:text-5xl glow-fuchsia" id="wordDisplay" style="color:var(--fuchsia);line-height:1.2;"></div>
+            <div class="font-pixel text-4xl sm:text-5xl glow-fuchsia quiz-word-display" id="wordDisplay"></div>
           </div>
 
           <div class="text-center mb-6" id="hintZone">
@@ -60,12 +60,12 @@
               </svg>
               <span data-i18n="hint_btn"></span>
             </button>
-            <div id="hintText" style="display:none;" class="mt-3 quiz-learning-stack">
+            <div id="hintText" hidden class="mt-3 quiz-learning-stack">
               <div class="quiz-learning-card">
                 <span class="quiz-learning-label" data-i18n="hint_label_one"></span>
                 <span class="font-body italic quiz-learning-copy" id="hintContent"></span>
               </div>
-              <div id="hintTextSecondary" style="display:none;" class="quiz-learning-card">
+              <div id="hintTextSecondary" hidden class="quiz-learning-card">
                 <span class="quiz-learning-label" data-i18n="hint_label_two"></span>
                 <span class="font-body italic quiz-learning-copy" id="hint2Content"></span>
               </div>
@@ -74,8 +74,8 @@
 
           <p class="font-body text-lg text-slate-400 text-center mb-4" data-i18n="quiz_question"></p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="answersGrid"></div>
-          <div id="feedback" class="quiz-feedback mt-5 text-center" style="display:none;"></div>
-          <div id="explanationBox" class="quiz-explanation mt-4" style="display:none;">
+          <div id="feedback" hidden class="quiz-feedback mt-5 text-center"></div>
+          <div id="explanationBox" hidden class="quiz-explanation mt-4">
             <span class="quiz-learning-label" data-i18n="explanation_label"></span>
             <p class="font-body quiz-explanation-copy" id="explanationContent"></p>
           </div>
@@ -85,32 +85,32 @@
         </div>
 
         <!-- ══ RESULTS ══ -->
-        <div id="resultsArea" style="display:none;" class="text-center py-4">
+        <div id="resultsArea" hidden class="text-center py-4">
           <div class="font-pixel text-5xl mb-5 score-pop" id="finalEmoji">🏆</div>
           <h3 class="pixel-heading-sm mb-3 text-white" id="finalTitle"></h3>
           <p class="font-body text-lg text-slate-400 mb-3" id="finalMsg"></p>
           <!-- New record badge (conditionally shown) -->
-          <div id="newRecordBadge" style="display:none;" class="mb-4">
+          <div id="newRecordBadge" hidden class="mb-4">
             <span class="new-record-badge" data-i18n="result_newrecord"></span>
           </div>
           <div class="flex justify-center gap-4 my-6 flex-wrap">
             <div>
-              <div class="font-pixel text-xl glow-violet" id="finalScore" style="color:var(--violet);"></div>
+              <div class="font-pixel text-xl glow-violet quiz-score-value" id="finalScore"></div>
               <div class="result-label text-slate-500 mt-2" data-i18n="result_score"></div>
             </div>
             <div class="w-px bg-slate-800 hidden sm:block"></div>
             <div>
-              <div class="font-pixel text-xl" id="finalCorrect" style="color:#4ade80;"></div>
+              <div class="font-pixel text-xl quiz-correct-value" id="finalCorrect"></div>
               <div class="result-label text-slate-500 mt-2" data-i18n="result_correct"></div>
             </div>
             <div class="w-px bg-slate-800 hidden sm:block"></div>
             <div>
-              <div class="font-pixel text-xl" id="finalPercent" style="color:var(--fuchsia);"></div>
+              <div class="font-pixel text-xl quiz-streak-value" id="finalPercent"></div>
               <div class="result-label text-slate-500 mt-2" data-i18n="result_acc"></div>
             </div>
             <div class="w-px bg-slate-800 hidden sm:block"></div>
             <div>
-              <div class="font-pixel text-xl" id="finalStreak" style="color:var(--cyan);"></div>
+              <div class="font-pixel text-xl quiz-cyan-value" id="finalStreak"></div>
               <div class="result-label text-slate-500 mt-2" data-i18n="result_streak"></div>
             </div>
           </div>
@@ -118,7 +118,7 @@
           <p class="font-body text-base text-slate-500 mb-6" id="bestScoreMsg"></p>
           <div class="flex flex-col sm:flex-row gap-3 justify-center">
             <button class="cta-btn" onclick="replayDifficulty()" data-i18n="result_replay"></button>
-            <button class="cta-btn" onclick="goToDiffPicker()" data-i18n="result_change_diff" style="background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(232,121,249,.3));box-shadow:none;border:1px solid rgba(139,92,246,.4);"></button>
+            <button class="cta-btn quiz-secondary-cta" onclick="goToDiffPicker()" data-i18n="result_change_diff"></button>
           </div>
 
           <!-- Share row -->
