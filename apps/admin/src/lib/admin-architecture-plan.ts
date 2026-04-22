@@ -301,7 +301,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         },
       },
       {
-        path: "apps/web/public/scripts/quiz-app.js",
+        path: "apps/web/src/scripts/quiz-app.ts",
         action: "update",
         note: {
           fr: "Isoler la logique de soumission email / état submitted.",
@@ -432,7 +432,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         note: { fr: "Archives par date passée.", en: "Archives by past date." },
       },
       {
-        path: "apps/web/public/scripts/quiz-app.js",
+        path: "apps/web/src/scripts/quiz-app.ts",
         action: "update",
         note: {
           fr: "Consommer un payload injecté au lieu du quiz legacy unique.",
