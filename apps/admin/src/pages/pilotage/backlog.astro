@@ -99,14 +99,6 @@ const initialVersionBlocks = [
   },
 ];
 const initialSummary = versionSummaries.find((summary) => summary.id === defaultVersion.id) ?? getSummary([defaultVersion]);
-const roadmapPayload = {
-  roadmap,
-  versionSummaries,
-  labels,
-  statusOptions,
-  sortOptions,
-  kindLabels,
-};
 ---
 <AdminLayout
   title="Admin — Backlog"
@@ -250,11 +242,4 @@ const roadmapPayload = {
         ))
       )}
     </section>
-  <script
-    slot="scripts"
-    is:inline
-    type="application/json"
-    id="roadmap-data"
-    set:html={JSON.stringify(roadmapPayload)}
-  ></script>
 </AdminLayout>

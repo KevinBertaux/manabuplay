@@ -1,6 +1,18 @@
 ---
 import AdminLayout from "../../layouts/AdminLayout.astro";
 
+type GuideSegment = {
+  type: "text" | "code";
+  value: string;
+};
+
+function getGuideSegments(item: string): GuideSegment[] {
+  return item.split("`").map((value, index) => ({
+    type: index % 2 === 0 ? "text" : "code",
+    value,
+  }));
+}
+
 const sections = [
   {
     title: "Zones du dashboard",
@@ -89,7 +101,11 @@ const sections = [
           <h2 class="guide-section-title">{section.title}</h2>
           <div class="guide-list">
             {section.items.map((item) => (
-              <div class="guide-item" set:html={item.replaceAll("`", "<code>").replace(/<code>([^<]+)<code>/g, "<code>$1</code>")}></div>
+              <div class="guide-item">
+                {getGuideSegments(item).map((segment) =>
+                  segment.type === "code" ? <code>{segment.value}</code> : <span>{segment.value}</span>,
+                )}
+              </div>
             ))}
           </div>
         </article>

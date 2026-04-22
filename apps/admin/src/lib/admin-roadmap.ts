@@ -57,6 +57,34 @@ type RoadmapData = {
   versions: RoadmapVersion[];
 };
 
+export type RoadmapLabels = {
+  priority: Record<RoadmapPriority, string>;
+  area: Record<RoadmapArea, string>;
+  type: Record<RoadmapType, string>;
+  status: Record<RoadmapStatus, string>;
+};
+
+export type RoadmapVersionSummary = {
+  index: number;
+  id: string;
+  label: string;
+  kind: RoadmapVersion["kind"];
+  summary: string;
+  done: number;
+  total: number;
+  childDone: number;
+  childTotal: number;
+};
+
+export type RoadmapPayload = {
+  roadmap: RoadmapData;
+  versionSummaries: RoadmapVersionSummary[];
+  labels: RoadmapLabels;
+  statusOptions: { id: string; label: string }[];
+  sortOptions: { id: string; label: string }[];
+  kindLabels: Record<RoadmapVersion["kind"], string>;
+};
+
 function readRoadmapFile() {
   const filePath = path.join(process.cwd(), "docs", "ROADMAP.json");
   return readFileSync(filePath, "utf8");
@@ -71,7 +99,7 @@ export function getRoadmapVersion(versionId: string) {
   return roadmap.versions.find((version) => version.id === versionId) ?? null;
 }
 
-export function getRoadmapVersionSummaries() {
+export function getRoadmapVersionSummaries(): RoadmapVersionSummary[] {
   const roadmap = getRoadmapData();
   return roadmap.versions.map((version, index) => {
     const done = version.items.filter((item) => item.status === "done").length;
@@ -114,5 +142,30 @@ export function getRoadmapLabelMap() {
     status: Object.fromEntries(
       roadmap.meta.statuses.map((entry) => [entry.id, entry.label]),
     ) as Record<RoadmapStatus, string>,
+  };
+}
+
+export function getRoadmapPayload(): RoadmapPayload {
+  return {
+    roadmap: getRoadmapData(),
+    versionSummaries: getRoadmapVersionSummaries(),
+    labels: getRoadmapLabelMap(),
+    statusOptions: [
+      { id: "all", label: "Tout" },
+      { id: "todo", label: "Backlog" },
+      { id: "done", label: "Terminé" },
+    ],
+    sortOptions: [
+      { id: "roadmap", label: "Ordre roadmap" },
+      { id: "status", label: "Backlog puis terminé" },
+      { id: "priority", label: "Priorité" },
+      { id: "area", label: "Zone" },
+    ],
+    kindLabels: {
+      history: "historique",
+      current: "actif",
+      planned: "prévu",
+      backlog: "backlog",
+    },
   };
 }
