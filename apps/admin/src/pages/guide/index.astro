@@ -19,8 +19,18 @@ const sections = [
       "`npm run dev -- --host 0.0.0.0 --app admin` : cible le dashboard.",
       "`npm run build` : build des 2 apps quand elles sont prêtes.",
       "`npm run build:web` / `npm run build:admin` : build ciblé.",
-      "`npm run check` : check rapide, utilisé par le pre-push.",
+      "`npm run check` : socle local obligatoire, avec Astro check, ESLint, Prettier et ratchet inline. C'est aussi le contrat du pre-push.",
       "`npm run check:feature` : validation plus large avant merge.",
+      "`npm run test:coverage` : verification de couverture du coeur teste.",
+    ],
+  },
+  {
+    title: "Qualite repo",
+    items: [
+      "Local et CI doivent verifier globalement les memes choses. On ne laisse plus Prettier uniquement a la CI.",
+      "ESLint et Prettier sont branches. Le formatage n'est plus un detail laisse au hasard du poste.",
+      "Le repo suit une ratchet sur les pages artisanales : pas de regression autorisee sur les attributs de style inline, les handlers inline, les scripts inline et les blocs de style de page tant que le nettoyage est en cours.",
+      "Standard vise : separation maximale HTML / CSS / JS. Les exceptions techniques doivent rester rares, explicites et defendables.",
     ],
   },
   {
@@ -28,7 +38,7 @@ const sections = [
     items: [
       "Le site public vit dans `apps/web`.",
       "Le dashboard vit dans `apps/admin`.",
-      "Le métier partagé vit dans `shared` : logique quiz, données communes et couches de styles transverses.",
+      "Le metier partage vit dans `shared` : logique quiz, donnees communes et couches de styles transverses.",
       "La tête de l'app admin est centralisée dans les layouts : meta, robots, favicon, generator et theme-color ne se redéclarent pas page par page.",
       "Tant qu'une app n'est pas prête, les commandes ciblées doivent échouer clairement, pas fallback silencieusement.",
     ],
@@ -39,18 +49,19 @@ const sections = [
       "`AdminLayout` : pages dashboard normales avec nav et shell admin.",
       "`DesignDocLayout` : documents design qui gardent leur surface dédiée mais héritent du layout racine admin.",
       "`AdminReferenceLayout` : mires internes isolées sans nav dashboard, pour les références hero / quiz et les usages similaires.",
-      "Règle : une nouvelle page admin choisit un de ces 3 layouts. On n'écrit plus `html/head/body` directement dans une page.",
+      "Règle : une nouvelle page admin choisit un de ces 3 layouts. On n'ecrit plus `html/head/body` directement dans une page.",
+      "Les references design chargent maintenant leur runtime via un point d'entree TS bundle cote admin, pas via un vieux script public partage a la main.",
     ],
   },
   {
     title: "CSS / Tailwind v4",
     items: [
-      "Tailwind v4 est déjà branché dans les 2 apps, mais le repo reste volontairement en mode hybride : utilities Tailwind + couches CSS partagées.",
-      "Les couches communes vivent maintenant dans `shared/styles`, agrégées par `shared.css` au-dessus de `foundation.css`, `animations.css`, `controls.css`, `quiz.css` et `typography.css`.",
-      "Règle de migration : ne pas refaire tout le site en Tailwind d'un coup. On migre par surface stable, avec un avant/après lisible et sans casser le rendu.",
-      "Ordre recommandé : 1) surface publique la plus touchée, 2) composants ou sections répétées, 3) admin seulement quand il devient une vraie app Astro avec layout racine propre.",
-      "Ce qui doit rester hors Tailwind tant qu'il n'y a pas de gain net : animations complexes, styles de référence design, pages mockup, et rustines historiques qu'on prévoit de supprimer.",
-      "Avant toute vraie migration visuelle, réduire les `style=\"\"` inline et les blocs `<style>` de page quand ils sont répétitifs ou qu'ils fuient hors de leur zone.",
+      "Tailwind v4 est deja branche dans les 2 apps, mais le repo reste volontairement en mode hybride : utilities Tailwind + couches CSS partagees.",
+      "Les couches communes vivent dans `shared/styles`, agregees par `shared.css` au-dessus de `foundation.css`, `animations.css`, `controls.css`, `quiz.css` et `typography.css`.",
+      "Regle de migration : ne pas refaire tout le site en Tailwind d'un coup. On migre par surface stable, avec un avant/apres lisible et sans casser le rendu.",
+      "Ordre retenu jusque-la : shell public et routes, puis admin standard, puis runtime quiz. Le chantier n'est pas considere fini tant qu'il reste des surfaces normales trop artisanales.",
+      "Ce qui doit rester hors Tailwind tant qu'il n'y a pas de gain net : animations complexes, styles de reference design, pages mockup, et rustines historiques qu'on prevoit de supprimer.",
+      "Objectif concret : faire tendre les surfaces normales vers zero attribut de style inline, zero bloc de style repetitif et zero script inline evitable.",
     ],
   },
 ];
@@ -66,9 +77,9 @@ const sections = [
       <span class="guide-eyebrow">Guide local</span>
       <h1 class="guide-title">Repères du dashboard</h1>
       <p class="guide-copy">
-        Cette page sert de rappel rapide : comment le repo est découpé, quelles commandes lancer, et où se trouvent les zones du dashboard
-        maintenant que l’interne sort du site public. Elle sert aussi de doctrine légère pour le CSS et Tailwind v4, afin d’éviter
-        un refactor UI diffus et mal séquencé.
+        Cette page sert de rappel rapide : comment le repo est decoupe, quelles commandes lancer, et quelles regles de qualite sont
+        maintenant obligatoires. Elle sert aussi de doctrine legere pour le CSS et Tailwind v4, afin d'eviter un refactor UI diffus
+        et mal sequence.
       </p>
     </section>
 

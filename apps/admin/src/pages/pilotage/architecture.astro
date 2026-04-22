@@ -35,10 +35,25 @@ const implementationSummary = getArchitectureImplementationSummary();
       <p class="arch-copy">
         <span
           data-admin-i18n
-          data-admin-fr="Cette page garde deux choses au même endroit : le tableau stratégique des 14 chantiers et le plan d'implémentation précis pour passer du MVP mono-page actuel à une vraie architecture Daily / Practice / Archives sans casser le site."
-          data-admin-en="This page keeps two things in one place: the strategic 14-step program and the precise implementation plan to move from the current single-page MVP to a real Daily / Practice / Archives architecture without breaking the site."
+          data-admin-fr="Cette page garde deux choses au même endroit : le tableau stratégique des 14 chantiers et la trace du plan qui a permis de passer d'un MVP mono-page à une vraie architecture Daily / Practice / Archives. Le split repo, la normalisation admin et le durcissement front ont maintenant été exécutés."
+          data-admin-en="This page keeps two things in one place: the strategic 14-step program and the record of the plan that moved the product from a single-page MVP to a real Daily / Practice / Archives architecture. The repo split, admin normalization, and front hardening are now done."
         >
-          Cette page garde deux choses au même endroit : le tableau stratégique des 14 chantiers et le plan d'implémentation précis pour passer du MVP mono-page actuel à une vraie architecture Daily / Practice / Archives sans casser le site.
+          Cette page garde deux choses au même endroit : le tableau stratégique des 14 chantiers et la trace du plan qui a permis de passer d'un MVP mono-page à une vraie architecture Daily / Practice / Archives. Le split repo, la normalisation admin et le durcissement front ont maintenant été exécutés.
+        </span>
+      </p>
+    </section>
+
+    <section class="arch-card arch-section-head">
+      <div class="arch-section-title" data-admin-i18n data-admin-fr="État après les lots de durcissement" data-admin-en="State after hardening lots">
+        État après les lots de durcissement
+      </div>
+      <p class="arch-section-copy">
+        <span
+          data-admin-i18n
+          data-admin-fr="Le shell public, les routes Daily / Practice / Archives et les builders de session sont en place. Depuis, le repo a aussi été durci : apps/web + apps/admin + shared, dashboard admin en vraie app Astro, runtime quiz critique en TypeScript, lint/format/ratchet inline alignés entre local et CI."
+          data-admin-en="The public shell, Daily / Practice / Archives routes, and session builders are in place. Since then, the repo has also been hardened: apps/web + apps/admin + shared, admin dashboard as a real Astro app, critical quiz runtime in TypeScript, and lint/format/inline ratchet aligned between local and CI."
+        >
+          Le shell public, les routes Daily / Practice / Archives et les builders de session sont en place. Depuis, le repo a aussi été durci : apps/web + apps/admin + shared, dashboard admin en vraie app Astro, runtime quiz critique en TypeScript, lint/format/ratchet inline alignés entre local et CI.
         </span>
       </p>
     </section>
@@ -239,10 +254,10 @@ const implementationSummary = getArchitectureImplementationSummary();
         <p class="arch-section-copy">
           <span
             data-admin-i18n
-            data-admin-fr="Cette séquence a servi de plan de migration vers la vraie architecture publique. Elle reste utile comme trace de ce qui est déjà posé en v0.1 et de ce qu'il reste à finir avant la coupe finale."
-            data-admin-en="This sequence served as the migration plan toward the real public architecture. It remains useful as a record of what is already in place in v0.1 and what still needs finishing before the final cutover."
+            data-admin-fr="Cette séquence a servi de plan de migration vers la vraie architecture publique. Elle sert maintenant surtout de trace : la migration publique est faite, et les prochains travaux portent davantage sur le contenu, la release v0.1 et les surfaces encore artisanales."
+            data-admin-en="This sequence served as the migration plan toward the real public architecture. It now mostly serves as a record: the public migration is done, and the next work is mostly about content, the v0.1 release, and remaining handcrafted surfaces."
           >
-            Cette séquence a servi de plan de migration vers la vraie architecture publique. Elle reste utile comme trace de ce qui est déjà posé en v0.1 et de ce qu'il reste à finir avant la coupe finale.
+            Cette séquence a servi de plan de migration vers la vraie architecture publique. Elle sert maintenant surtout de trace : la migration publique est faite, et les prochains travaux portent davantage sur le contenu, la release v0.1 et les surfaces encore artisanales.
           </span>
         </p>
       </div>
@@ -351,10 +366,10 @@ const implementationSummary = getArchitectureImplementationSummary();
         <p class="arch-footnote">
           <span
             data-admin-i18n
-            data-admin-fr="Règle de coupe : les routes produit sont validées. Le prochain vrai cutover consiste à retirer le flux home `#quiz` legacy quand la landing v0.2 basculera proprement sur la nouvelle architecture publique."
-            data-admin-en="Cut line: product routes are validated. The next real cutover is removing the legacy home `#quiz` flow once the v0.2 landing cleanly switches to the new public architecture."
+            data-admin-fr="Règle de coupe : les routes produit sont validées et le repo n'est plus structurellement en transition. Le prochain vrai cutover produit consiste à retirer le flux home `#quiz` legacy quand la landing v0.2 basculera proprement sur la nouvelle architecture publique."
+            data-admin-en="Cut line: product routes are validated and the repo is no longer structurally mid-transition. The next real product cutover is removing the legacy home `#quiz` flow once the v0.2 landing cleanly switches to the new public architecture."
           >
-            Règle de coupe : les routes produit sont validées. Le prochain vrai cutover consiste à retirer le flux home `#quiz` legacy quand la landing v0.2 basculera proprement sur la nouvelle architecture publique.
+            Règle de coupe : les routes produit sont validées et le repo n'est plus structurellement en transition. Le prochain vrai cutover produit consiste à retirer le flux home `#quiz` legacy quand la landing v0.2 basculera proprement sur la nouvelle architecture publique.
           </span>
         </p>
       </section>

@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-04-18",
+    "updatedAt": "2026-04-22",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "Backlog" },
@@ -99,6 +99,24 @@
           "area": "core",
           "type": "infra",
           "notes": "Le repo ne depend plus du monolithe racine : apps/web, apps/admin, shared et suites de tests separees."
+        },
+        {
+          "id": "v01-admin-real-app",
+          "title": "Faire du dashboard admin une vraie app Astro",
+          "status": "done",
+          "priority": "P1",
+          "area": "admin",
+          "type": "infra",
+          "notes": "Layouts racine, head centralise, favicon, references design et pages standard ne reconstruisent plus leur html/head/body a la main."
+        },
+        {
+          "id": "v01-front-hardening",
+          "title": "Durcir le front et sortir des pages artisanales",
+          "status": "done",
+          "priority": "P1",
+          "area": "core",
+          "type": "infra",
+          "notes": "ESLint, Prettier, ratchet inline, alignement check local / CI, nav admin composantisee, shell public/admin nettoyes et docs legacy archivees."
         },
         {
           "id": "v01-css-tailwind-strategy",
@@ -205,6 +223,15 @@
           "priority": "P0",
           "area": "quiz",
           "type": "feature"
+        },
+        {
+          "id": "v01-quiz-runtime-ts",
+          "title": "Migrer le runtime quiz critique vers TypeScript",
+          "status": "done",
+          "priority": "P1",
+          "area": "quiz",
+          "type": "infra",
+          "notes": "Le runtime n'est plus un quiz-app.js monolithique : boot, session et engagement sont modules et tapes."
         },
         {
           "id": "v01-daily",
@@ -420,6 +447,15 @@
             { "id": "smoke-v01", "title": "Faire une smoke pass finale", "status": "todo" },
             { "id": "release-branch-v01", "title": "Preparer la branche de prod", "status": "todo" }
           ]
+        },
+        {
+          "id": "v01-legacy-archive",
+          "title": "Archiver les snapshots legacy et clarifier les sources actives",
+          "status": "done",
+          "priority": "P2",
+          "area": "core",
+          "type": "infra",
+          "notes": "Les snapshots documentaires quittent docs actives pour legacy/docs-archive ; les sources canoniques restent ROADMAP, ATLAS et BUSINESS."
         }
       ]
     },

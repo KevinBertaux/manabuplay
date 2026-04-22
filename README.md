@@ -10,6 +10,12 @@ Repository for `v0.1`, now split into two Astro apps.
 - `docs`: roadmap, atlas, business notes
 - `legacy`: only the parity reference and archived snapshots kept for migration memory
 
+Current repo state:
+
+- `apps/admin` now behaves as a real Astro app with dedicated layouts
+- local `check` and CI now enforce the same base quality contract
+- the critical quiz runtime now lives in typed source modules, not in a single legacy public JS file
+
 ## Stack
 
 - Astro 6
@@ -36,7 +42,7 @@ npm run preview
 
 Validation levels:
 
-- `npm run check`: quick local checks
+- `npm run check`: Astro diagnostics + px guard + ESLint + Prettier + inline-usage ratchet
 - `npm run lint`: ESLint on repo sources
 - `npm run format:check`: Prettier verification
 - `npm run check:feature`: unit tests + build + critical public Playwright flows
