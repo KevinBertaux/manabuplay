@@ -13,9 +13,9 @@ import {
 describe("catalog", () => {
   it("exposes the frozen release, pack, and difficulty metadata", () => {
     expect(RELEASES).toHaveLength(1);
-    expect(PACKS).toHaveLength(1);
+    expect(PACKS).toHaveLength(5);
     expect(DIFFICULTIES.length).toBeGreaterThan(0);
-    expect(MANABU_CATALOG.defaultPackId).toBe("gaming-core");
+    expect(MANABU_CATALOG.defaultPackId).toBe("jrpg-essentials");
   });
 
   it("creates unique word ids and mirrored pack entries", () => {
@@ -23,13 +23,19 @@ describe("catalog", () => {
 
     expect(ids.size).toBe(WORDS.length);
     expect(PACK_ENTRIES).toHaveLength(WORDS.length);
-    expect(PACK_ENTRIES.every((entry, index) => entry.order === index + 1)).toBe(true);
+    expect(WORDS).toHaveLength(150);
+
+    for (const pack of PACKS) {
+      const entries = PACK_ENTRIES.filter((entry) => entry.packId === pack.id);
+      expect(entries).toHaveLength(30);
+      expect(entries.every((entry, index) => entry.order === index + 1)).toBe(true);
+    }
   });
 
-  it("builds legacy quiz data for the default pack", () => {
+  it("builds canonical quiz data for the default pack", () => {
     const quizData = buildCatalogQuizData();
 
-    expect(quizData.length).toBe(WORDS.length);
+    expect(quizData).toHaveLength(30);
     expect(quizData[0]).toHaveProperty("word");
     expect(quizData[0]).toHaveProperty("correct");
     expect(quizData[0]).toHaveProperty("wrong");
@@ -57,8 +63,8 @@ describe("catalog", () => {
   it("builds the catalog boot payload from the catalog", () => {
     const payload = buildCatalogBootData();
 
-    expect(payload.catalog.defaultPackId).toBe("gaming-core");
-    expect(payload.quizData).toHaveLength(WORDS.length);
+    expect(payload.catalog.defaultPackId).toBe("jrpg-essentials");
+    expect(payload.quizData).toHaveLength(30);
     expect(payload.difficulties).toEqual(DIFFICULTIES);
     expect(payload.lang).toHaveProperty("en");
     expect(payload.lang).toHaveProperty("fr");

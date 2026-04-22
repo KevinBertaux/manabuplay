@@ -1,6 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
-import { MVP_QUIZ_DATA } from "../data/manabuplay/raw.generated.js";
+import {
+  buildExistingWordQuizLookup,
+  getCanonicalPackFiles,
+  getCanonicalPackIndex,
+} from "../data/manabuplay/pack-source";
 
 export type PackReaderWord = {
   order: number;
@@ -129,60 +131,7 @@ export type PackReaderPack = {
   words: PackReaderWord[];
 };
 
-type PackIndex = {
-  packs: Array<{
-    id: string;
-    path: string;
-    existingWords: number;
-    plannedWords: number;
-  }>;
-};
-
-const packsRoot = path.join(process.cwd(), "shared", "data", "manabuplay", "packs", "v0.1");
-
-function slugify(input: string) {
-  return input
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/&/g, " and ")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-function buildLegacyLookup() {
-  const wordIds = new Set<string>();
-  const lookup = new Map<
-    string,
-    {
-      correct: { fr: string; en: string };
-      wrong: { fr: string[]; en: string[] };
-    }
-  >();
-
-  for (const [index, entry] of MVP_QUIZ_DATA.entries()) {
-    const seed = slugify(entry.kana) || slugify(entry.word) || `word-${index + 1}`;
-    let candidate = seed;
-    let suffix = 2;
-    while (wordIds.has(candidate)) {
-      candidate = `${seed}-${suffix}`;
-      suffix += 1;
-    }
-    wordIds.add(candidate);
-    lookup.set(candidate, {
-      correct: entry.correct,
-      wrong: entry.wrong,
-    });
-  }
-
-  return lookup;
-}
-
-const legacyQuizById = buildLegacyLookup();
-
-function readJson<T>(filePath: string): T {
-  return JSON.parse(fs.readFileSync(filePath, "utf8")) as T;
-}
+const existingQuizById = buildExistingWordQuizLookup();
 
 function buildTierBreakdown(words: PackReaderWord[]) {
   const counts = {
@@ -309,33 +258,31 @@ function shuffleParallelAnswers(
 }
 
 export function getPackIndex() {
-  return readJson<PackIndex>(path.join(packsRoot, "index.json"));
+  return getCanonicalPackIndex();
 }
 
 export function getPackById(packId: string) {
-  const index = getPackIndex();
-  const match = index.packs.find((pack) => pack.id === packId);
-  if (!match) {
+  const pack = getCanonicalPackFiles().find((candidate) => candidate.id === packId);
+  if (!pack) {
     return null;
   }
 
-  const pack = readJson<PackReaderPack>(path.join(packsRoot, path.basename(match.path)));
   const packGlosses = pack.words
     .map((word) => word.gloss?.fr || word.meaning?.fr)
     .filter((gloss): gloss is string => Boolean(gloss));
 
   const words = pack.words.map((word, index) => {
-    const legacy = word.existingWordId ? legacyQuizById.get(word.existingWordId) : null;
+    const existing = word.existingWordId ? existingQuizById.get(word.existingWordId) : null;
     const correctFr =
-      word.gloss?.fr || word.meaning?.fr || legacy?.correct.fr || "Réponse à écrire.";
+      word.gloss?.fr || word.meaning?.fr || existing?.correct.fr || "Réponse à écrire.";
     const correctEn =
-      word.gloss?.en || word.meaning?.en || legacy?.correct.en || "Answer to write.";
+      word.gloss?.en || word.meaning?.en || existing?.correct.en || "Answer to write.";
     const distractorsFr =
       word.quiz?.distractors?.fr?.slice(0, 3) ||
       pickGlossDistractors(packGlosses, correctFr, index * 2);
     const distractorsEn =
       word.quiz?.distractors?.en?.slice(0, 3) ||
-      legacy?.wrong.en?.slice(0, 3) ||
+      existing?.wrong.en?.slice(0, 3) ||
       pickGlossDistractors(
         pack.words
           .map((candidate) => candidate.gloss?.en || candidate.meaning?.en)
