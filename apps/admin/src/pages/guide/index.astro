@@ -44,6 +44,7 @@ const sections = [
       "ESLint et Prettier sont branches. Le formatage n'est plus un detail laisse au hasard du poste.",
       "Le repo suit une ratchet sur les pages artisanales : pas de regression autorisee sur les attributs de style inline, les handlers inline, les scripts inline et les blocs de style de page tant que le nettoyage est en cours.",
       "Standard vise : separation maximale HTML / CSS / JS. Les exceptions techniques doivent rester rares, explicites et defendables.",
+      "Niveau actuel suivi par la ratchet : 80 attributs de style inline, 11 handlers inline, 3 scripts inline, 4 blocs de style. C'est mieux qu'avant, mais ce n'est pas considere comme un etat final acceptable.",
     ],
   },
   {
@@ -55,6 +56,16 @@ const sections = [
       "Le metier partage vit dans `shared` : logique quiz, donnees communes et couches de styles transverses.",
       "La tête de l'app admin est centralisée dans les layouts : meta, robots, favicon, generator et theme-color ne se redéclarent pas page par page.",
       "Tant qu'une app n'est pas prête, les commandes ciblées doivent échouer clairement, pas fallback silencieusement.",
+      "Le dashboard suit maintenant les memes conventions d'interaction de base que le public sur les cards et les hovers. Les fixes visuels ne doivent plus partir dans des exceptions locales improvisées.",
+    ],
+  },
+  {
+    title: "Canon data",
+    items: [
+      "Le canon actif est maintenant pack-first. Le catalogue, le quiz pool et les builders Daily / Practice / Archives lisent la meme source.",
+      "L'ancien snapshot genere archive dans `legacy/data-archive/` reste uniquement une memoire de migration. Il ne doit plus reapparaitre dans les chemins actifs.",
+      "Le repo a un audit de frontieres canoniques : on ne reintroduit plus l'ancien snapshot genere, les anciens marqueurs seed-legacy, l'ancien script de comparaison legacy ni l'ancien chemin de landing historique dans le code courant.",
+      "Le legacy utile reste `legacy/reference-landing.html` pour la parite visuelle et certains audits, rien de plus.",
     ],
   },
   {
@@ -74,6 +85,7 @@ const sections = [
       "Les couches communes vivent dans `shared/styles`, agregees par `shared.css` au-dessus de `foundation.css`, `animations.css`, `controls.css`, `quiz.css` et `typography.css`.",
       "Regle de migration : ne pas refaire tout le site en Tailwind d'un coup. On migre par surface stable, avec un avant/apres lisible et sans casser le rendu.",
       "Ordre retenu jusque-la : shell public et routes, puis admin standard, puis runtime quiz. Le chantier n'est pas considere fini tant qu'il reste des surfaces normales trop artisanales.",
+      "Le lecteur de packs admin utilise maintenant sa propre variante de bouton de reponse au lieu de subir la classe globale `answer-btn`. Quand une collision de styles existe, on cree une variante dediee au lieu d'empiler des exceptions.",
       "Ce qui doit rester hors Tailwind tant qu'il n'y a pas de gain net : animations complexes, styles de reference design, pages mockup, et rustines historiques qu'on prevoit de supprimer.",
       "Objectif concret : faire tendre les surfaces normales vers zero attribut de style inline, zero bloc de style repetitif et zero script inline evitable.",
     ],

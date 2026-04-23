@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-04-22",
+    "updatedAt": "2026-04-23",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "Backlog" },
@@ -117,6 +117,24 @@
           "area": "core",
           "type": "infra",
           "notes": "ESLint, Prettier, ratchet inline, alignement check local / CI, nav admin composantisee, shell public/admin nettoyes et docs legacy archivees."
+        },
+        {
+          "id": "v01-pack-first-canon",
+          "title": "Basculer le canon actif vers le pack-first et fermer les frontieres legacy",
+          "status": "done",
+          "priority": "P0",
+          "area": "data",
+          "type": "infra",
+          "notes": "Le catalogue actif, le quiz pool et les builders Daily / Practice / Archives lisent maintenant le meme canon pack-first. raw.generated est archive et un audit de frontieres empeche son retour dans les chemins actifs."
+        },
+        {
+          "id": "v01-visual-regression-fixes",
+          "title": "Corriger les regressions visuelles majeures post-refacto",
+          "status": "done",
+          "priority": "P1",
+          "area": "admin",
+          "type": "ux",
+          "notes": "Audit screenshot avant/apres sur baseline 90f13f8, puis correction des cards pack admin, du comportement des drawers et harmonisation des hover cards / reponses."
         },
         {
           "id": "v01-css-tailwind-strategy",

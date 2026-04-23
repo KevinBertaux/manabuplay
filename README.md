@@ -15,6 +15,9 @@ Current repo state:
 - `apps/admin` now behaves as a real Astro app with dedicated layouts
 - local `check` and CI now enforce the same base quality contract
 - the critical quiz runtime now lives in typed source modules, not in a single legacy public JS file
+- active catalog data, quiz pool and builders now run on the pack-first canon
+- legacy generated data has been pushed out of active code paths into `legacy/data-archive`
+- a visual audit against `90f13f8` was completed and the main admin pack-card regressions were fixed on `main`
 
 ## Stack
 
@@ -52,6 +55,7 @@ Inline usage policy:
 
 - the repo is moving away from inline `style=""`, inline handlers and inline scripts
 - `npm run check:inline-usage` currently works as a ratchet: no regression is allowed while cleanup lots are in progress
+- residual inline debt still exists and remains a conscious cleanup target, not an accepted steady state
 
 Preview:
 
