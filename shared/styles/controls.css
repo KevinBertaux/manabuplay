@@ -26,12 +26,13 @@
   transition: opacity 0.2s;
 }
 .answer-btn:hover:not(:disabled) {
-  border-color: rgba(139, 92, 246, 0.8);
-  box-shadow: 0 0 16px rgba(139, 92, 246, 0.3);
-  transform: translateX(4px);
+  border-color: rgba(232, 121, 249, 0.38);
+  background: rgba(232, 121, 249, 0.06);
+  box-shadow: none;
+  transform: translateY(-2px);
 }
 .answer-btn:hover:not(:disabled)::before {
-  opacity: 0.08;
+  opacity: 0;
 }
 .answer-btn span {
   position: relative;

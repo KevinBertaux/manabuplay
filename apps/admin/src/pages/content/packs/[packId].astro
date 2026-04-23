@@ -382,17 +382,17 @@ function getTierTone(word: PackReaderWord) {
               <div class="review-answers">
                 {word.quizPreview?.answers.fr.map((answer, answerIndex) => (
                   <button
-                    class="answer-btn"
+                    class="reader-answer-btn"
                     type="button"
                     data-answer-index={answerIndex}
                   >
-                    <span class="answer-key">{answerIndex + 1}</span>
-                    <span class="answer-copy" data-admin-i18n data-admin-fr={answer} data-admin-en={word.quizPreview?.answers.en[answerIndex] || answer}>{answer}</span>
+                    <span class="reader-answer-key">{answerIndex + 1}</span>
+                    <span class="reader-answer-copy" data-admin-i18n data-admin-fr={answer} data-admin-en={word.quizPreview?.answers.en[answerIndex] || answer}>{answer}</span>
                   </button>
                 )) || (
-                  <button class="answer-btn" type="button" data-answer-index="0">
-                    <span class="answer-key">1</span>
-                    <span class="answer-copy" data-admin-i18n data-admin-fr={getMeaningByLang(word).fr} data-admin-en={getMeaningByLang(word).en}>{getMeaning(word)}</span>
+                  <button class="reader-answer-btn" type="button" data-answer-index="0">
+                    <span class="reader-answer-key">1</span>
+                    <span class="reader-answer-copy" data-admin-i18n data-admin-fr={getMeaningByLang(word).fr} data-admin-en={getMeaningByLang(word).en}>{getMeaning(word)}</span>
                   </button>
                 )}
               </div>
