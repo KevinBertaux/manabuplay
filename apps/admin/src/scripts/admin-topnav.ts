@@ -59,7 +59,7 @@ function initAdminTopNav() {
 
     for (const link of group.querySelectorAll("a")) {
       link.addEventListener("click", () => {
-        group.removeAttribute("open");
+        closeGroups(groups);
       });
     }
   }

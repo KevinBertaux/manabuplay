@@ -43,7 +43,7 @@ const summaryClass =
       const isActive = isAdminNavGroupActive(group, active);
 
       return (
-        <details class:list={["admin-topnav__group relative", { "is-active": isActive }]} open={isActive} data-admin-group>
+        <details class:list={["admin-topnav__group relative", { "is-active": isActive }]} data-admin-group>
           <summary
             class:list={[
               summaryClass,
