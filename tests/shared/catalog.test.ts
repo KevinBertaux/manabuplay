@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildCatalogBootData,
   buildCatalogQuizData,
+  buildCatalogPackQuizData,
   DIFFICULTIES,
   MANABU_CATALOG,
   PACK_ENTRIES,
@@ -32,17 +33,27 @@ describe("catalog", () => {
     }
   });
 
-  it("builds canonical quiz data for the default pack", () => {
+  it("builds canonical runtime quiz data for the full v0.1 corpus", () => {
     const quizData = buildCatalogQuizData();
 
-    expect(quizData).toHaveLength(30);
+    expect(quizData).toHaveLength(WORDS.length);
     expect(quizData[0]).toHaveProperty("word");
+    expect(quizData[0]).toHaveProperty("id");
+    expect(quizData[0]).toHaveProperty("hint2");
+    expect(quizData[0]).toHaveProperty("explanation");
     expect(quizData[0]).toHaveProperty("correct");
     expect(quizData[0]).toHaveProperty("wrong");
   });
 
+  it("builds pack-level quiz data for a specific canonical pack", () => {
+    const quizData = buildCatalogPackQuizData("jrpg-essentials");
+
+    expect(quizData).toHaveLength(30);
+    expect(quizData.every((entry) => entry.id.startsWith("jrpg-essentials:"))).toBe(true);
+  });
+
   it("returns an empty quiz list for an unknown pack", () => {
-    expect(buildCatalogQuizData("unknown-pack")).toEqual([]);
+    expect(buildCatalogPackQuizData("unknown-pack")).toEqual([]);
   });
 
   it("throws if a pack entry references an unknown word id", () => {
@@ -54,7 +65,7 @@ describe("catalog", () => {
     PACK_ENTRIES[0].wordId = "missing-word";
 
     try {
-      expect(() => buildCatalogQuizData()).toThrow(/Unknown wordId/);
+      expect(() => buildCatalogPackQuizData()).toThrow(/Unknown wordId/);
     } finally {
       PACK_ENTRIES[0].wordId = originalWordId;
     }
@@ -64,7 +75,7 @@ describe("catalog", () => {
     const payload = buildCatalogBootData();
 
     expect(payload.catalog.defaultPackId).toBe("jrpg-essentials");
-    expect(payload.quizData).toHaveLength(30);
+    expect(payload.quizData).toHaveLength(WORDS.length);
     expect(payload.difficulties).toEqual(DIFFICULTIES);
     expect(payload.lang).toHaveProperty("en");
     expect(payload.lang).toHaveProperty("fr");

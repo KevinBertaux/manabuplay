@@ -29,10 +29,14 @@ export const DIFFICULTIES: DifficultyConfig[] = CURRENT_DIFFICULTIES.map((diffic
 }));
 
 export type CatalogQuizEntry = {
+  id: string;
+  tier: 1 | 2 | 3 | 4;
   word: string;
   kana: string;
   cat: LocalizedText;
   hint: LocalizedText;
+  hint2: LocalizedText;
+  explanation: LocalizedText;
   correct: LocalizedText;
   wrong: Record<"en" | "fr", string[]>;
 };
@@ -241,23 +245,41 @@ export const MANABU_CATALOG: ManabuCatalog = {
 
 const wordsById = new Map(WORDS.map((word) => [word.id, word]));
 
-export function buildCatalogQuizData(packId = DEFAULT_PACK_ID): CatalogQuizEntry[] {
+function buildCatalogQuizEntry(entry: PackEntry): CatalogQuizEntry {
+  const word = wordsById.get(entry.wordId);
+  if (!word) {
+    throw new Error(`Unknown wordId "${entry.wordId}" in pack "${entry.packId}".`);
+  }
+
+  return {
+    id: `${entry.packId}:${entry.wordId}`,
+    tier: 1,
+    word: word.jp.term,
+    kana: word.jp.assist,
+    cat: entry.category as LocalizedText,
+    hint: entry.hints.primary as LocalizedText,
+    hint2: (entry.hints.secondary || entry.hints.primary) as LocalizedText,
+    explanation: (entry.explanation || word.meaning) as LocalizedText,
+    correct: word.meaning,
+    wrong: entry.distractors.overrides,
+  };
+}
+
+export function buildCatalogQuizData(packId?: string): CatalogQuizEntry[] {
+  return PACK_ENTRIES.filter((entry) => !packId || entry.packId === packId)
+    .sort((left, right) =>
+      left.packId === right.packId
+        ? left.order - right.order
+        : left.packId.localeCompare(right.packId),
+    )
+    .map((entry) => buildCatalogQuizEntry(entry));
+}
+
+export function buildCatalogPackQuizData(packId = DEFAULT_PACK_ID): CatalogQuizEntry[] {
   return PACK_ENTRIES.filter((entry) => entry.packId === packId)
     .sort((left, right) => left.order - right.order)
     .map((entry) => {
-      const word = wordsById.get(entry.wordId);
-      if (!word) {
-        throw new Error(`Unknown wordId "${entry.wordId}" in pack "${entry.packId}".`);
-      }
-
-      return {
-        word: word.jp.term,
-        kana: word.jp.assist,
-        cat: entry.category as LocalizedText,
-        hint: entry.hints.primary as LocalizedText,
-        correct: word.meaning,
-        wrong: entry.distractors.overrides,
-      };
+      return buildCatalogQuizEntry(entry);
     });
 }
 
@@ -267,9 +289,6 @@ export function buildCatalogBootData() {
     defaultPackId: DEFAULT_PACK_ID,
     difficulties: DIFFICULTIES,
     lang: CURRENT_PRODUCT_COPY,
-    quizData: buildCatalogQuizData(DEFAULT_PACK_ID),
+    quizData: buildCatalogQuizData(),
   };
 }
-
-export const buildLegacyQuizData = buildCatalogQuizData;
-export const buildMvpBootData = buildCatalogBootData;
