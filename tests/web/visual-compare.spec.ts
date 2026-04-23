@@ -12,10 +12,10 @@ import {
 
 const RUN_LEGACY_VISUAL_PARITY = process.env.PW_LEGACY_VISUAL_PARITY === "1";
 
-test.describe("Legacy MVP vs Astro MVP", () => {
+test.describe("Legacy reference vs Astro public landing", () => {
   test.skip(
     !RUN_LEGACY_VISUAL_PARITY,
-    "Legacy parity is opt-in now that the public landing intentionally diverges from the MVP reference.",
+    "Legacy parity is opt-in now that the public landing intentionally diverges from the archived reference.",
   );
 
   test("section-by-section visual parity", async ({ browser }, testInfo) => {
