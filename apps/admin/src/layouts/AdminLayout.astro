@@ -3,6 +3,13 @@ import "../styles/admin.css";
 import "../styles/admin-pages.css";
 import AdminTopNav from "../components/AdminTopNav.astro";
 import type { AdminNavKey } from "../lib/admin-nav";
+import {
+  ADMIN_APP_DESCRIPTION,
+  ADMIN_APP_NAME,
+  ADMIN_BODY_APP,
+  ADMIN_THEME_COLOR,
+  getAdminDocumentTitle,
+} from "../lib/admin-app";
 
 interface Props {
   title: string;
@@ -24,7 +31,8 @@ const {
   pageId = "",
 } = Astro.props;
 
-const fullTitle = /ManabuPlay|Admin/.test(title) ? title : `${title} — Dashboard ManabuPlay`;
+const fullTitle = getAdminDocumentTitle(title);
+const metaDescription = description || ADMIN_APP_DESCRIPTION;
 ---
 <!DOCTYPE html>
 <html lang={lang}>
@@ -32,15 +40,18 @@ const fullTitle = /ManabuPlay|Admin/.test(title) ? title : `${title} — Dashboa
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="generator" content={Astro.generator} />
+  <meta name="application-name" content={ADMIN_APP_NAME} />
   <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#0a0911" />
+  <meta name="theme-color" content={ADMIN_THEME_COLOR} />
   <title>{fullTitle}</title>
-  {description && <meta name="description" content={description} />}
+  <meta name="description" content={metaDescription} />
   <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
   <slot name="head" />
 </head>
-<body class={bodyClass} data-admin-page={pageId}>
+<body class={bodyClass} data-admin-page={pageId} data-admin-app={ADMIN_BODY_APP}>
   <main class={containerClass}>
     <AdminTopNav active={activeNav} />
     <slot />

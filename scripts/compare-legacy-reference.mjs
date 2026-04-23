@@ -44,7 +44,7 @@ const legacyServer = startServer(root, 4173);
 const astroServer = startServer(path.join(root, "dist"), 4174);
 
 try {
-  await waitForServer("http://127.0.0.1:4173/legacy/mvp-index.html");
+  await waitForServer("http://127.0.0.1:4173/legacy/reference-landing.html");
   await waitForServer("http://127.0.0.1:4174/");
 
   const browserServer = await chromium.launchServer({
@@ -59,7 +59,7 @@ try {
     const astroPage = await browser.newPage({ viewport: { width: 1440, height: 2200 } });
 
     await Promise.all([
-      preparePage(legacyPage, "http://127.0.0.1:4173/legacy/mvp-index.html"),
+      preparePage(legacyPage, "http://127.0.0.1:4173/legacy/reference-landing.html"),
       preparePage(astroPage, "http://127.0.0.1:4174/"),
     ]);
 

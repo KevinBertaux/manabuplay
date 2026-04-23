@@ -1,6 +1,12 @@
 ---
 import "../../../../shared/styles/shared.css";
 import "../styles/admin.css";
+import {
+  ADMIN_APP_DESCRIPTION,
+  ADMIN_BODY_APP,
+  ADMIN_THEME_COLOR,
+  getAdminDocumentTitle,
+} from "../lib/admin-app";
 
 interface Props {
   title: string;
@@ -16,7 +22,8 @@ const {
   bodyClass = "text-slate-200",
 } = Astro.props;
 
-const fullTitle = /ManabuPlay|Admin/.test(title) ? title : `${title} — Dashboard ManabuPlay`;
+const fullTitle = getAdminDocumentTitle(title);
+const metaDescription = description || ADMIN_APP_DESCRIPTION;
 ---
 <!DOCTYPE html>
 <html lang={lang} id="htmlRoot">
@@ -25,14 +32,16 @@ const fullTitle = /ManabuPlay|Admin/.test(title) ? title : `${title} — Dashboa
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="generator" content={Astro.generator} />
   <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#0a0911" />
+  <meta name="theme-color" content={ADMIN_THEME_COLOR} />
   <title>{fullTitle}</title>
-  {description && <meta name="description" content={description} />}
+  <meta name="description" content={metaDescription} />
   <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
   <slot name="head" />
 </head>
-<body class={bodyClass}>
+<body class={bodyClass} data-admin-app={ADMIN_BODY_APP}>
   <slot />
   <slot name="scripts" />
 </body>

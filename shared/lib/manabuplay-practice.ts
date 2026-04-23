@@ -1,5 +1,4 @@
-import { buildCatalogBootData } from "../data/manabuplay/catalog";
-import { buildV01QuizPool } from "./manabuplay-quiz-pool";
+import { buildCatalogBootData, buildCatalogQuizData } from "../data/manabuplay/catalog";
 
 const PRACTICE_QUESTION_COUNT = 10;
 const PRACTICE_COOLDOWN_SESSIONS = 2;
@@ -76,6 +75,6 @@ export function buildPracticeBootData() {
         result_change_diff: "CHANGER DE RUN",
       },
     },
-    quizData: buildV01QuizPool(),
+    quizData: buildCatalogQuizData(),
   };
 }

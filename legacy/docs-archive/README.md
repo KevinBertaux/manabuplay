@@ -9,6 +9,11 @@ Rôle :
 
 Ce dossier ne sert pas à piloter le produit courant.
 
+Il contient aussi :
+
+- `html-prototypes/`
+  anciens prototypes HTML/CSS/JS devenus non canoniques
+
 Sources actives à utiliser en priorité :
 
 - `docs/ROADMAP.json`

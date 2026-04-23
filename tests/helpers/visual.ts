@@ -4,7 +4,7 @@ import type { Locator, Page, TestInfo } from "@playwright/test";
 import { PNG } from "pngjs";
 import pixelmatch from "pixelmatch";
 
-export const LEGACY_URL = "http://127.0.0.1:4173/legacy/mvp-index.html";
+export const LEGACY_URL = "http://127.0.0.1:4173/legacy/reference-landing.html";
 export const ASTRO_URL = "http://127.0.0.1:4174/";
 export const ASTRO_HOME_URL = `${ASTRO_URL}en/`;
 const WRITE_VISUAL_ARTIFACTS = process.env.PW_DEBUG_ARTIFACTS === "1";

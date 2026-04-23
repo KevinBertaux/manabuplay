@@ -10,7 +10,7 @@
     {
       "id": "gacha",
       "status": "existing-word",
-      "source": "legacy-mvp",
+      "source": "seed-legacy",
       "existingWordId": "gacha",
       "jp": "ガチャ",
       "assist": "Gacha",
@@ -27,7 +27,7 @@
     {
       "id": "free-to-play",
       "status": "existing-word",
-      "source": "legacy-mvp",
+      "source": "seed-legacy",
       "existingWordId": "free-to-play",
       "jp": "フリプレ",
       "assist": "Free-to-Play",
@@ -44,7 +44,7 @@
     {
       "id": "cheat",
       "status": "existing-word",
-      "source": "legacy-mvp",
+      "source": "seed-legacy",
       "existingWordId": "chito-cheat",
       "jp": "チート",
       "assist": "Chīto / Cheat",
@@ -61,7 +61,7 @@
     {
       "id": "lives-stock",
       "status": "existing-word",
-      "source": "legacy-mvp",
+      "source": "seed-legacy",
       "existingWordId": "zanki",
       "jp": "残機",
       "assist": "Zanki",
@@ -78,7 +78,7 @@
     {
       "id": "hidden-character",
       "status": "existing-word",
-      "source": "legacy-mvp",
+      "source": "seed-legacy",
       "existingWordId": "kakushi-kara",
       "jp": "隠しキャラ",
       "assist": "Kakushi Kara",
@@ -95,7 +95,7 @@
     {
       "id": "curse",
       "status": "existing-word",
-      "source": "legacy-mvp",
+      "source": "seed-legacy",
       "existingWordId": "noroi",
       "jp": "呪い",
       "assist": "Noroi",
@@ -112,7 +112,7 @@
     {
       "id": "legend",
       "status": "existing-word",
-      "source": "legacy-mvp",
+      "source": "seed-legacy",
       "existingWordId": "densetsu",
       "jp": "伝説",
       "assist": "Densetsu",
@@ -129,7 +129,7 @@
     {
       "id": "stealth",
       "status": "existing-word",
-      "source": "legacy-mvp",
+      "source": "seed-legacy",
       "existingWordId": "onmitsu",
       "jp": "隠密",
       "assist": "Onmitsu",

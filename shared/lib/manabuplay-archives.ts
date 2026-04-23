@@ -1,5 +1,4 @@
-import { buildCatalogBootData } from "../data/manabuplay/catalog";
-import { buildV01QuizPool } from "./manabuplay-quiz-pool";
+import { buildCatalogBootData, buildCatalogQuizData } from "../data/manabuplay/catalog";
 
 const ARCHIVE_START_DATE = "2026-01-01";
 const ARCHIVE_QUESTION_COUNT = 10;
@@ -91,6 +90,6 @@ export function buildArchivesBootData(selectedDate = getLatestArchiveDateKey()) 
         result_change_diff: "RETOUR AUX ARCHIVES",
       },
     },
-    quizData: buildV01QuizPool(),
+    quizData: buildCatalogQuizData(),
   };
 }

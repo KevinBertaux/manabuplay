@@ -22,7 +22,7 @@ export default defineConfig({
     {
       command: `${pythonCommand} -m http.server 4173 --bind 127.0.0.1`,
       cwd: repoRoot,
-      url: "http://127.0.0.1:4173/legacy/mvp-index.html",
+      url: "http://127.0.0.1:4173/legacy/reference-landing.html",
       reuseExistingServer: true,
       timeout: 30_000,
     },

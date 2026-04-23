@@ -1,4 +1,5 @@
-import { MVP_DIFFICULTIES, MVP_LANG, MVP_QUIZ_DATA } from "./raw.generated.js";
+import { CURRENT_PRODUCT_COPY } from "./product-copy";
+import { CURRENT_DIFFICULTIES, getCanonicalPackFiles } from "./pack-source";
 import type {
   DifficultyConfig,
   LocalizedText,
@@ -10,7 +11,9 @@ import type {
 } from "./schema";
 
 const CURRENT_RELEASE_ID = "v0.1.0";
-const DEFAULT_PACK_ID = "gaming-core";
+const CANONICAL_PACKS = getCanonicalPackFiles();
+const DEFAULT_PACK_ID = CANONICAL_PACKS[0]?.id || "";
+const canonicalWordsByPackId = new Map(CANONICAL_PACKS.map((pack) => [pack.id, pack.words]));
 
 export const RELEASES: ReleaseNote[] = [
   {
@@ -18,42 +21,47 @@ export const RELEASES: ReleaseNote[] = [
     date: "2026-04-02",
     title: "Pack-first catalog baseline",
     summary:
-      "Freeze the scalable content schema in code and migrate the legacy 50-word seed into a shared catalog.",
+      "Freeze the v0.1 five-pack catalog and serve the active boot payload from canonical pack data.",
   },
 ];
 
-export const DIFFICULTIES: DifficultyConfig[] = MVP_DIFFICULTIES.map((difficulty) => ({
+export const DIFFICULTIES: DifficultyConfig[] = CURRENT_DIFFICULTIES.map((difficulty) => ({
   ...difficulty,
 }));
 
-export const PACKS: PackDefinition[] = [
-  {
-    id: DEFAULT_PACK_ID,
-    slug: DEFAULT_PACK_ID,
-    introducedIn: CURRENT_RELEASE_ID,
-    sharedWords: true,
-    locales: {
-      en: {
-        name: "Gaming Core",
-        description:
-          "The original 50-word legacy seed pack covering core gaming and anime vocabulary.",
-        seoTitle: "Japanese Gaming Vocabulary Quiz | ManabuPlay",
-        seoDescription:
-          "Train on the original 50-word ManabuPlay legacy seed pack and learn core Japanese gaming vocabulary.",
-      },
-      fr: {
-        name: "Gaming Core",
-        description:
-          "Le pack seed legacy original de 50 mots ManabuPlay autour du vocabulaire gaming et anime.",
-        seoTitle: "Quiz de vocabulaire japonais gaming | ManabuPlay",
-        seoDescription:
-          "Travaille le pack seed legacy original de 50 mots ManabuPlay et apprends le vocabulaire japonais gaming essentiel.",
-      },
+export type CatalogQuizEntry = {
+  id: string;
+  tier: 1 | 2 | 3 | 4;
+  word: string;
+  kana: string;
+  cat: LocalizedText;
+  hint: LocalizedText;
+  hint2: LocalizedText;
+  explanation: LocalizedText;
+  correct: LocalizedText;
+  wrong: Record<"en" | "fr", string[]>;
+};
+
+export const PACKS: PackDefinition[] = CANONICAL_PACKS.map((pack) => ({
+  id: pack.id,
+  slug: pack.slug,
+  introducedIn: CURRENT_RELEASE_ID,
+  sharedWords: true,
+  locales: {
+    en: {
+      name: pack.locales.en.name,
+      description: pack.locales.en.description,
+      seoTitle: `${pack.locales.en.name} | ManabuPlay`,
+      seoDescription: pack.locales.en.description,
+    },
+    fr: {
+      name: pack.locales.fr.name,
+      description: pack.locales.fr.description,
+      seoTitle: `${pack.locales.fr.name} | ManabuPlay`,
+      seoDescription: pack.locales.fr.description,
     },
   },
-];
-
-type RawQuizEntry = (typeof MVP_QUIZ_DATA)[number];
+}));
 
 const wordIds = new Set<string>();
 
@@ -65,18 +73,6 @@ function slugify(input: string): string {
     .replace(/&/g, " and ")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
-}
-
-function createWordId(entry: RawQuizEntry, index: number): string {
-  const seed = slugify(entry.kana) || slugify(entry.word) || `word-${index + 1}`;
-  let candidate = seed;
-  let suffix = 2;
-  while (wordIds.has(candidate)) {
-    candidate = `${seed}-${suffix}`;
-    suffix += 1;
-  }
-  wordIds.add(candidate);
-  return candidate;
 }
 
 function categoryTag(label: string): string {
@@ -99,56 +95,137 @@ function normalizeAssistForDisplay(value: string): string {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
-type CatalogSeed = {
-  words: WordEntry[];
-  packEntries: PackEntry[];
-};
+function getJapaneseTerm(
+  value:
+    | string
+    | {
+        term: string;
+        reading?: string;
+        romaji?: string;
+      },
+) {
+  return typeof value === "string" ? value : value.term;
+}
 
-function buildCatalogSeed(): CatalogSeed {
+function getJapaneseAssist(
+  word:
+    | {
+        jp:
+          | string
+          | {
+              term: string;
+              reading?: string;
+              romaji?: string;
+            };
+        assist?: string;
+      }
+    | undefined,
+) {
+  if (!word) return "";
+  if (word.assist) return word.assist;
+  if (typeof word.jp === "string") return word.jp;
+  return word.jp.reading || word.jp.romaji || word.jp.term;
+}
+
+function createCatalogWordId(
+  packId: string,
+  index: number,
+  word: {
+    existingWordId?: string;
+    jp:
+      | string
+      | {
+          term: string;
+          reading?: string;
+          romaji?: string;
+        };
+    gloss?: LocalizedText;
+  },
+) {
+  if (word.existingWordId) {
+    return word.existingWordId;
+  }
+
+  const seed =
+    slugify(getJapaneseAssist(word)) ||
+    slugify(getJapaneseTerm(word.jp)) ||
+    slugify(word.gloss?.en || word.gloss?.fr || "") ||
+    `${packId}-word-${index + 1}`;
+  const base = `${packId}-${seed}`;
+  let candidate = base;
+  let suffix = 2;
+
+  while (wordIds.has(candidate)) {
+    candidate = `${base}-${suffix}`;
+    suffix += 1;
+  }
+
+  wordIds.add(candidate);
+  return candidate;
+}
+
+function buildCatalogSeed() {
   const words: WordEntry[] = [];
   const packEntries: PackEntry[] = [];
 
-  MVP_QUIZ_DATA.forEach((entry, index) => {
-    const wordId = createWordId(entry, index);
+  for (const pack of CANONICAL_PACKS) {
+    pack.words.forEach((word, index) => {
+      const wordId = createCatalogWordId(pack.id, index, word);
+      const term = getJapaneseTerm(word.jp);
+      const assist = normalizeAssistForDisplay(getJapaneseAssist(word));
+      const meaning = (word.gloss || word.meaning) as LocalizedText | undefined;
+      if (!meaning?.fr || !meaning.en) {
+        throw new Error(`Pack "${pack.id}" word #${word.order} is missing a localized meaning.`);
+      }
 
-    words.push({
-      id: wordId,
-      jp: {
-        term: entry.word,
-        assist: normalizeAssistForDisplay(entry.kana),
-        reading: null,
-        romaji: null,
-      },
-      meaning: entry.correct as LocalizedText,
-      introducedIn: CURRENT_RELEASE_ID,
-      tags: [categoryTag(entry.cat.en)],
-      audio: {
-        mode: "tts",
-        text: entry.word,
-        normalRate: 0.85,
-        slowRate: 0.6,
-        src: null,
-      },
-    });
+      words.push({
+        id: wordId,
+        jp: {
+          term,
+          assist,
+          reading: typeof word.jp === "string" ? null : word.jp.reading || null,
+          romaji: typeof word.jp === "string" ? null : word.jp.romaji || null,
+        },
+        meaning,
+        introducedIn: CURRENT_RELEASE_ID,
+        tags: [categoryTag(pack.locales.en.name), categoryTag(pack.themeId)],
+        audio: {
+          mode: "tts",
+          text: term,
+          normalRate: 0.85,
+          slowRate: 0.6,
+          src: null,
+        },
+      });
 
-    packEntries.push({
-      id: `${DEFAULT_PACK_ID}:${wordId}`,
-      packId: DEFAULT_PACK_ID,
-      wordId,
-      order: index + 1,
-      introducedIn: CURRENT_RELEASE_ID,
-      category: entry.cat as LocalizedText,
-      hints: {
-        primary: entry.hint as LocalizedText,
-        secondary: null,
-      },
-      explanation: null,
-      distractors: {
-        wordIds: [],
-        overrides: entry.wrong as Record<"en" | "fr", string[]>,
-      },
+      packEntries.push({
+        id: `${pack.id}:${wordId}`,
+        packId: pack.id,
+        wordId,
+        order: word.order,
+        introducedIn: CURRENT_RELEASE_ID,
+        category: {
+          fr: pack.locales.fr.name,
+          en: pack.locales.en.name,
+        },
+        hints: {
+          primary: (word.hints?.hint1 ||
+            word.definition ||
+            word.explanation ||
+            meaning) as LocalizedText,
+          secondary: word.hints?.hint2 || null,
+        },
+        explanation: word.explanation || null,
+        distractors: {
+          wordIds: [],
+          overrides: {
+            fr: word.quiz?.distractors?.fr?.slice(0, 3) || [],
+            en: word.quiz?.distractors?.en?.slice(0, 3) || [],
+          },
+        },
+      });
     });
-  });
+  }
 
   return { words, packEntries };
 }
@@ -169,42 +246,51 @@ export const MANABU_CATALOG: ManabuCatalog = {
 
 const wordsById = new Map(WORDS.map((word) => [word.id, word]));
 
-export function buildCatalogQuizData(packId = DEFAULT_PACK_ID): RawQuizEntry[] {
+function buildCatalogQuizEntry(entry: PackEntry): CatalogQuizEntry {
+  const word = wordsById.get(entry.wordId);
+  if (!word) {
+    throw new Error(`Unknown wordId "${entry.wordId}" in pack "${entry.packId}".`);
+  }
+  const packWords = canonicalWordsByPackId.get(entry.packId) || [];
+  const sourceWord =
+    packWords.find((candidate) => {
+      if (candidate.existingWordId) {
+        return candidate.existingWordId === entry.wordId;
+      }
+      return candidate.order === entry.order;
+    }) || null;
+  const tier = sourceWord?.difficultyTier || 1;
+
+  return {
+    id: `${entry.packId}:${entry.wordId}`,
+    tier,
+    word: word.jp.term,
+    kana: word.jp.assist,
+    cat: entry.category as LocalizedText,
+    hint: entry.hints.primary as LocalizedText,
+    hint2: (entry.hints.secondary || entry.hints.primary) as LocalizedText,
+    explanation: (entry.explanation || word.meaning) as LocalizedText,
+    correct: word.meaning,
+    wrong: entry.distractors.overrides,
+  };
+}
+
+export function buildCatalogQuizData(packId?: string): CatalogQuizEntry[] {
+  return PACK_ENTRIES.filter((entry) => !packId || entry.packId === packId)
+    .sort((left, right) =>
+      left.packId === right.packId
+        ? left.order - right.order
+        : left.packId.localeCompare(right.packId),
+    )
+    .map((entry) => buildCatalogQuizEntry(entry));
+}
+
+export function buildCatalogPackQuizData(packId = DEFAULT_PACK_ID): CatalogQuizEntry[] {
   return PACK_ENTRIES.filter((entry) => entry.packId === packId)
     .sort((left, right) => left.order - right.order)
     .map((entry) => {
-      const word = wordsById.get(entry.wordId);
-      if (!word) {
-        throw new Error(`Unknown wordId "${entry.wordId}" in pack "${entry.packId}".`);
-      }
-
-      return {
-        word: word.jp.term,
-        kana: word.jp.assist,
-        cat: entry.category,
-        hint: entry.hints.primary,
-        correct: word.meaning,
-        wrong: entry.distractors.overrides,
-      };
+      return buildCatalogQuizEntry(entry);
     });
-}
-
-function withCurrentProductCopy(lang: typeof MVP_LANG) {
-  return {
-    ...lang,
-    en: {
-      ...lang.en,
-      stat_words: "150 WORDS",
-    },
-    fr: {
-      ...lang.fr,
-      stat_words: "150 MOTS",
-    },
-    es: {
-      ...lang.es,
-      stat_words: "150 PALABRAS",
-    },
-  };
 }
 
 export function buildCatalogBootData() {
@@ -212,10 +298,7 @@ export function buildCatalogBootData() {
     catalog: MANABU_CATALOG,
     defaultPackId: DEFAULT_PACK_ID,
     difficulties: DIFFICULTIES,
-    lang: withCurrentProductCopy(MVP_LANG),
-    quizData: buildCatalogQuizData(DEFAULT_PACK_ID),
+    lang: CURRENT_PRODUCT_COPY,
+    quizData: buildCatalogQuizData(),
   };
 }
-
-export const buildLegacyQuizData = buildCatalogQuizData;
-export const buildMvpBootData = buildCatalogBootData;

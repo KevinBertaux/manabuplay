@@ -4,7 +4,7 @@ Le legacy encore conservé dans le repo est volontairement limité.
 
 ## Utile
 
-- `legacy/mvp-index.html`
+- `legacy/reference-landing.html`
   Référence statique encore utilisée pour les comparaisons visuelles et certains scripts de parité.
 
 ## Archivé
@@ -12,6 +12,9 @@ Le legacy encore conservé dans le repo est volontairement limité.
 - `legacy/docs-archive/`
   Snapshots documentaires gardés pour mémoire de migration uniquement.
   Ce ne sont plus des sources actives du projet.
+
+- `legacy/data-archive/raw.generated.js`
+  Snapshot généré de l'ancien seed, conservé uniquement pour mémoire de migration.
 
 ## Source canonique actuelle
 

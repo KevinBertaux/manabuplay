@@ -1,3 +1,62 @@
+.quiz-section-glow {
+  background: radial-gradient(
+    ellipse 70% 50% at 50% 50%,
+    rgba(139, 92, 246, 0.08) 0%,
+    transparent 70%
+  );
+}
+
+.quiz-label-violet {
+  color: var(--violet);
+}
+
+.quiz-label-fuchsia {
+  color: var(--fuchsia);
+}
+
+.quiz-shell {
+  background: rgba(15, 12, 26, 0.95);
+  backdrop-filter: blur(16px);
+}
+
+.quiz-progress-track {
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.progress-bar {
+  width: 0%;
+}
+
+.quiz-score-value {
+  color: var(--violet);
+}
+
+.quiz-streak-value {
+  color: var(--fuchsia);
+}
+
+.quiz-correct-value {
+  color: #4ade80;
+}
+
+.quiz-cyan-value {
+  color: var(--cyan);
+}
+
+.quiz-word-category {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.quiz-word-category-text {
+  color: #a78bfa;
+}
+
+.quiz-word-display {
+  color: var(--fuchsia);
+  line-height: 1.2;
+}
+
 .quiz-learning-stack {
   display: grid;
   gap: var(--space-12);
@@ -52,6 +111,14 @@
 }
 .quiz-feedback {
   min-height: var(--control-h-32);
+}
+
+.quiz-feedback.is-correct {
+  color: var(--green);
+}
+
+.quiz-feedback.is-wrong {
+  color: var(--red);
 }
 
 /* DIFFICULTY CARDS */
@@ -200,6 +267,12 @@
 .start-btn.ready:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(139, 92, 246, 0.6);
+}
+
+.quiz-secondary-cta {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(232, 121, 249, 0.3));
+  box-shadow: none;
+  border: 1px solid rgba(139, 92, 246, 0.4);
 }
 
 /* BEST SCORE badge in results */

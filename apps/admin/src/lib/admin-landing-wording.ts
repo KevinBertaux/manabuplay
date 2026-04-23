@@ -84,7 +84,7 @@ const BASE_CARDS: LandingWordingCard[] = [
         fr: "Un quiz quotidien de vocabulaire japonais pour les fans de jeu vidéo et de pop culture qui veulent transformer des mots familiers en vraie compréhension.",
       },
       notes:
-        "version C validée, plus claire sur la promesse quotidienne sans retomber dans le vieux MVP gaming.",
+        "version C validée, plus claire sur la promesse quotidienne sans retomber dans l'ancien ton gaming-only.",
     },
     variants: {
       A: {
@@ -252,7 +252,7 @@ const BASE_CARDS: LandingWordingCard[] = [
         fr: "Apprends du vocabulaire japonais à travers le jeu vidéo et la pop culture.",
       },
       notes:
-        "version validée, plus nette sur la promesse centrale et sans l'ancien ton MVP gaming-only.",
+        "version validée, plus nette sur la promesse centrale et sans l'ancien ton gaming-only.",
     },
     variants: {
       A: {
