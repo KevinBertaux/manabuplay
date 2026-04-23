@@ -1,5 +1,4 @@
-import { buildCatalogBootData } from "../data/manabuplay/catalog";
-import { buildV01QuizPool } from "./manabuplay-quiz-pool";
+import { buildCatalogBootData, buildCatalogQuizData } from "../data/manabuplay/catalog";
 
 const DAILY_QUESTION_COUNT = 10;
 const DAILY_START_DATE = "2026-01-01";
@@ -55,6 +54,6 @@ export function buildDailyBootData() {
         result_change_diff: "RETOUR AU QUOTIDIEN",
       },
     },
-    quizData: buildV01QuizPool(),
+    quizData: buildCatalogQuizData(),
   };
 }

@@ -13,6 +13,7 @@ import type {
 const CURRENT_RELEASE_ID = "v0.1.0";
 const CANONICAL_PACKS = getCanonicalPackFiles();
 const DEFAULT_PACK_ID = CANONICAL_PACKS[0]?.id || "";
+const canonicalWordsByPackId = new Map(CANONICAL_PACKS.map((pack) => [pack.id, pack.words]));
 
 export const RELEASES: ReleaseNote[] = [
   {
@@ -250,10 +251,19 @@ function buildCatalogQuizEntry(entry: PackEntry): CatalogQuizEntry {
   if (!word) {
     throw new Error(`Unknown wordId "${entry.wordId}" in pack "${entry.packId}".`);
   }
+  const packWords = canonicalWordsByPackId.get(entry.packId) || [];
+  const sourceWord =
+    packWords.find((candidate) => {
+      if (candidate.existingWordId) {
+        return candidate.existingWordId === entry.wordId;
+      }
+      return candidate.order === entry.order;
+    }) || null;
+  const tier = sourceWord?.difficultyTier || 1;
 
   return {
     id: `${entry.packId}:${entry.wordId}`,
-    tier: 1,
+    tier,
     word: word.jp.term,
     kana: word.jp.assist,
     cat: entry.category as LocalizedText,
