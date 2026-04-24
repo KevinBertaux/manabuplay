@@ -108,9 +108,7 @@ function getMinProdScore() {
 
 function getReviewLabel() {
   const progress = activePack.score?.readiness?.reviewProgress;
-  const progressLabel = progress
-    ? ` · ${progress.reviewedWords}/${progress.totalWords} mots validés`
-    : "";
+  const progressLabel = progress ? ` · ${progress.reviewedWords}/${progress.totalWords}` : "";
 
   switch (activePack.score?.readiness?.reviewStatus) {
     case "validee":
@@ -118,7 +116,7 @@ function getReviewLabel() {
     case "faite":
       return "Relecture faite";
     case "partielle":
-      return `Relecture partielle${progressLabel}`;
+      return `partielle${progressLabel}`;
     case "non-relue":
       return "Relecture non faite";
     default:

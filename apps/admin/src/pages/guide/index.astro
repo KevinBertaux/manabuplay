@@ -18,7 +18,7 @@ const sections = [
     title: "Zones du dashboard",
     items: [
       "Pilotage : backlog, architecture, business et wording produit.",
-      "Contenu : packs et catalogue futur.",
+      "Contenu : packs et réserve éditoriale.",
       "Design : charte, FX, mockups et références publiques.",
       "Ops : waitlist locale, maintenance et stockage navigateur.",
     ],
@@ -62,7 +62,8 @@ const sections = [
   {
     title: "Canon data",
     items: [
-      "Le canon actif est maintenant pack-first. Le catalogue, le quiz pool et les builders Daily / Practice / Archives lisent la meme source.",
+      "Le canon actif est maintenant pack-first. Le catalogue produit, le quiz pool et les builders Daily / Practice / Archives lisent la meme source.",
+      "La réserve éditoriale vit sur `/content/editorial-reserve` et sert à piocher des mots candidats hors packs actifs. Ses champs obligatoires sont renseignés pour tous les mots : romaji, FR, EN, tier et transparence.",
       "L'ancien snapshot genere archive dans `legacy/data-archive/` reste uniquement une memoire de migration. Il ne doit plus reapparaitre dans les chemins actifs.",
       "Le repo a un audit de frontieres canoniques : on ne reintroduit plus l'ancien snapshot genere, les anciens marqueurs seed-legacy, l'ancien script de comparaison legacy ni l'ancien chemin de landing historique dans le code courant.",
       "Le legacy utile reste `legacy/reference-landing.html` pour la parite visuelle et certains audits, rien de plus.",

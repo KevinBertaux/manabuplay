@@ -1,0 +1,233 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { getEditorialReserve, type EditorialReserveEntry } from "../../../../../shared/data/manabuplay/editorial-reserve";
+
+const reserve = getEditorialReserve();
+const candidateEntries = reserve.entries.filter((entry) => entry.status === "candidate");
+const archivedEntries = reserve.entries.filter((entry) => entry.status === "archived");
+const reserveEntries = [...candidateEntries, ...archivedEntries].sort((first, second) => {
+  const tierDelta = (first.tier || 99) - (second.tier || 99);
+  if (tierDelta !== 0) return tierDelta;
+  return getRomaji(first).localeCompare(getRomaji(second), "fr");
+});
+const tierGroups = [1, 2, 3, 4].map((tier) => ({
+  tier,
+  title: getTierTitle(tier),
+  entries: reserveEntries.filter((entry) => entry.tier === tier),
+}));
+const visibleReserveCount = reserve.stats.candidate + reserve.stats.archived + reserve.stats.removedFromPack;
+
+function getStatusLabel(status: EditorialReserveEntry["status"]) {
+  switch (status) {
+    case "candidate":
+      return "Candidat";
+    case "archived":
+      return "Archivé";
+    case "removed-from-pack":
+      return "Sorti d'un pack";
+    case "active":
+      return "Actif";
+  }
+}
+
+function getTransparencyLabel(entry: EditorialReserveEntry) {
+  return `${entry.transparency.level} · ${entry.transparency.weight} pt`;
+}
+
+function getTierLabel(entry: EditorialReserveEntry) {
+  return `T${entry.tier}`;
+}
+
+function getTierTitle(tier: number) {
+  switch (tier) {
+    case 1:
+      return "T1 · facile";
+    case 2:
+      return "T2 · moyen";
+    case 3:
+      return "T3 · difficile";
+    case 4:
+      return "T4 · expert";
+    default:
+      return `T${tier}`;
+  }
+}
+
+function getRomaji(entry: EditorialReserveEntry) {
+  return entry.jp?.romaji || "romaji à trier";
+}
+
+function getTierClass(entry: EditorialReserveEntry) {
+  switch (entry.tier) {
+    case 1:
+      return "easy";
+    case 2:
+      return "mid";
+    case 3:
+      return "hard";
+    case 4:
+      return "expert";
+    default:
+      return "na";
+  }
+}
+
+function getTransparencyClass(entry: EditorialReserveEntry) {
+  return `transparency-${entry.transparency.level}`;
+}
+
+function getTierClassFromTier(tier: number) {
+  return getTierClass({ tier } as EditorialReserveEntry);
+}
+---
+
+<AdminLayout
+  title="Réserve éditoriale — ManabuPlay Admin"
+  activeNav="reserve"
+  description="Réserve éditoriale unique des mots actifs, candidats et archivés de ManabuPlay."
+  bodyClass="text-slate-200 catalog-shell"
+  containerClass="catalog-wrap"
+>
+  <section class="catalog-card catalog-hero">
+    <span class="catalog-eyebrow">Réserve éditoriale</span>
+    <h1 class="catalog-title">Un stock propre <span>pour piocher les mots</span></h1>
+    <p class="catalog-copy">
+      Cette page affiche les mots hors packs actifs : candidats, archivés et pistes futures. Les mots actifs restent cachés ici pour garder une réserve exploitable quand le corpus grossira.
+    </p>
+    <div class="catalog-notes">
+      {reserve.notes.map((note) => <p class="catalog-note">{note}</p>)}
+    </div>
+    <div class="catalog-stats">
+      <div class="catalog-stat">
+        <span class="catalog-stat-label">Visibles</span>
+        <span class="catalog-stat-value">{visibleReserveCount}</span>
+      </div>
+      <div class="catalog-stat">
+        <span class="catalog-stat-label">Actifs cachés</span>
+        <span class="catalog-stat-value">{reserve.stats.active}</span>
+      </div>
+      <div class="catalog-stat">
+        <span class="catalog-stat-label">Candidats</span>
+        <span class="catalog-stat-value">{reserve.stats.candidate}</span>
+      </div>
+      <div class="catalog-stat">
+        <span class="catalog-stat-label">Champs manquants</span>
+        <span class="catalog-stat-value">{reserve.stats.needsSorting}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog-card catalog-section">
+    <div class="catalog-section-head">
+      <div>
+        <h2 class="catalog-section-title">Mots de réserve</h2>
+        <p class="catalog-section-copy">{candidateEntries.length} candidats et {archivedEntries.length} mots archivés. Tous ont un tier et une transparence calculée pour pouvoir demander, par exemple, “2 T1 et 1 T3” sans retri manuel.</p>
+      </div>
+    </div>
+    <div class="catalog-tier-drawers">
+      {tierGroups.map((group) => (
+        <details class="catalog-tier-drawer">
+          <summary class="catalog-tier-summary">
+            <span class="catalog-tier-summary-main">
+              <span class:list={["pack-tier-chip", getTierClassFromTier(group.tier)]}>
+                {group.title}
+              </span>
+              <span class="catalog-tier-summary-copy">Mots de réserve prêts à piocher</span>
+            </span>
+            <span class="catalog-roadmap-count">{group.entries.length}</span>
+            <span class="catalog-roadmap-chevron">▾</span>
+          </summary>
+          <div class="catalog-word-grid">
+            {group.entries.map((entry) => (
+              <article class:list={["catalog-word-card", getTierClass(entry), getTransparencyClass(entry)]}>
+                <header class="catalog-word-head">
+                  <span class="catalog-chip source-distractor">{getStatusLabel(entry.status)}</span>
+                  <span class:list={["pack-tier-chip", getTierClass(entry)]}>{getTierLabel(entry)}</span>
+                  <span class:list={["catalog-transparency", getTransparencyClass(entry)]}>
+                    {getTransparencyLabel(entry)}
+                  </span>
+                </header>
+                <div class="catalog-word-main">
+                  {entry.jp?.term && <div class="catalog-word-jp">{entry.jp.term}</div>}
+                  <div class="catalog-word-romaji">{getRomaji(entry)}</div>
+                  <div class="catalog-word-gloss">
+                    <span>{entry.gloss.fr}</span>
+                    <span>{entry.gloss.en}</span>
+                  </div>
+                </div>
+                <div class="catalog-word-meta">
+                  <div>
+                    <div class="catalog-field">Packs possibles</div>
+                    <div class="catalog-pack-row">
+                      {entry.targetPackIds.length ? entry.targetPackIds.map((packId) => <span class="catalog-pack">{packId}</span>) : <span class="catalog-pack">libre</span>}
+                    </div>
+                  </div>
+                  {entry.sourceWordId && (
+                    <div>
+                      <div class="catalog-field">Source</div>
+                      <div class="catalog-value">{entry.sourceWordId}</div>
+                    </div>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="catalog-card catalog-section">
+    <div class="catalog-section-head">
+      <div>
+        <h2 class="catalog-section-title">Pistes issues de future-packs</h2>
+        <p class="catalog-section-copy">Lecture brute utile pour migration progressive : idées de packs, candidats associés et mots encore à écrire.</p>
+      </div>
+    </div>
+    <div class="catalog-roadmap">
+      {reserve.futurePacks.map((pack) => (
+        <article class="catalog-roadmap-card">
+          <div class="catalog-roadmap-version">{pack.targetVersion}</div>
+          <div class="catalog-roadmap-title">{pack.name.fr}</div>
+          <div class="catalog-roadmap-theme">{pack.themeId}</div>
+          <details class="catalog-roadmap-toggle">
+            <summary class="catalog-roadmap-summary">
+              <span class="catalog-roadmap-summary-main">
+                <span class="catalog-roadmap-summary-text">Candidats</span>
+                <span class="catalog-roadmap-count">{pack.candidateWordIds.length}</span>
+              </span>
+              <span class="catalog-roadmap-chevron">▾</span>
+            </summary>
+            <div class="catalog-roadmap-list">
+              {pack.candidateWordIds.map((candidateId) => <span class="catalog-pack">{candidateId}</span>)}
+            </div>
+          </details>
+          <details class="catalog-roadmap-toggle">
+            <summary class="catalog-roadmap-summary">
+              <span class="catalog-roadmap-summary-main">
+                <span class="catalog-roadmap-summary-text">Mots à écrire</span>
+                <span class="catalog-roadmap-count">{pack.plannedWords.length}</span>
+              </span>
+              <span class="catalog-roadmap-chevron">▾</span>
+            </summary>
+            <div class="catalog-roadmap-list">
+              {pack.plannedWords.map((word) => <span class="catalog-pack">{word}</span>)}
+            </div>
+          </details>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="catalog-card catalog-section">
+    <div class="catalog-section-head">
+      <div>
+        <h2 class="catalog-section-title">Distracteurs rejetés</h2>
+        <p class="catalog-section-copy">Ancienne liste conservée en bas pour lecture, sans entrée active dans la réserve.</p>
+      </div>
+    </div>
+    <div class="catalog-rejects">
+      {reserve.rejectedDistractors.map((word) => <span class="catalog-reject">{word}</span>)}
+    </div>
+  </section>
+</AdminLayout>

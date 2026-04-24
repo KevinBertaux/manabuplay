@@ -6,7 +6,7 @@ export type AdminNavKey =
   | "wording"
   | "guide"
   | "packs"
-  | "catalog"
+  | "reserve"
   | "brand"
   | "fx"
   | "mockups"
@@ -39,10 +39,10 @@ export const ADMIN_PRIMARY_ITEMS: AdminNavLink[] = [
 export const ADMIN_GROUPS: AdminNavGroup[] = [
   {
     label: "Contenu",
-    keys: ["packs", "catalog"],
+    keys: ["packs", "reserve"],
     items: [
       { key: "packs", href: "/content/packs/", label: "Packs" },
-      { key: "catalog", href: "/content/catalog", label: "Catalogue" },
+      { key: "reserve", href: "/content/editorial-reserve", label: "Réserve" },
     ],
   },
   {
