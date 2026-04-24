@@ -3,34 +3,39 @@
   "slug": "jrpg-essentials",
   "themeId": "gaming",
   "status": "content-draft",
-  "targetWordCount": 30,
+  "targetWordCount": 34,
   "notes": [
     "Premier pack enrichi pour validation éditoriale.",
-    "Répartition des tiers : 10 mots tier 1, 8 mots tier 2, 7 mots tier 3, 5 mots tier 4."
+    "Relecture partielle : les 30 mots historiques sont validés, les 4 ajouts récents restent à relire.",
+    "Répartition des tiers : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4."
   ],
   "locales": {
     "fr": {
-      "name": "JRPG essentiels",
+      "name": "JRPG Questline",
       "description": "Le vocabulaire de base pour comprendre menus, combats et progression dans les JRPG."
     },
     "en": {
-      "name": "JRPG Essentials",
+      "name": "JRPG Questline",
       "description": "The core vocabulary used in JRPG menus, battles and progression."
     }
   },
   "score": {
     "readiness": {
-      "value": 94,
+      "value": 92,
       "minProdScore": 90,
-      "readyForProd": true,
-      "reviewStatus": "faite",
+      "readyForProd": false,
+      "reviewStatus": "partielle",
+      "reviewProgress": {
+        "reviewedWords": 30,
+        "totalWords": 34
+      },
       "releaseStatus": "preprod",
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
         "quizQuality": 14,
-        "editorialReview": 10
+        "editorialReview": 8
       }
     },
     "depth": {
@@ -38,7 +43,27 @@
     }
   },
   "quiz": {
-    "transparentWordIds": ["mana-mp"]
+    "transparentWordIds": [
+      "level-up",
+      "kuria-clear",
+      "suteetasu-status",
+      "sukiru-skill",
+      "kuesuto",
+      "aitemu",
+      "danjon",
+      "sēbu",
+      "rōdo",
+      "pātī",
+      "doroppu",
+      "shoppu",
+      "enkaunto",
+      "inbentori",
+      "mappu",
+      "fiirudo",
+      "seebu pointo",
+      "sabu kuesuto",
+      "waarudo mappu"
+    ]
   },
   "words": [
     {
@@ -1160,6 +1185,130 @@
         }
       },
       "difficultyTier": 4
+    },
+    {
+      "order": 31,
+      "jp": {
+        "term": "フィールド",
+        "reading": "フィールド",
+        "romaji": "fiirudo"
+      },
+      "gloss": {
+        "fr": "Terrain",
+        "en": "Field"
+      },
+      "definition": {
+        "fr": "Zone de déplacement principale entre villes, donjons et objectifs.",
+        "en": "Main traversal area between towns, dungeons and objectives."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu y marches avant d'entrer dans une ville ou un donjon.",
+          "en": "You walk through it before entering a town or dungeon."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas la carte du monde entière, mais l'espace de jeu ouvert.",
+          "en": "It is not the full world map, but the open gameplay area."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le terrain ou la zone de jeu ouverte où l'on se déplace entre les points clés d'un JRPG.",
+        "en": "This word refers to the field or open gameplay area where you move between key JRPG locations."
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 32,
+      "jp": {
+        "term": "セーブポイント",
+        "reading": "セーブポイント",
+        "romaji": "seebu pointo"
+      },
+      "gloss": {
+        "fr": "Point de sauvegarde",
+        "en": "Save point"
+      },
+      "definition": {
+        "fr": "Emplacement dédié où le joueur peut enregistrer sa progression.",
+        "en": "Dedicated spot where the player can save their progress."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu le cherches souvent juste avant un boss.",
+          "en": "You often look for one right before a boss."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas la commande save, mais l'endroit où elle devient possible.",
+          "en": "It is not the save command itself, but the place where it becomes possible."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le point de sauvegarde fixe que beaucoup de JRPG placent dans les donjons ou les zones dangereuses.",
+        "en": "This word refers to the fixed save point many JRPGs place inside dungeons or dangerous areas."
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 33,
+      "jp": {
+        "term": "サブクエスト",
+        "reading": "サブクエスト",
+        "romaji": "sabu kuesuto"
+      },
+      "gloss": {
+        "fr": "Quête secondaire",
+        "en": "Side quest"
+      },
+      "definition": {
+        "fr": "Mission optionnelle en dehors du chemin principal de l'histoire.",
+        "en": "Optional mission outside the main story path."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu peux finir le jeu sans la faire, mais elle rapporte souvent quelque chose.",
+          "en": "You can finish the game without it, but it often gives you something useful."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas la quête principale, mais un détour rentable.",
+          "en": "It is not the main quest, but a rewarding detour."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne une quête secondaire, très fréquente dans les JRPG pour enrichir le monde, gagner des objets ou développer un personnage.",
+        "en": "This word refers to a side quest, very common in JRPGs to enrich the world, earn items or develop a character."
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 34,
+      "jp": {
+        "term": "ワールドマップ",
+        "reading": "ワールドマップ",
+        "romaji": "waarudo mappu"
+      },
+      "gloss": {
+        "fr": "Carte du monde",
+        "en": "World map"
+      },
+      "definition": {
+        "fr": "Vue globale du monde qui relie régions, villes, mers et continents.",
+        "en": "Global view of the world linking regions, towns, seas and continents."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu y vois enfin l'ensemble de ton aventure, pas seulement une zone locale.",
+          "en": "You see your full adventure space there, not just one local zone."
+        },
+        "hint2": {
+          "fr": "C'est plus vaste qu'une simple map de donjon ou de ville.",
+          "en": "It is broader than a simple dungeon or town map."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la carte du monde, un repère classique des JRPG qui matérialise l'échelle du voyage et la progression globale.",
+        "en": "This word refers to the world map, a classic JRPG landmark that gives a sense of journey scale and overall progression."
+      },
+      "difficultyTier": 3
     }
   ]
 }

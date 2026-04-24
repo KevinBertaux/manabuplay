@@ -10,15 +10,20 @@ test.describe("admin packs", () => {
     await expect(page).toHaveTitle(/Lecteur de packs/i);
     await expect(page.locator(".packs-grid")).toBeVisible();
     await expect(page.locator(".pack-card")).toHaveCount(5);
-    await expect(page.locator(".packs-grid")).toContainText("JRPG essentiels");
-    await expect(page.locator(".packs-grid")).toContainText("Codes d’anime");
-    await expect(page.locator(".packs-grid")).toContainText("94/100");
+    await expect(page.locator(".packs-grid")).toContainText("JRPG Questline");
+    await expect(page.locator(".packs-grid")).toContainText("Anime Codes");
+    await expect(page.locator(".packs-grid")).toContainText("Gacha & Rewards");
+    await expect(page.locator(".packs-grid")).toContainText("92/100");
+    await expect(page.locator(".packs-grid")).toContainText("partielle · 30/34");
   });
 
-  test("opens a pack detail page with gifts and pagination", async ({ page }) => {
-    await page.goto(`${PACKS_URL}japan-pop-city-daily-life/`, { waitUntil: "domcontentloaded" });
+  test("opens a pack detail page with transparency signals and pagination", async ({ page }) => {
+    await page.goto(`${PACKS_URL}gacha-live-service/`, { waitUntil: "domcontentloaded" });
 
-    await expect(page.locator("[data-reader-cartouche]")).toContainText("14 cadeaux");
+    await expect(page.locator("[data-reader-cartouche]")).toContainText("Transparence 16% · watch");
+    await expect(page.locator("[data-reader-cartouche]")).toContainText(
+      "5.5 pts · 1 strict · 9 éditoriaux · 0 filler",
+    );
     await expect(page.locator("[data-admin-card]").first()).toBeVisible();
 
     await page.locator("[data-toggle-gifts]").click();

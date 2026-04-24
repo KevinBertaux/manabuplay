@@ -2,43 +2,42 @@
   "version": "v0.1",
   "status": "candidate",
   "notes": [
-    "Liste éditoriale candidate des 5 premiers packs de la v0.1.",
-    "La sélection des mots est figée ici avant enrichissement du contenu.",
-    "Les hints, explanations, reading et romaji seront ajoutés pendant la passe d'enrichissement des packs.",
-    "La cible v0.1 retenue est maintenant de 30 mots par pack."
+    "Catalogue éditorial canonique des 5 packs actifs de la v0.1.",
+    "Chaque pack actif de la v0.1 vise maintenant 34 mots enrichis.",
+    "Le cinquième pack actif a été refondu vers une ligne gaming-first plus cohérente avec la promesse produit."
   ],
   "packCount": 5,
-  "targetWordsPerPack": 30,
+  "targetWordsPerPack": 34,
   "packs": [
     {
       "id": "jrpg-essentials",
       "path": "./jrpg-essentials.json",
       "existingWords": 10,
-      "plannedWords": 20
+      "plannedWords": 24
     },
     {
       "id": "combat-and-boss",
       "path": "./combat-and-boss.json",
       "existingWords": 11,
-      "plannedWords": 19
+      "plannedWords": 23
     },
     {
       "id": "classes-weapons-equipment",
       "path": "./classes-weapons-equipment.json",
       "existingWords": 10,
-      "plannedWords": 20
+      "plannedWords": 24
     },
     {
       "id": "anime-codes",
       "path": "./anime-codes.json",
       "existingWords": 10,
-      "plannedWords": 20
+      "plannedWords": 24
     },
     {
-      "id": "japan-pop-city-daily-life",
-      "path": "./japan-pop-city-daily-life.json",
-      "existingWords": 1,
-      "plannedWords": 29
+      "id": "gacha-live-service",
+      "path": "./gacha-live-service.json",
+      "existingWords": 0,
+      "plannedWords": 34
     }
   ],
   "overflowPath": "../roadmap/future-packs.json"

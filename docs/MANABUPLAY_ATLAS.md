@@ -217,17 +217,21 @@ Distracteurs :
 - pas absurdes
 - pas de collision pédagogique trop plate
 
-Mots cadeaux :
+Signal de transparence pondéré :
 
-- un mot entre dans `transparentWordIds` si `romaji == gloss.fr`
-- ou si `romaji == gloss.en`
-- la comparaison est mécanique après `trim()` et `toLowerCase()`
+- `strict` : détection automatique si `romaji == gloss.fr` ou `romaji == gloss.en`
+- `editorial` : mot listé dans `transparentWordIds`, emprunt évident mais légitime
+- `filler` : mot listé dans `fillerWordIds`, ajouté surtout pour remplir ou trop faible
+- un mot prend le poids le plus fort applicable
 
 Seuils pack-level retenus :
 
-- objectif qualité : `<= 5%`
+- poids `strict` : `1`
+- poids `editorial` : `0.5`
+- poids `filler` : `2`
+- ok : `<= 10%`
 - vigilance : `> 10%`
-- action : `> 15%`
+- action : `> 18%`
 
 Readiness score pack :
 
@@ -342,7 +346,7 @@ Recettes de travail retenues :
 - quota fixe par tiers
 - signature canonique pour éviter les doublons réels
 - cooldown par mot
-- cap de mots cadeaux par session
+- cap de transparence pondérée par session
 - éviter les collisions trop jumelles dans une même session
 - dominante éditoriale contrôlée si un quiz mélange plusieurs packs
 

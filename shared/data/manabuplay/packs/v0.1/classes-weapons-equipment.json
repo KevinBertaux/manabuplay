@@ -3,34 +3,39 @@
   "slug": "classes-weapons-equipment",
   "themeId": "gaming",
   "status": "content-draft",
-  "targetWordCount": 30,
+  "targetWordCount": 34,
   "notes": [
     "Troisième pack enrichi pour validation éditoriale.",
-    "Répartition des tiers : 10 mots tier 1, 8 mots tier 2, 7 mots tier 3, 5 mots tier 4."
+    "Relecture partielle : les 30 mots historiques sont validés, les 4 ajouts récents restent à relire.",
+    "Répartition des tiers : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4."
   ],
   "locales": {
     "fr": {
-      "name": "Classes, armes & équipement",
+      "name": "Builds & Gear",
       "description": "Les classes RPG, les armes connues et l'équipement de base des jeux japonais."
     },
     "en": {
-      "name": "Classes, Weapons & Equipment",
+      "name": "Builds & Gear",
       "description": "RPG classes, familiar weapons and basic gear from Japanese games."
     }
   },
   "score": {
     "readiness": {
-      "value": 93,
+      "value": 91,
       "minProdScore": 90,
-      "readyForProd": true,
-      "reviewStatus": "faite",
+      "readyForProd": false,
+      "reviewStatus": "partielle",
+      "reviewProgress": {
+        "reviewedWords": 30,
+        "totalWords": 34
+      },
       "releaseStatus": "preprod",
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
         "quizQuality": 13,
-        "editorialReview": 10
+        "editorialReview": 8
       }
     },
     "depth": {
@@ -38,7 +43,15 @@
     }
   },
   "quiz": {
-    "transparentWordIds": ["katana"]
+    "transparentWordIds": [
+      "amyuretto",
+      "monku",
+      "rōbu",
+      "akusesarii",
+      "hiiraa",
+      "paradin",
+      "kurosubou"
+    ]
   },
   "words": [
     {
@@ -1160,6 +1173,130 @@
         }
       },
       "difficultyTier": 4
+    },
+    {
+      "order": 31,
+      "jp": {
+        "term": "アクセサリー",
+        "reading": "アクセサリー",
+        "romaji": "akusesarii"
+      },
+      "gloss": {
+        "fr": "Accessoire",
+        "en": "Accessory"
+      },
+      "definition": {
+        "fr": "Objet d'équipement qui apporte un bonus utile sans être une arme ni une armure principale.",
+        "en": "Gear item that grants a useful bonus without being a weapon or main armor piece."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Bague, amulette et petits bonus passent souvent par là.",
+          "en": "Rings, amulets and small bonuses often go through this slot."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas l'arme centrale du build, mais ça affine les stats.",
+          "en": "It is not the main weapon of the build, but it fine-tunes the stats."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'accessoire, une catégorie d'équipement légère mais très utile pour ajuster un personnage.",
+        "en": "This word refers to accessories, a light but very useful gear category for tuning a character."
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 32,
+      "jp": {
+        "term": "ヒーラー",
+        "reading": "ヒーラー",
+        "romaji": "hiiraa"
+      },
+      "gloss": {
+        "fr": "Soigneur",
+        "en": "Healer"
+      },
+      "definition": {
+        "fr": "Rôle ou classe dédiée aux soins, au soutien et à la survie du groupe.",
+        "en": "Role or class dedicated to healing, support and party survival."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Sans lui, l'équipe tient rarement longtemps.",
+          "en": "Without one, the party rarely lasts long."
+        },
+        "hint2": {
+          "fr": "Le mot décrit la fonction plus directement que prêtre ou mage.",
+          "en": "The word describes the function more directly than priest or mage."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le soigneur au sens direct du rôle combat. C'est un terme clair et fréquent dans les jeux modernes.",
+        "en": "This word refers to a healer in the direct combat-role sense. It is a clear and frequent term in modern games."
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 33,
+      "jp": {
+        "term": "パラディン",
+        "reading": "パラディン",
+        "romaji": "paradin"
+      },
+      "gloss": {
+        "fr": "Paladin",
+        "en": "Paladin"
+      },
+      "definition": {
+        "fr": "Classe protectrice mêlant défense lourde, aura sacrée et parfois soin.",
+        "en": "Protective class mixing heavy defense, holy aura and sometimes healing."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Cette classe est plus sacrée qu'un simple chevalier.",
+          "en": "This class is holier than a simple knight."
+        },
+        "hint2": {
+          "fr": "On l'imagine entre tank, lumière et protection du groupe.",
+          "en": "You picture it somewhere between tanking, light and party protection."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le paladin, une classe fantasy très identifiable qui associe protection, foi et robustesse.",
+        "en": "This word refers to a paladin, a very recognizable fantasy class that combines protection, faith and toughness."
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 34,
+      "jp": {
+        "term": "クロスボウ",
+        "reading": "クロスボウ",
+        "romaji": "kurosubou"
+      },
+      "gloss": {
+        "fr": "Arbalète",
+        "en": "Crossbow"
+      },
+      "definition": {
+        "fr": "Arme de tir mécanique plus lourde et plus rigide qu'un arc classique.",
+        "en": "Mechanical ranged weapon heavier and stiffer than a classic bow."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce n'est pas un yumi classique, mais une arme de tir plus rigide.",
+          "en": "It is not a classic yumi bow, but a stiffer ranged weapon."
+        },
+        "hint2": {
+          "fr": "Elle évoque souvent un tir plus lourd et plus direct.",
+          "en": "It often suggests a heavier, more direct shot."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'arbalète, une arme à distance moins noble qu'un arc dans l'imaginaire fantasy, mais très lisible et utile en build RPG.",
+        "en": "This word refers to a crossbow, a ranged weapon that feels less noble than a bow in fantasy imagery but remains very readable and useful in RPG builds."
+      },
+      "difficultyTier": 3
     }
   ]
 }

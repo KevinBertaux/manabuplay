@@ -14,7 +14,7 @@ export const CURRENT_PRODUCT_COPY = {
     hero_sub: "You already know these anime and JRPG words. Start understanding them.",
     hero_cta: "Start the quiz",
     hero_how: "How it works",
-    stat_words: "150 WORDS",
+    stat_words: "170 WORDS",
     stat_diff: "4 DIFFICULTIES",
     stat_free: "FREE",
     features_label: "// WHY MANABUPLAY",
@@ -26,7 +26,7 @@ export const CURRENT_PRODUCT_COPY = {
       "Every word comes straight from real games — HP, Mana, Isekai, Gacha. You already know the context.",
     feat2_title: "4 DIFFICULTY LEVELS",
     feat2_body:
-      "From 10 words for beginners to all 50 for veterans. Your best score is saved automatically.",
+      "4 difficulty curves powered by a 170-word v0.1 catalog. Your best score is saved automatically.",
     feat3_title: "ZERO FRICTION",
     feat3_body:
       "No app. No account. No paywall. Load the page and start leveling up your Japanese — instantly.",
@@ -124,7 +124,7 @@ export const CURRENT_PRODUCT_COPY = {
     hero_sub: "Tu connais déjà ces mots d’anime et de JRPG. Commence à les comprendre.",
     hero_cta: "Lancer le quiz",
     hero_how: "Comment ça marche",
-    stat_words: "150 MOTS",
+    stat_words: "170 MOTS",
     stat_diff: "4 DIFFICULTÉS",
     stat_free: "GRATUIT",
     features_label: "// POURQUOI MANABUPLAY",
@@ -136,7 +136,7 @@ export const CURRENT_PRODUCT_COPY = {
       "Chaque mot vient directement de vrais jeux — HP, Mana, Isekai, Gacha. Tu connais déjà le contexte.",
     feat2_title: "4 NIVEAUX DE DIFFICULTÉ",
     feat2_body:
-      "De 10 mots pour les débutants à 50 pour les vétérans. Ton meilleur score est sauvegardé automatiquement.",
+      "4 courbes de difficulté, portées par un catalogue v0.1 de 170 mots. Ton meilleur score est sauvegardé automatiquement.",
     feat3_title: "ZÉRO FRICTION",
     feat3_body:
       "Pas d'appli. Pas de compte. Pas de paywall. Charge la page et commence à monter en niveau — instantanément.",

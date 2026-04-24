@@ -3,10 +3,11 @@
   "slug": "combat-and-boss",
   "themeId": "gaming",
   "status": "content-draft",
-  "targetWordCount": 30,
+  "targetWordCount": 34,
   "notes": [
     "Deuxième pack enrichi pour validation éditoriale.",
-    "Répartition des tiers : 10 mots tier 1, 8 mots tier 2, 7 mots tier 3, 5 mots tier 4."
+    "Relecture partielle : les 30 mots historiques sont validés, les 4 ajouts récents restent à relire.",
+    "Répartition des tiers : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4."
   ],
   "locales": {
     "fr": {
@@ -20,17 +21,21 @@
   },
   "score": {
     "readiness": {
-      "value": 93,
+      "value": 91,
       "minProdScore": 90,
-      "readyForProd": true,
-      "reviewStatus": "faite",
+      "readyForProd": false,
+      "reviewStatus": "partielle",
+      "reviewProgress": {
+        "reviewedWords": 30,
+        "totalWords": 34
+      },
       "releaseStatus": "preprod",
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
         "quizQuality": 13,
-        "editorialReview": 10
+        "editorialReview": 8
       }
     },
     "depth": {
@@ -38,7 +43,7 @@
     }
   },
   "quiz": {
-    "transparentWordIds": []
+    "transparentWordIds": ["boss", "bafu", "debafu", "damēji", "gaado"]
   },
   "words": [
     {
@@ -1159,6 +1164,130 @@
           "fr": ["Technique à l'épée", "Un seul coup", "Charge"],
           "en": ["Sword technique", "Single decisive blow", "Charge"]
         }
+      },
+      "difficultyTier": 3
+    },
+    {
+      "order": 31,
+      "jp": {
+        "term": "ガード",
+        "reading": "ガード",
+        "romaji": "gaado"
+      },
+      "gloss": {
+        "fr": "Garde",
+        "en": "Guard"
+      },
+      "definition": {
+        "fr": "Action de se protéger activement pour encaisser moins ou bloquer un coup.",
+        "en": "Action of actively protecting yourself to reduce or block a hit."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu tiens la position au lieu de foncer.",
+          "en": "You hold position instead of rushing in."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas juste la stat defense, mais le geste de protection lui-même.",
+          "en": "It is not just the defense stat, but the protective action itself."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la garde, une posture ou une commande défensive utilisée pour limiter l'impact d'une attaque.",
+        "en": "This word refers to guarding, a stance or command used to reduce the impact of an attack."
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 32,
+      "jp": {
+        "term": "属性",
+        "reading": "ぞくせい",
+        "romaji": "zokusei"
+      },
+      "gloss": {
+        "fr": "Élément",
+        "en": "Element"
+      },
+      "definition": {
+        "fr": "Type d'affinité d'une attaque ou d'un ennemi, comme feu, glace ou foudre.",
+        "en": "Affinity type of an attack or enemy, such as fire, ice or lightning."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le bon choix ici fait souvent exploser les dégâts.",
+          "en": "Choosing the right one here often makes damage spike."
+        },
+        "hint2": {
+          "fr": "Feu, glace et ténèbres entrent dans cette famille.",
+          "en": "Fire, ice and darkness belong to this family."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'élément d'une attaque, d'une magie ou d'un ennemi. Il structure tout le jeu de forces et faiblesses.",
+        "en": "This word refers to the element of an attack, spell or enemy. It structures the whole weakness and resistance game."
+      },
+      "difficultyTier": 1
+    },
+    {
+      "order": 33,
+      "jp": {
+        "term": "毒",
+        "reading": "どく",
+        "romaji": "doku"
+      },
+      "gloss": {
+        "fr": "Poison",
+        "en": "Poison"
+      },
+      "definition": {
+        "fr": "Altération d'état qui grignote les PV sur la durée.",
+        "en": "Status ailment that drains HP over time."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tes PV continuent de baisser même hors du coup initial.",
+          "en": "Your HP keeps dropping even after the initial hit."
+        },
+        "hint2": {
+          "fr": "C'est l'une des altérations d'état les plus classiques.",
+          "en": "It is one of the most classic status ailments."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le poison, un statut emblématique des RPG qui punit la durée et force parfois à se soigner vite.",
+        "en": "This word refers to poison, a signature RPG status effect that punishes long fights and often forces quick healing."
+      },
+      "difficultyTier": 2
+    },
+    {
+      "order": 34,
+      "jp": {
+        "term": "奇襲",
+        "reading": "きしゅう",
+        "romaji": "kishuu"
+      },
+      "gloss": {
+        "fr": "Embuscade",
+        "en": "Ambush"
+      },
+      "definition": {
+        "fr": "Attaque surprise qui donne un avantage immédiat en début de combat.",
+        "en": "Surprise attack that gives an immediate advantage at the start of battle."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "L'un des camps frappe avant que l'autre ne puisse réagir.",
+          "en": "One side strikes before the other can react."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas juste une rencontre ennemie, mais une ouverture surprise.",
+          "en": "It is not just an enemy encounter, but a surprise opener."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'embuscade, un début de combat pris par surprise qui casse le rythme normal de l'affrontement.",
+        "en": "This word refers to an ambush, a surprise battle opener that breaks the normal rhythm of a fight."
       },
       "difficultyTier": 3
     }

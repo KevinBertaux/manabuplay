@@ -15,7 +15,7 @@ describe("buildArchivesBootData", () => {
     expect(bootData.archive.questionCount).toBe(10);
     expect(bootData.difficulties).toHaveLength(1);
     expect(bootData.difficulties[0].id).toBe("archive");
-    expect(bootData.quizData).toHaveLength(150);
+    expect(bootData.quizData).toHaveLength(170);
   });
 
   it("lists archive dates in descending order down to the start date", () => {

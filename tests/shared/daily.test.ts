@@ -14,6 +14,6 @@ describe("daily boot data", () => {
         words: 10,
       }),
     ]);
-    expect(bootData.quizData).toHaveLength(150);
+    expect(bootData.quizData).toHaveLength(170);
   });
 });

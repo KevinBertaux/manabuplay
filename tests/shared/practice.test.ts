@@ -15,6 +15,6 @@ describe("practice boot data", () => {
       expert: { 1: 1, 2: 1, 3: 4, 4: 4 },
     });
     expect(bootData.difficulties).toHaveLength(4);
-    expect(bootData.quizData).toHaveLength(150);
+    expect(bootData.quizData).toHaveLength(170);
   });
 });

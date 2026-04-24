@@ -107,13 +107,18 @@ function getMinProdScore() {
 }
 
 function getReviewLabel() {
+  const progress = activePack.score?.readiness?.reviewProgress;
+  const progressLabel = progress
+    ? ` · ${progress.reviewedWords}/${progress.totalWords} mots validés`
+    : "";
+
   switch (activePack.score?.readiness?.reviewStatus) {
     case "validee":
       return "Relecture validée";
     case "faite":
       return "Relecture faite";
     case "partielle":
-      return "Relecture partielle";
+      return `Relecture partielle${progressLabel}`;
     case "non-relue":
       return "Relecture non faite";
     default:
@@ -167,14 +172,22 @@ function getWordKey(word: PackReaderWord) {
 }
 
 function getTransparentWords() {
-  const ids = new Set(activePack.quiz?.transparentWordIds || []);
-  return activePack.words
-    .filter((word) => ids.has(getWordKey(word)))
-    .map((word) => ({
-      id: getWordKey(word),
-      order: word.order,
-      label: getRomaji(word) || word.existingWordId || `mot-${word.order}`,
-    }));
+  return getTransparentBreakdown()?.entries ?? [];
+}
+
+function formatTransparencyScore(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+function getTransparencyLevelLabel(level: "strict" | "editorial" | "filler") {
+  switch (level) {
+    case "strict":
+      return "strict";
+    case "editorial":
+      return "éditorial";
+    case "filler":
+      return "filler";
+  }
 }
 
 function getTierLabel(word: PackReaderWord) {
@@ -295,11 +308,12 @@ function getTierTone(word: PackReaderWord) {
               {transparent ? <span class="reader-cartouche-tier-divider" aria-hidden="true"></span> : null}
               {transparent ? (
                 <div class="reader-cartouche-gift-row">
-                  <button class:list={["reader-cartouche-tier-chip", "gift", "toggleable", `gift-${getGiftTone()}`]} type="button" data-toggle-gifts aria-expanded="false">{`${transparent.count} cadeaux · ${transparent.percent}%`}</button>
+                  <button class:list={["reader-cartouche-tier-chip", "gift", "toggleable", `gift-${getGiftTone()}`]} type="button" data-toggle-gifts aria-expanded="false">{`Transparence ${transparent.weightedPercent}% · ${transparent.tone}`}</button>
+                  <span class="reader-cartouche-tier-chip gift">{`${formatTransparencyScore(transparent.weightedScore)} pts · ${transparent.strictCount} strict · ${transparent.editorialCount} éditoriaux · ${transparent.fillerCount} filler`}</span>
                   {transparentWords.length ? (
                     <div class="reader-cartouche-gift-list" data-gift-list hidden>
                       {transparentWords.map((word) => (
-                        <a class="reader-cartouche-gift-link" href={`#word-${word.order}`} data-gift-word={word.id} data-gift-order={word.order}>{`${word.order}. ${word.label}`}</a>
+                        <a class="reader-cartouche-gift-link" href={`#word-${word.order}`} data-gift-word={word.id} data-gift-order={word.order}>{`${word.order}. ${word.label} · ${getTransparencyLevelLabel(word.level)} · ${word.weight} pt`}</a>
                       ))}
                     </div>
                   ) : null}

@@ -18,20 +18,22 @@ describe("manabuplay pack reader", () => {
     const pack = getPackById("jrpg-essentials");
 
     expect(pack).toBeTruthy();
-    expect(pack?.words).toHaveLength(30);
-    expect(pack?.tierBreakdown?.total).toBe(30);
+    expect(pack?.words).toHaveLength(34);
+    expect(pack?.tierBreakdown?.total).toBe(34);
     expect(pack?.tierBreakdown?.counts[1]).toBeGreaterThan(0);
-    expect(pack?.transparentBreakdown?.count).toBeGreaterThanOrEqual(0);
+    expect(pack?.transparentBreakdown?.weightedScore).toBeGreaterThanOrEqual(0);
     expect(["ok", "watch", "act"]).toContain(pack?.transparentBreakdown?.tone);
   });
 
-  it("flags the legacy-heavy pack as an act-level transparent risk", () => {
-    const pack = getPackById("japan-pop-city-daily-life");
+  it("weights strict, editorial and filler transparency separately", () => {
+    const pack = getPackById("gacha-live-service");
 
-    expect(pack?.transparentBreakdown?.tone).toBe("act");
-    expect(pack?.transparentBreakdown?.percent).toBeGreaterThan(
-      pack?.transparentBreakdown?.actThreshold ?? 0,
-    );
+    expect(pack?.transparentBreakdown?.strictCount).toBe(1);
+    expect(pack?.transparentBreakdown?.editorialCount).toBe(9);
+    expect(pack?.transparentBreakdown?.fillerCount).toBe(0);
+    expect(pack?.transparentBreakdown?.weightedScore).toBe(5.5);
+    expect(pack?.transparentBreakdown?.weightedPercent).toBe(16);
+    expect(pack?.transparentBreakdown?.tone).toBe("watch");
   });
 
   it("builds quiz previews with four answers and a shared correct index", () => {
@@ -51,7 +53,7 @@ describe("manabuplay pack reader", () => {
   });
 
   it("still builds previews for planned words that do not have a legacy word id", () => {
-    const pack = getPackById("japan-pop-city-daily-life");
+    const pack = getPackById("gacha-live-service");
     const plannedWord = pack?.words.find((entry) => !entry.existingWordId);
 
     expect(plannedWord).toBeTruthy();

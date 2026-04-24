@@ -127,8 +127,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     priority: 6,
     progress: 12,
     whyNow: {
-      fr: "Le pack 5 existe, mais il n'est pas publiable : trop de mots cadeaux et ligne éditoriale trop hors produit.",
-      en: "Pack 5 exists, but is not publishable: too many giveaways and an editorial line too far from the product.",
+      fr: "Le pack 5 existe, mais il n'est pas publiable : trop de filler éditorial et ligne éditoriale trop hors produit.",
+      en: "Pack 5 exists, but is not publishable: too much editorial filler and an editorial line too far from the product.",
     },
     note: {
       fr: "Refonte vocab-first, puis réalignement sur le ratio cible.",
@@ -451,8 +451,8 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
       en: "Have enough clean content to support Daily, Practice, and Archives.",
     },
     guardrail: {
-      fr: "Ne pas gonfler les packs avec des mots cadeaux juste pour atteindre un chiffre.",
-      en: "Do not pad packs with giveaway words just to hit a number.",
+      fr: "Ne pas gonfler les packs avec du filler juste pour atteindre un chiffre.",
+      en: "Do not pad packs with filler just to hit a number.",
     },
     risk: {
       fr: "Moyen : qualité éditoriale plus lente que code.",

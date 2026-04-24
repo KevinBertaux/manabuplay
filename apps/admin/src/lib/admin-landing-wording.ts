@@ -415,8 +415,8 @@ const BASE_CARDS: LandingWordingCard[] = [
       score: 91,
       verdict: "faite",
       text: {
-        en: "150 words / 5 packs / Free",
-        fr: "150 mots / 5 packs / Gratuit",
+        en: "170 words / 5 packs / Free",
+        fr: "170 mots / 5 packs / Gratuit",
       },
       notes:
         "version canonique v0.1, alignée sur le volume réel jouable public et sans jargon interne.",
@@ -426,13 +426,13 @@ const BASE_CARDS: LandingWordingCard[] = [
         score: 90,
         note: "plus simple",
         text: {
-          en: "150 words / 5 packs / Free",
-          fr: "150 mots / 5 packs / Gratuit",
+          en: "170 words / 5 packs / Free",
+          fr: "170 mots / 5 packs / Gratuit",
         },
       },
       B: {
         score: 84,
-        note: "obsolète, surestimait le volume réel",
+        note: "ancienne variante, désormais alignée avec le volume réel",
         text: {
           en: "170 words / 4 difficulties / Free",
           fr: "170 mots / 4 difficultés / Gratuit",

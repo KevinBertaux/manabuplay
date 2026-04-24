@@ -127,12 +127,12 @@ export function getPricingRows(): PricingRow[] {
       status: "framed",
       target: { fr: "v0.1", en: "v0.1" },
       note: {
-        fr: "Cadré : 150 free en v0.1, reste payant.",
-        en: "Framed: 150 free in v0.1, rest paid.",
+        fr: "Cadré : 170 free en v0.1, reste payant.",
+        en: "Framed: 170 free in v0.1, rest paid.",
       },
-      free: { text: { fr: "150", en: "150" }, tone: "free" },
+      free: { text: { fr: "170", en: "170" }, tone: "free" },
       premium: {
-        text: { fr: "150 + bibliothèque complète", en: "150 + full library" },
+        text: { fr: "170 + bibliothèque complète", en: "170 + full library" },
         tone: "premium",
       },
     },
@@ -156,8 +156,8 @@ export function getPricingRows(): PricingRow[] {
       group: { fr: "Catalogue", en: "Catalog" },
       label: { fr: "Thèmes de packs", en: "Pack themes" },
       tooltip: {
-        fr: "Groupes de packs utilisés pour organiser le catalogue, orienter l'utilisateur et rendre une zone de contenu plus désirable qu'une liste plate de packs. Exemple pressenti : JRPG avec JRPG essentiels, Combat & Boss, Classes/armes/équipement.",
-        en: "Groups of packs used to organize the catalog, guide users, and make a content area more desirable than a flat pack list. Expected example: JRPG with JRPG Essentials, Combat & Boss, Classes/Weapons/Equipment.",
+        fr: "Groupes de packs utilisés pour organiser le catalogue, orienter l'utilisateur et rendre une zone de contenu plus désirable qu'une liste plate de packs. Exemple pressenti : JRPG avec JRPG Questline, Combat & Boss, Builds & Gear.",
+        en: "Groups of packs used to organize the catalog, guide users, and make a content area more desirable than a flat pack list. Expected example: JRPG with JRPG Questline, Combat & Boss, Builds & Gear.",
       },
       status: "to-frame",
       target: { fr: "v0.2+", en: "v0.2+" },

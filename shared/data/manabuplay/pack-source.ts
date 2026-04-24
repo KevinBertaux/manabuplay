@@ -45,6 +45,10 @@ export type CanonicalPackFile = {
       minProdScore?: number;
       readyForProd: boolean;
       reviewStatus?: "non-relue" | "partielle" | "faite" | "validee";
+      reviewProgress?: {
+        reviewedWords: number;
+        totalWords: number;
+      };
       releaseStatus?: "dev" | "preprod" | "prod";
       breakdown: {
         packSize: number;
@@ -70,6 +74,7 @@ export type CanonicalPackFile = {
   };
   quiz?: {
     transparentWordIds?: string[];
+    fillerWordIds?: string[];
   };
   words: CanonicalPackWord[];
 };
