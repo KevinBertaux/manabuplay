@@ -21,7 +21,7 @@
   },
   "score": {
     "readiness": {
-      "value": 91,
+      "value": 96,
       "minProdScore": 90,
       "readyForProd": false,
       "reviewStatus": "partielle",
@@ -35,7 +35,7 @@
         "tierFit": 15,
         "contentCompleteness": 40,
         "quizQuality": 13,
-        "editorialReview": 8
+        "editorialReview": 13
       }
     },
     "depth": {

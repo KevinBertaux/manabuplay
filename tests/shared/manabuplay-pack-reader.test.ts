@@ -2,6 +2,99 @@ import { describe, expect, it } from "vitest";
 import { getAllPacks, getPackById, getPackIndex } from "../../shared/lib/manabuplay-pack-reader";
 
 describe("manabuplay pack reader", () => {
+  const expectedPackSignals = {
+    "jrpg-essentials": {
+      readiness: 96,
+      breakdown: {
+        packSize: 15,
+        tierFit: 15,
+        contentCompleteness: 40,
+        quizQuality: 13,
+        editorialReview: 13,
+      },
+      transparency: {
+        strictCount: 1,
+        editorialCount: 19,
+        fillerCount: 0,
+        weightedScore: 10.5,
+        weightedPercent: 31,
+        tone: "act",
+      },
+    },
+    "combat-and-boss": {
+      readiness: 96,
+      breakdown: {
+        packSize: 15,
+        tierFit: 15,
+        contentCompleteness: 40,
+        quizQuality: 13,
+        editorialReview: 13,
+      },
+      transparency: {
+        strictCount: 0,
+        editorialCount: 5,
+        fillerCount: 0,
+        weightedScore: 2.5,
+        weightedPercent: 7,
+        tone: "ok",
+      },
+    },
+    "classes-weapons-equipment": {
+      readiness: 96,
+      breakdown: {
+        packSize: 15,
+        tierFit: 15,
+        contentCompleteness: 40,
+        quizQuality: 13,
+        editorialReview: 13,
+      },
+      transparency: {
+        strictCount: 1,
+        editorialCount: 7,
+        fillerCount: 0,
+        weightedScore: 4.5,
+        weightedPercent: 13,
+        tone: "watch",
+      },
+    },
+    "anime-codes": {
+      readiness: 96,
+      breakdown: {
+        packSize: 15,
+        tierFit: 15,
+        contentCompleteness: 40,
+        quizQuality: 13,
+        editorialReview: 13,
+      },
+      transparency: {
+        strictCount: 1,
+        editorialCount: 1,
+        fillerCount: 0,
+        weightedScore: 1.5,
+        weightedPercent: 4,
+        tone: "ok",
+      },
+    },
+    "gacha-live-service": {
+      readiness: 70,
+      breakdown: {
+        packSize: 15,
+        tierFit: 15,
+        contentCompleteness: 40,
+        quizQuality: 0,
+        editorialReview: 0,
+      },
+      transparency: {
+        strictCount: 1,
+        editorialCount: 9,
+        fillerCount: 0,
+        weightedScore: 5.5,
+        weightedPercent: 16,
+        tone: "watch",
+      },
+    },
+  } as const;
+
   it("loads the pack index", () => {
     const index = getPackIndex();
 
@@ -34,6 +127,17 @@ describe("manabuplay pack reader", () => {
     expect(pack?.transparentBreakdown?.weightedScore).toBe(5.5);
     expect(pack?.transparentBreakdown?.weightedPercent).toBe(16);
     expect(pack?.transparentBreakdown?.tone).toBe("watch");
+  });
+
+  it("exposes normalized readiness and transparency signals for every active pack", () => {
+    for (const [packId, expected] of Object.entries(expectedPackSignals)) {
+      const pack = getPackById(packId);
+
+      expect(pack?.score?.readiness?.value).toBe(expected.readiness);
+      expect(pack?.score?.readiness?.breakdown).toEqual(expected.breakdown);
+      expect(pack?.score?.readiness?.readyForProd).toBe(false);
+      expect(pack?.transparentBreakdown).toMatchObject(expected.transparency);
+    }
   });
 
   it("builds quiz previews with four answers and a shared correct index", () => {

@@ -20,7 +20,7 @@
   },
   "score": {
     "readiness": {
-      "value": 74,
+      "value": 85,
       "minProdScore": 90,
       "readyForProd": false,
       "reviewStatus": "non-relue",
@@ -29,8 +29,8 @@
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
-        "quizQuality": 2,
-        "editorialReview": 2
+        "quizQuality": 15,
+        "editorialReview": 0
       }
     },
     "depth": {
@@ -38,22 +38,7 @@
     }
   },
   "quiz": {
-    "transparentWordIds": [
-      "ramen",
-      "sushi",
-      "onigiri",
-      "matcha",
-      "shinkansen",
-      "Tokyo",
-      "Shibuya",
-      "Akihabara",
-      "onsen",
-      "yukata",
-      "izakaya",
-      "takoyaki",
-      "taiyaki",
-      "kimono"
-    ]
+    "transparentWordIds": []
   },
   "words": [
     {

@@ -20,7 +20,7 @@
   },
   "score": {
     "readiness": {
-      "value": 84,
+      "value": 70,
       "minProdScore": 90,
       "readyForProd": false,
       "reviewStatus": "non-relue",
@@ -28,9 +28,9 @@
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
-        "contentCompleteness": 36,
-        "quizQuality": 10,
-        "editorialReview": 8
+        "contentCompleteness": 40,
+        "quizQuality": 0,
+        "editorialReview": 0
       }
     },
     "depth": {
@@ -39,7 +39,6 @@
   },
   "quiz": {
     "transparentWordIds": [
-      "gacha",
       "roguin",
       "chiketto",
       "muryou",

@@ -15,6 +15,13 @@ describe("catalog", () => {
   it("exposes the frozen release, pack, and difficulty metadata", () => {
     expect(RELEASES).toHaveLength(1);
     expect(PACKS).toHaveLength(5);
+    expect(PACKS.map((pack) => pack.id)).toEqual([
+      "jrpg-essentials",
+      "combat-and-boss",
+      "classes-weapons-equipment",
+      "anime-codes",
+      "gacha-live-service",
+    ]);
     expect(DIFFICULTIES.length).toBeGreaterThan(0);
     expect(MANABU_CATALOG.defaultPackId).toBe("jrpg-essentials");
   });
