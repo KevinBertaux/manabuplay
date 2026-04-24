@@ -24,11 +24,11 @@ describe("catalog", () => {
 
     expect(ids.size).toBe(WORDS.length);
     expect(PACK_ENTRIES).toHaveLength(WORDS.length);
-    expect(WORDS).toHaveLength(150);
+    expect(WORDS).toHaveLength(170);
 
     for (const pack of PACKS) {
       const entries = PACK_ENTRIES.filter((entry) => entry.packId === pack.id);
-      expect(entries).toHaveLength(30);
+      expect(entries).toHaveLength(34);
       expect(entries.every((entry, index) => entry.order === index + 1)).toBe(true);
     }
   });
@@ -45,10 +45,17 @@ describe("catalog", () => {
     expect(quizData[0]).toHaveProperty("wrong");
   });
 
+  it("provides three localized distractors for every runtime quiz entry", () => {
+    const quizData = buildCatalogQuizData();
+
+    expect(quizData.every((entry) => entry.wrong.fr.length === 3)).toBe(true);
+    expect(quizData.every((entry) => entry.wrong.en.length === 3)).toBe(true);
+  });
+
   it("builds pack-level quiz data for a specific canonical pack", () => {
     const quizData = buildCatalogPackQuizData("jrpg-essentials");
 
-    expect(quizData).toHaveLength(30);
+    expect(quizData).toHaveLength(34);
     expect(quizData.every((entry) => entry.id.startsWith("jrpg-essentials:"))).toBe(true);
   });
 
@@ -79,7 +86,7 @@ describe("catalog", () => {
     expect(payload.difficulties).toEqual(DIFFICULTIES);
     expect(payload.lang).toHaveProperty("en");
     expect(payload.lang).toHaveProperty("fr");
-    expect(payload.lang.en.stat_words).toBe("150 WORDS");
-    expect(payload.lang.fr.stat_words).toBe("150 MOTS");
+    expect(payload.lang.en.stat_words).toBe("170 WORDS");
+    expect(payload.lang.fr.stat_words).toBe("170 MOTS");
   });
 });

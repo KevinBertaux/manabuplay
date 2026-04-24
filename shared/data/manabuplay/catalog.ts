@@ -164,11 +164,54 @@ function createCatalogWordId(
   return candidate;
 }
 
+function completeDistractors({
+  explicit,
+  candidates,
+  correct,
+  seed,
+  fallback,
+}: {
+  explicit?: string[];
+  candidates: string[];
+  correct: string;
+  seed: number;
+  fallback: string;
+}) {
+  const distractors = (explicit || [])
+    .filter(
+      (candidate, index, source) =>
+        Boolean(candidate) && candidate !== correct && source.indexOf(candidate) === index,
+    )
+    .slice(0, 3);
+
+  for (let step = 0; step < candidates.length && distractors.length < 3; step += 1) {
+    const candidate = candidates[(seed + step) % candidates.length];
+    if (candidate && candidate !== correct && !distractors.includes(candidate)) {
+      distractors.push(candidate);
+    }
+  }
+
+  while (distractors.length < 3) {
+    distractors.push(fallback);
+  }
+
+  return distractors;
+}
+
 function buildCatalogSeed() {
   const words: WordEntry[] = [];
   const packEntries: PackEntry[] = [];
 
   for (const pack of CANONICAL_PACKS) {
+    const packGlosses = {
+      fr: pack.words
+        .map((word) => (word.gloss || word.meaning)?.fr)
+        .filter((gloss): gloss is string => Boolean(gloss)),
+      en: pack.words
+        .map((word) => (word.gloss || word.meaning)?.en)
+        .filter((gloss): gloss is string => Boolean(gloss)),
+    };
+
     pack.words.forEach((word, index) => {
       const wordId = createCatalogWordId(pack.id, index, word);
       const term = getJapaneseTerm(word.jp);
@@ -177,6 +220,22 @@ function buildCatalogSeed() {
       if (!meaning?.fr || !meaning.en) {
         throw new Error(`Pack "${pack.id}" word #${word.order} is missing a localized meaning.`);
       }
+      const distractorOverrides = {
+        fr: completeDistractors({
+          explicit: word.quiz?.distractors?.fr,
+          candidates: packGlosses.fr,
+          correct: meaning.fr,
+          seed: index * 2,
+          fallback: "Distracteur à écrire.",
+        }),
+        en: completeDistractors({
+          explicit: word.quiz?.distractors?.en,
+          candidates: packGlosses.en,
+          correct: meaning.en,
+          seed: index * 3,
+          fallback: "Distractor to write.",
+        }),
+      };
 
       words.push({
         id: wordId,
@@ -218,10 +277,7 @@ function buildCatalogSeed() {
         explanation: word.explanation || null,
         distractors: {
           wordIds: [],
-          overrides: {
-            fr: word.quiz?.distractors?.fr?.slice(0, 3) || [],
-            en: word.quiz?.distractors?.en?.slice(0, 3) || [],
-          },
+          overrides: distractorOverrides,
         },
       });
     });
