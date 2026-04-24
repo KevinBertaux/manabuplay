@@ -22,7 +22,7 @@
           "label": "Gacha"
         }
       },
-      "candidatePackIds": ["gacha-live-service"]
+      "candidatePackIds": ["gacha-and-rewards"]
     },
     {
       "id": "free-to-play",
@@ -39,7 +39,7 @@
           "label": "Free-to-play"
         }
       },
-      "candidatePackIds": ["gacha-live-service"]
+      "candidatePackIds": ["gacha-and-rewards"]
     },
     {
       "id": "cheat",
@@ -155,11 +155,7 @@
           "label": "Spell"
         }
       },
-      "candidatePackIds": [
-        "combat-and-boss",
-        "classes-weapons-equipment",
-        "dark-fantasy-legends-and-stealth"
-      ]
+      "candidatePackIds": ["combat-and-boss", "builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "equipment",
@@ -173,7 +169,7 @@
           "label": "Equipment"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment"]
+      "candidatePackIds": ["builds-and-gear"]
     },
     {
       "id": "summon",
@@ -215,7 +211,7 @@
           "label": "Reward"
         }
       },
-      "candidatePackIds": ["gacha-live-service", "arcade-secrets-and-meta"]
+      "candidatePackIds": ["gacha-and-rewards", "arcade-secrets-and-meta"]
     },
     {
       "id": "guild",
@@ -229,7 +225,7 @@
           "label": "Guild"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "ambush",
@@ -425,7 +421,7 @@
           "label": "Guard"
         }
       },
-      "candidatePackIds": ["combat-and-boss", "classes-weapons-equipment"]
+      "candidatePackIds": ["combat-and-boss", "builds-and-gear"]
     },
     {
       "id": "blaze",
@@ -467,7 +463,7 @@
           "label": "Accessory"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "japan-pop-city-daily-life"]
+      "candidatePackIds": ["builds-and-gear", "japan-pop-city-daily-life"]
     },
     {
       "id": "assassin",
@@ -481,7 +477,7 @@
           "label": "Assassin"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "paladin",
@@ -495,7 +491,7 @@
           "label": "Paladin"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "lancer",
@@ -509,7 +505,7 @@
           "label": "Lancer"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "ranger",
@@ -523,7 +519,7 @@
           "label": "Ranger"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "healer",
@@ -537,7 +533,7 @@
           "label": "Healer"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "wand",
@@ -551,7 +547,7 @@
           "label": "Wand"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "crossbow",
@@ -565,7 +561,7 @@
           "label": "Crossbow"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "hammer",
@@ -579,7 +575,7 @@
           "label": "Hammer"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "mace",
@@ -593,7 +589,7 @@
           "label": "Mace"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "halberd",
@@ -607,7 +603,7 @@
           "label": "Halberd"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "relic",
@@ -621,7 +617,7 @@
           "label": "Relic"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "talisman",
@@ -635,7 +631,7 @@
           "label": "Talisman"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "dark-fantasy-legends-and-stealth"]
+      "candidatePackIds": ["builds-and-gear", "dark-fantasy-legends-and-stealth"]
     },
     {
       "id": "scholar",
@@ -649,21 +645,21 @@
           "label": "Scholar"
         }
       },
-      "candidatePackIds": ["classes-weapons-equipment", "anime-codes"]
+      "candidatePackIds": ["builds-and-gear", "anime-codes"]
     }
   ],
   "packs": [
     {
       "targetVersion": "v0.2",
-      "id": "gacha-live-service",
-      "slug": "gacha-live-service",
+      "id": "gacha-and-rewards",
+      "slug": "gacha-and-rewards",
       "themeId": "gaming",
       "locales": {
         "fr": {
-          "name": "Gacha & live service"
+          "name": "Gacha & Rewards"
         },
         "en": {
-          "name": "Gacha & Live Service"
+          "name": "Gacha & Rewards"
         }
       },
       "candidateWordIds": ["free-to-play", "gacha", "reward"],

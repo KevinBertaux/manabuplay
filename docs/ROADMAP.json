@@ -537,7 +537,7 @@
           "area": "packs",
           "type": "content",
           "children": [
-            { "id": "gacha-live-service", "title": "Pack Gacha & Rewards", "status": "todo" },
+            { "id": "gacha-and-rewards", "title": "Pack Gacha & Rewards", "status": "todo" },
             {
               "id": "arcade-secrets-meta",
               "title": "Pack Arcade, secrets & meta",

@@ -10,8 +10,8 @@
   "targetWordsPerPack": 34,
   "packs": [
     {
-      "id": "jrpg-essentials",
-      "path": "./jrpg-essentials.json",
+      "id": "jrpg-questline",
+      "path": "./jrpg-questline.json",
       "existingWords": 10,
       "plannedWords": 24
     },
@@ -22,8 +22,8 @@
       "plannedWords": 23
     },
     {
-      "id": "classes-weapons-equipment",
-      "path": "./classes-weapons-equipment.json",
+      "id": "builds-and-gear",
+      "path": "./builds-and-gear.json",
       "existingWords": 10,
       "plannedWords": 24
     },
@@ -34,8 +34,8 @@
       "plannedWords": 24
     },
     {
-      "id": "gacha-live-service",
-      "path": "./gacha-live-service.json",
+      "id": "gacha-and-rewards",
+      "path": "./gacha-and-rewards.json",
       "existingWords": 0,
       "plannedWords": 34
     }

@@ -3,7 +3,7 @@ import { getAllPacks, getPackById, getPackIndex } from "../../shared/lib/manabup
 
 describe("manabuplay pack reader", () => {
   const expectedPackSignals = {
-    "jrpg-essentials": {
+    "jrpg-questline": {
       readiness: 96,
       breakdown: {
         packSize: 15,
@@ -39,7 +39,7 @@ describe("manabuplay pack reader", () => {
         tone: "ok",
       },
     },
-    "classes-weapons-equipment": {
+    "builds-and-gear": {
       readiness: 96,
       breakdown: {
         packSize: 15,
@@ -75,7 +75,7 @@ describe("manabuplay pack reader", () => {
         tone: "ok",
       },
     },
-    "gacha-live-service": {
+    "gacha-and-rewards": {
       readiness: 70,
       breakdown: {
         packSize: 15,
@@ -108,7 +108,7 @@ describe("manabuplay pack reader", () => {
   });
 
   it("hydrates a pack with tier and transparent breakdowns", () => {
-    const pack = getPackById("jrpg-essentials");
+    const pack = getPackById("jrpg-questline");
 
     expect(pack).toBeTruthy();
     expect(pack?.words).toHaveLength(34);
@@ -119,7 +119,7 @@ describe("manabuplay pack reader", () => {
   });
 
   it("weights strict, editorial and filler transparency separately", () => {
-    const pack = getPackById("gacha-live-service");
+    const pack = getPackById("gacha-and-rewards");
 
     expect(pack?.transparentBreakdown?.strictCount).toBe(1);
     expect(pack?.transparentBreakdown?.editorialCount).toBe(9);
@@ -157,7 +157,7 @@ describe("manabuplay pack reader", () => {
   });
 
   it("still builds previews for planned words that do not have a legacy word id", () => {
-    const pack = getPackById("gacha-live-service");
+    const pack = getPackById("gacha-and-rewards");
     const plannedWord = pack?.words.find((entry) => !entry.existingWordId);
 
     expect(plannedWord).toBeTruthy();

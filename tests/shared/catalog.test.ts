@@ -16,14 +16,14 @@ describe("catalog", () => {
     expect(RELEASES).toHaveLength(1);
     expect(PACKS).toHaveLength(5);
     expect(PACKS.map((pack) => pack.id)).toEqual([
-      "jrpg-essentials",
+      "jrpg-questline",
       "combat-and-boss",
-      "classes-weapons-equipment",
+      "builds-and-gear",
       "anime-codes",
-      "gacha-live-service",
+      "gacha-and-rewards",
     ]);
     expect(DIFFICULTIES.length).toBeGreaterThan(0);
-    expect(MANABU_CATALOG.defaultPackId).toBe("jrpg-essentials");
+    expect(MANABU_CATALOG.defaultPackId).toBe("jrpg-questline");
   });
 
   it("creates unique word ids and mirrored pack entries", () => {
@@ -60,10 +60,10 @@ describe("catalog", () => {
   });
 
   it("builds pack-level quiz data for a specific canonical pack", () => {
-    const quizData = buildCatalogPackQuizData("jrpg-essentials");
+    const quizData = buildCatalogPackQuizData("jrpg-questline");
 
     expect(quizData).toHaveLength(34);
-    expect(quizData.every((entry) => entry.id.startsWith("jrpg-essentials:"))).toBe(true);
+    expect(quizData.every((entry) => entry.id.startsWith("jrpg-questline:"))).toBe(true);
   });
 
   it("returns an empty quiz list for an unknown pack", () => {
@@ -88,7 +88,7 @@ describe("catalog", () => {
   it("builds the catalog boot payload from the catalog", () => {
     const payload = buildCatalogBootData();
 
-    expect(payload.catalog.defaultPackId).toBe("jrpg-essentials");
+    expect(payload.catalog.defaultPackId).toBe("jrpg-questline");
     expect(payload.quizData).toHaveLength(WORDS.length);
     expect(payload.difficulties).toEqual(DIFFICULTIES);
     expect(payload.lang).toHaveProperty("en");

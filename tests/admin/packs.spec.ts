@@ -19,7 +19,7 @@ test.describe("admin packs", () => {
   });
 
   test("opens a pack detail page with transparency signals and pagination", async ({ page }) => {
-    await page.goto(`${PACKS_URL}gacha-live-service/`, { waitUntil: "domcontentloaded" });
+    await page.goto(`${PACKS_URL}gacha-and-rewards/`, { waitUntil: "domcontentloaded" });
 
     await expect(page.locator("[data-reader-cartouche]")).toContainText("Transparence 16% · watch");
     await expect(page.locator("[data-reader-cartouche]")).toContainText(
