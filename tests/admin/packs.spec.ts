@@ -39,4 +39,13 @@ test.describe("admin packs", () => {
     await page.locator("[data-page-next]").first().click();
     await expect(page.locator("[data-page-info]").first()).not.toHaveText("");
   });
+
+  test("shows reviewed and needs-review word badges on the JRPG pack", async ({ page }) => {
+    await page.goto(`${PACKS_URL}jrpg-questline/`, { waitUntil: "domcontentloaded" });
+
+    await expect(page.locator('[data-review-status="reviewed"]')).toHaveCount(16);
+    await expect(page.locator('[data-review-status="needs-review"]')).toHaveCount(18);
+    await expect(page.locator("#word-1")).toContainText("À relire");
+    await expect(page.locator("#word-2")).toContainText("Relu");
+  });
 });

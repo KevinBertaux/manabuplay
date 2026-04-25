@@ -27,6 +27,9 @@ export type CanonicalPackWord = {
     hint2?: LocalizedText;
   };
   explanation?: LocalizedText;
+  editorialReview?: {
+    status: "reviewed" | "needs-review";
+  };
   quiz?: {
     distractors?: Record<Locale, string[]>;
     transparentWordIds?: string[];

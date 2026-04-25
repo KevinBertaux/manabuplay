@@ -217,6 +217,28 @@ function getTierTone(word: PackReaderWord) {
       return "na";
   }
 }
+
+function getWordReviewStatus(word: PackReaderWord) {
+  if (word.editorialReview?.status) {
+    return word.editorialReview.status;
+  }
+
+  const reviewStatus = activePack.score?.readiness?.reviewStatus;
+  if (reviewStatus === "faite" || reviewStatus === "validee") {
+    return "reviewed";
+  }
+
+  const progress = activePack.score?.readiness?.reviewProgress;
+  if (reviewStatus === "partielle" && progress) {
+    return word.order <= progress.reviewedWords ? "reviewed" : "needs-review";
+  }
+
+  return "needs-review";
+}
+
+function getWordReviewLabel(word: PackReaderWord) {
+  return getWordReviewStatus(word) === "reviewed" ? "Relu" : "À relire";
+}
 ---
 <AdminLayout
   title={`${activePack.locales.fr.name} — Admin Pack Reader`}
@@ -357,11 +379,12 @@ function getTierTone(word: PackReaderWord) {
 
         <div class="reader-grid" data-reader-grid>
           {activePack.words.map((word) => (
-          <article class="review-card" id={`word-${word.order}`} data-admin-card data-word-id={getWordKey(word)} data-word-order={word.order} data-state="revealed" data-correct-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-correct-index-en={word.quizPreview?.correctIndex.en ?? 0} data-selected-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-selected-index-en={word.quizPreview?.correctIndex.en ?? 0} tabindex="0">
+          <article class:list={["review-card", `review-${getWordReviewStatus(word)}`]} id={`word-${word.order}`} data-admin-card data-word-id={getWordKey(word)} data-word-order={word.order} data-review-status={getWordReviewStatus(word)} data-state="revealed" data-correct-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-correct-index-en={word.quizPreview?.correctIndex.en ?? 0} data-selected-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-selected-index-en={word.quizPreview?.correctIndex.en ?? 0} tabindex="0">
             <div class="review-meta">
               <div class="review-meta-left">
                 <span class="review-order">Mot {word.order}</span>
                 <span class:list={["review-tier", getTierTone(word)]}>{getTierLabel(word)}</span>
+                <span class:list={["review-status", getWordReviewStatus(word)]}>{getWordReviewLabel(word)}</span>
               </div>
               <div class="review-tools">
                 <span class="review-id">{word.existingWordId || "Nouveau mot"}</span>

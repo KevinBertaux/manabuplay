@@ -156,6 +156,22 @@ describe("manabuplay pack reader", () => {
     );
   });
 
+  it("keeps per-word review status for packs with non-linear replacements", () => {
+    const pack = getPackById("jrpg-questline");
+    const words = pack?.words ?? [];
+
+    expect(words.filter((word) => word.editorialReview?.status === "reviewed")).toHaveLength(16);
+    expect(words.filter((word) => word.editorialReview?.status === "needs-review")).toHaveLength(
+      18,
+    );
+    expect(words.find((word) => word.existingWordId === "spell")?.editorialReview?.status).toBe(
+      "needs-review",
+    );
+    expect(
+      words.find((word) => word.existingWordId === "keiken-chi-exp")?.editorialReview?.status,
+    ).toBe("reviewed");
+  });
+
   it("still builds previews for planned words that do not have a legacy word id", () => {
     const pack = getPackById("gacha-and-rewards");
     const plannedWord = pack?.words.find((entry) => !entry.existingWordId);

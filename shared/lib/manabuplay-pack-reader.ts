@@ -42,6 +42,9 @@ export type PackReaderWord = {
     fr?: string;
     en?: string;
   };
+  editorialReview?: {
+    status: "reviewed" | "needs-review";
+  };
   quiz?: {
     distractors?: {
       fr?: string[];

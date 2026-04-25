@@ -92,7 +92,10 @@
           "en": ["Magic", "Mana", "Skill"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 2,
@@ -130,7 +133,10 @@
           "en": ["In-game money", "Mana", "Character stats"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 3,
@@ -168,7 +174,10 @@
           "en": ["Item", "Inventory", "Shop"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 4,
@@ -206,7 +215,10 @@
           "en": ["Mana", "Healing item", "Buff"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 5,
@@ -244,7 +256,10 @@
           "en": ["Spell", "Mana", "Summon"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 6,
@@ -282,7 +297,10 @@
           "en": ["Strategy", "Quest", "Hidden secret"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 7,
@@ -320,7 +338,10 @@
           "en": ["Adventurer", "King", "Companion"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 8,
@@ -358,7 +379,10 @@
           "en": ["Dungeon", "Map", "Treasure chest"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 9,
@@ -396,7 +420,10 @@
           "en": ["Loot", "Treasure", "Request"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 10,
@@ -434,7 +461,10 @@
           "en": ["Stealth", "Curse", "Darkness"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 11,
@@ -472,7 +502,10 @@
           "en": ["Curse", "Burn", "Immunity"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 12,
@@ -509,7 +542,10 @@
           "en": ["Equipment", "Loot", "Inventory"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 13,
@@ -546,7 +582,10 @@
           "en": ["Maze", "Treasure chest", "Map"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 14,
@@ -584,7 +623,10 @@
           "en": ["Item", "Treasure chest", "Reward"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 15,
@@ -622,7 +664,10 @@
           "en": ["Kingdom", "Town", "Village"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 16,
@@ -660,7 +705,10 @@
           "en": ["Story", "Rumor", "Kingdom"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 17,
@@ -697,7 +745,10 @@
           "en": ["Adventurer", "Quest", "Kingdom"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 18,
@@ -735,7 +786,10 @@
           "en": ["Boss", "Monster", "Ambush"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 19,
@@ -773,7 +827,10 @@
           "en": ["Evolution", "Summon", "Final form"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 20,
@@ -810,7 +867,10 @@
           "en": ["Quest", "Mission board", "Reward"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 21,
@@ -848,7 +908,10 @@
           "en": ["Poison", "Shadow", "Immunity"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 22,
@@ -886,7 +949,10 @@
           "en": ["Spell", "Magic", "Transformation"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 23,
@@ -923,7 +989,10 @@
           "en": ["Shop", "Village", "Save point"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 24,
@@ -960,7 +1029,10 @@
           "en": ["Loot", "Dungeon", "Key item"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 25,
@@ -998,7 +1070,10 @@
           "en": ["Tactic", "Walkthrough", "Skill"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 26,
@@ -1035,7 +1110,10 @@
           "en": ["Village", "Kingdom", "Castle"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 27,
@@ -1072,7 +1150,10 @@
           "en": ["Town", "Inn", "Starting area"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 28,
@@ -1109,7 +1190,10 @@
           "en": ["Castle", "Town", "Nation"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 29,
@@ -1146,7 +1230,10 @@
           "en": ["Kingdom", "Fortress", "Town"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 30,
@@ -1183,7 +1270,10 @@
           "en": ["Hero", "Party member", "Guild fighter"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 31,
@@ -1214,7 +1304,10 @@
         "fr": "Ce mot désigne le terrain ou la zone de jeu ouverte où l'on se déplace entre les points clés d'un JRPG.",
         "en": "This word refers to the field or open gameplay area where you move between key JRPG locations."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 32,
@@ -1245,7 +1338,10 @@
         "fr": "Ce mot désigne le point de sauvegarde fixe que beaucoup de JRPG placent dans les donjons ou les zones dangereuses.",
         "en": "This word refers to the fixed save point many JRPGs place inside dungeons or dangerous areas."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 33,
@@ -1276,7 +1372,10 @@
         "fr": "Ce mot désigne une quête secondaire, très fréquente dans les JRPG pour enrichir le monde, gagner des objets ou développer un personnage.",
         "en": "This word refers to a side quest, very common in JRPGs to enrich the world, earn items or develop a character."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 34,
@@ -1307,7 +1406,10 @@
         "fr": "Ce mot désigne la carte du monde, un repère classique des JRPG qui matérialise l'échelle du voyage et la progression globale.",
         "en": "This word refers to the world map, a classic JRPG landmark that gives a sense of journey scale and overall progression."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "needs-review"
+      }
     }
   ]
 }
