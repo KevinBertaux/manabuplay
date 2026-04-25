@@ -4,21 +4,21 @@ import { getAllPacks, getPackById, getPackIndex } from "../../shared/lib/manabup
 describe("manabuplay pack reader", () => {
   const expectedPackSignals = {
     "jrpg-questline": {
-      readiness: 96,
+      readiness: 84,
       breakdown: {
         packSize: 15,
         tierFit: 15,
         contentCompleteness: 40,
         quizQuality: 13,
-        editorialReview: 13,
+        editorialReview: 1,
       },
       transparency: {
-        strictCount: 1,
-        editorialCount: 19,
+        strictCount: 0,
+        editorialCount: 7,
         fillerCount: 0,
-        weightedScore: 10.5,
-        weightedPercent: 31,
-        tone: "act",
+        weightedScore: 3.5,
+        weightedPercent: 10,
+        tone: "ok",
       },
     },
     "combat-and-boss": {

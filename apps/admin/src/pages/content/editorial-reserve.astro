@@ -5,7 +5,8 @@ import { getEditorialReserve, type EditorialReserveEntry } from "../../../../../
 const reserve = getEditorialReserve();
 const candidateEntries = reserve.entries.filter((entry) => entry.status === "candidate");
 const archivedEntries = reserve.entries.filter((entry) => entry.status === "archived");
-const reserveEntries = [...candidateEntries, ...archivedEntries].sort((first, second) => {
+const removedEntries = reserve.entries.filter((entry) => entry.status === "removed-from-pack");
+const reserveEntries = [...candidateEntries, ...archivedEntries, ...removedEntries].sort((first, second) => {
   const tierDelta = (first.tier || 99) - (second.tier || 99);
   if (tierDelta !== 0) return tierDelta;
   return getRomaji(first).localeCompare(getRomaji(second), "fr");
@@ -121,7 +122,7 @@ function getTierClassFromTier(tier: number) {
     <div class="catalog-section-head">
       <div>
         <h2 class="catalog-section-title">Mots de réserve</h2>
-        <p class="catalog-section-copy">{candidateEntries.length} candidats et {archivedEntries.length} mots archivés. Tous ont un tier et une transparence calculée pour pouvoir demander, par exemple, “2 T1 et 1 T3” sans retri manuel.</p>
+        <p class="catalog-section-copy">{candidateEntries.length} candidats, {archivedEntries.length} mots archivés et {removedEntries.length} sortis de packs. Tous ont un tier et une transparence calculée pour pouvoir demander, par exemple, “2 T1 et 1 T3” sans retri manuel.</p>
       </div>
     </div>
     <div class="catalog-tier-drawers">

@@ -6,6 +6,10 @@ describe("editorial reserve", () => {
     const reserve = getEditorialReserve();
 
     expect(reserve.stats.active).toBe(170);
+    expect(reserve.stats.removedFromPack).toBe(14);
+    expect(reserve.stats.candidate + reserve.stats.archived + reserve.stats.removedFromPack).toBe(
+      42,
+    );
     expect(reserve.entries.length).toBe(reserve.stats.total);
     expect(reserve.futurePacks.length).toBeGreaterThan(0);
     expect(reserve.rejectedDistractors.length).toBeGreaterThan(0);

@@ -13,8 +13,10 @@ test.describe("admin packs", () => {
     await expect(page.locator(".packs-grid")).toContainText("JRPG Questline");
     await expect(page.locator(".packs-grid")).toContainText("Anime Codes");
     await expect(page.locator(".packs-grid")).toContainText("Gacha & Rewards");
+    await expect(page.locator(".packs-grid")).toContainText("84/100");
     await expect(page.locator(".packs-grid")).toContainText("96/100");
     await expect(page.locator(".packs-grid")).toContainText("70/100");
+    await expect(page.locator(".packs-grid")).toContainText("partielle · 16/34");
     await expect(page.locator(".packs-grid")).toContainText("partielle · 30/34");
   });
 
