@@ -177,6 +177,26 @@ describe("manabuplay pack reader", () => {
     expect(words.find((word) => word.order === 34)?.quizPreview?.distractors.en).toHaveLength(3);
   });
 
+  it("keeps per-word review status for the reviewed Combat & Boss pack", () => {
+    const pack = getPackById("combat-and-boss");
+    const words = pack?.words ?? [];
+
+    expect(pack?.score?.readiness?.reviewStatus).toBe("faite");
+    expect(pack?.score?.readiness?.reviewProgress).toEqual({ reviewedWords: 34, totalWords: 34 });
+    expect(words.filter((word) => word.editorialReview?.status === "reviewed")).toHaveLength(34);
+    expect(words.filter((word) => word.editorialReview?.status === "needs-review")).toHaveLength(0);
+    expect(pack?.transparentBreakdown).toMatchObject({
+      strictCount: 0,
+      editorialCount: 5,
+      fillerCount: 0,
+      weightedScore: 2.5,
+      weightedPercent: 7,
+      tone: "ok",
+    });
+    expect(words.find((word) => word.order === 31)?.quizPreview?.distractors.fr).toHaveLength(3);
+    expect(words.find((word) => word.order === 34)?.quizPreview?.distractors.en).toHaveLength(3);
+  });
+
   it("still builds previews for planned words that do not have a legacy word id", () => {
     const pack = getPackById("gacha-and-rewards");
     const plannedWord = pack?.words.find((entry) => !entry.existingWordId);

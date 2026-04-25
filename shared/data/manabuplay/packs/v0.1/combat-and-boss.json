@@ -6,8 +6,10 @@
   "targetWordCount": 34,
   "notes": [
     "Deuxième pack enrichi pour validation éditoriale.",
-    "Relecture partielle : les 30 mots historiques sont validés, les 4 ajouts récents restent à relire.",
-    "Répartition des tiers : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4."
+    "Relecture faite : les 34 mots sont relus côté contenu, le go final reste manuel avant prod.",
+    "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4.",
+    "Transparence pondérée stabilisée sous le seuil de surveillance : 2.5 pts, 7%, aucun remplacement requis.",
+    "Score readiness remonté à 96 : contenu complet, quiz relu, prod gate toujours bloqué sans validation finale."
   ],
   "locales": {
     "fr": {
@@ -24,9 +26,9 @@
       "value": 96,
       "minProdScore": 90,
       "readyForProd": false,
-      "reviewStatus": "partielle",
+      "reviewStatus": "faite",
       "reviewProgress": {
-        "reviewedWords": 30,
+        "reviewedWords": 34,
         "totalWords": 34
       },
       "releaseStatus": "preprod",
@@ -82,7 +84,10 @@
           "en": ["Dragon", "Demon king", "Elite enemy"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 2,
@@ -120,7 +125,10 @@
           "en": ["Cooperation", "Counterattack", "Finishing move"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 3,
@@ -158,7 +166,10 @@
           "en": ["Magic", "Awakening", "Finishing move"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 4,
@@ -196,7 +207,10 @@
           "en": ["Awakening", "Finishing move", "Berserk"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 5,
@@ -234,7 +248,10 @@
           "en": ["Transformation", "Overwhelming supremacy", "Secret art"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 6,
@@ -272,7 +289,10 @@
           "en": ["Boss", "Dragon", "Dark lord"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 7,
@@ -310,7 +330,10 @@
           "en": ["Combo", "Secret art", "Final attack"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 8,
@@ -348,7 +371,10 @@
           "en": ["Combo", "Counterattack", "Team buff"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 9,
@@ -386,7 +412,10 @@
           "en": ["Awakening", "Fury", "Berserk mode"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 10,
@@ -424,7 +453,10 @@
           "en": ["Shadow", "Flame", "Curse"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 11,
@@ -462,7 +494,10 @@
           "en": ["Boss", "Ancient monster", "Demon king"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 12,
@@ -499,7 +534,10 @@
           "en": ["Defense", "Damage", "Counterattack"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 13,
@@ -536,7 +574,10 @@
           "en": ["Damage", "Weakness", "Finishing attack"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 14,
@@ -573,7 +614,10 @@
           "en": ["Defense", "Counterattack", "Resistance"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 15,
@@ -610,7 +654,10 @@
           "en": ["Resistance", "Elemental weak point", "Broken armor"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 16,
@@ -647,7 +694,10 @@
           "en": ["Weakness", "Defense", "Immunity"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 17,
@@ -684,7 +734,10 @@
           "en": ["Debuff", "Healing", "Temporary boost"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 18,
@@ -721,7 +774,10 @@
           "en": ["Buff", "Status penalty", "Weakening effect"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 19,
@@ -758,7 +814,10 @@
           "en": ["Evasion", "Cooperation", "Return strike"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 20,
@@ -795,7 +854,10 @@
           "en": ["Debuff", "Poison", "Curse"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 21,
@@ -832,7 +894,10 @@
           "en": ["Evasion", "Resistance", "Guard"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 22,
@@ -869,7 +934,10 @@
           "en": ["Attack", "Critical hit", "Weakness"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 23,
@@ -906,7 +974,10 @@
           "en": ["Finishing move", "Awakening", "Combat style"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 24,
@@ -943,7 +1014,10 @@
           "en": ["Critical hit", "Finishing move", "Quick strike"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 25,
@@ -980,7 +1054,10 @@
           "en": ["Range", "Area burst", "Multi-hit attack"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 26,
@@ -1017,7 +1094,10 @@
           "en": ["Breakthrough", "Frontal attack", "Leaping strike"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 27,
@@ -1054,7 +1134,10 @@
           "en": ["Darkness", "Explosion", "Blaze"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 28,
@@ -1091,7 +1174,10 @@
           "en": ["Secret art", "Slashing move", "Sword style"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 29,
@@ -1128,7 +1214,10 @@
           "en": ["Explosion", "Massacre", "Annihilation"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 30,
@@ -1165,7 +1254,10 @@
           "en": ["Sword technique", "Single decisive blow", "Charge"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 31,
@@ -1196,7 +1288,16 @@
         "fr": "Ce mot désigne la garde, une posture ou une commande défensive utilisée pour limiter l'impact d'une attaque.",
         "en": "This word refers to guarding, a stance or command used to reduce the impact of an attack."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Défense", "Esquive", "Résistance"],
+          "en": ["Defense", "Evasion", "Resistance"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 32,
@@ -1227,7 +1328,16 @@
         "fr": "Ce mot désigne l'élément d'une attaque, d'une magie ou d'un ennemi. Il structure tout le jeu de forces et faiblesses.",
         "en": "This word refers to the element of an attack, spell or enemy. It structures the whole weakness and resistance game."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Faiblesse", "Résistance", "Altération d'état"],
+          "en": ["Weakness", "Resistance", "Status ailment"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 33,
@@ -1258,7 +1368,16 @@
         "fr": "Ce mot désigne le poison, un statut emblématique des RPG qui punit la durée et force parfois à se soigner vite.",
         "en": "This word refers to poison, a signature RPG status effect that punishes long fights and often forces quick healing."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Ténèbres", "Flamme", "Altération d'état"],
+          "en": ["Darkness", "Flame", "Status ailment"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 34,
@@ -1289,7 +1408,16 @@
         "fr": "Ce mot désigne l'embuscade, un début de combat pris par surprise qui casse le rythme normal de l'affrontement.",
         "en": "This word refers to an ambush, a surprise battle opener that breaks the normal rhythm of a fight."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Contre-attaque", "Charge", "Rencontre ennemie"],
+          "en": ["Counterattack", "Charge", "Enemy encounter"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     }
   ]
 }
