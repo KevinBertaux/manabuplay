@@ -114,7 +114,7 @@ function getReviewLabel() {
     case "validee":
       return "Relecture validée";
     case "faite":
-      return "Relecture faite";
+      return `faite${progressLabel}`;
     case "partielle":
       return `partielle${progressLabel}`;
     case "non-relue":
@@ -166,7 +166,7 @@ function getGiftTone() {
 }
 
 function getWordKey(word: PackReaderWord) {
-  return word.existingWordId || getRomaji(word) || `word-${word.order}`;
+  return getRomaji(word) || word.existingWordId || `word-${word.order}`;
 }
 
 function getTransparentWords() {
@@ -408,7 +408,7 @@ function getWordTransparencyLevel(word: PackReaderWord) {
                 <span class:list={["review-status", getWordReviewStatus(word)]}>{getWordReviewLabel(word)}</span>
               </div>
               <div class="review-tools">
-                <span class="review-id">{word.existingWordId || "Nouveau mot"}</span>
+                <span class="review-id">{getWordKey(word)}</span>
                 <button class="review-toggle" type="button" data-toggle-card>Avant réponse</button>
               </div>
             </div>

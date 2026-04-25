@@ -13,10 +13,9 @@ test.describe("admin packs", () => {
     await expect(page.locator(".packs-grid")).toContainText("JRPG Questline");
     await expect(page.locator(".packs-grid")).toContainText("Anime Codes");
     await expect(page.locator(".packs-grid")).toContainText("Gacha & Rewards");
-    await expect(page.locator(".packs-grid")).toContainText("84/100");
     await expect(page.locator(".packs-grid")).toContainText("96/100");
     await expect(page.locator(".packs-grid")).toContainText("70/100");
-    await expect(page.locator(".packs-grid")).toContainText("partielle · 16/34");
+    await expect(page.locator(".packs-grid")).toContainText("faite · 34/34");
     await expect(page.locator(".packs-grid")).toContainText("partielle · 30/34");
   });
 
@@ -40,22 +39,26 @@ test.describe("admin packs", () => {
     await expect(page.locator("[data-page-info]").first()).not.toHaveText("");
   });
 
-  test("shows reviewed and needs-review word badges on the JRPG pack", async ({ page }) => {
+  test("shows reviewed word badges and romaji ids on the JRPG pack", async ({ page }) => {
     await page.goto(`${PACKS_URL}jrpg-questline/`, { waitUntil: "domcontentloaded" });
 
-    await expect(page.locator('[data-review-status="reviewed"]')).toHaveCount(16);
-    await expect(page.locator('[data-review-status="needs-review"]')).toHaveCount(18);
-    await expect(page.locator("#word-1")).toContainText("À relire");
+    await expect(page.locator("[data-reader-cartouche]")).toContainText("faite · 34/34");
+    await expect(page.locator('[data-review-status="reviewed"]')).toHaveCount(34);
+    await expect(page.locator('[data-review-status="needs-review"]')).toHaveCount(0);
+    await expect(page.locator("#word-1")).toContainText("Relu");
     await expect(page.locator("#word-2")).toContainText("Relu");
+    await expect(page.locator("#word-14")).toContainText("Objet de quête");
+    await expect(page.locator("#word-19 .review-id")).toHaveText("henshin");
+    await expect(page.locator("#word-20 .review-id")).toHaveText("irai");
   });
 
   test("filters the JRPG review cards by status, transparency and tier", async ({ page }) => {
     await page.goto(`${PACKS_URL}jrpg-questline/`, { waitUntil: "domcontentloaded" });
 
-    await page.locator('[data-reader-filter="needs-review"]').click();
+    await page.locator('[data-reader-filter="reviewed"]').click();
     await expect(page.locator(".review-card:visible")).toHaveCount(10);
-    await expect(page.locator("[data-page-info]").first()).toContainText("18 visibles");
-    await expect(page.locator('[data-review-status="reviewed"]:visible')).toHaveCount(0);
+    await expect(page.locator("[data-page-info]").first()).toContainText("34 visibles");
+    await expect(page.locator('[data-review-status="needs-review"]:visible')).toHaveCount(0);
 
     await page.locator('[data-reader-filter="transparent"]').click();
     await expect(page.locator(".review-card:visible")).toHaveCount(7);

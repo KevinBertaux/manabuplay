@@ -6,10 +6,10 @@
   "targetWordCount": 34,
   "notes": [
     "Premier pack enrichi pour validation éditoriale.",
-    "Relecture partielle : 16 mots validés, 18 mots à relire après remplacement de 14 mots trop transparents.",
+    "Relecture faite : les 34 mots sont relus côté contenu, le go final reste manuel avant prod.",
     "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4.",
-    "Objectif lot 2 : ramener la transparence pondérée du pack sous le seuil de surveillance.",
-    "Score readiness ramené à 84 : la relecture reste à 1/15 tant que le pack n'a pas été validé majoritairement."
+    "Transparence pondérée stabilisée sous le seuil de surveillance.",
+    "Score readiness remonté à 96 : contenu complet, quiz relu, prod gate toujours bloqué sans validation finale."
   ],
   "locales": {
     "fr": {
@@ -23,12 +23,12 @@
   },
   "score": {
     "readiness": {
-      "value": 84,
+      "value": 96,
       "minProdScore": 90,
       "readyForProd": false,
-      "reviewStatus": "partielle",
+      "reviewStatus": "faite",
       "reviewProgress": {
-        "reviewedWords": 16,
+        "reviewedWords": 34,
         "totalWords": 34
       },
       "releaseStatus": "preprod",
@@ -37,7 +37,7 @@
         "tierFit": 15,
         "contentCompleteness": 40,
         "quizQuality": 13,
-        "editorialReview": 1
+        "editorialReview": 13
       }
     },
     "depth": {
@@ -94,7 +94,7 @@
       },
       "difficultyTier": 1,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -176,7 +176,7 @@
       },
       "difficultyTier": 1,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -340,7 +340,7 @@
       },
       "difficultyTier": 1,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -422,7 +422,7 @@
       },
       "difficultyTier": 2,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -463,7 +463,7 @@
       },
       "difficultyTier": 1,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -504,7 +504,7 @@
       },
       "difficultyTier": 1,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -596,7 +596,7 @@
         "romaji": "ki aitemu"
       },
       "gloss": {
-        "fr": "Objet clé",
+        "fr": "Objet de quête",
         "en": "Key item"
       },
       "definition": {
@@ -614,7 +614,7 @@
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne un objet clé. Il est lié à la progression plutôt qu’à une simple consommation.",
+        "fr": "Ce mot désigne un objet de quête. Il est lié à la progression plutôt qu’à une simple consommation.",
         "en": "This word refers to a key item. It is tied to progression rather than simple consumption."
       },
       "quiz": {
@@ -625,7 +625,7 @@
       },
       "difficultyTier": 1,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -666,7 +666,7 @@
       },
       "difficultyTier": 1,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -707,7 +707,7 @@
       },
       "difficultyTier": 2,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -788,7 +788,7 @@
       },
       "difficultyTier": 2,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -829,7 +829,7 @@
       },
       "difficultyTier": 2,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -910,7 +910,7 @@
       },
       "difficultyTier": 2,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -951,7 +951,7 @@
       },
       "difficultyTier": 3,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1072,7 +1072,7 @@
       },
       "difficultyTier": 3,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1306,7 +1306,13 @@
       },
       "difficultyTier": 1,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Carte du monde", "Donjon", "Route"],
+          "en": ["World map", "Dungeon", "Route"]
+        }
       }
     },
     {
@@ -1340,7 +1346,13 @@
       },
       "difficultyTier": 1,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Sauvegarde", "Point de repos", "Auberge"],
+          "en": ["Save", "Rest point", "Inn"]
+        }
       }
     },
     {
@@ -1374,7 +1386,13 @@
       },
       "difficultyTier": 2,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Quête principale", "Mission", "Contrat"],
+          "en": ["Main quest", "Mission", "Contract"]
+        }
       }
     },
     {
@@ -1408,7 +1426,13 @@
       },
       "difficultyTier": 3,
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Carte de donjon", "Terrain", "Région"],
+          "en": ["Dungeon map", "Field", "Region"]
+        }
       }
     }
   ]

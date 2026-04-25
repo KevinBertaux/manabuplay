@@ -20,7 +20,7 @@ function getReviewLabel(pack: (typeof packs)[number]) {
     case "validee":
       return "validée";
     case "faite":
-      return "faite";
+      return `faite${progressLabel}`;
     case "partielle":
       return `partielle${progressLabel}`;
     case "non-relue":

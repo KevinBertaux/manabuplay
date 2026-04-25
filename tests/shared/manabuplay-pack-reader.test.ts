@@ -4,13 +4,13 @@ import { getAllPacks, getPackById, getPackIndex } from "../../shared/lib/manabup
 describe("manabuplay pack reader", () => {
   const expectedPackSignals = {
     "jrpg-questline": {
-      readiness: 84,
+      readiness: 96,
       breakdown: {
         packSize: 15,
         tierFit: 15,
         contentCompleteness: 40,
         quizQuality: 13,
-        editorialReview: 1,
+        editorialReview: 13,
       },
       transparency: {
         strictCount: 0,
@@ -156,20 +156,25 @@ describe("manabuplay pack reader", () => {
     );
   });
 
-  it("keeps per-word review status for packs with non-linear replacements", () => {
+  it("keeps per-word review status for the reviewed JRPG pack", () => {
     const pack = getPackById("jrpg-questline");
     const words = pack?.words ?? [];
 
-    expect(words.filter((word) => word.editorialReview?.status === "reviewed")).toHaveLength(16);
-    expect(words.filter((word) => word.editorialReview?.status === "needs-review")).toHaveLength(
-      18,
-    );
+    expect(pack?.score?.readiness?.reviewStatus).toBe("faite");
+    expect(pack?.score?.readiness?.reviewProgress).toEqual({ reviewedWords: 34, totalWords: 34 });
+    expect(words.filter((word) => word.editorialReview?.status === "reviewed")).toHaveLength(34);
+    expect(words.filter((word) => word.editorialReview?.status === "needs-review")).toHaveLength(0);
     expect(words.find((word) => word.existingWordId === "spell")?.editorialReview?.status).toBe(
-      "needs-review",
+      "reviewed",
     );
     expect(
       words.find((word) => word.existingWordId === "keiken-chi-exp")?.editorialReview?.status,
     ).toBe("reviewed");
+    expect(words.find((word) => word.existingWordId === "key-item")?.gloss?.fr).toBe(
+      "Objet de quête",
+    );
+    expect(words.find((word) => word.order === 31)?.quizPreview?.distractors.fr).toHaveLength(3);
+    expect(words.find((word) => word.order === 34)?.quizPreview?.distractors.en).toHaveLength(3);
   });
 
   it("still builds previews for planned words that do not have a legacy word id", () => {
