@@ -173,6 +173,8 @@ function getTransparentWords() {
   return getTransparentBreakdown()?.entries ?? [];
 }
 
+const transparentWordsByOrder = new Map(getTransparentWords().map((entry) => [entry.order, entry]));
+
 function formatTransparencyScore(value: number) {
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
@@ -238,6 +240,10 @@ function getWordReviewStatus(word: PackReaderWord) {
 
 function getWordReviewLabel(word: PackReaderWord) {
   return getWordReviewStatus(word) === "reviewed" ? "Relu" : "À relire";
+}
+
+function getWordTransparencyLevel(word: PackReaderWord) {
+  return transparentWordsByOrder.get(word.order)?.level ?? "none";
 }
 ---
 <AdminLayout
@@ -368,18 +374,33 @@ function getWordReviewLabel(word: PackReaderWord) {
           })()}
         </section>
 
-        <div class="reader-pagination" data-reader-pagination>
-          <div class="reader-pagination-info" data-page-info></div>
-          <div class="reader-pagination-controls">
-            <button class="reader-pagination-btn nav" type="button" data-page-prev>←</button>
-            <div data-page-numbers class="reader-pagination-numbers"></div>
-            <button class="reader-pagination-btn nav" type="button" data-page-next>→</button>
+        <section class="reader-filterbar reader-pagination" aria-label="Filtres de relecture et pagination">
+          <div class="reader-filterbar-head">
+            <span class="reader-filterbar-title">Critères<br />de tri</span>
           </div>
-        </div>
+          <div class="reader-filterbar-actions" data-reader-filters>
+            <button class="reader-filter-btn is-active" type="button" data-reader-filter="all">Tous</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="needs-review">À relire</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="reviewed">Relus</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="transparent">Transparents</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="tier-1">T1</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="tier-2">T2</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="tier-3">T3</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="tier-4">T4</button>
+          </div>
+          <div class="reader-filterbar-page" data-reader-pagination>
+            <div class="reader-pagination-info" data-page-info></div>
+            <div class="reader-pagination-controls">
+              <button class="reader-pagination-btn nav" type="button" data-page-prev>←</button>
+              <div data-page-numbers class="reader-pagination-numbers"></div>
+              <button class="reader-pagination-btn nav" type="button" data-page-next>→</button>
+            </div>
+          </div>
+        </section>
 
         <div class="reader-grid" data-reader-grid>
           {activePack.words.map((word) => (
-          <article class:list={["review-card", `review-${getWordReviewStatus(word)}`]} id={`word-${word.order}`} data-admin-card data-word-id={getWordKey(word)} data-word-order={word.order} data-review-status={getWordReviewStatus(word)} data-state="revealed" data-correct-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-correct-index-en={word.quizPreview?.correctIndex.en ?? 0} data-selected-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-selected-index-en={word.quizPreview?.correctIndex.en ?? 0} tabindex="0">
+          <article class:list={["review-card", `review-${getWordReviewStatus(word)}`]} id={`word-${word.order}`} data-admin-card data-word-id={getWordKey(word)} data-word-order={word.order} data-review-status={getWordReviewStatus(word)} data-tier={word.difficultyTier ?? "na"} data-transparency-level={getWordTransparencyLevel(word)} data-state="revealed" data-correct-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-correct-index-en={word.quizPreview?.correctIndex.en ?? 0} data-selected-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-selected-index-en={word.quizPreview?.correctIndex.en ?? 0} tabindex="0">
             <div class="review-meta">
               <div class="review-meta-left">
                 <span class="review-order">Mot {word.order}</span>

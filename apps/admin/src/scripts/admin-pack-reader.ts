@@ -5,6 +5,9 @@ const bulkToggle = document.querySelector("[data-toggle-all]");
 const cartouche = document.querySelector("[data-reader-cartouche]");
 const giftToggle = document.querySelector("[data-toggle-gifts]");
 const giftList = document.querySelector("[data-gift-list]");
+const filterButtons = Array.from(document.querySelectorAll("[data-reader-filter]")).filter(
+  (button): button is HTMLButtonElement => button instanceof HTMLButtonElement,
+);
 const cards = Array.from(document.querySelectorAll("[data-admin-card]")).filter(
   (card): card is HTMLElement => card instanceof HTMLElement,
 );
@@ -17,6 +20,7 @@ let activeCard: HTMLElement | null = null;
 let adminLang = resolveAdminLang(document.documentElement.lang);
 let activeGiftFlashTimeout: number | null = null;
 let currentPage = 1;
+let activeFilter = "all";
 
 function getCorrectIndex(card: HTMLElement): number {
   return Number(card.dataset[`correctIndex${adminLang === "fr" ? "Fr" : "En"}`] ?? "-1");
@@ -98,6 +102,12 @@ function getPageFromUrl(): number {
   return Number.isFinite(page) && page >= 1 && page <= totalPages ? page : 1;
 }
 
+function getFilterFromUrl(): string {
+  const url = new URL(window.location.href);
+  const filter = url.searchParams.get("filter") || "all";
+  return filterButtons.some((button) => button.dataset.readerFilter === filter) ? filter : "all";
+}
+
 function setPageInUrl(page: number): void {
   const url = new URL(window.location.href);
   if (page <= 1) {
@@ -108,12 +118,57 @@ function setPageInUrl(page: number): void {
   window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
 }
 
-function renderPagination(): void {
-  const start = (currentPage - 1) * wordsPerPage;
-  const end = Math.min(cards.length, start + wordsPerPage);
+function setFilterInUrl(filter: string): void {
+  const url = new URL(window.location.href);
+  if (filter === "all") {
+    url.searchParams.delete("filter");
+  } else {
+    url.searchParams.set("filter", filter);
+  }
+  url.searchParams.delete("page");
+  window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+}
 
-  cards.forEach((card, index) => {
-    card.hidden = index < start || index >= end;
+function getFilteredCards(): HTMLElement[] {
+  if (activeFilter === "all") {
+    return cards;
+  }
+
+  if (activeFilter === "reviewed" || activeFilter === "needs-review") {
+    return cards.filter((card) => card.dataset.reviewStatus === activeFilter);
+  }
+
+  if (activeFilter === "transparent") {
+    return cards.filter((card) => card.dataset.transparencyLevel !== "none");
+  }
+
+  if (activeFilter.startsWith("tier-")) {
+    return cards.filter((card) => card.dataset.tier === activeFilter.replace("tier-", ""));
+  }
+
+  return cards;
+}
+
+function syncFilterButtons(): void {
+  filterButtons.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.readerFilter === activeFilter);
+    button.setAttribute(
+      "aria-pressed",
+      button.dataset.readerFilter === activeFilter ? "true" : "false",
+    );
+  });
+}
+
+function renderPagination(): void {
+  const filteredCards = getFilteredCards();
+  const filteredTotalPages = Math.max(1, Math.ceil(filteredCards.length / wordsPerPage));
+  currentPage = Math.min(currentPage, filteredTotalPages);
+  const start = (currentPage - 1) * wordsPerPage;
+  const end = Math.min(filteredCards.length, start + wordsPerPage);
+  const visibleCards = new Set(filteredCards.slice(start, end));
+
+  cards.forEach((card) => {
+    card.hidden = !visibleCards.has(card);
   });
 
   paginationBars.forEach((bar) => {
@@ -123,7 +178,8 @@ function renderPagination(): void {
     const numbers = bar.querySelector("[data-page-numbers]");
 
     if (info instanceof HTMLElement) {
-      info.textContent = `Page ${currentPage}/${totalPages} · mots ${start + 1}-${end}`;
+      const shownStart = filteredCards.length ? start + 1 : 0;
+      info.textContent = `Page ${currentPage}/${filteredTotalPages} · mots ${shownStart}-${end} · ${filteredCards.length} visibles`;
     }
 
     if (prev instanceof HTMLButtonElement) {
@@ -131,12 +187,12 @@ function renderPagination(): void {
     }
 
     if (next instanceof HTMLButtonElement) {
-      next.disabled = currentPage === totalPages;
+      next.disabled = currentPage === filteredTotalPages;
     }
 
     if (numbers instanceof HTMLElement) {
       numbers.innerHTML = "";
-      for (let page = 1; page <= totalPages; page += 1) {
+      for (let page = 1; page <= filteredTotalPages; page += 1) {
         const button = document.createElement("button");
         button.type = "button";
         button.className =
@@ -173,6 +229,14 @@ function setPage(page: number, options: { silentScroll?: boolean } = {}): void {
       window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
     });
   }
+}
+
+function setFilter(filter: string): void {
+  activeFilter = filter;
+  currentPage = 1;
+  syncFilterButtons();
+  renderPagination();
+  setFilterInUrl(filter);
 }
 
 function revealCardPage(card: HTMLElement, options: { silentScroll?: boolean } = {}): void {
@@ -362,12 +426,20 @@ paginationBars.forEach((bar) => {
   });
 });
 
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    setFilter(button.dataset.readerFilter || "all");
+  });
+});
+
 window.addEventListener("adminlangchange", (event) => {
   const detail = event instanceof CustomEvent ? event.detail : null;
   applyAdminLang(detail?.lang);
 });
 
+activeFilter = getFilterFromUrl();
 currentPage = getPageFromUrl();
+syncFilterButtons();
 renderPagination();
 applyAdminLang(adminLang);
 syncCartoucheCompact();

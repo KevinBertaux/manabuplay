@@ -48,4 +48,23 @@ test.describe("admin packs", () => {
     await expect(page.locator("#word-1")).toContainText("À relire");
     await expect(page.locator("#word-2")).toContainText("Relu");
   });
+
+  test("filters the JRPG review cards by status, transparency and tier", async ({ page }) => {
+    await page.goto(`${PACKS_URL}jrpg-questline/`, { waitUntil: "domcontentloaded" });
+
+    await page.locator('[data-reader-filter="needs-review"]').click();
+    await expect(page.locator(".review-card:visible")).toHaveCount(10);
+    await expect(page.locator("[data-page-info]").first()).toContainText("18 visibles");
+    await expect(page.locator('[data-review-status="reviewed"]:visible')).toHaveCount(0);
+
+    await page.locator('[data-reader-filter="transparent"]').click();
+    await expect(page.locator(".review-card:visible")).toHaveCount(7);
+    await expect(page.locator("[data-page-info]").first()).toContainText("7 visibles");
+    await expect(page.locator('[data-transparency-level="none"]:visible')).toHaveCount(0);
+
+    await page.locator('[data-reader-filter="tier-4"]').click();
+    await expect(page.locator(".review-card:visible")).toHaveCount(5);
+    await expect(page.locator("[data-page-info]").first()).toContainText("5 visibles");
+    await expect(page.locator('[data-tier="4"]:visible')).toHaveCount(5);
+  });
 });
