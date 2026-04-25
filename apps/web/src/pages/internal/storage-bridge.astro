@@ -14,6 +14,7 @@ export const prerender = true;
     (() => {
       const ADMIN_SOURCE = "manabu-admin-dashboard";
       const BRIDGE_SOURCE = "manabu-web-storage-bridge";
+      const ADMIN_PORTS = ["4322", "4175"];
       const MANABU_PREFIX = "mp_";
       const WAITLIST_KEY = "mp_waitlist_submissions";
       const EMAIL_SUBMITTED_KEY = "mp_email_submitted";
@@ -37,7 +38,7 @@ export const prerender = true;
           });
         }
 
-        return hosts.map((host) => `${protocol}//${host}:4322`);
+        return hosts.flatMap((host) => ADMIN_PORTS.map((port) => `${protocol}//${host}:${port}`));
       }
 
       function getLocalStorageKeys() {
