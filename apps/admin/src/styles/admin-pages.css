@@ -2773,7 +2773,6 @@ html {
 }
 
 .reader-cartouche-tier-divider {
-  width: 1px;
   height: 18px;
   border-left: 1px solid rgba(255, 255, 255, 0.18);
   margin: 0;
