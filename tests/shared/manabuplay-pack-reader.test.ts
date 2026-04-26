@@ -213,12 +213,9 @@ describe("manabuplay pack reader", () => {
       weightedPercent: 7,
       tone: "ok",
     });
-    expect(words.slice(30).map((word) => word.jp.romaji)).toEqual([
-      "tebukuro",
-      "kutsu",
-      "tateyaku",
-      "nitōryū",
-    ]);
+    expect(
+      words.slice(30).map((word) => (typeof word.jp === "string" ? word.jp : word.jp.romaji)),
+    ).toEqual(["tebukuro", "kutsu", "tateyaku", "nitōryū"]);
     expect(words.find((word) => word.order === 31)?.quizPreview?.distractors.fr).toHaveLength(3);
     expect(words.find((word) => word.order === 34)?.quizPreview?.distractors.en).toHaveLength(3);
   });
@@ -239,12 +236,9 @@ describe("manabuplay pack reader", () => {
       weightedPercent: 4,
       tone: "ok",
     });
-    expect(words.slice(30).map((word) => word.jp.romaji)).toEqual([
-      "bukatsu",
-      "kokuhaku",
-      "bunkasai",
-      "sankaku kankei",
-    ]);
+    expect(
+      words.slice(30).map((word) => (typeof word.jp === "string" ? word.jp : word.jp.romaji)),
+    ).toEqual(["bukatsu", "kokuhaku", "bunkasai", "sankaku kankei"]);
     expect(words.find((word) => word.order === 31)?.quizPreview?.distractors.fr).toHaveLength(3);
     expect(words.find((word) => word.order === 34)?.quizPreview?.distractors.en).toHaveLength(3);
   });
