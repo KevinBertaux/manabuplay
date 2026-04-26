@@ -5,9 +5,11 @@
   "status": "content-draft",
   "targetWordCount": 34,
   "notes": [
-    "Quatrième pack enrichi pour validation éditoriale.",
-    "Relecture partielle : les 30 mots historiques sont validés, les 4 ajouts récents restent à relire.",
-    "Répartition des tiers : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4."
+    "Quatrième pack enrichi puis validé pour la production éditoriale.",
+    "Transparence recalculée : 1.5 pt, 4%, sous le seuil de surveillance de 10%. Aucun remplacement requis.",
+    "Relecture faite : les 34 mots sont validés.",
+    "Distracteurs explicites ajoutés sur les mots 31 à 34 sans changement de mots.",
+    "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4."
   ],
   "locales": {
     "fr": {
@@ -24,9 +26,9 @@
       "value": 96,
       "minProdScore": 90,
       "readyForProd": false,
-      "reviewStatus": "partielle",
+      "reviewStatus": "faite",
       "reviewProgress": {
-        "reviewedWords": 30,
+        "reviewedWords": 34,
         "totalWords": 34
       },
       "releaseStatus": "preprod",
@@ -82,7 +84,10 @@
           "en": ["Reincarnation", "Fantasy world", "Magic portal"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 2,
@@ -120,7 +125,10 @@
           "en": ["Rivals", "Team", "Friendship"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 3,
@@ -158,7 +166,10 @@
           "en": ["Cold rival", "Distant friend", "Very affectionate character"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 4,
@@ -196,7 +207,10 @@
           "en": ["Idol", "Fictional favorite", "Anime crush"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 5,
@@ -234,7 +248,10 @@
           "en": ["Other world", "Destiny", "Magical rebirth"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 6,
@@ -272,7 +289,10 @@
           "en": ["Legendary hero", "Rival", "Narrator"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 7,
@@ -309,7 +329,10 @@
           "en": ["Antagonist", "Companion", "Childhood friend"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 8,
@@ -346,7 +369,10 @@
           "en": ["Awakening", "Heroic form", "Magic outfit"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 9,
@@ -383,7 +409,10 @@
           "en": ["Junior club member", "Teacher", "Student council president"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 10,
@@ -420,7 +449,10 @@
           "en": ["School life", "School festival", "School club"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 11,
@@ -458,7 +490,10 @@
           "en": ["Protagonist", "Champion", "Chosen warrior"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 12,
@@ -496,7 +531,10 @@
           "en": ["Chance", "Prophecy", "Past bond"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 13,
@@ -533,7 +571,10 @@
           "en": ["Rival", "Traitor", "Final boss"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 14,
@@ -570,7 +611,10 @@
           "en": ["Companions", "Loyalty", "Shared destiny"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 15,
@@ -607,7 +651,10 @@
           "en": ["Awakening", "Discipline", "Trial"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 16,
@@ -644,7 +691,10 @@
           "en": ["Senior", "New student", "Newer club member"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 17,
@@ -681,7 +731,10 @@
           "en": ["Lie", "Secret identity", "Mystery"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 18,
@@ -718,7 +771,10 @@
           "en": ["Senior", "Club president", "Mentor"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 19,
@@ -756,7 +812,10 @@
           "en": ["Legendary hero", "Invincible", "Final boss"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 20,
@@ -794,7 +853,10 @@
           "en": ["Spirit", "Legendary hero", "Supreme being"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 21,
@@ -831,7 +893,10 @@
           "en": ["Classmate", "Romantic rival", "Junior club member"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 22,
@@ -868,7 +933,10 @@
           "en": ["Cold rival", "Distant character", "Dangerously obsessed lover"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 23,
@@ -905,7 +973,10 @@
           "en": ["Harsh rival", "Dangerously obsessed lover", "Very affectionate character"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 24,
@@ -942,7 +1013,10 @@
           "en": ["School life", "First feelings", "Friendship"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 25,
@@ -979,7 +1053,10 @@
           "en": ["Main villain", "Army of evil", "Secret society"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 26,
@@ -1016,7 +1093,10 @@
           "en": ["Magical heroine", "Heroic transformation", "Magical idol"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 27,
@@ -1053,7 +1133,10 @@
           "en": ["Harsh rival", "Distant character", "Very affectionate character"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 28,
@@ -1090,7 +1173,10 @@
           "en": ["Class president", "Studious girl", "Cold reserved type"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 29,
@@ -1127,7 +1213,10 @@
           "en": ["Teacher", "Class representative", "Senior"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 30,
@@ -1164,7 +1253,10 @@
           "en": ["Hidden hero role", "Dramatic pose", "Youthful intensity"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 31,
@@ -1195,7 +1287,16 @@
         "fr": "Ce mot désigne les activités de club. Dans les anime scolaires, c'est l'un des cadres les plus classiques pour créer du lien, du rythme et des conflits.",
         "en": "This word refers to club activities. In school anime, it is one of the most classic settings for building bonds, rhythm and conflict."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Cadre scolaire", "Festival culturel", "Groupe d’amis"],
+          "en": ["School setting", "School festival", "Friend group"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 32,
@@ -1226,7 +1327,16 @@
         "fr": "Ce mot désigne la déclaration de sentiments, un passage culte des anime romantiques et scolaires.",
         "en": "This word refers to a romantic confession, a cult moment in romance and school anime."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Secret", "Amitié", "Promesse"],
+          "en": ["Secret", "Friendship", "Promise"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 33,
@@ -1257,7 +1367,16 @@
         "fr": "Ce mot désigne le festival culturel scolaire, un décor central de la comédie romantique et de la vie de lycée en anime.",
         "en": "This word refers to the school cultural festival, a core setting of romance comedy and high school life in anime."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Club scolaire", "Festival sportif", "Cadre scolaire"],
+          "en": ["School club", "Sports festival", "School setting"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 34,
@@ -1288,7 +1407,16 @@
         "fr": "Ce mot désigne le triangle amoureux, un ressort narratif ultra classique pour faire durer la tension sentimentale.",
         "en": "This word refers to a love triangle, an ultra-classic device used to stretch romantic tension."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Déclaration", "Amitié", "Rivalité romantique"],
+          "en": ["Confession", "Friendship", "Romantic rivalry"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     }
   ]
 }

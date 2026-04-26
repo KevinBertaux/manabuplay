@@ -22,6 +22,10 @@ const packLinks = getAllPacks().map((item) => ({
   id: item.id,
   name: item.locales.fr.name,
   score: item.score?.readiness?.value ?? null,
+  isProdCandidate:
+    (item.score?.readiness?.value ?? 0) >= (item.score?.readiness?.minProdScore ?? 90) &&
+    (item.score?.readiness?.reviewStatus === "faite" ||
+      item.score?.readiness?.reviewStatus === "validee"),
 }));
 function getTerm(word: PackReaderWord) {
   return typeof word.jp === "string" ? word.jp : word.jp.term;
@@ -269,7 +273,10 @@ function getWordTransparencyLevel(word: PackReaderWord) {
         <div class="reader-pack-list">
           {packLinks.map((link) => (
             <a
-              class:list={["reader-pack-link", { active: link.id === activePack.id }]}
+              class:list={[
+                "reader-pack-link",
+                { active: link.id === activePack.id, "prod-candidate": link.isProdCandidate },
+              ]}
               href={`/content/packs/${link.id}/`}
             >
               <span class="reader-pack-link-head">

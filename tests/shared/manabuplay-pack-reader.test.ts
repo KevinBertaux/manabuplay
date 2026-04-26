@@ -50,11 +50,11 @@ describe("manabuplay pack reader", () => {
       },
       transparency: {
         strictCount: 1,
-        editorialCount: 7,
+        editorialCount: 3,
         fillerCount: 0,
-        weightedScore: 4.5,
-        weightedPercent: 13,
-        tone: "watch",
+        weightedScore: 2.5,
+        weightedPercent: 7,
+        tone: "ok",
       },
     },
     "anime-codes": {
@@ -193,6 +193,58 @@ describe("manabuplay pack reader", () => {
       weightedPercent: 7,
       tone: "ok",
     });
+    expect(words.find((word) => word.order === 31)?.quizPreview?.distractors.fr).toHaveLength(3);
+    expect(words.find((word) => word.order === 34)?.quizPreview?.distractors.en).toHaveLength(3);
+  });
+
+  it("keeps Builds & Gear reviewed and under the transparency watch threshold", () => {
+    const pack = getPackById("builds-and-gear");
+    const words = pack?.words ?? [];
+
+    expect(pack?.score?.readiness?.reviewStatus).toBe("faite");
+    expect(pack?.score?.readiness?.reviewProgress).toEqual({ reviewedWords: 34, totalWords: 34 });
+    expect(words.filter((word) => word.editorialReview?.status === "reviewed")).toHaveLength(34);
+    expect(words.filter((word) => word.editorialReview?.status === "needs-review")).toHaveLength(0);
+    expect(pack?.transparentBreakdown).toMatchObject({
+      strictCount: 1,
+      editorialCount: 3,
+      fillerCount: 0,
+      weightedScore: 2.5,
+      weightedPercent: 7,
+      tone: "ok",
+    });
+    expect(words.slice(30).map((word) => word.jp.romaji)).toEqual([
+      "tebukuro",
+      "kutsu",
+      "tateyaku",
+      "nitōryū",
+    ]);
+    expect(words.find((word) => word.order === 31)?.quizPreview?.distractors.fr).toHaveLength(3);
+    expect(words.find((word) => word.order === 34)?.quizPreview?.distractors.en).toHaveLength(3);
+  });
+
+  it("keeps Anime Codes reviewed and only enriches quiz distractors for words 31 to 34", () => {
+    const pack = getPackById("anime-codes");
+    const words = pack?.words ?? [];
+
+    expect(pack?.score?.readiness?.reviewStatus).toBe("faite");
+    expect(pack?.score?.readiness?.reviewProgress).toEqual({ reviewedWords: 34, totalWords: 34 });
+    expect(words.filter((word) => word.editorialReview?.status === "reviewed")).toHaveLength(34);
+    expect(words.filter((word) => word.editorialReview?.status === "needs-review")).toHaveLength(0);
+    expect(pack?.transparentBreakdown).toMatchObject({
+      strictCount: 1,
+      editorialCount: 1,
+      fillerCount: 0,
+      weightedScore: 1.5,
+      weightedPercent: 4,
+      tone: "ok",
+    });
+    expect(words.slice(30).map((word) => word.jp.romaji)).toEqual([
+      "bukatsu",
+      "kokuhaku",
+      "bunkasai",
+      "sankaku kankei",
+    ]);
     expect(words.find((word) => word.order === 31)?.quizPreview?.distractors.fr).toHaveLength(3);
     expect(words.find((word) => word.order === 34)?.quizPreview?.distractors.en).toHaveLength(3);
   });
