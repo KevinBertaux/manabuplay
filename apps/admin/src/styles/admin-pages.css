@@ -2849,6 +2849,12 @@ html {
     box-shadow 0.18s ease;
 }
 
+.review-card > * {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
 .review-card[data-active="true"] {
   border-color: rgba(34, 211, 238, 0.42);
   box-shadow:
@@ -2953,6 +2959,10 @@ html {
 }
 
 .review-id {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: #7f7898;
   font:
     600 0.92rem/1.4 "Chakra Petch",
@@ -2964,6 +2974,8 @@ html {
   display: flex;
   align-items: center;
   gap: 8px;
+  justify-content: flex-end;
+  min-width: 0;
 }
 
 .review-word-wrap {

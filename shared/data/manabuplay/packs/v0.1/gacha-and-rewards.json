@@ -5,8 +5,12 @@
   "status": "content-draft",
   "targetWordCount": 34,
   "notes": [
-    "Cinquième pack v0.1 refondu sur une ligne gaming-first cohérente avec la promesse produit.",
-    "Répartition des tiers : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4."
+    "Cinquième pack v0.1 stabilisé pour relecture éditoriale.",
+    "Transparence recalculée : 3 pts, 9%, sous le seuil de surveillance de 10%.",
+    "Remplacement de 4 emprunts trop transparents par des mots de tiers équivalents : shusseki, ishō, kadai, mikata.",
+    "muryou est conservé mais retiré de la transparence éditoriale : ce n’est pas un emprunt évident en romaji.",
+    "Distracteurs explicites ajoutés sur les 34 mots. Relecture partielle : mots 1 à 20 validés.",
+    "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4."
   ],
   "locales": {
     "fr": {
@@ -20,17 +24,21 @@
   },
   "score": {
     "readiness": {
-      "value": 70,
+      "value": 92,
       "minProdScore": 90,
       "readyForProd": false,
-      "reviewStatus": "non-relue",
-      "releaseStatus": "dev",
+      "reviewStatus": "partielle",
+      "releaseStatus": "preprod",
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
-        "quizQuality": 0,
-        "editorialReview": 0
+        "quizQuality": 13,
+        "editorialReview": 9
+      },
+      "reviewProgress": {
+        "reviewedWords": 20,
+        "totalWords": 34
       }
     },
     "depth": {
@@ -38,17 +46,7 @@
     }
   },
   "quiz": {
-    "transparentWordIds": [
-      "roguin",
-      "chiketto",
-      "muryou",
-      "sukin",
-      "misshon",
-      "furendo",
-      "deirii",
-      "shiizun",
-      "reido"
-    ]
+    "transparentWordIds": ["chiketto", "deirii", "shiizun", "reido"]
   },
   "words": [
     {
@@ -81,7 +79,16 @@
         "fr": "Ce mot désigne le système de tirage aléatoire devenu central dans beaucoup de jeux japonais modernes.",
         "en": "This word refers to the random pull system that became central in many modern Japanese games."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Événement", "Gemmes", "Récompense"],
+          "en": ["Event", "Stones", "Reward"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 2,
@@ -112,7 +119,16 @@
         "fr": "Ce mot désigne l'event temporaire, moteur principal du rythme et de la rétention dans un live service.",
         "en": "This word refers to the temporary event, a main driver of pacing and retention in a live service."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Tirage aléatoire", "Calendrier", "Boutique d’échange"],
+          "en": ["Random pull", "Calendar", "Exchange shop"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 3,
@@ -143,7 +159,16 @@
         "fr": "Ce mot désigne ce qui est limité dans le temps ou dans l'accès. C'est un mot-clé du FOMO live service.",
         "en": "This word refers to anything limited in time or access. It is a key live-service FOMO word."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Garanti", "Rare", "Permanent"],
+          "en": ["Guaranteed", "Rare", "Permanent"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 4,
@@ -174,7 +199,16 @@
         "fr": "Ce mot désigne la récompense au sens large, soit la carotte qui structure presque toute boucle de jeu live service.",
         "en": "This word refers to rewards in the broad sense, the carrot that structures almost every live-service loop."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Gemmes", "Présence", "Objectif"],
+          "en": ["Stones", "Attendance", "Objective"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 5,
@@ -205,7 +239,16 @@
         "fr": "Ce mot désigne ce qui est distribué gratuitement, un levier très utilisé pour la générosité affichée des jeux gacha.",
         "en": "This word refers to things distributed for free, a very common lever in gacha games to signal generosity."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Récompense", "Boutique d’échange", "Bonus de connexion"],
+          "en": ["Reward", "Exchange shop", "Login bonus"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 6,
@@ -236,38 +279,56 @@
         "fr": "Ce mot désigne les gemmes ou pierres premium, la monnaie émotionnelle par excellence du gacha.",
         "en": "This word refers to premium stones or gems, the emotional currency of gacha by excellence."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Ticket", "Matériaux", "Taux d’obtention"],
+          "en": ["Ticket", "Materials", "Drop rate"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 7,
       "jp": {
-        "term": "ログイン",
-        "reading": "ログイン",
-        "romaji": "roguin"
+        "term": "出席",
+        "reading": "しゅっせき",
+        "romaji": "shusseki"
       },
       "gloss": {
-        "fr": "Connexion",
-        "en": "Login"
+        "fr": "Présence",
+        "en": "Attendance"
       },
       "definition": {
-        "fr": "Fait d'ouvrir le jeu pour être compté présent et déclencher les bonus associés.",
-        "en": "Act of opening the game to be counted as present and trigger related bonuses."
+        "fr": "Action de se présenter dans le jeu, souvent suivie dans les bonus quotidiens.",
+        "en": "The act of showing up in the game, often tracked through daily attendance rewards."
       },
       "hints": {
         "hint1": {
-          "fr": "Parfois tu fais juste ça avant de fermer l'app.",
-          "en": "Sometimes you do just this before closing the app."
+          "fr": "Le jeu vérifie que tu es venu aujourd’hui.",
+          "en": "The game checks that you showed up today."
         },
         "hint2": {
-          "fr": "Dans un live service, ce geste minimal est déjà une boucle.",
-          "en": "In a live service, even this minimal action is already part of the loop."
+          "fr": "Ce mot colle aux calendriers de connexion sans être un emprunt anglais.",
+          "en": "This word fits login calendars without being an English loanword."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne la connexion quotidienne, un micro-rituel central de la rétention live service.",
-        "en": "This word refers to the daily login, a core micro-ritual of live-service retention."
+        "fr": "Ce mot désigne la présence. Dans un live service, il sert à comprendre les mécaniques de calendrier, de streak ou de bonus régulier.",
+        "en": "This word means attendance. In a live service game, it helps explain calendars, streaks and recurring bonuses."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Bonus de connexion", "Quotidien", "Calendrier"],
+          "en": ["Login bonus", "Daily", "Calendar"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 8,
@@ -298,7 +359,16 @@
         "fr": "Ce mot désigne le ticket, ressource intermédiaire très courante pour invoquer ou participer à une campagne.",
         "en": "This word refers to tickets, a very common intermediary resource used to summon or join a campaign."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Gemmes", "Tirage aléatoire", "Récompense"],
+          "en": ["Stones", "Random pull", "Reward"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 9,
@@ -329,100 +399,136 @@
         "fr": "Ce mot désigne ce qui est gratuit. Dans un gacha, il sert souvent autant à rassurer qu'à attirer.",
         "en": "This word refers to anything free. In a gacha, it often works as much to reassure as to attract."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Distribution gratuite", "Achat payant", "Bonus de connexion"],
+          "en": ["Free distribution", "Paid spend", "Login bonus"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 10,
       "jp": {
-        "term": "スキン",
-        "reading": "スキン",
-        "romaji": "sukin"
+        "term": "衣装",
+        "reading": "いしょう",
+        "romaji": "ishō"
       },
       "gloss": {
-        "fr": "Skin",
-        "en": "Skin"
+        "fr": "Tenue",
+        "en": "Outfit"
       },
       "definition": {
-        "fr": "Variation cosmétique d'un personnage sans forcément modifier son gameplay.",
-        "en": "Cosmetic variant of a character without necessarily changing gameplay."
+        "fr": "Apparence ou costume alternatif donné à un personnage.",
+        "en": "An alternate outfit or costume given to a character."
       },
       "hints": {
         "hint1": {
-          "fr": "Tu l'achètes souvent pour le style, pas pour les stats.",
-          "en": "You often buy it for style, not stats."
+          "fr": "Ça change le look plus que la fonction du personnage.",
+          "en": "It changes how the character looks more than what they do."
         },
         "hint2": {
-          "fr": "Le perso reste le même, mais l'apparence change.",
-          "en": "The character stays the same, but the appearance changes."
+          "fr": "On en voit souvent pendant les events saisonniers.",
+          "en": "You often see these during seasonal events."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne un skin cosmétique, un levier très fort de monétisation et d'attachement dans les jeux service.",
-        "en": "This word refers to a cosmetic skin, a strong lever for monetization and attachment in service games."
+        "fr": "Ce mot désigne une tenue. Il remplace le terme transparent “skin” tout en gardant la même idée de cosmétique.",
+        "en": "This word means outfit. It replaces the transparent “skin” wording while keeping the cosmetic idea."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Plus haute rareté", "Unité meta indispensable", "Matériaux"],
+          "en": ["Top rarity", "Must-have meta unit", "Materials"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 11,
       "jp": {
-        "term": "ミッション",
-        "reading": "ミッション",
-        "romaji": "misshon"
+        "term": "課題",
+        "reading": "かだい",
+        "romaji": "kadai"
       },
       "gloss": {
-        "fr": "Mission",
-        "en": "Mission"
+        "fr": "Objectif",
+        "en": "Objective"
       },
       "definition": {
-        "fr": "Objectif concret à remplir pour gagner une récompense.",
-        "en": "Concrete objective to complete in order to earn a reward."
+        "fr": "Tâche ou objectif à accomplir pour progresser ou recevoir une récompense.",
+        "en": "A task or objective to complete in order to progress or receive a reward."
       },
       "hints": {
         "hint1": {
-          "fr": "Le jeu te demande par exemple de faire trois combats ou d'améliorer un perso.",
-          "en": "The game might ask you to do three battles or upgrade a character."
+          "fr": "Le jeu te demande de faire une action précise.",
+          "en": "The game asks you to perform a specific action."
         },
         "hint2": {
-          "fr": "C'est une brique de base du quotidien live service.",
-          "en": "It is a core building block of live-service routine."
+          "fr": "C’est proche d’une mission, mais sans l’emprunt transparent.",
+          "en": "It is close to a mission, but without the transparent loanword."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne la mission à remplir, le format le plus simple pour guider le joueur et distribuer des rewards.",
-        "en": "This word refers to missions, the simplest format to guide players and distribute rewards."
+        "fr": "Ce mot désigne un objectif ou une tâche. Dans les jeux live service, il couvre les actions à faire pour débloquer des récompenses.",
+        "en": "This word means objective or task. In live service games, it covers actions required to unlock rewards."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Récompense", "Événement", "Farm"],
+          "en": ["Reward", "Event", "Farming runs"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 12,
       "jp": {
-        "term": "フレンド",
-        "reading": "フレンド",
-        "romaji": "furendo"
+        "term": "味方",
+        "reading": "みかた",
+        "romaji": "mikata"
       },
       "gloss": {
-        "fr": "Ami",
-        "en": "Friend"
+        "fr": "Allié",
+        "en": "Ally"
       },
       "definition": {
-        "fr": "Contact ajouté en jeu pour emprunter des unités, échanger ou coopérer.",
-        "en": "In-game contact added to borrow units, exchange things or cooperate."
+        "fr": "Personnage, joueur ou unité du même camp que toi.",
+        "en": "A character, player or unit on your side."
       },
       "hints": {
         "hint1": {
-          "fr": "Même en solo, le jeu peut te pousser à remplir cette liste.",
-          "en": "Even in solo play, the game may push you to fill this list."
+          "fr": "Ce n’est pas un ennemi : il joue avec toi ou pour toi.",
+          "en": "It is not an enemy: they play with you or for you."
         },
         "hint2": {
-          "fr": "Le système sert souvent à prêter un support utile.",
-          "en": "The system often exists to lend a useful support unit."
+          "fr": "Le mot fonctionne pour les listes d’amis, supports et coéquipiers.",
+          "en": "The word works for friend lists, supports and teammates."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne l'ami en jeu, un lien social léger mais très pratique dans les systèmes mobile et gacha.",
-        "en": "This word refers to the in-game friend, a light social link that is very practical in mobile and gacha systems."
+        "fr": "Ce mot désigne un allié. Il garde l’idée sociale du pack sans utiliser “friend”, trop transparent.",
+        "en": "This word means ally. It keeps the social idea of the pack without using the too-transparent “friend”."
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Composition d’équipe", "Support", "Raid"],
+          "en": ["Team comp", "Support", "Raid"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 13,
@@ -454,7 +560,16 @@
         "fr": "Ce mot désigne le free-to-play, une pratique et un modèle inséparables de l'économie gacha moderne.",
         "en": "This word refers to free-to-play, both a playstyle and a model inseparable from modern gacha economics."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Achat payant", "Gratuit", "Gacha"],
+          "en": ["Paid spend", "Free", "Gacha"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 14,
@@ -485,7 +600,16 @@
         "fr": "Ce mot désigne la stamina, un plafond d'activité volontairement imposé pour contrôler le temps de jeu et la monétisation.",
         "en": "This word refers to stamina, an intentional activity cap used to control playtime and monetization."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Gemmes", "Farm", "Quotidien"],
+          "en": ["Stones", "Farming runs", "Daily"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 15,
@@ -495,12 +619,12 @@
         "romaji": "pikku appu"
       },
       "gloss": {
-        "fr": "Rate-up",
-        "en": "Rate-up"
+        "fr": "Mis en avant",
+        "en": "Featured"
       },
       "definition": {
-        "fr": "Mise en avant d'une unité ou d'un item avec une probabilité augmentée.",
-        "en": "Featured unit or item with an increased pull rate."
+        "fr": "Personnage, item ou contenu mis en avant sur une bannière, souvent avec une probabilité augmentée.",
+        "en": "Character, item or content featured on a banner, often with an increased pull rate."
       },
       "hints": {
         "hint1": {
@@ -513,10 +637,19 @@
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne la mise en avant d'un contenu gacha, clé du marketing de bannière.",
-        "en": "This word refers to featured banner content, a key part of banner marketing."
+        "fr": "Ce mot désigne le contenu mis en avant sur une bannière gacha, clé du marketing de bannière.",
+        "en": "This word refers to featured gacha banner content, a key part of banner marketing."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Taux d’obtention", "Ticket", "Garantie de tirage"],
+          "en": ["Drop rate", "Ticket", "Guaranteed pull"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 16,
@@ -547,7 +680,16 @@
         "fr": "Ce mot désigne la dépense réelle dans le jeu, noeud central des discussions sur la valeur et l'addiction.",
         "en": "This word refers to real-money spending in the game, a central node in discussions about value and addiction."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Free-to-play", "Gemmes", "Gros dépensier"],
+          "en": ["Free-to-play", "Stones", "Whale"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 17,
@@ -578,7 +720,16 @@
         "fr": "Ce mot désigne le bonus de connexion quotidien, outil classique de rétention douce.",
         "en": "This word refers to the daily login bonus, a classic soft-retention tool."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Présence", "Récompense", "Distribution gratuite"],
+          "en": ["Attendance", "Reward", "Free distribution"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 18,
@@ -609,7 +760,16 @@
         "fr": "Ce mot désigne le daily, petite boucle quotidienne pensée pour transformer le jeu en routine.",
         "en": "This word refers to dailies, the small daily loop designed to turn a game into a routine."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Présence", "Objectif", "Bonus de connexion"],
+          "en": ["Attendance", "Objective", "Login bonus"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 19,
@@ -640,7 +800,16 @@
         "fr": "Ce mot désigne la boutique d'échange, soupape de contrôle qui compense un peu l'aléatoire du gacha.",
         "en": "This word refers to the exchange shop, a control valve that slightly offsets gacha randomness."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Boutique payante", "Distribution gratuite", "Ticket"],
+          "en": ["Paid shop", "Free distribution", "Ticket"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 20,
@@ -671,7 +840,16 @@
         "fr": "Ce mot désigne le taux d'obtention affiché, un point central de transparence — ou d'illusion de transparence — du gacha.",
         "en": "This word refers to the displayed drop rate, a central point of transparency — or illusion of transparency — in gacha."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Mis en avant", "Garantie de tirage", "Plus haute rareté"],
+          "en": ["Featured", "Pity ceiling", "Top rarity"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 21,
@@ -681,7 +859,7 @@
         "romaji": "tenjou"
       },
       "gloss": {
-        "fr": "Pity ceiling",
+        "fr": "Garantie de tirage",
         "en": "Pity ceiling"
       },
       "definition": {
@@ -699,10 +877,19 @@
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne le pity ceiling, garde-fou fondamental du gacha moderne pour rendre la dépense supportable.",
+        "fr": "Ce mot désigne la garantie de tirage, garde-fou fondamental du gacha moderne pour rendre la dépense supportable.",
         "en": "This word refers to the pity ceiling, a fundamental guardrail in modern gacha to make spending feel bearable."
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Mis en avant", "Taux d’obtention", "Ticket"],
+          "en": ["Featured", "Drop rate", "Ticket"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 22,
@@ -733,7 +920,16 @@
         "fr": "Ce mot désigne le farm répétitif, boucle centrale de progression mais aussi grande source d'usure joueur.",
         "en": "This word refers to repetitive farming, a central progression loop but also a major source of player fatigue."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Matériaux", "Progression personnage", "Objectif"],
+          "en": ["Materials", "Character raising", "Objective"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 23,
@@ -764,7 +960,16 @@
         "fr": "Ce mot désigne la progression et l'élevage d'un personnage, seconde grande boucle après le tirage lui-même.",
         "en": "This word refers to character raising and growth, the second major loop after the pull itself."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Limit break", "Matériaux", "Composition d’équipe"],
+          "en": ["Limit break", "Materials", "Team comp"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 24,
@@ -795,7 +1000,16 @@
         "fr": "Ce mot désigne les matériaux de progression, coeur invisible mais indispensable du grind live service.",
         "en": "This word refers to upgrade materials, the invisible but indispensable core of live-service grind."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Farm", "Gemmes", "Progression personnage"],
+          "en": ["Farming runs", "Stones", "Character raising"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 25,
@@ -826,7 +1040,16 @@
         "fr": "Ce mot désigne la composition d'équipe, point de rencontre entre collection, stratégie et meta.",
         "en": "This word refers to team composition, the meeting point between collection, strategy and meta."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Allié", "Raid", "Unité meta indispensable"],
+          "en": ["Ally", "Raid", "Must-have meta unit"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 26,
@@ -857,7 +1080,16 @@
         "fr": "Ce mot désigne le limit break, levier classique pour prolonger la chase et la progression d'une unité.",
         "en": "This word refers to limit break, a classic lever to extend both the chase and the progression of a unit."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Progression personnage", "Plus haute rareté", "Matériaux"],
+          "en": ["Character raising", "Top rarity", "Materials"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 27,
@@ -888,7 +1120,16 @@
         "fr": "Ce mot désigne le reroll de début de compte, rituel bien connu des joueurs gacha les plus optimisateurs.",
         "en": "This word refers to early-account rerolling, a well-known ritual among optimization-focused gacha players."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Tirage aléatoire", "Garantie de tirage", "Off-banner"],
+          "en": ["Random pull", "Pity ceiling", "Off-banner"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 28,
@@ -919,7 +1160,16 @@
         "fr": "Ce mot désigne la saison, forme de temporalité devenue standard dans beaucoup de jeux service.",
         "en": "This word refers to a season, a form of time structuring that became standard in many service games."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Événement", "Quotidien", "Raid"],
+          "en": ["Event", "Daily", "Raid"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 29,
@@ -950,7 +1200,16 @@
         "fr": "Ce mot désigne le raid, contenu phare pour tester les builds et donner du relief au calendrier du jeu.",
         "en": "This word refers to a raid, a flagship piece of content used to test builds and give weight to the game's schedule."
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Composition d’équipe", "Farm", "Événement"],
+          "en": ["Team comp", "Farming runs", "Event"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 30,
@@ -981,7 +1240,16 @@
         "fr": "Ce mot désigne le off-banner qui passe à travers la promesse implicite de la bannière et déclenche beaucoup de frustration.",
         "en": "This word refers to the off-banner result that slips past the implicit promise of a banner and triggers a lot of frustration."
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "quiz": {
+        "distractors": {
+          "fr": ["Mis en avant", "Plus haute rareté", "Animation de garantie"],
+          "en": ["Featured", "Top rarity", "Guaranteed animation"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 31,
@@ -1012,7 +1280,16 @@
         "fr": "Ce mot désigne une unité vue comme indispensable, expression très parlante de la violence symbolique des metas gacha.",
         "en": "This word refers to a unit seen as indispensable, a very telling expression of the symbolic pressure inside gacha metas."
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "quiz": {
+        "distractors": {
+          "fr": ["Gros dépensier", "Plus haute rareté", "Composition d’équipe"],
+          "en": ["Whale", "Top rarity", "Team comp"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 32,
@@ -1022,7 +1299,7 @@
         "romaji": "haikakin"
       },
       "gloss": {
-        "fr": "Whale",
+        "fr": "Gros dépensier",
         "en": "Whale"
       },
       "definition": {
@@ -1043,7 +1320,16 @@
         "fr": "Ce mot désigne le gros dépensier, une figure centrale et souvent discutée de l'économie gacha.",
         "en": "This word refers to the heavy spender, a central and often debated figure in gacha economics."
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "quiz": {
+        "distractors": {
+          "fr": ["Achat payant", "Free-to-play", "Unité meta indispensable"],
+          "en": ["Paid spend", "Free-to-play", "Must-have meta unit"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 33,
@@ -1074,7 +1360,16 @@
         "fr": "Ce mot désigne l'animation de garantie, preuve que le gacha travaille aussi la mise en scène émotionnelle du tirage.",
         "en": "This word refers to the guaranteed-result animation, proof that gacha also works through emotional staging."
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "quiz": {
+        "distractors": {
+          "fr": ["Garantie de tirage", "Off-banner", "Taux d’obtention"],
+          "en": ["Pity ceiling", "Off-banner", "Drop rate"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     },
     {
       "order": 34,
@@ -1105,7 +1400,16 @@
         "fr": "Ce mot désigne la plus haute rareté, la couche symbolique suprême autour de laquelle s'organise le désir de tirage.",
         "en": "This word refers to the top rarity, the highest symbolic layer around which pull desire is organized."
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "quiz": {
+        "distractors": {
+          "fr": ["Mis en avant", "Animation de garantie", "Garantie de tirage"],
+          "en": ["Featured", "Guaranteed animation", "Pity ceiling"]
+        }
+      },
+      "editorialReview": {
+        "status": "needs-review"
+      }
     }
   ]
 }

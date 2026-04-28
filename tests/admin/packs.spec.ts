@@ -14,17 +14,17 @@ test.describe("admin packs", () => {
     await expect(page.locator(".packs-grid")).toContainText("Anime Codes");
     await expect(page.locator(".packs-grid")).toContainText("Gacha & Rewards");
     await expect(page.locator(".packs-grid")).toContainText("96/100");
-    await expect(page.locator(".packs-grid")).toContainText("70/100");
+    await expect(page.locator(".packs-grid")).toContainText("92/100");
     await expect(page.locator(".packs-grid")).toContainText("faite · 34/34");
-    await expect(page.locator(".packs-grid")).toContainText("partielle · 30/34");
+    await expect(page.locator(".packs-grid")).toContainText("partielle · 20/34");
   });
 
   test("opens a pack detail page with transparency signals and pagination", async ({ page }) => {
     await page.goto(`${PACKS_URL}gacha-and-rewards/`, { waitUntil: "domcontentloaded" });
 
-    await expect(page.locator("[data-reader-cartouche]")).toContainText("Transparence 16% · watch");
+    await expect(page.locator("[data-reader-cartouche]")).toContainText("Transparence 9% · ok");
     await expect(page.locator("[data-reader-cartouche]")).toContainText(
-      "5.5 pts · 1 strict · 9 éditoriaux · 0 filler",
+      "3 pts · 1 strict · 4 éditoriaux · 0 filler",
     );
     await expect(page.locator("[data-admin-card]").first()).toBeVisible();
 

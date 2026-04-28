@@ -76,21 +76,21 @@ describe("manabuplay pack reader", () => {
       },
     },
     "gacha-and-rewards": {
-      readiness: 70,
+      readiness: 92,
       breakdown: {
         packSize: 15,
         tierFit: 15,
         contentCompleteness: 40,
-        quizQuality: 0,
-        editorialReview: 0,
+        quizQuality: 13,
+        editorialReview: 9,
       },
       transparency: {
         strictCount: 1,
-        editorialCount: 9,
+        editorialCount: 4,
         fillerCount: 0,
-        weightedScore: 5.5,
-        weightedPercent: 16,
-        tone: "watch",
+        weightedScore: 3,
+        weightedPercent: 9,
+        tone: "ok",
       },
     },
   } as const;
@@ -122,11 +122,11 @@ describe("manabuplay pack reader", () => {
     const pack = getPackById("gacha-and-rewards");
 
     expect(pack?.transparentBreakdown?.strictCount).toBe(1);
-    expect(pack?.transparentBreakdown?.editorialCount).toBe(9);
+    expect(pack?.transparentBreakdown?.editorialCount).toBe(4);
     expect(pack?.transparentBreakdown?.fillerCount).toBe(0);
-    expect(pack?.transparentBreakdown?.weightedScore).toBe(5.5);
-    expect(pack?.transparentBreakdown?.weightedPercent).toBe(16);
-    expect(pack?.transparentBreakdown?.tone).toBe("watch");
+    expect(pack?.transparentBreakdown?.weightedScore).toBe(3);
+    expect(pack?.transparentBreakdown?.weightedPercent).toBe(9);
+    expect(pack?.transparentBreakdown?.tone).toBe("ok");
   });
 
   it("exposes normalized readiness and transparency signals for every active pack", () => {
@@ -252,6 +252,31 @@ describe("manabuplay pack reader", () => {
     expect(plannedWord?.quizPreview?.distractors.en).toHaveLength(3);
     expect(plannedWord?.quizPreview?.correct.fr.length).toBeGreaterThan(0);
     expect(plannedWord?.quizPreview?.correct.en.length).toBeGreaterThan(0);
+  });
+
+  it("keeps Gacha & Rewards partially reviewed after the first twenty words", () => {
+    const pack = getPackById("gacha-and-rewards");
+    const words = pack?.words ?? [];
+
+    expect(pack?.score?.readiness?.reviewStatus).toBe("partielle");
+    expect(pack?.score?.readiness?.reviewProgress).toEqual({ reviewedWords: 20, totalWords: 34 });
+    expect(words.filter((word) => word.editorialReview?.status === "reviewed")).toHaveLength(20);
+    expect(words.filter((word) => word.editorialReview?.status === "needs-review")).toHaveLength(
+      14,
+    );
+    expect(
+      words.slice(6, 12).map((word) => (typeof word.jp === "string" ? word.jp : word.jp.romaji)),
+    ).toEqual(["shusseki", "chiketto", "muryou", "ishō", "kadai", "mikata"]);
+    expect(pack?.transparentBreakdown).toMatchObject({
+      strictCount: 1,
+      editorialCount: 4,
+      fillerCount: 0,
+      weightedScore: 3,
+      weightedPercent: 9,
+      tone: "ok",
+    });
+    expect(words.every((word) => word.quizPreview?.distractors.fr.length === 3)).toBe(true);
+    expect(words.every((word) => word.quizPreview?.distractors.en.length === 3)).toBe(true);
   });
 
   it("returns all packs from the current v0.1 index", () => {
