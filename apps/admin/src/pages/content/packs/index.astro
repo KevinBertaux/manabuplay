@@ -12,13 +12,16 @@ function getMinProd(pack: (typeof packs)[number]) {
 }
 
 function getReviewLabel(pack: (typeof packs)[number]) {
+  const progress = pack.score?.readiness?.reviewProgress;
+  const progressLabel = progress ? ` · ${progress.reviewedWords}/${progress.totalWords}` : "";
+
   switch (pack.score?.readiness?.reviewStatus) {
     case "validee":
       return "validée";
     case "faite":
-      return "faite";
+      return `faite${progressLabel}`;
     case "partielle":
-      return "partielle";
+      return `partielle${progressLabel}`;
     case "non-relue":
       return "non faite";
     default:
@@ -59,6 +62,10 @@ function getTierBreakdown(pack: (typeof packs)[number]) {
 function getTransparentSummary(pack: (typeof packs)[number]) {
   return pack.transparentBreakdown ?? null;
 }
+
+function formatTransparencyScore(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
 ---
 <AdminLayout
   title="Lecteur de packs — ManabuPlay Admin"
@@ -74,7 +81,7 @@ function getTransparentSummary(pack: (typeof packs)[number]) {
       <div class="score-grid">
         <div class="score-rule">
           <div class="score-label">Taille : 15 points</div>
-          <p class="score-text">Vérifie que le pack a assez de mots pour exister sans paraître pauvre. La cible actuelle est de 30 mots.</p>
+          <p class="score-text">Vérifie que le pack a assez de mots pour exister sans paraître pauvre. La cible active v0.1 est maintenant de 34 mots.</p>
         </div>
         <div class="score-rule">
           <div class="score-label">Tiers : 15 points</div>
@@ -134,9 +141,9 @@ function getTransparentSummary(pack: (typeof packs)[number]) {
                   <span class="pack-strip-value">{getReviewLabel(pack)}</span>
                 </div>
                 <div class="pack-strip-item">
-                  <span class="pack-strip-label">Cadeaux</span>
+                  <span class="pack-strip-label">Transparence</span>
                   <span class:list={["pack-strip-value", { "gift-watch": transparent?.tone === "watch", "gift-act": transparent?.tone === "act" }]}>
-                    {transparent ? `${transparent.count} · ${transparent.percent}%` : "n.c."}
+                    {transparent ? `${formatTransparencyScore(transparent.weightedScore)} · ${transparent.weightedPercent}%` : "n.c."}
                   </span>
                 </div>
                 <div class="pack-strip-item">

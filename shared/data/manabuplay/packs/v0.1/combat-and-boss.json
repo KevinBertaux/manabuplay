@@ -3,10 +3,13 @@
   "slug": "combat-and-boss",
   "themeId": "gaming",
   "status": "content-draft",
-  "targetWordCount": 30,
+  "targetWordCount": 34,
   "notes": [
     "Deuxième pack enrichi pour validation éditoriale.",
-    "Répartition des tiers : 10 mots tier 1, 8 mots tier 2, 7 mots tier 3, 5 mots tier 4."
+    "Relecture faite : les 34 mots sont relus côté contenu, le go final reste manuel avant prod.",
+    "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4.",
+    "Transparence pondérée stabilisée sous le seuil de surveillance : 2.5 pts, 7%, aucun remplacement requis.",
+    "Score readiness remonté à 96 : contenu complet, quiz relu, prod gate toujours bloqué sans validation finale."
   ],
   "locales": {
     "fr": {
@@ -20,17 +23,21 @@
   },
   "score": {
     "readiness": {
-      "value": 93,
+      "value": 96,
       "minProdScore": 90,
-      "readyForProd": true,
+      "readyForProd": false,
       "reviewStatus": "faite",
+      "reviewProgress": {
+        "reviewedWords": 34,
+        "totalWords": 34
+      },
       "releaseStatus": "preprod",
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
         "quizQuality": 13,
-        "editorialReview": 10
+        "editorialReview": 13
       }
     },
     "depth": {
@@ -38,7 +45,7 @@
     }
   },
   "quiz": {
-    "transparentWordIds": []
+    "transparentWordIds": ["boss", "bafu", "debafu", "damēji", "gaado"]
   },
   "words": [
     {
@@ -77,7 +84,10 @@
           "en": ["Dragon", "Demon king", "Elite enemy"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 2,
@@ -115,7 +125,10 @@
           "en": ["Cooperation", "Counterattack", "Finishing move"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 3,
@@ -153,7 +166,10 @@
           "en": ["Magic", "Awakening", "Finishing move"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 4,
@@ -191,7 +207,10 @@
           "en": ["Awakening", "Finishing move", "Berserk"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 5,
@@ -229,7 +248,10 @@
           "en": ["Transformation", "Overwhelming supremacy", "Secret art"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 6,
@@ -267,7 +289,10 @@
           "en": ["Boss", "Dragon", "Dark lord"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 7,
@@ -305,7 +330,10 @@
           "en": ["Combo", "Secret art", "Final attack"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 8,
@@ -343,7 +371,10 @@
           "en": ["Combo", "Counterattack", "Team buff"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 9,
@@ -381,7 +412,10 @@
           "en": ["Awakening", "Fury", "Berserk mode"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 10,
@@ -419,7 +453,10 @@
           "en": ["Shadow", "Flame", "Curse"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 11,
@@ -457,7 +494,10 @@
           "en": ["Boss", "Ancient monster", "Demon king"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 12,
@@ -494,7 +534,10 @@
           "en": ["Defense", "Damage", "Counterattack"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 13,
@@ -531,7 +574,10 @@
           "en": ["Damage", "Weakness", "Finishing attack"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 14,
@@ -568,7 +614,10 @@
           "en": ["Defense", "Counterattack", "Resistance"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 15,
@@ -605,7 +654,10 @@
           "en": ["Resistance", "Elemental weak point", "Broken armor"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 16,
@@ -642,7 +694,10 @@
           "en": ["Weakness", "Defense", "Immunity"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 17,
@@ -679,7 +734,10 @@
           "en": ["Debuff", "Healing", "Temporary boost"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 18,
@@ -716,7 +774,10 @@
           "en": ["Buff", "Status penalty", "Weakening effect"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 19,
@@ -753,7 +814,10 @@
           "en": ["Evasion", "Cooperation", "Return strike"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 20,
@@ -790,7 +854,10 @@
           "en": ["Debuff", "Poison", "Curse"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 21,
@@ -827,7 +894,10 @@
           "en": ["Evasion", "Resistance", "Guard"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 22,
@@ -864,7 +934,10 @@
           "en": ["Attack", "Critical hit", "Weakness"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 23,
@@ -901,7 +974,10 @@
           "en": ["Finishing move", "Awakening", "Combat style"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 24,
@@ -938,7 +1014,10 @@
           "en": ["Critical hit", "Finishing move", "Quick strike"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 25,
@@ -975,7 +1054,10 @@
           "en": ["Range", "Area burst", "Multi-hit attack"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 26,
@@ -1012,7 +1094,10 @@
           "en": ["Breakthrough", "Frontal attack", "Leaping strike"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 27,
@@ -1049,7 +1134,10 @@
           "en": ["Darkness", "Explosion", "Blaze"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 28,
@@ -1086,7 +1174,10 @@
           "en": ["Secret art", "Slashing move", "Sword style"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 29,
@@ -1123,7 +1214,10 @@
           "en": ["Explosion", "Massacre", "Annihilation"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 30,
@@ -1160,7 +1254,170 @@
           "en": ["Sword technique", "Single decisive blow", "Charge"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 31,
+      "jp": {
+        "term": "ガード",
+        "reading": "ガード",
+        "romaji": "gaado"
+      },
+      "gloss": {
+        "fr": "Garde",
+        "en": "Guard"
+      },
+      "definition": {
+        "fr": "Action de se protéger activement pour encaisser moins ou bloquer un coup.",
+        "en": "Action of actively protecting yourself to reduce or block a hit."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu tiens la position au lieu de foncer.",
+          "en": "You hold position instead of rushing in."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas juste la stat defense, mais le geste de protection lui-même.",
+          "en": "It is not just the defense stat, but the protective action itself."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la garde, une posture ou une commande défensive utilisée pour limiter l'impact d'une attaque.",
+        "en": "This word refers to guarding, a stance or command used to reduce the impact of an attack."
+      },
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Défense", "Esquive", "Résistance"],
+          "en": ["Defense", "Evasion", "Resistance"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 32,
+      "jp": {
+        "term": "属性",
+        "reading": "ぞくせい",
+        "romaji": "zokusei"
+      },
+      "gloss": {
+        "fr": "Élément",
+        "en": "Element"
+      },
+      "definition": {
+        "fr": "Type d'affinité d'une attaque ou d'un ennemi, comme feu, glace ou foudre.",
+        "en": "Affinity type of an attack or enemy, such as fire, ice or lightning."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le bon choix ici fait souvent exploser les dégâts.",
+          "en": "Choosing the right one here often makes damage spike."
+        },
+        "hint2": {
+          "fr": "Feu, glace et ténèbres entrent dans cette famille.",
+          "en": "Fire, ice and darkness belong to this family."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'élément d'une attaque, d'une magie ou d'un ennemi. Il structure tout le jeu de forces et faiblesses.",
+        "en": "This word refers to the element of an attack, spell or enemy. It structures the whole weakness and resistance game."
+      },
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Faiblesse", "Résistance", "Altération d'état"],
+          "en": ["Weakness", "Resistance", "Status ailment"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 33,
+      "jp": {
+        "term": "毒",
+        "reading": "どく",
+        "romaji": "doku"
+      },
+      "gloss": {
+        "fr": "Poison",
+        "en": "Poison"
+      },
+      "definition": {
+        "fr": "Altération d'état qui grignote les PV sur la durée.",
+        "en": "Status ailment that drains HP over time."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tes PV continuent de baisser même hors du coup initial.",
+          "en": "Your HP keeps dropping even after the initial hit."
+        },
+        "hint2": {
+          "fr": "C'est l'une des altérations d'état les plus classiques.",
+          "en": "It is one of the most classic status ailments."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le poison, un statut emblématique des RPG qui punit la durée et force parfois à se soigner vite.",
+        "en": "This word refers to poison, a signature RPG status effect that punishes long fights and often forces quick healing."
+      },
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Ténèbres", "Flamme", "Altération d'état"],
+          "en": ["Darkness", "Flame", "Status ailment"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 34,
+      "jp": {
+        "term": "奇襲",
+        "reading": "きしゅう",
+        "romaji": "kishuu"
+      },
+      "gloss": {
+        "fr": "Embuscade",
+        "en": "Ambush"
+      },
+      "definition": {
+        "fr": "Attaque surprise qui donne un avantage immédiat en début de combat.",
+        "en": "Surprise attack that gives an immediate advantage at the start of battle."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "L'un des camps frappe avant que l'autre ne puisse réagir.",
+          "en": "One side strikes before the other can react."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas juste une rencontre ennemie, mais une ouverture surprise.",
+          "en": "It is not just an enemy encounter, but a surprise opener."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne l'embuscade, un début de combat pris par surprise qui casse le rythme normal de l'affrontement.",
+        "en": "This word refers to an ambush, a surprise battle opener that breaks the normal rhythm of a fight."
+      },
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Contre-attaque", "Charge", "Rencontre ennemie"],
+          "en": ["Counterattack", "Charge", "Enemy encounter"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     }
   ]
 }

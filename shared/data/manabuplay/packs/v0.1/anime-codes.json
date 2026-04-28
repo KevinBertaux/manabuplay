@@ -3,14 +3,17 @@
   "slug": "anime-codes",
   "themeId": "anime-and-manga",
   "status": "content-draft",
-  "targetWordCount": 30,
+  "targetWordCount": 34,
   "notes": [
-    "Quatrième pack enrichi pour validation éditoriale.",
-    "Répartition des tiers : 10 mots tier 1, 8 mots tier 2, 7 mots tier 3, 5 mots tier 4."
+    "Quatrième pack enrichi puis validé pour la production éditoriale.",
+    "Transparence recalculée : 1.5 pt, 4%, sous le seuil de surveillance de 10%. Aucun remplacement requis.",
+    "Relecture faite : les 34 mots sont validés.",
+    "Distracteurs explicites ajoutés sur les mots 31 à 34 sans changement de mots.",
+    "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4."
   ],
   "locales": {
     "fr": {
-      "name": "Codes d’anime",
+      "name": "Anime Codes",
       "description": "Les mots, codes et figures qu'on retrouve partout dans les anime et les mangas."
     },
     "en": {
@@ -20,17 +23,21 @@
   },
   "score": {
     "readiness": {
-      "value": 92,
+      "value": 96,
       "minProdScore": 90,
-      "readyForProd": true,
+      "readyForProd": false,
       "reviewStatus": "faite",
+      "reviewProgress": {
+        "reviewedWords": 34,
+        "totalWords": 34
+      },
       "releaseStatus": "preprod",
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
-        "quizQuality": 12,
-        "editorialReview": 10
+        "quizQuality": 13,
+        "editorialReview": 13
       }
     },
     "depth": {
@@ -38,7 +45,7 @@
     }
   },
   "quiz": {
-    "transparentWordIds": ["waifu"]
+    "transparentWordIds": ["raibaru"]
   },
   "words": [
     {
@@ -77,7 +84,10 @@
           "en": ["Reincarnation", "Fantasy world", "Magic portal"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 2,
@@ -115,7 +125,10 @@
           "en": ["Rivals", "Team", "Friendship"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 3,
@@ -153,7 +166,10 @@
           "en": ["Cold rival", "Distant friend", "Very affectionate character"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 4,
@@ -191,7 +207,10 @@
           "en": ["Idol", "Fictional favorite", "Anime crush"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 5,
@@ -229,7 +248,10 @@
           "en": ["Other world", "Destiny", "Magical rebirth"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 6,
@@ -267,7 +289,10 @@
           "en": ["Legendary hero", "Rival", "Narrator"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 7,
@@ -304,7 +329,10 @@
           "en": ["Antagonist", "Companion", "Childhood friend"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 8,
@@ -341,7 +369,10 @@
           "en": ["Awakening", "Heroic form", "Magic outfit"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 9,
@@ -378,7 +409,10 @@
           "en": ["Junior club member", "Teacher", "Student council president"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 10,
@@ -415,7 +449,10 @@
           "en": ["School life", "School festival", "School club"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 11,
@@ -453,7 +490,10 @@
           "en": ["Protagonist", "Champion", "Chosen warrior"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 12,
@@ -491,7 +531,10 @@
           "en": ["Chance", "Prophecy", "Past bond"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 13,
@@ -528,7 +571,10 @@
           "en": ["Rival", "Traitor", "Final boss"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 14,
@@ -565,7 +611,10 @@
           "en": ["Companions", "Loyalty", "Shared destiny"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 15,
@@ -602,7 +651,10 @@
           "en": ["Awakening", "Discipline", "Trial"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 16,
@@ -639,7 +691,10 @@
           "en": ["Senior", "New student", "Newer club member"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 17,
@@ -676,7 +731,10 @@
           "en": ["Lie", "Secret identity", "Mystery"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 18,
@@ -713,7 +771,10 @@
           "en": ["Senior", "Club president", "Mentor"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 19,
@@ -751,7 +812,10 @@
           "en": ["Legendary hero", "Invincible", "Final boss"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 20,
@@ -789,7 +853,10 @@
           "en": ["Spirit", "Legendary hero", "Supreme being"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 21,
@@ -826,7 +893,10 @@
           "en": ["Classmate", "Romantic rival", "Junior club member"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 22,
@@ -863,7 +933,10 @@
           "en": ["Cold rival", "Distant character", "Dangerously obsessed lover"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 23,
@@ -900,7 +973,10 @@
           "en": ["Harsh rival", "Dangerously obsessed lover", "Very affectionate character"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 24,
@@ -937,7 +1013,10 @@
           "en": ["School life", "First feelings", "Friendship"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 25,
@@ -974,7 +1053,10 @@
           "en": ["Main villain", "Army of evil", "Secret society"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 26,
@@ -1011,7 +1093,10 @@
           "en": ["Magical heroine", "Heroic transformation", "Magical idol"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 27,
@@ -1048,7 +1133,10 @@
           "en": ["Harsh rival", "Distant character", "Very affectionate character"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 28,
@@ -1085,7 +1173,10 @@
           "en": ["Class president", "Studious girl", "Cold reserved type"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 29,
@@ -1122,7 +1213,10 @@
           "en": ["Teacher", "Class representative", "Senior"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 30,
@@ -1159,7 +1253,170 @@
           "en": ["Hidden hero role", "Dramatic pose", "Youthful intensity"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 31,
+      "jp": {
+        "term": "部活",
+        "reading": "ぶかつ",
+        "romaji": "bukatsu"
+      },
+      "gloss": {
+        "fr": "Club scolaire",
+        "en": "School club"
+      },
+      "definition": {
+        "fr": "Activité de club à l'école, très présente dans les anime de lycée.",
+        "en": "School club activity, very common in high school anime."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Sport, musique ou art : beaucoup d'intrigues passent par là.",
+          "en": "Sports, music or art: many stories pass through this."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas juste l'école en général, mais la vie de club après les cours.",
+          "en": "It is not just school in general, but club life after class."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne les activités de club. Dans les anime scolaires, c'est l'un des cadres les plus classiques pour créer du lien, du rythme et des conflits.",
+        "en": "This word refers to club activities. In school anime, it is one of the most classic settings for building bonds, rhythm and conflict."
+      },
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Cadre scolaire", "Festival culturel", "Groupe d’amis"],
+          "en": ["School setting", "School festival", "Friend group"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 32,
+      "jp": {
+        "term": "告白",
+        "reading": "こくはく",
+        "romaji": "kokuhaku"
+      },
+      "gloss": {
+        "fr": "Déclaration",
+        "en": "Confession"
+      },
+      "definition": {
+        "fr": "Moment où un personnage avoue ses sentiments, souvent de façon romantique.",
+        "en": "Moment when a character admits their feelings, often romantically."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Toute la tension monte vers ce moment dans beaucoup de romances.",
+          "en": "A lot of romance tension builds toward this moment."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas un secret gardé, mais le moment où on le dit enfin.",
+          "en": "It is not the hidden secret, but the moment it is finally said."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la déclaration de sentiments, un passage culte des anime romantiques et scolaires.",
+        "en": "This word refers to a romantic confession, a cult moment in romance and school anime."
+      },
+      "difficultyTier": 1,
+      "quiz": {
+        "distractors": {
+          "fr": ["Secret", "Amitié", "Promesse"],
+          "en": ["Secret", "Friendship", "Promise"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 33,
+      "jp": {
+        "term": "文化祭",
+        "reading": "ぶんかさい",
+        "romaji": "bunkasai"
+      },
+      "gloss": {
+        "fr": "Festival culturel",
+        "en": "School festival"
+      },
+      "definition": {
+        "fr": "Événement scolaire festif où les classes et clubs tiennent des stands ou des activités.",
+        "en": "Festive school event where classes and clubs run booths or activities."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Café cosplay, maison hantée et mini scènes viennent souvent avec ça.",
+          "en": "Cosplay cafe, haunted house and mini stages often come with this."
+        },
+        "hint2": {
+          "fr": "C'est un grand classique des arcs de lycée.",
+          "en": "It is a classic school-arc event."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le festival culturel scolaire, un décor central de la comédie romantique et de la vie de lycée en anime.",
+        "en": "This word refers to the school cultural festival, a core setting of romance comedy and high school life in anime."
+      },
+      "difficultyTier": 2,
+      "quiz": {
+        "distractors": {
+          "fr": ["Club scolaire", "Festival sportif", "Cadre scolaire"],
+          "en": ["School club", "Sports festival", "School setting"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 34,
+      "jp": {
+        "term": "三角関係",
+        "reading": "さんかくかんけい",
+        "romaji": "sankaku kankei"
+      },
+      "gloss": {
+        "fr": "Triangle amoureux",
+        "en": "Love triangle"
+      },
+      "definition": {
+        "fr": "Relation romantique tendue entre trois personnages dont les sentiments se croisent.",
+        "en": "Tense romantic situation between three characters whose feelings cross."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Deux personnes tournent autour de la même, ou l'inverse.",
+          "en": "Two people orbit the same one, or the reverse."
+        },
+        "hint2": {
+          "fr": "Le mot parle d'une structure de romance conflictuelle très classique.",
+          "en": "The term refers to a very classic conflicted romance structure."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le triangle amoureux, un ressort narratif ultra classique pour faire durer la tension sentimentale.",
+        "en": "This word refers to a love triangle, an ultra-classic device used to stretch romantic tension."
+      },
+      "difficultyTier": 3,
+      "quiz": {
+        "distractors": {
+          "fr": ["Déclaration", "Amitié", "Rivalité romantique"],
+          "en": ["Confession", "Friendship", "Romantic rivalry"]
+        }
+      },
+      "editorialReview": {
+        "status": "reviewed"
+      }
     }
   ]
 }

@@ -22,6 +22,10 @@ const packLinks = getAllPacks().map((item) => ({
   id: item.id,
   name: item.locales.fr.name,
   score: item.score?.readiness?.value ?? null,
+  isProdCandidate:
+    (item.score?.readiness?.value ?? 0) >= (item.score?.readiness?.minProdScore ?? 90) &&
+    (item.score?.readiness?.reviewStatus === "faite" ||
+      item.score?.readiness?.reviewStatus === "validee"),
 }));
 function getTerm(word: PackReaderWord) {
   return typeof word.jp === "string" ? word.jp : word.jp.term;
@@ -107,13 +111,16 @@ function getMinProdScore() {
 }
 
 function getReviewLabel() {
+  const progress = activePack.score?.readiness?.reviewProgress;
+  const progressLabel = progress ? ` · ${progress.reviewedWords}/${progress.totalWords}` : "";
+
   switch (activePack.score?.readiness?.reviewStatus) {
     case "validee":
       return "Relecture validée";
     case "faite":
-      return "Relecture faite";
+      return `faite${progressLabel}`;
     case "partielle":
-      return "Relecture partielle";
+      return `partielle${progressLabel}`;
     case "non-relue":
       return "Relecture non faite";
     default:
@@ -163,18 +170,28 @@ function getGiftTone() {
 }
 
 function getWordKey(word: PackReaderWord) {
-  return word.existingWordId || getRomaji(word) || `word-${word.order}`;
+  return getRomaji(word) || word.existingWordId || `word-${word.order}`;
 }
 
 function getTransparentWords() {
-  const ids = new Set(activePack.quiz?.transparentWordIds || []);
-  return activePack.words
-    .filter((word) => ids.has(getWordKey(word)))
-    .map((word) => ({
-      id: getWordKey(word),
-      order: word.order,
-      label: getRomaji(word) || word.existingWordId || `mot-${word.order}`,
-    }));
+  return getTransparentBreakdown()?.entries ?? [];
+}
+
+const transparentWordsByOrder = new Map(getTransparentWords().map((entry) => [entry.order, entry]));
+
+function formatTransparencyScore(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+function getTransparencyLevelLabel(level: "strict" | "editorial" | "filler") {
+  switch (level) {
+    case "strict":
+      return "strict";
+    case "editorial":
+      return "éditorial";
+    case "filler":
+      return "filler";
+  }
 }
 
 function getTierLabel(word: PackReaderWord) {
@@ -206,6 +223,32 @@ function getTierTone(word: PackReaderWord) {
       return "na";
   }
 }
+
+function getWordReviewStatus(word: PackReaderWord) {
+  if (word.editorialReview?.status) {
+    return word.editorialReview.status;
+  }
+
+  const reviewStatus = activePack.score?.readiness?.reviewStatus;
+  if (reviewStatus === "faite" || reviewStatus === "validee") {
+    return "reviewed";
+  }
+
+  const progress = activePack.score?.readiness?.reviewProgress;
+  if (reviewStatus === "partielle" && progress) {
+    return word.order <= progress.reviewedWords ? "reviewed" : "needs-review";
+  }
+
+  return "needs-review";
+}
+
+function getWordReviewLabel(word: PackReaderWord) {
+  return getWordReviewStatus(word) === "reviewed" ? "Relu" : "À relire";
+}
+
+function getWordTransparencyLevel(word: PackReaderWord) {
+  return transparentWordsByOrder.get(word.order)?.level ?? "none";
+}
 ---
 <AdminLayout
   title={`${activePack.locales.fr.name} — Admin Pack Reader`}
@@ -230,7 +273,10 @@ function getTierTone(word: PackReaderWord) {
         <div class="reader-pack-list">
           {packLinks.map((link) => (
             <a
-              class:list={["reader-pack-link", { active: link.id === activePack.id }]}
+              class:list={[
+                "reader-pack-link",
+                { active: link.id === activePack.id, "prod-candidate": link.isProdCandidate },
+              ]}
               href={`/content/packs/${link.id}/`}
             >
               <span class="reader-pack-link-head">
@@ -295,11 +341,12 @@ function getTierTone(word: PackReaderWord) {
               {transparent ? <span class="reader-cartouche-tier-divider" aria-hidden="true"></span> : null}
               {transparent ? (
                 <div class="reader-cartouche-gift-row">
-                  <button class:list={["reader-cartouche-tier-chip", "gift", "toggleable", `gift-${getGiftTone()}`]} type="button" data-toggle-gifts aria-expanded="false">{`${transparent.count} cadeaux · ${transparent.percent}%`}</button>
+                  <button class:list={["reader-cartouche-tier-chip", "gift", "toggleable", `gift-${getGiftTone()}`]} type="button" data-toggle-gifts aria-expanded="false">{`Transparence ${transparent.weightedPercent}% · ${transparent.tone}`}</button>
+                  <span class="reader-cartouche-tier-chip gift">{`${formatTransparencyScore(transparent.weightedScore)} pts · ${transparent.strictCount} strict · ${transparent.editorialCount} éditoriaux · ${transparent.fillerCount} filler`}</span>
                   {transparentWords.length ? (
                     <div class="reader-cartouche-gift-list" data-gift-list hidden>
                       {transparentWords.map((word) => (
-                        <a class="reader-cartouche-gift-link" href={`#word-${word.order}`} data-gift-word={word.id} data-gift-order={word.order}>{`${word.order}. ${word.label}`}</a>
+                        <a class="reader-cartouche-gift-link" href={`#word-${word.order}`} data-gift-word={word.id} data-gift-order={word.order}>{`${word.order}. ${word.label} · ${getTransparencyLevelLabel(word.level)} · ${word.weight} pt`}</a>
                       ))}
                     </div>
                   ) : null}
@@ -334,25 +381,41 @@ function getTierTone(word: PackReaderWord) {
           })()}
         </section>
 
-        <div class="reader-pagination" data-reader-pagination>
-          <div class="reader-pagination-info" data-page-info></div>
-          <div class="reader-pagination-controls">
-            <button class="reader-pagination-btn nav" type="button" data-page-prev>←</button>
-            <div data-page-numbers class="reader-pagination-numbers"></div>
-            <button class="reader-pagination-btn nav" type="button" data-page-next>→</button>
+        <section class="reader-filterbar reader-pagination" aria-label="Filtres de relecture et pagination">
+          <div class="reader-filterbar-head">
+            <span class="reader-filterbar-title">Critères<br />de tri</span>
           </div>
-        </div>
+          <div class="reader-filterbar-actions" data-reader-filters>
+            <button class="reader-filter-btn is-active" type="button" data-reader-filter="all">Tous</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="needs-review">À relire</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="reviewed">Relus</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="transparent">Transparents</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="tier-1">T1</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="tier-2">T2</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="tier-3">T3</button>
+            <button class="reader-filter-btn" type="button" data-reader-filter="tier-4">T4</button>
+          </div>
+          <div class="reader-filterbar-page" data-reader-pagination>
+            <div class="reader-pagination-info" data-page-info></div>
+            <div class="reader-pagination-controls">
+              <button class="reader-pagination-btn nav" type="button" data-page-prev>←</button>
+              <div data-page-numbers class="reader-pagination-numbers"></div>
+              <button class="reader-pagination-btn nav" type="button" data-page-next>→</button>
+            </div>
+          </div>
+        </section>
 
         <div class="reader-grid" data-reader-grid>
           {activePack.words.map((word) => (
-          <article class="review-card" id={`word-${word.order}`} data-admin-card data-word-id={getWordKey(word)} data-word-order={word.order} data-state="revealed" data-correct-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-correct-index-en={word.quizPreview?.correctIndex.en ?? 0} data-selected-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-selected-index-en={word.quizPreview?.correctIndex.en ?? 0} tabindex="0">
+          <article class:list={["review-card", `review-${getWordReviewStatus(word)}`]} id={`word-${word.order}`} data-admin-card data-word-id={getWordKey(word)} data-word-order={word.order} data-review-status={getWordReviewStatus(word)} data-tier={word.difficultyTier ?? "na"} data-transparency-level={getWordTransparencyLevel(word)} data-state="revealed" data-correct-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-correct-index-en={word.quizPreview?.correctIndex.en ?? 0} data-selected-index-fr={word.quizPreview?.correctIndex.fr ?? 0} data-selected-index-en={word.quizPreview?.correctIndex.en ?? 0} tabindex="0">
             <div class="review-meta">
               <div class="review-meta-left">
                 <span class="review-order">Mot {word.order}</span>
                 <span class:list={["review-tier", getTierTone(word)]}>{getTierLabel(word)}</span>
+                <span class:list={["review-status", getWordReviewStatus(word)]}>{getWordReviewLabel(word)}</span>
               </div>
               <div class="review-tools">
-                <span class="review-id">{word.existingWordId || "Nouveau mot"}</span>
+                <span class="review-id">{getWordKey(word)}</span>
                 <button class="review-toggle" type="button" data-toggle-card>Avant réponse</button>
               </div>
             </div>

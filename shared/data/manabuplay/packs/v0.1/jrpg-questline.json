@@ -1,36 +1,43 @@
 {
-  "id": "jrpg-essentials",
-  "slug": "jrpg-essentials",
+  "id": "jrpg-questline",
+  "slug": "jrpg-questline",
   "themeId": "gaming",
   "status": "content-draft",
-  "targetWordCount": 30,
+  "targetWordCount": 34,
   "notes": [
     "Premier pack enrichi pour validation éditoriale.",
-    "Répartition des tiers : 10 mots tier 1, 8 mots tier 2, 7 mots tier 3, 5 mots tier 4."
+    "Relecture faite : les 34 mots sont relus côté contenu, le go final reste manuel avant prod.",
+    "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4.",
+    "Transparence pondérée stabilisée sous le seuil de surveillance.",
+    "Score readiness remonté à 96 : contenu complet, quiz relu, prod gate toujours bloqué sans validation finale."
   ],
   "locales": {
     "fr": {
-      "name": "JRPG essentiels",
+      "name": "JRPG Questline",
       "description": "Le vocabulaire de base pour comprendre menus, combats et progression dans les JRPG."
     },
     "en": {
-      "name": "JRPG Essentials",
+      "name": "JRPG Questline",
       "description": "The core vocabulary used in JRPG menus, battles and progression."
     }
   },
   "score": {
     "readiness": {
-      "value": 94,
+      "value": 96,
       "minProdScore": 90,
-      "readyForProd": true,
+      "readyForProd": false,
       "reviewStatus": "faite",
+      "reviewProgress": {
+        "reviewedWords": 34,
+        "totalWords": 34
+      },
       "releaseStatus": "preprod",
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
-        "quizQuality": 14,
-        "editorialReview": 10
+        "quizQuality": 13,
+        "editorialReview": 13
       }
     },
     "depth": {
@@ -38,46 +45,57 @@
     }
   },
   "quiz": {
-    "transparentWordIds": ["mana-mp"]
+    "transparentWordIds": [
+      "aitemu",
+      "danjon",
+      "key-item",
+      "fiirudo",
+      "seebu pointo",
+      "sabu kuesuto",
+      "waarudo mappu"
+    ]
   },
   "words": [
     {
       "order": 1,
-      "existingWordId": "level-up",
+      "existingWordId": "spell",
       "jp": {
-        "term": "レベルアップ",
-        "reading": "レベルアップ",
-        "romaji": "reberu appu"
+        "term": "呪文",
+        "reading": "じゅもん",
+        "romaji": "jumon"
       },
       "gloss": {
-        "fr": "Monter de niveau",
-        "en": "Level up"
+        "fr": "Sort",
+        "en": "Spell"
       },
       "definition": {
-        "fr": "Passer au niveau supérieur et gagner en puissance.",
-        "en": "Reach the next level and gain power."
+        "fr": "Formule magique lancée par un personnage pour produire un effet précis.",
+        "en": "Magic formula cast by a character to produce a specific effect."
       },
       "hints": {
         "hint1": {
-          "fr": "La fanfare joue. Tu as gagné assez d'expérience.",
-          "en": "The fanfare plays. You earned enough experience."
+          "fr": "Ton mage l’utilise pour attaquer, soigner ou renforcer.",
+          "en": "Your mage uses it to attack, heal or buff."
         },
         "hint2": {
-          "fr": "Tes stats augmentent et parfois tu débloques un nouveau skill.",
-          "en": "Your stats go up and you may unlock a new skill."
+          "fr": "C’est plus précis que la magie au sens large.",
+          "en": "It is more specific than magic in general."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne le moment où un personnage monte de niveau. Dans un JRPG, cela veut souvent dire plus de PV, de stats et parfois une nouvelle compétence.",
-        "en": "This word refers to the moment a character reaches the next level. In a JRPG, that usually means more HP, better stats and sometimes a new skill."
+        "fr": "Ce mot désigne un sort individuel. Dans un JRPG, un sort peut faire des dégâts, soigner, protéger ou altérer un ennemi.",
+        "en": "This word refers to an individual spell. In a JRPG, a spell can deal damage, heal, protect or alter an enemy."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Points d'expérience", "Compétence", "Stats du personnage"],
-          "en": ["Experience points", "Skill", "Character stats"]
+          "fr": ["Magie", "Mana", "Compétence"],
+          "en": ["Magic", "Mana", "Skill"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 2,
@@ -115,45 +133,51 @@
           "en": ["In-game money", "Mana", "Character stats"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 3,
-      "existingWordId": "mana-mp",
+      "existingWordId": "equipment",
       "jp": {
-        "term": "マナ",
-        "reading": "マナ",
-        "romaji": "mana"
+        "term": "装備",
+        "reading": "そうび",
+        "romaji": "sobi"
       },
       "gloss": {
-        "fr": "Mana",
-        "en": "Mana"
+        "fr": "Équipement",
+        "en": "Equipment"
       },
       "definition": {
-        "fr": "Réserve d'énergie magique utilisée pour lancer des sorts ou certaines compétences.",
-        "en": "Pool of magical energy used to cast spells or some abilities."
+        "fr": "Ensemble des armes, armures et accessoires portés par un personnage.",
+        "en": "Set of weapons, armor and accessories worn by a character."
       },
       "hints": {
         "hint1": {
-          "fr": "Les potions bleues servent souvent à en récupérer.",
-          "en": "Blue potions often restore it."
+          "fr": "Tu l’optimises avant un boss.",
+          "en": "You optimize it before a boss."
         },
         "hint2": {
-          "fr": "Sans ça, ton mage ne lance plus grand-chose.",
-          "en": "Without it, your mage cannot cast much."
+          "fr": "Ça change souvent tes stats.",
+          "en": "It often changes your stats."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne la réserve magique d'un personnage. Selon les jeux, on parle aussi de MP, mais l'idée reste la même : alimenter les sorts et les compétences spéciales.",
-        "en": "This word refers to a character's magical resource. Some games call it MP instead, but the idea stays the same: fueling spells and special abilities."
+        "fr": "Ce mot désigne l’équipement porté par un personnage. Il sert à préparer un build, augmenter les stats et adapter l’équipe.",
+        "en": "This word refers to equipment worn by a character. It is used to prepare a build, raise stats and adapt the party."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Magie", "Sort", "Soin"],
-          "en": ["Magic", "Spell", "Healing"]
+          "fr": ["Objet", "Inventaire", "Boutique"],
+          "en": ["Item", "Inventory", "Shop"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 4,
@@ -191,7 +215,10 @@
           "en": ["Mana", "Healing item", "Buff"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 5,
@@ -229,7 +256,10 @@
           "en": ["Spell", "Mana", "Summon"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 6,
@@ -267,45 +297,51 @@
           "en": ["Strategy", "Quest", "Hidden secret"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 7,
-      "existingWordId": "kuria-clear",
+      "existingWordId": "hero",
       "jp": {
-        "term": "クリア",
-        "reading": "クリア",
-        "romaji": "kuria"
+        "term": "勇者",
+        "reading": "ゆうしゃ",
+        "romaji": "yusha"
       },
       "gloss": {
-        "fr": "Finir un contenu",
-        "en": "Clear content"
+        "fr": "Héros",
+        "en": "Hero"
       },
       "definition": {
-        "fr": "Réussir un niveau, un donjon, un boss ou le jeu entier.",
-        "en": "Beat a stage, dungeon, boss or the whole game."
+        "fr": "Personnage central appelé à sauver le monde ou mener l’aventure.",
+        "en": "Central character called to save the world or lead the adventure."
       },
       "hints": {
         "hint1": {
-          "fr": "Le générique arrive. Mission accomplie.",
-          "en": "The credits roll. Mission accomplished."
+          "fr": "C’est souvent lui qui porte l’épée légendaire.",
+          "en": "This is often the one carrying the legendary sword."
         },
         "hint2": {
-          "fr": "On l'utilise aussi pour dire qu'un boss ou un stage est terminé.",
-          "en": "It is also used when a boss or stage has been completed."
+          "fr": "Il n’est pas juste aventurier, il a un rôle narratif.",
+          "en": "This is not just an adventurer, but a story role."
         }
       },
       "explanation": {
-        "fr": "Ce mot vient de l'anglais clear, mais dans le jeu vidéo japonais il signifie surtout terminer ou réussir un contenu précis.",
-        "en": "This word comes from the English word clear, but in Japanese games it mostly means finishing or beating a specific piece of content."
+        "fr": "Ce mot désigne le héros, souvent au sens de champion ou sauveur dans les JRPG fantasy.",
+        "en": "This word refers to the hero, often as a champion or savior in fantasy JRPGs."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Sauvegarde", "Quête", "Victoire en combat"],
-          "en": ["Save", "Quest", "Battle victory"]
+          "fr": ["Aventurier", "Roi", "Compagnon"],
+          "en": ["Adventurer", "King", "Companion"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 8,
@@ -343,120 +379,133 @@
           "en": ["Dungeon", "Map", "Treasure chest"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 9,
-      "existingWordId": "suteetasu-status",
+      "existingWordId": "reward",
       "jp": {
-        "term": "ステータス",
-        "reading": "ステータス",
-        "romaji": "sutētasu"
+        "term": "報酬",
+        "reading": "ほうしゅう",
+        "romaji": "hoshu"
       },
       "gloss": {
-        "fr": "Stats du personnage",
-        "en": "Character stats"
+        "fr": "Récompense",
+        "en": "Reward"
       },
       "definition": {
-        "fr": "Chiffres qui décrivent les capacités d'un personnage, comme les PV, l'attaque ou la vitesse.",
-        "en": "Numbers describing a character's abilities, such as HP, attack or speed."
+        "fr": "Gain obtenu après une quête, un combat ou une exploration.",
+        "en": "Gain obtained after a quest, battle or exploration."
       },
       "hints": {
         "hint1": {
-          "fr": "ATQ, DÉF, PV, VIT : tout est là.",
-          "en": "ATK, DEF, HP, SPD: it is all there."
+          "fr": "C’est ce que tu récupères après l’effort.",
+          "en": "It is what you get after the effort."
         },
         "hint2": {
-          "fr": "Tu ouvres cet écran pour comparer ton build.",
-          "en": "You open this screen to compare your build."
+          "fr": "Argent, objet rare, EXP : tout peut en faire partie.",
+          "en": "Money, rare item, EXP: all of that can be part of it."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne les stats ou l'écran de stats. C'est un mot-clé de tous les RPG, même hors Japon.",
-        "en": "This word refers to stats or the stats screen. It is a core word across RPGs, even outside Japan."
+        "fr": "Ce mot désigne une récompense. Il sert beaucoup dans les quêtes, les missions et les écrans de résultat.",
+        "en": "This word means reward. It is common in quests, missions and result screens."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Monter de niveau", "Mana", "Équipement"],
-          "en": ["Level up", "Mana", "Equipment"]
+          "fr": ["Butin", "Trésor", "Demande"],
+          "en": ["Loot", "Treasure", "Request"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 10,
-      "existingWordId": "sukiru-skill",
+      "existingWordId": "shadow",
       "jp": {
-        "term": "スキル",
-        "reading": "スキル",
-        "romaji": "sukiru"
+        "term": "影",
+        "reading": "かげ",
+        "romaji": "kage"
       },
       "gloss": {
-        "fr": "Compétence",
-        "en": "Skill"
+        "fr": "Ombre",
+        "en": "Shadow"
       },
       "definition": {
-        "fr": "Capacité qu'un personnage peut apprendre, améliorer ou utiliser.",
-        "en": "Ability a character can learn, upgrade or use."
+        "fr": "Trace sombre ou présence cachée souvent liée aux ennemis, aux ninjas ou à la magie noire.",
+        "en": "Dark trace or hidden presence often tied to enemies, ninjas or dark magic."
       },
       "hints": {
         "hint1": {
-          "fr": "Tu le débloques, tu l'améliores, puis tu le spammes.",
-          "en": "You unlock it, upgrade it and then spam it."
+          "fr": "On la voit rarement en pleine lumière.",
+          "en": "You rarely see it in full light."
         },
         "hint2": {
-          "fr": "Ce n'est pas un spell seulement : c'est plus large.",
-          "en": "It is not just a spell: it is broader than that."
+          "fr": "C’est utile pour des thèmes furtifs ou sombres.",
+          "en": "It fits stealthy or dark themes."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne une compétence au sens large. Selon le jeu, cela peut être une attaque spéciale, un passif, une technique ou une compétence de soutien.",
-        "en": "This word refers to a skill in the broad sense. Depending on the game, it can be a special attack, a passive, a technique or a support ability."
+        "fr": "Ce mot désigne l’ombre. Dans un JRPG, il peut être littéral, magique ou lié à un personnage furtif.",
+        "en": "This word means shadow. In a JRPG, it can be literal, magical or tied to a stealthy character."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Magie", "Effet passif", "Combo d'attaque"],
-          "en": ["Magic", "Passive effect", "Attack combo"]
+          "fr": ["Furtivité", "Malédiction", "Ténèbres"],
+          "en": ["Stealth", "Curse", "Darkness"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 11,
+      "existingWordId": "poison",
       "jp": {
-        "term": "クエスト",
-        "reading": "クエスト",
-        "romaji": "kuesuto"
+        "term": "毒",
+        "reading": "どく",
+        "romaji": "doku"
       },
       "gloss": {
-        "fr": "Quête",
-        "en": "Quest"
+        "fr": "Poison",
+        "en": "Poison"
       },
       "definition": {
-        "fr": "Mission confiée par le jeu, un PNJ ou un panneau d'affichage.",
-        "en": "Mission given by the game, an NPC or a quest board."
+        "fr": "État ou substance qui inflige des dégâts progressivement.",
+        "en": "Status or substance that deals damage over time."
       },
       "hints": {
         "hint1": {
-          "fr": "Le villageois avec un point d'exclamation t'en donne souvent une.",
-          "en": "The villager with an exclamation mark often gives you one."
+          "fr": "Tes PV descendent même quand personne ne frappe.",
+          "en": "Your HP drops even when nobody attacks."
         },
         "hint2": {
-          "fr": "Tu la termines pour gagner une récompense.",
-          "en": "You complete it to earn a reward."
+          "fr": "Il faut souvent un antidote.",
+          "en": "You often need an antidote."
         }
       },
       "explanation": {
-        "fr": "Ce mot vient de quest. Dans les JRPG, il couvre aussi bien la mission principale que les quêtes annexes.",
-        "en": "This word comes from quest. In JRPGs, it covers both the main mission and side quests."
+        "fr": "Ce mot désigne le poison. C’est un état négatif très classique dans les combats de RPG.",
+        "en": "This word means poison. It is a very classic negative status in RPG battles."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Mission confiée", "Récompense", "Aventure"],
-          "en": ["Assigned task", "Reward", "Adventure"]
+          "fr": ["Malédiction", "Brûlure", "Immunité"],
+          "en": ["Curse", "Burn", "Immunity"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 12,
@@ -493,7 +542,10 @@
           "en": ["Equipment", "Loot", "Inventory"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 13,
@@ -530,118 +582,133 @@
           "en": ["Maze", "Treasure chest", "Map"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 14,
+      "existingWordId": "key-item",
       "jp": {
-        "term": "セーブ",
-        "reading": "セーブ",
-        "romaji": "sēbu"
+        "term": "キーアイテム",
+        "reading": "キーアイテム",
+        "romaji": "ki aitemu"
       },
       "gloss": {
-        "fr": "Sauvegarde",
-        "en": "Save"
+        "fr": "Objet de quête",
+        "en": "Key item"
       },
       "definition": {
-        "fr": "Action d'enregistrer ta progression pour pouvoir la reprendre plus tard.",
-        "en": "Action of recording your progress so you can resume later."
+        "fr": "Objet important qui débloque une quête, une porte ou une progression.",
+        "en": "Important item that unlocks a quest, a door or progression."
       },
       "hints": {
         "hint1": {
-          "fr": "Tu fais ça avant un boss si tu es prudent.",
-          "en": "You do this before a boss if you are careful."
+          "fr": "Tu ne le vends pas : il sert à avancer.",
+          "en": "You do not sell it: it moves progression forward."
         },
         "hint2": {
-          "fr": "Ça évite de perdre une heure de jeu.",
-          "en": "It keeps you from losing an hour of play."
+          "fr": "Il peut ouvrir une porte ou valider une mission.",
+          "en": "It can open a door or complete a mission."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne la sauvegarde de ta partie. Dans un RPG, c'est un réflexe vital avant un boss, une zone risquée ou la fermeture du jeu.",
-        "en": "This word refers to saving your game. In an RPG, it is a vital reflex before a boss, a risky area or closing the game."
+        "fr": "Ce mot désigne un objet de quête. Il est lié à la progression plutôt qu’à une simple consommation.",
+        "en": "This word refers to a key item. It is tied to progression rather than simple consumption."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Chargement", "Repos à l'auberge", "Journal de quêtes"],
-          "en": ["Load", "Rest at the inn", "Quest log"]
+          "fr": ["Objet", "Coffre au trésor", "Récompense"],
+          "en": ["Item", "Treasure chest", "Reward"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 15,
+      "existingWordId": "nation",
       "jp": {
-        "term": "ロード",
-        "reading": "ロード",
-        "romaji": "rōdo"
+        "term": "国",
+        "reading": "くに",
+        "romaji": "kuni"
       },
       "gloss": {
-        "fr": "Chargement",
-        "en": "Load"
+        "fr": "Nation",
+        "en": "Nation"
       },
       "definition": {
-        "fr": "Action d'ouvrir une sauvegarde existante pour reprendre une partie.",
-        "en": "Action of opening an existing save to resume a game."
+        "fr": "Pays ou territoire organisé dans le monde du jeu.",
+        "en": "Country or organized territory in the game world."
       },
       "hints": {
         "hint1": {
-          "fr": "Tu reviens à un point précédent du jeu.",
-          "en": "You return to an earlier point in the game."
+          "fr": "Plus large qu’une ville ou un royaume local.",
+          "en": "Broader than a town or local kingdom."
         },
         "hint2": {
-          "fr": "Ça va souvent avec save dans le même menu.",
-          "en": "It often sits next to save in the same menu."
+          "fr": "Ça sert à parler du cadre politique du monde.",
+          "en": "It helps describe the world’s political setting."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne le chargement d'une sauvegarde. Il va presque toujours de pair avec le mot pour sauvegarde dans les menus de jeu.",
-        "en": "This word refers to loading a save file. It almost always goes hand in hand with the word for save in game menus."
+        "fr": "Ce mot désigne un pays ou une nation. Dans un JRPG, il sert souvent à situer les royaumes, conflits et alliances.",
+        "en": "This word means country or nation. In a JRPG, it often frames kingdoms, conflicts and alliances."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Sauvegarde", "Inventaire", "Boutique"],
-          "en": ["Save", "Inventory", "Shop"]
+          "fr": ["Royaume", "Ville", "Village"],
+          "en": ["Kingdom", "Town", "Village"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 16,
+      "existingWordId": "legend",
       "jp": {
-        "term": "パーティー",
-        "reading": "パーティー",
-        "romaji": "pātī"
+        "term": "伝説",
+        "reading": "でんせつ",
+        "romaji": "densetsu"
       },
       "gloss": {
-        "fr": "Équipe",
-        "en": "Party"
+        "fr": "Légende",
+        "en": "Legend"
       },
       "definition": {
-        "fr": "Groupe de personnages qui voyage et combat ensemble.",
-        "en": "Group of characters that travels and fights together."
+        "fr": "Récit ancien ou figure mythique qui marque le monde du jeu.",
+        "en": "Ancient tale or mythical figure that shapes the game world."
       },
       "hints": {
         "hint1": {
-          "fr": "Le héros n'est pas seul. Il a son groupe.",
-          "en": "The hero is not alone. They have a group."
+          "fr": "On en parle souvent avant de trouver l’arme sacrée.",
+          "en": "People often mention it before you find the sacred weapon."
         },
         "hint2": {
-          "fr": "On parle ici d'une team, pas d'une fête.",
-          "en": "Here it means a team, not a celebration."
+          "fr": "C’est plus grand que la simple rumeur.",
+          "en": "It is bigger than a simple rumor."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne le groupe actif de personnages. Dans un JRPG, il est central pour parler composition d'équipe, synergies et rôles.",
-        "en": "This word refers to the active group of characters. In a JRPG, it is a key word when talking about team composition, synergy and roles."
+        "fr": "Ce mot désigne une légende. Dans les JRPG, il nourrit l’histoire, les prophéties et les objets mythiques.",
+        "en": "This word means legend. In JRPGs, it feeds the story, prophecies and mythical items."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Guilde", "Aventurier", "Classe de personnage"],
-          "en": ["Guild", "Adventurer", "Character class"]
+          "fr": ["Histoire", "Rumeur", "Royaume"],
+          "en": ["Story", "Rumor", "Kingdom"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 17,
@@ -678,81 +745,92 @@
           "en": ["Adventurer", "Quest", "Kingdom"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 18,
+      "existingWordId": "elite-enemy",
       "jp": {
-        "term": "ドロップ",
-        "reading": "ドロップ",
-        "romaji": "doroppu"
+        "term": "強敵",
+        "reading": "きょうてき",
+        "romaji": "kyoteki"
       },
       "gloss": {
-        "fr": "Butin",
-        "en": "Loot"
+        "fr": "Ennemi d'élite",
+        "en": "Elite enemy"
       },
       "definition": {
-        "fr": "Objet ou ressource laissé par un ennemi après un combat.",
-        "en": "Item or resource left behind by an enemy after a battle."
+        "fr": "Adversaire plus dangereux que les ennemis ordinaires.",
+        "en": "Opponent more dangerous than ordinary enemies."
       },
       "hints": {
         "hint1": {
-          "fr": "Tu bats un monstre et un objet apparaît.",
-          "en": "You beat a monster and an item appears."
+          "fr": "Il tape plus fort que les mobs autour.",
+          "en": "It hits harder than nearby mobs."
         },
         "hint2": {
-          "fr": "Les joueurs farment souvent pour en obtenir un rare.",
-          "en": "Players often farm for a rare one."
+          "fr": "Pas forcément un boss, mais tu le respectes.",
+          "en": "Not necessarily a boss, but you respect it."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne le butin qu'un ennemi laisse tomber. On parle souvent de taux de drop, de butin rare ou de butin de boss.",
-        "en": "This word refers to the loot an enemy drops. You often hear about drop rates, rare loot or boss loot."
+        "fr": "Ce mot désigne un ennemi puissant. Il peut être rare, optionnel ou simplement plus dur que la moyenne.",
+        "en": "This word refers to a strong enemy. It can be rare, optional or simply harder than average."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Coffre au trésor", "Équipement", "Récompense"],
-          "en": ["Treasure chest", "Equipment", "Reward"]
+          "fr": ["Boss", "Monstre", "Embuscade"],
+          "en": ["Boss", "Monster", "Ambush"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 19,
+      "existingWordId": "transformation",
       "jp": {
-        "term": "ショップ",
-        "reading": "ショップ",
-        "romaji": "shoppu"
+        "term": "変身",
+        "reading": "へんしん",
+        "romaji": "henshin"
       },
       "gloss": {
-        "fr": "Boutique",
-        "en": "Shop"
+        "fr": "Transformation",
+        "en": "Transformation"
       },
       "definition": {
-        "fr": "Lieu où tu achètes, vends ou gères des objets et parfois de l'équipement.",
-        "en": "Place where you buy, sell or manage items and sometimes equipment."
+        "fr": "Changement de forme ou d’état d’un personnage.",
+        "en": "Change of form or state for a character."
       },
       "hints": {
         "hint1": {
-          "fr": "Tu y vas avant de quitter une ville.",
-          "en": "You go there before leaving a town."
+          "fr": "Le personnage change d’apparence ou de puissance.",
+          "en": "The character changes appearance or power."
         },
         "hint2": {
-          "fr": "Potion, arme, armure : tout passe souvent par là.",
-          "en": "Potion, weapon, armor: a lot of it goes through there."
+          "fr": "Très courant dans les combats et les arcs dramatiques.",
+          "en": "Very common in battles and dramatic arcs."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne la boutique du jeu. Dans un JRPG, c'est souvent un passage obligé pour préparer le prochain donjon ou refaire son stock.",
-        "en": "This word refers to the in-game shop. In a JRPG, it is often a necessary stop to prepare for the next dungeon or restock supplies."
+        "fr": "Ce mot désigne une transformation. Dans un JRPG, elle peut venir d’un pouvoir, d’une malédiction ou d’un événement narratif.",
+        "en": "This word means transformation. In a JRPG, it can come from a power, a curse or a story event."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Auberge", "Ville", "Inventaire"],
-          "en": ["Inn", "Town", "Inventory"]
+          "fr": ["Évolution", "Invocation", "Forme finale"],
+          "en": ["Evolution", "Summon", "Final form"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 20,
@@ -789,81 +867,92 @@
           "en": ["Quest", "Mission board", "Reward"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 21,
+      "existingWordId": "curse",
       "jp": {
-        "term": "エンカウント",
-        "reading": "エンカウント",
-        "romaji": "enkaunto"
+        "term": "呪い",
+        "reading": "のろい",
+        "romaji": "noroi"
       },
       "gloss": {
-        "fr": "Rencontre ennemie",
-        "en": "Enemy encounter"
+        "fr": "Malédiction",
+        "en": "Curse"
       },
       "definition": {
-        "fr": "Moment où un combat se déclenche contre un ennemi ou un groupe d'ennemis.",
-        "en": "Moment when a battle starts against an enemy or a group of enemies."
+        "fr": "Effet néfaste magique qui affaiblit ou bloque un personnage.",
+        "en": "Harmful magical effect that weakens or blocks a character."
       },
       "hints": {
         "hint1": {
-          "fr": "Tu avances d'un pas de trop et le combat démarre.",
-          "en": "You take one step too many and the battle starts."
+          "fr": "Ce n’est pas juste du poison, c’est magique et sale.",
+          "en": "It is not just poison: it is magical and nasty."
         },
         "hint2": {
-          "fr": "Ça peut être visible sur la carte ou totalement aléatoire.",
-          "en": "It can be visible on the map or fully random."
+          "fr": "Il faut parfois un prêtre ou un objet spécial.",
+          "en": "You sometimes need a priest or special item."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne le déclenchement d'un combat. Dans beaucoup de JRPG, il peut être aléatoire, scripté ou visible directement sur la carte.",
-        "en": "This word refers to the moment a battle starts. In many JRPGs, it can be random, scripted or visible directly on the map."
+        "fr": "Ce mot désigne une malédiction. C’est un classique des donjons, boss sombres et objets maudits.",
+        "en": "This word means curse. It is a classic for dungeons, dark bosses and cursed items."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Embuscade", "Début du combat", "Piège de donjon"],
-          "en": ["Ambush", "Battle start", "Dungeon trap"]
+          "fr": ["Poison", "Ombre", "Immunité"],
+          "en": ["Poison", "Shadow", "Immunity"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 22,
+      "existingWordId": "summon",
       "jp": {
-        "term": "インベントリ",
-        "reading": "インベントリ",
-        "romaji": "inbentori"
+        "term": "召喚",
+        "reading": "しょうかん",
+        "romaji": "shokan"
       },
       "gloss": {
-        "fr": "Inventaire",
-        "en": "Inventory"
+        "fr": "Invocation",
+        "en": "Summon"
       },
       "definition": {
-        "fr": "Liste complète des objets, équipements et ressources que tu transportes.",
-        "en": "Complete list of items, equipment and resources you carry."
+        "fr": "Appel d’une créature, d’un esprit ou d’un allié puissant.",
+        "en": "Calling a creature, spirit or powerful ally."
       },
       "hints": {
         "hint1": {
-          "fr": "Tu l'ouvres pour vérifier ce que tu possèdes.",
-          "en": "You open it to check what you own."
+          "fr": "Ça fait souvent apparaître quelque chose de très fort.",
+          "en": "It often makes something very strong appear."
         },
         "hint2": {
-          "fr": "Items, clés, composants : tout peut s'y retrouver.",
-          "en": "Items, keys, crafting parts: everything can end up there."
+          "fr": "Les JRPG adorent les grosses animations pour ça.",
+          "en": "JRPGs love big animations for this."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne l'inventaire du joueur. Dans un JRPG, c'est là que tu retrouves tes objets, tes matériaux et parfois même ton équipement de réserve.",
-        "en": "This word refers to the player's inventory. In a JRPG, that is where you find your items, materials and sometimes spare equipment."
+        "fr": "Ce mot désigne une invocation. Elle peut appeler un monstre allié, un esprit ou une attaque spectaculaire.",
+        "en": "This word means summon. It can call an allied monster, a spirit or a spectacular attack."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Objet", "Menu boutique", "Sac d'équipement"],
-          "en": ["Item", "Shop menu", "Equipment bag"]
+          "fr": ["Sort", "Magie", "Transformation"],
+          "en": ["Spell", "Magic", "Transformation"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 23,
@@ -900,7 +989,10 @@
           "en": ["Shop", "Village", "Save point"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 24,
@@ -937,44 +1029,51 @@
           "en": ["Loot", "Dungeon", "Key item"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 25,
+      "existingWordId": "strategy",
       "jp": {
-        "term": "マップ",
-        "reading": "マップ",
-        "romaji": "mappu"
+        "term": "戦略",
+        "reading": "せんりゃく",
+        "romaji": "senryaku"
       },
       "gloss": {
-        "fr": "Carte",
-        "en": "Map"
+        "fr": "Stratégie",
+        "en": "Strategy"
       },
       "definition": {
-        "fr": "Vue d'ensemble qui t'aide à te repérer dans une zone, un donjon ou le monde.",
-        "en": "Overview that helps you navigate an area, a dungeon or the world."
+        "fr": "Plan d’action pour gagner un combat ou progresser efficacement.",
+        "en": "Action plan used to win a fight or progress efficiently."
       },
       "hints": {
         "hint1": {
-          "fr": "Sans ça, tu risques de tourner en rond.",
-          "en": "Without it, you may end up going in circles."
+          "fr": "Tu en as besoin quand foncer ne suffit plus.",
+          "en": "You need it when rushing in is not enough."
         },
         "hint2": {
-          "fr": "Elle peut être locale, mondiale ou révélée au fur et à mesure.",
-          "en": "It can be local, world-wide or revealed gradually."
+          "fr": "Ça concerne le plan global, pas juste un coup.",
+          "en": "It is about the overall plan, not just one move."
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne la carte du monde, d'une zone ou d'un donjon. Dans les JRPG, elle sert autant à se repérer qu'à préparer la suite de sa progression.",
-        "en": "This word refers to the map of the world, an area or a dungeon. In JRPGs, it helps both with navigation and planning your next steps."
+        "fr": "Ce mot désigne une stratégie. Dans un JRPG, il sert à penser composition d’équipe, ordre d’actions et gestion des ressources.",
+        "en": "This word means strategy. In a JRPG, it covers party setup, action order and resource management."
       },
       "quiz": {
         "distractors": {
-          "fr": ["Donjon", "Royaume", "Zone de quête"],
-          "en": ["Dungeon", "Kingdom", "Quest area"]
+          "fr": ["Tactique", "Soluce", "Compétence"],
+          "en": ["Tactic", "Walkthrough", "Skill"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 26,
@@ -1011,7 +1110,10 @@
           "en": ["Village", "Kingdom", "Castle"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 27,
@@ -1048,7 +1150,10 @@
           "en": ["Town", "Inn", "Starting area"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 28,
@@ -1085,7 +1190,10 @@
           "en": ["Castle", "Town", "Nation"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 29,
@@ -1122,7 +1230,10 @@
           "en": ["Kingdom", "Fortress", "Town"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 30,
@@ -1159,7 +1270,170 @@
           "en": ["Hero", "Party member", "Guild fighter"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 31,
+      "jp": {
+        "term": "フィールド",
+        "reading": "フィールド",
+        "romaji": "fiirudo"
+      },
+      "gloss": {
+        "fr": "Terrain",
+        "en": "Field"
+      },
+      "definition": {
+        "fr": "Zone de déplacement principale entre villes, donjons et objectifs.",
+        "en": "Main traversal area between towns, dungeons and objectives."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu y marches avant d'entrer dans une ville ou un donjon.",
+          "en": "You walk through it before entering a town or dungeon."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas la carte du monde entière, mais l'espace de jeu ouvert.",
+          "en": "It is not the full world map, but the open gameplay area."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le terrain ou la zone de jeu ouverte où l'on se déplace entre les points clés d'un JRPG.",
+        "en": "This word refers to the field or open gameplay area where you move between key JRPG locations."
+      },
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Carte du monde", "Donjon", "Route"],
+          "en": ["World map", "Dungeon", "Route"]
+        }
+      }
+    },
+    {
+      "order": 32,
+      "jp": {
+        "term": "セーブポイント",
+        "reading": "セーブポイント",
+        "romaji": "seebu pointo"
+      },
+      "gloss": {
+        "fr": "Point de sauvegarde",
+        "en": "Save point"
+      },
+      "definition": {
+        "fr": "Emplacement dédié où le joueur peut enregistrer sa progression.",
+        "en": "Dedicated spot where the player can save their progress."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu le cherches souvent juste avant un boss.",
+          "en": "You often look for one right before a boss."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas la commande save, mais l'endroit où elle devient possible.",
+          "en": "It is not the save command itself, but the place where it becomes possible."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le point de sauvegarde fixe que beaucoup de JRPG placent dans les donjons ou les zones dangereuses.",
+        "en": "This word refers to the fixed save point many JRPGs place inside dungeons or dangerous areas."
+      },
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Sauvegarde", "Point de repos", "Auberge"],
+          "en": ["Save", "Rest point", "Inn"]
+        }
+      }
+    },
+    {
+      "order": 33,
+      "jp": {
+        "term": "サブクエスト",
+        "reading": "サブクエスト",
+        "romaji": "sabu kuesuto"
+      },
+      "gloss": {
+        "fr": "Quête secondaire",
+        "en": "Side quest"
+      },
+      "definition": {
+        "fr": "Mission optionnelle en dehors du chemin principal de l'histoire.",
+        "en": "Optional mission outside the main story path."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu peux finir le jeu sans la faire, mais elle rapporte souvent quelque chose.",
+          "en": "You can finish the game without it, but it often gives you something useful."
+        },
+        "hint2": {
+          "fr": "Ce n'est pas la quête principale, mais un détour rentable.",
+          "en": "It is not the main quest, but a rewarding detour."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne une quête secondaire, très fréquente dans les JRPG pour enrichir le monde, gagner des objets ou développer un personnage.",
+        "en": "This word refers to a side quest, very common in JRPGs to enrich the world, earn items or develop a character."
+      },
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Quête principale", "Mission", "Contrat"],
+          "en": ["Main quest", "Mission", "Contract"]
+        }
+      }
+    },
+    {
+      "order": 34,
+      "jp": {
+        "term": "ワールドマップ",
+        "reading": "ワールドマップ",
+        "romaji": "waarudo mappu"
+      },
+      "gloss": {
+        "fr": "Carte du monde",
+        "en": "World map"
+      },
+      "definition": {
+        "fr": "Vue globale du monde qui relie régions, villes, mers et continents.",
+        "en": "Global view of the world linking regions, towns, seas and continents."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Tu y vois enfin l'ensemble de ton aventure, pas seulement une zone locale.",
+          "en": "You see your full adventure space there, not just one local zone."
+        },
+        "hint2": {
+          "fr": "C'est plus vaste qu'une simple map de donjon ou de ville.",
+          "en": "It is broader than a simple dungeon or town map."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne la carte du monde, un repère classique des JRPG qui matérialise l'échelle du voyage et la progression globale.",
+        "en": "This word refers to the world map, a classic JRPG landmark that gives a sense of journey scale and overall progression."
+      },
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Carte de donjon", "Terrain", "Région"],
+          "en": ["Dungeon map", "Field", "Region"]
+        }
+      }
     }
   ]
 }

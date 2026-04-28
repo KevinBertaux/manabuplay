@@ -13,13 +13,16 @@ function getMinProd(pack: (typeof packs)[number]) {
 }
 
 function getReviewLabel(pack: (typeof packs)[number]) {
+  const progress = pack.score?.readiness?.reviewProgress;
+  const progressLabel = progress ? ` · ${progress.reviewedWords}/${progress.totalWords}` : "";
+
   switch (pack.score?.readiness?.reviewStatus) {
     case "validee":
       return "validée";
     case "faite":
-      return "faite";
+      return `faite${progressLabel}`;
     case "partielle":
-      return "partielle";
+      return `partielle${progressLabel}`;
     case "non-relue":
       return "non faite";
     default:
@@ -59,6 +62,10 @@ function getTierBreakdown(pack: (typeof packs)[number]) {
 
 function getTransparentSummary(pack: (typeof packs)[number]) {
   return pack.transparentBreakdown ?? null;
+}
+
+function formatTransparencyScore(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
 ---
 <AdminLayout
@@ -105,10 +112,10 @@ function getTransparentSummary(pack: (typeof packs)[number]) {
         <div class="tool-title">Lecteur de pack</div>
         <p class="tool-copy">Vue continue de toutes les cartes d’un pack, avec hints reveles, bonne reponse affichee et cartes stabilisees apres la passe de regression visuelle.</p>
       </a>
-      <a class="admin-card tool-card" href="/content/catalog">
-        <div class="tool-kicker">Catalogue</div>
-        <div class="tool-title">Mots futurs</div>
-        <p class="tool-copy">Catalogue des mots existants mis de côté et des distracteurs assez solides pour nourrir les packs v0.2+.</p>
+      <a class="admin-card tool-card" href="/content/editorial-reserve">
+        <div class="tool-kicker">Réserve</div>
+        <div class="tool-title">Réserve éditoriale</div>
+        <p class="tool-copy">Stock unique des mots actifs, candidats et archivés pour préparer les remplacements sans créer un second catalogue produit.</p>
       </a>
       <a class="admin-card tool-card" href="/copy/landing">
         <div class="tool-kicker">Copy</div>
@@ -182,9 +189,9 @@ function getTransparentSummary(pack: (typeof packs)[number]) {
                 <span class="pack-strip-value">{getReviewLabel(pack)}</span>
               </div>
               <div class="pack-strip-item">
-                <span class="pack-strip-label">Cadeaux</span>
+                <span class="pack-strip-label">Transparence</span>
                 <span class:list={["pack-strip-value", { "gift-watch": transparent?.tone === "watch", "gift-act": transparent?.tone === "act" }]}>
-                  {transparent ? `${transparent.count} · ${transparent.percent}%` : "n.c."}
+                  {transparent ? `${formatTransparencyScore(transparent.weightedScore)} · ${transparent.weightedPercent}%` : "n.c."}
                 </span>
               </div>
               <div class="pack-strip-item">

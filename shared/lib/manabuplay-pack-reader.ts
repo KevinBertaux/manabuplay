@@ -42,6 +42,9 @@ export type PackReaderWord = {
     fr?: string;
     en?: string;
   };
+  editorialReview?: {
+    status: "reviewed" | "needs-review";
+  };
   quiz?: {
     distractors?: {
       fr?: string[];
@@ -90,11 +93,21 @@ export type PackReaderPack = {
     };
   };
   transparentBreakdown?: {
-    count: number;
-    percent: number;
+    strictCount: number;
+    editorialCount: number;
+    fillerCount: number;
+    weightedScore: number;
+    weightedPercent: number;
     watchThreshold: number;
     actThreshold: number;
     tone: "ok" | "watch" | "act";
+    entries: Array<{
+      id: string;
+      order: number;
+      label: string;
+      level: "strict" | "editorial" | "filler";
+      weight: number;
+    }>;
   };
   score?: {
     readiness?: {
@@ -102,6 +115,10 @@ export type PackReaderPack = {
       minProdScore?: number;
       readyForProd: boolean;
       reviewStatus?: "non-relue" | "partielle" | "faite" | "validee";
+      reviewProgress?: {
+        reviewedWords: number;
+        totalWords: number;
+      };
       releaseStatus?: "dev" | "preprod" | "prod";
       breakdown: {
         packSize: number;
@@ -127,6 +144,7 @@ export type PackReaderPack = {
   };
   quiz?: {
     transparentWordIds?: string[];
+    fillerWordIds?: string[];
   };
   words: PackReaderWord[];
 };
@@ -162,26 +180,91 @@ function buildTierBreakdown(words: PackReaderWord[]) {
   };
 }
 
-function buildTransparentBreakdown(words: PackReaderWord[], transparentWordIds: string[] = []) {
-  const ids = new Set(transparentWordIds);
-  const count = words.filter((word) => {
-    const romaji = typeof word.jp === "string" ? undefined : word.jp?.romaji;
-    const wordId = word.existingWordId || romaji || `word-${word.order}`;
-    return ids.has(wordId);
-  }).length;
+function normalizeTransparencyValue(value?: string) {
+  return (value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+}
+
+function getWordId(word: PackReaderWord) {
+  const romaji = typeof word.jp === "string" ? word.assist : word.jp?.romaji;
+  return word.existingWordId || romaji || `word-${word.order}`;
+}
+
+function getWordRomaji(word: PackReaderWord) {
+  return typeof word.jp === "string" ? word.assist : word.jp?.romaji;
+}
+
+function isStrictTransparent(word: PackReaderWord) {
+  const romaji = normalizeTransparencyValue(getWordRomaji(word));
+  if (!romaji) {
+    return false;
+  }
+
+  const glosses = [word.gloss?.fr || word.meaning?.fr, word.gloss?.en || word.meaning?.en];
+  return glosses.some((gloss) => normalizeTransparencyValue(gloss) === romaji);
+}
+
+function buildTransparentBreakdown(
+  words: PackReaderWord[],
+  transparentWordIds: string[] = [],
+  fillerWordIds: string[] = [],
+) {
+  const editorialIds = new Set(transparentWordIds);
+  const fillerIds = new Set(fillerWordIds);
+  const entries: NonNullable<PackReaderPack["transparentBreakdown"]>["entries"] = [];
+  let strictCount = 0;
+  let editorialCount = 0;
+  let fillerCount = 0;
+  let weightedScore = 0;
+
+  for (const word of words) {
+    const id = getWordId(word);
+    const label = getWordRomaji(word) || word.existingWordId || `mot-${word.order}`;
+    const isFiller = fillerIds.has(id);
+    const isStrict = isStrictTransparent(word);
+    const isEditorial = editorialIds.has(id);
+
+    if (isFiller) {
+      fillerCount += 1;
+      weightedScore += 2;
+      entries.push({ id, order: word.order, label, level: "filler", weight: 2 });
+      continue;
+    }
+
+    if (isStrict) {
+      strictCount += 1;
+      weightedScore += 1;
+      entries.push({ id, order: word.order, label, level: "strict", weight: 1 });
+      continue;
+    }
+
+    if (isEditorial) {
+      editorialCount += 1;
+      weightedScore += 0.5;
+      entries.push({ id, order: word.order, label, level: "editorial", weight: 0.5 });
+    }
+  }
+
   const total = words.length;
-  const percent = total ? Math.round((count / total) * 100) : 0;
+  const weightedPercent = total ? Math.round((weightedScore / total) * 100) : 0;
   const watchThreshold = 10;
-  const actThreshold = 15;
+  const actThreshold = 18;
   const tone: NonNullable<PackReaderPack["transparentBreakdown"]>["tone"] =
-    percent > actThreshold ? "act" : percent > watchThreshold ? "watch" : "ok";
+    weightedPercent > actThreshold ? "act" : weightedPercent > watchThreshold ? "watch" : "ok";
 
   return {
-    count,
-    percent,
+    strictCount,
+    editorialCount,
+    fillerCount,
+    weightedScore,
+    weightedPercent,
     watchThreshold,
     actThreshold,
     tone,
+    entries,
   };
 }
 
@@ -321,7 +404,11 @@ export function getPackById(packId: string) {
   return {
     ...pack,
     tierBreakdown: buildTierBreakdown(words),
-    transparentBreakdown: buildTransparentBreakdown(words, pack.quiz?.transparentWordIds || []),
+    transparentBreakdown: buildTransparentBreakdown(
+      words,
+      pack.quiz?.transparentWordIds || [],
+      pack.quiz?.fillerWordIds || [],
+    ),
     words,
   };
 }

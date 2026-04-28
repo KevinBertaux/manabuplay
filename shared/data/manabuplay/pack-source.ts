@@ -27,6 +27,9 @@ export type CanonicalPackWord = {
     hint2?: LocalizedText;
   };
   explanation?: LocalizedText;
+  editorialReview?: {
+    status: "reviewed" | "needs-review";
+  };
   quiz?: {
     distractors?: Record<Locale, string[]>;
     transparentWordIds?: string[];
@@ -45,6 +48,10 @@ export type CanonicalPackFile = {
       minProdScore?: number;
       readyForProd: boolean;
       reviewStatus?: "non-relue" | "partielle" | "faite" | "validee";
+      reviewProgress?: {
+        reviewedWords: number;
+        totalWords: number;
+      };
       releaseStatus?: "dev" | "preprod" | "prod";
       breakdown: {
         packSize: number;
@@ -70,6 +77,7 @@ export type CanonicalPackFile = {
   };
   quiz?: {
     transparentWordIds?: string[];
+    fillerWordIds?: string[];
   };
   words: CanonicalPackWord[];
 };
@@ -95,11 +103,19 @@ let indexCache: CanonicalPackIndex | null = null;
 let packsCache: CanonicalPackFile[] | null = null;
 let existingWordLookupCache: Map<string, ExistingWordQuizData> | null = null;
 
+function shouldBypassPackCache() {
+  return process.env.NODE_ENV !== "production" || process.env.MANABUPLAY_DISABLE_PACK_CACHE === "1";
+}
+
 function readJson<T>(filePath: string): T {
   return JSON.parse(fs.readFileSync(filePath, "utf8")) as T;
 }
 
 export function getCanonicalPackIndex() {
+  if (shouldBypassPackCache()) {
+    return readJson<CanonicalPackIndex>(path.join(packsRoot, "index.json"));
+  }
+
   if (!indexCache) {
     indexCache = readJson<CanonicalPackIndex>(path.join(packsRoot, "index.json"));
   }
@@ -107,6 +123,12 @@ export function getCanonicalPackIndex() {
 }
 
 export function getCanonicalPackFiles() {
+  if (shouldBypassPackCache()) {
+    return getCanonicalPackIndex().packs.map((pack) =>
+      readJson<CanonicalPackFile>(path.join(packsRoot, path.basename(pack.path))),
+    );
+  }
+
   if (!packsCache) {
     packsCache = getCanonicalPackIndex().packs.map((pack) =>
       readJson<CanonicalPackFile>(path.join(packsRoot, path.basename(pack.path))),
@@ -116,10 +138,19 @@ export function getCanonicalPackFiles() {
 }
 
 export function buildExistingWordQuizLookup() {
+  if (shouldBypassPackCache()) {
+    return buildExistingWordQuizLookupFromPacks();
+  }
+
   if (existingWordLookupCache) {
     return existingWordLookupCache;
   }
 
+  existingWordLookupCache = buildExistingWordQuizLookupFromPacks();
+  return existingWordLookupCache;
+}
+
+function buildExistingWordQuizLookupFromPacks() {
   const lookup = new Map<string, ExistingWordQuizData>();
 
   for (const pack of getCanonicalPackFiles()) {
@@ -147,7 +178,6 @@ export function buildExistingWordQuizLookup() {
     }
   }
 
-  existingWordLookupCache = lookup;
   return lookup;
 }
 

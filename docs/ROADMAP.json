@@ -156,29 +156,41 @@
         {
           "id": "v01-packs-review",
           "title": "Stabiliser le catalogue initial de packs",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "packs",
           "type": "content",
           "children": [
-            { "id": "pack-1", "title": "JRPG essentiels a 94/100 en preprod", "status": "done" },
-            { "id": "pack-2", "title": "Combat & Boss a 93/100 en preprod", "status": "done" },
             {
-              "id": "pack-3",
-              "title": "Classes, armes & equipement a 93/100 en preprod",
+              "id": "pack-1",
+              "title": "JRPG Questline a 96/100, relecture faite 34/34",
               "status": "done"
             },
-            { "id": "pack-4", "title": "Codes d'anime a 92/100 en preprod", "status": "done" },
+            {
+              "id": "pack-2",
+              "title": "Combat & Boss a 96/100, transparence ok, relecture faite 34/34",
+              "status": "done"
+            },
+            {
+              "id": "pack-3",
+              "title": "Builds & Gear a 96/100, transparence ok, relecture faite 34/34",
+              "status": "done"
+            },
+            {
+              "id": "pack-4",
+              "title": "Anime Codes a 96/100, transparence ok, relecture faite 34/34",
+              "status": "done"
+            },
             {
               "id": "pack-5",
-              "title": "Refondre pack 5 en vrai pack vocab-first et le realigner ensuite sur le ratio cible",
-              "status": "todo"
+              "title": "Gacha & Rewards a 96/100, transparence ok, relecture faite 34/34",
+              "status": "done"
             }
           ]
         },
         {
           "id": "v01-transparent-signals",
-          "title": "Ajouter les signaux de review pack et le suivi des mots cadeaux",
+          "title": "Ajouter les signaux de review pack et le suivi de transparence pondérée",
           "status": "done",
           "priority": "P1",
           "area": "packs",
@@ -430,11 +442,11 @@
         {
           "id": "v01-tier-ratios",
           "title": "Appliquer le ratio cible Daily / Libre aux packs initiaux",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "packs",
           "type": "content",
-          "notes": "Le cadrage est fait : pack 30 mots = 10 / 8 / 7 / 5, pack 34 mots = 12 / 9 / 8 / 5.",
+          "notes": "Le cadrage est fait et applique : les packs actifs v0.1 sont a 34 mots, ratio 12 / 9 / 8 / 5.",
           "children": [
             {
               "id": "tier-ratios-cadrage",
@@ -444,12 +456,12 @@
             {
               "id": "tier-ratios-pack-1-4",
               "title": "Passer les packs 1 a 4 a 34 mots selon le ratio cible",
-              "status": "todo"
+              "status": "done"
             },
             {
               "id": "tier-ratios-pack-5",
               "title": "Realigner le pack 5 sur le ratio cible apres refonte",
-              "status": "todo"
+              "status": "done"
             }
           ]
         },
@@ -525,7 +537,6 @@
           "area": "packs",
           "type": "content",
           "children": [
-            { "id": "gacha-live-service", "title": "Pack Gacha & Live Service", "status": "todo" },
             {
               "id": "arcade-secrets-meta",
               "title": "Pack Arcade, secrets & meta",

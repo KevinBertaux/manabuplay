@@ -121,18 +121,18 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
   {
     id: "pack-5",
     rank: 6,
-    title: { fr: "Refaire le pack 5", en: "Rewrite pack 5" },
+    title: { fr: "Stabiliser Gacha & Rewards", en: "Stabilize Gacha & Rewards" },
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 6,
-    progress: 12,
+    progress: 100,
     whyNow: {
-      fr: "Le pack 5 existe, mais il n'est pas publiable : trop de mots cadeaux et ligne éditoriale trop hors produit.",
-      en: "Pack 5 exists, but is not publishable: too many giveaways and an editorial line too far from the product.",
+      fr: "Le pack 5 est refondu en Gacha & Rewards : 34 mots, ratio cible, transparence sous seuil et relecture faite.",
+      en: "Pack 5 has been rebuilt as Gacha & Rewards: 34 words, target ratio, transparency under threshold and review complete.",
     },
     note: {
-      fr: "Refonte vocab-first, puis réalignement sur le ratio cible.",
-      en: "Vocab-first rewrite, then realign with the target ratio.",
+      fr: "Score actuel : 96/100, transparence 9%, relecture faite 34/34.",
+      en: "Current score: 96/100, 9% transparency, review complete 34/34.",
     },
   },
   {
@@ -142,14 +142,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 7,
-    progress: 0,
+    progress: 100,
     whyNow: {
-      fr: "Le ratio cible est validé, mais pas encore appliqué aux packs initiaux.",
-      en: "The target ratio is validated, but not yet applied to the initial packs.",
+      fr: "Le ratio cible est maintenant appliqué aux 5 packs initiaux : 34 mots chacun, avec la même structure Daily / Libre.",
+      en: "The target ratio is now applied to all 5 initial packs: 34 words each, with the same Daily / Practice structure.",
     },
     note: {
-      fr: "Packs 1 à 4 : +2 T1, +1 T2, +1 T3, +0 T4. Pack 5 après refonte.",
-      en: "Packs 1 to 4: +2 T1, +1 T2, +1 T3, +0 T4. Pack 5 after rewrite.",
+      fr: "État v0.1 : 5 packs actifs, 170 mots, ratio 12 / 9 / 8 / 5, relecture faite et transparence sous seuil.",
+      en: "v0.1 state: 5 active packs, 170 words, 12 / 9 / 8 / 5 ratio, review complete and transparency under threshold.",
     },
   },
   {
@@ -444,27 +444,27 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "content-readiness",
     order: 5,
-    progress: 4,
+    progress: 100,
     title: { fr: "Rendre le contenu v0.1 publiable", en: "Make v0.1 content publishable" },
     goal: {
-      fr: "Avoir assez de contenu propre pour soutenir Daily, Libre et Archives.",
-      en: "Have enough clean content to support Daily, Practice, and Archives.",
+      fr: "Conserver la trace de la stabilisation éditoriale des 5 packs actifs.",
+      en: "Keep a record of the editorial stabilization of the 5 active packs.",
     },
     guardrail: {
-      fr: "Ne pas gonfler les packs avec des mots cadeaux juste pour atteindre un chiffre.",
-      en: "Do not pad packs with giveaway words just to hit a number.",
+      fr: "Ne pas gonfler les packs avec du filler juste pour atteindre un chiffre.",
+      en: "Do not pad packs with filler just to hit a number.",
     },
     risk: {
-      fr: "Moyen : qualité éditoriale plus lente que code.",
-      en: "Medium: editorial quality is slower than code.",
+      fr: "Faible sur v0.1 : le risque restant est surtout de ne pas maintenir les docs et surfaces admin à jour.",
+      en: "Low for v0.1: the remaining risk is mostly failing to keep docs and admin surfaces updated.",
     },
     files: [
       {
         path: "shared/data/manabuplay/packs/v0.1/*.json",
         action: "update",
         note: {
-          fr: "Packs 1 à 4 vers 34 mots, pack 5 refondu.",
-          en: "Packs 1 to 4 to 34 words, pack 5 rewritten.",
+          fr: "5 packs actifs à 34 mots, relus 34/34, scorés et sous le seuil de transparence.",
+          en: "5 active packs at 34 words, reviewed 34/34, scored and under the transparency threshold.",
         },
       },
       {

@@ -15,8 +15,15 @@ describe("catalog", () => {
   it("exposes the frozen release, pack, and difficulty metadata", () => {
     expect(RELEASES).toHaveLength(1);
     expect(PACKS).toHaveLength(5);
+    expect(PACKS.map((pack) => pack.id)).toEqual([
+      "jrpg-questline",
+      "combat-and-boss",
+      "builds-and-gear",
+      "anime-codes",
+      "gacha-and-rewards",
+    ]);
     expect(DIFFICULTIES.length).toBeGreaterThan(0);
-    expect(MANABU_CATALOG.defaultPackId).toBe("jrpg-essentials");
+    expect(MANABU_CATALOG.defaultPackId).toBe("jrpg-questline");
   });
 
   it("creates unique word ids and mirrored pack entries", () => {
@@ -24,11 +31,11 @@ describe("catalog", () => {
 
     expect(ids.size).toBe(WORDS.length);
     expect(PACK_ENTRIES).toHaveLength(WORDS.length);
-    expect(WORDS).toHaveLength(150);
+    expect(WORDS).toHaveLength(170);
 
     for (const pack of PACKS) {
       const entries = PACK_ENTRIES.filter((entry) => entry.packId === pack.id);
-      expect(entries).toHaveLength(30);
+      expect(entries).toHaveLength(34);
       expect(entries.every((entry, index) => entry.order === index + 1)).toBe(true);
     }
   });
@@ -45,11 +52,18 @@ describe("catalog", () => {
     expect(quizData[0]).toHaveProperty("wrong");
   });
 
-  it("builds pack-level quiz data for a specific canonical pack", () => {
-    const quizData = buildCatalogPackQuizData("jrpg-essentials");
+  it("provides three localized distractors for every runtime quiz entry", () => {
+    const quizData = buildCatalogQuizData();
 
-    expect(quizData).toHaveLength(30);
-    expect(quizData.every((entry) => entry.id.startsWith("jrpg-essentials:"))).toBe(true);
+    expect(quizData.every((entry) => entry.wrong.fr.length === 3)).toBe(true);
+    expect(quizData.every((entry) => entry.wrong.en.length === 3)).toBe(true);
+  });
+
+  it("builds pack-level quiz data for a specific canonical pack", () => {
+    const quizData = buildCatalogPackQuizData("jrpg-questline");
+
+    expect(quizData).toHaveLength(34);
+    expect(quizData.every((entry) => entry.id.startsWith("jrpg-questline:"))).toBe(true);
   });
 
   it("returns an empty quiz list for an unknown pack", () => {
@@ -74,12 +88,12 @@ describe("catalog", () => {
   it("builds the catalog boot payload from the catalog", () => {
     const payload = buildCatalogBootData();
 
-    expect(payload.catalog.defaultPackId).toBe("jrpg-essentials");
+    expect(payload.catalog.defaultPackId).toBe("jrpg-questline");
     expect(payload.quizData).toHaveLength(WORDS.length);
     expect(payload.difficulties).toEqual(DIFFICULTIES);
     expect(payload.lang).toHaveProperty("en");
     expect(payload.lang).toHaveProperty("fr");
-    expect(payload.lang.en.stat_words).toBe("150 WORDS");
-    expect(payload.lang.fr.stat_words).toBe("150 MOTS");
+    expect(payload.lang.en.stat_words).toBe("170 WORDS");
+    expect(payload.lang.fr.stat_words).toBe("170 MOTS");
   });
 });

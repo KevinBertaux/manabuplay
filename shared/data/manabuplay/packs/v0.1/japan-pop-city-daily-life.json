@@ -2,11 +2,11 @@
   "id": "japan-pop-city-daily-life",
   "slug": "japan-pop-city-daily-life",
   "themeId": "japan-living",
-  "status": "content-draft",
+  "status": "archived-draft",
   "targetWordCount": 30,
   "notes": [
-    "Cinquième pack enrichi pour validation éditoriale.",
-    "Répartition des tiers : 10 mots tier 1, 8 mots tier 2, 7 mots tier 3, 5 mots tier 4."
+    "Ancien pack 5 v0.1 retiré du flux actif au profit d'un pack gaming-first plus cohérent avec la promesse produit.",
+    "Les mots sont conservés ici comme réserve éditoriale pour de futurs packs thématiques plus cohérents."
   ],
   "locales": {
     "fr": {
@@ -20,7 +20,7 @@
   },
   "score": {
     "readiness": {
-      "value": 74,
+      "value": 85,
       "minProdScore": 90,
       "readyForProd": false,
       "reviewStatus": "non-relue",
@@ -29,8 +29,8 @@
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
-        "quizQuality": 2,
-        "editorialReview": 2
+        "quizQuality": 15,
+        "editorialReview": 0
       }
     },
     "depth": {
@@ -38,22 +38,7 @@
     }
   },
   "quiz": {
-    "transparentWordIds": [
-      "ramen",
-      "sushi",
-      "onigiri",
-      "matcha",
-      "shinkansen",
-      "Tokyo",
-      "Shibuya",
-      "Akihabara",
-      "onsen",
-      "yukata",
-      "izakaya",
-      "takoyaki",
-      "taiyaki",
-      "kimono"
-    ]
+    "transparentWordIds": []
   },
   "words": [
     {

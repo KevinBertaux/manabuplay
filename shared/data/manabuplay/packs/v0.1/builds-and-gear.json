@@ -1,36 +1,44 @@
 {
-  "id": "classes-weapons-equipment",
-  "slug": "classes-weapons-equipment",
+  "id": "builds-and-gear",
+  "slug": "builds-and-gear",
   "themeId": "gaming",
   "status": "content-draft",
-  "targetWordCount": 30,
+  "targetWordCount": 34,
   "notes": [
     "Troisième pack enrichi pour validation éditoriale.",
-    "Répartition des tiers : 10 mots tier 1, 8 mots tier 2, 7 mots tier 3, 5 mots tier 4."
+    "Relecture faite : les 34 mots sont relus côté contenu, le go final reste manuel avant prod.",
+    "Transparence recalculée : 2.5 pts, 7%, sous le seuil de surveillance de 10%.",
+    "Remplacement des 4 ajouts récents trop transparents par des mots de tiers équivalents validés.",
+    "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4.",
+    "Score readiness maintenu à 96 : contenu complet, quiz relu, prod gate toujours bloqué sans validation finale."
   ],
   "locales": {
     "fr": {
-      "name": "Classes, armes & équipement",
+      "name": "Builds & Gear",
       "description": "Les classes RPG, les armes connues et l'équipement de base des jeux japonais."
     },
     "en": {
-      "name": "Classes, Weapons & Equipment",
+      "name": "Builds & Gear",
       "description": "RPG classes, familiar weapons and basic gear from Japanese games."
     }
   },
   "score": {
     "readiness": {
-      "value": 93,
+      "value": 96,
       "minProdScore": 90,
-      "readyForProd": true,
+      "readyForProd": false,
       "reviewStatus": "faite",
+      "reviewProgress": {
+        "reviewedWords": 34,
+        "totalWords": 34
+      },
       "releaseStatus": "preprod",
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
         "quizQuality": 13,
-        "editorialReview": 10
+        "editorialReview": 13
       }
     },
     "depth": {
@@ -38,7 +46,7 @@
     }
   },
   "quiz": {
-    "transparentWordIds": ["katana"]
+    "transparentWordIds": ["amyuretto", "monku", "rōbu"]
   },
   "words": [
     {
@@ -77,7 +85,10 @@
           "en": ["Warrior", "Knight", "Champion"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 2,
@@ -115,7 +126,10 @@
           "en": ["Priest", "Sage", "Sorcerer"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 3,
@@ -153,7 +167,10 @@
           "en": ["Archer", "Assassin", "Monk"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 4,
@@ -191,7 +208,10 @@
           "en": ["Weapon", "Armor", "Accessory"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 5,
@@ -229,7 +249,10 @@
           "en": ["Equipment", "Repair", "Awakening"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 6,
@@ -267,7 +290,10 @@
           "en": ["Katana", "Spear", "Dagger"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 7,
@@ -305,7 +331,10 @@
           "en": ["Armor", "Helmet", "Gauntlet"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 8,
@@ -343,7 +372,10 @@
           "en": ["Shield", "Resistance", "Guard"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 9,
@@ -381,7 +413,10 @@
           "en": ["Sword", "Sacred relic", "Ancient weapon"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 10,
@@ -419,7 +454,10 @@
           "en": ["Fate", "Accuracy", "Critical rate"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 11,
@@ -456,7 +494,10 @@
           "en": ["Hero", "Knight", "Monk"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 12,
@@ -493,7 +534,10 @@
           "en": ["Thief", "Lancer", "Ranger"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 13,
@@ -530,7 +574,10 @@
           "en": ["Mage", "Sage", "Healer"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 14,
@@ -567,7 +614,10 @@
           "en": ["Warrior", "Paladin", "Guardian"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 15,
@@ -604,7 +654,10 @@
           "en": ["Bow", "Wand", "Amulet"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 16,
@@ -641,7 +694,10 @@
           "en": ["Staff", "Spear", "Crossbow"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 17,
@@ -678,7 +734,10 @@
           "en": ["Shield", "Helmet", "Equipment"]
         }
       },
-      "difficultyTier": 1
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 18,
@@ -715,7 +774,10 @@
           "en": ["Armor", "Gauntlet", "Shield"]
         }
       },
-      "difficultyTier": 2
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 19,
@@ -752,7 +814,10 @@
           "en": ["Sword", "Katana", "Knife"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 20,
@@ -789,7 +854,10 @@
           "en": ["Hammer", "Spear", "Mace"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 21,
@@ -826,7 +894,10 @@
           "en": ["Sword", "Dagger", "Spear"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 22,
@@ -863,7 +934,10 @@
           "en": ["Axe", "Bow", "Halberd"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 23,
@@ -900,7 +974,10 @@
           "en": ["Equipment", "Armor", "Sword"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 24,
@@ -937,7 +1014,10 @@
           "en": ["Equipment", "Armor", "Shield"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 25,
@@ -974,7 +1054,10 @@
           "en": ["Amulet", "Accessory", "Helmet"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 26,
@@ -1011,7 +1094,10 @@
           "en": ["Ring", "Relic", "Talisman"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 27,
@@ -1048,7 +1134,10 @@
           "en": ["Mage", "Priest", "Scholar"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 28,
@@ -1085,7 +1174,10 @@
           "en": ["Warrior", "Priest", "Thief"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 29,
@@ -1122,7 +1214,10 @@
           "en": ["Armor", "Amulet", "Staff"]
         }
       },
-      "difficultyTier": 3
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     },
     {
       "order": 30,
@@ -1159,7 +1254,170 @@
           "en": ["Helmet", "Shield", "Armor"]
         }
       },
-      "difficultyTier": 4
+      "difficultyTier": 4,
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 31,
+      "jp": {
+        "term": "手袋",
+        "reading": "てぶくろ",
+        "romaji": "tebukuro"
+      },
+      "gloss": {
+        "fr": "Gants",
+        "en": "Gloves"
+      },
+      "definition": {
+        "fr": "Pièce d’équipement portée aux mains pour protéger, améliorer la prise ou compléter un set.",
+        "en": "Gear worn on the hands to protect, improve grip or complete a set."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ça se porte sur les mains, pas sur les bras.",
+          "en": "You wear these on the hands, not on the arms."
+        },
+        "hint2": {
+          "fr": "Dans un build, ça peut donner défense, précision ou bonus élémentaire.",
+          "en": "In a build, they can give defense, accuracy or an elemental bonus."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne des gants. Dans un RPG, c’est une pièce d’équipement lisible pour compléter une armure ou affiner un build.",
+        "en": "This word refers to gloves. In an RPG, it is a readable gear slot used to complete armor or tune a build."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Bottes", "Armure", "Gantelet"],
+          "en": ["Boots", "Armor", "Gauntlet"]
+        }
+      },
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 32,
+      "jp": {
+        "term": "靴",
+        "reading": "くつ",
+        "romaji": "kutsu"
+      },
+      "gloss": {
+        "fr": "Bottes",
+        "en": "Boots"
+      },
+      "definition": {
+        "fr": "Équipement porté aux pieds, souvent lié à la mobilité, la défense ou l’esquive.",
+        "en": "Gear worn on the feet, often tied to mobility, defense or evasion."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce slot touche souvent la vitesse ou le déplacement.",
+          "en": "This slot often affects speed or movement."
+        },
+        "hint2": {
+          "fr": "On ne les équipe pas sur les mains ni sur la tête.",
+          "en": "You do not equip them on the hands or head."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne les chaussures ou bottes. Dans un RPG, elles servent souvent à donner des bonus de mobilité ou de défense légère.",
+        "en": "This word refers to shoes or boots. In an RPG, they often provide mobility or light defense bonuses."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Gants", "Casque", "Armure"],
+          "en": ["Gloves", "Helmet", "Armor"]
+        }
+      },
+      "difficultyTier": 1,
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 33,
+      "jp": {
+        "term": "盾役",
+        "reading": "たてやく",
+        "romaji": "tateyaku"
+      },
+      "gloss": {
+        "fr": "Rôle de tank",
+        "en": "Tank role"
+      },
+      "definition": {
+        "fr": "Rôle de personnage chargé d’encaisser les coups et de protéger le groupe.",
+        "en": "Character role responsible for absorbing hits and protecting the party."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Ce personnage prend les coups pour les autres.",
+          "en": "This character takes hits for the others."
+        },
+        "hint2": {
+          "fr": "Ce n’est pas une classe précise, mais une fonction dans l’équipe.",
+          "en": "It is not one exact class, but a function inside the party."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le rôle de tank, celui qui tient la ligne et protège le groupe. Il est central pour parler de composition d’équipe.",
+        "en": "This word refers to the tank role, the one holding the line and protecting the party. It is central when discussing party composition."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Chevalier", "Défense", "Soigneur"],
+          "en": ["Knight", "Defense", "Healer"]
+        }
+      },
+      "difficultyTier": 2,
+      "editorialReview": {
+        "status": "reviewed"
+      }
+    },
+    {
+      "order": 34,
+      "jp": {
+        "term": "二刀流",
+        "reading": "にとうりゅう",
+        "romaji": "nitōryū"
+      },
+      "gloss": {
+        "fr": "Double arme",
+        "en": "Dual wield"
+      },
+      "definition": {
+        "fr": "Style de combat où un personnage utilise deux armes à la fois.",
+        "en": "Fighting style where a character uses two weapons at once."
+      },
+      "hints": {
+        "hint1": {
+          "fr": "Le build sacrifie souvent le bouclier pour attaquer plus vite.",
+          "en": "The build often gives up the shield to attack faster."
+        },
+        "hint2": {
+          "fr": "Ce n’est pas une arme précise, mais une façon d’équiper deux armes.",
+          "en": "It is not one specific weapon, but a way to equip two weapons."
+        }
+      },
+      "explanation": {
+        "fr": "Ce mot désigne le combat à deux armes. Dans les RPG, il sert souvent à construire un personnage offensif, rapide ou technique.",
+        "en": "This word refers to dual wielding. In RPGs, it often supports an offensive, fast or technical character build."
+      },
+      "quiz": {
+        "distractors": {
+          "fr": ["Épée sacrée", "Dague", "Technique à l’épée"],
+          "en": ["Holy sword", "Dagger", "Sword technique"]
+        }
+      },
+      "difficultyTier": 3,
+      "editorialReview": {
+        "status": "reviewed"
+      }
     }
   ]
 }

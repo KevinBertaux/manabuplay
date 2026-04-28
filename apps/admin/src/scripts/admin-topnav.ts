@@ -31,7 +31,9 @@ function emitAdminLangChange(lang: "fr" | "en") {
 }
 
 function resolvePublicUrl() {
-  return `${window.location.protocol}//${window.location.hostname}:4321/`;
+  const publicPort = window.location.port === "4175" ? "4176" : "4321";
+
+  return `${window.location.protocol}//${window.location.hostname}:${publicPort}/`;
 }
 
 function initAdminTopNav() {

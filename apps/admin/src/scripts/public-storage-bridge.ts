@@ -1,6 +1,8 @@
 const ADMIN_SOURCE = "manabu-admin-dashboard";
 const BRIDGE_SOURCE = "manabu-web-storage-bridge";
 const PUBLIC_PORT = "4321";
+const TEST_ADMIN_PORT = "4175";
+const TEST_PUBLIC_PORT = "4176";
 const BRIDGE_PATH = "/internal/storage-bridge/";
 const REQUEST_TIMEOUT_MS = 4000;
 
@@ -43,7 +45,9 @@ function getOriginCandidates(port: string): string[] {
 }
 
 function getPublicOriginCandidates(): string[] {
-  return getOriginCandidates(PUBLIC_PORT);
+  const port = window.location.port === TEST_ADMIN_PORT ? TEST_PUBLIC_PORT : PUBLIC_PORT;
+
+  return getOriginCandidates(port);
 }
 
 function getPublicOrigin(): string {
