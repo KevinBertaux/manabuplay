@@ -184,7 +184,7 @@ Ce qui donne comme répartitions de pack de référence :
 
 Taille de référence actuelle :
 
-- `30 mots`
+- `34 mots`
 
 Cadre plus général :
 

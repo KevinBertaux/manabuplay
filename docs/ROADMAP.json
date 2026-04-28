@@ -446,7 +446,7 @@
           "priority": "P1",
           "area": "packs",
           "type": "content",
-          "notes": "Le cadrage est fait : pack 30 mots = 10 / 8 / 7 / 5, pack 34 mots = 12 / 9 / 8 / 5.",
+          "notes": "Le cadrage est fait et applique : les packs actifs v0.1 sont a 34 mots, ratio 12 / 9 / 8 / 5.",
           "children": [
             {
               "id": "tier-ratios-cadrage",

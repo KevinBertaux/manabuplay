@@ -1,10 +1,10 @@
 {
   "version": "v0.1",
-  "status": "candidate",
+  "status": "content-ready",
   "notes": [
     "Catalogue éditorial canonique des 5 packs actifs de la v0.1.",
-    "Chaque pack actif de la v0.1 vise maintenant 34 mots enrichis.",
-    "Le cinquième pack actif a été refondu vers une ligne gaming-first plus cohérente avec la promesse produit."
+    "Chaque pack actif de la v0.1 contient 34 mots enrichis.",
+    "Les 5 packs actifs sont relus 34/34, scorés à 96/100 et sous le seuil de transparence."
   ],
   "packCount": 5,
   "targetWordsPerPack": 34,

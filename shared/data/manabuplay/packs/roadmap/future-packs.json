@@ -651,33 +651,6 @@
   "packs": [
     {
       "targetVersion": "v0.2",
-      "id": "gacha-and-rewards",
-      "slug": "gacha-and-rewards",
-      "themeId": "gaming",
-      "locales": {
-        "fr": {
-          "name": "Gacha & Rewards"
-        },
-        "en": {
-          "name": "Gacha & Rewards"
-        }
-      },
-      "candidateWordIds": ["free-to-play", "gacha", "reward"],
-      "plannedWords": [
-        "課金",
-        "天井",
-        "ピックアップ",
-        "限定",
-        "配布",
-        "イベント",
-        "ログインボーナス",
-        "スタミナ",
-        "石",
-        "ガチャ券"
-      ]
-    },
-    {
-      "targetVersion": "v0.2",
       "id": "arcade-secrets-and-meta",
       "slug": "arcade-secrets-and-meta",
       "themeId": "gaming",

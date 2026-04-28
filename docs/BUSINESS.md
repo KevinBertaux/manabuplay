@@ -132,7 +132,7 @@ Free :
 - Quotidien complet
 - Libre complet en 4 difficultés
 - Archives récentes
-- 150 mots accessibles en `v0.1`
+- 170 mots accessibles en `v0.1`
 - 5 packs accessibles
 - 2 thèmes de packs gratuits à terme
 
@@ -163,7 +163,7 @@ Free doit rester un vrai produit :
 - `Libre`
 - `Archives récentes`
 - `5 packs`
-- `150 mots`
+- `170 mots`
 
 Premium doit vendre la profondeur :
 

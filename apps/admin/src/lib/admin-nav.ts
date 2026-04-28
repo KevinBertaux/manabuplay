@@ -27,14 +27,7 @@ export type AdminNavGroup = {
   items: AdminNavLink[];
 };
 
-export const ADMIN_PRIMARY_ITEMS: AdminNavLink[] = [
-  { key: "hub", href: "/", label: "Accueil" },
-  { key: "backlog", href: "/pilotage/backlog", label: "Backlog" },
-  { key: "architecture", href: "/pilotage/architecture", label: "Architecture" },
-  { key: "business", href: "/pilotage/business", label: "Business" },
-  { key: "wording", href: "/copy/landing", label: "Wording" },
-  { key: "guide", href: "/guide", label: "Guide" },
-];
+export const ADMIN_PRIMARY_ITEMS: AdminNavLink[] = [{ key: "hub", href: "/", label: "Accueil" }];
 
 export const ADMIN_GROUPS: AdminNavGroup[] = [
   {
@@ -43,6 +36,17 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
     items: [
       { key: "packs", href: "/content/packs/", label: "Packs" },
       { key: "reserve", href: "/content/editorial-reserve", label: "Réserve" },
+    ],
+  },
+  {
+    label: "Pilotage",
+    keys: ["backlog", "architecture", "business", "wording", "guide"],
+    items: [
+      { key: "backlog", href: "/pilotage/backlog", label: "Backlog" },
+      { key: "architecture", href: "/pilotage/architecture", label: "Architecture" },
+      { key: "business", href: "/pilotage/business", label: "Business" },
+      { key: "wording", href: "/copy/landing", label: "Wording" },
+      { key: "guide", href: "/guide", label: "Guide" },
     ],
   },
   {
