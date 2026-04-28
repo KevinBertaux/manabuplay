@@ -357,6 +357,13 @@ function renderExplanation(text: string, reveal = false) {
   if (reveal) animateReveal(explanationBox);
 }
 
+function resetExplanation() {
+  const explanationBox = document.getElementById("explanationBox");
+  const explanationContent = document.getElementById("explanationContent");
+  if (explanationBox instanceof HTMLElement) hideElement(explanationBox, "grid");
+  if (explanationContent instanceof HTMLElement) explanationContent.textContent = "";
+}
+
 function revealHint(forceAll = false) {
   const question = state.questions[state.currentIndex];
   if (!question) return;
@@ -447,7 +454,7 @@ function renderQuestion() {
     hint2Content.textContent = secondaryHint;
     hint2Content.classList.remove("hint-revealed");
   }
-  renderExplanation(getLocalizedField(question.explanation), false);
+  resetExplanation();
 
   const answersGrid = getRequiredElement<HTMLElement>("answersGrid");
   answersGrid.innerHTML = "";
@@ -612,6 +619,12 @@ function launchQuiz() {
   showElement(getRequiredElement<HTMLElement>("quizArea"), "block");
   hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   renderQuestion();
+  requestAnimationFrame(() => {
+    getRequiredElement<HTMLElement>("quizArea").scrollIntoView({
+      block: "start",
+      behavior: "smooth",
+    });
+  });
 }
 
 function goToDiffPicker() {

@@ -19,6 +19,10 @@
   backdrop-filter: blur(16px);
 }
 
+.quiz-shell [hidden] {
+  display: none !important;
+}
+
 .quiz-progress-track {
   background: rgba(139, 92, 246, 0.15);
 }

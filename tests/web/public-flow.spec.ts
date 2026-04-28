@@ -28,12 +28,20 @@ test.describe("public flow", () => {
     await expect(page.locator("#quizArea")).toBeVisible();
     await expect(page.locator("#progressRow")).toBeVisible();
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
+    await expect(page.locator("#hintBtn")).toBeVisible();
+    await expect(page.locator("#hintText")).toBeHidden();
+    await expect(page.locator("#hintTextSecondary")).toBeHidden();
+    await expect(page.locator("#explanationBox")).toBeHidden();
+    await expect(page.locator("#feedback")).toBeHidden();
+    await expect(page.locator("#nextBtn")).toHaveClass(/opacity-0/);
 
     await page.locator("#hintBtn").click();
     await expect(page.locator("#hintText")).toBeVisible();
+    await expect(page.locator("#explanationBox")).toBeHidden();
 
     await page.locator("#answersGrid .answer-btn").first().click();
     await expect(page.locator("#feedback")).toBeVisible();
+    await expect(page.locator("#explanationBox")).toBeVisible();
     await expect(page.locator("#nextBtn")).not.toHaveClass(/opacity-0/);
     await expect(page.locator("#answersGrid .answer-btn.correct")).toHaveCount(1);
   });
