@@ -8,22 +8,30 @@ import {
 
 describe("admin nav", () => {
   it("exposes the primary admin routes", () => {
-    expect(ADMIN_PRIMARY_ITEMS.map((item) => item.label)).toEqual([
-      "Accueil",
+    expect(ADMIN_PRIMARY_ITEMS.map((item) => item.label)).toEqual(["Accueil"]);
+    expect(ADMIN_PRIMARY_ITEMS.find((item) => item.key === "hub")?.href).toBe("/");
+  });
+
+  it("keeps pilotage routes under the pilotage drawer", () => {
+    const pilotageGroup = ADMIN_GROUPS.find((group) => group.label === "Pilotage");
+
+    expect(pilotageGroup).toBeDefined();
+    expect(pilotageGroup?.items.map((item) => item.label)).toEqual([
       "Backlog",
       "Architecture",
       "Business",
       "Wording",
       "Guide",
     ]);
-    expect(ADMIN_PRIMARY_ITEMS.find((item) => item.key === "architecture")?.href).toBe(
+    expect(pilotageGroup?.items.find((item) => item.key === "architecture")?.href).toBe(
       "/pilotage/architecture",
     );
   });
 
-  it("marks active primary items without affecting siblings", () => {
-    const architecture = ADMIN_PRIMARY_ITEMS.find((item) => item.key === "architecture");
-    const backlog = ADMIN_PRIMARY_ITEMS.find((item) => item.key === "backlog");
+  it("marks active drawer items without affecting siblings", () => {
+    const pilotageGroup = ADMIN_GROUPS.find((group) => group.label === "Pilotage");
+    const architecture = pilotageGroup?.items.find((item) => item.key === "architecture");
+    const backlog = pilotageGroup?.items.find((item) => item.key === "backlog");
 
     expect(architecture).toBeDefined();
     expect(backlog).toBeDefined();
