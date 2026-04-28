@@ -9,7 +9,7 @@
     "Transparence recalculée : 3 pts, 9%, sous le seuil de surveillance de 10%.",
     "Remplacement de 4 emprunts trop transparents par des mots de tiers équivalents : shusseki, ishō, kadai, mikata.",
     "muryou est conservé mais retiré de la transparence éditoriale : ce n’est pas un emprunt évident en romaji.",
-    "Distracteurs explicites ajoutés sur les 34 mots. Relecture partielle : mots 1 à 20 validés.",
+    "Distracteurs explicites ajoutés sur les 34 mots. Relecture faite : les 34 mots sont validés.",
     "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4."
   ],
   "locales": {
@@ -24,20 +24,20 @@
   },
   "score": {
     "readiness": {
-      "value": 92,
+      "value": 96,
       "minProdScore": 90,
       "readyForProd": false,
-      "reviewStatus": "partielle",
+      "reviewStatus": "faite",
       "releaseStatus": "preprod",
       "breakdown": {
         "packSize": 15,
         "tierFit": 15,
         "contentCompleteness": 40,
         "quizQuality": 13,
-        "editorialReview": 9
+        "editorialReview": 13
       },
       "reviewProgress": {
-        "reviewedWords": 20,
+        "reviewedWords": 34,
         "totalWords": 34
       }
     },
@@ -442,8 +442,8 @@
       "difficultyTier": 1,
       "quiz": {
         "distractors": {
-          "fr": ["Plus haute rareté", "Unité meta indispensable", "Matériaux"],
-          "en": ["Top rarity", "Must-have meta unit", "Materials"]
+          "fr": ["Plus haute rareté", "Unité indispensable", "Matériaux"],
+          "en": ["Top rarity", "Must-have unit", "Materials"]
         }
       },
       "editorialReview": {
@@ -888,7 +888,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -899,12 +899,12 @@
         "romaji": "shuukai"
       },
       "gloss": {
-        "fr": "Farm",
+        "fr": "Farmer",
         "en": "Farming runs"
       },
       "definition": {
-        "fr": "Répétition de la même activité pour obtenir des ressources ou optimiser un événement.",
-        "en": "Repeating the same activity to get resources or optimize an event."
+        "fr": "Répéter la même quête, map ou activité pour accumuler ressources, points ou récompenses.",
+        "en": "Repeating the same quest, map or activity to gather resources, points or rewards."
       },
       "hints": {
         "hint1": {
@@ -917,8 +917,8 @@
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne le farm répétitif, boucle centrale de progression mais aussi grande source d'usure joueur.",
-        "en": "This word refers to repetitive farming, a central progression loop but also a major source of player fatigue."
+        "fr": "Ce mot désigne le fait de farmer en répétant une même activité, boucle centrale de progression mais aussi grande source d'usure joueur.",
+        "en": "This word refers to farming through repeated runs, a central progression loop but also a major source of player fatigue."
       },
       "difficultyTier": 3,
       "quiz": {
@@ -928,7 +928,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -963,12 +963,12 @@
       "difficultyTier": 3,
       "quiz": {
         "distractors": {
-          "fr": ["Limit break", "Matériaux", "Composition d’équipe"],
+          "fr": ["Repousser les limites", "Matériaux", "Composition d’équipe"],
           "en": ["Limit break", "Materials", "Team comp"]
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1008,7 +1008,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1043,12 +1043,12 @@
       "difficultyTier": 3,
       "quiz": {
         "distractors": {
-          "fr": ["Allié", "Raid", "Unité meta indispensable"],
-          "en": ["Ally", "Raid", "Must-have meta unit"]
+          "fr": ["Allié", "Raid", "Progression personnage"],
+          "en": ["Ally", "Raid", "Character raising"]
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1059,7 +1059,7 @@
         "romaji": "genkai toppa"
       },
       "gloss": {
-        "fr": "Limit break",
+        "fr": "Repousser les limites",
         "en": "Limit break"
       },
       "definition": {
@@ -1088,7 +1088,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1128,7 +1128,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1168,7 +1168,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1208,7 +1208,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1248,7 +1248,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1259,8 +1259,8 @@
         "romaji": "jinken"
       },
       "gloss": {
-        "fr": "Unité meta indispensable",
-        "en": "Must-have meta unit"
+        "fr": "Unité indispensable",
+        "en": "Must-have unit"
       },
       "definition": {
         "fr": "Terme de joueurs pour parler d'une unité jugée tellement forte qu'elle semble quasi obligatoire.",
@@ -1277,8 +1277,8 @@
         }
       },
       "explanation": {
-        "fr": "Ce mot désigne une unité vue comme indispensable, expression très parlante de la violence symbolique des metas gacha.",
-        "en": "This word refers to a unit seen as indispensable, a very telling expression of the symbolic pressure inside gacha metas."
+        "fr": "Ce mot signifie littéralement “droits humains”, mais en argot gacha il désigne une unité vue comme indispensable.",
+        "en": "This word literally means “human rights”, but in gacha slang it refers to a unit seen as must-have."
       },
       "difficultyTier": 4,
       "quiz": {
@@ -1288,7 +1288,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1323,12 +1323,12 @@
       "difficultyTier": 4,
       "quiz": {
         "distractors": {
-          "fr": ["Achat payant", "Free-to-play", "Unité meta indispensable"],
-          "en": ["Paid spend", "Free-to-play", "Must-have meta unit"]
+          "fr": ["Achat payant", "Free-to-play", "Unité indispensable"],
+          "en": ["Paid spend", "Free-to-play", "Must-have unit"]
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1368,7 +1368,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     },
     {
@@ -1408,7 +1408,7 @@
         }
       },
       "editorialReview": {
-        "status": "needs-review"
+        "status": "reviewed"
       }
     }
   ]

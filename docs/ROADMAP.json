@@ -156,7 +156,7 @@
         {
           "id": "v01-packs-review",
           "title": "Stabiliser le catalogue initial de packs",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "packs",
           "type": "content",
@@ -183,8 +183,8 @@
             },
             {
               "id": "pack-5",
-              "title": "Gacha & Rewards a 92/100, transparence ok, relecture partielle 20/34",
-              "status": "todo"
+              "title": "Gacha & Rewards a 96/100, transparence ok, relecture faite 34/34",
+              "status": "done"
             }
           ]
         },
@@ -442,7 +442,7 @@
         {
           "id": "v01-tier-ratios",
           "title": "Appliquer le ratio cible Daily / Libre aux packs initiaux",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "packs",
           "type": "content",
@@ -456,12 +456,12 @@
             {
               "id": "tier-ratios-pack-1-4",
               "title": "Passer les packs 1 a 4 a 34 mots selon le ratio cible",
-              "status": "todo"
+              "status": "done"
             },
             {
               "id": "tier-ratios-pack-5",
               "title": "Realigner le pack 5 sur le ratio cible apres refonte",
-              "status": "todo"
+              "status": "done"
             }
           ]
         },
@@ -537,7 +537,6 @@
           "area": "packs",
           "type": "content",
           "children": [
-            { "id": "gacha-and-rewards", "title": "Pack Gacha & Rewards", "status": "todo" },
             {
               "id": "arcade-secrets-meta",
               "title": "Pack Arcade, secrets & meta",

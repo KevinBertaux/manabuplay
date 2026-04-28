@@ -76,13 +76,13 @@ describe("manabuplay pack reader", () => {
       },
     },
     "gacha-and-rewards": {
-      readiness: 92,
+      readiness: 96,
       breakdown: {
         packSize: 15,
         tierFit: 15,
         contentCompleteness: 40,
         quizQuality: 13,
-        editorialReview: 9,
+        editorialReview: 13,
       },
       transparency: {
         strictCount: 1,
@@ -254,16 +254,14 @@ describe("manabuplay pack reader", () => {
     expect(plannedWord?.quizPreview?.correct.en.length).toBeGreaterThan(0);
   });
 
-  it("keeps Gacha & Rewards partially reviewed after the first twenty words", () => {
+  it("keeps Gacha & Rewards reviewed after the full editorial pass", () => {
     const pack = getPackById("gacha-and-rewards");
     const words = pack?.words ?? [];
 
-    expect(pack?.score?.readiness?.reviewStatus).toBe("partielle");
-    expect(pack?.score?.readiness?.reviewProgress).toEqual({ reviewedWords: 20, totalWords: 34 });
-    expect(words.filter((word) => word.editorialReview?.status === "reviewed")).toHaveLength(20);
-    expect(words.filter((word) => word.editorialReview?.status === "needs-review")).toHaveLength(
-      14,
-    );
+    expect(pack?.score?.readiness?.reviewStatus).toBe("faite");
+    expect(pack?.score?.readiness?.reviewProgress).toEqual({ reviewedWords: 34, totalWords: 34 });
+    expect(words.filter((word) => word.editorialReview?.status === "reviewed")).toHaveLength(34);
+    expect(words.filter((word) => word.editorialReview?.status === "needs-review")).toHaveLength(0);
     expect(
       words.slice(6, 12).map((word) => (typeof word.jp === "string" ? word.jp : word.jp.romaji)),
     ).toEqual(["shusseki", "chiketto", "muryou", "ishō", "kadai", "mikata"]);

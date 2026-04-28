@@ -14,9 +14,8 @@ test.describe("admin packs", () => {
     await expect(page.locator(".packs-grid")).toContainText("Anime Codes");
     await expect(page.locator(".packs-grid")).toContainText("Gacha & Rewards");
     await expect(page.locator(".packs-grid")).toContainText("96/100");
-    await expect(page.locator(".packs-grid")).toContainText("92/100");
+    await expect(page.locator(".packs-grid")).toContainText("96/100");
     await expect(page.locator(".packs-grid")).toContainText("faite · 34/34");
-    await expect(page.locator(".packs-grid")).toContainText("partielle · 20/34");
   });
 
   test("opens a pack detail page with transparency signals and pagination", async ({ page }) => {

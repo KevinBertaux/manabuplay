@@ -121,18 +121,18 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
   {
     id: "pack-5",
     rank: 6,
-    title: { fr: "Refaire le pack 5", en: "Rewrite pack 5" },
+    title: { fr: "Stabiliser Gacha & Rewards", en: "Stabilize Gacha & Rewards" },
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 6,
-    progress: 12,
+    progress: 100,
     whyNow: {
-      fr: "Le pack 5 existe, mais il n'est pas publiable : trop de filler éditorial et ligne éditoriale trop hors produit.",
-      en: "Pack 5 exists, but is not publishable: too much editorial filler and an editorial line too far from the product.",
+      fr: "Le pack 5 est refondu en Gacha & Rewards : 34 mots, ratio cible, transparence sous seuil et relecture faite.",
+      en: "Pack 5 has been rebuilt as Gacha & Rewards: 34 words, target ratio, transparency under threshold and review complete.",
     },
     note: {
-      fr: "Refonte vocab-first, puis réalignement sur le ratio cible.",
-      en: "Vocab-first rewrite, then realign with the target ratio.",
+      fr: "Score actuel : 96/100, transparence 9%, relecture faite 34/34.",
+      en: "Current score: 96/100, 9% transparency, review complete 34/34.",
     },
   },
   {
