@@ -14,17 +14,8 @@
   color: var(--fuchsia);
 }
 
-.quiz-shell {
-  background: rgba(15, 12, 26, 0.95);
-  backdrop-filter: blur(16px);
-}
-
-.quiz-progress-track {
-  background: rgba(139, 92, 246, 0.15);
-}
-
-.progress-bar {
-  width: 0%;
+.quiz-shell [hidden] {
+  display: none !important;
 }
 
 .quiz-score-value {
@@ -43,74 +34,13 @@
   color: var(--cyan);
 }
 
-.quiz-word-category {
-  background: rgba(139, 92, 246, 0.1);
-  border-color: rgba(139, 92, 246, 0.3);
-}
-
-.quiz-word-category-text {
-  color: #a78bfa;
-}
-
-.quiz-word-display {
-  color: var(--fuchsia);
-  line-height: 1.2;
-}
-
-.quiz-learning-stack {
-  display: grid;
-  gap: var(--space-12);
-  justify-items: center;
-}
-
-.quiz-learning-card,
-.quiz-explanation {
-  width: min(100%, 620px);
-  display: grid;
-  gap: var(--space-8);
-  padding: var(--space-12) var(--space-16);
-  border-radius: var(--radius-8);
-  border: 1px solid rgba(34, 211, 238, 0.18);
-  background: rgba(34, 211, 238, 0.07);
-  text-align: left;
-}
-
-.quiz-explanation {
-  border-color: rgba(139, 92, 246, 0.22);
-  background: rgba(139, 92, 246, 0.08);
-}
-
-.quiz-learning-label {
-  color: rgba(34, 211, 238, 0.82);
-  font-family: "Chakra Petch", sans-serif;
-  font-size: 0.86rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.quiz-explanation .quiz-learning-label {
-  color: #d8b4fe;
-}
-
-.quiz-learning-copy,
-.quiz-explanation-copy {
-  color: #d7fbff;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-.quiz-explanation-copy {
-  color: #efe7ff;
-  margin: 0;
-}
-
 .word-assist {
   color: var(--cyan);
-  margin-bottom: var(--space-4);
+  margin-bottom: 0;
 }
+
 .quiz-feedback {
-  min-height: var(--control-h-32);
+  min-height: 0;
 }
 
 .quiz-feedback.is-correct {

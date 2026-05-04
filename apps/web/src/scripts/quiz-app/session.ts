@@ -78,6 +78,57 @@ function seededShuffle<T>(items: T[], seedSource: string): T[] {
   return shuffled;
 }
 
+function localizedText(
+  value: Record<string, string | undefined> | undefined,
+  currentLang: string,
+): string {
+  return value?.[currentLang] || value?.en || "";
+}
+
+function buildAnswerOptions({
+  correctText,
+  wrongList,
+  fallbackPool,
+  currentLang,
+  seedSource,
+  isSeededMode,
+}: {
+  correctText: string;
+  wrongList: string[];
+  fallbackPool: QuizEntry[];
+  currentLang: string;
+  seedSource: string;
+  isSeededMode: boolean;
+}) {
+  const answers: string[] = [correctText];
+  const addCandidate = (candidate: string) => {
+    const normalized = candidate.trim();
+    if (!normalized || normalized === correctText || answers.includes(normalized)) return;
+    answers.push(normalized);
+  };
+
+  const shuffledWrong = isSeededMode
+    ? seededShuffle(wrongList, `${seedSource}:wrong`)
+    : shuffle(wrongList);
+  shuffledWrong.forEach(addCandidate);
+
+  const fallbackAnswers = fallbackPool.map((entry) => localizedText(entry.correct, currentLang));
+  const shuffledFallbacks = isSeededMode
+    ? seededShuffle(fallbackAnswers, `${seedSource}:fallback`)
+    : shuffle(fallbackAnswers);
+  shuffledFallbacks.forEach(addCandidate);
+
+  const genericFallbacks =
+    currentLang === "fr"
+      ? ["Une action de combat", "Un objet rare", "Une ressource de jeu"]
+      : ["A combat action", "A rare item", "A game resource"];
+  genericFallbacks.forEach(addCandidate);
+
+  return isSeededMode
+    ? seededShuffle(answers.slice(0, 4), `${seedSource}:answers`)
+    : shuffle(answers.slice(0, 4));
+}
+
 export function buildDailyQuizData({
   pool,
   dateKey,
@@ -281,15 +332,17 @@ export function buildQuestions({
       : shuffle(quizData).slice(0, count);
 
   return pool.map((question, index) => {
-    const correctText = question.correct[currentLang] || question.correct.en;
+    const correctText = localizedText(question.correct, currentLang);
     const wrongList = question.wrong[currentLang] || question.wrong.en || [];
     const answerSeed = `${sessionDateKey}:${question.id || question.word}:${currentLang}:${index}`;
-    const pickedWrong = isSeededMode
-      ? seededShuffle(wrongList, `${answerSeed}:wrong`).slice(0, 3)
-      : shuffle(wrongList).slice(0, 3);
-    const answers = isSeededMode
-      ? seededShuffle([correctText, ...pickedWrong], `${answerSeed}:answers`)
-      : shuffle([correctText, ...pickedWrong]);
+    const answers = buildAnswerOptions({
+      correctText,
+      wrongList,
+      fallbackPool: rawQuizData.length ? rawQuizData : quizData,
+      currentLang,
+      seedSource: answerSeed,
+      isSeededMode,
+    });
 
     return { ...question, correctText, answers };
   });

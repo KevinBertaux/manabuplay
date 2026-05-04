@@ -1,54 +1,23 @@
-/* ANSWER BUTTONS */
-.answer-btn {
-  background: rgba(26, 22, 48, 0.8);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  color: #e2d9f3;
-  padding: var(--space-16) var(--space-20);
-  border-radius: var(--radius-8);
-  font-family: "Chakra Petch", sans-serif;
-  font-size: 1.12rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  text-align: left;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  line-height: 1.4;
-}
-
-.answer-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--violet), var(--fuchsia));
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.answer-btn:hover:not(:disabled) {
-  border-color: rgba(232, 121, 249, 0.38);
-  background: rgba(232, 121, 249, 0.06);
-  box-shadow: none;
-  transform: translateY(-2px);
-}
-.answer-btn:hover:not(:disabled)::before {
-  opacity: 0;
-}
-.answer-btn span {
-  position: relative;
-  z-index: 1;
-}
+/* ANSWER STATES */
 .answer-btn.correct {
   border-color: var(--green) !important;
   background: rgba(74, 222, 128, 0.1) !important;
-  box-shadow: 0 0 16px rgba(74, 222, 128, 0.3) !important;
+  box-shadow: none !important;
   color: var(--green) !important;
 }
 .answer-btn.wrong {
   border-color: var(--red) !important;
   background: rgba(248, 113, 113, 0.1) !important;
-  box-shadow: 0 0 12px rgba(248, 113, 113, 0.2) !important;
+  box-shadow: none !important;
   color: var(--red) !important;
+}
+.answer-btn.correct .answer-key {
+  color: #04130a;
+  background: var(--green);
+}
+.answer-btn.wrong .answer-key {
+  color: #1b0606;
+  background: var(--red);
 }
 .answer-btn:disabled {
   cursor: not-allowed;
@@ -56,11 +25,28 @@
 
 /* PROGRESS */
 .progress-bar {
-  height: 4px;
+  display: block;
+  width: 100%;
+  appearance: none;
+  border: 0;
+  background: rgba(139, 92, 246, 0.16);
+}
+
+.progress-bar::-webkit-progress-bar {
+  border-radius: inherit;
+  background: rgba(139, 92, 246, 0.16);
+}
+
+.progress-bar::-webkit-progress-value {
+  border-radius: inherit;
   background: linear-gradient(90deg, var(--violet), var(--fuchsia));
-  border-radius: 4px;
   transition: width 0.4s ease;
-  box-shadow: 0 0 8px var(--violet);
+}
+
+.progress-bar::-moz-progress-bar {
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--violet), var(--fuchsia));
+  transition: width 0.4s ease;
 }
 
 /* CTA */

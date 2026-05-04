@@ -45,6 +45,11 @@ const LOCALIZED_ROUTES = ["daily", "practice", "archives"] as const;
 const PRACTICE_HISTORY_KEY = "practice_sessions";
 const PRACTICE_HISTORY_LIMIT = 8;
 const LANG = MANABUPLAY_BOOT.lang;
+const ANSWER_BUTTON_CLASS =
+  "answer-btn grid min-h-12 w-full grid-cols-[1.55rem_minmax(0,1fr)] items-center gap-2 rounded-lg border border-[rgba(34,211,238,.22)] bg-[linear-gradient(180deg,rgba(18,44,60,.72),rgba(17,18,40,.94))] px-3 py-2 text-left font-body text-[.98rem] font-extrabold leading-snug text-[#eee7ff] transition-[background,border-color,color] duration-150 hover:border-[rgba(34,211,238,.42)] hover:bg-[rgba(34,211,238,.08)] disabled:cursor-not-allowed disabled:opacity-85 sm:min-h-14 sm:grid-cols-[1.75rem_minmax(0,1fr)] sm:text-base";
+const ANSWER_KEY_CLASS =
+  "answer-key grid h-6 w-6 place-items-center rounded-lg bg-white/[.06] text-[.72rem] font-black text-[#cdbdff] sm:h-7 sm:w-7 sm:text-[.78rem]";
+const ANSWER_COPY_CLASS = "answer-copy min-w-0";
 
 let currentDiff: Difficulty | null = null;
 let hintStage = 0;
@@ -357,6 +362,23 @@ function renderExplanation(text: string, reveal = false) {
   if (reveal) animateReveal(explanationBox);
 }
 
+function resetExplanation() {
+  const explanationBox = document.getElementById("explanationBox");
+  const explanationContent = document.getElementById("explanationContent");
+  if (explanationBox instanceof HTMLElement) hideElement(explanationBox, "grid");
+  if (explanationContent instanceof HTMLElement) explanationContent.textContent = "";
+}
+
+function resetHintDisclosure() {
+  const hintButton = document.getElementById("hintBtn");
+  const hintText = document.getElementById("hintText");
+  const hintTextSecondary = document.getElementById("hintTextSecondary");
+
+  if (hintButton instanceof HTMLElement) hideElement(hintButton, "inline-flex");
+  if (hintText instanceof HTMLElement) hideElement(hintText, "grid");
+  if (hintTextSecondary instanceof HTMLElement) hideElement(hintTextSecondary, "grid");
+}
+
 function revealHint(forceAll = false) {
   const question = state.questions[state.currentIndex];
   if (!question) return;
@@ -403,8 +425,9 @@ function renderQuestion() {
   const question = state.questions[state.currentIndex];
   const total = state.questions.length;
 
-  getRequiredElement<HTMLElement>("progressBar").style.width =
-    `${(state.currentIndex / total) * 100}%`;
+  const progressBar = getRequiredElement<HTMLProgressElement>("progressBar");
+  progressBar.max = total;
+  progressBar.value = state.currentIndex;
   getRequiredElement<HTMLElement>("progressText").textContent = `${state.currentIndex}/${total}`;
   getRequiredElement<HTMLElement>("scoreDisplay").textContent = String(state.score);
   getRequiredElement<HTMLElement>("streakDisplay").textContent =
@@ -412,6 +435,8 @@ function renderQuestion() {
 
   const level = state.score < 30 ? "I" : state.score < 80 ? "II" : state.score < 180 ? "III" : "IV";
   getRequiredElement<HTMLElement>("levelDisplay").textContent = level;
+  getRequiredElement<HTMLElement>("wordRomaji").textContent =
+    question.romaji || question.kana || question.word;
   getRequiredElement<HTMLElement>("wordKana").textContent = question.kana;
   getRequiredElement<HTMLElement>("wordDisplay").textContent = question.word;
   getRequiredElement<HTMLElement>("wordCategory").textContent =
@@ -447,14 +472,14 @@ function renderQuestion() {
     hint2Content.textContent = secondaryHint;
     hint2Content.classList.remove("hint-revealed");
   }
-  renderExplanation(getLocalizedField(question.explanation), false);
+  resetExplanation();
 
   const answersGrid = getRequiredElement<HTMLElement>("answersGrid");
   answersGrid.innerHTML = "";
-  question.answers.forEach((answer) => {
+  question.answers.forEach((answer, index) => {
     const button = document.createElement("button");
-    button.className = "answer-btn";
-    button.innerHTML = `<span>${answer}</span>`;
+    button.className = ANSWER_BUTTON_CLASS;
+    button.innerHTML = `<span class="${ANSWER_KEY_CLASS}">${index + 1}</span><span class="${ANSWER_COPY_CLASS}">${answer}</span>`;
     button.addEventListener("click", () => handleAnswer(button, answer, question.correctText));
     answersGrid.appendChild(button);
   });
@@ -468,20 +493,6 @@ function renderQuestion() {
   state.answered = false;
 }
 
-function spawnParticles(button: HTMLButtonElement, color: string) {
-  const rect = button.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
-
-  for (let index = 0; index < 8; index += 1) {
-    const particle = document.createElement("div");
-    particle.className = "particle";
-    particle.style.cssText = `left:${centerX}px;top:${centerY}px;background:${color};--tx:${(Math.random() - 0.5) * 120}px;--ty:${(Math.random() - 0.8) * 100}px;`;
-    document.body.appendChild(particle);
-    particle.addEventListener("animationend", () => particle.remove());
-  }
-}
-
 function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string) {
   if (state.answered) return;
   state.answered = true;
@@ -490,7 +501,7 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
     answerButton.disabled = true;
   });
 
-  revealHint(true);
+  resetHintDisclosure();
   const question = state.questions[state.currentIndex];
   renderExplanation(getLocalizedField(question?.explanation), true);
 
@@ -509,12 +520,11 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
     feedback.classList.add("is-correct");
     feedback.textContent =
       state.streak >= 3 ? formatComboFeedback(state.streak, bonus) : formatCorrectFeedback(bonus);
-    spawnParticles(button, "#4ade80");
   } else {
     button.classList.add("wrong");
     state.streak = 0;
     document.querySelectorAll<HTMLButtonElement>(".answer-btn").forEach((answerButton) => {
-      if (answerButton.querySelector("span")?.textContent === correct) {
+      if (answerButton.querySelector(".answer-copy")?.textContent === correct) {
         answerButton.classList.add("correct");
       }
     });
@@ -536,8 +546,8 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
 }
 
 function showResults() {
-  hideElement(getRequiredElement<HTMLElement>("progressRow"), "flex");
-  hideElement(getRequiredElement<HTMLElement>("hudRow"), "flex");
+  hideElement(getRequiredElement<HTMLElement>("progressRow"));
+  hideElement(getRequiredElement<HTMLElement>("hudRow"));
   hideElement(getRequiredElement<HTMLElement>("quizArea"));
   showElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
 
@@ -553,7 +563,9 @@ function showResults() {
   getRequiredElement<HTMLElement>("finalCorrect").textContent = `${state.correct}/${total}`;
   getRequiredElement<HTMLElement>("finalPercent").textContent = `${pct}%`;
   getRequiredElement<HTMLElement>("finalStreak").textContent = String(state.bestStreak);
-  getRequiredElement<HTMLElement>("progressBar").style.width = "100%";
+  const progressBar = getRequiredElement<HTMLProgressElement>("progressBar");
+  progressBar.max = total;
+  progressBar.value = total;
   getRequiredElement<HTMLElement>("progressText").textContent = `${total}/${total}`;
 
   if (MANABUPLAY_MODE === "practice" && currentDiff) {
@@ -607,18 +619,24 @@ function launchQuiz() {
   };
 
   hideElement(getRequiredElement<HTMLElement>("diffArea"));
-  showElement(getRequiredElement<HTMLElement>("progressRow"), "flex");
-  showElement(getRequiredElement<HTMLElement>("hudRow"), "flex");
-  showElement(getRequiredElement<HTMLElement>("quizArea"), "block");
+  showElement(getRequiredElement<HTMLElement>("progressRow"));
+  showElement(getRequiredElement<HTMLElement>("hudRow"));
+  showElement(getRequiredElement<HTMLElement>("quizArea"));
   hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   renderQuestion();
+  requestAnimationFrame(() => {
+    getRequiredElement<HTMLElement>("quizArea").scrollIntoView({
+      block: "start",
+      behavior: "smooth",
+    });
+  });
 }
 
 function goToDiffPicker() {
   showElement(getRequiredElement<HTMLElement>("diffArea"), "block");
-  hideElement(getRequiredElement<HTMLElement>("progressRow"), "flex");
-  hideElement(getRequiredElement<HTMLElement>("hudRow"), "flex");
-  hideElement(getRequiredElement<HTMLElement>("quizArea"), "block");
+  hideElement(getRequiredElement<HTMLElement>("progressRow"));
+  hideElement(getRequiredElement<HTMLElement>("hudRow"));
+  hideElement(getRequiredElement<HTMLElement>("quizArea"));
   hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   renderDiffGrid();
 }
