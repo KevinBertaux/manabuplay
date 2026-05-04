@@ -1,0 +1,281 @@
+---
+import DesignDocLayout from "../../../layouts/DesignDocLayout.astro";
+
+type ArchiveDay = {
+  day: string;
+  weekday: string;
+  title: string;
+  pack: string;
+  status: string;
+  score: string;
+  attempts: string;
+  tone: "played" | "current" | "open" | "locked";
+};
+
+const mayDays: ArchiveDay[] = [
+  {
+    day: "04",
+    weekday: "Lun.",
+    title: "Quotidien du 4 mai",
+    pack: "Gacha & Rewards",
+    status: "Joué aujourd'hui",
+    score: "124 pts max",
+    attempts: "1 tentative",
+    tone: "current",
+  },
+  {
+    day: "03",
+    weekday: "Dim.",
+    title: "Archive du 3 mai",
+    pack: "Anime Codes",
+    status: "Déjà joué",
+    score: "118 pts max",
+    attempts: "2 tentatives",
+    tone: "played",
+  },
+  {
+    day: "02",
+    weekday: "Sam.",
+    title: "Archive du 2 mai",
+    pack: "Builds & Gear",
+    status: "Disponible",
+    score: "0 pt",
+    attempts: "Aucune tentative",
+    tone: "open",
+  },
+  {
+    day: "01",
+    weekday: "Ven.",
+    title: "Archive du 1 mai",
+    pack: "JRPG Questline",
+    status: "Déjà joué",
+    score: "132 pts max",
+    attempts: "1 tentative",
+    tone: "played",
+  },
+];
+
+const aprilDays: ArchiveDay[] = [
+  {
+    day: "30",
+    weekday: "Jeu.",
+    title: "Archive du 30 avril",
+    pack: "Gacha & Rewards",
+    status: "Disponible",
+    score: "0 pt",
+    attempts: "Aucune tentative",
+    tone: "open",
+  },
+  {
+    day: "29",
+    weekday: "Mer.",
+    title: "Archive du 29 avril",
+    pack: "Anime Codes",
+    status: "Déjà joué",
+    score: "108 pts max",
+    attempts: "3 tentatives",
+    tone: "played",
+  },
+  {
+    day: "28",
+    weekday: "Mar.",
+    title: "Archive du 28 avril",
+    pack: "Builds & Gear",
+    status: "Disponible",
+    score: "0 pt",
+    attempts: "Aucune tentative",
+    tone: "open",
+  },
+];
+
+const variants = [
+  {
+    id: "A",
+    title: "Journal de bord",
+    intent: "Lecture très claire, proche d'une page d'archives de journal : mois, date, statut, score, action.",
+    fit: "Meilleur choix si on veut réduire la charge mentale et montrer les complétions sans effet calendrier.",
+  },
+  {
+    id: "B",
+    title: "Calendrier compact",
+    intent: "Vue plus ludique : chaque jour devient une case scannable, utile quand plusieurs mois seront remplis.",
+    fit: "Meilleur choix si on veut un effet collection/completion, avec moins de texte par entrée.",
+  },
+  {
+    id: "C",
+    title: "Éditions mensuelles",
+    intent: "Entre journal et jeu quotidien : les jours sont des numéros d'édition, avec score et tentatives en première ligne.",
+    fit: "Meilleur choix si on veut une page plus premium, mais encore sobre et rapide à lire.",
+  },
+];
+
+const statusClass = {
+  current: "archive-status archive-status--current",
+  locked: "archive-status archive-status--locked",
+  open: "archive-status archive-status--open",
+  played: "archive-status archive-status--played",
+} satisfies Record<ArchiveDay["tone"], string>;
+---
+
+<DesignDocLayout
+  title="Mockups archives quotidien"
+  active="mockups"
+  description="Prototypes internes pour la future page Archives du quiz public."
+  containerClass="page archive-mockups"
+>
+  <header class="archive-mockup-hero">
+    <div>
+      <p class="archive-mockup-kicker">Design public · Archives</p>
+      <h1>Archives du quotidien</h1>
+      <p>
+        Hypothèse cadrée : le quotidien du jour ne se rejoue pas, les archives sont rejouables, et chaque archive affiche le
+        meilleur score plus le nombre de tentatives.
+      </p>
+    </div>
+    <div class="archive-mockup-rulecard">
+      <strong>Cas de référence</strong>
+      <span>Utilisateur normal le 4 mai 2026 : quotidien joué, archives 1-3 mai visibles, mai groupé en drawer.</span>
+      <span>Le 5 mai 2026, le 4 mai passe dans les archives avec le même visuel “déjà joué”.</span>
+    </div>
+  </header>
+
+  <section class="archive-mockup-summary" aria-label="Règles de comportement">
+    <article>
+      <strong>Quotidien</strong>
+      <span>1 tentative comptée par jour. Pas de replay utilisateur le jour même.</span>
+    </article>
+    <article>
+      <strong>Archives</strong>
+      <span>Replay libre, mais historique lisible : score max + tentatives.</span>
+    </article>
+    <article>
+      <strong>Rangement</strong>
+      <span>Drawers par mois, mois courant ouvert, mois précédents repliés.</span>
+    </article>
+  </section>
+
+  <section class="archive-variant-grid" aria-label="Variantes archives">
+    {variants.map((variant) => (
+      <article class:list={["archive-variant", `archive-variant--${variant.id.toLowerCase()}`]}>
+        <header class="archive-variant-head">
+          <span class="archive-variant-id">Version {variant.id}</span>
+          <div>
+            <h2>{variant.title}</h2>
+            <p>{variant.intent}</p>
+          </div>
+        </header>
+
+        <p class="archive-variant-fit">{variant.fit}</p>
+
+        {variant.id === "A" && (
+          <div class="archive-board archive-board--ledger">
+            <details class="archive-month" open>
+              <summary>
+                <span>Mai 2026</span>
+                <strong>4 entrées · 3 jouées</strong>
+              </summary>
+              <div class="archive-ledger-list">
+                {mayDays.map((day) => (
+                  <article class:list={["archive-day-card", `archive-day-card--${day.tone}`]}>
+                    <div class="archive-date-block">
+                      <span>{day.weekday}</span>
+                      <strong>{day.day}</strong>
+                    </div>
+                    <div class="archive-day-main">
+                      <h3>{day.title}</h3>
+                      <p>{day.pack}</p>
+                    </div>
+                    <div class="archive-day-meta">
+                      <span class={statusClass[day.tone]}>{day.status}</span>
+                      <span>{day.score}</span>
+                      <span>{day.attempts}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </details>
+            <details class="archive-month">
+              <summary>
+                <span>Avril 2026</span>
+                <strong>3 entrées · 1 jouée</strong>
+              </summary>
+              <div class="archive-ledger-list">
+                {aprilDays.map((day) => (
+                  <article class:list={["archive-day-card", `archive-day-card--${day.tone}`]}>
+                    <div class="archive-date-block">
+                      <span>{day.weekday}</span>
+                      <strong>{day.day}</strong>
+                    </div>
+                    <div class="archive-day-main">
+                      <h3>{day.title}</h3>
+                      <p>{day.pack}</p>
+                    </div>
+                    <div class="archive-day-meta">
+                      <span class={statusClass[day.tone]}>{day.status}</span>
+                      <span>{day.score}</span>
+                      <span>{day.attempts}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </details>
+          </div>
+        )}
+
+        {variant.id === "B" && (
+          <div class="archive-board archive-board--calendar">
+            <details class="archive-month" open>
+              <summary>
+                <span>Mai 2026</span>
+                <strong>Progression 75%</strong>
+              </summary>
+              <div class="archive-calendar-grid">
+                {mayDays.map((day) => (
+                  <article class:list={["archive-calendar-day", `archive-calendar-day--${day.tone}`]}>
+                    <span class="archive-calendar-weekday">{day.weekday}</span>
+                    <strong>{day.day}</strong>
+                    <span class={statusClass[day.tone]}>{day.status}</span>
+                    <span>{day.score}</span>
+                    <small>{day.attempts}</small>
+                  </article>
+                ))}
+              </div>
+            </details>
+            <details class="archive-month">
+              <summary>
+                <span>Avril 2026</span>
+                <strong>Progression 33%</strong>
+              </summary>
+            </details>
+          </div>
+        )}
+
+        {variant.id === "C" && (
+          <div class="archive-board archive-board--issues">
+            <details class="archive-month" open>
+              <summary>
+                <span>Mai 2026</span>
+                <strong>Dernières éditions</strong>
+              </summary>
+              <div class="archive-issue-list">
+                {mayDays.map((day) => (
+                  <article class:list={["archive-issue", `archive-issue--${day.tone}`]}>
+                    <div class="archive-issue-number">
+                      <span>{day.weekday}</span>
+                      <strong>{day.day}</strong>
+                    </div>
+                    <div class="archive-issue-copy">
+                      <h3>{day.title}</h3>
+                      <p>{day.pack} · {day.score} · {day.attempts}</p>
+                    </div>
+                    <span class={statusClass[day.tone]}>{day.status}</span>
+                  </article>
+                ))}
+              </div>
+            </details>
+          </div>
+        )}
+      </article>
+    ))}
+  </section>
+</DesignDocLayout>
