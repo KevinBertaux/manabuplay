@@ -4045,7 +4045,10 @@ html {
     radial-gradient(circle at 20% 0%, rgba(236, 72, 153, 0.12), transparent 28%),
     linear-gradient(rgba(34, 211, 238, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(34, 211, 238, 0.04) 1px, transparent 1px), rgba(2, 6, 23, 0.92);
-  background-size: auto, 18px 18px, 18px 18px;
+  background-size:
+    auto,
+    18px 18px,
+    18px 18px;
   padding: 12px;
 }
 
@@ -4120,7 +4123,9 @@ html {
 
 .archive-calendar-cell[href]:hover {
   border-color: rgba(34, 211, 238, 0.44);
-  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.14), 0 12px 24px rgba(0, 0, 0, 0.28);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.14),
+    0 12px 24px rgba(0, 0, 0, 0.28);
   transform: translateY(-1px);
 }
 
