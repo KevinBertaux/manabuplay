@@ -12,6 +12,7 @@ export interface QuizEntry {
   tier?: number | string;
   word: string;
   kana: string;
+  romaji?: string | null;
   cat: LocalizedTextMap;
   correct: LocalizedTextMap;
   wrong: Record<string, string[]>;

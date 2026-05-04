@@ -34,6 +34,7 @@ export type CatalogQuizEntry = {
   tier: 1 | 2 | 3 | 4;
   word: string;
   kana: string;
+  romaji: string | null;
   cat: LocalizedText;
   hint: LocalizedText;
   hint2: LocalizedText;
@@ -322,6 +323,7 @@ function buildCatalogQuizEntry(entry: PackEntry): CatalogQuizEntry {
     tier,
     word: word.jp.term,
     kana: word.jp.assist,
+    romaji: word.jp.romaji || word.jp.assist,
     cat: entry.category as LocalizedText,
     hint: entry.hints.primary as LocalizedText,
     hint2: (entry.hints.secondary || entry.hints.primary) as LocalizedText,

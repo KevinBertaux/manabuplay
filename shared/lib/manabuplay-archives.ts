@@ -72,7 +72,7 @@ export function buildArchivesBootData(selectedDate = getLatestArchiveDateKey()) 
       en: {
         ...base.lang.en,
         quiz_label: "// ARCHIVE RUN",
-        quiz_title: `Archive Japanese<br/><span style="color:var(--fuchsia)">Vocab Quiz</span>`,
+        quiz_title: `Archive Japanese<br/><span class="text-[var(--fuchsia)]">Vocab Quiz</span>`,
         quiz_sub: "Replay a past 10-question daily run. No sharing in archives.",
         diff_title: "SELECTED ARCHIVE",
         diff_archive: "ARCHIVE",
@@ -82,7 +82,7 @@ export function buildArchivesBootData(selectedDate = getLatestArchiveDateKey()) 
       fr: {
         ...base.lang.fr,
         quiz_label: "// ARCHIVE",
-        quiz_title: `Archive<br/><span style="color:var(--fuchsia)">Vocab japonais</span>`,
+        quiz_title: `Archive<br/><span class="text-[var(--fuchsia)]">Vocab japonais</span>`,
         quiz_sub: "Rejoue un ancien quotidien en 10 questions. Pas de partage dans les archives.",
         diff_title: "ARCHIVE SÉLECTIONNÉE",
         diff_archive: "ARCHIVE",

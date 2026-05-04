@@ -2,25 +2,25 @@
 import DesignDocLayout from "../../../layouts/DesignDocLayout.astro";
 
 const answers = [
-  { key: "1", label: "Recompense", state: "bad" },
+  { key: "1", label: "Récompense", state: "bad" },
   { key: "2", label: "Distribution gratuite", state: "good" },
   { key: "3", label: "Bonus de connexion", state: "neutral" },
-  { key: "4", label: "Boutique d'echange", state: "neutral" },
+  { key: "4", label: "Boutique d'échange", state: "neutral" },
 ];
 
 const variants = [
   {
     id: "A",
     theme: "balanced",
-    title: "Card de decision",
-    status: "Recommandee",
+    title: "Card de décision",
+    status: "Recommandée",
     intent:
-      "La version la plus directe : romaji en point d'entree, kana/kanji en support, reponses toujours stables.",
+      "La version la plus directe : romaji en point d'entrée, kana/kanji en support, réponses toujours stables.",
     bestFor:
-      "Premier passage en production, parce qu'elle corrige le probleme sans changer radicalement le produit.",
+      "Premier passage en production, parce qu'elle corrige le problème sans changer radicalement le produit.",
     rules: [
       "Romaji toujours visible et dominant.",
-      "Un seul tiroir pedagogique remplace indice et explication.",
+      "Un seul tiroir pédagogique remplace indice et explication.",
       "CTA bas toujours atteignable en mobile.",
     ],
   },
@@ -28,9 +28,9 @@ const variants = [
     id: "B",
     theme: "tutor",
     title: "Tutor split",
-    status: "Pedagogique",
+    status: "Pédagogique",
     intent:
-      "Une version plus didactique : le mot, les aides et le feedback sont traites comme une mini fiche d'apprentissage.",
+      "Une version plus didactique : le mot, les aides et le feedback sont traités comme une mini fiche d'apprentissage.",
     bestFor:
       "Mode libre ou relecture, quand on accepte un peu plus de texte pour mieux expliquer les nuances.",
     rules: [
@@ -45,12 +45,12 @@ const variants = [
     title: "Console arcade",
     status: "Plus jeu",
     intent:
-      "Une version plus nerveuse : HUD compact, grosses commandes et feedback tres proche de l'action.",
+      "Une version plus nerveuse : HUD compact, grosses commandes et feedback très proche de l'action.",
     bestFor:
-      "Quiz quotidien, si on veut privilegier le rythme et l'identite arcade au cote fiche de cours.",
+      "Quiz quotidien, si on veut privilégier le rythme et l'identité arcade au côté fiche de cours.",
     rules: [
-      "HUD serre : progression, score et pack sur une ligne.",
-      "Les reponses ressemblent a un command deck.",
+      "HUD serré : progression, score et pack sur une ligne.",
+      "Les réponses ressemblent à un command deck.",
       "Le drawer est court, presque comme un log de combat.",
     ],
   },
@@ -66,38 +66,38 @@ const shots = [
 const machineStates = [
   {
     state: "ready",
-    label: "Question prete",
+    label: "Question prête",
     purpose: "Afficher le mot et les 4 choix sans aide ouverte.",
-    visible: "Progression, romaji, kana, kanji, pack, tier, 4 reponses.",
-    next: "Ouvrir indice ou choisir une reponse.",
+    visible: "Progression, romaji, kana, kanji, pack, tier, 4 réponses.",
+    next: "Ouvrir indice ou choisir une réponse.",
   },
   {
     state: "hint-open",
     label: "Indice ouvert",
-    purpose: "Ajouter une aide courte sans deplacer les reponses.",
-    visible: "Meme layout que ready, drawer compact avec indice 1 puis indice 2.",
-    next: "Fermer l'indice, ouvrir l'indice suivant ou choisir une reponse.",
+    purpose: "Ajouter une aide courte sans déplacer les réponses.",
+    visible: "Même layout que ready, drawer compact avec indice 1 puis indice 2.",
+    next: "Fermer l'indice, ouvrir l'indice suivant ou choisir une réponse.",
   },
   {
     state: "answered",
-    label: "Reponse verrouillee",
+    label: "Réponse verrouillée",
     purpose: "Bloquer le choix et marquer correct/incorrect.",
-    visible: "Reponses colorees, bonne reponse explicite, score mis a jour.",
+    visible: "Réponses colorées, bonne réponse explicite, score mis à jour.",
     next: "Afficher l'explication courte.",
   },
   {
     state: "explain-open",
     label: "Explication ouverte",
-    purpose: "Remplacer le drawer d'indice par le feedback pedagogique.",
-    visible: "Pourquoi, piege evite, lecture utile, CTA mot suivant.",
+    purpose: "Remplacer le drawer d'indice par le feedback pédagogique.",
+    visible: "Pourquoi, piège évité, lecture utile, CTA mot suivant.",
     next: "Passer au mot suivant.",
   },
   {
     state: "next",
     label: "Transition",
-    purpose: "Nettoyer l'etat local avant le mot suivant.",
+    purpose: "Nettoyer l'état local avant le mot suivant.",
     visible: "Aucun ancien indice, aucune ancienne explication.",
-    next: "Retour a ready avec un nouveau mot.",
+    next: "Retour à ready avec un nouveau mot.",
   },
 ];
 ---
@@ -180,7 +180,7 @@ const machineStates = [
       gap: 24px;
       align-items: end;
       padding: 28px;
-      border-radius: 16px;
+      border-radius: 12px;
     }
 
     .doc-kicker {
@@ -227,7 +227,7 @@ const machineStates = [
       gap: 10px;
       padding: 16px;
       border: 1px solid rgba(244, 199, 96, 0.22);
-      border-radius: 16px;
+      border-radius: 12px;
       background: rgba(244, 199, 96, 0.06);
     }
 
@@ -245,7 +245,7 @@ const machineStates = [
       display: grid;
       gap: 10px;
       padding: 18px;
-      border-radius: 16px;
+      border-radius: 12px;
     }
 
     .doc-card h2,
@@ -284,7 +284,7 @@ const machineStates = [
       display: grid;
       gap: 18px;
       padding: 20px;
-      border-radius: 16px;
+      border-radius: 12px;
     }
 
     .variant-summary {
@@ -300,7 +300,7 @@ const machineStates = [
       width: 56px;
       height: 56px;
       border: 1px solid rgba(35, 217, 255, 0.3);
-      border-radius: 16px;
+      border-radius: 12px;
       background: rgba(35, 217, 255, 0.08);
       color: var(--mp-cyan);
       font-size: 1.7rem;
@@ -327,7 +327,7 @@ const machineStates = [
       margin: 0;
       padding: 14px 14px 14px 32px;
       border: 1px solid var(--page-line);
-      border-radius: 16px;
+      border-radius: 12px;
       background: var(--page-panel-soft);
       color: var(--page-muted);
       line-height: 1.42;
@@ -383,13 +383,12 @@ const machineStates = [
     .quiz-frame {
       overflow: hidden;
       border: 1px solid rgba(151, 87, 255, 0.3);
-      border-radius: 16px;
+      border-radius: 12px;
       background:
-        radial-gradient(circle at 50% 0%, rgba(255, 115, 233, 0.14), transparent 280px),
-        linear-gradient(90deg, rgba(151, 87, 255, 0.16) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(151, 87, 255, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(151, 87, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(151, 87, 255, 0.06) 1px, transparent 1px),
         var(--mp-bg);
-      background-size: auto, 48px 48px, 48px 48px, auto;
+      background-size: 48px 48px, 48px 48px, auto;
       color: #f8f3ff;
     }
 
@@ -428,7 +427,7 @@ const machineStates = [
       min-height: 44px;
       padding: 8px 10px;
       border: 1px solid rgba(151, 87, 255, 0.3);
-      border-radius: 12px;
+      border-radius: 8px;
       background: rgba(255, 255, 255, 0.04);
     }
 
@@ -480,7 +479,7 @@ const machineStates = [
       align-content: center;
       min-height: 184px;
       padding: 16px;
-      border-radius: 16px;
+      border-radius: 12px;
       text-align: center;
     }
 
@@ -537,7 +536,7 @@ const machineStates = [
       font-size: 2rem;
       font-weight: 800;
       line-height: 1;
-      text-shadow: 0 0 12px rgba(255, 115, 233, 0.32);
+      text-shadow: 0 0 6px rgba(255, 115, 233, 0.24);
     }
 
     .action-panel {
@@ -545,7 +544,7 @@ const machineStates = [
       gap: 10px;
       align-content: start;
       padding: 12px;
-      border-radius: 16px;
+      border-radius: 12px;
     }
 
     .prompt-line {
@@ -556,7 +555,7 @@ const machineStates = [
       min-height: 48px;
       padding: 8px 10px;
       border: 1px solid rgba(35, 217, 255, 0.24);
-      border-radius: 12px;
+      border-radius: 8px;
       background: rgba(35, 217, 255, 0.08);
     }
 
@@ -603,7 +602,7 @@ const machineStates = [
       min-height: 54px;
       padding: 8px 10px;
       border: 1px solid rgba(151, 87, 255, 0.42);
-      border-radius: 12px;
+      border-radius: 8px;
       background: linear-gradient(180deg, rgba(42, 32, 76, 0.88), rgba(23, 18, 42, 0.96));
       color: #eee7ff;
       font-weight: 900;
@@ -636,7 +635,7 @@ const machineStates = [
       display: grid;
       gap: 8px;
       padding: 12px;
-      border-radius: 12px;
+      border-radius: 8px;
     }
 
     .drawer-title {
@@ -669,17 +668,11 @@ const machineStates = [
     }
 
     .bottom-bar {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      display: flex;
+      justify-content: flex-end;
       gap: 10px;
       align-items: center;
       min-height: 52px;
-    }
-
-    .bottom-note {
-      color: #aca5c9;
-      font-size: 0.78rem;
-      line-height: 1.35;
     }
 
     .next-button {
@@ -688,9 +681,8 @@ const machineStates = [
       justify-content: center;
       min-height: 46px;
       padding: 0 14px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #8557ff, #ff73e9);
-      box-shadow: 0 0 18px rgba(255, 115, 233, 0.24);
+      border-radius: 8px;
+      background: linear-gradient(135deg, #7552f6, #c65df2);
       color: #fff;
       font-weight: 900;
       letter-spacing: 0.08em;
@@ -712,13 +704,6 @@ const machineStates = [
       justify-content: start;
     }
 
-    .tutor .word-panel::after {
-      content: "Lecture d'abord, sens ensuite. Le mot reste ancre pendant toute la question.";
-      color: #aeb7d0;
-      font-size: 0.86rem;
-      line-height: 1.4;
-    }
-
     .arcade .quiz-hud {
       border-color: rgba(35, 217, 255, 0.34);
       background: rgba(35, 217, 255, 0.07);
@@ -728,7 +713,7 @@ const machineStates = [
       min-height: 160px;
       border-color: rgba(255, 115, 233, 0.3);
       background:
-        radial-gradient(circle at 50% 30%, rgba(255, 115, 233, 0.16), transparent 180px),
+        radial-gradient(circle at 50% 30%, rgba(255, 115, 233, 0.08), transparent 180px),
         linear-gradient(180deg, rgba(37, 24, 58, 0.9), rgba(15, 12, 28, 0.98));
     }
 
@@ -751,7 +736,7 @@ const machineStates = [
       display: grid;
       gap: 10px;
       padding: 14px;
-      border-radius: 16px;
+      border-radius: 12px;
     }
 
     .state-code {
@@ -784,7 +769,7 @@ const machineStates = [
     .decision-table {
       overflow: hidden;
       border: 1px solid var(--page-line);
-      border-radius: 16px;
+      border-radius: 12px;
       background: var(--page-panel);
     }
 
@@ -818,6 +803,43 @@ const machineStates = [
       text-transform: uppercase;
     }
 
+    .mobile-comparison {
+      display: grid;
+      gap: 18px;
+    }
+
+    .mobile-comparison-row {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mobile-comparison-row h3 {
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mobile-comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      align-items: start;
+    }
+
+    .comparison-shot {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .comparison-shot-title {
+      color: var(--page-soft);
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
     @media (max-width: 1260px) {
       .doc-hero,
       .variant-summary,
@@ -844,6 +866,10 @@ const machineStates = [
       .doc-hero,
       .variant-section {
         padding: 16px;
+      }
+
+      .mobile-comparison-grid {
+        grid-template-columns: 1fr;
       }
 
       .quiz-shell.is-desktop {
@@ -876,40 +902,40 @@ const machineStates = [
         <span class="doc-kicker">Document interne</span>
         <h1>Refonte du panneau quiz public</h1>
         <p>
-          Cette page sert a comparer des directions d'interface exploitables, pas a vendre un design.
+          Cette page sert à comparer des directions d'interface exploitables, pas à vendre un design.
           Le contenant admin reste sobre. Les prototypes de quiz gardent volontairement le langage
           visuel ManabuPlay pour pouvoir juger le produit tel qu'il serait en place.
         </p>
       </div>
       <aside class="hero-note">
-        <strong>Hypothese de lecture</strong>
+        <strong>Hypothèse de lecture</strong>
         <p>
-          "Plie" = question compacte avant aide ou reponse. "Deplie" = etat contraignant apres
-          interaction, avec feedback pedagogique visible sans casser le panneau.
+          "Plié" = question compacte avant aide ou réponse. "Déplié" = état contraignant après
+          interaction, avec feedback pédagogique visible sans casser le panneau.
         </p>
       </aside>
     </header>
 
     <section class="doc-grid" aria-label="Constats de cadrage">
       <article class="doc-card">
-        <span class="doc-kicker">Probleme produit</span>
+        <span class="doc-kicker">Problème produit</span>
         <h2>Le quiz ne doit pas tester la lecture japonaise</h2>
         <p>
-          Le romaji est l'information d'acces. Kana et kanji restent visibles, mais en support. Sans
-          romaji, un debutant ne peut pas repondre proprement.
+          Le romaji est l'information d'accès. Kana et kanji restent visibles, mais en support. Sans
+          romaji, un débutant ne peut pas répondre proprement.
         </p>
       </article>
       <article class="doc-card">
-        <span class="doc-kicker">Probleme layout</span>
+        <span class="doc-kicker">Problème layout</span>
         <h2>Un panneau, pas une pile de blocs</h2>
         <p>
-          Indices, reponse et explication doivent partager un emplacement d'etat. Le contenu change,
+          Indices, réponse et explication doivent partager un emplacement d'état. Le contenu change,
           la structure reste stable.
         </p>
       </article>
       <article class="doc-card">
-        <span class="doc-kicker">Probleme gout</span>
-        <h2>Neon controle, lecture prioritaire</h2>
+        <span class="doc-kicker">Problème goût</span>
+        <h2>Néon contrôlé, lecture prioritaire</h2>
         <p>
           Le glow doit devenir une signature, pas une lampe torche. Le mot, les choix et le feedback
           doivent rester plus importants que l'effet.
@@ -922,8 +948,8 @@ const machineStates = [
         <span class="doc-kicker">Variantes finies</span>
         <h2>Trois directions comparables</h2>
         <p>
-          Chaque variante montre quatre rendus : mobile plie, mobile deplie, desktop plie, desktop
-          deplie. Les composants sont presentes comme s'ils etaient deja implementes.
+          Chaque variante montre quatre rendus : mobile plié, mobile déplié, desktop plié, desktop
+          déplié. Les composants sont présentés comme s'ils étaient déjà implémentés.
         </p>
       </div>
 
@@ -975,7 +1001,6 @@ const machineStates = [
                           <section class="word-panel">
                             <div class="chip-row">
                               <span class="chip">Gacha & Rewards</span>
-                              <span class="chip">T2</span>
                             </div>
                             <strong class="romaji">haifu</strong>
                             <div class="japanese-line">
@@ -987,7 +1012,7 @@ const machineStates = [
                           <section class="action-panel">
                             <div class="prompt-line">
                               <div>
-                                <strong>{shot.expanded ? "Reponse verrouillee" : "Choisis le sens"}</strong>
+                                <strong>{shot.expanded ? "Réponse verrouillée" : "Choisis le sens"}</strong>
                                 <span>
                                   {shot.expanded
                                     ? "Distribution gratuite."
@@ -1008,24 +1033,19 @@ const machineStates = [
 
                             {shot.expanded && (
                               <section class="learn-drawer">
-                                <strong class="drawer-title">Pourquoi cette reponse</strong>
+                                <strong class="drawer-title">Pourquoi cette réponse</strong>
                                 <p class="drawer-copy">
-                                  Haifu designe une distribution gratuite : compensation,
+                                  Haifu désigne une distribution gratuite : compensation,
                                   maintenance ou cadeau de campagne.
                                 </p>
                                 <div class="drawer-grid">
-                                  <span class="drawer-fact">Indice utilise : le jeu te le donne.</span>
-                                  <span class="drawer-fact">Piege : recompense est trop generique.</span>
+                                  <span class="drawer-fact">Indice utilisé : le jeu te le donne.</span>
+                                  <span class="drawer-fact">Piège : récompense est trop générique.</span>
                                 </div>
                               </section>
                             )}
 
                             <div class="bottom-bar">
-                              <span class="bottom-note">
-                                {shot.expanded
-                                  ? "Feedback court, pas une lecon complete."
-                                  : "Aide optionnelle, choix visibles."}
-                              </span>
                               <span class="next-button">{shot.expanded ? "Mot suivant" : "Valider"}</span>
                             </div>
                           </section>
@@ -1064,7 +1084,6 @@ const machineStates = [
                           <section class="word-panel">
                             <div class="chip-row">
                               <span class="chip">Gacha & Rewards</span>
-                              <span class="chip">T2</span>
                             </div>
                             <strong class="romaji">haifu</strong>
                             <div class="japanese-line">
@@ -1076,7 +1095,7 @@ const machineStates = [
                           <section class="action-panel">
                             <div class="prompt-line">
                               <div>
-                                <strong>{shot.expanded ? "Reponse verrouillee" : "Choisis le sens"}</strong>
+                                <strong>{shot.expanded ? "Réponse verrouillée" : "Choisis le sens"}</strong>
                                 <span>
                                   {shot.expanded
                                     ? "Distribution gratuite."
@@ -1097,24 +1116,19 @@ const machineStates = [
 
                             {shot.expanded && (
                               <section class="learn-drawer">
-                                <strong class="drawer-title">Pourquoi cette reponse</strong>
+                                <strong class="drawer-title">Pourquoi cette réponse</strong>
                                 <p class="drawer-copy">
-                                  Haifu designe une distribution gratuite : compensation,
+                                  Haifu désigne une distribution gratuite : compensation,
                                   maintenance ou cadeau de campagne.
                                 </p>
                                 <div class="drawer-grid">
-                                  <span class="drawer-fact">Indice utilise : le jeu te le donne.</span>
-                                  <span class="drawer-fact">Piege : recompense est trop generique.</span>
+                                  <span class="drawer-fact">Indice utilisé : le jeu te le donne.</span>
+                                  <span class="drawer-fact">Piège : récompense est trop générique.</span>
                                 </div>
                               </section>
                             )}
 
                             <div class="bottom-bar">
-                              <span class="bottom-note">
-                                {shot.expanded
-                                  ? "Feedback court, pas une lecon complete."
-                                  : "Aide optionnelle, choix visibles."}
-                              </span>
                               <span class="next-button">{shot.expanded ? "Mot suivant" : "Valider"}</span>
                             </div>
                           </section>
@@ -1132,11 +1146,11 @@ const machineStates = [
     <section class="doc-stack">
       <div class="section-head">
         <span class="doc-kicker">State machine</span>
-        <h2>Le panneau doit fonctionner comme une machine a etats</h2>
+        <h2>Le panneau doit fonctionner comme une machine à états</h2>
         <p>
-          Le composant ne doit plus etre une page qui empile du HTML. Il doit avoir des etats
-          exclusifs, des transitions explicites et des invariants visuels. C'est ce qui evitera les
-          regressions du type "ancienne reponse encore visible", "indices qui restent ouverts" ou
+          Le composant ne doit plus être une page qui empile du HTML. Il doit avoir des états
+          exclusifs, des transitions explicites et des invariants visuels. C'est ce qui évitera les
+          régressions du type "ancienne réponse encore visible", "indices qui restent ouverts" ou
           "bouton suivant hors champ".
         </p>
       </div>
@@ -1163,21 +1177,21 @@ const machineStates = [
 
       <section class="doc-card">
         <span class="doc-kicker">Invariants</span>
-        <h3>Regles que tous les etats doivent respecter</h3>
+        <h3>Règles que tous les états doivent respecter</h3>
         <ul>
-          <li>Le romaji reste visible dans tous les etats.</li>
-          <li>Les 4 reponses gardent leur emplacement jusqu'au mot suivant.</li>
-          <li>Un seul drawer pedagogique peut etre ouvert a la fois.</li>
+          <li>Le romaji reste visible dans tous les états.</li>
+          <li>Les 4 réponses gardent leur emplacement jusqu'au mot suivant.</li>
+          <li>Un seul drawer pédagogique peut être ouvert à la fois.</li>
           <li>Le bouton principal reste dans le panneau actif.</li>
-          <li>Changer de mot reinitialise indice, feedback, selection et explication.</li>
-          <li>Desktop et mobile partagent les memes etats, seule la composition responsive change.</li>
+          <li>Changer de mot réinitialise indice, feedback, sélection et explication.</li>
+          <li>Desktop et mobile partagent les mêmes états, seule la composition responsive change.</li>
         </ul>
       </section>
     </section>
 
     <section class="doc-stack">
       <div class="section-head">
-        <span class="doc-kicker">Decision</span>
+        <span class="doc-kicker">Décision</span>
         <h2>Comparatif de choix</h2>
       </div>
 
@@ -1188,8 +1202,8 @@ const machineStates = [
           <span>Risque</span>
         </div>
         <div class="decision-row">
-          <strong>A - Card de decision</strong>
-          <span>Meilleur compromis : clair, compact, rapide a implementer.</span>
+          <strong>A - Card de décision</strong>
+          <span>Meilleur compromis : clair, compact, rapide à implémenter.</span>
           <span>Moins spectaculaire que C, moins didactique que B.</span>
         </div>
         <div class="decision-row">
@@ -1199,8 +1213,153 @@ const machineStates = [
         </div>
         <div class="decision-row">
           <strong>C - Console arcade</strong>
-          <span>Meilleur rythme et plus forte identite jeu.</span>
-          <span>Demande plus de discipline pour ne pas redevenir trop charge visuellement.</span>
+          <span>Meilleur rythme et plus forte identité jeu.</span>
+          <span>Demande plus de discipline pour ne pas redevenir trop chargé visuellement.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-stack">
+      <div class="section-head">
+        <span class="doc-kicker">Comparatif mobile</span>
+        <h2>Lecture directe des variantes A, B et C</h2>
+        <p>
+          Même mot, mêmes réponses, mêmes états. Cette section sert à comparer uniquement le rendu
+          final côté utilisateur, sans notes dans les écrans.
+        </p>
+      </div>
+
+      <div class="mobile-comparison">
+        <div class="mobile-comparison-row">
+          <h3>Mobile plié</h3>
+          <div class="mobile-comparison-grid">
+            {
+              variants.map((variant) => (
+                <article class="comparison-shot">
+                  <strong class="comparison-shot-title">
+                    {variant.id} - {variant.title}
+                  </strong>
+                  <div class:list={["quiz-frame", "is-mobile", variant.theme]}>
+                    <div class:list={["quiz-shell", "is-mobile", variant.theme]}>
+                      <div class="quiz-hud">
+                        <span class="hud-step">03/10</span>
+                        <span class="hud-meter">
+                          <span></span>
+                        </span>
+                        <span class="hud-score">Score 1</span>
+                      </div>
+
+                      <section class="word-panel">
+                        <div class="chip-row">
+                          <span class="chip">Gacha & Rewards</span>
+                        </div>
+                        <strong class="romaji">haifu</strong>
+                        <div class="japanese-line">
+                          <span class="kana">はいふ</span>
+                          <span class="kanji">配布</span>
+                        </div>
+                      </section>
+
+                      <section class="action-panel">
+                        <div class="prompt-line">
+                          <div>
+                            <strong>Choisis le sens</strong>
+                            <span>Contexte gaming / pop culture.</span>
+                          </div>
+                          <span class="hint-button">Indice</span>
+                        </div>
+
+                        <div class="answer-list">
+                          {answers.map((answer) => (
+                            <span class="answer" data-state={answer.state}>
+                              <span class="answer-key">{answer.key}</span>
+                              <span>{answer.label}</span>
+                            </span>
+                          ))}
+                        </div>
+
+                        <div class="bottom-bar">
+                          <span class="next-button">Valider</span>
+                        </div>
+                      </section>
+                    </div>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="mobile-comparison-row">
+          <h3>Mobile déplié</h3>
+          <div class="mobile-comparison-grid">
+            {
+              variants.map((variant) => (
+                <article class="comparison-shot">
+                  <strong class="comparison-shot-title">
+                    {variant.id} - {variant.title}
+                  </strong>
+                  <div class:list={["quiz-frame", "is-mobile", variant.theme]}>
+                    <div class:list={["quiz-shell", "is-mobile", variant.theme, "is-expanded"]}>
+                      <div class="quiz-hud">
+                        <span class="hud-step">03/10</span>
+                        <span class="hud-meter">
+                          <span></span>
+                        </span>
+                        <span class="hud-score">Score 1</span>
+                      </div>
+
+                      <section class="word-panel">
+                        <div class="chip-row">
+                          <span class="chip">Gacha & Rewards</span>
+                        </div>
+                        <strong class="romaji">haifu</strong>
+                        <div class="japanese-line">
+                          <span class="kana">はいふ</span>
+                          <span class="kanji">配布</span>
+                        </div>
+                      </section>
+
+                      <section class="action-panel">
+                        <div class="prompt-line">
+                          <div>
+                            <strong>Réponse verrouillée</strong>
+                            <span>Distribution gratuite.</span>
+                          </div>
+                          <span class="hint-button">+1</span>
+                        </div>
+
+                        <div class="answer-list">
+                          {answers.map((answer) => (
+                            <span class="answer" data-state={answer.state}>
+                              <span class="answer-key">{answer.key}</span>
+                              <span>{answer.label}</span>
+                            </span>
+                          ))}
+                        </div>
+
+                        <section class="learn-drawer">
+                          <strong class="drawer-title">Pourquoi cette réponse</strong>
+                          <p class="drawer-copy">
+                            Haifu désigne une distribution gratuite : compensation, maintenance ou
+                            cadeau de campagne.
+                          </p>
+                          <div class="drawer-grid">
+                            <span class="drawer-fact">Indice utilisé : le jeu te le donne.</span>
+                            <span class="drawer-fact">Piège : récompense est trop générique.</span>
+                          </div>
+                        </section>
+
+                        <div class="bottom-bar">
+                          <span class="next-button">Mot suivant</span>
+                        </div>
+                      </section>
+                    </div>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
         </div>
       </div>
     </section>

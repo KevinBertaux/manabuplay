@@ -18,7 +18,7 @@ export const CURRENT_PRODUCT_COPY = {
     stat_diff: "4 DIFFICULTIES",
     stat_free: "FREE",
     features_label: "// WHY MANABUPLAY",
-    features_title: `Gaming <span style="color:var(--fuchsia)">IS</span> Language Learning`,
+    features_title: `Gaming <span class="text-[var(--fuchsia)]">IS</span> Language Learning`,
     features_sub:
       "You've been absorbing Japanese culture for years without realizing it. Time to go conscious.",
     feat1_title: "BATTLE-TESTED VOCAB",
@@ -31,9 +31,11 @@ export const CURRENT_PRODUCT_COPY = {
     feat3_body:
       "No app. No account. No paywall. Load the page and start leveling up your Japanese — instantly.",
     quiz_label: "// INTERACTIVE TOOL",
-    quiz_title: `Japanese Gaming<br/><span style="color:var(--fuchsia)">Vocab Quiz</span>`,
+    quiz_title: `Japanese Gaming<br/><span class="text-[var(--fuchsia)]">Vocab Quiz</span>`,
     quiz_sub: "Choose your difficulty and prove your knowledge.",
     quiz_question: "What does this mean in the gaming world?",
+    quiz_prompt_title: "Choose the meaning",
+    quiz_prompt_context: "Gaming / pop culture context.",
     diff_title: "SELECT DIFFICULTY",
     diff_easy: "EASY",
     diff_normal: "NORMAL",
@@ -62,7 +64,7 @@ export const CURRENT_PRODUCT_COPY = {
     result_share_copy: "Copy Link",
     result_share_copied: "Copied!",
     email_label: "// LEVEL UP ALERT",
-    email_title: `New Quizzes<br/><span style="background:linear-gradient(90deg,var(--violet),var(--fuchsia));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Dropping Soon</span>`,
+    email_title: `New Quizzes<br/><span class="bg-[linear-gradient(90deg,var(--violet),var(--fuchsia))] bg-clip-text text-transparent">Dropping Soon</span>`,
     email_sub:
       "Anime grammar, JRPG battle vocab, Street Fighter special moves — get early access when new packs go live.",
     email_ph: "your@email.com",
@@ -128,7 +130,7 @@ export const CURRENT_PRODUCT_COPY = {
     stat_diff: "4 DIFFICULTÉS",
     stat_free: "GRATUIT",
     features_label: "// POURQUOI MANABUPLAY",
-    features_title: `Le Gaming <span style="color:var(--fuchsia)">EST</span> l'apprentissage des langues`,
+    features_title: `Le Gaming <span class="text-[var(--fuchsia)]">EST</span> l'apprentissage des langues`,
     features_sub:
       "Tu absorbes la culture japonaise depuis des années sans t'en rendre compte. Il est temps d'en prendre conscience.",
     feat1_title: "VOCAB TESTÉ AU COMBAT",
@@ -141,9 +143,11 @@ export const CURRENT_PRODUCT_COPY = {
     feat3_body:
       "Pas d'appli. Pas de compte. Pas de paywall. Charge la page et commence à monter en niveau — instantanément.",
     quiz_label: "// OUTIL INTERACTIF",
-    quiz_title: `Quiz de Vocab<br/><span style="color:var(--fuchsia)">Gaming Japonais</span>`,
+    quiz_title: `Quiz de Vocab<br/><span class="text-[var(--fuchsia)]">Gaming Japonais</span>`,
     quiz_sub: "Choisis ta difficulté et prouve tes connaissances.",
     quiz_question: "Que signifie ce mot dans l'univers du gaming ?",
+    quiz_prompt_title: "Choisis le sens",
+    quiz_prompt_context: "Contexte gaming / pop culture.",
     diff_title: "CHOIX DE DIFFICULTÉ",
     diff_easy: "FACILE",
     diff_normal: "NORMAL",
@@ -172,7 +176,7 @@ export const CURRENT_PRODUCT_COPY = {
     result_share_copy: "Copier le lien",
     result_share_copied: "Copié !",
     email_label: "// ALERTE NIVEAU SUP",
-    email_title: `Nouveaux Quiz<br/><span style="background:linear-gradient(90deg,var(--violet),var(--fuchsia));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Bientôt disponibles</span>`,
+    email_title: `Nouveaux Quiz<br/><span class="bg-[linear-gradient(90deg,var(--violet),var(--fuchsia))] bg-clip-text text-transparent">Bientôt disponibles</span>`,
     email_sub:
       "Grammaire anime, vocab de batailles JRPG, coups spéciaux Street Fighter — accès anticipé dès que les nouveaux packs sortent.",
     email_ph: "ton@email.com",

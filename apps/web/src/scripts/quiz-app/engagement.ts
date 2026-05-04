@@ -111,7 +111,7 @@ export function createWaitlistController({
     if (waitlistButtonTimer) window.clearTimeout(waitlistButtonTimer);
     if (waitlistMessageTimer) window.clearTimeout(waitlistMessageTimer);
 
-    success.style.display = "block";
+    success.classList.remove("hidden");
     success.classList.remove("waitlist-success-pop", "waitlist-success-fade");
     void success.offsetWidth;
     success.classList.add("waitlist-success-pop");
@@ -142,7 +142,7 @@ export function createWaitlistController({
         "animationend",
         () => {
           if (success.classList.contains("waitlist-success-fade")) {
-            success.style.display = "none";
+            success.classList.add("hidden");
             success.classList.remove("waitlist-success-fade");
           }
         },
@@ -210,7 +210,7 @@ export function createWaitlistController({
         button.disabled = false;
         button.textContent = originalText;
       }
-      success.style.display = "block";
+      success.classList.remove("hidden");
       const span = success.querySelector<HTMLSpanElement>("span");
       if (span) {
         span.textContent =

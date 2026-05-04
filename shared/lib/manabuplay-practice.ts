@@ -57,7 +57,7 @@ export function buildPracticeBootData() {
       en: {
         ...base.lang.en,
         quiz_label: "// PRACTICE MODE",
-        quiz_title: `Practice Japanese<br/><span style="color:var(--fuchsia)">Vocab Quiz</span>`,
+        quiz_title: `Practice Japanese<br/><span class="text-[var(--fuchsia)]">Vocab Quiz</span>`,
         quiz_sub: "Four recipes, 10 questions each, with a 2-session cooldown per word.",
         diff_title: "SELECT A PRACTICE RUN",
         diff_normal: "STANDARD",
@@ -67,7 +67,7 @@ export function buildPracticeBootData() {
       fr: {
         ...base.lang.fr,
         quiz_label: "// MODE LIBRE",
-        quiz_title: `Entraînement<br/><span style="color:var(--fuchsia)">Vocab japonais</span>`,
+        quiz_title: `Entraînement<br/><span class="text-[var(--fuchsia)]">Vocab japonais</span>`,
         quiz_sub: "Quatre recettes, 10 questions chacune, avec un cooldown de 2 sessions par mot.",
         diff_title: "CHOISIS TA RUN LIBRE",
         diff_normal: "STANDARD",
