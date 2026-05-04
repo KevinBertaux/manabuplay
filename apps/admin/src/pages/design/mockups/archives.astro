@@ -12,6 +12,21 @@ type ArchiveDay = {
   tone: "played" | "current" | "open" | "locked";
 };
 
+type CalendarTone = ArchiveDay["tone"] | "future" | "empty";
+
+type CalendarCell = {
+  key: string;
+  day?: string;
+  title?: string;
+  pack?: string;
+  status?: string;
+  score?: string;
+  attempts?: string;
+  href?: string;
+  tone: CalendarTone;
+  disabled?: boolean;
+};
+
 const mayDays: ArchiveDay[] = [
   {
     day: "04",
@@ -115,6 +130,103 @@ const statusClass = {
   open: "archive-status archive-status--open",
   played: "archive-status archive-status--played",
 } satisfies Record<ArchiveDay["tone"], string>;
+
+const calendarStatusClass = {
+  ...statusClass,
+  empty: "archive-status archive-status--locked",
+  future: "archive-status archive-status--locked",
+} satisfies Record<CalendarTone, string>;
+
+const calendarLocale = {
+  code: "fr-FR",
+  label: "France",
+  weekStartsOn: 1,
+  weekdays: ["Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.", "Dim."],
+  fallback: "en-US démarre dimanche.",
+} as const;
+
+const archiveCalendarDetails: Partial<Record<number, Omit<CalendarCell, "day" | "key">>> = {
+  1: {
+    title: "Archive du 1 mai",
+    pack: "JRPG Questline",
+    status: "Déjà joué",
+    score: "132 pts max",
+    attempts: "1 tentative",
+    href: "/fr/archives/2026-05-01/",
+    tone: "played",
+  },
+  2: {
+    title: "Archive du 2 mai",
+    pack: "Builds & Gear",
+    status: "Disponible",
+    score: "0 pt",
+    attempts: "Aucune tentative",
+    href: "/fr/archives/2026-05-02/",
+    tone: "open",
+  },
+  3: {
+    title: "Archive du 3 mai",
+    pack: "Anime Codes",
+    status: "Déjà joué",
+    score: "118 pts max",
+    attempts: "2 tentatives",
+    href: "/fr/archives/2026-05-03/",
+    tone: "played",
+  },
+  4: {
+    title: "Quotidien du 4 mai",
+    pack: "Gacha & Rewards",
+    status: "Joué aujourd'hui",
+    score: "124 pts max",
+    attempts: "1 tentative",
+    href: "/fr/daily/",
+    tone: "current",
+  },
+};
+
+const buildCalendarCells = (): CalendarCell[] => {
+  const mayFirstSundayIndex = 5;
+  const leadingCount = (mayFirstSundayIndex - calendarLocale.weekStartsOn + 7) % 7;
+  const leadingCells: CalendarCell[] = Array.from({ length: leadingCount }, (_, index) => ({
+    key: `empty-start-${index}`,
+    tone: "empty",
+  }));
+
+  const monthCells: CalendarCell[] = Array.from({ length: 31 }, (_, index) => {
+    const dayNumber = index + 1;
+    const day = String(dayNumber).padStart(2, "0");
+    const knownDay = archiveCalendarDetails[dayNumber];
+
+    if (knownDay) {
+      return {
+        key: `2026-05-${day}`,
+        day,
+        ...knownDay,
+      };
+    }
+
+    return {
+      key: `2026-05-${day}`,
+      day,
+      title: `${day} mai`,
+      status: "À venir",
+      tone: "future",
+      disabled: true,
+    };
+  });
+
+  const cells = [...leadingCells, ...monthCells];
+  const trailingCount = (7 - (cells.length % 7)) % 7;
+  const trailingCells: CalendarCell[] = Array.from({ length: trailingCount }, (_, index) => ({
+    key: `empty-end-${index}`,
+    tone: "empty",
+  }));
+
+  return [...cells, ...trailingCells];
+};
+
+const calendarCells = buildCalendarCells();
+const currentCalendarDay = archiveCalendarDetails[4]!;
 ---
 
 <DesignDocLayout
@@ -277,5 +389,127 @@ const statusClass = {
         )}
       </article>
     ))}
+  </section>
+
+  <section class="archive-variant archive-variant--d" aria-labelledby="archive-option-d-title">
+    <header class="archive-variant-head archive-variant-head--wide">
+      <span class="archive-variant-id">Version D</span>
+      <div>
+        <h2 id="archive-option-d-title">Calendrier mensuel</h2>
+        <p>
+          Grille 7 colonnes pilotée par la locale : ici {calendarLocale.code}, donc semaine lundi-dimanche.
+          {calendarLocale.fallback} Les jours passés pointent vers leur archive, le jour courant vers le quotidien.
+        </p>
+      </div>
+    </header>
+
+    <div class="archive-option-d-shell">
+      <article class="archive-device archive-device--desktop" aria-label="Version desktop calendrier">
+        <header class="archive-device-bar">
+          <span>Desktop</span>
+          <strong>{calendarLocale.label} · semaine lundi</strong>
+        </header>
+        <div class="archive-calendar-panel">
+          <div class="archive-calendar-panel-head">
+            <div>
+              <span class="archive-calendar-eyebrow">Archives</span>
+              <h3>Mai 2026</h3>
+            </div>
+            <p>3 joués · 1 disponible · 27 à venir</p>
+          </div>
+
+          <div class="archive-calendar-weekdays" aria-hidden="true">
+            {calendarLocale.weekdays.map((weekday) => <span>{weekday}</span>)}
+          </div>
+
+          <div class="archive-calendar-month archive-calendar-month--desktop">
+            {calendarCells.map((cell) =>
+              cell.tone === "empty" ? (
+                <span class="archive-calendar-cell archive-calendar-cell--empty" aria-hidden="true"></span>
+              ) : cell.disabled ? (
+                <span
+                  class:list={["archive-calendar-cell", `archive-calendar-cell--${cell.tone}`]}
+                  aria-disabled="true"
+                >
+                  <span class="archive-calendar-cell-top">
+                    <strong>{cell.day}</strong>
+                    <small>À venir</small>
+                  </span>
+                  <span class="archive-calendar-cell-title">{cell.title}</span>
+                  <span class={calendarStatusClass[cell.tone]}>{cell.status}</span>
+                </span>
+              ) : (
+                <a class:list={["archive-calendar-cell", `archive-calendar-cell--${cell.tone}`]} href={cell.href}>
+                  <span class="archive-calendar-cell-top">
+                    <strong>{cell.day}</strong>
+                    <small>{cell.tone === "current" ? "Quotidien" : "Archive"}</small>
+                  </span>
+                  <span class="archive-calendar-cell-title">{cell.title}</span>
+                  <span class="archive-calendar-cell-pack">{cell.pack}</span>
+                  <span class={calendarStatusClass[cell.tone]}>{cell.status}</span>
+                  <span class="archive-calendar-cell-meta">
+                    <span>{cell.score}</span>
+                    <span>{cell.attempts}</span>
+                  </span>
+                </a>
+              )
+            )}
+          </div>
+        </div>
+      </article>
+
+      <article class="archive-device archive-device--mobile" aria-label="Version mobile calendrier">
+        <header class="archive-device-bar">
+          <span>Mobile</span>
+          <strong>Compact</strong>
+        </header>
+        <div class="archive-calendar-panel archive-calendar-panel--mobile">
+          <div class="archive-calendar-panel-head">
+            <div>
+              <span class="archive-calendar-eyebrow">Archives</span>
+              <h3>Mai 2026</h3>
+            </div>
+            <p>3/4 ouverts</p>
+          </div>
+
+          <div class="archive-calendar-weekdays" aria-hidden="true">
+            {calendarLocale.weekdays.map((weekday) => <span>{weekday}</span>)}
+          </div>
+
+          <div class="archive-calendar-month archive-calendar-month--mobile">
+            {calendarCells.map((cell) =>
+              cell.tone === "empty" ? (
+                <span class="archive-calendar-cell archive-calendar-cell--empty" aria-hidden="true"></span>
+              ) : cell.disabled ? (
+                <span
+                  class:list={["archive-calendar-cell", `archive-calendar-cell--${cell.tone}`]}
+                  aria-disabled="true"
+                >
+                  <span class="archive-calendar-cell-top">
+                    <strong>{cell.day}</strong>
+                  </span>
+                </span>
+              ) : (
+                <a class:list={["archive-calendar-cell", `archive-calendar-cell--${cell.tone}`]} href={cell.href}>
+                  <span class="archive-calendar-cell-top">
+                    <strong>{cell.day}</strong>
+                  </span>
+                  <span class="archive-calendar-cell-meta">
+                    <span>{cell.score}</span>
+                    <span>{cell.attempts}</span>
+                  </span>
+                </a>
+              )
+            )}
+          </div>
+
+          <div class="archive-mobile-focus">
+            <span class={statusClass.current}>{currentCalendarDay.status}</span>
+            <strong>04 · {currentCalendarDay.title}</strong>
+            <p>{currentCalendarDay.pack} · {currentCalendarDay.score} · {currentCalendarDay.attempts}</p>
+          </div>
+        </div>
+      </article>
+    </div>
   </section>
 </DesignDocLayout>

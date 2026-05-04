@@ -17,8 +17,10 @@ export type AdminNavKey =
 export type AdminNavLink = {
   key?: AdminNavKey;
   activeKey?: AdminNavKey;
-  href: string;
+  href?: string;
+  exact?: boolean;
   label: string;
+  children?: AdminNavLink[];
 };
 
 export type AdminNavGroup = {
@@ -55,7 +57,30 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
     items: [
       { key: "brand", href: "/design/brand-system", label: "Charte" },
       { key: "fx", href: "/design/fx", label: "FX" },
-      { activeKey: "mockups", href: "/design/mockups/answer-cards", label: "Mockups" },
+      {
+        activeKey: "mockups",
+        label: "Mockups",
+        children: [
+          {
+            activeKey: "mockups",
+            exact: true,
+            href: "/design/mockups/answer-cards",
+            label: "Réponses",
+          },
+          {
+            activeKey: "mockups",
+            exact: true,
+            href: "/design/mockups/tier-breakdown",
+            label: "Tiers",
+          },
+          {
+            activeKey: "mockups",
+            exact: true,
+            href: "/design/mockups/archives",
+            label: "Archives",
+          },
+        ],
+      },
       { activeKey: "references", href: "/design/references/hero", label: "Références" },
     ],
   },
@@ -69,8 +94,29 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
   },
 ];
 
-export function isAdminNavItemActive(item: AdminNavLink, active: AdminNavKey) {
-  return item.key === active || item.activeKey === active;
+function normalizePath(pathname: string) {
+  return pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname;
+}
+
+export function isAdminNavItemActive(
+  item: AdminNavLink,
+  active: AdminNavKey,
+  currentPath = "",
+): boolean {
+  const matchesPath =
+    Boolean(item.href && currentPath) &&
+    normalizePath(item.href || "") === normalizePath(currentPath);
+
+  if (item.exact && currentPath) {
+    return matchesPath;
+  }
+
+  return (
+    matchesPath ||
+    item.key === active ||
+    item.activeKey === active ||
+    Boolean(item.children?.some((child) => isAdminNavItemActive(child, active, currentPath)))
+  );
 }
 
 export function isAdminNavGroupActive(group: AdminNavGroup, active: AdminNavKey) {

@@ -53,7 +53,7 @@ const metaDescription = description || ADMIN_APP_DESCRIPTION;
 </head>
 <body class={bodyClass} data-admin-page={pageId} data-admin-app={ADMIN_BODY_APP}>
   <main class={containerClass}>
-    <AdminTopNav active={activeNav} />
+    <AdminTopNav active={activeNav} currentPath={Astro.url.pathname} />
     <slot />
   </main>
   <script src="../scripts/admin-topnav.ts"></script>

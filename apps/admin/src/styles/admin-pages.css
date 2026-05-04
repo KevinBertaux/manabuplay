@@ -3987,9 +3987,270 @@ html {
   justify-self: end;
 }
 
+.archive-variant--d {
+  gap: 16px;
+}
+
+.archive-variant-head--wide {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+}
+
+.archive-option-d-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.32fr) minmax(330px, 0.68fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.archive-device {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(2, 6, 23, 0.72);
+  padding: 10px;
+}
+
+.archive-device--mobile {
+  max-width: 390px;
+  justify-self: center;
+}
+
+.archive-device-bar {
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: #bdb7d8;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.archive-device-bar strong {
+  color: #8deeff;
+  font-size: 0.72rem;
+}
+
+.archive-calendar-panel {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(34, 211, 238, 0.16);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(236, 72, 153, 0.12), transparent 28%),
+    linear-gradient(rgba(34, 211, 238, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.04) 1px, transparent 1px), rgba(2, 6, 23, 0.92);
+  background-size: auto, 18px 18px, 18px 18px;
+  padding: 12px;
+}
+
+.archive-calendar-panel--mobile {
+  padding: 10px;
+}
+
+.archive-calendar-panel-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.archive-calendar-panel-head h3 {
+  margin: 4px 0 0;
+  color: #fff;
+  font-family: "Joystix", sans-serif;
+  font-size: clamp(0.96rem, 1.5vw, 1.18rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.archive-calendar-panel-head p {
+  margin: 0;
+  color: #8deeff;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.archive-calendar-eyebrow {
+  color: #ec4899;
+  font-family: "Joystix", sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.archive-calendar-weekdays,
+.archive-calendar-month {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.archive-calendar-weekdays span {
+  color: #8deeff;
+  font-size: 0.68rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.archive-calendar-cell {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-width: 0;
+  min-height: 126px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.84);
+  color: inherit;
+  padding: 8px;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.archive-calendar-cell[href]:hover {
+  border-color: rgba(34, 211, 238, 0.44);
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.14), 0 12px 24px rgba(0, 0, 0, 0.28);
+  transform: translateY(-1px);
+}
+
+.archive-calendar-cell--empty {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.archive-calendar-cell--played {
+  border-color: rgba(250, 204, 21, 0.28);
+  background: rgba(250, 204, 21, 0.08);
+}
+
+.archive-calendar-cell--current {
+  border-color: rgba(34, 211, 238, 0.42);
+  background: rgba(34, 211, 238, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.1);
+}
+
+.archive-calendar-cell--open {
+  border-color: rgba(45, 212, 191, 0.3);
+  background: rgba(45, 212, 191, 0.08);
+}
+
+.archive-calendar-cell--future {
+  opacity: 0.48;
+  filter: saturate(0.55);
+}
+
+.archive-calendar-cell-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.archive-calendar-cell-top strong {
+  color: #fff;
+  font-family: "Joystix", sans-serif;
+  font-size: 1rem;
+}
+
+.archive-calendar-cell-top small {
+  color: #a7a1be;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.archive-calendar-cell-title {
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 950;
+  line-height: 1.25;
+}
+
+.archive-calendar-cell-pack {
+  color: #bdb7d8;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.archive-calendar-cell-meta {
+  display: grid;
+  gap: 2px;
+  color: #dbeafe;
+  font-size: 0.7rem;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.archive-calendar-month--mobile {
+  gap: 4px;
+}
+
+.archive-calendar-month--mobile .archive-calendar-cell {
+  min-height: 54px;
+  gap: 2px;
+  border-radius: 8px;
+  padding: 6px 4px;
+}
+
+.archive-calendar-month--mobile .archive-calendar-cell-top {
+  justify-content: center;
+}
+
+.archive-calendar-month--mobile .archive-calendar-cell-top strong {
+  font-size: 0.76rem;
+}
+
+.archive-calendar-month--mobile .archive-calendar-cell-meta {
+  color: #dbeafe;
+  font-size: 0.52rem;
+  text-align: center;
+}
+
+.archive-calendar-month--mobile .archive-calendar-cell-meta span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.archive-mobile-focus {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: 8px;
+  background: rgba(34, 211, 238, 0.08);
+  padding: 10px;
+}
+
+.archive-mobile-focus strong {
+  color: #fff;
+  font-size: 0.88rem;
+  line-height: 1.25;
+}
+
+.archive-mobile-focus p {
+  margin: 0;
+  color: #c7c2df;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
 @media (max-width: 1120px) {
   .archive-variant-grid,
-  .archive-mockup-hero {
+  .archive-mockup-hero,
+  .archive-option-d-shell {
     grid-template-columns: 1fr;
   }
 
@@ -4014,6 +4275,14 @@ html {
     grid-template-columns: 1fr;
   }
 
+  .archive-variant-head--wide {
+    grid-template-columns: 1fr;
+  }
+
+  .archive-calendar-month--desktop .archive-calendar-cell {
+    min-height: 112px;
+  }
+
   .archive-issue {
     grid-template-columns: 52px minmax(0, 1fr);
   }
@@ -4021,5 +4290,20 @@ html {
   .archive-issue .archive-status {
     grid-column: 1 / -1;
     justify-self: start;
+  }
+
+  .archive-calendar-panel-head {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .archive-calendar-month--desktop .archive-calendar-cell {
+    min-height: 84px;
+    padding: 6px;
+  }
+
+  .archive-calendar-month--desktop .archive-calendar-cell-pack,
+  .archive-calendar-month--desktop .archive-status {
+    display: none;
   }
 }

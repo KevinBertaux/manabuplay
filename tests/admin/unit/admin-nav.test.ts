@@ -48,10 +48,34 @@ describe("admin nav", () => {
       "Mockups",
       "Références",
     ]);
-    expect(designGroup?.items.find((item) => item.label === "Mockups")?.activeKey).toBe("mockups");
+    const mockupsItem = designGroup?.items.find((item) => item.label === "Mockups");
+
+    expect(mockupsItem?.activeKey).toBe("mockups");
+    expect(mockupsItem?.children?.map((item) => item.label)).toEqual([
+      "Réponses",
+      "Tiers",
+      "Archives",
+    ]);
+    expect(mockupsItem?.children?.find((item) => item.label === "Archives")?.href).toBe(
+      "/design/mockups/archives",
+    );
     expect(designGroup?.items.find((item) => item.label === "Références")?.activeKey).toBe(
       "references",
     );
+  });
+
+  it("marks only the current mockup child active by path", () => {
+    const designGroup = ADMIN_GROUPS.find((group) => group.label === "Design");
+    const mockupsItem = designGroup?.items.find((item) => item.label === "Mockups");
+    const answerCards = mockupsItem?.children?.find((item) => item.label === "Réponses");
+    const archives = mockupsItem?.children?.find((item) => item.label === "Archives");
+
+    expect(mockupsItem).toBeDefined();
+    expect(answerCards).toBeDefined();
+    expect(archives).toBeDefined();
+    expect(isAdminNavItemActive(mockupsItem!, "mockups", "/design/mockups/archives")).toBe(true);
+    expect(isAdminNavItemActive(archives!, "mockups", "/design/mockups/archives")).toBe(true);
+    expect(isAdminNavItemActive(answerCards!, "mockups", "/design/mockups/archives")).toBe(false);
   });
 
   it("opens only the drawer matching the current section", () => {

@@ -5,8 +5,17 @@
 
 @import "../../../../shared/styles/shared.css";
 
-.admin-topnav__group[open] .admin-topnav__summary svg {
+.admin-topnav__group[open] > .admin-topnav__summary .admin-topnav__chevron,
+.admin-topnav__subgroup[open] > .admin-topnav__summary .admin-topnav__chevron {
   transform: rotate(180deg);
+}
+
+.admin-topnav__menu,
+.admin-topnav__subgroup,
+.admin-topnav__subgroup > div {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .admin-topnav__lang-btn.is-active {

@@ -114,8 +114,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "Archives make Daily durable and add accessible content without inventing another mode.",
     },
     note: {
-      fr: "Les Archives sont jouables par date passée, sans partage. Pas de snapshot permanent pour l'instant ; JSON de sauvegarde plus tard si nécessaire.",
-      en: "Archives are playable by past date, without sharing. No permanent snapshot for now; JSON backups later if needed.",
+      fr: "Les Archives sont jouables par date passée, sans partage. Pour le lot 5 de la prochaine branche, option D retenue : calendrier 7 colonnes localisé avec score max, tentatives et jours futurs désactivés.",
+      en: "Archives are playable by past date, without sharing. For lot 5 of the next branch, option D is selected: localized 7-column calendar with best score, attempts, and disabled future days.",
     },
   },
   {
