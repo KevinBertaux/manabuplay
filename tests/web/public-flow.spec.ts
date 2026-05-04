@@ -66,6 +66,44 @@ test.describe("public flow", () => {
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
   });
 
+  test("locks the Daily launch once today's run is completed", async ({ page }) => {
+    await page.addInitScript(() => {
+      const now = new Date();
+      const dateKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(
+        now.getDate(),
+      ).padStart(2, "0")}`;
+      localStorage.setItem(
+        "mp_daily_runs",
+        JSON.stringify({
+          [dateKey]: {
+            dateKey,
+            bestScore: 88,
+            lastScore: 88,
+            attempts: 1,
+            correct: 8,
+            total: 10,
+            bestStreak: 4,
+            completedAt: `${dateKey}T08:00:00.000Z`,
+            updatedAt: `${dateKey}T08:00:00.000Z`,
+            dailyCompletedAt: `${dateKey}T08:00:00.000Z`,
+            wordIds: ["quest", "boss"],
+          },
+        }),
+      );
+    });
+    await prepareModePage(page, `${ASTRO_URL}fr/daily/`);
+
+    await expect(page.locator("#quizTitleHeadline")).toHaveText("Quotidien terminé");
+    await expect(page.locator("#quizTitleCopy")).toContainText("Score max : 88 pts");
+    await expect(page.locator("#startBtn")).toBeDisabled();
+    await expect(page.locator("[data-quiz-action='launchQuiz']").first()).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
+    await page.locator("[data-quiz-action='launchQuiz']").first().click({ force: true });
+    await expect(page.locator("#quizArea")).toBeHidden();
+  });
+
   test("keeps Practice as the only mode with explicit difficulty selection", async ({ page }) => {
     await prepareModePage(page, `${ASTRO_URL}fr/practice/`);
 

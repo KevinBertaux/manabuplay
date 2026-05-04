@@ -7,6 +7,22 @@ import type {
   StorageAdapter,
 } from "./runtime-types";
 
+export const DAILY_RUN_RECORDS_KEY = "daily_runs";
+
+export interface DailyRunRecord {
+  dateKey: string;
+  bestScore: number;
+  lastScore: number;
+  attempts: number;
+  correct: number;
+  total: number;
+  bestStreak: number;
+  completedAt: string;
+  updatedAt: string;
+  dailyCompletedAt: string;
+  wordIds: string[];
+}
+
 export function shuffle<T>(items: T[]): T[] {
   const shuffled = [...items];
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
@@ -21,6 +37,79 @@ export function getLocalDateKey(date = new Date()): string {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+function isDailyRunRecord(value: unknown): value is DailyRunRecord {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "dateKey" in value &&
+    "bestScore" in value &&
+    "attempts" in value &&
+    "dailyCompletedAt" in value
+  );
+}
+
+export function readDailyRunRecords(storage: StorageAdapter): Record<string, DailyRunRecord> {
+  const records = storage.get<Record<string, unknown>>(DAILY_RUN_RECORDS_KEY);
+  if (!records || typeof records !== "object" || Array.isArray(records)) return {};
+
+  return Object.fromEntries(
+    Object.entries(records).filter((entry): entry is [string, DailyRunRecord] =>
+      isDailyRunRecord(entry[1]),
+    ),
+  );
+}
+
+export function getDailyRunRecord(storage: StorageAdapter, dateKey: string) {
+  return readDailyRunRecords(storage)[dateKey] || null;
+}
+
+export function hasCompletedDailyRun(storage: StorageAdapter, dateKey: string) {
+  return Boolean(getDailyRunRecord(storage, dateKey)?.dailyCompletedAt);
+}
+
+export function saveDailyRunCompletion({
+  storage,
+  dateKey,
+  score,
+  correct,
+  total,
+  bestStreak,
+  questions,
+  completedAt = new Date().toISOString(),
+}: {
+  storage: StorageAdapter;
+  dateKey: string;
+  score: number;
+  correct: number;
+  total: number;
+  bestStreak: number;
+  questions: QuizQuestion[];
+  completedAt?: string;
+}) {
+  const records = readDailyRunRecords(storage);
+  const existing = records[dateKey];
+
+  if (existing?.dailyCompletedAt) return existing;
+
+  const record: DailyRunRecord = {
+    dateKey,
+    bestScore: Math.max(existing?.bestScore || 0, score),
+    lastScore: score,
+    attempts: (existing?.attempts || 0) + 1,
+    correct,
+    total,
+    bestStreak,
+    completedAt: existing?.completedAt || completedAt,
+    updatedAt: completedAt,
+    dailyCompletedAt: completedAt,
+    wordIds: questions.map((question) => question.id),
+  };
+
+  records[dateKey] = record;
+  storage.set(DAILY_RUN_RECORDS_KEY, records);
+  return record;
 }
 
 export function getSessionDateKey({

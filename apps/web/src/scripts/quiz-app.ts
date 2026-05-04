@@ -1,7 +1,10 @@
 import {
   buildDailyQuizData,
   buildQuestions,
+  getDailyRunRecord,
   getSessionDateKey,
+  hasCompletedDailyRun,
+  saveDailyRunCompletion,
   savePracticeSession,
 } from "./quiz-app/session";
 import {
@@ -137,6 +140,46 @@ function formatWrongFeedback(answer: string): string {
   return currentLang === "fr"
     ? `✗ 不正解 (Fuseikai) — La réponse : "${answer}"`
     : `✗ 不正解 (Fuseikai) — The answer: "${answer}"`;
+}
+
+function formatAttemptLabel(attempts: number): string {
+  if (currentLang === "fr") return attempts > 1 ? `${attempts} tentatives` : "1 tentative";
+  return attempts > 1 ? `${attempts} attempts` : "1 attempt";
+}
+
+function getCompletedDailyRunRecord() {
+  if (MANABUPLAY_MODE !== "daily") return null;
+  return getDailyRunRecord(LS, SESSION_DATE_KEY);
+}
+
+function isDailyRunLocked() {
+  return MANABUPLAY_MODE === "daily" && hasCompletedDailyRun(LS, SESSION_DATE_KEY);
+}
+
+function getDailyLockedButtonLabel() {
+  return currentLang === "fr" ? "Quotidien déjà joué" : "Daily already played";
+}
+
+function syncDailyLaunchControls() {
+  const locked = isDailyRunLocked();
+  document.querySelectorAll<HTMLElement>("[data-quiz-action='launchQuiz']").forEach((element) => {
+    element.classList.toggle("is-disabled", locked);
+    element.setAttribute("aria-disabled", locked ? "true" : "false");
+
+    if (element instanceof HTMLButtonElement) {
+      element.disabled = locked;
+    }
+
+    if (!element.dataset.quizDefaultText) {
+      element.dataset.quizDefaultText = element.textContent?.trim() || "";
+    }
+
+    if (locked) {
+      element.textContent = getDailyLockedButtonLabel();
+    } else if (element.dataset.quizDefaultText) {
+      element.textContent = element.dataset.quizDefaultText;
+    }
+  });
 }
 
 const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
@@ -369,7 +412,33 @@ function renderSingleRunTitleScreen() {
 
   const formattedDate = formatSessionDate(SESSION_DATE_KEY);
   const isArchiveMode = MANABUPLAY_MODE === "archives";
+  const completedDaily = getCompletedDailyRunRecord();
   const metaSecondary = document.getElementById("quizTitleMetaSecondary");
+
+  if (completedDaily) {
+    setElementText(
+      "quizTitleKicker",
+      currentLang === "fr" ? "Déjà joué aujourd'hui" : "Already played today",
+    );
+    setElementText(
+      "quizTitleHeadline",
+      currentLang === "fr" ? "Quotidien terminé" : "Daily complete",
+    );
+    setElementText(
+      "quizTitleCopy",
+      currentLang === "fr"
+        ? `Score max : ${completedDaily.bestScore} pts · ${formatAttemptLabel(completedDaily.attempts)}. Reviens demain pour une nouvelle run.`
+        : `Best score: ${completedDaily.bestScore} pts · ${formatAttemptLabel(completedDaily.attempts)}. Come back tomorrow for a new run.`,
+    );
+    setElementText("quizTitleMetaPrimary", `${completedDaily.correct}/${completedDaily.total}`);
+    if (metaSecondary instanceof HTMLElement) {
+      metaSecondary.hidden = false;
+      metaSecondary.textContent =
+        currentLang === "fr" ? "Archive visible demain" : "Archive visible tomorrow";
+    }
+    syncDailyLaunchControls();
+    return;
+  }
 
   setElementText(
     "quizTitleKicker",
@@ -406,6 +475,7 @@ function renderSingleRunTitleScreen() {
     metaSecondary.textContent = "";
     metaSecondary.hidden = true;
   }
+  syncDailyLaunchControls();
 }
 
 function setQuizHash() {
@@ -676,6 +746,18 @@ function showResults() {
   progressBar.value = total;
   getRequiredElement<HTMLElement>("progressText").textContent = `${total}/${total}`;
 
+  if (MANABUPLAY_MODE === "daily") {
+    saveDailyRunCompletion({
+      storage: LS,
+      dateKey: SESSION_DATE_KEY,
+      score: state.score,
+      correct: state.correct,
+      total,
+      bestStreak: state.bestStreak,
+      questions: state.questions,
+    });
+  }
+
   if (MANABUPLAY_MODE === "practice" && currentDiff) {
     savePracticeSession({
       storage: LS,
@@ -715,6 +797,12 @@ function showResults() {
 
 function launchQuiz() {
   if (!currentDiff) return;
+  if (isDailyRunLocked()) {
+    renderSingleRunTitleScreen();
+    scrollQuizSectionIntoView();
+    return;
+  }
+
   const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
   quizShell?.classList.add("is-launching");
 

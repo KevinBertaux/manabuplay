@@ -48,6 +48,13 @@
     animation: quizBootPulse 420ms ease-out;
   }
 
+  .cta-btn.is-disabled,
+  .start-btn.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
+    filter: saturate(0.55);
+  }
+
   .quiz-picker-title {
     @apply mb-6 text-center;
   }
