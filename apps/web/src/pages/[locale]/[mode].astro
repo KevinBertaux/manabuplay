@@ -75,7 +75,7 @@ const modeKickerClass = "section-label text-[var(--cyan)]";
           <strong class={routeStatusLabelClass}>{copy.status[locale]}</strong>
           <span class={routeStatusLabelClass}>{locale === "fr" ? "10 questions seedées par date locale." : "10 questions seeded from the local date."}</span>
         </div>
-        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz">
+        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz" data-quiz-action="launchQuiz">
           {lang.hero_cta}
         </a>
       </article>
@@ -123,7 +123,7 @@ const modeKickerClass = "section-label text-[var(--cyan)]";
               : `Selected archive: ${latestArchiveDate}`}
           </span>
         </div>
-        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz">
+        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz" data-quiz-action="launchQuiz">
           {locale === "fr" ? "Jouer cette archive" : "Play this archive"}
         </a>
       </article>

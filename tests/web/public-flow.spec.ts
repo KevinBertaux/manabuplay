@@ -1,5 +1,14 @@
 import { expect, test } from "@playwright/test";
-import { ASTRO_HOME_URL, preparePage } from "../helpers/visual";
+import { ASTRO_HOME_URL, ASTRO_URL, preparePage } from "../helpers/visual";
+
+async function prepareModePage(page: Parameters<typeof preparePage>[0], url: string) {
+  await page.goto(url, { waitUntil: "domcontentloaded" });
+  await page.waitForFunction(
+    () => Boolean(document.querySelector("#startBtn")?.textContent?.trim().length),
+    undefined,
+    { timeout: 15_000 },
+  );
+}
 
 test.describe("public flow", () => {
   test("switches language and keeps the hero CTA prominent", async ({ page }) => {
@@ -21,10 +30,6 @@ test.describe("public flow", () => {
     await page.locator("[data-i18n='hero_cta']").click();
     await expect(page).toHaveURL(/#quiz/);
 
-    const diffCard = page.locator(".diff-card").first();
-    await diffCard.click();
-    await page.locator("#startBtn").click();
-
     await expect(page.locator("#quizArea")).toBeVisible();
     await expect(page.locator("#progressRow")).toBeVisible();
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
@@ -44,6 +49,31 @@ test.describe("public flow", () => {
     await expect(page.locator("#explanationBox")).toBeVisible();
     await expect(page.locator("#nextBtn")).not.toHaveClass(/opacity-0/);
     await expect(page.locator("#answersGrid .answer-btn.correct")).toHaveCount(1);
+  });
+
+  test("keeps Daily as a one-click run without the Practice difficulty picker", async ({
+    page,
+  }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/daily/`);
+
+    await expect(page.locator("#quizTitleScreen")).toBeVisible();
+    await expect(page.locator("#quizTitleHeadline")).toContainText("Quotidien du");
+    await expect(page.locator("#diffGrid")).toBeHidden();
+    await expect(page.locator(".diff-card")).toHaveCount(0);
+    await page.locator("[data-quiz-action='launchQuiz']").first().click();
+    await expect(page.locator("#quizArea")).toBeVisible();
+    await expect(page.locator("#quizTitleScreen")).toBeHidden();
+    await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
+  });
+
+  test("keeps Practice as the only mode with explicit difficulty selection", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/practice/`);
+
+    await expect(page.locator("#diffGrid")).toBeVisible();
+    await expect(page.locator(".diff-card")).toHaveCount(4);
+    await page.locator(".diff-card").first().click();
+    await page.locator("#startBtn").click();
+    await expect(page.locator("#quizArea")).toBeVisible();
   });
 
   test("keeps the waitlist form usable on shared devices", async ({ page }) => {

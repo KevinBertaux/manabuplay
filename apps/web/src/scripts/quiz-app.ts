@@ -36,6 +36,7 @@ const MANABUPLAY_BOOT: QuizBootData = bootData;
 
 const MANABUPLAY_MODE = MANABUPLAY_BOOT.mode || window.__MANABUPLAY_MODE__ || "legacy";
 const DIFFICULTIES = MANABUPLAY_BOOT.difficulties;
+const IS_SINGLE_RUN_MODE = MANABUPLAY_MODE === "daily" || MANABUPLAY_MODE === "archives";
 const WAITLIST_STORAGE_KEY = "waitlist_submissions";
 const WAITLIST_FORM_NAME = "manabuplay-waitlist";
 const WAITLIST_SUCCESS_BUTTON_DELAY = 2800;
@@ -45,13 +46,11 @@ const LOCALIZED_ROUTES = ["daily", "practice", "archives"] as const;
 const PRACTICE_HISTORY_KEY = "practice_sessions";
 const PRACTICE_HISTORY_LIMIT = 8;
 const LANG = MANABUPLAY_BOOT.lang;
-const ANSWER_BUTTON_CLASS =
-  "answer-btn grid min-h-12 w-full grid-cols-[1.55rem_minmax(0,1fr)] items-center gap-2 rounded-lg border border-[rgba(34,211,238,.22)] bg-[linear-gradient(180deg,rgba(18,44,60,.72),rgba(17,18,40,.94))] px-3 py-2 text-left font-body text-[.98rem] font-extrabold leading-snug text-[#eee7ff] transition-[background,border-color,color] duration-150 hover:border-[rgba(34,211,238,.42)] hover:bg-[rgba(34,211,238,.08)] disabled:cursor-not-allowed disabled:opacity-85 sm:min-h-14 sm:grid-cols-[1.75rem_minmax(0,1fr)] sm:text-base";
-const ANSWER_KEY_CLASS =
-  "answer-key grid h-6 w-6 place-items-center rounded-lg bg-white/[.06] text-[.72rem] font-black text-[#cdbdff] sm:h-7 sm:w-7 sm:text-[.78rem]";
-const ANSWER_COPY_CLASS = "answer-copy min-w-0";
+const ANSWER_BUTTON_CLASS = "answer-btn";
+const ANSWER_KEY_CLASS = "answer-key";
+const ANSWER_COPY_CLASS = "answer-copy";
 
-let currentDiff: Difficulty | null = null;
+let currentDiff: Difficulty | null = IS_SINGLE_RUN_MODE ? (DIFFICULTIES[0] ?? null) : null;
 let hintStage = 0;
 let state: RuntimeState = {
   questions: [],
@@ -289,9 +288,36 @@ function applyLang() {
 
 function renderDiffGrid() {
   const grid = document.getElementById("diffGrid");
+  const titleScreen = document.getElementById("quizTitleScreen");
+  const startButton = getRequiredElement<HTMLButtonElement>("startBtn");
+  const defaultStartSlot = document.getElementById("defaultStartSlot");
+  const singleRunStartSlot = document.getElementById("singleRunStartSlot");
   if (!(grid instanceof HTMLElement)) return;
 
   grid.innerHTML = "";
+  grid.hidden = IS_SINGLE_RUN_MODE;
+  if (titleScreen instanceof HTMLElement) {
+    titleScreen.hidden = !IS_SINGLE_RUN_MODE;
+  }
+
+  if (IS_SINGLE_RUN_MODE) {
+    if (
+      singleRunStartSlot instanceof HTMLElement &&
+      startButton.parentElement !== singleRunStartSlot
+    ) {
+      singleRunStartSlot.appendChild(startButton);
+    }
+    renderSingleRunTitleScreen();
+    if (currentDiff) {
+      startButton.classList.add("ready");
+    }
+    return;
+  }
+
+  if (defaultStartSlot instanceof HTMLElement && startButton.parentElement !== defaultStartSlot) {
+    defaultStartSlot.appendChild(startButton);
+  }
+
   DIFFICULTIES.forEach((difficulty) => {
     const best = LS.getBest(difficulty.id);
     const diffBestLabel = t("diff_best");
@@ -322,6 +348,88 @@ function selectDiff(difficulty: Difficulty) {
   currentDiff = difficulty;
   renderDiffGrid();
   getRequiredElement<HTMLButtonElement>("startBtn").classList.add("ready");
+}
+
+function formatSessionDate(dateKey: string) {
+  if (!dateKey) return "";
+  return new Intl.DateTimeFormat(currentLang === "fr" ? "fr-FR" : "en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(`${dateKey}T12:00:00`));
+}
+
+function setElementText(id: string, value: string) {
+  const element = document.getElementById(id);
+  if (element instanceof HTMLElement) element.textContent = value;
+}
+
+function renderSingleRunTitleScreen() {
+  if (!IS_SINGLE_RUN_MODE) return;
+
+  const formattedDate = formatSessionDate(SESSION_DATE_KEY);
+  const isArchiveMode = MANABUPLAY_MODE === "archives";
+  const metaSecondary = document.getElementById("quizTitleMetaSecondary");
+
+  setElementText(
+    "quizTitleKicker",
+    currentLang === "fr"
+      ? isArchiveMode
+        ? "Archive sélectionnée"
+        : "Défi du jour"
+      : isArchiveMode
+        ? "Selected archive"
+        : "Today's challenge",
+  );
+  setElementText(
+    "quizTitleHeadline",
+    currentLang === "fr"
+      ? isArchiveMode
+        ? `Archive du ${formattedDate}`
+        : `Quotidien du ${formattedDate}`
+      : isArchiveMode
+        ? `${formattedDate} archive`
+        : `${formattedDate} daily`,
+  );
+  setElementText(
+    "quizTitleCopy",
+    currentLang === "fr"
+      ? isArchiveMode
+        ? "Rejoue une ancienne run quotidienne. Le partage reste désactivé pour les archives."
+        : "Une run commune de 10 questions, prête à démarrer sans choisir de difficulté."
+      : isArchiveMode
+        ? "Replay a past daily run. Sharing stays disabled for archives."
+        : "One shared 10-question run, ready to start without choosing a difficulty.",
+  );
+  setElementText("quizTitleMetaPrimary", currentLang === "fr" ? "10 questions" : "10 questions");
+  if (metaSecondary instanceof HTMLElement) {
+    metaSecondary.textContent = "";
+    metaSecondary.hidden = true;
+  }
+}
+
+function setQuizHash() {
+  if (window.location.hash === "#quiz") return;
+  window.history.pushState(null, "", `${window.location.pathname}${window.location.search}#quiz`);
+}
+
+function scrollQuizSectionIntoView() {
+  const quizSection = document.getElementById("quiz");
+  const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
+  const target = quizSection || quizShell;
+
+  if (!(target instanceof HTMLElement)) return;
+
+  const nav = document.querySelector<HTMLElement>("nav");
+  const navHeight = nav?.getBoundingClientRect().height ?? 72;
+  const topOffset = navHeight + 12;
+  const targetTop = target.getBoundingClientRect().top + window.scrollY - topOffset;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  window.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: prefersReducedMotion ? "auto" : "smooth",
+  });
 }
 
 function animateReveal(node: HTMLElement | null) {
@@ -607,6 +715,8 @@ function showResults() {
 
 function launchQuiz() {
   if (!currentDiff) return;
+  const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
+  quizShell?.classList.add("is-launching");
 
   state = {
     questions: buildQuestionsForCurrentDiff(currentDiff.words),
@@ -625,10 +735,8 @@ function launchQuiz() {
   hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   renderQuestion();
   requestAnimationFrame(() => {
-    getRequiredElement<HTMLElement>("quizArea").scrollIntoView({
-      block: "start",
-      behavior: "smooth",
-    });
+    scrollQuizSectionIntoView();
+    window.setTimeout(() => quizShell?.classList.remove("is-launching"), 420);
   });
 }
 
@@ -684,9 +792,13 @@ const actionHandlers: Record<QuizAction, () => void> = {
 
 function bindQuizActions() {
   document.querySelectorAll<HTMLElement>("[data-quiz-action]").forEach((element) => {
-    element.addEventListener("click", () => {
+    element.addEventListener("click", (event) => {
       const action = element.dataset.quizAction as QuizAction | undefined;
       if (!action) return;
+      if (action === "launchQuiz" && element instanceof HTMLAnchorElement) {
+        event.preventDefault();
+        setQuizHash();
+      }
       actionHandlers[action]?.();
     });
   });
