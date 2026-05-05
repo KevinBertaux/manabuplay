@@ -15,9 +15,11 @@ async function chooseCurrentCorrectAnswer(page: Page) {
     const typedWindow = window as typeof window & {
       __MANABUPLAY_DATA__?: {
         quizData?: Array<{
+          id?: string;
           word: string;
           kana: string;
           romaji?: string | null;
+          packId?: string;
           correct?: Record<string, string | undefined>;
         }>;
       };
@@ -38,7 +40,45 @@ async function chooseCurrentCorrectAnswer(page: Page) {
   });
 
   expect(correctAnswer).not.toBe("");
-  await page.locator("#answersGrid .answer-btn").filter({ hasText: correctAnswer }).click();
+  const answers = page.locator("#answersGrid .answer-btn");
+  const answerCount = await answers.count();
+  for (let index = 0; index < answerCount; index += 1) {
+    const answer = answers.nth(index);
+    const copy = (await answer.locator(".answer-copy").textContent())?.trim();
+    if (copy === correctAnswer) {
+      await answer.click();
+      return;
+    }
+  }
+
+  throw new Error(`Correct answer "${correctAnswer}" was not rendered as an exact option.`);
+}
+
+async function getCurrentQuestionPackId(page: Page) {
+  return page.evaluate(() => {
+    const typedWindow = window as typeof window & {
+      __MANABUPLAY_DATA__?: {
+        quizData?: Array<{
+          id?: string;
+          word: string;
+          kana: string;
+          romaji?: string | null;
+          packId?: string;
+        }>;
+      };
+    };
+    const romaji = document.querySelector("#wordRomaji")?.textContent?.trim();
+    const kana = document.querySelector("#wordKana")?.textContent?.trim();
+    const word = document.querySelector("#wordDisplay")?.textContent?.trim();
+    const entry = typedWindow.__MANABUPLAY_DATA__?.quizData?.find(
+      (candidate) =>
+        (candidate.romaji || candidate.kana || candidate.word) === romaji &&
+        candidate.kana === kana &&
+        candidate.word === word,
+    );
+
+    return entry?.packId || entry?.id?.split(":")[0] || null;
+  });
 }
 
 async function completeCorrectRun(page: Page) {
@@ -181,6 +221,28 @@ test.describe("public flow", () => {
     await expect(page).toHaveURL(/date=2026-04-16/);
   });
 
+  test("stores archive completion and keeps archives replayable", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
+
+    await page.locator("[data-quiz-action='launchQuiz']").first().click();
+    await completeCorrectRun(page);
+
+    await expect(page.locator("#resultsArea")).toBeVisible();
+    await expect(page.locator("[data-quiz-action='replayDifficulty']")).not.toBeDisabled();
+    const records = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("mp_daily_runs") || "{}"),
+    );
+    expect(records["2026-04-16"]).toMatchObject({
+      dateKey: "2026-04-16",
+      attempts: 1,
+      total: 10,
+    });
+
+    await page.locator("[data-quiz-action='replayDifficulty']").click();
+    await expect(page.locator("#quizArea")).toBeVisible();
+    await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
+  });
+
   test("keeps only one archive month drawer open at a time", async ({ page }) => {
     await prepareModePage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
 
@@ -201,6 +263,25 @@ test.describe("public flow", () => {
     await page.locator(".diff-card").first().click();
     await page.locator("#startBtn").click();
     await expect(page.locator("#quizArea")).toBeVisible();
+  });
+
+  test("keeps Practice browser sessions inside one random pack", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/practice/`);
+
+    await page.locator("#diffGrid .diff-card").nth(1).click();
+    await page.locator("#startBtn").click();
+    const selectedPackId = await getCurrentQuestionPackId(page);
+
+    expect(selectedPackId).not.toBeNull();
+    await completeCorrectRun(page);
+
+    const sessions = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("mp_practice_sessions") || "[]"),
+    );
+    expect(sessions[0]).toMatchObject({ diffId: "normal", packId: selectedPackId });
+    expect(
+      sessions[0].wordIds.every((wordId: string) => wordId.startsWith(`${selectedPackId}:`)),
+    ).toBe(true);
   });
 
   test("scores hints as reduced base points before the final combo multiplier", async ({
@@ -232,6 +313,15 @@ test.describe("public flow", () => {
     await expect(page.locator("#finalScore")).toHaveText("200 pts", { timeout: 12_000 });
     await expect(page.locator("#finalPercent")).toHaveText("100%");
     await expect(page.locator("[data-quiz-action='replayDifficulty']")).toBeDisabled();
+
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await page.waitForFunction(
+      () => Boolean(document.querySelector("#startBtn")?.textContent?.trim().length),
+      undefined,
+      { timeout: 15_000 },
+    );
+    await expect(page.locator("#quizTitleHeadline")).toHaveText("Quotidien terminé");
+    await expect(page.locator("#startBtn")).toBeDisabled();
   });
 
   test("keeps the waitlist form usable on shared devices", async ({ page }) => {

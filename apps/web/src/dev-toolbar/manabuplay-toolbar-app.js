@@ -1,179 +1,17 @@
 import { defineToolbarApp } from "astro/toolbar";
+import {
+  getArchiveDates,
+  getArchiveKeys,
+  getDailyKeys,
+  getDefaultArchiveDate,
+  getLocalDateKey,
+  listManabuKeys,
+  resetArchives,
+  resetDaily,
+  resetPractice,
+} from "./manabuplay-toolbar-storage.js";
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-const DAILY_RUN_RECORDS_KEY = "mp_daily_runs";
-const DAILY_EXACT_KEYS = ["mp_best_daily"];
-const ARCHIVE_EXACT_KEYS = ["mp_best_archive"];
-const PRACTICE_SCORE_KEYS = ["mp_best_easy", "mp_best_normal", "mp_best_hard", "mp_best_expert"];
-
-function listManabuKeys() {
-  return Object.keys(localStorage)
-    .filter((key) => key.startsWith("mp_"))
-    .sort((left, right) => left.localeCompare(right));
-}
-
-function isPlainObject(value) {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function readStorageJson(key) {
-  try {
-    return JSON.parse(localStorage.getItem(key) || "null");
-  } catch {
-    return null;
-  }
-}
-
-function writeStorageJson(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-function isDailyKey(key) {
-  return (
-    DAILY_EXACT_KEYS.includes(key) || key.startsWith("mp_daily") || key.startsWith("mp_best_daily")
-  );
-}
-
-function isArchiveKey(key) {
-  return (
-    ARCHIVE_EXACT_KEYS.includes(key) ||
-    key.startsWith("mp_archive") ||
-    key.startsWith("mp_best_archive")
-  );
-}
-
-function getDailyKeys() {
-  return listManabuKeys().filter(isDailyKey);
-}
-
-function getArchiveKeys() {
-  return listManabuKeys().filter(isArchiveKey);
-}
-
-function removeKeys(keys) {
-  let removed = 0;
-  for (const key of keys) {
-    if (localStorage.getItem(key) === null) continue;
-    localStorage.removeItem(key);
-    removed += 1;
-  }
-  return removed;
-}
-
-function removeDateEntryFromObjectKey(key, date) {
-  const value = readStorageJson(key);
-  if (!isPlainObject(value) || !(date in value)) return 0;
-
-  delete value[date];
-  if (Object.keys(value).length === 0) {
-    localStorage.removeItem(key);
-  } else {
-    writeStorageJson(key, value);
-  }
-  return 1;
-}
-
-function removeArchiveEntriesFromDailyRunRecords(scope, date) {
-  const value = readStorageJson(DAILY_RUN_RECORDS_KEY);
-  if (!isPlainObject(value)) return 0;
-
-  const today = getLocalDateKey();
-  let removed = 0;
-
-  for (const recordDate of Object.keys(value)) {
-    const shouldRemove =
-      scope === "all" ? DATE_PATTERN.test(recordDate) && recordDate < today : recordDate === date;
-
-    if (!shouldRemove) continue;
-
-    delete value[recordDate];
-    removed += 1;
-  }
-
-  if (removed === 0) return 0;
-
-  if (Object.keys(value).length === 0) {
-    localStorage.removeItem(DAILY_RUN_RECORDS_KEY);
-  } else {
-    writeStorageJson(DAILY_RUN_RECORDS_KEY, value);
-  }
-
-  return removed;
-}
-
-function removeDateScopedKeys(keyPredicate, date) {
-  const keys = listManabuKeys().filter((key) => keyPredicate(key) && key.includes(date));
-  return removeKeys(keys);
-}
-
-function resetDaily(date) {
-  let removed = removeKeys(DAILY_EXACT_KEYS);
-  removed += removeDateScopedKeys(isDailyKey, date);
-
-  for (const key of getDailyKeys()) {
-    removed += removeDateEntryFromObjectKey(key, date);
-  }
-
-  return removed;
-}
-
-function resetArchives(scope, date) {
-  if (scope === "all") {
-    return removeKeys(getArchiveKeys()) + removeArchiveEntriesFromDailyRunRecords(scope, date);
-  }
-
-  let removed = removeDateScopedKeys(isArchiveKey, date);
-  for (const key of getArchiveKeys()) {
-    removed += removeDateEntryFromObjectKey(key, date);
-  }
-  removed += removeArchiveEntriesFromDailyRunRecords(scope, date);
-
-  return removed;
-}
-
-function resetPractice() {
-  return removeKeys([...PRACTICE_SCORE_KEYS, "mp_practice_sessions"]);
-}
-
-function getLocalDateKey(date = new Date()) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function getArchiveDates() {
-  const dates = new Set();
-  const today = getLocalDateKey();
-
-  for (const key of getArchiveKeys()) {
-    const keyDates = key.match(/\d{4}-\d{2}-\d{2}/g) || [];
-    keyDates.forEach((date) => dates.add(date));
-
-    const value = readStorageJson(key);
-    if (isPlainObject(value)) {
-      Object.keys(value)
-        .filter((date) => DATE_PATTERN.test(date))
-        .forEach((date) => dates.add(date));
-    }
-  }
-
-  const dailyRunRecords = readStorageJson(DAILY_RUN_RECORDS_KEY);
-  if (isPlainObject(dailyRunRecords)) {
-    Object.keys(dailyRunRecords)
-      .filter((date) => DATE_PATTERN.test(date) && date < today)
-      .forEach((date) => dates.add(date));
-  }
-
-  const queryDate = new URLSearchParams(window.location.search).get("date");
-  if (queryDate && DATE_PATTERN.test(queryDate)) dates.add(queryDate);
-
-  return [...dates].sort().reverse();
-}
-
-function getDefaultArchiveDate() {
-  return getArchiveDates()[0] || getLocalDateKey();
-}
 
 function formatToday() {
   return new Intl.DateTimeFormat("fr-FR", {
@@ -527,7 +365,7 @@ function render(canvas, app, message = "") {
       return;
     }
 
-    const removed = resetArchives(scope, date);
+    const removed = resetArchives(scope, date, getLocalDateKey());
     const label = scope === "all" ? "Toutes les archives" : `Archive ${date}`;
     finishAction({
       canvas,
