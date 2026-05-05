@@ -560,6 +560,33 @@ function hideHintButton() {
   if (hintButton instanceof HTMLElement) hideElement(hintButton, "inline-flex");
 }
 
+function getTranslatedText(key: string, fallback: string) {
+  const value = t(key);
+  return typeof value === "string" ? value : fallback;
+}
+
+function setHintCardState({
+  card,
+  copy,
+  text,
+  revealed,
+  available,
+}: {
+  card: HTMLElement | null;
+  copy: HTMLElement | null;
+  text: string;
+  revealed: boolean;
+  available: boolean;
+}) {
+  if (!(card instanceof HTMLElement) || !(copy instanceof HTMLElement)) return;
+
+  copy.textContent = text;
+  copy.classList.remove("hint-revealed");
+  card.classList.toggle("is-locked", available && !revealed);
+  card.classList.toggle("is-revealed", available && revealed);
+  card.classList.toggle("is-unavailable", !available);
+}
+
 function renderExplanation(text: string, reveal = false) {
   const explanationBox = document.getElementById("explanationBox");
   const explanationContent = document.getElementById("explanationContent");
@@ -586,12 +613,10 @@ function resetExplanation() {
 
 function resetHintDisclosure() {
   const hintButton = document.getElementById("hintBtn");
-  const hintText = document.getElementById("hintText");
-  const hintTextSecondary = document.getElementById("hintTextSecondary");
+  const hintZone = document.getElementById("hintZone");
 
   if (hintButton instanceof HTMLElement) hideElement(hintButton, "inline-flex");
-  if (hintText instanceof HTMLElement) hideElement(hintText, "grid");
-  if (hintTextSecondary instanceof HTMLElement) hideElement(hintTextSecondary, "grid");
+  if (hintZone instanceof HTMLElement) hideElement(hintZone, "grid");
 }
 
 function animateScoreCounter(element: HTMLElement, target: number) {
@@ -631,7 +656,8 @@ function revealHint(forceAll = false) {
   const hintPrimary = getLocalizedField(question.hint);
   const hintSecondary = getLocalizedField(question.hint2);
   const previousStage = hintStage;
-  const zone = document.getElementById("hintText");
+  const zone = document.getElementById("hintZone");
+  const primaryCard = document.getElementById("hintText");
   const primaryContent = document.getElementById("hintContent");
   const secondaryRow = document.getElementById("hintTextSecondary");
   const secondaryContent = document.getElementById("hint2Content");
@@ -640,8 +666,14 @@ function revealHint(forceAll = false) {
 
   showElement(zone, "grid");
 
-  if (hintStage === 0 || forceAll) {
-    primaryContent.textContent = hintPrimary;
+  if ((hintStage === 0 || forceAll) && hintPrimary) {
+    setHintCardState({
+      card: primaryCard,
+      copy: primaryContent,
+      text: hintPrimary,
+      revealed: true,
+      available: true,
+    });
     animateReveal(primaryContent);
     hintStage = 1;
   }
@@ -652,9 +684,14 @@ function revealHint(forceAll = false) {
     secondaryRow instanceof HTMLElement &&
     secondaryContent instanceof HTMLElement
   ) {
-    showElement(secondaryRow, "grid");
-    secondaryContent.textContent = hintSecondary;
-    animateReveal(secondaryRow);
+    setHintCardState({
+      card: secondaryRow,
+      copy: secondaryContent,
+      text: hintSecondary,
+      revealed: true,
+      available: true,
+    });
+    animateReveal(secondaryContent);
     hintStage = 2;
   }
 
@@ -688,6 +725,7 @@ function renderQuestion() {
     question.cat[currentLang] || question.cat.en;
 
   const hintButton = document.getElementById("hintBtn");
+  const hintZone = document.getElementById("hintZone");
   const hintText = document.getElementById("hintText");
   const hintContent = document.getElementById("hintContent");
   const hintTextSecondary = document.getElementById("hintTextSecondary");
@@ -704,19 +742,33 @@ function renderQuestion() {
     }
     setHintButtonLabel("hint_btn");
   }
-  if (hintText instanceof HTMLElement) hideElement(hintText, "grid");
-  if (hintContent instanceof HTMLElement) {
-    hintContent.textContent = primaryHint;
-    hintContent.classList.remove("hint-revealed");
+
+  if (hintZone instanceof HTMLElement) {
+    if (primaryHint || secondaryHint) {
+      showElement(hintZone, "grid");
+    } else {
+      hideElement(hintZone, "grid");
+    }
   }
-  if (hintTextSecondary instanceof HTMLElement) {
-    hideElement(hintTextSecondary, "grid");
-    hintTextSecondary.classList.remove("hint-revealed");
-  }
-  if (hint2Content instanceof HTMLElement) {
-    hint2Content.textContent = secondaryHint;
-    hint2Content.classList.remove("hint-revealed");
-  }
+
+  setHintCardState({
+    card: hintText,
+    copy: hintContent,
+    text: primaryHint
+      ? getTranslatedText("hint_locked_one", "Locked · -2 pts if revealed")
+      : getTranslatedText("hint_unavailable", "No hint available"),
+    revealed: false,
+    available: Boolean(primaryHint),
+  });
+  setHintCardState({
+    card: hintTextSecondary,
+    copy: hint2Content,
+    text: secondaryHint
+      ? getTranslatedText("hint_locked_two", "Locked · -5 pts if revealed")
+      : getTranslatedText("hint_unavailable", "No hint available"),
+    revealed: false,
+    available: Boolean(secondaryHint),
+  });
   resetExplanation();
 
   const answersGrid = getRequiredElement<HTMLElement>("answersGrid");

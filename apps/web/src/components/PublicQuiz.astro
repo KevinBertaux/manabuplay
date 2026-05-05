@@ -78,27 +78,25 @@
                 <p class="quiz-feedback quiz-feedback-copy" id="feedback" hidden></p>
               </div>
               <button class="quiz-hint-button" id="hintBtn" data-quiz-action="revealHint">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
+                <span class="quiz-hint-button-mark">?</span>
                 <span data-i18n="hint_btn"></span>
               </button>
             </div>
 
-            <div class="quiz-answer-grid" id="answersGrid"></div>
-
-            <div id="hintZone">
-              <div id="hintText" hidden class="quiz-hint-stack">
-                <div class="quiz-hint-card">
+            <div id="hintZone" hidden class="quiz-hint-zone">
+              <div class="quiz-hint-stack">
+                <div id="hintText" class="quiz-hint-card is-locked">
                   <span class="quiz-hint-label" data-i18n="hint_label_one"></span>
                   <span class="quiz-hint-copy" id="hintContent"></span>
                 </div>
-                <div id="hintTextSecondary" hidden class="quiz-hint-card">
+                <div id="hintTextSecondary" class="quiz-hint-card is-locked">
                   <span class="quiz-hint-label" data-i18n="hint_label_two"></span>
                   <span class="quiz-hint-copy" id="hint2Content"></span>
                 </div>
               </div>
             </div>
+
+            <div class="quiz-answer-grid" id="answersGrid"></div>
 
             <div id="explanationBox" hidden class="quiz-explanation-card">
               <span class="quiz-explanation-label" data-i18n="explanation_label"></span>

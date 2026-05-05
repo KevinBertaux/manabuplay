@@ -97,10 +97,11 @@ test.describe("public localized architecture", () => {
     await expect(page.locator("#progressText")).toHaveText("0/10");
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
     await page.locator("#hintBtn").click();
-    await expect(page.locator("#hintText")).toBeVisible();
+    await expect(page.locator("#hintText")).toHaveClass(/is-revealed/);
+    await expect(page.locator("#hintTextSecondary")).toHaveClass(/is-locked/);
     await expect(page.locator("#hintContent")).toBeVisible();
     await page.locator("#hintBtn").click();
-    await expect(page.locator("#hintTextSecondary")).toBeVisible();
+    await expect(page.locator("#hintTextSecondary")).toHaveClass(/is-revealed/);
     await page.locator("#answersGrid .answer-btn").first().click();
     await expect(page.locator("#explanationBox")).toBeVisible();
   });

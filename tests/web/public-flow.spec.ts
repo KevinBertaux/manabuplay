@@ -75,14 +75,16 @@ test.describe("public flow", () => {
     await expect(page.locator("#progressRow")).toBeVisible();
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
     await expect(page.locator("#hintBtn")).toBeVisible();
-    await expect(page.locator("#hintText")).toBeHidden();
-    await expect(page.locator("#hintTextSecondary")).toBeHidden();
+    await expect(page.locator("#hintZone")).toBeVisible();
+    await expect(page.locator("#hintText")).toHaveClass(/is-locked/);
+    await expect(page.locator("#hintTextSecondary")).toHaveClass(/is-locked/);
     await expect(page.locator("#explanationBox")).toBeHidden();
     await expect(page.locator("#feedback")).toBeHidden();
     await expect(page.locator("#nextBtn")).toHaveClass(/opacity-0/);
 
     await page.locator("#hintBtn").click();
-    await expect(page.locator("#hintText")).toBeVisible();
+    await expect(page.locator("#hintText")).toHaveClass(/is-revealed/);
+    await expect(page.locator("#hintTextSecondary")).toHaveClass(/is-locked/);
     await expect(page.locator("#explanationBox")).toBeHidden();
 
     await page.locator("#answersGrid .answer-btn").first().click();
