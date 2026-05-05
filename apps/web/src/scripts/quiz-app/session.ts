@@ -112,6 +112,47 @@ export function saveDailyRunCompletion({
   return record;
 }
 
+export function saveArchiveRunCompletion({
+  storage,
+  dateKey,
+  score,
+  correct,
+  total,
+  bestStreak,
+  questions,
+  completedAt = new Date().toISOString(),
+}: {
+  storage: StorageAdapter;
+  dateKey: string;
+  score: number;
+  correct: number;
+  total: number;
+  bestStreak: number;
+  questions: QuizQuestion[];
+  completedAt?: string;
+}) {
+  const records = readDailyRunRecords(storage);
+  const existing = records[dateKey];
+
+  const record: DailyRunRecord = {
+    dateKey,
+    bestScore: Math.max(existing?.bestScore || 0, score),
+    lastScore: score,
+    attempts: (existing?.attempts || 0) + 1,
+    correct,
+    total,
+    bestStreak: Math.max(existing?.bestStreak || 0, bestStreak),
+    completedAt: existing?.completedAt || completedAt,
+    updatedAt: completedAt,
+    dailyCompletedAt: existing?.dailyCompletedAt || completedAt,
+    wordIds: questions.map((question) => question.id),
+  };
+
+  records[dateKey] = record;
+  storage.set(DAILY_RUN_RECORDS_KEY, records);
+  return record;
+}
+
 export function getSessionDateKey({
   mode,
   archiveConfig = {},

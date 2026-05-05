@@ -147,6 +147,52 @@ test.describe("public flow", () => {
     await expect(page.locator("#quizArea")).toBeHidden();
   });
 
+  test("shows played archive score and attempts in the monthly calendar", async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        "mp_daily_runs",
+        JSON.stringify({
+          "2026-04-16": {
+            dateKey: "2026-04-16",
+            bestScore: 132,
+            lastScore: 118,
+            attempts: 2,
+            correct: 8,
+            total: 10,
+            bestStreak: 6,
+            completedAt: "2026-04-16T08:00:00.000Z",
+            updatedAt: "2026-04-16T09:00:00.000Z",
+            dailyCompletedAt: "2026-04-16T08:00:00.000Z",
+            wordIds: ["quest", "boss"],
+          },
+        }),
+      );
+    });
+    await prepareModePage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
+
+    const archiveCell = page.locator(
+      "[data-archive-date='2026-04-16'][data-archive-tone='archive']",
+    );
+    await expect(archiveCell).toHaveClass(/has-record/);
+    await expect(archiveCell.locator("[data-archive-status]")).toHaveText("Déjà joué");
+    await expect(archiveCell.locator("[data-archive-score]")).toHaveText("132 pts max");
+    await expect(archiveCell.locator("[data-archive-attempts]")).toHaveText("2 tentatives");
+    await archiveCell.click();
+    await expect(page).toHaveURL(/date=2026-04-16/);
+  });
+
+  test("keeps only one archive month drawer open at a time", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
+
+    await expect(page.locator("[data-archive-month='2026-04']")).toHaveAttribute("open", "");
+    await expect(page.locator("[data-archive-month='2026-05']")).not.toHaveAttribute("open", "");
+
+    await page.locator("[data-archive-month='2026-05'] summary").click();
+
+    await expect(page.locator("[data-archive-month='2026-05']")).toHaveAttribute("open", "");
+    await expect(page.locator("[data-archive-month='2026-04']")).not.toHaveAttribute("open", "");
+  });
+
   test("keeps Practice as the only mode with explicit difficulty selection", async ({ page }) => {
     await prepareModePage(page, `${ASTRO_URL}fr/practice/`);
 

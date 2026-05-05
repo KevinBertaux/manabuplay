@@ -2,7 +2,7 @@
 import PublicLayout from "../../layouts/PublicLayout.astro";
 import PublicQuiz from "../../components/PublicQuiz.astro";
 import { buildCatalogBootData } from "../../../../../shared/data/manabuplay/catalog";
-import { buildArchivesBootData, getArchiveDateKeys, getLatestArchiveDateKey } from "../../../../../shared/lib/manabuplay-archives";
+import { buildArchivesBootData, getArchiveMonthGroups, getLatestArchiveDateKey } from "../../../../../shared/lib/manabuplay-archives";
 import { buildDailyBootData } from "../../../../../shared/lib/manabuplay-daily";
 import { buildPracticeBootData } from "../../../../../shared/lib/manabuplay-practice";
 import { normalizePublicLocale } from "../../lib/public-locales";
@@ -24,8 +24,10 @@ const isDailyMode = mode === "daily";
 const isPracticeMode = mode === "practice";
 const isArchivesMode = mode === "archives";
 const isQuizMode = isDailyMode || isPracticeMode || isArchivesMode;
-const archiveDates = isArchivesMode ? getArchiveDateKeys() : [];
 const latestArchiveDate = isArchivesMode ? getLatestArchiveDateKey() : null;
+const archiveMonthGroups = isArchivesMode
+  ? getArchiveMonthGroups({ locale, selectedDate: latestArchiveDate })
+  : [];
 const bootData = isDailyMode
   ? buildDailyBootData()
   : isPracticeMode
@@ -47,12 +49,40 @@ const modeDescriptionClass = "mx-auto mb-6 max-w-[720px] text-[clamp(1.05rem,1.7
 const routeStatusClass = "mx-auto my-6 grid max-w-[560px] gap-2 rounded-lg border border-[rgba(34,211,238,.22)] bg-[rgba(34,211,238,.07)] p-4 text-white";
 const routeStatusLabelClass = "text-[.9rem] font-bold uppercase tracking-[.04em] text-[var(--cyan)]";
 const backLinkClass = "font-bold text-[var(--cyan)] no-underline";
-const archiveBrowserClass = "border-glow mt-[-16px] grid w-full max-w-[920px] gap-5 rounded-xl bg-[rgba(15,12,26,.94)] px-6 py-8 text-center sm:p-10 lg:p-14";
-const archiveChipGridClass = "flex flex-wrap justify-center gap-2";
-const archiveChipBaseClass = "inline-flex min-h-9 items-center justify-center whitespace-nowrap rounded-full border px-3 text-[.92rem] font-bold transition duration-150";
-const archiveChipInactiveClass = "border-[rgba(139,92,246,.22)] bg-[rgba(26,22,48,.54)] text-[rgba(226,217,243,.78)] hover:-translate-y-px hover:border-[rgba(34,211,238,.38)] hover:bg-[rgba(34,211,238,.08)] hover:text-white";
-const archiveChipActiveClass = "border-[rgba(232,121,249,.42)] bg-[rgba(232,121,249,.12)] text-white shadow-[0_0_0_1px_rgba(232,121,249,.18),0_0_18px_rgba(232,121,249,.14)]";
 const modeKickerClass = "section-label text-[var(--cyan)]";
+
+const archiveStatusCopy = {
+  archive: locale === "fr" ? "Disponible" : "Available",
+  today: locale === "fr" ? "Quotidien" : "Daily",
+  future: locale === "fr" ? "À venir" : "Upcoming",
+  unavailable: locale === "fr" ? "Indisponible" : "Unavailable",
+  empty: "",
+} as const;
+
+const archiveKindCopy = {
+  archive: locale === "fr" ? "Archive" : "Archive",
+  today: locale === "fr" ? "Quotidien" : "Daily",
+  future: locale === "fr" ? "À venir" : "Upcoming",
+  unavailable: locale === "fr" ? "Indisponible" : "Unavailable",
+  empty: "",
+} as const;
+
+const formatArchiveShortDate = (dateKey: string) =>
+  new Intl.DateTimeFormat(locale, {
+    day: "numeric",
+    month: "short",
+  }).format(new Date(`${dateKey}T12:00:00`));
+
+const getArchiveCellTitle = (dateKey: string, tone: string) => {
+  if (tone === "today") return locale === "fr" ? "Quotidien du jour" : "Today's daily";
+  if (tone === "archive") {
+    return locale === "fr" ? `Archive du ${formatArchiveShortDate(dateKey)}` : `${formatArchiveShortDate(dateKey)} archive`;
+  }
+  return formatArchiveShortDate(dateKey);
+};
+
+const noAttemptLabel = locale === "fr" ? "Aucune tentative" : "No attempt";
+const defaultScoreLabel = locale === "fr" ? "0 pt" : "0 pts";
 ---
 <PublicLayout
   locale={locale}
@@ -128,30 +158,91 @@ const modeKickerClass = "section-label text-[var(--cyan)]";
         </a>
       </article>
 
-      <section class={archiveBrowserClass} id="archives-list">
-        <div>
+      <section class="archive-calendar-shell" id="archives-list" data-default-date={latestArchiveDate ?? ""}>
+        <div class="archive-calendar-intro">
           <p class="section-label text-[var(--violet)]">
             {locale === "fr" ? "ARCHIVES DISPONIBLES" : "AVAILABLE ARCHIVES"}
           </p>
           <p class={modeDescriptionClass}>
             {locale === "fr"
-              ? "Chaque archive rejoue le Quotidien d'une date passée. Pas de partage pour v0.1."
-              : "Each archive replays the Daily from a past date. No sharing in v0.1."}
+              ? "Chaque mois regroupe les quotidiens passés. Les archives sont rejouables, avec score max et tentatives."
+              : "Each month groups past dailies. Archives are replayable, with best score and attempts."}
           </p>
         </div>
-        <div class={archiveChipGridClass}>
-          {archiveDates.map((dateKey) => (
-            <a
-              class={`${archiveChipBaseClass} public-archive-chip ${dateKey === latestArchiveDate ? `${archiveChipActiveClass} is-active` : archiveChipInactiveClass}`}
-              href={`?date=${dateKey}`}
-              data-archive-date={dateKey}
+
+        <div class="archive-month-list">
+          {archiveMonthGroups.map((month) => (
+            <details
+              class="archive-month-drawer"
+              open={month.open ? true : undefined}
+              data-archive-month={month.key}
             >
-              {new Intl.DateTimeFormat(locale, {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              }).format(new Date(`${dateKey}T12:00:00`))}
-            </a>
+              <summary class="archive-month-summary">
+                <span>{month.label}</span>
+                <strong data-archive-month-summary>{month.summary}</strong>
+              </summary>
+
+              <div class="archive-calendar-weekdays" aria-hidden="true">
+                {month.weekdays.map((weekday) => <span>{weekday}</span>)}
+              </div>
+
+              <div class="archive-calendar-grid">
+                {month.cells.map((cell) =>
+                  cell.tone === "empty" ? (
+                    <span class="archive-calendar-cell archive-calendar-cell--empty" aria-hidden="true"></span>
+                  ) : cell.disabled ? (
+                    <span
+                      class:list={[
+                        "archive-calendar-cell",
+                        `archive-calendar-cell--${cell.tone}`,
+                        cell.isSelected && "is-active",
+                      ]}
+                      data-archive-date={cell.dateKey}
+                      data-archive-tone={cell.tone}
+                      aria-disabled="true"
+                    >
+                      <span class="archive-calendar-cell-top">
+                        <strong>{cell.day}</strong>
+                        <small>{archiveKindCopy[cell.tone]}</small>
+                      </span>
+                      <span class="archive-calendar-cell-title">
+                        {getArchiveCellTitle(cell.dateKey!, cell.tone)}
+                      </span>
+                      <span class="archive-calendar-status" data-archive-status>
+                        {archiveStatusCopy[cell.tone]}
+                      </span>
+                    </span>
+                  ) : (
+                    <a
+                      class:list={[
+                        "archive-calendar-cell",
+                        `archive-calendar-cell--${cell.tone}`,
+                        cell.isSelected && "is-active",
+                      ]}
+                      href={cell.href}
+                      data-archive-date={cell.dateKey}
+                      data-archive-tone={cell.tone}
+                      aria-label={getArchiveCellTitle(cell.dateKey!, cell.tone)}
+                    >
+                      <span class="archive-calendar-cell-top">
+                        <strong>{cell.day}</strong>
+                        <small>{archiveKindCopy[cell.tone]}</small>
+                      </span>
+                      <span class="archive-calendar-cell-title">
+                        {getArchiveCellTitle(cell.dateKey!, cell.tone)}
+                      </span>
+                      <span class="archive-calendar-status" data-archive-status>
+                        {archiveStatusCopy[cell.tone]}
+                      </span>
+                      <span class="archive-calendar-cell-meta">
+                        <span data-archive-score>{defaultScoreLabel}</span>
+                        <span data-archive-attempts>{noAttemptLabel}</span>
+                      </span>
+                    </a>
+                  )
+                )}
+              </div>
+            </details>
           ))}
         </div>
       </section>

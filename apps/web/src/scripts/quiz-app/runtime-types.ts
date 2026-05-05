@@ -60,6 +60,7 @@ export interface ArchiveConfig {
   selectedDate?: string;
   startDate?: string;
   latestDate?: string;
+  questionCount?: number;
 }
 
 export interface QuizBootData {

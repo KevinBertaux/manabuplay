@@ -3,6 +3,7 @@ import {
   buildArchivesBootData,
   getArchiveDateKeys,
   getLatestArchiveDateKey,
+  getArchiveMonthGroups,
 } from "../../shared/lib/manabuplay-archives";
 
 describe("buildArchivesBootData", () => {
@@ -25,5 +26,31 @@ describe("buildArchivesBootData", () => {
     expect(getLatestArchiveDateKey(reference)).toBe("2026-04-16");
     expect(dates[0]).toBe("2026-04-16");
     expect(dates[dates.length - 1]).toBe("2026-01-01");
+  });
+
+  it("builds localized monthly calendar groups with future days disabled", () => {
+    const groups = getArchiveMonthGroups({
+      locale: "fr",
+      selectedDate: "2026-05-04",
+      referenceDate: new Date("2026-05-05T12:00:00"),
+    });
+    const may = groups[0];
+
+    expect(may.key).toBe("2026-05");
+    expect(may.open).toBe(true);
+    expect(may.weekdays[0]).toMatch(/lun/i);
+    expect(may.cells.find((cell) => cell.dateKey === "2026-05-04")).toMatchObject({
+      tone: "archive",
+      href: "/fr/archives/?date=2026-05-04",
+      isSelected: true,
+    });
+    expect(may.cells.find((cell) => cell.dateKey === "2026-05-05")).toMatchObject({
+      tone: "today",
+      href: "/fr/daily/",
+    });
+    expect(may.cells.find((cell) => cell.dateKey === "2026-05-06")).toMatchObject({
+      tone: "future",
+      disabled: true,
+    });
   });
 });

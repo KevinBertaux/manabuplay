@@ -111,8 +111,14 @@ test.describe("public localized architecture", () => {
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
     await expect(page.locator("h1")).toHaveText("Archives");
-    await expect(page.locator("[data-archive-date='2026-04-16']")).toHaveClass(/is-active/);
+    await expect(
+      page.locator("[data-archive-date='2026-04-16'][data-archive-tone='archive']"),
+    ).toHaveClass(/is-active/);
     await expect(page.locator("#archiveSelectedLabel")).toContainText("16 avril 2026");
+    await expect(page.locator("[data-archive-month='2026-04']")).toHaveAttribute("open", "");
+    await expect(
+      page.locator("[data-archive-month='2026-04'] .archive-calendar-weekdays"),
+    ).toBeVisible();
     await expect(page.locator("#quizTitleScreen")).toBeVisible();
     await expect(page.locator("#quizTitleHeadline")).toContainText("16 avril 2026");
     await expect(page.locator("#diffGrid")).toBeHidden();

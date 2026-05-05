@@ -3,6 +3,7 @@ import {
   DAILY_RUN_RECORDS_KEY,
   getDailyRunRecord,
   hasCompletedDailyRun,
+  saveArchiveRunCompletion,
   saveDailyRunCompletion,
 } from "../../apps/web/src/scripts/quiz-app/session";
 import type {
@@ -111,6 +112,40 @@ describe("daily run records", () => {
       bestScore: 84,
       attempts: 1,
       dailyCompletedAt: "2026-05-04T08:00:00.000Z",
+    });
+  });
+
+  it("counts archive replays and keeps the best score by date", () => {
+    const storage = createStorage();
+
+    saveArchiveRunCompletion({
+      storage,
+      dateKey: "2026-05-03",
+      score: 80,
+      correct: 8,
+      total: 10,
+      bestStreak: 4,
+      questions: QUESTIONS,
+      completedAt: "2026-05-04T08:00:00.000Z",
+    });
+    saveArchiveRunCompletion({
+      storage,
+      dateKey: "2026-05-03",
+      score: 120,
+      correct: 10,
+      total: 10,
+      bestStreak: 10,
+      questions: QUESTIONS,
+      completedAt: "2026-05-04T09:00:00.000Z",
+    });
+
+    expect(getDailyRunRecord(storage, "2026-05-03")).toMatchObject({
+      bestScore: 120,
+      lastScore: 120,
+      attempts: 2,
+      bestStreak: 10,
+      completedAt: "2026-05-04T08:00:00.000Z",
+      updatedAt: "2026-05-04T09:00:00.000Z",
     });
   });
 });

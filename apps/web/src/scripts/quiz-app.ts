@@ -4,6 +4,7 @@ import {
   getDailyRunRecord,
   getSessionDateKey,
   hasCompletedDailyRun,
+  saveArchiveRunCompletion,
   saveDailyRunCompletion,
   savePracticeSession,
 } from "./quiz-app/session";
@@ -888,6 +889,16 @@ function showResults() {
       questions: state.questions,
     });
     syncDailyLaunchControls();
+  } else if (MANABUPLAY_MODE === "archives") {
+    saveArchiveRunCompletion({
+      storage: LS,
+      dateKey: SESSION_DATE_KEY,
+      score: state.score,
+      correct: state.correct,
+      total,
+      bestStreak: state.bestStreak,
+      questions: state.questions,
+    });
   }
   syncResultReplayControls();
 
