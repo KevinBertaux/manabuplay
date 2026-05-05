@@ -225,21 +225,22 @@ export function createWaitlistController({
 }
 
 export function createShareController({
-  state,
+  getState,
   getCurrentDiff,
   getCurrentLang,
   getResults,
   t,
 }: {
-  state: RuntimeState;
+  getState: () => RuntimeState;
   getCurrentDiff: () => Difficulty | null;
   getCurrentLang: () => string;
   getResults: () => ResultTier[];
   t: TranslateFn;
 }) {
   function buildShareText(): string {
+    const state = getState();
     const total = state.questions.length;
-    const pct = Math.round((state.score / (total * 15)) * 100);
+    const pct = Math.round((state.score / (total * 20)) * 100);
     const currentDiff = getCurrentDiff();
     const diffKey = currentDiff ? `diff_${currentDiff.id}` : "diff_normal";
     const diffLabel = t(diffKey);

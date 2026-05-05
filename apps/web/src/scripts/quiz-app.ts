@@ -52,6 +52,9 @@ const LANG = MANABUPLAY_BOOT.lang;
 const ANSWER_BUTTON_CLASS = "answer-btn";
 const ANSWER_KEY_CLASS = "answer-key";
 const ANSWER_COPY_CLASS = "answer-copy";
+const QUESTION_POINTS_BY_HINT_STAGE = [10, 8, 5] as const;
+const COMBO_MULTIPLIER_STEP = 0.1;
+const MAX_COMBO_MULTIPLIER_STREAK = 10;
 
 let currentDiff: Difficulty | null = IS_SINGLE_RUN_MODE ? (DIFFICULTIES[0] ?? null) : null;
 let hintStage = 0;
@@ -132,8 +135,8 @@ function formatCorrectFeedback(points: number): string {
 
 function formatComboFeedback(streak: number, points: number): string {
   return currentLang === "fr"
-    ? `🔥 COMBO x${streak} ! +${points} pts — 正解! (Seikai = Correct !)`
-    : `🔥 COMBO x${streak}! +${points} pts — 正解! (Seikai = Correct!)`;
+    ? `🔥 COMBO x${streak} ! +${points} pts base — 正解!`
+    : `🔥 COMBO x${streak}! +${points} base pts — 正解!`;
 }
 
 function formatWrongFeedback(answer: string): string {
@@ -145,6 +148,26 @@ function formatWrongFeedback(answer: string): string {
 function formatAttemptLabel(attempts: number): string {
   if (currentLang === "fr") return attempts > 1 ? `${attempts} tentatives` : "1 tentative";
   return attempts > 1 ? `${attempts} attempts` : "1 attempt";
+}
+
+function getHintAdjustedQuestionPoints(hintsUsed: number): number {
+  const cappedHintStage = Math.min(
+    Math.max(hintsUsed, 0),
+    QUESTION_POINTS_BY_HINT_STAGE.length - 1,
+  );
+  return QUESTION_POINTS_BY_HINT_STAGE[cappedHintStage] ?? QUESTION_POINTS_BY_HINT_STAGE[0];
+}
+
+function getComboMultiplier(bestStreak: number) {
+  return 1 + Math.min(Math.max(bestStreak, 0), MAX_COMBO_MULTIPLIER_STREAK) * COMBO_MULTIPLIER_STEP;
+}
+
+function getMaxFinalScore(total: number) {
+  return total * QUESTION_POINTS_BY_HINT_STAGE[0] * 2;
+}
+
+function formatComboMultiplier(value: number) {
+  return `x${value.toFixed(1)}`;
 }
 
 function getCompletedDailyRunRecord() {
@@ -180,6 +203,20 @@ function syncDailyLaunchControls() {
       element.textContent = element.dataset.quizDefaultText;
     }
   });
+}
+
+function syncResultReplayControls() {
+  const replayButton = document.querySelector<HTMLElement>("[data-quiz-action='replayDifficulty']");
+  if (!(replayButton instanceof HTMLButtonElement)) return;
+
+  const isDailyResultLocked = MANABUPLAY_MODE === "daily" && isDailyRunLocked();
+  replayButton.disabled = isDailyResultLocked;
+  replayButton.classList.toggle("is-disabled", isDailyResultLocked);
+  replayButton.setAttribute("aria-disabled", isDailyResultLocked ? "true" : "false");
+
+  if (isDailyResultLocked) {
+    replayButton.textContent = currentLang === "fr" ? "Terminé aujourd'hui" : "Done today";
+  }
 }
 
 const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
@@ -557,6 +594,36 @@ function resetHintDisclosure() {
   if (hintTextSecondary instanceof HTMLElement) hideElement(hintTextSecondary, "grid");
 }
 
+function animateScoreCounter(element: HTMLElement, target: number) {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) {
+    element.textContent = `${target} pts`;
+    return;
+  }
+
+  const durationMs = 900;
+  const startTime = performance.now();
+  element.classList.add("is-rolling");
+
+  function tick(now: number) {
+    const progress = Math.min((now - startTime) / durationMs, 1);
+    const easedProgress = 1 - (1 - progress) ** 3;
+    const value = Math.round(target * easedProgress);
+    element.textContent = `${value} pts`;
+
+    if (progress < 1) {
+      window.requestAnimationFrame(tick);
+      return;
+    }
+
+    element.textContent = `${target} pts`;
+    element.classList.remove("is-rolling");
+    element.classList.add("is-settled");
+  }
+
+  window.requestAnimationFrame(tick);
+}
+
 function revealHint(forceAll = false) {
   const question = state.questions[state.currentIndex];
   if (!question) return;
@@ -679,6 +746,7 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
     answerButton.disabled = true;
   });
 
+  const hintsUsed = hintStage;
   resetHintDisclosure();
   const question = state.questions[state.currentIndex];
   renderExplanation(getLocalizedField(question?.explanation), true);
@@ -693,11 +761,11 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
     state.streak += 1;
     state.correct += 1;
     if (state.streak > state.bestStreak) state.bestStreak = state.streak;
-    const bonus = state.streak >= 3 ? 15 : state.streak >= 2 ? 12 : 10;
-    state.score += bonus;
+    const points = getHintAdjustedQuestionPoints(hintsUsed);
+    state.score += points;
     feedback.classList.add("is-correct");
     feedback.textContent =
-      state.streak >= 3 ? formatComboFeedback(state.streak, bonus) : formatCorrectFeedback(bonus);
+      state.streak >= 2 ? formatComboFeedback(state.streak, points) : formatCorrectFeedback(points);
   } else {
     button.classList.add("wrong");
     state.streak = 0;
@@ -730,14 +798,25 @@ function showResults() {
   showElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
 
   const total = state.questions.length;
-  const pct = Math.round((state.score / (total * 15)) * 100);
+  const baseScore = state.score;
+  const comboMultiplier = getComboMultiplier(state.bestStreak);
+  const finalScore = Math.round(baseScore * comboMultiplier);
+  const pct = Math.round((finalScore / getMaxFinalScore(total)) * 100);
   const results = getResults();
   const tier = results.find((result) => pct >= result.min) || results[results.length - 1];
+  state.score = finalScore;
 
   getRequiredElement<HTMLElement>("finalEmoji").textContent = tier?.emoji || "🏆";
   getRequiredElement<HTMLElement>("finalTitle").textContent = tier?.title || "";
   getRequiredElement<HTMLElement>("finalMsg").textContent = tier?.msg || "";
-  getRequiredElement<HTMLElement>("finalScore").textContent = `${state.score} pts`;
+  animateScoreCounter(getRequiredElement<HTMLElement>("finalScore"), finalScore);
+  getRequiredElement<HTMLElement>("finalBaseScore").textContent = `${baseScore} pts`;
+  getRequiredElement<HTMLElement>("finalBaseScoreLabel").textContent =
+    currentLang === "fr" ? "Score base" : "Base score";
+  getRequiredElement<HTMLElement>("finalComboMultiplier").textContent =
+    formatComboMultiplier(comboMultiplier);
+  getRequiredElement<HTMLElement>("finalComboLabel").textContent =
+    currentLang === "fr" ? `Combo max x${state.bestStreak}` : `Best combo x${state.bestStreak}`;
   getRequiredElement<HTMLElement>("finalCorrect").textContent = `${state.correct}/${total}`;
   getRequiredElement<HTMLElement>("finalPercent").textContent = `${pct}%`;
   getRequiredElement<HTMLElement>("finalStreak").textContent = String(state.bestStreak);
@@ -756,7 +835,9 @@ function showResults() {
       bestStreak: state.bestStreak,
       questions: state.questions,
     });
+    syncDailyLaunchControls();
   }
+  syncResultReplayControls();
 
   if (MANABUPLAY_MODE === "practice" && currentDiff) {
     savePracticeSession({
@@ -861,7 +942,7 @@ const waitlistController = createWaitlistController({
 });
 
 const shareController = createShareController({
-  state,
+  getState: () => state,
   getCurrentDiff: () => currentDiff,
   getCurrentLang: () => currentLang,
   getResults,

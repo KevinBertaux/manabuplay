@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { ASTRO_HOME_URL, ASTRO_URL, preparePage } from "../helpers/visual";
 
 async function prepareModePage(page: Parameters<typeof preparePage>[0], url: string) {
@@ -8,6 +8,47 @@ async function prepareModePage(page: Parameters<typeof preparePage>[0], url: str
     undefined,
     { timeout: 15_000 },
   );
+}
+
+async function chooseCurrentCorrectAnswer(page: Page) {
+  const correctAnswer = await page.evaluate(() => {
+    const typedWindow = window as typeof window & {
+      __MANABUPLAY_DATA__?: {
+        quizData?: Array<{
+          word: string;
+          kana: string;
+          romaji?: string | null;
+          correct?: Record<string, string | undefined>;
+        }>;
+      };
+      __MANABUPLAY_LOCALE__?: string;
+    };
+    const romaji = document.querySelector("#wordRomaji")?.textContent?.trim();
+    const kana = document.querySelector("#wordKana")?.textContent?.trim();
+    const word = document.querySelector("#wordDisplay")?.textContent?.trim();
+    const locale = document.documentElement.lang || typedWindow.__MANABUPLAY_LOCALE__ || "en";
+    const entry = typedWindow.__MANABUPLAY_DATA__?.quizData?.find(
+      (candidate) =>
+        (candidate.romaji || candidate.kana || candidate.word) === romaji &&
+        candidate.kana === kana &&
+        candidate.word === word,
+    );
+
+    return entry?.correct?.[locale] || entry?.correct?.en || "";
+  });
+
+  expect(correctAnswer).not.toBe("");
+  await page.locator("#answersGrid .answer-btn").filter({ hasText: correctAnswer }).click();
+}
+
+async function completeCorrectRun(page: Page) {
+  for (let index = 0; index < 10; index += 1) {
+    await chooseCurrentCorrectAnswer(page);
+    await page.locator("#nextBtn").click();
+    if (index < 9) {
+      await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
+    }
+  }
 }
 
 test.describe("public flow", () => {
@@ -112,6 +153,37 @@ test.describe("public flow", () => {
     await page.locator(".diff-card").first().click();
     await page.locator("#startBtn").click();
     await expect(page.locator("#quizArea")).toBeVisible();
+  });
+
+  test("scores hints as reduced base points before the final combo multiplier", async ({
+    page,
+  }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/daily/`);
+
+    await page.locator("[data-quiz-action='launchQuiz']").first().click();
+    await page.locator("#hintBtn").click();
+    await chooseCurrentCorrectAnswer(page);
+    await expect(page.locator("#scoreDisplay")).toHaveText("8");
+
+    await page.locator("#nextBtn").click();
+    await page.locator("#hintBtn").click();
+    await page.locator("#hintBtn").click();
+    await chooseCurrentCorrectAnswer(page);
+    await expect(page.locator("#scoreDisplay")).toHaveText("13");
+  });
+
+  test("scores a perfect no-hint run at 200 after the combo multiplier", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/daily/`);
+
+    await page.locator("[data-quiz-action='launchQuiz']").first().click();
+    await completeCorrectRun(page);
+
+    await expect(page.locator("#resultsArea")).toBeVisible();
+    await expect(page.locator("#finalBaseScore")).toHaveText("100 pts");
+    await expect(page.locator("#finalComboMultiplier")).toHaveText("x2.0");
+    await expect(page.locator("#finalScore")).toHaveText("200 pts", { timeout: 12_000 });
+    await expect(page.locator("#finalPercent")).toHaveText("100%");
+    await expect(page.locator("[data-quiz-action='replayDifficulty']")).toBeDisabled();
   });
 
   test("keeps the waitlist form usable on shared devices", async ({ page }) => {

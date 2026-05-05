@@ -349,6 +349,17 @@
     @apply font-pixel text-xl;
   }
 
+  .quiz-result-value.is-rolling {
+    animation: scoreDigitRoll 900ms steps(12, end);
+    text-shadow:
+      0 0 10px rgba(232, 121, 249, 0.44),
+      0 0 24px rgba(34, 211, 238, 0.22);
+  }
+
+  .quiz-result-value.is-settled {
+    animation: scoreSettlePop 360ms ease-out;
+  }
+
   .quiz-result-label {
     @apply mt-2 text-slate-500;
   }
