@@ -79,8 +79,6 @@ describe("manabuplay quiz pool", () => {
 
     expect(questions).toHaveLength(10);
     expect(packIds.size).toBe(1);
-    expect(
-      questions.every((question) => question.id.startsWith(`${question.packId}:`)),
-    ).toBe(true);
+    expect(questions.every((question) => question.id.startsWith(`${question.packId}:`))).toBe(true);
   });
 });
