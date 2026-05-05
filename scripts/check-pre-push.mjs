@@ -8,8 +8,13 @@ function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
     encoding: "utf8",
     stdio: options.stdio || "pipe",
-    shell: false,
+    shell: options.shell || false,
   });
+
+  if (result.error) {
+    if (options.optional) return "";
+    throw result.error;
+  }
 
   if (result.status !== 0) {
     if (options.optional) return "";
@@ -31,9 +36,14 @@ function runNpmScript(scriptName) {
   }
 
   console.log(`\n> npm run ${scriptName}`);
-  run(process.platform === "win32" ? "npm.cmd" : "npm", ["run", scriptName], {
-    stdio: "inherit",
-  });
+  run(
+    process.platform === "win32" ? `npm run ${scriptName}` : "npm",
+    process.platform === "win32" ? [] : ["run", scriptName],
+    {
+      shell: process.platform === "win32",
+      stdio: "inherit",
+    },
+  );
 }
 
 function normalizePath(filePath) {
