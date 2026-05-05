@@ -118,6 +118,20 @@
     color: rgba(148, 163, 184, 0.38);
   }
 
+  .archive-calendar-cell--future {
+    border-color: rgba(148, 163, 184, 0.08);
+    background: rgba(15, 23, 42, 0.12);
+    color: rgba(148, 163, 184, 0.28);
+  }
+
+  .archive-calendar-cell--future .archive-calendar-cell-top strong {
+    color: rgba(148, 163, 184, 0.36);
+  }
+
+  .archive-calendar-cell--future .archive-calendar-cell-top small {
+    color: rgba(148, 163, 184, 0.34);
+  }
+
   .archive-calendar-cell--today {
     border-color: rgba(34, 211, 238, 0.32);
     background: rgba(34, 211, 238, 0.08);

@@ -31,6 +31,7 @@ export const DIFFICULTIES: DifficultyConfig[] = CURRENT_DIFFICULTIES.map((diffic
 
 export type CatalogQuizEntry = {
   id: string;
+  packId: string;
   tier: 1 | 2 | 3 | 4;
   word: string;
   kana: string;
@@ -320,6 +321,7 @@ function buildCatalogQuizEntry(entry: PackEntry): CatalogQuizEntry {
 
   return {
     id: `${entry.packId}:${entry.wordId}`,
+    packId: entry.packId,
     tier,
     word: word.jp.term,
     kana: word.jp.assist,

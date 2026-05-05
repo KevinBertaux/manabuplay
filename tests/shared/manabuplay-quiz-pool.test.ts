@@ -53,4 +53,34 @@ describe("manabuplay quiz pool", () => {
       }),
     ).toBe(true);
   });
+
+  it("keeps a practice run inside one random pack", () => {
+    const quizData = buildCatalogQuizData();
+    const questions = buildQuestions({
+      mode: "practice",
+      count: 10,
+      quizData,
+      rawQuizData: quizData,
+      currentLang: "fr",
+      currentDiff: { id: "normal", words: 10, tierTargets: { 1: 4, 2: 3, 3: 2, 4: 1 } },
+      sessionDateKey: "2026-04-28",
+      boot: {
+        mode: "practice",
+        difficulties: [],
+        lang: {},
+        quizData,
+        practice: { questionCount: 10, cooldownSessions: 2, recipes: {} },
+      },
+      storage,
+      historyKey: "test_practice_sessions",
+    });
+
+    const packIds = new Set(questions.map((question) => question.packId));
+
+    expect(questions).toHaveLength(10);
+    expect(packIds.size).toBe(1);
+    expect(
+      questions.every((question) => question.id.startsWith(`${question.packId}:`)),
+    ).toBe(true);
+  });
 });

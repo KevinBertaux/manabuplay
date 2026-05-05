@@ -9,6 +9,7 @@ export interface LocalizedTextMap {
 
 export interface QuizEntry {
   id: string;
+  packId?: string;
   tier?: number | string;
   word: string;
   kana: string;
@@ -94,6 +95,7 @@ export interface StorageAdapter {
 
 export interface PracticeSession {
   diffId: string;
+  packId?: string;
   completedAt: string;
   wordIds: string[];
 }

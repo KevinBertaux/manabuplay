@@ -325,6 +325,21 @@ function getPracticeCooldownIds({
   );
 }
 
+function getEntryPackId(entry: QuizEntry) {
+  return entry.packId || entry.id.split(":")[0] || "unknown-pack";
+}
+
+function getPracticePackIds(pool: QuizEntry[]) {
+  return Array.from(new Set(pool.map((entry) => getEntryPackId(entry)))).filter(Boolean);
+}
+
+function pickPracticePackId(pool: QuizEntry[]) {
+  const packIds = getPracticePackIds(pool);
+  if (packIds.length === 0) return null;
+
+  return shuffle(packIds)[0];
+}
+
 export function savePracticeSession({
   storage,
   historyKey,
@@ -341,6 +356,7 @@ export function savePracticeSession({
   const currentSessions = readPracticeSessions(storage, historyKey);
   const session = {
     diffId,
+    packId: questions[0] ? getEntryPackId(questions[0]) : undefined,
     completedAt: new Date().toISOString(),
     wordIds: questions.map((question) => question.id),
   };
@@ -388,12 +404,16 @@ function buildPracticeSession({
   if (!currentDiff) return [];
 
   const tierTargets = currentDiff.tierTargets || practiceConfig.recipes?.[currentDiff.id] || {};
+  const selectedPackId = pickPracticePackId(rawQuizData);
+  const packQuizData = selectedPackId
+    ? rawQuizData.filter((entry) => getEntryPackId(entry) === selectedPackId)
+    : rawQuizData;
   const selected: QuizEntry[] = [];
   const selectedIds = new Set<string>();
   const cooldownIds = getPracticeCooldownIds({ storage, historyKey, practiceConfig });
 
   Object.entries(tierTargets).forEach(([tier, count]) => {
-    const tierPool = rawQuizData.filter((entry) => String(entry.tier || 1) === tier);
+    const tierPool = packQuizData.filter((entry) => String(entry.tier || 1) === tier);
     selected.push(
       ...pickPracticeEntries(
         tierPool,
@@ -409,7 +429,7 @@ function buildPracticeSession({
   if (selected.length < questionCount) {
     selected.push(
       ...pickPracticeEntries(
-        rawQuizData,
+        packQuizData,
         questionCount - selected.length,
         `practice:${currentDiff.id}:fill:${Date.now()}`,
         selectedIds,

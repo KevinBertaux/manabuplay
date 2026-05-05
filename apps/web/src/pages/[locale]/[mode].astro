@@ -208,9 +208,11 @@ const defaultScoreLabel = locale === "fr" ? "0 pt" : "0 pts";
                       <span class="archive-calendar-cell-title">
                         {getArchiveCellTitle(cell.dateKey!, cell.tone)}
                       </span>
-                      <span class="archive-calendar-status" data-archive-status>
-                        {archiveStatusCopy[cell.tone]}
-                      </span>
+                      {cell.tone !== "future" && (
+                        <span class="archive-calendar-status" data-archive-status>
+                          {archiveStatusCopy[cell.tone]}
+                        </span>
+                      )}
                     </span>
                   ) : (
                     <a

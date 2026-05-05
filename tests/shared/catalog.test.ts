@@ -46,6 +46,7 @@ describe("catalog", () => {
     expect(quizData).toHaveLength(WORDS.length);
     expect(quizData[0]).toHaveProperty("word");
     expect(quizData[0]).toHaveProperty("id");
+    expect(quizData[0]).toHaveProperty("packId");
     expect(quizData[0]).toHaveProperty("hint2");
     expect(quizData[0]).toHaveProperty("explanation");
     expect(quizData[0]).toHaveProperty("correct");
