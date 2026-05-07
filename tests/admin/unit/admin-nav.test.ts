@@ -55,9 +55,13 @@ describe("admin nav", () => {
       "Réponses",
       "Tiers",
       "Archives",
+      "Typo",
     ]);
     expect(mockupsItem?.children?.find((item) => item.label === "Archives")?.href).toBe(
       "/design/mockups/archives",
+    );
+    expect(mockupsItem?.children?.find((item) => item.label === "Typo")?.href).toBe(
+      "/design/mockups/typography",
     );
     expect(designGroup?.items.find((item) => item.label === "Références")?.activeKey).toBe(
       "references",
