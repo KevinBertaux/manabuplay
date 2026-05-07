@@ -1,0 +1,271 @@
+---
+import DesignDocLayout from "../../../layouts/DesignDocLayout.astro";
+
+const fontFamilies = [
+  {
+    id: "rajdhani",
+    name: "Rajdhani",
+    className: "font-lab-rajdhani",
+    usage: "Candidate lisible, mais non retenue comme corps produit par la charte actuelle.",
+  },
+  {
+    id: "chakra",
+    name: "Chakra Petch",
+    className: "font-lab-chakra",
+    usage: "Fonte retenue pour le corps, le quiz, les boutons, les aides et l'administration.",
+  },
+  {
+    id: "joystix",
+    name: "Joystix",
+    className: "font-lab-joystix",
+    usage: "Fonte validée pour les titres courts, la signature arcade et les accents de marque.",
+  },
+];
+
+const fontDecisionNotes = [
+  {
+    title: "Titres",
+    body: "Joystix est validée pour les titres courts, le logo, les signatures arcade et quelques accents visuels. Elle reste interdite pour le romaji, les textes longs et les chaînes dynamiques.",
+  },
+  {
+    title: "Corps",
+    body: "Chakra Petch est la fonte retenue pour le corps produit : quiz, UI, hints, réponses, pages pack, administration et textes multilingues.",
+  },
+  {
+    title: "Pourquoi Chakra",
+    body: "Elle garde mieux la lisibilité utile que Rajdhani sur les accents FR, romaji accentués, kana/kanji, labels et textes denses. Elle donne une identité techno sans transformer chaque bloc en affiche arcade.",
+  },
+  {
+    title: "Écart à corriger",
+    body: "Le brand system et shared/styles/typography.css disent Chakra Petch pour .font-body, mais tailwind.config.cjs mappe encore font-body sur Rajdhani. À corriger avant d'appliquer la typo publique.",
+  },
+];
+
+const sampleRows = [
+  {
+    label: "Romaji court",
+    text: "gacha · waifu · tensei · saikyou · eiyuu",
+  },
+  {
+    label: "Romaji long",
+    text: "sankaku kankei · genkai toppa · kouryaku jouhou · makai tensei",
+  },
+  {
+    label: "Romaji accentué",
+    text: "shugyō · shujinkō · saikyō · eiyū · kouryū · jōhō · gōkei · ōgi · kyūkyoku",
+  },
+  {
+    label: "Romaji macrons MAJ",
+    text: "SHUGYŌ · SHUJINKŌ · SAIKYŌ · EIYŪ · KŌRYŪ · JŌHŌ · ŌGI · KYŪKYOKU",
+  },
+  {
+    label: "Accents minuscules FR",
+    text: "à â ä æ ç é è ê ë î ï ô œ ù û ü ÿ ñ",
+  },
+  {
+    label: "Accents majuscules FR",
+    text: "À Â Ä Æ Ç É È Ê Ë Î Ï Ô Œ Ù Û Ü Ÿ Ñ",
+  },
+  {
+    label: "Phrase FR",
+    text: "Équipement légendaire, coût d'énergie, unité indispensable, récompenses limitées.",
+  },
+  {
+    label: "Kana hiragana",
+    text: "あいうえお · さんかくかんけい · しゅじんこう · げんかいとっぱ",
+  },
+  {
+    label: "Kana katakana",
+    text: "アイウエオ · ワイフ · ガチャ · メガネっこ · ピックアップ",
+  },
+  {
+    label: "Kanji",
+    text: "三角関係 · 主人公 · 限界突破 · 周回 · 人権 · 報酬",
+  },
+  {
+    label: "Mix quiz",
+    text: "sankaku kankei / さんかくかんけい / 三角関係 / Triangle amoureux",
+  },
+  {
+    label: "Chiffres et UI",
+    text: "Score 200 pts · 3/10 · Combo x2.0 · T1 T2 T3 T4 · 96/100",
+  },
+  {
+    label: "Ponctuation",
+    text: "« Guillemets » — tiret long - tiret court… points ? ! (parenthèses) [chips]",
+  },
+];
+
+const quizCases = [
+  {
+    romaji: "sankaku kankei",
+    kana: "さんかくかんけい",
+    kanji: "三角関係",
+    fr: "Triangle amoureux",
+    note: "Cas qui déborde aujourd'hui sur le panneau mot desktop.",
+  },
+  {
+    romaji: "genkai toppa",
+    kana: "げんかいとっぱ",
+    kanji: "限界突破",
+    fr: "Repousser les limites",
+    note: "Romaji moyen, kanji dense, traduction FR longue.",
+  },
+  {
+    romaji: "shugyō",
+    kana: "しゅぎょう",
+    kanji: "修行",
+    fr: "Entraînement",
+    note: "Macron sur ō : utile pour juger lisibilité romaji accentué.",
+  },
+  {
+    romaji: "shujinkō",
+    kana: "しゅじんこう",
+    kanji: "主人公",
+    fr: "Protagoniste",
+    note: "Romaji accentué courant dans le pack Anime Codes.",
+  },
+  {
+    romaji: "kouryaku jouhou",
+    kana: "こうりゃくじょうほう",
+    kanji: "攻略情報",
+    fr: "Information de stratégie",
+    note: "Romaji long et kana long, bon test de largeur.",
+  },
+  {
+    romaji: "meganekko",
+    kana: "メガネっこ",
+    kanji: "メガネっ娘",
+    fr: "Fille à lunettes",
+    note: "Mix katakana, petit kana, kanji final.",
+  },
+];
+---
+<DesignDocLayout
+  title="Mire typographique ManabuPlay"
+  active="mockups"
+  description="Contrôle interne des fontes Rajdhani, Chakra Petch et Joystix sur romaji, kana, kanji, accents et UI quiz."
+  containerClass="admin-wrap font-lab-page"
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+
+  <section class="font-lab-hero">
+    <p class="font-lab-eyebrow">Design · Typographie</p>
+    <h1>Mire fontes quiz et admin</h1>
+    <p>
+      Page de contrôle pour décider proprement quelle fonte sert au romaji, aux kana, aux kanji,
+      aux textes FR accentués et aux éléments UI. Les trois fontes sont affichées avec les mêmes
+      contenus pour éviter les décisions au feeling.
+    </p>
+  </section>
+
+  <section class="font-lab-grid">
+    {fontFamilies.map((font) => (
+      <article class:list={["font-lab-card", font.className]}>
+        <p class="font-lab-card-kicker">{font.id}</p>
+        <h2>{font.name}</h2>
+        <p>{font.usage}</p>
+        <div class="font-lab-scale">
+          <span class="font-lab-size-sm">Petit texte UI 14px</span>
+          <span class="font-lab-size-md">Romaji 24px</span>
+          <span class="font-lab-size-lg">Quiz 36px</span>
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <section class="font-lab-section">
+    <div class="font-lab-section-head">
+      <p class="font-lab-eyebrow">Décision actuelle</p>
+      <h2>Joystix pour les titres, Chakra Petch pour le corps</h2>
+    </div>
+    <div class="font-lab-decision-grid">
+      {fontDecisionNotes.map((note) => (
+        <article>
+          <strong>{note.title}</strong>
+          <span>{note.body}</span>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="font-lab-section">
+    <div class="font-lab-section-head">
+      <p class="font-lab-eyebrow">Comparatif direct</p>
+      <h2>Mêmes chaînes, trois fontes</h2>
+    </div>
+
+    <div class="font-lab-table">
+      <div class="font-lab-table-head">
+        <span>Cas</span>
+        {fontFamilies.map((font) => <span>{font.name}</span>)}
+      </div>
+
+      {sampleRows.map((row) => (
+        <div class="font-lab-row">
+          <div class="font-lab-label">{row.label}</div>
+          {fontFamilies.map((font) => (
+            <div class:list={["font-lab-sample", font.className]}>{row.text}</div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="font-lab-section">
+    <div class="font-lab-section-head">
+      <p class="font-lab-eyebrow">Panneau quiz</p>
+      <h2>Cas réels à valider avant CSS public</h2>
+    </div>
+
+    <div class="font-lab-quiz-grid">
+      {quizCases.map((item) => (
+        <article class="font-lab-quiz-card">
+          <div class="font-lab-quiz-word">
+            <span class="font-lab-quiz-romaji">{item.romaji}</span>
+            <span class="font-lab-quiz-forms">
+              <span>{item.kana}</span>
+              <span>{item.kanji}</span>
+            </span>
+          </div>
+          <div class="font-lab-quiz-copy">
+            <strong>{item.fr}</strong>
+            <span>{item.note}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="font-lab-section">
+    <div class="font-lab-section-head">
+      <p class="font-lab-eyebrow">Verdict à remplir</p>
+      <h2>Questions de décision</h2>
+    </div>
+    <div class="font-lab-decision-grid">
+      <article>
+        <strong>Romaji</strong>
+        <span>Quelle fonte garde une bonne lecture sans déborder sur 14 à 18 caractères ?</span>
+      </article>
+      <article>
+        <strong>Kana</strong>
+        <span>Quelle fonte respecte les formes japonaises sans effet pixel parasite ?</span>
+      </article>
+      <article>
+        <strong>Kanji</strong>
+        <span>Quelle taille permet d'apprendre sans transformer le mot en logo rose ?</span>
+      </article>
+      <article>
+        <strong>UI</strong>
+        <span>Quelle fonte reste lisible sur boutons, score, labels et petites capitales ?</span>
+      </article>
+    </div>
+  </section>
+</DesignDocLayout>

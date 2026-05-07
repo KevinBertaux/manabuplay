@@ -31,7 +31,14 @@ npm run qa:release
 The hook runs:
 
 ```sh
-npm run check
+node scripts/check-pre-push.mjs
 ```
+
+The script is adaptive:
+
+- docs-only changes: `npm run check:quick`
+- web-only changes: `npm run check:web` + quick repo checks + cheap audits
+- admin-only changes: `npm run check:admin` + quick repo checks + cheap audits
+- shared, scripts, config, hooks, or mixed web/admin changes: `npm run check`
 
 It also skips branch deletions and empty pushes, so `git push origin --delete ...` no longer pays the full validation cost.

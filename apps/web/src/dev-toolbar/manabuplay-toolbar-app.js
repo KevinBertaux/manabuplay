@@ -1,139 +1,23 @@
 import { defineToolbarApp } from "astro/toolbar";
+import {
+  getArchiveDates,
+  getArchiveKeys,
+  getDailyKeys,
+  getDefaultArchiveDate,
+  getLocalDateKey,
+  listManabuKeys,
+  resetArchives,
+  resetDaily,
+  resetPractice,
+} from "./manabuplay-toolbar-storage.js";
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-const DAILY_EXACT_KEYS = ["mp_best_daily"];
-const ARCHIVE_EXACT_KEYS = ["mp_best_archive"];
-const PRACTICE_SCORE_KEYS = ["mp_best_easy", "mp_best_normal", "mp_best_hard", "mp_best_expert"];
-
-function listManabuKeys() {
-  return Object.keys(localStorage)
-    .filter((key) => key.startsWith("mp_"))
-    .sort((left, right) => left.localeCompare(right));
-}
-
-function isPlainObject(value) {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function readStorageJson(key) {
-  try {
-    return JSON.parse(localStorage.getItem(key) || "null");
-  } catch {
-    return null;
-  }
-}
-
-function writeStorageJson(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-function isDailyKey(key) {
-  return (
-    DAILY_EXACT_KEYS.includes(key) || key.startsWith("mp_daily") || key.startsWith("mp_best_daily")
-  );
-}
-
-function isArchiveKey(key) {
-  return (
-    ARCHIVE_EXACT_KEYS.includes(key) ||
-    key.startsWith("mp_archive") ||
-    key.startsWith("mp_best_archive")
-  );
-}
-
-function getDailyKeys() {
-  return listManabuKeys().filter(isDailyKey);
-}
-
-function getArchiveKeys() {
-  return listManabuKeys().filter(isArchiveKey);
-}
-
-function removeKeys(keys) {
-  let removed = 0;
-  for (const key of keys) {
-    if (localStorage.getItem(key) === null) continue;
-    localStorage.removeItem(key);
-    removed += 1;
-  }
-  return removed;
-}
-
-function removeDateEntryFromObjectKey(key, date) {
-  const value = readStorageJson(key);
-  if (!isPlainObject(value) || !(date in value)) return 0;
-
-  delete value[date];
-  if (Object.keys(value).length === 0) {
-    localStorage.removeItem(key);
-  } else {
-    writeStorageJson(key, value);
-  }
-  return 1;
-}
-
-function removeDateScopedKeys(keyPredicate, date) {
-  const keys = listManabuKeys().filter((key) => keyPredicate(key) && key.includes(date));
-  return removeKeys(keys);
-}
-
-function resetDaily(date) {
-  let removed = removeKeys(DAILY_EXACT_KEYS);
-  removed += removeDateScopedKeys(isDailyKey, date);
-
-  for (const key of getDailyKeys()) {
-    removed += removeDateEntryFromObjectKey(key, date);
-  }
-
-  return removed;
-}
-
-function resetArchives(scope, date) {
-  if (scope === "all") return removeKeys(getArchiveKeys());
-
-  let removed = removeDateScopedKeys(isArchiveKey, date);
-  for (const key of getArchiveKeys()) {
-    removed += removeDateEntryFromObjectKey(key, date);
-  }
-
-  return removed;
-}
-
-function resetPractice() {
-  return removeKeys([...PRACTICE_SCORE_KEYS, "mp_practice_sessions"]);
-}
-
-function getLocalDateKey(date = new Date()) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function getArchiveDates() {
-  const dates = new Set();
-
-  for (const key of getArchiveKeys()) {
-    const keyDates = key.match(/\d{4}-\d{2}-\d{2}/g) || [];
-    keyDates.forEach((date) => dates.add(date));
-
-    const value = readStorageJson(key);
-    if (isPlainObject(value)) {
-      Object.keys(value)
-        .filter((date) => DATE_PATTERN.test(date))
-        .forEach((date) => dates.add(date));
-    }
-  }
-
-  const queryDate = new URLSearchParams(window.location.search).get("date");
-  if (queryDate && DATE_PATTERN.test(queryDate)) dates.add(queryDate);
-
-  return [...dates].sort().reverse();
-}
-
-function getDefaultArchiveDate() {
-  return getArchiveDates()[0] || getLocalDateKey();
-}
+const ANSWER_HELPER_ENABLED_KEY = "mp_dev_show_quiz_answer";
+const ANSWER_HELPER_POSITION_KEY = "mp_dev_answer_position";
+const ANSWER_HELPER_STYLE_ID = "mp-dev-answer-helper-style";
+const ANSWER_HELPER_BUBBLE_ID = "mp-dev-answer-helper";
+const ANSWER_HELPER_POSITIONS = ["panel", "answers"];
+let answerHelperObserver = null;
 
 function formatToday() {
   return new Intl.DateTimeFormat("fr-FR", {
@@ -163,6 +47,173 @@ function renderArchiveDatalist(dates) {
   return `<datalist id="mp-archive-dates">${dates
     .map((date) => `<option value="${escapeHtml(date)}"></option>`)
     .join("")}</datalist>`;
+}
+
+function readBooleanSetting(key, fallback = false) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || "null") ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function readAnswerHelperPosition() {
+  const value = localStorage.getItem(ANSWER_HELPER_POSITION_KEY);
+  return ANSWER_HELPER_POSITIONS.includes(value) ? value : "panel";
+}
+
+function writeBooleanSetting(key, value) {
+  localStorage.setItem(key, JSON.stringify(Boolean(value)));
+}
+
+function getCurrentQuizEntry() {
+  const data = window.__MANABUPLAY_DATA__;
+  const quizData = Array.isArray(data?.quizData) ? data.quizData : [];
+  const romaji = document.querySelector("#wordRomaji")?.textContent?.trim();
+  const kana = document.querySelector("#wordKana")?.textContent?.trim();
+  const word = document.querySelector("#wordDisplay")?.textContent?.trim();
+
+  if (!romaji && !kana && !word) return null;
+
+  return (
+    quizData.find((candidate) => {
+      const candidateRomaji = candidate.romaji || candidate.kana || candidate.word;
+      return candidateRomaji === romaji && candidate.kana === kana && candidate.word === word;
+    }) || null
+  );
+}
+
+function getCurrentQuizAnswer() {
+  const entry = getCurrentQuizEntry();
+  if (!entry) return "";
+
+  const lang = document.documentElement.lang || window.__MANABUPLAY_LOCALE__ || "en";
+  return entry.correct?.[lang] || entry.correct?.en || "";
+}
+
+function ensureAnswerHelperStyles() {
+  if (document.getElementById(ANSWER_HELPER_STYLE_ID)) return;
+
+  const style = document.createElement("style");
+  style.id = ANSWER_HELPER_STYLE_ID;
+  style.textContent = `
+    .quiz-shell.mp-dev-answer-host {
+      position: relative;
+    }
+
+    .mp-dev-answer-helper {
+      z-index: 20;
+      max-width: min(360px, calc(100vw - 32px));
+      border: 1px solid rgba(34, 211, 238, .34);
+      border-radius: 10px;
+      background: rgba(8, 13, 28, .94);
+      box-shadow: 0 0 0 1px rgba(34, 211, 238, .08), 0 14px 30px rgba(0, 0, 0, .28);
+      color: #e9fbff;
+      font: 800 13px/1.45 "Chakra Petch", ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: .01em;
+      padding: 10px 12px;
+      pointer-events: none;
+    }
+
+    .mp-dev-answer-helper strong {
+      display: block;
+      color: rgba(34, 211, 238, .82);
+      font-size: 10px;
+      letter-spacing: .12em;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+
+    .mp-dev-answer-helper--panel {
+      bottom: 12px;
+      position: absolute;
+      right: 12px;
+    }
+
+    .mp-dev-answer-helper--answers {
+      margin: -2px 0 8px;
+      width: fit-content;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function removeAnswerHelper() {
+  answerHelperObserver?.disconnect();
+  answerHelperObserver = null;
+  document.getElementById(ANSWER_HELPER_BUBBLE_ID)?.remove();
+  document.querySelector(".quiz-shell")?.classList.remove("mp-dev-answer-host");
+}
+
+function renderAnswerHelperBubble() {
+  const enabled = readBooleanSetting(ANSWER_HELPER_ENABLED_KEY);
+  if (!enabled) {
+    removeAnswerHelper();
+    return;
+  }
+
+  ensureAnswerHelperStyles();
+
+  const position = readAnswerHelperPosition();
+  const answer = getCurrentQuizAnswer();
+  const quizShell = document.querySelector(".quiz-shell");
+  const answersGrid = document.querySelector("#answersGrid");
+  const target = position === "answers" ? answersGrid : quizShell;
+
+  if (!(target instanceof HTMLElement)) return;
+
+  let bubble = document.getElementById(ANSWER_HELPER_BUBBLE_ID);
+  if (!(bubble instanceof HTMLElement)) {
+    bubble = document.createElement("div");
+    bubble.id = ANSWER_HELPER_BUBBLE_ID;
+  }
+
+  bubble.className = `mp-dev-answer-helper mp-dev-answer-helper--${position}`;
+  bubble.innerHTML = `<strong>QA réponse</strong><span>${escapeHtml(answer || "Aucune question active")}</span>`;
+
+  if (position === "answers") {
+    target.parentElement?.insertBefore(bubble, target);
+    quizShell?.classList.remove("mp-dev-answer-host");
+  } else {
+    quizShell?.classList.add("mp-dev-answer-host");
+    target.appendChild(bubble);
+  }
+}
+
+function startAnswerHelperObserver() {
+  answerHelperObserver?.disconnect();
+  answerHelperObserver = new MutationObserver(() => {
+    renderAnswerHelperBubble();
+  });
+
+  ["wordRomaji", "wordKana", "wordDisplay", "answersGrid"].forEach((id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      answerHelperObserver.observe(element, {
+        attributes: true,
+        childList: true,
+        subtree: true,
+      });
+    }
+  });
+
+  const quizArea = document.getElementById("quizArea");
+  if (quizArea) {
+    answerHelperObserver.observe(quizArea, {
+      attributes: true,
+      attributeFilter: ["hidden"],
+    });
+  }
+}
+
+function syncAnswerHelper() {
+  if (!readBooleanSetting(ANSWER_HELPER_ENABLED_KEY)) {
+    removeAnswerHelper();
+    return;
+  }
+
+  renderAnswerHelperBubble();
+  startAnswerHelperObserver();
 }
 
 function getToolbarPlacement() {
@@ -434,6 +485,17 @@ function render(canvas, app, message = "") {
         <div class="mp-section">
           <h3 class="mp-section-title">Autres états quiz</h3>
           <label class="mp-toggle">
+            <input type="checkbox" data-mp-answer-helper ${readBooleanSetting(ANSWER_HELPER_ENABLED_KEY) ? "checked" : ""} />
+            Afficher la bonne réponse
+          </label>
+          <label class="mp-field">
+            <span>Position réponse QA</span>
+            <select class="mp-select" data-mp-answer-position>
+              <option value="panel" ${readAnswerHelperPosition() === "panel" ? "selected" : ""}>Bas du panneau quiz</option>
+              <option value="answers" ${readAnswerHelperPosition() === "answers" ? "selected" : ""}>Près des réponses</option>
+            </select>
+          </label>
+          <label class="mp-toggle">
             <input type="checkbox" data-mp-auto-reload checked />
             Recharger la page après reset
           </label>
@@ -487,7 +549,7 @@ function render(canvas, app, message = "") {
       return;
     }
 
-    const removed = resetArchives(scope, date);
+    const removed = resetArchives(scope, date, getLocalDateKey());
     const label = scope === "all" ? "Toutes les archives" : `Archive ${date}`;
     finishAction({
       canvas,
@@ -507,6 +569,24 @@ function render(canvas, app, message = "") {
       reload,
     });
   });
+
+  const answerHelperInput = canvas.querySelector("[data-mp-answer-helper]");
+  if (answerHelperInput instanceof HTMLInputElement) {
+    answerHelperInput.addEventListener("change", () => {
+      writeBooleanSetting(ANSWER_HELPER_ENABLED_KEY, answerHelperInput.checked);
+      syncAnswerHelper();
+    });
+  }
+
+  const answerPositionInput = canvas.querySelector("[data-mp-answer-position]");
+  if (answerPositionInput instanceof HTMLSelectElement) {
+    answerPositionInput.addEventListener("change", () => {
+      localStorage.setItem(ANSWER_HELPER_POSITION_KEY, answerPositionInput.value);
+      syncAnswerHelper();
+    });
+  }
+
+  syncAnswerHelper();
 }
 
 export default defineToolbarApp({

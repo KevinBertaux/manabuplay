@@ -1,7 +1,11 @@
 import {
   buildDailyQuizData,
   buildQuestions,
+  getDailyRunRecord,
   getSessionDateKey,
+  hasCompletedDailyRun,
+  saveArchiveRunCompletion,
+  saveDailyRunCompletion,
   savePracticeSession,
 } from "./quiz-app/session";
 import {
@@ -28,6 +32,8 @@ type QuizAction =
   | "shareOnX"
   | "copyShareLink";
 
+type QuizActionHandler = (element: HTMLElement) => void;
+
 const bootData = window.__MANABUPLAY_DATA__ as QuizBootData | undefined;
 if (!bootData) {
   throw new Error("ManabuPlay boot data is missing.");
@@ -36,6 +42,7 @@ const MANABUPLAY_BOOT: QuizBootData = bootData;
 
 const MANABUPLAY_MODE = MANABUPLAY_BOOT.mode || window.__MANABUPLAY_MODE__ || "legacy";
 const DIFFICULTIES = MANABUPLAY_BOOT.difficulties;
+const IS_SINGLE_RUN_MODE = MANABUPLAY_MODE === "daily" || MANABUPLAY_MODE === "archives";
 const WAITLIST_STORAGE_KEY = "waitlist_submissions";
 const WAITLIST_FORM_NAME = "manabuplay-waitlist";
 const WAITLIST_SUCCESS_BUTTON_DELAY = 2800;
@@ -45,13 +52,14 @@ const LOCALIZED_ROUTES = ["daily", "practice", "archives"] as const;
 const PRACTICE_HISTORY_KEY = "practice_sessions";
 const PRACTICE_HISTORY_LIMIT = 8;
 const LANG = MANABUPLAY_BOOT.lang;
-const ANSWER_BUTTON_CLASS =
-  "answer-btn grid min-h-12 w-full grid-cols-[1.55rem_minmax(0,1fr)] items-center gap-2 rounded-lg border border-[rgba(34,211,238,.22)] bg-[linear-gradient(180deg,rgba(18,44,60,.72),rgba(17,18,40,.94))] px-3 py-2 text-left font-body text-[.98rem] font-extrabold leading-snug text-[#eee7ff] transition-[background,border-color,color] duration-150 hover:border-[rgba(34,211,238,.42)] hover:bg-[rgba(34,211,238,.08)] disabled:cursor-not-allowed disabled:opacity-85 sm:min-h-14 sm:grid-cols-[1.75rem_minmax(0,1fr)] sm:text-base";
-const ANSWER_KEY_CLASS =
-  "answer-key grid h-6 w-6 place-items-center rounded-lg bg-white/[.06] text-[.72rem] font-black text-[#cdbdff] sm:h-7 sm:w-7 sm:text-[.78rem]";
-const ANSWER_COPY_CLASS = "answer-copy min-w-0";
+const ANSWER_BUTTON_CLASS = "answer-btn";
+const ANSWER_KEY_CLASS = "answer-key";
+const ANSWER_COPY_CLASS = "answer-copy";
+const QUESTION_POINTS_BY_HINT_STAGE = [10, 8, 5] as const;
+const COMBO_MULTIPLIER_STEP = 0.1;
+const MAX_COMBO_MULTIPLIER_STREAK = 10;
 
-let currentDiff: Difficulty | null = null;
+let currentDiff: Difficulty | null = IS_SINGLE_RUN_MODE ? (DIFFICULTIES[0] ?? null) : null;
 let hintStage = 0;
 let state: RuntimeState = {
   questions: [],
@@ -130,14 +138,83 @@ function formatCorrectFeedback(points: number): string {
 
 function formatComboFeedback(streak: number, points: number): string {
   return currentLang === "fr"
-    ? `🔥 COMBO x${streak} ! +${points} pts — 正解! (Seikai = Correct !)`
-    : `🔥 COMBO x${streak}! +${points} pts — 正解! (Seikai = Correct!)`;
+    ? `🔥 COMBO x${streak} ! +${points} pts base — 正解!`
+    : `🔥 COMBO x${streak}! +${points} base pts — 正解!`;
 }
 
 function formatWrongFeedback(answer: string): string {
   return currentLang === "fr"
     ? `✗ 不正解 (Fuseikai) — La réponse : "${answer}"`
     : `✗ 不正解 (Fuseikai) — The answer: "${answer}"`;
+}
+
+function getHintAdjustedQuestionPoints(hintsUsed: number): number {
+  const cappedHintStage = Math.min(
+    Math.max(hintsUsed, 0),
+    QUESTION_POINTS_BY_HINT_STAGE.length - 1,
+  );
+  return QUESTION_POINTS_BY_HINT_STAGE[cappedHintStage] ?? QUESTION_POINTS_BY_HINT_STAGE[0];
+}
+
+function getComboMultiplier(bestStreak: number) {
+  return 1 + Math.min(Math.max(bestStreak, 0), MAX_COMBO_MULTIPLIER_STREAK) * COMBO_MULTIPLIER_STEP;
+}
+
+function getMaxFinalScore(total: number) {
+  return total * QUESTION_POINTS_BY_HINT_STAGE[0] * 2;
+}
+
+function formatComboMultiplier(value: number) {
+  return `x${value.toFixed(1)}`;
+}
+
+function getCompletedDailyRunRecord() {
+  if (MANABUPLAY_MODE !== "daily") return null;
+  return getDailyRunRecord(LS, SESSION_DATE_KEY);
+}
+
+function isDailyRunLocked() {
+  return MANABUPLAY_MODE === "daily" && hasCompletedDailyRun(LS, SESSION_DATE_KEY);
+}
+
+function getDailyLockedButtonLabel() {
+  return currentLang === "fr" ? "Quotidien déjà joué" : "Daily already played";
+}
+
+function syncDailyLaunchControls() {
+  const locked = isDailyRunLocked();
+  document.querySelectorAll<HTMLElement>("[data-quiz-action='launchQuiz']").forEach((element) => {
+    element.classList.toggle("is-disabled", locked);
+    element.setAttribute("aria-disabled", locked ? "true" : "false");
+
+    if (element instanceof HTMLButtonElement) {
+      element.disabled = locked;
+    }
+
+    if (!element.dataset.quizDefaultText) {
+      element.dataset.quizDefaultText = element.textContent?.trim() || "";
+    }
+
+    if (locked) {
+      element.textContent = getDailyLockedButtonLabel();
+    } else if (element.dataset.quizDefaultText) {
+      element.textContent = element.dataset.quizDefaultText;
+    }
+  });
+}
+
+function syncResultReplayControls() {
+  const replayButton = document.querySelector<HTMLElement>("[data-quiz-action='replayDifficulty']");
+  if (!(replayButton instanceof HTMLButtonElement)) return;
+
+  const isDailyResultLocked = MANABUPLAY_MODE === "daily" && isDailyRunLocked();
+  replayButton.disabled = isDailyResultLocked;
+  replayButton.classList.toggle("is-disabled", isDailyResultLocked);
+  replayButton.setAttribute("aria-disabled", isDailyResultLocked ? "true" : "false");
+
+  if (isDailyResultLocked) {
+    replayButton.textContent = currentLang === "fr" ? "Terminé aujourd'hui" : "Done today";
+  }
 }
 
 const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
@@ -289,9 +366,36 @@ function applyLang() {
 
 function renderDiffGrid() {
   const grid = document.getElementById("diffGrid");
+  const titleScreen = document.getElementById("quizTitleScreen");
+  const startButton = getRequiredElement<HTMLButtonElement>("startBtn");
+  const defaultStartSlot = document.getElementById("defaultStartSlot");
+  const singleRunStartSlot = document.getElementById("singleRunStartSlot");
   if (!(grid instanceof HTMLElement)) return;
 
   grid.innerHTML = "";
+  grid.hidden = IS_SINGLE_RUN_MODE;
+  if (titleScreen instanceof HTMLElement) {
+    titleScreen.hidden = !IS_SINGLE_RUN_MODE;
+  }
+
+  if (IS_SINGLE_RUN_MODE) {
+    if (
+      singleRunStartSlot instanceof HTMLElement &&
+      startButton.parentElement !== singleRunStartSlot
+    ) {
+      singleRunStartSlot.appendChild(startButton);
+    }
+    renderSingleRunTitleScreen();
+    if (currentDiff) {
+      startButton.classList.add("ready");
+    }
+    return;
+  }
+
+  if (defaultStartSlot instanceof HTMLElement && startButton.parentElement !== defaultStartSlot) {
+    defaultStartSlot.appendChild(startButton);
+  }
+
   DIFFICULTIES.forEach((difficulty) => {
     const best = LS.getBest(difficulty.id);
     const diffBestLabel = t("diff_best");
@@ -324,6 +428,177 @@ function selectDiff(difficulty: Difficulty) {
   getRequiredElement<HTMLButtonElement>("startBtn").classList.add("ready");
 }
 
+function formatSessionDate(dateKey: string) {
+  if (!dateKey) return "";
+  return new Intl.DateTimeFormat(currentLang === "fr" ? "fr-FR" : "en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(`${dateKey}T12:00:00`));
+}
+
+function setElementText(id: string, value: string) {
+  const element = document.getElementById(id);
+  if (element instanceof HTMLElement) element.textContent = value;
+}
+
+function setTitleCopyText(value: string) {
+  const copy = document.getElementById("quizTitleCopy");
+  const text = document.getElementById("quizTitleCopyText");
+  const score = document.getElementById("quizTitleCopyScore");
+  const returnLine = document.getElementById("quizTitleCopyReturn");
+  const shareRow = document.getElementById("quizTitleShareRow");
+
+  copy?.classList.remove("is-completed");
+  if (text instanceof HTMLElement) {
+    text.hidden = false;
+    text.textContent = value;
+  }
+  if (score instanceof HTMLElement) {
+    score.hidden = true;
+    score.textContent = "";
+  }
+  if (returnLine instanceof HTMLElement) {
+    returnLine.hidden = true;
+    returnLine.textContent = "";
+  }
+  if (shareRow instanceof HTMLElement) hideElement(shareRow, "flex");
+}
+
+function setCompletedDailyTitleCopy(scoreLine: string, returnText: string) {
+  const copy = document.getElementById("quizTitleCopy");
+  const text = document.getElementById("quizTitleCopyText");
+  const score = document.getElementById("quizTitleCopyScore");
+  const returnLine = document.getElementById("quizTitleCopyReturn");
+  const shareRow = document.getElementById("quizTitleShareRow");
+
+  copy?.classList.add("is-completed");
+  if (text instanceof HTMLElement) {
+    text.hidden = true;
+    text.textContent = "";
+  }
+  if (score instanceof HTMLElement) {
+    score.hidden = false;
+    score.textContent = scoreLine;
+  }
+  if (returnLine instanceof HTMLElement) {
+    returnLine.hidden = false;
+    returnLine.textContent = returnText;
+  }
+  if (shareRow instanceof HTMLElement) showElement(shareRow, "flex");
+}
+
+function primeCompletedDailyShareState(
+  record: NonNullable<ReturnType<typeof getCompletedDailyRunRecord>>,
+) {
+  state = {
+    ...state,
+    questions: Array.from({ length: record.total }, (_, index) => ({
+      id: record.wordIds[index] || `completed-daily-${index + 1}`,
+    })) as QuizQuestion[],
+    score: record.bestScore,
+    correct: record.correct,
+    bestStreak: record.bestStreak,
+  };
+}
+
+function renderSingleRunTitleScreen() {
+  if (!IS_SINGLE_RUN_MODE) return;
+
+  const formattedDate = formatSessionDate(SESSION_DATE_KEY);
+  const isArchiveMode = MANABUPLAY_MODE === "archives";
+  const completedDaily = getCompletedDailyRunRecord();
+  const metaSecondary = document.getElementById("quizTitleMetaSecondary");
+
+  if (completedDaily) {
+    primeCompletedDailyShareState(completedDaily);
+    setElementText(
+      "quizTitleKicker",
+      currentLang === "fr" ? "Déjà joué aujourd'hui" : "Already played today",
+    );
+    setElementText(
+      "quizTitleHeadline",
+      currentLang === "fr" ? "Quotidien terminé" : "Daily complete",
+    );
+    setCompletedDailyTitleCopy(
+      currentLang === "fr"
+        ? `Score max : ${completedDaily.bestScore} pts`
+        : `Best score: ${completedDaily.bestScore} pts`,
+      currentLang === "fr"
+        ? "Reviens demain pour une nouvelle run."
+        : "Come back tomorrow for a new run.",
+    );
+    setElementText("quizTitleMetaPrimary", `${completedDaily.correct}/${completedDaily.total}`);
+    if (metaSecondary instanceof HTMLElement) {
+      metaSecondary.hidden = false;
+      metaSecondary.textContent =
+        currentLang === "fr" ? "Archive visible demain" : "Archive visible tomorrow";
+    }
+    syncDailyLaunchControls();
+    return;
+  }
+
+  setElementText(
+    "quizTitleKicker",
+    currentLang === "fr"
+      ? isArchiveMode
+        ? "Archive sélectionnée"
+        : "Défi du jour"
+      : isArchiveMode
+        ? "Selected archive"
+        : "Today's challenge",
+  );
+  setElementText(
+    "quizTitleHeadline",
+    currentLang === "fr"
+      ? isArchiveMode
+        ? `Archive du ${formattedDate}`
+        : `Quotidien du ${formattedDate}`
+      : isArchiveMode
+        ? `${formattedDate} archive`
+        : `${formattedDate} daily`,
+  );
+  setTitleCopyText(
+    currentLang === "fr"
+      ? isArchiveMode
+        ? "Rejoue une ancienne run quotidienne. Le partage reste désactivé pour les archives."
+        : "Une run commune de 10 questions, prête à démarrer sans choisir de difficulté."
+      : isArchiveMode
+        ? "Replay a past daily run. Sharing stays disabled for archives."
+        : "One shared 10-question run, ready to start without choosing a difficulty.",
+  );
+  setElementText("quizTitleMetaPrimary", currentLang === "fr" ? "10 questions" : "10 questions");
+  if (metaSecondary instanceof HTMLElement) {
+    metaSecondary.textContent = "";
+    metaSecondary.hidden = true;
+  }
+  syncDailyLaunchControls();
+}
+
+function setQuizHash() {
+  if (window.location.hash === "#quiz") return;
+  window.history.pushState(null, "", `${window.location.pathname}${window.location.search}#quiz`);
+}
+
+function scrollQuizSectionIntoView() {
+  const quizSection = document.getElementById("quiz");
+  const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
+  const target = quizSection || quizShell;
+
+  if (!(target instanceof HTMLElement)) return;
+
+  const nav = document.querySelector<HTMLElement>("nav");
+  const navHeight = nav?.getBoundingClientRect().height ?? 72;
+  const topOffset = navHeight + 12;
+  const targetTop = target.getBoundingClientRect().top + window.scrollY - topOffset;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  window.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: prefersReducedMotion ? "auto" : "smooth",
+  });
+}
+
 function animateReveal(node: HTMLElement | null) {
   if (!node) return;
   node.classList.remove("hint-revealed");
@@ -343,6 +618,33 @@ function setHintButtonLabel(key: string) {
 function hideHintButton() {
   const hintButton = document.getElementById("hintBtn");
   if (hintButton instanceof HTMLElement) hideElement(hintButton, "inline-flex");
+}
+
+function getTranslatedText(key: string, fallback: string) {
+  const value = t(key);
+  return typeof value === "string" ? value : fallback;
+}
+
+function setHintCardState({
+  card,
+  copy,
+  text,
+  revealed,
+  available,
+}: {
+  card: HTMLElement | null;
+  copy: HTMLElement | null;
+  text: string;
+  revealed: boolean;
+  available: boolean;
+}) {
+  if (!(card instanceof HTMLElement) || !(copy instanceof HTMLElement)) return;
+
+  copy.textContent = text;
+  copy.classList.remove("hint-revealed");
+  card.classList.toggle("is-locked", available && !revealed);
+  card.classList.toggle("is-revealed", available && revealed);
+  card.classList.toggle("is-unavailable", !available);
 }
 
 function renderExplanation(text: string, reveal = false) {
@@ -371,12 +673,40 @@ function resetExplanation() {
 
 function resetHintDisclosure() {
   const hintButton = document.getElementById("hintBtn");
-  const hintText = document.getElementById("hintText");
-  const hintTextSecondary = document.getElementById("hintTextSecondary");
+  const hintZone = document.getElementById("hintZone");
 
   if (hintButton instanceof HTMLElement) hideElement(hintButton, "inline-flex");
-  if (hintText instanceof HTMLElement) hideElement(hintText, "grid");
-  if (hintTextSecondary instanceof HTMLElement) hideElement(hintTextSecondary, "grid");
+  if (hintZone instanceof HTMLElement) hideElement(hintZone, "grid");
+}
+
+function animateScoreCounter(element: HTMLElement, target: number) {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) {
+    element.textContent = `${target} pts`;
+    return;
+  }
+
+  const durationMs = 900;
+  const startTime = performance.now();
+  element.classList.add("is-rolling");
+
+  function tick(now: number) {
+    const progress = Math.min((now - startTime) / durationMs, 1);
+    const easedProgress = 1 - (1 - progress) ** 3;
+    const value = Math.round(target * easedProgress);
+    element.textContent = `${value} pts`;
+
+    if (progress < 1) {
+      window.requestAnimationFrame(tick);
+      return;
+    }
+
+    element.textContent = `${target} pts`;
+    element.classList.remove("is-rolling");
+    element.classList.add("is-settled");
+  }
+
+  window.requestAnimationFrame(tick);
 }
 
 function revealHint(forceAll = false) {
@@ -386,7 +716,8 @@ function revealHint(forceAll = false) {
   const hintPrimary = getLocalizedField(question.hint);
   const hintSecondary = getLocalizedField(question.hint2);
   const previousStage = hintStage;
-  const zone = document.getElementById("hintText");
+  const zone = document.getElementById("hintZone");
+  const primaryCard = document.getElementById("hintText");
   const primaryContent = document.getElementById("hintContent");
   const secondaryRow = document.getElementById("hintTextSecondary");
   const secondaryContent = document.getElementById("hint2Content");
@@ -395,8 +726,14 @@ function revealHint(forceAll = false) {
 
   showElement(zone, "grid");
 
-  if (hintStage === 0 || forceAll) {
-    primaryContent.textContent = hintPrimary;
+  if ((hintStage === 0 || forceAll) && hintPrimary) {
+    setHintCardState({
+      card: primaryCard,
+      copy: primaryContent,
+      text: hintPrimary,
+      revealed: true,
+      available: true,
+    });
     animateReveal(primaryContent);
     hintStage = 1;
   }
@@ -407,9 +744,14 @@ function revealHint(forceAll = false) {
     secondaryRow instanceof HTMLElement &&
     secondaryContent instanceof HTMLElement
   ) {
-    showElement(secondaryRow, "grid");
-    secondaryContent.textContent = hintSecondary;
-    animateReveal(secondaryRow);
+    setHintCardState({
+      card: secondaryRow,
+      copy: secondaryContent,
+      text: hintSecondary,
+      revealed: true,
+      available: true,
+    });
+    animateReveal(secondaryContent);
     hintStage = 2;
   }
 
@@ -443,6 +785,7 @@ function renderQuestion() {
     question.cat[currentLang] || question.cat.en;
 
   const hintButton = document.getElementById("hintBtn");
+  const hintZone = document.getElementById("hintZone");
   const hintText = document.getElementById("hintText");
   const hintContent = document.getElementById("hintContent");
   const hintTextSecondary = document.getElementById("hintTextSecondary");
@@ -459,19 +802,33 @@ function renderQuestion() {
     }
     setHintButtonLabel("hint_btn");
   }
-  if (hintText instanceof HTMLElement) hideElement(hintText, "grid");
-  if (hintContent instanceof HTMLElement) {
-    hintContent.textContent = primaryHint;
-    hintContent.classList.remove("hint-revealed");
+
+  if (hintZone instanceof HTMLElement) {
+    if (primaryHint || secondaryHint) {
+      showElement(hintZone, "grid");
+    } else {
+      hideElement(hintZone, "grid");
+    }
   }
-  if (hintTextSecondary instanceof HTMLElement) {
-    hideElement(hintTextSecondary, "grid");
-    hintTextSecondary.classList.remove("hint-revealed");
-  }
-  if (hint2Content instanceof HTMLElement) {
-    hint2Content.textContent = secondaryHint;
-    hint2Content.classList.remove("hint-revealed");
-  }
+
+  setHintCardState({
+    card: hintText,
+    copy: hintContent,
+    text: primaryHint
+      ? getTranslatedText("hint_locked_one", "Locked · -2 pts if revealed")
+      : getTranslatedText("hint_unavailable", "No hint available"),
+    revealed: false,
+    available: Boolean(primaryHint),
+  });
+  setHintCardState({
+    card: hintTextSecondary,
+    copy: hint2Content,
+    text: secondaryHint
+      ? getTranslatedText("hint_locked_two", "Locked · -5 pts if revealed")
+      : getTranslatedText("hint_unavailable", "No hint available"),
+    revealed: false,
+    available: Boolean(secondaryHint),
+  });
   resetExplanation();
 
   const answersGrid = getRequiredElement<HTMLElement>("answersGrid");
@@ -501,6 +858,7 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
     answerButton.disabled = true;
   });
 
+  const hintsUsed = hintStage;
   resetHintDisclosure();
   const question = state.questions[state.currentIndex];
   renderExplanation(getLocalizedField(question?.explanation), true);
@@ -515,11 +873,11 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
     state.streak += 1;
     state.correct += 1;
     if (state.streak > state.bestStreak) state.bestStreak = state.streak;
-    const bonus = state.streak >= 3 ? 15 : state.streak >= 2 ? 12 : 10;
-    state.score += bonus;
+    const points = getHintAdjustedQuestionPoints(hintsUsed);
+    state.score += points;
     feedback.classList.add("is-correct");
     feedback.textContent =
-      state.streak >= 3 ? formatComboFeedback(state.streak, bonus) : formatCorrectFeedback(bonus);
+      state.streak >= 2 ? formatComboFeedback(state.streak, points) : formatCorrectFeedback(points);
   } else {
     button.classList.add("wrong");
     state.streak = 0;
@@ -552,14 +910,25 @@ function showResults() {
   showElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
 
   const total = state.questions.length;
-  const pct = Math.round((state.score / (total * 15)) * 100);
+  const baseScore = state.score;
+  const comboMultiplier = getComboMultiplier(state.bestStreak);
+  const finalScore = Math.round(baseScore * comboMultiplier);
+  const pct = Math.round((finalScore / getMaxFinalScore(total)) * 100);
   const results = getResults();
   const tier = results.find((result) => pct >= result.min) || results[results.length - 1];
+  state.score = finalScore;
 
   getRequiredElement<HTMLElement>("finalEmoji").textContent = tier?.emoji || "🏆";
   getRequiredElement<HTMLElement>("finalTitle").textContent = tier?.title || "";
   getRequiredElement<HTMLElement>("finalMsg").textContent = tier?.msg || "";
-  getRequiredElement<HTMLElement>("finalScore").textContent = `${state.score} pts`;
+  animateScoreCounter(getRequiredElement<HTMLElement>("finalScore"), finalScore);
+  getRequiredElement<HTMLElement>("finalBaseScore").textContent = `${baseScore} pts`;
+  getRequiredElement<HTMLElement>("finalBaseScoreLabel").textContent =
+    currentLang === "fr" ? "Score base" : "Base score";
+  getRequiredElement<HTMLElement>("finalComboMultiplier").textContent =
+    formatComboMultiplier(comboMultiplier);
+  getRequiredElement<HTMLElement>("finalComboLabel").textContent =
+    currentLang === "fr" ? `Combo max x${state.bestStreak}` : `Best combo x${state.bestStreak}`;
   getRequiredElement<HTMLElement>("finalCorrect").textContent = `${state.correct}/${total}`;
   getRequiredElement<HTMLElement>("finalPercent").textContent = `${pct}%`;
   getRequiredElement<HTMLElement>("finalStreak").textContent = String(state.bestStreak);
@@ -567,6 +936,30 @@ function showResults() {
   progressBar.max = total;
   progressBar.value = total;
   getRequiredElement<HTMLElement>("progressText").textContent = `${total}/${total}`;
+
+  if (MANABUPLAY_MODE === "daily") {
+    saveDailyRunCompletion({
+      storage: LS,
+      dateKey: SESSION_DATE_KEY,
+      score: state.score,
+      correct: state.correct,
+      total,
+      bestStreak: state.bestStreak,
+      questions: state.questions,
+    });
+    syncDailyLaunchControls();
+  } else if (MANABUPLAY_MODE === "archives") {
+    saveArchiveRunCompletion({
+      storage: LS,
+      dateKey: SESSION_DATE_KEY,
+      score: state.score,
+      correct: state.correct,
+      total,
+      bestStreak: state.bestStreak,
+      questions: state.questions,
+    });
+  }
+  syncResultReplayControls();
 
   if (MANABUPLAY_MODE === "practice" && currentDiff) {
     savePracticeSession({
@@ -607,6 +1000,14 @@ function showResults() {
 
 function launchQuiz() {
   if (!currentDiff) return;
+  if (isDailyRunLocked()) {
+    renderSingleRunTitleScreen();
+    scrollQuizSectionIntoView();
+    return;
+  }
+
+  const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
+  quizShell?.classList.add("is-launching");
 
   state = {
     questions: buildQuestionsForCurrentDiff(currentDiff.words),
@@ -625,10 +1026,8 @@ function launchQuiz() {
   hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   renderQuestion();
   requestAnimationFrame(() => {
-    getRequiredElement<HTMLElement>("quizArea").scrollIntoView({
-      block: "start",
-      behavior: "smooth",
-    });
+    scrollQuizSectionIntoView();
+    window.setTimeout(() => quizShell?.classList.remove("is-launching"), 420);
   });
 }
 
@@ -665,29 +1064,33 @@ const waitlistController = createWaitlistController({
 });
 
 const shareController = createShareController({
-  state,
+  getState: () => state,
   getCurrentDiff: () => currentDiff,
   getCurrentLang: () => currentLang,
   getResults,
   t,
 });
 
-const actionHandlers: Record<QuizAction, () => void> = {
-  launchQuiz,
+const actionHandlers: Record<QuizAction, QuizActionHandler> = {
+  launchQuiz: () => launchQuiz(),
   revealHint: () => revealHint(),
-  nextQuestion,
-  replayDifficulty,
-  goToDiffPicker,
-  shareOnX: shareController.shareOnX,
-  copyShareLink: shareController.copyShareLink,
+  nextQuestion: () => nextQuestion(),
+  replayDifficulty: () => replayDifficulty(),
+  goToDiffPicker: () => goToDiffPicker(),
+  shareOnX: () => shareController.shareOnX(),
+  copyShareLink: (element) => shareController.copyShareLink(element),
 };
 
 function bindQuizActions() {
   document.querySelectorAll<HTMLElement>("[data-quiz-action]").forEach((element) => {
-    element.addEventListener("click", () => {
+    element.addEventListener("click", (event) => {
       const action = element.dataset.quizAction as QuizAction | undefined;
       if (!action) return;
-      actionHandlers[action]?.();
+      if (action === "launchQuiz" && element instanceof HTMLAnchorElement) {
+        event.preventDefault();
+        setQuizHash();
+      }
+      actionHandlers[action]?.(element);
     });
   });
 }

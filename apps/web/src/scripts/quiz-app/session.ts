@@ -7,6 +7,22 @@ import type {
   StorageAdapter,
 } from "./runtime-types";
 
+export const DAILY_RUN_RECORDS_KEY = "daily_runs";
+
+export interface DailyRunRecord {
+  dateKey: string;
+  bestScore: number;
+  lastScore: number;
+  attempts: number;
+  correct: number;
+  total: number;
+  bestStreak: number;
+  completedAt: string;
+  updatedAt: string;
+  dailyCompletedAt: string;
+  wordIds: string[];
+}
+
 export function shuffle<T>(items: T[]): T[] {
   const shuffled = [...items];
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
@@ -21,6 +37,120 @@ export function getLocalDateKey(date = new Date()): string {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+function isDailyRunRecord(value: unknown): value is DailyRunRecord {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "dateKey" in value &&
+    "bestScore" in value &&
+    "attempts" in value &&
+    "dailyCompletedAt" in value
+  );
+}
+
+export function readDailyRunRecords(storage: StorageAdapter): Record<string, DailyRunRecord> {
+  const records = storage.get<Record<string, unknown>>(DAILY_RUN_RECORDS_KEY);
+  if (!records || typeof records !== "object" || Array.isArray(records)) return {};
+
+  return Object.fromEntries(
+    Object.entries(records).filter((entry): entry is [string, DailyRunRecord] =>
+      isDailyRunRecord(entry[1]),
+    ),
+  );
+}
+
+export function getDailyRunRecord(storage: StorageAdapter, dateKey: string) {
+  return readDailyRunRecords(storage)[dateKey] || null;
+}
+
+export function hasCompletedDailyRun(storage: StorageAdapter, dateKey: string) {
+  return Boolean(getDailyRunRecord(storage, dateKey)?.dailyCompletedAt);
+}
+
+export function saveDailyRunCompletion({
+  storage,
+  dateKey,
+  score,
+  correct,
+  total,
+  bestStreak,
+  questions,
+  completedAt = new Date().toISOString(),
+}: {
+  storage: StorageAdapter;
+  dateKey: string;
+  score: number;
+  correct: number;
+  total: number;
+  bestStreak: number;
+  questions: QuizQuestion[];
+  completedAt?: string;
+}) {
+  const records = readDailyRunRecords(storage);
+  const existing = records[dateKey];
+
+  if (existing?.dailyCompletedAt) return existing;
+
+  const record: DailyRunRecord = {
+    dateKey,
+    bestScore: Math.max(existing?.bestScore || 0, score),
+    lastScore: score,
+    attempts: (existing?.attempts || 0) + 1,
+    correct,
+    total,
+    bestStreak,
+    completedAt: existing?.completedAt || completedAt,
+    updatedAt: completedAt,
+    dailyCompletedAt: completedAt,
+    wordIds: questions.map((question) => question.id),
+  };
+
+  records[dateKey] = record;
+  storage.set(DAILY_RUN_RECORDS_KEY, records);
+  return record;
+}
+
+export function saveArchiveRunCompletion({
+  storage,
+  dateKey,
+  score,
+  correct,
+  total,
+  bestStreak,
+  questions,
+  completedAt = new Date().toISOString(),
+}: {
+  storage: StorageAdapter;
+  dateKey: string;
+  score: number;
+  correct: number;
+  total: number;
+  bestStreak: number;
+  questions: QuizQuestion[];
+  completedAt?: string;
+}) {
+  const records = readDailyRunRecords(storage);
+  const existing = records[dateKey];
+
+  const record: DailyRunRecord = {
+    dateKey,
+    bestScore: Math.max(existing?.bestScore || 0, score),
+    lastScore: score,
+    attempts: (existing?.attempts || 0) + 1,
+    correct,
+    total,
+    bestStreak: Math.max(existing?.bestStreak || 0, bestStreak),
+    completedAt: existing?.completedAt || completedAt,
+    updatedAt: completedAt,
+    dailyCompletedAt: existing?.dailyCompletedAt || completedAt,
+    wordIds: questions.map((question) => question.id),
+  };
+
+  records[dateKey] = record;
+  storage.set(DAILY_RUN_RECORDS_KEY, records);
+  return record;
 }
 
 export function getSessionDateKey({
@@ -85,6 +215,14 @@ function localizedText(
   return value?.[currentLang] || value?.en || "";
 }
 
+function getEntryPackId(entry: QuizEntry) {
+  return entry.packId || entry.id.split(":")[0] || "unknown-pack";
+}
+
+function getQuizPackIds(pool: QuizEntry[]) {
+  return Array.from(new Set(pool.map((entry) => getEntryPackId(entry)))).filter(Boolean);
+}
+
 function buildAnswerOptions({
   correctText,
   wrongList,
@@ -140,11 +278,16 @@ export function buildDailyQuizData({
 }): QuizEntry[] {
   const targets = dailyConfig?.tierTargets || { 1: 4, 2: 3, 3: 2, 4: 1 };
   const questionCount = dailyConfig?.questionCount || 10;
+  const packIds = getQuizPackIds(pool);
+  const selectedPackId = seededShuffle(packIds, `${dateKey}:pack`)[0];
+  const packPool = selectedPackId
+    ? pool.filter((entry) => getEntryPackId(entry) === selectedPackId)
+    : pool;
   const selected: QuizEntry[] = [];
   const selectedIds = new Set<string>();
 
   Object.entries(targets).forEach(([tier, count]) => {
-    const tierPool = pool.filter((entry) => String(entry.tier || 1) === tier);
+    const tierPool = packPool.filter((entry) => String(entry.tier || 1) === tier);
     seededShuffle(tierPool, `${dateKey}:tier:${tier}`)
       .slice(0, count)
       .forEach((entry) => {
@@ -154,7 +297,7 @@ export function buildDailyQuizData({
   });
 
   if (selected.length < questionCount) {
-    seededShuffle(pool, `${dateKey}:fill`).forEach((entry) => {
+    seededShuffle(packPool, `${dateKey}:fill`).forEach((entry) => {
       if (selected.length >= questionCount || selectedIds.has(entry.id)) return;
       selected.push(entry);
       selectedIds.add(entry.id);
@@ -195,6 +338,13 @@ function getPracticeCooldownIds({
   );
 }
 
+function pickPracticePackId(pool: QuizEntry[]) {
+  const packIds = getQuizPackIds(pool);
+  if (packIds.length === 0) return null;
+
+  return shuffle(packIds)[0];
+}
+
 export function savePracticeSession({
   storage,
   historyKey,
@@ -211,6 +361,7 @@ export function savePracticeSession({
   const currentSessions = readPracticeSessions(storage, historyKey);
   const session = {
     diffId,
+    packId: questions[0] ? getEntryPackId(questions[0]) : undefined,
     completedAt: new Date().toISOString(),
     wordIds: questions.map((question) => question.id),
   };
@@ -258,12 +409,16 @@ function buildPracticeSession({
   if (!currentDiff) return [];
 
   const tierTargets = currentDiff.tierTargets || practiceConfig.recipes?.[currentDiff.id] || {};
+  const selectedPackId = pickPracticePackId(rawQuizData);
+  const packQuizData = selectedPackId
+    ? rawQuizData.filter((entry) => getEntryPackId(entry) === selectedPackId)
+    : rawQuizData;
   const selected: QuizEntry[] = [];
   const selectedIds = new Set<string>();
   const cooldownIds = getPracticeCooldownIds({ storage, historyKey, practiceConfig });
 
   Object.entries(tierTargets).forEach(([tier, count]) => {
-    const tierPool = rawQuizData.filter((entry) => String(entry.tier || 1) === tier);
+    const tierPool = packQuizData.filter((entry) => String(entry.tier || 1) === tier);
     selected.push(
       ...pickPracticeEntries(
         tierPool,
@@ -279,7 +434,7 @@ function buildPracticeSession({
   if (selected.length < questionCount) {
     selected.push(
       ...pickPracticeEntries(
-        rawQuizData,
+        packQuizData,
         questionCount - selected.length,
         `practice:${currentDiff.id}:fill:${Date.now()}`,
         selectedIds,

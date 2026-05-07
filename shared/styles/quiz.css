@@ -174,8 +174,10 @@
   background: linear-gradient(135deg, var(--violet) 0%, var(--fuchsia) 100%);
   color: #fff;
   font-family: "Joystix", sans-serif;
-  font-size: 0.78rem;
-  padding: 14px var(--space-28);
+  font-size: 1rem;
+  font-weight: 400;
+  min-height: 56px;
+  padding: 18px 34px;
   border-radius: var(--radius-8);
   border: none;
   cursor: pointer;
@@ -194,9 +196,19 @@
   opacity: 1;
   pointer-events: auto;
 }
-.start-btn.ready:hover {
+.start-btn.ready:not(.is-disabled):not(:disabled):hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(139, 92, 246, 0.6);
+}
+
+.start-btn.is-disabled,
+.start-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  pointer-events: none;
+  transform: none;
+  box-shadow: 0 4px 24px rgba(139, 92, 246, 0.18);
+  filter: saturate(0.55);
 }
 
 .quiz-secondary-cta {

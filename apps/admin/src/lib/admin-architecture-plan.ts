@@ -57,14 +57,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 2,
-    progress: 0,
+    progress: 100,
     whyNow: {
       fr: "Les hints font partie du gameplay. Si l'aide est consommée, le score doit le refléter sans punir brutalement l'apprentissage.",
       en: "Hints are part of the gameplay. If help is consumed, scoring must reflect it without harshly punishing learning.",
     },
     note: {
-      fr: "A traiter juste après la stabilisation du quiz brut.",
-      en: "Handle right after stabilizing the raw quiz flow.",
+      fr: "Branché : 10 / 8 / 5 / 0 points base selon les hints, multiplicateur combo final 1 + meilleure série / 10, score parfait à 200 pts avec animation arcade.",
+      en: "Wired: 10 / 8 / 5 / 0 base points depending on hints, final combo multiplier 1 + best streak / 10, perfect score at 200 pts with arcade feedback.",
     },
   },
   {

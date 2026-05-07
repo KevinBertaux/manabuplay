@@ -59,16 +59,6 @@
   font-size: 1rem;
   font-weight: 700;
 }
-#wordKana {
-  font-family: "Joystix", sans-serif;
-  font-size: 0.8rem;
-  line-height: 1.6;
-}
-#feedback {
-  font-family: "Joystix", sans-serif;
-  font-size: 0.72rem;
-  line-height: 1.8;
-}
 .result-label {
   font-family: "Chakra Petch", sans-serif;
   font-size: 0.95rem;

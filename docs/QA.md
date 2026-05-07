@@ -15,6 +15,7 @@ Pour les donnees, le scoring, le catalogue, les packs, les helpers TypeScript et
 | Light web   | Modif web non UI ou controle rapide       | `npm run verify:web:light`   |
 | Light admin | Modif admin non UI ou controle rapide     | `npm run verify:admin:light` |
 | Quick repo  | Lint + format sans Astro check complet    | `npm run check:quick`        |
+| Pre-push    | Hook adaptatif selon fichiers pousses     | `npm run check:pre-push`     |
 | E2E web     | UX/UI web, navigation web, responsive web | `npm run verify:web:e2e`     |
 | E2E admin   | UX/UI admin, navigation admin, dashboard  | `npm run verify:admin:e2e`   |
 | Bridge      | Waitlist, localStorage, bridge web/admin  | `npm run verify:bridge`      |
@@ -31,6 +32,21 @@ Pour les donnees, le scoring, le catalogue, les packs, les helpers TypeScript et
 | UX/UI admin                | E2E admin cible                                            | `npm run check` + E2E cible               | `npm run verify:merge` |
 | Bridge, waitlist, stockage | `npm run verify:bridge`                                    | `npm run check` + `npm run verify:bridge` | `npm run verify:merge` |
 | CSS, layout, responsive    | E2E ou screenshot cible                                    | `npm run check` + E2E cible               | `npm run verify:merge` |
+
+## Pre-Push Adaptatif
+
+Le hook versionne dans `.githooks/pre-push` appelle `scripts/check-pre-push.mjs`.
+
+Il lit les fichiers reellement pousses :
+
+| Impact detecte                          | Validation pre-push                                                     |
+| --------------------------------------- | ----------------------------------------------------------------------- |
+| Docs uniquement                         | `npm run check:quick`                                                   |
+| Web uniquement                          | `npm run check:web` + `npm run check:quick` + audits inline/canonical   |
+| Admin uniquement                        | `npm run check:admin` + `npm run check:quick` + audits inline/canonical |
+| `shared`, scripts, config, hooks, mixte | `npm run check`                                                         |
+
+Le hook reste volontairement plus leger qu'un `verify:merge`. Les E2E restent a lancer explicitement quand le lot touche l'UX/UI, la navigation, le stockage navigateur ou le responsive.
 
 ## Ports De Test
 
