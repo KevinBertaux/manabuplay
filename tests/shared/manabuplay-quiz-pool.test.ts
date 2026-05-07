@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { buildCatalogQuizData } from "../../shared/data/manabuplay/catalog";
 import { buildV01QuizPool } from "../../shared/lib/manabuplay-quiz-pool";
-import { buildQuestions } from "../../apps/web/src/scripts/quiz-app/session";
+import { buildDailyQuizData, buildQuestions } from "../../apps/web/src/scripts/quiz-app/session";
 import type { StorageAdapter } from "../../apps/web/src/scripts/quiz-app/runtime-types";
 
 const storage: StorageAdapter = {
@@ -52,6 +52,30 @@ describe("manabuplay quiz pool", () => {
         return question.answers.length === 4 && uniqueAnswers.size === 4;
       }),
     ).toBe(true);
+  });
+
+  it("keeps a dated daily run inside one deterministic pack", () => {
+    const quizData = buildCatalogQuizData();
+    const dailyQuestions = buildDailyQuizData({
+      pool: quizData,
+      dateKey: "2026-05-05",
+      dailyConfig: { questionCount: 10, tierTargets: { 1: 4, 2: 3, 3: 2, 4: 1 } },
+    });
+    const secondBuild = buildDailyQuizData({
+      pool: quizData,
+      dateKey: "2026-05-05",
+      dailyConfig: { questionCount: 10, tierTargets: { 1: 4, 2: 3, 3: 2, 4: 1 } },
+    });
+    const packIds = new Set(dailyQuestions.map((question) => question.packId));
+
+    expect(dailyQuestions).toHaveLength(10);
+    expect(packIds.size).toBe(1);
+    expect(dailyQuestions.map((question) => question.id)).toEqual(
+      secondBuild.map((question) => question.id),
+    );
+    expect(dailyQuestions.every((question) => question.id.startsWith(`${question.packId}:`))).toBe(
+      true,
+    );
   });
 
   it("keeps a practice run inside one random pack", () => {

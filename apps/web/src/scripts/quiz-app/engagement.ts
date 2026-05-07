@@ -266,10 +266,14 @@ export function createShareController({
     );
   }
 
-  function copyShareLink() {
+  function copyShareLink(trigger?: HTMLElement) {
     const text = `${buildShareText()}\n${window.location.href.split("#")[0]}`;
-    const button = document.getElementById("shareBtnCopy");
-    const label = document.getElementById("copyBtnLabel");
+    const button =
+      trigger instanceof HTMLButtonElement ? trigger : document.getElementById("shareBtnCopy");
+    const label =
+      button instanceof HTMLElement
+        ? button.querySelector<HTMLElement>("[data-share-copy-label]")
+        : document.getElementById("copyBtnLabel");
 
     if (!(button instanceof HTMLButtonElement) || !(label instanceof HTMLElement)) return;
 

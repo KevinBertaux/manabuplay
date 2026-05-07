@@ -19,7 +19,7 @@ module.exports = {
       },
       fontFamily: {
         pixel: ["Joystix", "sans-serif"],
-        body: ["Rajdhani", "sans-serif"],
+        body: ["Chakra Petch", "sans-serif"],
       },
     },
   },

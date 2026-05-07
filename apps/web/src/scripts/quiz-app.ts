@@ -32,6 +32,8 @@ type QuizAction =
   | "shareOnX"
   | "copyShareLink";
 
+type QuizActionHandler = (element: HTMLElement) => void;
+
 const bootData = window.__MANABUPLAY_DATA__ as QuizBootData | undefined;
 if (!bootData) {
   throw new Error("ManabuPlay boot data is missing.");
@@ -144,11 +146,6 @@ function formatWrongFeedback(answer: string): string {
   return currentLang === "fr"
     ? `✗ 不正解 (Fuseikai) — La réponse : "${answer}"`
     : `✗ 不正解 (Fuseikai) — The answer: "${answer}"`;
-}
-
-function formatAttemptLabel(attempts: number): string {
-  if (currentLang === "fr") return attempts > 1 ? `${attempts} tentatives` : "1 tentative";
-  return attempts > 1 ? `${attempts} attempts` : "1 attempt";
 }
 
 function getHintAdjustedQuestionPoints(hintsUsed: number): number {
@@ -445,6 +442,66 @@ function setElementText(id: string, value: string) {
   if (element instanceof HTMLElement) element.textContent = value;
 }
 
+function setTitleCopyText(value: string) {
+  const copy = document.getElementById("quizTitleCopy");
+  const text = document.getElementById("quizTitleCopyText");
+  const score = document.getElementById("quizTitleCopyScore");
+  const returnLine = document.getElementById("quizTitleCopyReturn");
+  const shareRow = document.getElementById("quizTitleShareRow");
+
+  copy?.classList.remove("is-completed");
+  if (text instanceof HTMLElement) {
+    text.hidden = false;
+    text.textContent = value;
+  }
+  if (score instanceof HTMLElement) {
+    score.hidden = true;
+    score.textContent = "";
+  }
+  if (returnLine instanceof HTMLElement) {
+    returnLine.hidden = true;
+    returnLine.textContent = "";
+  }
+  if (shareRow instanceof HTMLElement) hideElement(shareRow, "flex");
+}
+
+function setCompletedDailyTitleCopy(scoreLine: string, returnText: string) {
+  const copy = document.getElementById("quizTitleCopy");
+  const text = document.getElementById("quizTitleCopyText");
+  const score = document.getElementById("quizTitleCopyScore");
+  const returnLine = document.getElementById("quizTitleCopyReturn");
+  const shareRow = document.getElementById("quizTitleShareRow");
+
+  copy?.classList.add("is-completed");
+  if (text instanceof HTMLElement) {
+    text.hidden = true;
+    text.textContent = "";
+  }
+  if (score instanceof HTMLElement) {
+    score.hidden = false;
+    score.textContent = scoreLine;
+  }
+  if (returnLine instanceof HTMLElement) {
+    returnLine.hidden = false;
+    returnLine.textContent = returnText;
+  }
+  if (shareRow instanceof HTMLElement) showElement(shareRow, "flex");
+}
+
+function primeCompletedDailyShareState(
+  record: NonNullable<ReturnType<typeof getCompletedDailyRunRecord>>,
+) {
+  state = {
+    ...state,
+    questions: Array.from({ length: record.total }, (_, index) => ({
+      id: record.wordIds[index] || `completed-daily-${index + 1}`,
+    })) as QuizQuestion[],
+    score: record.bestScore,
+    correct: record.correct,
+    bestStreak: record.bestStreak,
+  };
+}
+
 function renderSingleRunTitleScreen() {
   if (!IS_SINGLE_RUN_MODE) return;
 
@@ -454,6 +511,7 @@ function renderSingleRunTitleScreen() {
   const metaSecondary = document.getElementById("quizTitleMetaSecondary");
 
   if (completedDaily) {
+    primeCompletedDailyShareState(completedDaily);
     setElementText(
       "quizTitleKicker",
       currentLang === "fr" ? "Déjà joué aujourd'hui" : "Already played today",
@@ -462,11 +520,13 @@ function renderSingleRunTitleScreen() {
       "quizTitleHeadline",
       currentLang === "fr" ? "Quotidien terminé" : "Daily complete",
     );
-    setElementText(
-      "quizTitleCopy",
+    setCompletedDailyTitleCopy(
       currentLang === "fr"
-        ? `Score max : ${completedDaily.bestScore} pts · ${formatAttemptLabel(completedDaily.attempts)}. Reviens demain pour une nouvelle run.`
-        : `Best score: ${completedDaily.bestScore} pts · ${formatAttemptLabel(completedDaily.attempts)}. Come back tomorrow for a new run.`,
+        ? `Score max : ${completedDaily.bestScore} pts`
+        : `Best score: ${completedDaily.bestScore} pts`,
+      currentLang === "fr"
+        ? "Reviens demain pour une nouvelle run."
+        : "Come back tomorrow for a new run.",
     );
     setElementText("quizTitleMetaPrimary", `${completedDaily.correct}/${completedDaily.total}`);
     if (metaSecondary instanceof HTMLElement) {
@@ -498,8 +558,7 @@ function renderSingleRunTitleScreen() {
         ? `${formattedDate} archive`
         : `${formattedDate} daily`,
   );
-  setElementText(
-    "quizTitleCopy",
+  setTitleCopyText(
     currentLang === "fr"
       ? isArchiveMode
         ? "Rejoue une ancienne run quotidienne. Le partage reste désactivé pour les archives."
@@ -1012,14 +1071,14 @@ const shareController = createShareController({
   t,
 });
 
-const actionHandlers: Record<QuizAction, () => void> = {
-  launchQuiz,
+const actionHandlers: Record<QuizAction, QuizActionHandler> = {
+  launchQuiz: () => launchQuiz(),
   revealHint: () => revealHint(),
-  nextQuestion,
-  replayDifficulty,
-  goToDiffPicker,
-  shareOnX: shareController.shareOnX,
-  copyShareLink: shareController.copyShareLink,
+  nextQuestion: () => nextQuestion(),
+  replayDifficulty: () => replayDifficulty(),
+  goToDiffPicker: () => goToDiffPicker(),
+  shareOnX: () => shareController.shareOnX(),
+  copyShareLink: (element) => shareController.copyShareLink(element),
 };
 
 function bindQuizActions() {
@@ -1031,7 +1090,7 @@ function bindQuizActions() {
         event.preventDefault();
         setQuizHash();
       }
-      actionHandlers[action]?.();
+      actionHandlers[action]?.(element);
     });
   });
 }

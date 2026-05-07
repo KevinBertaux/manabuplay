@@ -215,6 +215,14 @@ function localizedText(
   return value?.[currentLang] || value?.en || "";
 }
 
+function getEntryPackId(entry: QuizEntry) {
+  return entry.packId || entry.id.split(":")[0] || "unknown-pack";
+}
+
+function getQuizPackIds(pool: QuizEntry[]) {
+  return Array.from(new Set(pool.map((entry) => getEntryPackId(entry)))).filter(Boolean);
+}
+
 function buildAnswerOptions({
   correctText,
   wrongList,
@@ -270,11 +278,16 @@ export function buildDailyQuizData({
 }): QuizEntry[] {
   const targets = dailyConfig?.tierTargets || { 1: 4, 2: 3, 3: 2, 4: 1 };
   const questionCount = dailyConfig?.questionCount || 10;
+  const packIds = getQuizPackIds(pool);
+  const selectedPackId = seededShuffle(packIds, `${dateKey}:pack`)[0];
+  const packPool = selectedPackId
+    ? pool.filter((entry) => getEntryPackId(entry) === selectedPackId)
+    : pool;
   const selected: QuizEntry[] = [];
   const selectedIds = new Set<string>();
 
   Object.entries(targets).forEach(([tier, count]) => {
-    const tierPool = pool.filter((entry) => String(entry.tier || 1) === tier);
+    const tierPool = packPool.filter((entry) => String(entry.tier || 1) === tier);
     seededShuffle(tierPool, `${dateKey}:tier:${tier}`)
       .slice(0, count)
       .forEach((entry) => {
@@ -284,7 +297,7 @@ export function buildDailyQuizData({
   });
 
   if (selected.length < questionCount) {
-    seededShuffle(pool, `${dateKey}:fill`).forEach((entry) => {
+    seededShuffle(packPool, `${dateKey}:fill`).forEach((entry) => {
       if (selected.length >= questionCount || selectedIds.has(entry.id)) return;
       selected.push(entry);
       selectedIds.add(entry.id);
@@ -325,16 +338,8 @@ function getPracticeCooldownIds({
   );
 }
 
-function getEntryPackId(entry: QuizEntry) {
-  return entry.packId || entry.id.split(":")[0] || "unknown-pack";
-}
-
-function getPracticePackIds(pool: QuizEntry[]) {
-  return Array.from(new Set(pool.map((entry) => getEntryPackId(entry)))).filter(Boolean);
-}
-
 function pickPracticePackId(pool: QuizEntry[]) {
-  const packIds = getPracticePackIds(pool);
+  const packIds = getQuizPackIds(pool);
   if (packIds.length === 0) return null;
 
   return shuffle(packIds)[0];

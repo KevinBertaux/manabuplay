@@ -207,6 +207,8 @@
   .start-btn.is-disabled {
     cursor: not-allowed;
     opacity: 0.58;
+    pointer-events: none;
+    transform: none;
     filter: saturate(0.55);
   }
 
@@ -242,8 +244,41 @@
   }
 
   .quiz-title-copy {
-    @apply m-0 max-w-md font-body font-bold leading-relaxed text-slate-300;
+    @apply m-0 grid max-w-xl justify-items-center gap-2 font-body font-bold leading-relaxed text-slate-300;
     font-size: 1rem;
+    text-wrap: balance;
+  }
+
+  .quiz-title-copy.is-completed {
+    @apply max-w-2xl gap-3;
+  }
+
+  .quiz-title-copy-score {
+    @apply inline-flex rounded-lg border px-4 py-2 font-body font-black uppercase;
+    border-color: rgba(34, 211, 238, 0.32);
+    background:
+      radial-gradient(circle at 10% 0%, rgba(232, 121, 249, 0.18), transparent 40%),
+      rgba(34, 211, 238, 0.08);
+    box-shadow:
+      0 0 0 1px rgba(34, 211, 238, 0.08),
+      0 0 18px rgba(34, 211, 238, 0.14);
+    color: #e9fbff;
+    letter-spacing: 0.06em;
+  }
+
+  .quiz-title-copy-return {
+    @apply font-body font-extrabold;
+    color: #f8d7ff;
+    font-size: 1.08rem;
+    text-shadow: 0 0 14px rgba(232, 121, 249, 0.18);
+  }
+
+  .quiz-title-share-row {
+    @apply flex flex-wrap justify-center gap-3;
+  }
+
+  .quiz-title-share-row[hidden] {
+    @apply hidden;
   }
 
   .quiz-title-meter {
@@ -330,7 +365,7 @@
   }
 
   .quiz-word-panel {
-    @apply grid content-center justify-items-center gap-2 rounded-xl border p-3 text-center sm:p-4;
+    @apply grid min-w-0 content-center justify-items-center gap-2 overflow-hidden rounded-xl border p-3 text-center sm:p-4;
     border-color: rgba(255, 115, 233, 0.26);
     background: linear-gradient(180deg, rgba(37, 24, 58, 0.9), rgba(15, 12, 28, 0.98));
   }
@@ -349,26 +384,29 @@
   }
 
   .quiz-word-romaji {
-    @apply max-w-full whitespace-nowrap font-body font-black leading-none text-white;
-    font-size: 1.85rem;
-    letter-spacing: -0.03em;
+    @apply max-w-full font-body font-black leading-none text-white;
+    font-size: clamp(1.45rem, 6vw, 2rem);
+    letter-spacing: -0.015em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
   }
 
   .quiz-word-forms {
-    @apply flex min-w-0 items-baseline justify-center gap-3;
+    @apply grid min-w-0 max-w-full grid-cols-2 items-center justify-center gap-2;
   }
 
   .quiz-word-kana {
-    @apply font-body font-extrabold sm:text-base;
+    @apply min-w-0 font-body font-extrabold leading-none;
     color: var(--cyan);
-    font-size: 0.92rem;
+    font-size: clamp(1.05rem, 4.4vw, 1.42rem);
+    overflow-wrap: anywhere;
   }
 
   .quiz-word-kanji {
-    @apply font-pixel leading-none;
+    @apply min-w-0 font-body font-extrabold leading-none;
     color: #ff9cf0;
-    font-size: 1.45rem;
-    text-shadow: 0 0 6px rgba(232, 121, 249, 0.24);
+    font-size: clamp(1.05rem, 4.4vw, 1.42rem);
+    text-shadow: 0 0 4px rgba(232, 121, 249, 0.18);
   }
 
   .quiz-play-panel {
@@ -620,11 +658,12 @@
     }
 
     .quiz-word-romaji {
-      font-size: 2.7rem;
+      font-size: 2.08rem;
     }
 
+    .quiz-word-kana,
     .quiz-word-kanji {
-      font-size: 1.75rem;
+      font-size: 1.52rem;
     }
 
     .answer-key {
@@ -659,7 +698,7 @@
     }
 
     .quiz-title-copy {
-      max-width: 560px;
+      max-width: 680px;
       font-size: 1.08rem;
     }
 
@@ -676,7 +715,7 @@
     }
 
     .quiz-word-romaji {
-      font-size: 3rem;
+      font-size: 2.16rem;
     }
   }
 

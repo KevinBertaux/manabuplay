@@ -305,6 +305,9 @@ test.describe("public flow", () => {
     await prepareModePage(page, `${ASTRO_URL}fr/daily/`);
 
     await page.locator("[data-quiz-action='launchQuiz']").first().click();
+    const selectedPackId = await getCurrentQuestionPackId(page);
+
+    expect(selectedPackId).not.toBeNull();
     await completeCorrectRun(page);
 
     await expect(page.locator("#resultsArea")).toBeVisible();
@@ -313,6 +316,14 @@ test.describe("public flow", () => {
     await expect(page.locator("#finalScore")).toHaveText("200 pts", { timeout: 12_000 });
     await expect(page.locator("#finalPercent")).toHaveText("100%");
     await expect(page.locator("[data-quiz-action='replayDifficulty']")).toBeDisabled();
+    const records = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("mp_daily_runs") || "{}"),
+    );
+    const dailyRecord = Object.values(records)[0] as { wordIds?: string[] } | undefined;
+    expect(dailyRecord?.wordIds?.length).toBe(10);
+    expect(dailyRecord?.wordIds?.every((wordId) => wordId.startsWith(`${selectedPackId}:`))).toBe(
+      true,
+    );
 
     await page.reload({ waitUntil: "domcontentloaded" });
     await page.waitForFunction(

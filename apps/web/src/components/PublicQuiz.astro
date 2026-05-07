@@ -18,7 +18,25 @@
             <div class="quiz-title-screen-frame">
               <span class="quiz-title-kicker" id="quizTitleKicker"></span>
               <strong class="quiz-title-headline" id="quizTitleHeadline"></strong>
-              <p class="quiz-title-copy" id="quizTitleCopy"></p>
+              <p class="quiz-title-copy" id="quizTitleCopy">
+                <span class="quiz-title-copy-text" id="quizTitleCopyText"></span>
+                <span class="quiz-title-copy-score" id="quizTitleCopyScore" hidden></span>
+                <span class="quiz-title-copy-return" id="quizTitleCopyReturn" hidden></span>
+              </p>
+              <div class="quiz-title-share-row" id="quizTitleShareRow" hidden>
+                <button class="share-btn share-btn-x" data-quiz-action="shareOnX" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                  <span data-i18n="result_share_x"></span>
+                </button>
+                <button class="share-btn share-btn-copy" data-quiz-action="copyShareLink" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="10" y="10" width="12" height="12" rx="2"/><path d="M6 16H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"/>
+                  </svg>
+                  <span data-share-copy-label data-i18n="result_share_copy"></span>
+                </button>
+              </div>
               <div class="quiz-title-meter" aria-hidden="true">
                 <span></span>
                 <span></span>
@@ -172,7 +190,7 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="10" y="10" width="12" height="12" rx="2"/><path d="M6 16H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"/>
                 </svg>
-                <span id="copyBtnLabel" data-i18n="result_share_copy"></span>
+                <span id="copyBtnLabel" data-share-copy-label data-i18n="result_share_copy"></span>
               </button>
             </div>
           </div>
