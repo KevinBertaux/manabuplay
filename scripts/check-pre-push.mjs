@@ -166,10 +166,16 @@ function selectChecks(files) {
   }
 
   if (touchesWeb) {
-    return ["check:web", "check:quick", "check:inline-usage", "check:canonical-boundaries"];
+    return [
+      "check:web",
+      "check:quick",
+      "check:inline-usage",
+      "check:web-inline-zero",
+      "check:canonical-boundaries",
+    ];
   }
 
-  return ["check:admin", "check:quick", "check:inline-usage", "check:canonical-boundaries"];
+  return ["check:admin", "check:quick", "check:canonical-boundaries"];
 }
 
 const updates = readPushUpdates();
