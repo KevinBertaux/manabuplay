@@ -2,8 +2,6 @@
 import DesignDocLayout from "../../layouts/DesignDocLayout.astro";
 ---
 <DesignDocLayout title="ManabuPlay Brand System" active="brand" containerClass="page">
-  <link slot="head" rel="stylesheet" href="/assets/fx-preview.css" />
-
   <style is:global>
     :root { --brand:var(--font-pixel); --ui:var(--font-body); --bg:#08070d; --panel:#120f1eea; --panel2:#0f0c1a; --line:#a78bfa2d; --violet:#a78bfa; --fuchsia:#e879f9; --cyan:#22d3ee; --green:#4ade80; --red:#fb7185; --text:#f3f1ff; --muted:#bbb6d3; --soft:#8f8aa7; --space-4:4px; --space-8:8px; --space-12:12px; --space-16:16px; --space-20:20px; --space-24:24px; --space-32:32px; --radius-8:8px; --radius-12:12px; --radius-pill:999px; --control-h-20:20px; --control-h-32:32px; --control-h-44:44px; --page-max:1180px; }
     * { box-sizing:border-box; }
@@ -56,13 +54,6 @@ import DesignDocLayout from "../../layouts/DesignDocLayout.astro";
     .btns,.chips,.answers { display:flex; gap:var(--space-8); flex-wrap:wrap; align-items:center; }
     .btn { display:inline-flex; align-items:center; justify-content:center; min-height:var(--control-h-44); padding:0 var(--space-16); border-radius:var(--radius-8); border:1px solid transparent; font:600 .96rem var(--ui); letter-spacing:.04em; text-transform:uppercase; color:#fff; text-decoration:none; }
     .b1 { background:linear-gradient(135deg,#a78bfa57,#e879f955); border-color:#a78bfa38; } .b2 { background:#a78bfa14; border-color:#a78bfa33; color:var(--violet); } .b3 { background:transparent; border-color:#ffffff14; color:var(--muted); }
-    .fx-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
-    .fx-toggle-label { display:inline-flex; align-items:center; gap:8px; color:#fff; font-size:.92rem; font-weight:700; }
-    .fx-toggle-input { width:16px; height:16px; margin:0; accent-color:var(--violet); cursor:pointer; }
-    .fx-toggle-state { color:var(--cyan); font-size:.88rem; font-weight:700; }
-    .fx-link-inline { display:inline-flex; align-items:center; gap:8px; margin-top:8px; color:var(--cyan); font-size:.92rem; font-weight:700; text-decoration:none; }
-    .fx-link-inline:hover { color:#fff; }
-    .fx-link-inline svg { width:16px; height:16px; display:block; }
     .field { display:grid; gap:8px; } .field label { font-size:.9rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#fff; }
     .input { width:100%; min-height:44px; padding:0 16px; border-radius:8px; border:1px solid #a78bfa33; background:#08070db8; color:#fff; font:400 1rem var(--ui); }
     .input::placeholder { color:#7c7695; }
@@ -106,7 +97,6 @@ import DesignDocLayout from "../../layouts/DesignDocLayout.astro";
     <a href="#palette">Palette</a>
     <a href="#typography">Typographie</a>
     <a href="#components">Composants</a>
-    <a href="#fx-preview">FX Preview</a>
     <a href="#tokens">Tokens</a>
     <a href="#rules">Regles</a>
     <a href="#previews">Previews</a>
@@ -197,70 +187,6 @@ import DesignDocLayout from "../../layouts/DesignDocLayout.astro";
       <div class="answers">
         <div class="answer ok">Un pouvoir ou effet tellement fort qu'il casse l'equilibre du jeu.</div>
         <div class="answer ko">Une technique defensive qui reduit les degats magiques.</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="fx-preview">
-    <div class="head">
-      <span class="kicker">FX Preview</span>
-      <h2>CRT et effets de signature</h2>
-      <p>Le dosage se regle uniquement dans le FX Lab. Ici, on valide juste l'integration du preset dans le design system, avec un mode FX on/off persistant.</p>
-    </div>
-    <div class="grid2">
-      <div class="card">
-        <div class="fx-toggle-row">
-          <div>
-            <h3>Mode de validation</h3>
-            <p>Le preset du lab reste actif en fond. Ce toggle sert juste a comparer la charte avec et sans FX.</p>
-          </div>
-          <label class="fx-toggle-label">
-            <input class="fx-toggle-input" type="checkbox" data-fx-brand-toggle aria-label="Activer les FX dans la charte" />
-            <span data-fx-brand-state>FX on</span>
-          </label>
-        </div>
-        <a class="fx-link-inline" href="/design/fx">Open FX Lab
-          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 4h6v6"></path>
-            <path d="M10 14 20 4"></path>
-            <path d="M20 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4"></path>
-          </svg>
-        </a>
-      </div>
-      <div class="card">
-        <div class="tokenlist">
-          <div><strong>Lab only</strong><span>Les sliders et les presets restent dans le lab, pas dans la charte.</span></div>
-          <div><strong>Persistence</strong><span>Le mode on/off de la charte est stocke en localStorage.</span></div>
-          <div><strong>Usage</strong><span>Ici on juge seulement l'integration du CRT, glow, glitch et ambient motion.</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="fx-stage" data-fx-root data-fx-brand-preview style="margin-top:8px;">
-      <div class="fx-orb fx-orb-a"></div>
-      <div class="fx-orb fx-orb-b"></div>
-      <div class="fx-shell">
-        <div class="fx-badge"><span class="fx-badge-dot"></span>CRT Preview</div>
-        <div class="fx-wordmark">
-          <span class="fx-glitch-text" data-text="MANABU">MANABU</span>
-          <span class="fx-play">PLAY</span>
-        </div>
-        <p class="fx-lead">Le CRT doit apporter une couche d'ambiance arcade et retro-futuriste, sans casser la lisibilite du produit.</p>
-        <div class="fx-chip-row">
-          <span class="fx-chip">Scanlines</span>
-          <span class="fx-chip">Noise</span>
-          <span class="fx-chip">Glow</span>
-          <span class="fx-chip">Glitch</span>
-        </div>
-        <div class="fx-quiz">
-          <span class="fx-quiz-meta">Anime Genre</span>
-          <div class="fx-quiz-assist">Chiito / Cheat</div>
-          <div class="fx-quiz-word">チート</div>
-          <p class="fx-quiz-copy">Le mot japonais principal peut rester tres visuel. Le CRT doit rester un filtre de caractere, pas un masque qui salit le contenu.</p>
-          <div class="fx-answer-row">
-            <div class="fx-answer fx-answer-good">Un pouvoir ou effet tellement fort qu'il casse l'equilibre du jeu.</div>
-            <div class="fx-answer">Une technique defensive qui reduit les degats magiques.</div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -375,6 +301,4 @@ import DesignDocLayout from "../../layouts/DesignDocLayout.astro";
   </section>
 
   <p class="foot">Draft local de charte graphique HTML. Base de reference pour la future integration design dans le produit.</p>
-
-  <script slot="scripts" is:inline src="/assets/fx-preset-store.js"></script>
 </DesignDocLayout>

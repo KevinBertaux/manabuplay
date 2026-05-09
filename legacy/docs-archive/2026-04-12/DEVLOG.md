@@ -20,7 +20,7 @@ La doctrine produit, contenu et data vit désormais dans :
 - Admin Astro en place pour :
   - lecteur de packs
   - charte
-  - FX Lab
+  - références design
   - mockups
   - catalogue futur
 
@@ -56,7 +56,7 @@ La doctrine produit, contenu et data vit désormais dans :
 - [x] Reveal Hint + feedback visuel + particules
 
 ### Admin
-- [x] routes admin Astro pour la charte, le FX Lab, le lecteur, les mockups et le catalogue
+- [x] routes admin Astro pour la charte, le lecteur, les mockups, les références design et le catalogue
 - [x] lecteur de pack avec vue continue des cartes
 - [x] réponses, hints, définition et explication visibles
 - [x] état “avant réponse” / “corrigé”

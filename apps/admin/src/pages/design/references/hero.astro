@@ -1,36 +1,33 @@
 ---
 import AdminReferenceLayout from "../../../layouts/AdminReferenceLayout.astro";
 import { buildCatalogBootData } from "../../../../../../shared/data/manabuplay/catalog";
-import { serializeForInlineScript } from "../../../../../../shared/lib/serialize-inline-script";
 
-const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(buildCatalogBootData())};`;
+const encodedBootPayload = Buffer.from(JSON.stringify({ data: buildCatalogBootData() }), "utf8").toString("base64");
 ---
 <AdminReferenceLayout
   title="ManabuPlay Admin — Hero Reference"
-  description="Mire interne isolée du hero public pour le design et le FX lab."
+  description="Mire interne isolée du hero public pour les références design."
   lang="en"
   bodyClass="text-slate-200"
 >
-  <nav class="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-2"
-       style="background:rgba(10,9,17,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(139,92,246,.15);">
+  <nav class="fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-[rgba(139,92,246,.15)] bg-[rgba(10,9,17,.85)] px-6 py-2 backdrop-blur-[16px]">
     <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-md flex items-center justify-center text-white flex-shrink-0"
-           style="background:linear-gradient(135deg,var(--violet),var(--fuchsia));">
+      <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-[linear-gradient(135deg,var(--violet),var(--fuchsia))] text-white">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
         </svg>
       </div>
       <span class="glow-violet font-pixel text-[.85rem] text-[#a78bfa]">
-        Manabu<span style="color:#e879f9;">Play</span>
+        Manabu<span class="text-[#e879f9]">Play</span>
       </span>
     </div>
     <div class="flex items-center gap-3">
-      <div class="flex items-center gap-1 px-2 py-1 rounded-md" style="background:rgba(26,22,48,.8);border:1px solid rgba(139,92,246,.15);">
-        <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
-        <span style="color:rgba(139,92,246,.2);font-size:.9rem;">|</span>
-        <button class="lang-btn" id="btnFR" onclick="setLang('fr')">FR</button>
+      <div class="flex items-center gap-1 rounded-md border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1">
+        <button class="lang-btn active" id="btnEN" type="button" data-reference-lang="en">EN</button>
+        <span class="text-[.9rem] text-[rgba(139,92,246,.2)]">|</span>
+        <button class="lang-btn" id="btnFR" type="button" data-reference-lang="fr">FR</button>
       </div>
-      <a href="#quiz" class="nav-link px-4 py-2 rounded-md border border-violet-500/30 hover:border-violet-400 transition-all hidden sm:block" style="color:#a78bfa;" data-i18n="nav_cta"></a>
+      <a href="#quiz" class="nav-link hidden rounded-md border border-violet-500/30 px-4 py-2 text-[#a78bfa] transition-all hover:border-violet-400 sm:block" data-i18n="nav_cta"></a>
     </div>
   </nav>
 
@@ -80,6 +77,8 @@ const bootDataScript = `window.__MANABUPLAY_DATA__ = ${serializeForInlineScript(
     </div>
   </section>
 
-  <script slot="scripts" is:inline set:html={bootDataScript}></script>
+  <template id="manabuplay-boot" data-payload={encodedBootPayload}></template>
+  <script src="../../../scripts/reference-boot.ts"></script>
   <script src="../../../scripts/reference-quiz-runtime.ts"></script>
+  <script src="../../../scripts/reference-controls.ts"></script>
 </AdminReferenceLayout>

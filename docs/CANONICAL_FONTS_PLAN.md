@@ -55,17 +55,17 @@ Statut :
 - Fait au lot 4 : ajout des variables canoniques `--font-body` et `--font-pixel` dans `shared/styles/foundation.css`.
 - Fait au lot 4 : les `font-family` explicites de `admin-pages.css` utilisent les variables canoniques au lieu de répéter les familles.
 - Fait au lot 4 : les mockups actifs `answer-cards` et `tier-breakdown` s'appuient sur `--font-body`.
-- Traité au lot 5 : les pages design legacy `brand-system`, `fx`, `references/hero` et `references/quiz` ont été alignées sur les variables canoniques.
+- Traité au lot 5 : les pages design legacy `brand-system`, `references/hero` et `references/quiz` ont été alignées sur les variables canoniques.
 
 ## Lot 5 - Pages design legacy
 
-- Repasser `brand-system`, `fx`, `references/hero`, `references/quiz`.
+- Repasser `brand-system`, `references/hero`, `references/quiz`.
 - Sortir les fontes inline vers CSS/classes propres si nécessaire.
 - Aligner ces pages sur la même charte que le reste.
 
 Statut :
 
-- Fait au lot 5 : `brand-system` et `fx` ne chargent plus leurs propres imports Google Fonts ni leur propre `@font-face` Joystix.
+- Fait au lot 5 : `brand-system` ne charge plus ses propres imports Google Fonts ni son propre `@font-face` Joystix.
 - Fait au lot 5 : les alias legacy `--brand` et `--ui` pointent maintenant vers `--font-pixel` et `--font-body`.
 - Fait au lot 5 : les wordmarks des références `hero` et `quiz` utilisent `font-pixel` au lieu d'un `font-family` inline.
 - Vérifié au lot 5 : plus de `font-family` inline ni de définition locale de fonte dans les quatre pages legacy ciblées.

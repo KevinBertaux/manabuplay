@@ -144,10 +144,6 @@ function getPropertyGroup(propertyName) {
     return "exempt";
   }
 
-  if (propertyName.startsWith("--fx-")) {
-    return "effect";
-  }
-
   if (VISUAL_EFFECT_PROPERTIES.has(propertyName)) {
     return "effect";
   }

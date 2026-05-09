@@ -65,13 +65,13 @@
           "notes": "Socle JSON/catatalog pose avant la suite du travail v0.1."
         },
         {
-          "id": "v01-brand-fx",
-          "title": "Poser la charte, le FX Lab et les garde-fous UI",
+          "id": "v01-brand-ui",
+          "title": "Poser la charte, les mockups et les garde-fous UI",
           "status": "done",
           "priority": "P2",
           "area": "admin",
           "type": "ux",
-          "notes": "Permet de travailler l'identite et les effets sans casser le site public."
+          "notes": "Permet de travailler l'identite, les références et les mockups sans casser le site public. L'ancien laboratoire d'effets a été retiré des surfaces actives."
         },
         {
           "id": "v01-admin-reader",

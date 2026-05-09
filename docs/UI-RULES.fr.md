@@ -41,7 +41,6 @@ Les propriétés optiques sont exemptées du guard géométrique :
 - `background-size`
 - `background-position`
 - `stroke-width`
-- variables `--fx-*`
 
 Règle pratique :
 
@@ -63,4 +62,3 @@ Les attributs HTML fixes `width` et `height` doivent rester des entiers pairs.
 - [ ] `npm run check:px-values`
 - [ ] pas de nouvelle valeur fixe impaire ou décimale dans le layout
 - [ ] aucun radius hors échelle autorisée
-- [ ] les changements FX n'impactent pas la géométrie du produit

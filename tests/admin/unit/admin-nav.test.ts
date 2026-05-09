@@ -44,7 +44,6 @@ describe("admin nav", () => {
 
     expect(designGroup?.items.map((item) => item.label)).toEqual([
       "Charte",
-      "FX",
       "Mockups",
       "Références",
     ]);

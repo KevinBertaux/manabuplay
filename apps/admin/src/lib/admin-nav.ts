@@ -8,7 +8,6 @@ export type AdminNavKey =
   | "packs"
   | "reserve"
   | "brand"
-  | "fx"
   | "mockups"
   | "references"
   | "maintenance"
@@ -53,10 +52,9 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
   },
   {
     label: "Design",
-    keys: ["brand", "fx", "mockups", "references"],
+    keys: ["brand", "mockups", "references"],
     items: [
       { key: "brand", href: "/design/brand-system", label: "Charte" },
-      { key: "fx", href: "/design/fx", label: "FX" },
       {
         activeKey: "mockups",
         label: "Mockups",

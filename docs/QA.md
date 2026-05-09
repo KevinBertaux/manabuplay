@@ -35,13 +35,6 @@ Pour les donnees, le scoring, le catalogue, les packs, les helpers TypeScript et
 | Bridge, waitlist, stockage | `npm run verify:bridge`                                                         | `npm run check` + `npm run verify:bridge` | `npm run verify:merge` |
 | CSS, layout, responsive    | E2E ou screenshot cible                                                         | `npm run check` + E2E cible               | `npm run verify:merge` |
 
-## Lab FX
-
-Le FX Lab reste consultable pour du reglage interne, mais il n'est plus un contrat bloquant de
-transition MVP vers Astro. Les checks de CI ne doivent pas dependre de `test:fx-lab` ni de
-`test:fx-lab-iso` tant que les pages de reference ne sont pas explicitement recadrees comme source
-ISO maintenue.
-
 ## Pre-Push Adaptatif
 
 Le hook versionne dans `.githooks/pre-push` appelle `scripts/check-pre-push.mjs`.

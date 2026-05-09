@@ -17,7 +17,7 @@ if (bootElement instanceof HTMLTemplateElement) {
       window.__MANABUPLAY_MODE__ = payload.mode;
     }
   } catch (error) {
-    console.error("ManabuPlay boot payload is invalid.", error);
+    console.error("ManabuPlay reference boot payload is invalid.", error);
   }
 }
 
