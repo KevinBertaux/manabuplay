@@ -3,12 +3,6 @@ import DesignDocLayout from "../../../layouts/DesignDocLayout.astro";
 
 const fontFamilies = [
   {
-    id: "rajdhani",
-    name: "Rajdhani",
-    className: "font-lab-rajdhani",
-    usage: "Candidate lisible, mais non retenue comme corps produit par la charte actuelle.",
-  },
-  {
     id: "chakra",
     name: "Chakra Petch",
     className: "font-lab-chakra",
@@ -33,11 +27,11 @@ const fontDecisionNotes = [
   },
   {
     title: "Pourquoi Chakra",
-    body: "Elle garde mieux la lisibilité utile que Rajdhani sur les accents FR, romaji accentués, kana/kanji, labels et textes denses. Elle donne une identité techno sans transformer chaque bloc en affiche arcade.",
+    body: "Elle garde mieux la lisibilité utile sur les accents FR, romaji accentués, kana/kanji, labels et textes denses. Elle donne une identité techno sans transformer chaque bloc en affiche arcade.",
   },
   {
-    title: "Écart à corriger",
-    body: "Le brand system et shared/styles/typography.css disent Chakra Petch pour .font-body, mais tailwind.config.cjs mappe encore font-body sur Rajdhani. À corriger avant d'appliquer la typo publique.",
+    title: "Écart corrigé",
+    body: "Le brand system, shared/styles/typography.css et tailwind.config.cjs pointent maintenant tous vers Chakra Petch pour .font-body.",
   },
 ];
 
@@ -144,14 +138,14 @@ const quizCases = [
 <DesignDocLayout
   title="Mire typographique ManabuPlay"
   active="mockups"
-  description="Contrôle interne des fontes Rajdhani, Chakra Petch et Joystix sur romaji, kana, kanji, accents et UI quiz."
+  description="Contrôle interne des fontes Chakra Petch et Joystix sur romaji, kana, kanji, accents et UI quiz."
   containerClass="admin-wrap font-lab-page"
 >
   <Fragment slot="head">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </Fragment>
@@ -161,8 +155,8 @@ const quizCases = [
     <h1>Mire fontes quiz et admin</h1>
     <p>
       Page de contrôle pour décider proprement quelle fonte sert au romaji, aux kana, aux kanji,
-      aux textes FR accentués et aux éléments UI. Les trois fontes sont affichées avec les mêmes
-      contenus pour éviter les décisions au feeling.
+      aux textes FR accentués et aux éléments UI. Les deux fontes canon sont affichées avec les
+      mêmes contenus pour éviter les décisions au feeling.
     </p>
   </section>
 
@@ -199,7 +193,7 @@ const quizCases = [
   <section class="font-lab-section">
     <div class="font-lab-section-head">
       <p class="font-lab-eyebrow">Comparatif direct</p>
-      <h2>Mêmes chaînes, trois fontes</h2>
+      <h2>Mêmes chaînes, deux fontes canon</h2>
     </div>
 
     <div class="font-lab-table">

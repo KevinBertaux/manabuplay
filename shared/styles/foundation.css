@@ -13,6 +13,8 @@
 }
 
 :root {
+  --font-body: "Chakra Petch", sans-serif;
+  --font-pixel: "Joystix", sans-serif;
   --violet: #8b5cf6;
   --fuchsia: #e879f9;
   --cyan: #22d3ee;
@@ -42,7 +44,7 @@ html {
 
 body {
   background-color: var(--void);
-  font-family: "Chakra Petch", sans-serif;
+  font-family: var(--font-body);
   overflow-x: hidden;
 }
 

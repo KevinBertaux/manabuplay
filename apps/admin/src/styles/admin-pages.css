@@ -112,7 +112,7 @@ html {
 
 .font-lab-hero h1 {
   margin-top: 12px;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: clamp(1.2rem, 2.4vw, 2rem);
   line-height: 1.7;
 }
@@ -134,7 +134,7 @@ html {
   border-radius: 8px;
   background: rgba(34, 211, 238, 0.1);
   color: #22d3ee;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -150,7 +150,7 @@ html {
 }
 
 .font-lab-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 16px;
 }
 
@@ -203,13 +203,13 @@ html {
 .font-lab-table-head,
 .font-lab-row {
   display: grid;
-  grid-template-columns: 160px repeat(3, minmax(0, 1fr));
+  grid-template-columns: 160px repeat(2, minmax(0, 1fr));
 }
 
 .font-lab-table-head {
   background: rgba(139, 92, 246, 0.12);
   color: #d8b4fe;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.78rem;
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -237,7 +237,7 @@ html {
 
 .font-lab-label {
   color: #22d3ee;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem;
   font-weight: 900;
   letter-spacing: 0.04em;
@@ -250,16 +250,12 @@ html {
   line-height: 1.55;
 }
 
-.font-lab-rajdhani {
-  font-family: "Rajdhani", sans-serif;
-}
-
 .font-lab-chakra {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: var(--font-body);
 }
 
 .font-lab-joystix {
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
 }
 
 .font-lab-quiz-grid {
@@ -288,7 +284,7 @@ html {
 .font-lab-quiz-romaji {
   overflow-wrap: anywhere;
   color: #fff;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(1.35rem, 3vw, 2rem);
   font-weight: 800;
   line-height: 1.1;
@@ -300,7 +296,7 @@ html {
   justify-content: center;
   gap: 10px;
   color: #d7fbff;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(1.15rem, 2.2vw, 1.55rem);
   font-weight: 700;
   line-height: 1.2;
@@ -311,7 +307,7 @@ html {
   align-content: center;
   gap: 8px;
   min-width: 0;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: var(--font-body);
 }
 
 .font-lab-quiz-copy strong {
@@ -331,7 +327,7 @@ html {
 
 .font-lab-decision-grid strong {
   color: #22d3ee;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -386,7 +382,7 @@ html {
 .maint-title,
 .waitlist-title {
   margin: 12px 0 8px;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   color: #fff;
   line-height: 1.15;
 }
@@ -1319,7 +1315,7 @@ html {
 .reader-title {
   margin: 0;
   color: #fff;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   line-height: 1.16;
 }
 
@@ -3946,7 +3942,7 @@ html {
 .archive-mockup-hero h1 {
   margin: 0;
   color: #fff;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: clamp(1.45rem, 3vw, 2.3rem);
   letter-spacing: 0.04em;
 }
@@ -3968,7 +3964,7 @@ html {
   border-radius: 8px;
   background: rgba(34, 211, 238, 0.08);
   color: #67e8f9;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   margin: 0 0 12px;
@@ -3989,7 +3985,7 @@ html {
 
 .archive-mockup-rulecard strong {
   color: #fff7c2;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: 0.82rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -4017,7 +4013,7 @@ html {
 
 .archive-mockup-summary strong {
   color: #fff;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: 0.76rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -4052,7 +4048,7 @@ html {
 .archive-variant-head h2 {
   margin: 0;
   color: #fff;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: 1rem;
   letter-spacing: 0.05em;
 }
@@ -4106,7 +4102,7 @@ html {
 
 .archive-month summary span {
   color: #fff;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -4174,7 +4170,7 @@ html {
 .archive-issue-number strong,
 .archive-calendar-day strong {
   color: #fff;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: 1rem;
 }
 
@@ -4347,7 +4343,7 @@ html {
 .archive-calendar-panel-head h3 {
   margin: 4px 0 0;
   color: #fff;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: clamp(0.96rem, 1.5vw, 1.18rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -4362,7 +4358,7 @@ html {
 
 .archive-calendar-eyebrow {
   color: #ec4899;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: 0.62rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -4445,7 +4441,7 @@ html {
 
 .archive-calendar-cell-top strong {
   color: #fff;
-  font-family: "Joystix", sans-serif;
+  font-family: var(--font-pixel);
   font-size: 1rem;
 }
 

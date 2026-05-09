@@ -2,14 +2,10 @@
 import DesignDocLayout from "../../layouts/DesignDocLayout.astro";
 ---
 <DesignDocLayout title="ManabuPlay Brand System" active="brand" containerClass="page">
-  <link slot="head" rel="preconnect" href="https://fonts.googleapis.com" />
-  <link slot="head" rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link slot="head" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link slot="head" rel="stylesheet" href="/assets/fx-preview.css" />
 
   <style is:global>
-    @font-face { font-family:"Joystix"; src:url("/fonts/Joystix.woff") format("woff"); font-display:swap; }
-    :root { --brand:"Joystix",sans-serif; --ui:"Chakra Petch",sans-serif; --bg:#08070d; --panel:#120f1eea; --panel2:#0f0c1a; --line:#a78bfa2d; --violet:#a78bfa; --fuchsia:#e879f9; --cyan:#22d3ee; --green:#4ade80; --red:#fb7185; --text:#f3f1ff; --muted:#bbb6d3; --soft:#8f8aa7; --space-4:4px; --space-8:8px; --space-12:12px; --space-16:16px; --space-20:20px; --space-24:24px; --space-32:32px; --radius-8:8px; --radius-12:12px; --radius-pill:999px; --control-h-20:20px; --control-h-32:32px; --control-h-44:44px; --page-max:1180px; }
+    :root { --brand:var(--font-pixel); --ui:var(--font-body); --bg:#08070d; --panel:#120f1eea; --panel2:#0f0c1a; --line:#a78bfa2d; --violet:#a78bfa; --fuchsia:#e879f9; --cyan:#22d3ee; --green:#4ade80; --red:#fb7185; --text:#f3f1ff; --muted:#bbb6d3; --soft:#8f8aa7; --space-4:4px; --space-8:8px; --space-12:12px; --space-16:16px; --space-20:20px; --space-24:24px; --space-32:32px; --radius-8:8px; --radius-12:12px; --radius-pill:999px; --control-h-20:20px; --control-h-32:32px; --control-h-44:44px; --page-max:1180px; }
     * { box-sizing:border-box; }
     body { margin:0; color:var(--text); font-family:var(--ui); background:radial-gradient(circle at top left,#a78bfa24,transparent 22rem),radial-gradient(circle at 84% 14%,#22d3ee1f,transparent 18rem),linear-gradient(180deg,#0b0913 0%,#08070d 100%); }
     .page { width:min(var(--page-max),calc(100% - var(--space-16))); margin:0 auto; padding:var(--space-16) 0 var(--space-32); }
@@ -279,8 +275,8 @@ import DesignDocLayout from "../../layouts/DesignDocLayout.astro";
       <div class="card">
         <h3>Typo, rayons, accents</h3>
         <div class="tokenlist">
-          <div><strong>--brand</strong><span>Joystix</span></div>
-          <div><strong>--ui</strong><span>Chakra Petch</span></div>
+          <div><strong>--brand</strong><span>alias local de --font-pixel</span></div>
+          <div><strong>--ui</strong><span>alias local de --font-body</span></div>
           <div><strong>--violet</strong><span>#A78BFA</span></div>
           <div><strong>--fuchsia</strong><span>#E879F9</span></div>
           <div><strong>--cyan</strong><span>#22D3EE</span></div>
@@ -292,8 +288,8 @@ import DesignDocLayout from "../../layouts/DesignDocLayout.astro";
       <div class="card">
         <h3>Snippet de base</h3>
         <pre class="code">:root &#123;
-  --brand: "Joystix", sans-serif;
-  --ui: "Chakra Petch", sans-serif;
+  --brand: var(--font-pixel);
+  --ui: var(--font-body);
   --bg: #08070d;
   --panel: #0f0c1a;
   --violet: #a78bfa;
