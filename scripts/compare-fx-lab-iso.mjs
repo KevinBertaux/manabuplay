@@ -35,7 +35,7 @@ try {
     const quizPage = await browser.newPage({ viewport: { width: 1440, height: 2200 } });
 
     await Promise.all([
-      preparePage(sitePage, `${webBaseUrl}/`, "[data-i18n='hero_badge']"),
+      preparePage(sitePage, `${webBaseUrl}/en/`, "[data-i18n='hero_badge']"),
       preparePage(heroPage, `${adminBaseUrl}/design/references/hero/`, "[data-i18n='hero_badge']"),
       preparePage(quizPage, `${adminBaseUrl}/design/references/quiz/#quiz`, "#diffGrid .diff-card"),
     ]);
