@@ -2,7 +2,7 @@
   "id": "builds-and-gear",
   "slug": "builds-and-gear",
   "themeId": "gaming",
-  "status": "content-draft",
+  "status": "content-ready",
   "targetWordCount": 34,
   "notes": [
     "Troisième pack enrichi pour validation éditoriale.",
@@ -10,7 +10,7 @@
     "Transparence recalculée : 2.5 pts, 7%, sous le seuil de surveillance de 10%.",
     "Remplacement des 4 ajouts récents trop transparents par des mots de tiers équivalents validés.",
     "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4.",
-    "Score readiness maintenu à 96 : contenu complet, quiz relu, prod gate toujours bloqué sans validation finale."
+    "Score readiness maintenu à 96 : contenu complet, quiz relu, release finale toujours en attente de validation manuelle."
   ],
   "locales": {
     "fr": {
@@ -26,7 +26,7 @@
     "readiness": {
       "value": 96,
       "minProdScore": 90,
-      "readyForProd": false,
+      "releaseApproved": false,
       "reviewStatus": "faite",
       "reviewProgress": {
         "reviewedWords": 34,

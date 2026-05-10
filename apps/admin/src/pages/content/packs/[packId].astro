@@ -22,10 +22,7 @@ const packLinks = getAllPacks().map((item) => ({
   id: item.id,
   name: item.locales.fr.name,
   score: item.score?.readiness?.value ?? null,
-  isProdCandidate:
-    (item.score?.readiness?.value ?? 0) >= (item.score?.readiness?.minProdScore ?? 90) &&
-    (item.score?.readiness?.reviewStatus === "faite" ||
-      item.score?.readiness?.reviewStatus === "validee"),
+  isProdCandidate: item.score?.readiness?.contentReady ?? false,
 }));
 function getTerm(word: PackReaderWord) {
   return typeof word.jp === "string" ? word.jp : word.jp.term;
@@ -110,6 +107,14 @@ function getMinProdScore() {
   return activePack.score?.readiness?.minProdScore ?? 90;
 }
 
+function getContentReadyLabel() {
+  return activePack.score?.readiness?.contentReady ? "PRÊT" : "À STABILISER";
+}
+
+function getReleaseApprovalLabel() {
+  return activePack.score?.readiness?.releaseApproved ? "VALIDÉ" : "À VALIDER";
+}
+
 function getReviewLabel() {
   const progress = activePack.score?.readiness?.reviewProgress;
   const progressLabel = progress ? ` · ${progress.reviewedWords}/${progress.totalWords}` : "";
@@ -144,12 +149,6 @@ function getReleaseLabel() {
 function getMissingToMax() {
   const score = getReadinessValue();
   return score === null ? null : 100 - score;
-}
-
-function getMissingToProd() {
-  const score = getReadinessValue();
-  const min = getMinProdScore();
-  return score === null ? null : Math.max(0, min - score);
 }
 
 function formatDelta(value: number | null) {
@@ -311,8 +310,8 @@ function getWordTransparencyLevel(word: PackReaderWord) {
               <span class="reader-cartouche-value">{getMinProdScore()}/100</span>
             </div>
             <div class="reader-cartouche-cell">
-              <span class="reader-cartouche-label">Delta prod</span>
-              <span class="reader-cartouche-value">{formatDelta(getMissingToProd())}</span>
+              <span class="reader-cartouche-label">Contenu</span>
+              <span class="reader-cartouche-value">{getContentReadyLabel()}</span>
             </div>
             <div class="reader-cartouche-cell">
               <span class="reader-cartouche-label">Delta max</span>
@@ -327,8 +326,8 @@ function getWordTransparencyLevel(word: PackReaderWord) {
               <span class="reader-cartouche-value">{getReleaseLabel()}</span>
             </div>
             <div class="reader-cartouche-cell">
-              <span class="reader-cartouche-label">Prod gate</span>
-              <span class="reader-cartouche-value">{activePack.score?.readiness?.readyForProd ? "OK" : "BLOQUÉ"}</span>
+              <span class="reader-cartouche-label">Go final</span>
+              <span class="reader-cartouche-value">{getReleaseApprovalLabel()}</span>
             </div>
           </div>
           <div class="reader-cartouche-tiers">

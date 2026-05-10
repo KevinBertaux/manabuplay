@@ -46,7 +46,7 @@ export type CanonicalPackFile = {
     readiness?: {
       value: number;
       minProdScore?: number;
-      readyForProd: boolean;
+      releaseApproved: boolean;
       reviewStatus?: "non-relue" | "partielle" | "faite" | "validee";
       reviewProgress?: {
         reviewedWords: number;

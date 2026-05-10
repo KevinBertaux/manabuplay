@@ -8,8 +8,12 @@ function getReadiness(pack: (typeof packs)[number]) {
   return pack.score?.readiness?.value ?? null;
 }
 
-function getMinProd(pack: (typeof packs)[number]) {
-  return pack.score?.readiness?.minProdScore ?? 90;
+function getContentReadyLabel(pack: (typeof packs)[number]) {
+  return pack.score?.readiness?.contentReady ? "prêt" : "à stabiliser";
+}
+
+function getReleaseApprovalLabel(pack: (typeof packs)[number]) {
+  return pack.score?.readiness?.releaseApproved ? "validé" : "à valider";
 }
 
 function getReviewLabel(pack: (typeof packs)[number]) {
@@ -49,11 +53,6 @@ function getScoreTone(score: number | null) {
   if (score >= 90) return "good";
   if (score >= 75) return "mid";
   return "bad";
-}
-
-function formatDelta(value: number | null) {
-  if (value === null) return "n.c.";
-  return value === 0 ? "0" : `-${value}`;
 }
 
 function getTierBreakdown(pack: (typeof packs)[number]) {
@@ -185,6 +184,14 @@ function formatTransparencyScore(value: number) {
                 <span class="pack-strip-value">{getReleaseLabel(pack)}</span>
               </div>
               <div class="pack-strip-item">
+                <span class="pack-strip-label">Contenu</span>
+                <span class="pack-strip-value">{getContentReadyLabel(pack)}</span>
+              </div>
+              <div class="pack-strip-item">
+                <span class="pack-strip-label">Go final</span>
+                <span class="pack-strip-value">{getReleaseApprovalLabel(pack)}</span>
+              </div>
+              <div class="pack-strip-item">
                 <span class="pack-strip-label">Relecture</span>
                 <span class="pack-strip-value">{getReviewLabel(pack)}</span>
               </div>
@@ -193,14 +200,6 @@ function formatTransparencyScore(value: number) {
                 <span class:list={["pack-strip-value", { "gift-watch": transparent?.tone === "watch", "gift-act": transparent?.tone === "act" }]}>
                   {transparent ? `${formatTransparencyScore(transparent.weightedScore)} · ${transparent.weightedPercent}%` : "n.c."}
                 </span>
-              </div>
-              <div class="pack-strip-item">
-                <span class="pack-strip-label">Delta prod</span>
-                <span class="pack-strip-value">{formatDelta(readiness === null ? null : Math.max(0, getMinProd(pack) - readiness))}</span>
-              </div>
-              <div class="pack-strip-item">
-                <span class="pack-strip-label">Delta max</span>
-                <span class="pack-strip-value">{formatDelta(readiness === null ? null : 100 - readiness)}</span>
               </div>
             </div>
           </a>

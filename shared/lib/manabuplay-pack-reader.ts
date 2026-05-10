@@ -3,6 +3,9 @@ import {
   getCanonicalPackFiles,
   getCanonicalPackIndex,
 } from "../data/manabuplay/pack-source";
+import type { CanonicalPackFile } from "../data/manabuplay/pack-source";
+
+type CanonicalPackReadiness = NonNullable<NonNullable<CanonicalPackFile["score"]>["readiness"]>;
 
 export type PackReaderWord = {
   order: number;
@@ -113,7 +116,8 @@ export type PackReaderPack = {
     readiness?: {
       value: number;
       minProdScore?: number;
-      readyForProd: boolean;
+      contentReady: boolean;
+      releaseApproved: boolean;
       reviewStatus?: "non-relue" | "partielle" | "faite" | "validee";
       reviewProgress?: {
         reviewedWords: number;
@@ -268,6 +272,31 @@ function buildTransparentBreakdown(
   };
 }
 
+function isReviewComplete(readiness?: CanonicalPackReadiness) {
+  if (!readiness) {
+    return false;
+  }
+
+  const statusOk = readiness.reviewStatus === "faite" || readiness.reviewStatus === "validee";
+  const progress = readiness.reviewProgress;
+  const progressOk = progress ? progress.reviewedWords >= progress.totalWords : statusOk;
+  return statusOk && progressOk;
+}
+
+function isContentReady(
+  readiness: CanonicalPackReadiness | undefined,
+  transparency: NonNullable<PackReaderPack["transparentBreakdown"]>,
+) {
+  if (!readiness) {
+    return false;
+  }
+
+  const minProdScore = readiness.minProdScore ?? 90;
+  return (
+    readiness.value >= minProdScore && isReviewComplete(readiness) && transparency.tone === "ok"
+  );
+}
+
 function pickGlossDistractors(glosses: string[], correct: string, seed: number) {
   const candidates = glosses.filter((gloss) => gloss !== correct);
   const distractors: string[] = [];
@@ -401,14 +430,27 @@ export function getPackById(packId: string) {
     };
   });
 
+  const tierBreakdown = buildTierBreakdown(words);
+  const transparentBreakdown = buildTransparentBreakdown(
+    words,
+    pack.quiz?.transparentWordIds || [],
+    pack.quiz?.fillerWordIds || [],
+  );
+  const readiness = pack.score?.readiness;
+
   return {
     ...pack,
-    tierBreakdown: buildTierBreakdown(words),
-    transparentBreakdown: buildTransparentBreakdown(
-      words,
-      pack.quiz?.transparentWordIds || [],
-      pack.quiz?.fillerWordIds || [],
-    ),
+    score: {
+      ...pack.score,
+      readiness: readiness
+        ? {
+            ...readiness,
+            contentReady: isContentReady(readiness, transparentBreakdown),
+          }
+        : undefined,
+    },
+    tierBreakdown,
+    transparentBreakdown,
     words,
   };
 }

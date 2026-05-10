@@ -2,7 +2,7 @@
   "id": "anime-codes",
   "slug": "anime-codes",
   "themeId": "anime-and-manga",
-  "status": "content-draft",
+  "status": "content-ready",
   "targetWordCount": 34,
   "notes": [
     "Quatrième pack enrichi puis validé pour la production éditoriale.",
@@ -25,7 +25,7 @@
     "readiness": {
       "value": 96,
       "minProdScore": 90,
-      "readyForProd": false,
+      "releaseApproved": false,
       "reviewStatus": "faite",
       "reviewProgress": {
         "reviewedWords": 34,

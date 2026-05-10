@@ -7,8 +7,12 @@ function getReadiness(pack: (typeof packs)[number]) {
   return pack.score?.readiness?.value ?? null;
 }
 
-function getMinProd(pack: (typeof packs)[number]) {
-  return pack.score?.readiness?.minProdScore ?? 90;
+function getContentReadyLabel(pack: (typeof packs)[number]) {
+  return pack.score?.readiness?.contentReady ? "prêt" : "à stabiliser";
+}
+
+function getReleaseApprovalLabel(pack: (typeof packs)[number]) {
+  return pack.score?.readiness?.releaseApproved ? "validé" : "à valider";
 }
 
 function getReviewLabel(pack: (typeof packs)[number]) {
@@ -50,11 +54,6 @@ function getScoreTone(score: number | null) {
   return "bad";
 }
 
-function formatDelta(value: number | null) {
-  if (value === null) return "n.c.";
-  return value === 0 ? "0" : `-${value}`;
-}
-
 function getTierBreakdown(pack: (typeof packs)[number]) {
   return pack.tierBreakdown ?? null;
 }
@@ -70,14 +69,14 @@ function formatTransparencyScore(value: number) {
 <AdminLayout
   title="Lecteur de packs — ManabuPlay Admin"
   activeNav="packs"
-  description="Vue liste du lecteur de packs avec score, tiers et état réel avant prod."
+  description="Vue liste du lecteur de packs avec score, tiers, état contenu et validation release."
   bodyClass="text-slate-200 packs-shell"
   containerClass="packs-wrap"
 >
     <section class="packs-card packs-hero">
       <span class="packs-eyebrow">Lecteur</span>
       <h1 class="packs-title">Packs <span>v0.1</span></h1>
-      <p class="packs-copy">Le lecteur sert à relire un pack comme un quiz figé. On vérifie le contenu mot par mot, la difficulté par tiers, la qualité des réponses et l’état réel du pack avant mise en prod.</p>
+      <p class="packs-copy">Le lecteur sert à relire un pack comme un quiz figé. On vérifie le contenu mot par mot, la difficulté par tiers, la qualité des réponses, l’état contenu et le go release manuel.</p>
       <div class="score-grid">
         <div class="score-rule">
           <div class="score-label">Taille : 15 points</div>
@@ -97,7 +96,7 @@ function formatTransparencyScore(value: number) {
         </div>
         <div class="score-rule">
           <div class="score-label">Relecture : 15 points</div>
-          <p class="score-text">Validation humaine du pack. Min prod : 90/100, avec relecture validée obligatoire avant ton go prod.</p>
+          <p class="score-text">Validation humaine du pack. Un contenu est prêt à partir de 90/100, relecture complète et transparence sous contrôle. Le go release reste manuel.</p>
         </div>
       </div>
     </section>
@@ -137,6 +136,14 @@ function formatTransparencyScore(value: number) {
                   <span class="pack-strip-value">{getReleaseLabel(pack)}</span>
                 </div>
                 <div class="pack-strip-item">
+                  <span class="pack-strip-label">Contenu</span>
+                  <span class="pack-strip-value">{getContentReadyLabel(pack)}</span>
+                </div>
+                <div class="pack-strip-item">
+                  <span class="pack-strip-label">Go final</span>
+                  <span class="pack-strip-value">{getReleaseApprovalLabel(pack)}</span>
+                </div>
+                <div class="pack-strip-item">
                   <span class="pack-strip-label">Relecture</span>
                   <span class="pack-strip-value">{getReviewLabel(pack)}</span>
                 </div>
@@ -145,14 +152,6 @@ function formatTransparencyScore(value: number) {
                   <span class:list={["pack-strip-value", { "gift-watch": transparent?.tone === "watch", "gift-act": transparent?.tone === "act" }]}>
                     {transparent ? `${formatTransparencyScore(transparent.weightedScore)} · ${transparent.weightedPercent}%` : "n.c."}
                   </span>
-                </div>
-                <div class="pack-strip-item">
-                  <span class="pack-strip-label">Delta prod</span>
-                  <span class="pack-strip-value">{formatDelta(readiness === null ? null : Math.max(0, getMinProd(pack) - readiness))}</span>
-                </div>
-                <div class="pack-strip-item">
-                  <span class="pack-strip-label">Delta max</span>
-                  <span class="pack-strip-value">{formatDelta(readiness === null ? null : 100 - readiness)}</span>
                 </div>
               </div>
             </a>

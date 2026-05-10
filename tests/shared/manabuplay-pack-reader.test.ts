@@ -135,7 +135,8 @@ describe("manabuplay pack reader", () => {
 
       expect(pack?.score?.readiness?.value).toBe(expected.readiness);
       expect(pack?.score?.readiness?.breakdown).toEqual(expected.breakdown);
-      expect(pack?.score?.readiness?.readyForProd).toBe(false);
+      expect(pack?.score?.readiness?.contentReady).toBe(true);
+      expect(pack?.score?.readiness?.releaseApproved).toBe(false);
       expect(pack?.transparentBreakdown).toMatchObject(expected.transparency);
     }
   });

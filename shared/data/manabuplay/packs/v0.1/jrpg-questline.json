@@ -2,14 +2,14 @@
   "id": "jrpg-questline",
   "slug": "jrpg-questline",
   "themeId": "gaming",
-  "status": "content-draft",
+  "status": "content-ready",
   "targetWordCount": 34,
   "notes": [
     "Premier pack enrichi pour validation éditoriale.",
     "Relecture faite : les 34 mots sont relus côté contenu, le go final reste manuel avant prod.",
     "Répartition des tiers conservée : 12 mots tier 1, 9 mots tier 2, 8 mots tier 3, 5 mots tier 4.",
     "Transparence pondérée stabilisée sous le seuil de surveillance.",
-    "Score readiness remonté à 96 : contenu complet, quiz relu, prod gate toujours bloqué sans validation finale."
+    "Score readiness remonté à 96 : contenu complet, quiz relu, release finale toujours en attente de validation manuelle."
   ],
   "locales": {
     "fr": {
@@ -25,7 +25,7 @@
     "readiness": {
       "value": 96,
       "minProdScore": 90,
-      "readyForProd": false,
+      "releaseApproved": false,
       "reviewStatus": "faite",
       "reviewProgress": {
         "reviewedWords": 34,

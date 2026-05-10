@@ -2,7 +2,7 @@
   "id": "gacha-and-rewards",
   "slug": "gacha-and-rewards",
   "themeId": "gaming",
-  "status": "content-draft",
+  "status": "content-ready",
   "targetWordCount": 34,
   "notes": [
     "Cinquième pack v0.1 stabilisé pour relecture éditoriale.",
@@ -26,7 +26,7 @@
     "readiness": {
       "value": 96,
       "minProdScore": 90,
-      "readyForProd": false,
+      "releaseApproved": false,
       "reviewStatus": "faite",
       "releaseStatus": "preprod",
       "breakdown": {

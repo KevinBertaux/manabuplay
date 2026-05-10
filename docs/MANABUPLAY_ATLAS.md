@@ -237,6 +237,8 @@ Readiness score pack :
 
 - score sur `100`
 - seuil minimum prod : `90/100`
+- `contentReady` est calculé : score >= seuil, relecture complète et transparence sous contrôle
+- `releaseApproved` reste manuel : il représente le go final, pas la qualité du contenu
 
 Workflow pack retenu :
 

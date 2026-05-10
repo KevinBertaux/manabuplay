@@ -22,7 +22,7 @@
     "readiness": {
       "value": 85,
       "minProdScore": 90,
-      "readyForProd": false,
+      "releaseApproved": false,
       "reviewStatus": "non-relue",
       "releaseStatus": "dev",
       "breakdown": {
