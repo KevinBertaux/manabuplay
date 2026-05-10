@@ -49,6 +49,9 @@ export type BootLangMap = Record<string, BootTranslationValue>;
 export interface DailyConfig {
   tierTargets?: Record<string, number>;
   questionCount?: number;
+  startDate?: string;
+  wordCooldownDays?: number;
+  packCooldownDays?: number;
 }
 
 export interface PracticeConfig {

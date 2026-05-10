@@ -16,14 +16,18 @@ test.describe("admin editorial reserve", () => {
     await expect(page.locator(".catalog-stats")).toHaveCSS("grid-template-columns", /.+ .+ .+ .+/);
     await expect(page.getByRole("heading", { name: "Champs obligatoires" })).toHaveCount(0);
     await expect(page.getByText("Tier à trier")).toHaveCount(0);
-    await expect(page.getByText("romaji à trier")).toHaveCount(0);
+    await expect(page.getByText("romaji à trier")).toHaveCount(20);
     await expect(page.getByRole("heading", { name: "Mots actifs" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Éléments à trier" })).toHaveCount(0);
-    await expect(page.locator(".catalog-tier-drawer")).toHaveCount(4);
+    await expect(page.locator(".catalog-tier-drawer")).toHaveCount(5);
     await expect(page.locator(".catalog-tier-drawer[open]")).toHaveCount(0);
-    await expect(page.locator(".catalog-tier-summary")).toContainText(["T1", "T2", "T3", "T4"]);
-    await expect(
-      page.getByRole("heading", { name: "Pistes issues de future-packs" }),
-    ).toBeVisible();
+    await expect(page.locator(".catalog-tier-summary")).toContainText([
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "À écrire / à trier",
+    ]);
+    await expect(page.getByRole("heading", { name: "Pistes futures" })).toBeVisible();
   });
 });

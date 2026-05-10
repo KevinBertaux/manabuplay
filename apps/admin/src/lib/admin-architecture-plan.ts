@@ -477,7 +477,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     },
     files: [
       {
-        path: "shared/data/manabuplay/packs/v0.1/*.json",
+        path: "shared/data/manabuplay/packs/*.json",
         action: "update",
         note: {
           fr: "5 packs actifs à 34 mots, relus 34/34, scorés et sous le seuil de transparence.",

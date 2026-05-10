@@ -4,28 +4,45 @@ import { getEditorialReserve, type EditorialReserveEntry } from "../../../../../
 
 const reserve = getEditorialReserve();
 const candidateEntries = reserve.entries.filter((entry) => entry.status === "candidate");
-const archivedEntries = reserve.entries.filter((entry) => entry.status === "archived");
+const seedEntries = reserve.entries.filter((entry) => entry.status === "seed-legacy");
 const removedEntries = reserve.entries.filter((entry) => entry.status === "removed-from-pack");
-const reserveEntries = [...candidateEntries, ...archivedEntries, ...removedEntries].sort((first, second) => {
+const retiredPackEntries = reserve.entries.filter((entry) => entry.status === "retired-pack-source");
+const toWriteEntries = reserve.entries.filter((entry) => entry.status === "to-write");
+const reserveEntries = [
+  ...candidateEntries,
+  ...seedEntries,
+  ...removedEntries,
+  ...retiredPackEntries,
+  ...toWriteEntries,
+].sort((first, second) => {
   const tierDelta = (first.tier || 99) - (second.tier || 99);
   if (tierDelta !== 0) return tierDelta;
   return getRomaji(first).localeCompare(getRomaji(second), "fr");
 });
-const tierGroups = [1, 2, 3, 4].map((tier) => ({
+const tierGroups = [1, 2, 3, 4, null].map((tier) => ({
   tier,
   title: getTierTitle(tier),
   entries: reserveEntries.filter((entry) => entry.tier === tier),
 }));
-const visibleReserveCount = reserve.stats.candidate + reserve.stats.archived + reserve.stats.removedFromPack;
+const visibleReserveCount =
+  reserve.stats.candidate +
+  reserve.stats.seedLegacy +
+  reserve.stats.removedFromPack +
+  reserve.stats.retiredPackSource +
+  reserve.stats.toWrite;
 
 function getStatusLabel(status: EditorialReserveEntry["status"]) {
   switch (status) {
     case "candidate":
       return "Candidat";
-    case "archived":
-      return "Archivé";
+    case "seed-legacy":
+      return "Seed legacy";
     case "removed-from-pack":
       return "Sorti d'un pack";
+    case "retired-pack-source":
+      return "Source retirée";
+    case "to-write":
+      return "À écrire";
     case "active":
       return "Actif";
   }
@@ -36,10 +53,10 @@ function getTransparencyLabel(entry: EditorialReserveEntry) {
 }
 
 function getTierLabel(entry: EditorialReserveEntry) {
-  return `T${entry.tier}`;
+  return entry.tier ? `T${entry.tier}` : "À trier";
 }
 
-function getTierTitle(tier: number) {
+function getTierTitle(tier: number | null) {
   switch (tier) {
     case 1:
       return "T1 · facile";
@@ -50,12 +67,16 @@ function getTierTitle(tier: number) {
     case 4:
       return "T4 · expert";
     default:
-      return `T${tier}`;
+      return "À écrire / à trier";
   }
 }
 
 function getRomaji(entry: EditorialReserveEntry) {
   return entry.jp?.romaji || "romaji à trier";
+}
+
+function getGloss(entry: EditorialReserveEntry, locale: "fr" | "en") {
+  return entry.gloss[locale] || `${locale.toUpperCase()} à écrire`;
 }
 
 function getTierClass(entry: EditorialReserveEntry) {
@@ -77,7 +98,7 @@ function getTransparencyClass(entry: EditorialReserveEntry) {
   return `transparency-${entry.transparency.level}`;
 }
 
-function getTierClassFromTier(tier: number) {
+function getTierClassFromTier(tier: number | null) {
   return getTierClass({ tier } as EditorialReserveEntry);
 }
 ---
@@ -93,7 +114,7 @@ function getTierClassFromTier(tier: number) {
     <span class="catalog-eyebrow">Réserve éditoriale</span>
     <h1 class="catalog-title">Un stock propre <span>pour piocher les mots</span></h1>
     <p class="catalog-copy">
-      Cette page affiche les mots hors packs actifs : candidats, archivés et pistes futures. Les mots actifs restent cachés ici pour garder une réserve exploitable quand le corpus grossira.
+      Cette page affiche les mots hors packs actifs : candidats, seeds legacy, mots sortis, anciens brouillons et mots à écrire. Les mots actifs restent cachés ici pour garder une réserve exploitable quand le corpus grossira.
     </p>
     <div class="catalog-notes">
       {reserve.notes.map((note) => <p class="catalog-note">{note}</p>)}
@@ -122,7 +143,7 @@ function getTierClassFromTier(tier: number) {
     <div class="catalog-section-head">
       <div>
         <h2 class="catalog-section-title">Mots de réserve</h2>
-        <p class="catalog-section-copy">{candidateEntries.length} candidats, {archivedEntries.length} mots archivés et {removedEntries.length} sortis de packs. Tous ont un tier et une transparence calculée pour pouvoir demander, par exemple, “2 T1 et 1 T3” sans retri manuel.</p>
+        <p class="catalog-section-copy">{candidateEntries.length} candidats, {seedEntries.length} seeds legacy, {removedEntries.length} sortis de packs, {retiredPackEntries.length} issus d'un ancien brouillon et {toWriteEntries.length} à écrire.</p>
       </div>
     </div>
     <div class="catalog-tier-drawers">
@@ -152,8 +173,8 @@ function getTierClassFromTier(tier: number) {
                   {entry.jp?.term && <div class="catalog-word-jp">{entry.jp.term}</div>}
                   <div class="catalog-word-romaji">{getRomaji(entry)}</div>
                   <div class="catalog-word-gloss">
-                    <span>{entry.gloss.fr}</span>
-                    <span>{entry.gloss.en}</span>
+                    <span>{getGloss(entry, "fr")}</span>
+                    <span>{getGloss(entry, "en")}</span>
                   </div>
                 </div>
                 <div class="catalog-word-meta">
@@ -181,8 +202,8 @@ function getTierClassFromTier(tier: number) {
   <section class="catalog-card catalog-section">
     <div class="catalog-section-head">
       <div>
-        <h2 class="catalog-section-title">Pistes issues de future-packs</h2>
-        <p class="catalog-section-copy">Lecture brute utile pour migration progressive : idées de packs, candidats associés et mots encore à écrire.</p>
+        <h2 class="catalog-section-title">Pistes futures</h2>
+        <p class="catalog-section-copy">Lecture brute utile pour migration progressive : idées de packs, candidats associés et mots à écrire déjà versés dans la réserve.</p>
       </div>
     </div>
     <div class="catalog-roadmap">

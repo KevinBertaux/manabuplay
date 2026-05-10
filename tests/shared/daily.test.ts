@@ -7,6 +7,8 @@ describe("daily boot data", () => {
 
     expect(bootData.mode).toBe("daily");
     expect(bootData.daily.questionCount).toBe(10);
+    expect(bootData.daily.wordCooldownDays).toBe(7);
+    expect(bootData.daily.packCooldownDays).toBe(1);
     expect(bootData.daily.tierTargets).toEqual({ 1: 4, 2: 3, 3: 2, 4: 1 });
     expect(bootData.difficulties).toEqual([
       expect.objectContaining({

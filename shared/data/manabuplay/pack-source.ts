@@ -86,18 +86,13 @@ type CanonicalPackIndex = {
   version: string;
   status: string;
   notes: string[];
-  packCount: number;
-  targetWordsPerPack: number;
   packs: Array<{
     id: string;
     path: string;
-    existingWords: number;
-    plannedWords: number;
   }>;
-  overflowPath: string;
 };
 
-const packsRoot = path.join(process.cwd(), "shared", "data", "manabuplay", "packs", "v0.1");
+const packsRoot = path.join(process.cwd(), "shared", "data", "manabuplay", "packs");
 
 let indexCache: CanonicalPackIndex | null = null;
 let packsCache: CanonicalPackFile[] | null = null;

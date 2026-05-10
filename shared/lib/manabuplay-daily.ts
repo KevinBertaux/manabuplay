@@ -2,6 +2,8 @@ import { buildCatalogBootData, buildCatalogQuizData } from "../data/manabuplay/c
 
 const DAILY_QUESTION_COUNT = 10;
 const DAILY_START_DATE = "2026-01-01";
+const DAILY_WORD_COOLDOWN_DAYS = 7;
+const DAILY_PACK_COOLDOWN_DAYS = 1;
 const DAILY_TIER_TARGETS = {
   1: 4,
   2: 3,
@@ -28,6 +30,8 @@ export function buildDailyBootData() {
     daily: {
       questionCount: DAILY_QUESTION_COUNT,
       startDate: DAILY_START_DATE,
+      wordCooldownDays: DAILY_WORD_COOLDOWN_DAYS,
+      packCooldownDays: DAILY_PACK_COOLDOWN_DAYS,
       tierTargets: DAILY_TIER_TARGETS,
     },
     difficulties: DAILY_DIFFICULTY,

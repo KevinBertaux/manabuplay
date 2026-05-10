@@ -13,6 +13,20 @@ const storage: StorageAdapter = {
   setLang: () => {},
 };
 
+const dailyConfig = {
+  questionCount: 10,
+  startDate: "2026-01-01",
+  wordCooldownDays: 7,
+  packCooldownDays: 1,
+  tierTargets: { 1: 4, 2: 3, 3: 2, 4: 1 },
+};
+
+function getDateKeyFromStart(daysFromStart: number) {
+  const date = new Date(Date.UTC(2026, 0, 1));
+  date.setUTCDate(date.getUTCDate() + daysFromStart);
+  return date.toISOString().slice(0, 10);
+}
+
 describe("manabuplay quiz pool", () => {
   it("reuses the canonical catalog quiz corpus without rebuilding a second truth", () => {
     expect(buildV01QuizPool()).toEqual(buildCatalogQuizData());
@@ -59,12 +73,12 @@ describe("manabuplay quiz pool", () => {
     const dailyQuestions = buildDailyQuizData({
       pool: quizData,
       dateKey: "2026-05-05",
-      dailyConfig: { questionCount: 10, tierTargets: { 1: 4, 2: 3, 3: 2, 4: 1 } },
+      dailyConfig,
     });
     const secondBuild = buildDailyQuizData({
       pool: quizData,
       dateKey: "2026-05-05",
-      dailyConfig: { questionCount: 10, tierTargets: { 1: 4, 2: 3, 3: 2, 4: 1 } },
+      dailyConfig,
     });
     const packIds = new Set(dailyQuestions.map((question) => question.packId));
 
@@ -76,6 +90,73 @@ describe("manabuplay quiz pool", () => {
     expect(dailyQuestions.every((question) => question.id.startsWith(`${question.packId}:`))).toBe(
       true,
     );
+  });
+
+  it("avoids repeating recent daily words and yesterday's pack", () => {
+    const quizData = buildCatalogQuizData();
+    const previousDaily = buildDailyQuizData({
+      pool: quizData,
+      dateKey: "2026-05-09",
+      dailyConfig,
+    });
+    const todayDaily = buildDailyQuizData({
+      pool: quizData,
+      dateKey: "2026-05-10",
+      dailyConfig,
+    });
+    const previousIds = new Set(previousDaily.map((question) => question.id));
+    const previousPackIds = new Set(previousDaily.map((question) => question.packId));
+    const todayPackIds = new Set(todayDaily.map((question) => question.packId));
+    const recentIds = new Set(
+      Array.from({ length: 7 }, (_, index) => `2026-05-${String(index + 3).padStart(2, "0")}`)
+        .flatMap((dateKey) =>
+          buildDailyQuizData({
+            pool: quizData,
+            dateKey,
+            dailyConfig,
+          }),
+        )
+        .map((question) => question.id),
+    );
+
+    expect(todayDaily).toHaveLength(10);
+    expect(todayDaily.some((question) => previousIds.has(question.id))).toBe(false);
+    expect(todayDaily.some((question) => recentIds.has(question.id))).toBe(false);
+    expect(todayPackIds.size).toBe(1);
+    expect([...todayPackIds].some((packId) => previousPackIds.has(packId))).toBe(false);
+    expect(
+      todayDaily.some((question) => question.id === "anime-codes:anime-codes-magical-girl"),
+    ).toBe(false);
+  });
+
+  it("keeps daily cooldown, pack rotation, and tier ratio stable across a full year", () => {
+    const quizData = buildCatalogQuizData();
+    const history: Array<{ ids: string[]; packId: string }> = [];
+
+    for (let dayIndex = 0; dayIndex < 365; dayIndex += 1) {
+      const dailyQuestions = buildDailyQuizData({
+        pool: quizData,
+        dateKey: getDateKeyFromStart(dayIndex),
+        dailyConfig,
+      });
+      const ids = dailyQuestions.map((question) => question.id);
+      const packIds = new Set(dailyQuestions.map((question) => question.packId));
+      const tierCounts = dailyQuestions.reduce<Record<string, number>>((counts, question) => {
+        const tier = String(question.tier || 1);
+        counts[tier] = (counts[tier] || 0) + 1;
+        return counts;
+      }, {});
+      const recentIds = new Set(history.slice(-7).flatMap((daily) => daily.ids));
+      const previousPackId = history.at(-1)?.packId;
+
+      expect(dailyQuestions).toHaveLength(10);
+      expect(packIds.size).toBe(1);
+      expect(ids.some((id) => recentIds.has(id))).toBe(false);
+      expect([...packIds][0]).not.toBe(previousPackId);
+      expect(tierCounts).toEqual({ 1: 4, 2: 3, 3: 2, 4: 1 });
+
+      history.push({ ids, packId: [...packIds][0] || "" });
+    }
   });
 
   it("keeps a practice run inside one random pack", () => {

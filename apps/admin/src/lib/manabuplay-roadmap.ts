@@ -1,11 +1,15 @@
-import fs from "node:fs";
-import path from "node:path";
+import { getEditorialReserve } from "../../../../shared/data/manabuplay/editorial-reserve";
+import type { EditorialReserveEntry } from "../../../../shared/data/manabuplay/editorial-reserve";
 
 export type RoadmapCandidateWord = {
   id: string;
-  status: "existing-word" | "candidate-word";
-  source: "seed-legacy" | `pack-${number}-distractor`;
-  existingWordId?: string;
+  status:
+    | "candidate-word"
+    | "seed-legacy"
+    | "removed-from-pack"
+    | "retired-pack-source"
+    | "to-write";
+  source: string;
   jp?: string;
   assist?: string;
   locales: {
@@ -22,7 +26,6 @@ export type RoadmapCandidateWord = {
 export type RoadmapPack = {
   targetVersion: string;
   id: string;
-  slug: string;
   themeId: string;
   locales: {
     fr: {
@@ -45,16 +48,50 @@ export type RoadmapCatalog = {
   rejectedDistractors: string[];
 };
 
-const roadmapPath = path.join(
-  process.cwd(),
-  "shared",
-  "data",
-  "manabuplay",
-  "packs",
-  "roadmap",
-  "future-packs.json",
-);
+function isReserveWord(
+  entry: EditorialReserveEntry,
+): entry is EditorialReserveEntry & { status: Exclude<EditorialReserveEntry["status"], "active"> } {
+  return entry.status !== "active";
+}
 
 export function getRoadmapCatalog() {
-  return JSON.parse(fs.readFileSync(roadmapPath, "utf8")) as RoadmapCatalog;
+  const reserve = getEditorialReserve();
+  return {
+    version: reserve.version,
+    status: "editorial-reserve",
+    notes: reserve.notes,
+    candidateWords: reserve.entries.filter(isReserveWord).map((entry) => ({
+      id: entry.id,
+      status: entry.status === "candidate" ? "candidate-word" : entry.status,
+      source:
+        entry.sources?.map((source) => String(source.type || "unknown")).join(", ") || entry.status,
+      jp: entry.jp?.term,
+      assist: entry.jp?.romaji,
+      locales: {
+        fr: {
+          label: entry.gloss.fr,
+        },
+        en: {
+          label: entry.gloss.en,
+        },
+      },
+      candidatePackIds: entry.targetPackIds,
+    })),
+    packs: reserve.futurePacks.map((pack) => ({
+      targetVersion: pack.targetVersion,
+      id: pack.id,
+      themeId: pack.themeId,
+      locales: {
+        fr: {
+          name: pack.name.fr,
+        },
+        en: {
+          name: pack.name.en,
+        },
+      },
+      candidateWordIds: pack.candidateWordIds,
+      plannedWords: pack.plannedWords,
+    })),
+    rejectedDistractors: reserve.rejectedDistractors,
+  } satisfies RoadmapCatalog;
 }

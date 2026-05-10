@@ -2,12 +2,19 @@ import fs from "node:fs";
 import path from "node:path";
 import { getCanonicalPackFiles, type CanonicalPackWord } from "./pack-source";
 
-export type EditorialReserveStatus = "active" | "candidate" | "archived" | "removed-from-pack";
+export type EditorialReserveStatus =
+  | "active"
+  | "candidate"
+  | "seed-legacy"
+  | "removed-from-pack"
+  | "retired-pack-source"
+  | "to-write";
 export type EditorialReserveTransparencyLevel = "none" | "strict" | "editorial" | "filler";
 
 export type EditorialReserveEntry = {
   id: string;
   status: EditorialReserveStatus;
+  sources?: Array<Record<string, unknown>>;
   sourcePackId?: string;
   sourceWordId?: string;
   targetPackIds: string[];
@@ -74,386 +81,35 @@ export type EditorialReserve = {
     total: number;
     active: number;
     candidate: number;
-    archived: number;
+    seedLegacy: number;
     removedFromPack: number;
+    retiredPackSource: number;
+    toWrite: number;
     needsSorting: number;
   };
 };
 
-type RoadmapCandidateWord = {
+type WordReserveFile = {
   id: string;
-  status: "existing-word" | "candidate-word";
-  source: string;
-  existingWordId?: string;
-  jp?: string;
-  assist?: string;
-  locales: {
-    fr: {
-      label: string;
-    };
-    en: {
-      label: string;
-    };
-  };
-  candidatePackIds?: string[];
-};
-
-type RoadmapPack = {
-  targetVersion: string;
-  id: string;
-  themeId: string;
-  locales: {
-    fr: {
-      name: string;
-    };
-    en: {
-      name: string;
-    };
-  };
-  candidateWordIds: string[];
-  plannedWords: string[];
-};
-
-type RoadmapCatalog = {
+  version: string;
+  status: "editorial-reserve";
   notes: string[];
-  candidateWords: RoadmapCandidateWord[];
-  packs: RoadmapPack[];
-  rejectedDistractors: string[];
+  words: EditorialReserveEntry[];
+  futurePacks: EditorialReserveFuturePack[];
+  rejectedDistractors: Array<string | { label: string }>;
 };
 
-type RoadmapWordMetadata = {
-  term: string;
-  romaji: string;
-  tier: 1 | 2 | 3 | 4;
-  transparency?: Exclude<EditorialReserveTransparencyLevel, "none" | "strict">;
-};
-
-const roadmapPath = path.join(
+const reservePath = path.join(
   process.cwd(),
   "shared",
   "data",
   "manabuplay",
-  "packs",
-  "roadmap",
-  "future-packs.json",
+  "reserve",
+  "word-reserve.json",
 );
 
-const ROADMAP_WORD_METADATA: Record<string, RoadmapWordMetadata> = {
-  gacha: { term: "ガチャ", romaji: "Gacha", tier: 1 },
-  "free-to-play": { term: "フリープレイ", romaji: "Free-to-play", tier: 1 },
-  cheat: { term: "チート", romaji: "Chito", tier: 1, transparency: "editorial" },
-  "lives-stock": { term: "残機", romaji: "Zanki", tier: 3 },
-  "hidden-character": { term: "隠しキャラ", romaji: "Kakushi Kyara", tier: 3 },
-  curse: { term: "呪い", romaji: "Noroi", tier: 2 },
-  legend: { term: "伝説", romaji: "Densetsu", tier: 2 },
-  stealth: { term: "隠密", romaji: "Onmitsu", tier: 4 },
-  spell: { term: "呪文", romaji: "Jumon", tier: 1 },
-  equipment: { term: "装備", romaji: "Sobi", tier: 1 },
-  summon: { term: "召喚", romaji: "Shokan", tier: 3 },
-  strategy: { term: "戦略", romaji: "Senryaku", tier: 3 },
-  reward: { term: "報酬", romaji: "Hoshu", tier: 2 },
-  guild: { term: "ギルド", romaji: "Girudo", tier: 1, transparency: "editorial" },
-  ambush: { term: "不意打ち", romaji: "Fuiuchi", tier: 3 },
-  "key-item": { term: "キーアイテム", romaji: "Ki Aitemu", tier: 1, transparency: "editorial" },
-  nation: { term: "国", romaji: "Kuni", tier: 1 },
-  fortress: { term: "砦", romaji: "Toride", tier: 3 },
-  hero: { term: "勇者", romaji: "Yusha", tier: 1 },
-  "elite-enemy": { term: "強敵", romaji: "Kyoteki", tier: 2 },
-  berserk: { term: "バーサク", romaji: "Basaku", tier: 1, transparency: "editorial" },
-  transformation: { term: "変身", romaji: "Henshin", tier: 2 },
-  "dark-lord": { term: "魔王", romaji: "Mao", tier: 2 },
-  fury: { term: "怒り", romaji: "Ikari", tier: 2 },
-  shadow: { term: "影", romaji: "Kage", tier: 1 },
-  immunity: { term: "免疫", romaji: "Meneki", tier: 4 },
-  poison: { term: "毒", romaji: "Doku", tier: 1 },
-  guard: { term: "ガード", romaji: "Gado", tier: 1, transparency: "editorial" },
-  blaze: { term: "業火", romaji: "Goka", tier: 4 },
-  annihilation: { term: "殲滅", romaji: "Senmetsu", tier: 4 },
-  accessory: { term: "アクセサリー", romaji: "Akusesari", tier: 1, transparency: "editorial" },
-  assassin: { term: "アサシン", romaji: "Asashin", tier: 1, transparency: "editorial" },
-  paladin: { term: "パラディン", romaji: "Paradin", tier: 1, transparency: "editorial" },
-  lancer: { term: "ランサー", romaji: "Ransa", tier: 1, transparency: "editorial" },
-  ranger: { term: "レンジャー", romaji: "Renja", tier: 1, transparency: "editorial" },
-  healer: { term: "ヒーラー", romaji: "Hira", tier: 1, transparency: "editorial" },
-  wand: { term: "杖", romaji: "Tsue", tier: 2 },
-  crossbow: { term: "クロスボウ", romaji: "Kurosubo", tier: 1, transparency: "editorial" },
-  hammer: { term: "ハンマー", romaji: "Hanma", tier: 1, transparency: "editorial" },
-  mace: { term: "メイス", romaji: "Meisu", tier: 1, transparency: "editorial" },
-  halberd: { term: "ハルバード", romaji: "Harubado", tier: 1, transparency: "editorial" },
-  relic: { term: "遺物", romaji: "Ibutsu", tier: 3 },
-  talisman: { term: "タリスマン", romaji: "Tarisuman", tier: 1, transparency: "editorial" },
-  scholar: { term: "学者", romaji: "Gakusha", tier: 2 },
-} satisfies Record<string, RoadmapWordMetadata>;
-
-const REMOVED_FROM_PACK_ENTRIES: EditorialReserveEntry[] = [
-  {
-    id: "removed:jrpg-questline:level-up",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "level-up",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "レベルアップ", reading: "レベルアップ", romaji: "reberu appu" },
-    gloss: { fr: "Monter de niveau", en: "Level up" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:mana-mp",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "mana-mp",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "strict", weight: 1 },
-    jp: { term: "マナ", reading: "マナ", romaji: "mana" },
-    gloss: { fr: "Mana", en: "Mana" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:kuria-clear",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "kuria-clear",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "クリア", reading: "クリア", romaji: "kuria" },
-    gloss: { fr: "Finir un contenu", en: "Clear content" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:sukiru-skill",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "sukiru-skill",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "スキル", reading: "スキル", romaji: "sukiru" },
-    gloss: { fr: "Compétence", en: "Skill" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:kuesuto",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "kuesuto",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "クエスト", reading: "クエスト", romaji: "kuesuto" },
-    gloss: { fr: "Quête", en: "Quest" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:sēbu",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "sēbu",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "セーブ", reading: "セーブ", romaji: "sēbu" },
-    gloss: { fr: "Sauvegarde", en: "Save" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:rōdo",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "rōdo",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "ロード", reading: "ロード", romaji: "rōdo" },
-    gloss: { fr: "Chargement", en: "Load" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:suteetasu-status",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "suteetasu-status",
-    targetPackIds: [],
-    tier: 2,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "ステータス", reading: "ステータス", romaji: "sutētasu" },
-    gloss: { fr: "Stats du personnage", en: "Character stats" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:pātī",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "pātī",
-    targetPackIds: [],
-    tier: 2,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "パーティ", reading: "パーティ", romaji: "pātī" },
-    gloss: { fr: "Équipe", en: "Party" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:doroppu",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "doroppu",
-    targetPackIds: [],
-    tier: 2,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "ドロップ", reading: "ドロップ", romaji: "doroppu" },
-    gloss: { fr: "Butin", en: "Drop" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:shoppu",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "shoppu",
-    targetPackIds: [],
-    tier: 2,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "ショップ", reading: "ショップ", romaji: "shoppu" },
-    gloss: { fr: "Boutique", en: "Shop" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:enkaunto",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "enkaunto",
-    targetPackIds: [],
-    tier: 2,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "エンカウント", reading: "エンカウント", romaji: "enkaunto" },
-    gloss: { fr: "Rencontre ennemie", en: "Enemy encounter" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:inbentori",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "inbentori",
-    targetPackIds: [],
-    tier: 3,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "インベントリ", reading: "インベントリ", romaji: "inbentori" },
-    gloss: { fr: "Inventaire", en: "Inventory" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:jrpg-questline:mappu",
-    status: "removed-from-pack",
-    sourcePackId: "jrpg-questline",
-    sourceWordId: "mappu",
-    targetPackIds: [],
-    tier: 3,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "マップ", reading: "マップ", romaji: "mappu" },
-    gloss: { fr: "Carte", en: "Map" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:builds-and-gear:akusesarii",
-    status: "removed-from-pack",
-    sourcePackId: "builds-and-gear",
-    sourceWordId: "akusesarii",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "アクセサリー", reading: "アクセサリー", romaji: "akusesarii" },
-    gloss: { fr: "Accessoire", en: "Accessory" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:builds-and-gear:hiiraa",
-    status: "removed-from-pack",
-    sourcePackId: "builds-and-gear",
-    sourceWordId: "hiiraa",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "ヒーラー", reading: "ヒーラー", romaji: "hiiraa" },
-    gloss: { fr: "Soigneur", en: "Healer" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:builds-and-gear:paradin",
-    status: "removed-from-pack",
-    sourcePackId: "builds-and-gear",
-    sourceWordId: "paradin",
-    targetPackIds: [],
-    tier: 2,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "パラディン", reading: "パラディン", romaji: "paradin" },
-    gloss: { fr: "Paladin", en: "Paladin" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:builds-and-gear:kurosubou",
-    status: "removed-from-pack",
-    sourcePackId: "builds-and-gear",
-    sourceWordId: "kurosubou",
-    targetPackIds: [],
-    tier: 3,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "クロスボウ", reading: "クロスボウ", romaji: "kurosubou" },
-    gloss: { fr: "Arbalète", en: "Crossbow" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:gacha-and-rewards:roguin",
-    status: "removed-from-pack",
-    sourcePackId: "gacha-and-rewards",
-    sourceWordId: "roguin",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "ログイン", reading: "ログイン", romaji: "roguin" },
-    gloss: { fr: "Connexion", en: "Login" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:gacha-and-rewards:sukin",
-    status: "removed-from-pack",
-    sourcePackId: "gacha-and-rewards",
-    sourceWordId: "sukin",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "スキン", reading: "スキン", romaji: "sukin" },
-    gloss: { fr: "Skin", en: "Skin" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:gacha-and-rewards:misshon",
-    status: "removed-from-pack",
-    sourcePackId: "gacha-and-rewards",
-    sourceWordId: "misshon",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "ミッション", reading: "ミッション", romaji: "misshon" },
-    gloss: { fr: "Mission", en: "Mission" },
-    needsSorting: [],
-  },
-  {
-    id: "removed:gacha-and-rewards:furendo",
-    status: "removed-from-pack",
-    sourcePackId: "gacha-and-rewards",
-    sourceWordId: "furendo",
-    targetPackIds: [],
-    tier: 1,
-    transparency: { level: "editorial", weight: 0.5 },
-    jp: { term: "フレンド", reading: "フレンド", romaji: "furendo" },
-    gloss: { fr: "Ami", en: "Friend" },
-    needsSorting: [],
-  },
-];
-
-function readRoadmapCatalog() {
-  return JSON.parse(fs.readFileSync(roadmapPath, "utf8")) as RoadmapCatalog;
+function readWordReserve() {
+  return JSON.parse(fs.readFileSync(reservePath, "utf8")) as WordReserveFile;
 }
 
 function normalizeTransparencyValue(value?: string) {
@@ -498,37 +154,6 @@ function getTransparency(
   return { level: "none", weight: 0 };
 }
 
-function getTransparencyWeight(level: EditorialReserveTransparencyLevel) {
-  switch (level) {
-    case "filler":
-      return 2;
-    case "strict":
-      return 1;
-    case "editorial":
-      return 0.5;
-    case "none":
-      return 0;
-  }
-}
-
-function getRoadmapTransparency(
-  word: RoadmapCandidateWord,
-  metadata?: RoadmapWordMetadata,
-): EditorialReserveEntry["transparency"] {
-  const romaji = normalizeTransparencyValue(metadata?.romaji || word.assist);
-  const isStrict =
-    Boolean(romaji) &&
-    [word.locales.fr.label, word.locales.en.label].some(
-      (gloss) => normalizeTransparencyValue(gloss) === romaji,
-    );
-  const level = isStrict ? "strict" : metadata?.transparency || "none";
-
-  return {
-    level,
-    weight: getTransparencyWeight(level),
-  };
-}
-
 function getActiveEntry(packId: string, word: CanonicalPackWord): EditorialReserveEntry {
   const romaji = getWordRomaji(word);
   const term = typeof word.jp === "string" ? word.jp : word.jp?.term;
@@ -562,46 +187,13 @@ function getActiveEntry(packId: string, word: CanonicalPackWord): EditorialReser
   };
 }
 
-function getRoadmapEntry(word: RoadmapCandidateWord): EditorialReserveEntry {
-  const needsSorting: string[] = [];
-  const metadata = ROADMAP_WORD_METADATA[word.id];
-  const term = metadata?.term || word.jp;
-  const romaji = metadata?.romaji || word.assist || "";
-  const tier = metadata?.tier || null;
-  const transparency = getRoadmapTransparency(word, metadata);
-
-  if (!romaji) {
-    needsSorting.push("romaji");
-  }
-  if (!tier) {
-    needsSorting.push("tier");
-  }
-
-  return {
-    id: `roadmap:${word.id}`,
-    status: word.status === "existing-word" ? "archived" : "candidate",
-    sourceWordId: word.existingWordId,
-    targetPackIds: word.candidatePackIds || [],
-    tier,
-    transparency,
-    jp: romaji
-      ? {
-          term,
-          romaji,
-        }
-      : undefined,
-    gloss: {
-      fr: word.locales.fr.label,
-      en: word.locales.en.label,
-    },
-    needsSorting,
-  };
+function getRejectedLabel(entry: string | { label: string }) {
+  return typeof entry === "string" ? entry : entry.label;
 }
 
 export function getEditorialReserve(): EditorialReserve {
-  const roadmap = readRoadmapCatalog();
-  const entries: EditorialReserveEntry[] = [];
-  const existingIds = new Set<string>();
+  const reserve = readWordReserve();
+  const activeEntries: EditorialReserveEntry[] = [];
 
   for (const pack of getCanonicalPackFiles()) {
     const transparentWordIds = new Set(pack.quiz?.transparentWordIds || []);
@@ -619,46 +211,26 @@ export function getEditorialReserve(): EditorialReserve {
       if (!entry.gloss.fr || !entry.gloss.en) {
         entry.needsSorting.push("gloss");
       }
-      entries.push(entry);
-      existingIds.add(entry.sourceWordId || entry.id);
+      activeEntries.push(entry);
     }
   }
 
-  for (const word of roadmap.candidateWords) {
-    if (existingIds.has(word.id) || (word.existingWordId && existingIds.has(word.existingWordId))) {
-      continue;
-    }
-    entries.push(getRoadmapEntry(word));
-  }
-
-  entries.push(...REMOVED_FROM_PACK_ENTRIES);
+  const entries = [...activeEntries, ...reserve.words];
 
   return {
-    version: "editorial-reserve-v0.1",
-    notes: [
-      "Réserve éditoriale unique : mots actifs, candidats, archivés et futures pistes au même endroit.",
-      "Les mots actifs restent servis par les packs canoniques ; la réserve sert à trier, remplacer et réutiliser.",
-      "Les champs obligatoires sont renseignés pour tous les mots de réserve : romaji, FR, EN, tier et transparence.",
-    ],
+    version: reserve.version,
+    notes: reserve.notes,
     entries,
-    futurePacks: roadmap.packs.map((pack) => ({
-      id: pack.id,
-      targetVersion: pack.targetVersion,
-      themeId: pack.themeId,
-      name: {
-        fr: pack.locales.fr.name,
-        en: pack.locales.en.name,
-      },
-      candidateWordIds: pack.candidateWordIds,
-      plannedWords: pack.plannedWords,
-    })),
-    rejectedDistractors: roadmap.rejectedDistractors,
+    futurePacks: reserve.futurePacks,
+    rejectedDistractors: reserve.rejectedDistractors.map(getRejectedLabel),
     stats: {
       total: entries.length,
-      active: entries.filter((entry) => entry.status === "active").length,
+      active: activeEntries.length,
       candidate: entries.filter((entry) => entry.status === "candidate").length,
-      archived: entries.filter((entry) => entry.status === "archived").length,
+      seedLegacy: entries.filter((entry) => entry.status === "seed-legacy").length,
       removedFromPack: entries.filter((entry) => entry.status === "removed-from-pack").length,
+      retiredPackSource: entries.filter((entry) => entry.status === "retired-pack-source").length,
+      toWrite: entries.filter((entry) => entry.status === "to-write").length,
       needsSorting: entries.filter((entry) => entry.needsSorting.length > 0).length,
     },
   };
