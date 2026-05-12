@@ -10,6 +10,8 @@ on:
       - "refactor/**"
       - "fix/**"
       - "feat/**"
+      # Product / landing passes (e.g. landing-placement-pass-2)
+      - "landing-*"
   pull_request:
 
 jobs:
