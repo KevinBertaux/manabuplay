@@ -562,10 +562,10 @@ function renderSingleRunTitleScreen() {
     currentLang === "fr"
       ? isArchiveMode
         ? "Rejoue une ancienne run quotidienne. Le partage reste désactivé pour les archives."
-        : "Une run commune de 10 questions, prête à démarrer sans choisir de difficulté."
+        : "Une run de 10 questions, renouvelée chaque jour."
       : isArchiveMode
         ? "Replay a past daily run. Sharing stays disabled for archives."
-        : "One shared 10-question run, ready to start without choosing a difficulty.",
+        : "A 10-question run, refreshed every day.",
   );
   setElementText("quizTitleMetaPrimary", currentLang === "fr" ? "10 questions" : "10 questions");
   if (metaSecondary instanceof HTMLElement) {

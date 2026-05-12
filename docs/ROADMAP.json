@@ -292,11 +292,11 @@
         {
           "id": "v01-hint-score-gameplay",
           "title": "Lier le score et le gameplay public aux hints",
-          "status": "todo",
+          "status": "done",
           "priority": "P2",
           "area": "quiz",
           "type": "feature",
-          "notes": "A traiter apres hint2 + explanation visibles pour eviter de recalculer le gameplay dans le vide."
+          "notes": "Fait via le commit d88e5d1 : les points sont ajustes par hint utilise (10/8/5), le combo multiplier et le scoring final refletent deja l'usage des hints."
         },
         {
           "id": "v01-metrics",
