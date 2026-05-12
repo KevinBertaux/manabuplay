@@ -27,7 +27,7 @@
   }
 
   .archive-calendar-shell {
-    @apply mt-[-16px] grid w-full max-w-[980px] gap-5 rounded-xl border px-4 py-6 text-left sm:px-6 sm:py-8 lg:p-10;
+    @apply mt-0 grid w-full max-w-[980px] gap-5 rounded-xl border px-4 py-6 text-left sm:px-6 sm:py-8 lg:p-10;
     border-color: rgba(139, 92, 246, 0.34);
     background: rgba(15, 12, 26, 0.94);
     box-shadow:

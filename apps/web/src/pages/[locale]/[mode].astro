@@ -42,14 +42,12 @@ const bootPayload = {
   data: bootData,
 };
 
-const modeMainClass = "hero-bg grid min-h-[100svh] place-items-center px-6 pb-8 pt-28";
-const modeCardClass = "border-glow w-full max-w-[920px] rounded-xl bg-[rgba(15,12,26,.94)] px-6 py-8 text-center sm:p-10 lg:p-14";
-const modeTitleClass = "mx-auto my-4 max-w-[760px] font-pixel text-[clamp(1.4rem,3vw,2.3rem)] leading-[1.55] text-white";
-const modeDescriptionClass = "mx-auto mb-6 max-w-[720px] text-[clamp(1.05rem,1.7vw,1.28rem)] leading-[1.7] text-[rgba(226,217,243,.74)]";
-const routeStatusClass = "mx-auto my-6 grid max-w-[560px] gap-2 rounded-lg border border-[rgba(34,211,238,.22)] bg-[rgba(34,211,238,.07)] p-4 text-white";
-const routeStatusLabelClass = "text-[.9rem] font-bold uppercase tracking-[.04em] text-[var(--cyan)]";
-const backLinkClass = "font-bold text-[var(--cyan)] no-underline";
-const modeKickerClass = "section-label text-[var(--cyan)]";
+const modeMainClass =
+  "hero-bg flex min-h-[100svh] flex-col px-6 pb-12 pt-24 sm:pt-28";
+const modeDescriptionClass =
+  "mx-auto mb-6 max-w-[720px] text-[clamp(1.05rem,1.7vw,1.28rem)] leading-[1.7] text-[rgba(226,217,243,.74)]";
+const archiveSelectedLineClass =
+  "mx-auto mb-2 max-w-[720px] text-center text-[.9rem] font-bold uppercase tracking-[.04em] text-[var(--cyan)]";
 
 const archiveStatusCopy = {
   archive: locale === "fr" ? "Disponible" : "Available",
@@ -96,53 +94,24 @@ const defaultScoreLabel = locale === "fr" ? "0 pt" : "0 pts";
 >
   {isDailyMode ? (
     <main class={modeMainClass}>
-      <article class={modeCardClass}>
-        <a class={backLinkClass} href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
-        <p class={modeKickerClass}>{copy.kicker[locale]}</p>
-        <h1 class:list={[modeTitleClass, "glow-fuchsia"]}>{copy.title[locale]}</h1>
-        <p class={modeDescriptionClass}>{copy.description[locale]}</p>
-        <div class={routeStatusClass}>
-          <strong class={routeStatusLabelClass}>{copy.status[locale]}</strong>
-          <span class={routeStatusLabelClass}>{locale === "fr" ? "10 questions seedées par date locale." : "10 questions seeded from the local date."}</span>
-        </div>
-        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz" data-quiz-action="launchQuiz">
-          {lang.hero_cta}
-        </a>
-      </article>
+      <h1 class="sr-only">{copy.title[locale]}</h1>
       <PublicQuiz />
     </main>
   ) : isPracticeMode ? (
     <main class={modeMainClass}>
-      <article class={modeCardClass}>
-        <a class={backLinkClass} href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
-        <p class={modeKickerClass}>{copy.kicker[locale]}</p>
-        <h1 class:list={[modeTitleClass, "glow-fuchsia"]}>{copy.title[locale]}</h1>
-        <p class={modeDescriptionClass}>{copy.description[locale]}</p>
-        <div class={routeStatusClass}>
-          <strong class={routeStatusLabelClass}>{copy.status[locale]}</strong>
-          <span class={routeStatusLabelClass}>
-            {locale === "fr"
-              ? "4 difficultés, 10 questions, cooldown de 2 sessions."
-              : "4 difficulties, 10 questions, 2-session cooldown."}
-          </span>
-        </div>
-        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz">
-          {lang.hero_cta}
-        </a>
-      </article>
+      <h1 class="sr-only">{copy.title[locale]}</h1>
       <PublicQuiz />
     </main>
   ) : isArchivesMode ? (
     <main class={modeMainClass}>
-      <article class={modeCardClass}>
-        <a class={backLinkClass} href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
-        <p class={modeKickerClass}>{copy.kicker[locale]}</p>
-        <h1 class:list={[modeTitleClass, "glow-fuchsia"]}>{copy.title[locale]}</h1>
-        <p class={modeDescriptionClass}>{copy.description[locale]}</p>
-        <div class={routeStatusClass}>
-          <strong class={routeStatusLabelClass}>{copy.status[locale]}</strong>
-          <span
-            class={routeStatusLabelClass}
+      <h1 class="sr-only">{copy.title[locale]}</h1>
+      <section class="archive-calendar-shell mx-auto w-full" id="archives-list" data-default-date={latestArchiveDate ?? ""}>
+        <div class="archive-calendar-intro">
+          <p class="section-label text-[var(--violet)]">
+            {locale === "fr" ? "ARCHIVES DISPONIBLES" : "AVAILABLE ARCHIVES"}
+          </p>
+          <p
+            class={archiveSelectedLineClass}
             id="archiveSelectedLabel"
             data-default-date={latestArchiveDate ?? ""}
             data-prefix-fr="Archive sélectionnée"
@@ -151,17 +120,6 @@ const defaultScoreLabel = locale === "fr" ? "0 pt" : "0 pts";
             {locale === "fr"
               ? `Archive sélectionnée : ${latestArchiveDate}`
               : `Selected archive: ${latestArchiveDate}`}
-          </span>
-        </div>
-        <a class="cta-btn hero-cta inline-flex items-center justify-center" href="#quiz" data-quiz-action="launchQuiz">
-          {locale === "fr" ? "Jouer cette archive" : "Play this archive"}
-        </a>
-      </article>
-
-      <section class="archive-calendar-shell" id="archives-list" data-default-date={latestArchiveDate ?? ""}>
-        <div class="archive-calendar-intro">
-          <p class="section-label text-[var(--violet)]">
-            {locale === "fr" ? "ARCHIVES DISPONIBLES" : "AVAILABLE ARCHIVES"}
           </p>
           <p class={modeDescriptionClass}>
             {locale === "fr"
@@ -249,24 +207,22 @@ const defaultScoreLabel = locale === "fr" ? "0 pt" : "0 pts";
         </div>
       </section>
 
-      <PublicQuiz />
+      <div class="mx-auto mt-10 w-full max-w-[980px] flex-1">
+        <PublicQuiz />
+      </div>
       <script src="../../scripts/public-archives.ts"></script>
     </main>
   ) : (
     <main class={modeMainClass}>
-      <article class={modeCardClass}>
-        <a class={backLinkClass} href={getLocalizedHomePath(locale)}>{lang.footer_quiz}</a>
-        <p class={modeKickerClass}>{copy.kicker[locale]}</p>
-        <h1 class:list={[modeTitleClass, "glow-fuchsia"]}>{copy.title[locale]}</h1>
-        <p class={modeDescriptionClass}>{copy.description[locale]}</p>
-        <div class={routeStatusClass}>
-          <strong class={routeStatusLabelClass}>{copy.status[locale]}</strong>
-          <span class={routeStatusLabelClass}>Mode: {mode} · Locale: {locale}</span>
-        </div>
-        <a class="cta-btn hero-cta inline-flex items-center justify-center" href={getLocalizedHomePath(locale) + "#quiz"}>
-          {lang.hero_cta}
+      <h1 class="sr-only">{copy.title[locale]}</h1>
+      <p class={`${modeDescriptionClass} text-center`}>
+        Mode: {mode} · Locale: {locale}
+      </p>
+      <p class="text-center">
+        <a class="font-bold text-[var(--cyan)] no-underline hover:underline" href={getLocalizedHomePath(locale)}>
+          {lang.footer_quiz}
         </a>
-      </article>
+      </p>
     </main>
   )}
 </PublicLayout>
