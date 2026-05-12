@@ -19,25 +19,38 @@
       },
       "jp": {
         "term": "アクセサリー",
+        "reading": "",
         "romaji": "Akusesari"
       },
       "gloss": {
         "fr": "Accessoire",
         "en": "Accessory"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:accessory"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
         },
-        {
-          "type": "removed-from-pack",
-          "id": "removed:builds-and-gear:akusesarii",
-          "sourcePackId": "builds-and-gear",
-          "sourceWordId": "akusesarii"
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:assassin",
@@ -50,19 +63,38 @@
       },
       "jp": {
         "term": "アサシン",
+        "reading": "",
         "romaji": "Asashin"
       },
       "gloss": {
         "fr": "Assassin",
         "en": "Assassin"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:assassin"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:berserk",
@@ -75,19 +107,38 @@
       },
       "jp": {
         "term": "バーサク",
+        "reading": "",
         "romaji": "Basaku"
       },
       "gloss": {
         "fr": "Berserk",
         "en": "Berserk"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:berserk"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:guard",
@@ -100,19 +151,38 @@
       },
       "jp": {
         "term": "ガード",
+        "reading": "",
         "romaji": "Gado"
       },
       "gloss": {
         "fr": "Garde",
         "en": "Guard"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:guard"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:guild",
@@ -125,19 +195,38 @@
       },
       "jp": {
         "term": "ギルド",
+        "reading": "",
         "romaji": "Girudo"
       },
       "gloss": {
         "fr": "Guilde",
         "en": "Guild"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:guild"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:hammer",
@@ -150,19 +239,38 @@
       },
       "jp": {
         "term": "ハンマー",
+        "reading": "",
         "romaji": "Hanma"
       },
       "gloss": {
         "fr": "Marteau",
         "en": "Hammer"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:hammer"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:halberd",
@@ -175,19 +283,38 @@
       },
       "jp": {
         "term": "ハルバード",
+        "reading": "",
         "romaji": "Harubado"
       },
       "gloss": {
         "fr": "Hallebarde",
         "en": "Halberd"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:halberd"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:healer",
@@ -200,25 +327,38 @@
       },
       "jp": {
         "term": "ヒーラー",
+        "reading": "",
         "romaji": "Hira"
       },
       "gloss": {
         "fr": "Soigneur",
         "en": "Healer"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:healer"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
         },
-        {
-          "type": "removed-from-pack",
-          "id": "removed:builds-and-gear:hiiraa",
-          "sourcePackId": "builds-and-gear",
-          "sourceWordId": "hiiraa"
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:crossbow",
@@ -231,25 +371,38 @@
       },
       "jp": {
         "term": "クロスボウ",
+        "reading": "",
         "romaji": "Kurosubo"
       },
       "gloss": {
         "fr": "Arbalète",
         "en": "Crossbow"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:crossbow"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
         },
-        {
-          "type": "removed-from-pack",
-          "id": "removed:builds-and-gear:kurosubou",
-          "sourcePackId": "builds-and-gear",
-          "sourceWordId": "kurosubou"
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:mace",
@@ -262,19 +415,38 @@
       },
       "jp": {
         "term": "メイス",
+        "reading": "",
         "romaji": "Meisu"
       },
       "gloss": {
         "fr": "Masse",
         "en": "Mace"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:mace"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:paladin",
@@ -287,25 +459,38 @@
       },
       "jp": {
         "term": "パラディン",
+        "reading": "",
         "romaji": "Paradin"
       },
       "gloss": {
         "fr": "Paladin",
         "en": "Paladin"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:paladin"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
         },
-        {
-          "type": "removed-from-pack",
-          "id": "removed:builds-and-gear:paradin",
-          "sourcePackId": "builds-and-gear",
-          "sourceWordId": "paradin"
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:lancer",
@@ -318,19 +503,38 @@
       },
       "jp": {
         "term": "ランサー",
+        "reading": "",
         "romaji": "Ransa"
       },
       "gloss": {
         "fr": "Lancier",
         "en": "Lancer"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:lancer"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:ranger",
@@ -343,19 +547,38 @@
       },
       "jp": {
         "term": "レンジャー",
+        "reading": "",
         "romaji": "Renja"
       },
       "gloss": {
         "fr": "Ranger",
         "en": "Ranger"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:ranger"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:talisman",
@@ -368,19 +591,38 @@
       },
       "jp": {
         "term": "タリスマン",
+        "reading": "",
         "romaji": "Tarisuman"
       },
       "gloss": {
         "fr": "Talisman",
         "en": "Talisman"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:talisman"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:scholar",
@@ -393,19 +635,38 @@
       },
       "jp": {
         "term": "学者",
+        "reading": "",
         "romaji": "Gakusha"
       },
       "gloss": {
         "fr": "Érudit",
         "en": "Scholar"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:scholar"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:fury",
@@ -418,19 +679,38 @@
       },
       "jp": {
         "term": "怒り",
+        "reading": "",
         "romaji": "Ikari"
       },
       "gloss": {
         "fr": "Furie",
         "en": "Fury"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:fury"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:dark-lord",
@@ -443,19 +723,38 @@
       },
       "jp": {
         "term": "魔王",
+        "reading": "",
         "romaji": "Mao"
       },
       "gloss": {
         "fr": "Seigneur noir",
         "en": "Dark lord"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:dark-lord"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:wand",
@@ -468,19 +767,38 @@
       },
       "jp": {
         "term": "杖",
+        "reading": "",
         "romaji": "Tsue"
       },
       "gloss": {
         "fr": "Baguette",
         "en": "Wand"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:wand"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:ambush",
@@ -493,19 +811,38 @@
       },
       "jp": {
         "term": "不意打ち",
+        "reading": "",
         "romaji": "Fuiuchi"
       },
       "gloss": {
         "fr": "Embuscade",
         "en": "Ambush"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:ambush"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:relic",
@@ -518,19 +855,38 @@
       },
       "jp": {
         "term": "遺物",
+        "reading": "",
         "romaji": "Ibutsu"
       },
       "gloss": {
         "fr": "Relique",
         "en": "Relic"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:relic"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:fortress",
@@ -543,19 +899,38 @@
       },
       "jp": {
         "term": "砦",
+        "reading": "",
         "romaji": "Toride"
       },
       "gloss": {
         "fr": "Forteresse",
         "en": "Fortress"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:fortress"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:blaze",
@@ -568,19 +943,38 @@
       },
       "jp": {
         "term": "業火",
+        "reading": "",
         "romaji": "Goka"
       },
       "gloss": {
         "fr": "Brasier",
         "en": "Blaze"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:blaze"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:immunity",
@@ -593,19 +987,38 @@
       },
       "jp": {
         "term": "免疫",
+        "reading": "",
         "romaji": "Meneki"
       },
       "gloss": {
         "fr": "Immunité",
         "en": "Immunity"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:immunity"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:annihilation",
@@ -618,19 +1031,38 @@
       },
       "jp": {
         "term": "殲滅",
+        "reading": "",
         "romaji": "Senmetsu"
       },
       "gloss": {
         "fr": "Anéantissement",
         "en": "Annihilation"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "candidate",
-          "id": "roadmap:annihilation"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:cheat",
@@ -643,20 +1075,38 @@
       },
       "jp": {
         "term": "チート",
+        "reading": "",
         "romaji": "Chito"
       },
       "gloss": {
         "fr": "Cheat",
         "en": "Cheat"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "seed-legacy",
-          "id": "roadmap:cheat",
-          "sourceWordId": "chito-cheat"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:hidden-character",
@@ -669,20 +1119,38 @@
       },
       "jp": {
         "term": "隠しキャラ",
+        "reading": "",
         "romaji": "Kakushi Kyara"
       },
       "gloss": {
         "fr": "Personnage caché",
         "en": "Hidden character"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "seed-legacy",
-          "id": "roadmap:hidden-character",
-          "sourceWordId": "kakushi-kara"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:lives-stock",
@@ -695,20 +1163,38 @@
       },
       "jp": {
         "term": "残機",
+        "reading": "",
         "romaji": "Zanki"
       },
       "gloss": {
         "fr": "Stock de vies",
         "en": "Lives stock"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "seed-legacy",
-          "id": "roadmap:lives-stock",
-          "sourceWordId": "zanki"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "roadmap:stealth",
@@ -721,20 +1207,38 @@
       },
       "jp": {
         "term": "隠密",
+        "reading": "",
         "romaji": "Onmitsu"
       },
       "gloss": {
         "fr": "Furtivité",
         "en": "Stealth"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "seed-legacy",
-          "id": "roadmap:stealth",
-          "sourceWordId": "onmitsu"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:gacha-and-rewards:furendo",
@@ -754,15 +1258,31 @@
         "fr": "Ami",
         "en": "Friend"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:gacha-and-rewards:furendo",
-          "sourcePackId": "gacha-and-rewards",
-          "sourceWordId": "furendo"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:kuesuto",
@@ -782,15 +1302,31 @@
         "fr": "Quête",
         "en": "Quest"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:kuesuto",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "kuesuto"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:kuria-clear",
@@ -810,15 +1346,31 @@
         "fr": "Finir un contenu",
         "en": "Clear content"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:kuria-clear",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "kuria-clear"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:mana-mp",
@@ -838,15 +1390,31 @@
         "fr": "Mana",
         "en": "Mana"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:mana-mp",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "mana-mp"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:gacha-and-rewards:misshon",
@@ -866,15 +1434,31 @@
         "fr": "Mission",
         "en": "Mission"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:gacha-and-rewards:misshon",
-          "sourcePackId": "gacha-and-rewards",
-          "sourceWordId": "misshon"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:level-up",
@@ -894,15 +1478,31 @@
         "fr": "Monter de niveau",
         "en": "Level up"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:level-up",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "level-up"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:rōdo",
@@ -922,15 +1522,31 @@
         "fr": "Chargement",
         "en": "Load"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:rōdo",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "rōdo"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:gacha-and-rewards:roguin",
@@ -950,15 +1566,31 @@
         "fr": "Connexion",
         "en": "Login"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:gacha-and-rewards:roguin",
-          "sourcePackId": "gacha-and-rewards",
-          "sourceWordId": "roguin"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:sēbu",
@@ -978,15 +1610,31 @@
         "fr": "Sauvegarde",
         "en": "Save"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:sēbu",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "sēbu"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:gacha-and-rewards:sukin",
@@ -1006,15 +1654,31 @@
         "fr": "Skin",
         "en": "Skin"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:gacha-and-rewards:sukin",
-          "sourcePackId": "gacha-and-rewards",
-          "sourceWordId": "sukin"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:sukiru-skill",
@@ -1034,15 +1698,31 @@
         "fr": "Compétence",
         "en": "Skill"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:sukiru-skill",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "sukiru-skill"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:doroppu",
@@ -1062,15 +1742,31 @@
         "fr": "Butin",
         "en": "Drop"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:doroppu",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "doroppu"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:enkaunto",
@@ -1090,15 +1786,31 @@
         "fr": "Rencontre ennemie",
         "en": "Enemy encounter"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:enkaunto",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "enkaunto"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:pātī",
@@ -1118,15 +1830,31 @@
         "fr": "Équipe",
         "en": "Party"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:pātī",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "pātī"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:shoppu",
@@ -1146,15 +1874,31 @@
         "fr": "Boutique",
         "en": "Shop"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:shoppu",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "shoppu"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:suteetasu-status",
@@ -1174,15 +1918,31 @@
         "fr": "Stats du personnage",
         "en": "Character stats"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:suteetasu-status",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "suteetasu-status"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:inbentori",
@@ -1202,15 +1962,31 @@
         "fr": "Inventaire",
         "en": "Inventory"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:inbentori",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "inbentori"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "removed:jrpg-questline:mappu",
@@ -1230,26 +2006,35 @@
         "fr": "Carte",
         "en": "Map"
       },
-      "needsSorting": [],
-      "sources": [
-        {
-          "type": "removed-from-pack",
-          "id": "removed:jrpg-questline:mappu",
-          "sourcePackId": "jrpg-questline",
-          "sourceWordId": "mappu"
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
         }
-      ]
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
+      "needsSorting": []
     },
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:8-bentou",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 8
-        }
-      ],
       "targetPackIds": [],
       "tier": 1,
       "transparency": {
@@ -1294,13 +2079,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:2-jinja",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 2
-        }
-      ],
       "targetPackIds": [],
       "tier": 1,
       "transparency": {
@@ -1345,13 +2123,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:1-kawaii",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 1
-        }
-      ],
       "targetPackIds": [],
       "tier": 1,
       "transparency": {
@@ -1396,13 +2167,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:9-matcha",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 9
-        }
-      ],
       "targetPackIds": [],
       "tier": 1,
       "transparency": {
@@ -1447,13 +2211,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:7-onigiri",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 7
-        }
-      ],
       "targetPackIds": [],
       "tier": 1,
       "transparency": {
@@ -1498,13 +2255,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:5-ramen",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 5
-        }
-      ],
       "targetPackIds": [],
       "tier": 1,
       "transparency": {
@@ -1549,13 +2299,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:4-sakura",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 4
-        }
-      ],
       "targetPackIds": [],
       "tier": 1,
       "transparency": {
@@ -1600,13 +2343,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:10-shinkansen",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 10
-        }
-      ],
       "targetPackIds": [],
       "tier": 1,
       "transparency": {
@@ -1651,13 +2387,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:6-sushi",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 6
-        }
-      ],
       "targetPackIds": [],
       "tier": 1,
       "transparency": {
@@ -1702,13 +2431,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:3-tera",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 3
-        }
-      ],
       "targetPackIds": [],
       "tier": 1,
       "transparency": {
@@ -1753,13 +2475,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:13-akihabara",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 13
-        }
-      ],
       "targetPackIds": [],
       "tier": 2,
       "transparency": {
@@ -1804,13 +2519,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:17-izakaya",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 17
-        }
-      ],
       "targetPackIds": [],
       "tier": 2,
       "transparency": {
@@ -1855,13 +2563,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:18-machi",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 18
-        }
-      ],
       "targetPackIds": [],
       "tier": 2,
       "transparency": {
@@ -1906,13 +2607,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:15-matsuri",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 15
-        }
-      ],
       "targetPackIds": [],
       "tier": 2,
       "transparency": {
@@ -1957,13 +2651,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:14-onsen",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 14
-        }
-      ],
       "targetPackIds": [],
       "tier": 2,
       "transparency": {
@@ -2008,13 +2695,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:12-shibuya",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 12
-        }
-      ],
       "targetPackIds": [],
       "tier": 2,
       "transparency": {
@@ -2059,13 +2739,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:11-tokyo",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 11
-        }
-      ],
       "targetPackIds": [],
       "tier": 2,
       "transparency": {
@@ -2110,13 +2783,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:16-yukata",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 16
-        }
-      ],
       "targetPackIds": [],
       "tier": 2,
       "transparency": {
@@ -2161,13 +2827,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:24-basu",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 24
-        }
-      ],
       "targetPackIds": [],
       "tier": 3,
       "transparency": {
@@ -2212,13 +2871,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:22-densha",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 22
-        }
-      ],
       "targetPackIds": [],
       "tier": 3,
       "transparency": {
@@ -2263,13 +2915,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:21-eki",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 21
-        }
-      ],
       "targetPackIds": [],
       "tier": 3,
       "transparency": {
@@ -2314,13 +2959,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:19-fujisan",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 19
-        }
-      ],
       "targetPackIds": [],
       "tier": 3,
       "transparency": {
@@ -2365,13 +3003,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:30-kimono",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 30
-        }
-      ],
       "targetPackIds": [],
       "tier": 3,
       "transparency": {
@@ -2416,13 +3047,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:23-konbini",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 23
-        }
-      ],
       "targetPackIds": [],
       "tier": 3,
       "transparency": {
@@ -2467,13 +3091,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:20-tabi",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 20
-        }
-      ],
       "targetPackIds": [],
       "tier": 3,
       "transparency": {
@@ -2518,13 +3135,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:25-chikatetsu",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 25
-        }
-      ],
       "targetPackIds": [],
       "tier": 4,
       "transparency": {
@@ -2569,13 +3179,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:29-kippu",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 29
-        }
-      ],
       "targetPackIds": [],
       "tier": 4,
       "transparency": {
@@ -2620,13 +3223,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:28-kissaten",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 28
-        }
-      ],
       "targetPackIds": [],
       "tier": 4,
       "transparency": {
@@ -2671,13 +3267,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:27-taiyaki",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 27
-        }
-      ],
       "targetPackIds": [],
       "tier": 4,
       "transparency": {
@@ -2722,13 +3311,6 @@
     {
       "id": "retired-pack-source:japan-pop-city-daily-life:26-takoyaki",
       "status": "retired-pack-source",
-      "sources": [
-        {
-          "type": "retired-pack-source",
-          "sourcePackId": "japan-pop-city-daily-life",
-          "order": 26
-        }
-      ],
       "targetPackIds": [],
       "tier": 4,
       "transparency": {
@@ -2773,13 +3355,6 @@
     {
       "id": "to-write:arcade-secrets-and-meta:3",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "arcade-secrets-and-meta",
-          "index": 3
-        }
-      ],
       "targetPackIds": ["arcade-secrets-and-meta"],
       "tier": null,
       "transparency": {
@@ -2788,24 +3363,42 @@
       },
       "jp": {
         "term": "コンティニュー",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:arcade-secrets-and-meta:6",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "arcade-secrets-and-meta",
-          "index": 6
-        }
-      ],
       "targetPackIds": ["arcade-secrets-and-meta"],
       "tier": null,
       "transparency": {
@@ -2814,24 +3407,42 @@
       },
       "jp": {
         "term": "タイムアタック",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:arcade-secrets-and-meta:8",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "arcade-secrets-and-meta",
-          "index": 8
-        }
-      ],
       "targetPackIds": ["arcade-secrets-and-meta"],
       "tier": null,
       "transparency": {
@@ -2840,24 +3451,42 @@
       },
       "jp": {
         "term": "ノーコン",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:arcade-secrets-and-meta:4",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "arcade-secrets-and-meta",
-          "index": 4
-        }
-      ],
       "targetPackIds": ["arcade-secrets-and-meta"],
       "tier": null,
       "transparency": {
@@ -2866,24 +3495,42 @@
       },
       "jp": {
         "term": "ハイスコア",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:arcade-secrets-and-meta:5",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "arcade-secrets-and-meta",
-          "index": 5
-        }
-      ],
       "targetPackIds": ["arcade-secrets-and-meta"],
       "tier": null,
       "transparency": {
@@ -2892,24 +3539,42 @@
       },
       "jp": {
         "term": "ボーナスステージ",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:arcade-secrets-and-meta:7",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "arcade-secrets-and-meta",
-          "index": 7
-        }
-      ],
       "targetPackIds": ["arcade-secrets-and-meta"],
       "tier": null,
       "transparency": {
@@ -2918,24 +3583,42 @@
       },
       "jp": {
         "term": "ランキング",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:dark-fantasy-legends-and-stealth:4",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "dark-fantasy-legends-and-stealth",
-          "index": 4
-        }
-      ],
       "targetPackIds": ["dark-fantasy-legends-and-stealth"],
       "tier": null,
       "transparency": {
@@ -2944,24 +3627,42 @@
       },
       "jp": {
         "term": "亡霊",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:dark-fantasy-legends-and-stealth:10",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "dark-fantasy-legends-and-stealth",
-          "index": 10
-        }
-      ],
       "targetPackIds": ["dark-fantasy-legends-and-stealth"],
       "tier": null,
       "transparency": {
@@ -2970,24 +3671,42 @@
       },
       "jp": {
         "term": "伝承",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:arcade-secrets-and-meta:9",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "arcade-secrets-and-meta",
-          "index": 9
-        }
-      ],
       "targetPackIds": ["arcade-secrets-and-meta"],
       "tier": null,
       "transparency": {
@@ -2996,24 +3715,42 @@
       },
       "jp": {
         "term": "入力",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:dark-fantasy-legends-and-stealth:7",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "dark-fantasy-legends-and-stealth",
-          "index": 7
-        }
-      ],
       "targetPackIds": ["dark-fantasy-legends-and-stealth"],
       "tier": null,
       "transparency": {
@@ -3022,24 +3759,42 @@
       },
       "jp": {
         "term": "古代",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:dark-fantasy-legends-and-stealth:6",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "dark-fantasy-legends-and-stealth",
-          "index": 6
-        }
-      ],
       "targetPackIds": ["dark-fantasy-legends-and-stealth"],
       "tier": null,
       "transparency": {
@@ -3048,24 +3803,42 @@
       },
       "jp": {
         "term": "封印",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:dark-fantasy-legends-and-stealth:3",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "dark-fantasy-legends-and-stealth",
-          "index": 3
-        }
-      ],
       "targetPackIds": ["dark-fantasy-legends-and-stealth"],
       "tier": null,
       "transparency": {
@@ -3074,24 +3847,42 @@
       },
       "jp": {
         "term": "幻",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:dark-fantasy-legends-and-stealth:5",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "dark-fantasy-legends-and-stealth",
-          "index": 5
-        }
-      ],
       "targetPackIds": ["dark-fantasy-legends-and-stealth"],
       "tier": null,
       "transparency": {
@@ -3100,24 +3891,42 @@
       },
       "jp": {
         "term": "影",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:dark-fantasy-legends-and-stealth:1",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "dark-fantasy-legends-and-stealth",
-          "index": 1
-        }
-      ],
       "targetPackIds": ["dark-fantasy-legends-and-stealth"],
       "tier": null,
       "transparency": {
@@ -3126,24 +3935,42 @@
       },
       "jp": {
         "term": "忍者",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:dark-fantasy-legends-and-stealth:2",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "dark-fantasy-legends-and-stealth",
-          "index": 2
-        }
-      ],
       "targetPackIds": ["dark-fantasy-legends-and-stealth"],
       "tier": null,
       "transparency": {
@@ -3152,24 +3979,42 @@
       },
       "jp": {
         "term": "暗殺",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:dark-fantasy-legends-and-stealth:9",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "dark-fantasy-legends-and-stealth",
-          "index": 9
-        }
-      ],
       "targetPackIds": ["dark-fantasy-legends-and-stealth"],
       "tier": null,
       "transparency": {
@@ -3178,24 +4023,42 @@
       },
       "jp": {
         "term": "秘宝",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:arcade-secrets-and-meta:1",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "arcade-secrets-and-meta",
-          "index": 1
-        }
-      ],
       "targetPackIds": ["arcade-secrets-and-meta"],
       "tier": null,
       "transparency": {
@@ -3204,24 +4067,42 @@
       },
       "jp": {
         "term": "裏技",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:arcade-secrets-and-meta:10",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "arcade-secrets-and-meta",
-          "index": 10
-        }
-      ],
       "targetPackIds": ["arcade-secrets-and-meta"],
       "tier": null,
       "transparency": {
@@ -3230,24 +4111,42 @@
       },
       "jp": {
         "term": "解禁",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:dark-fantasy-legends-and-stealth:8",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "dark-fantasy-legends-and-stealth",
-          "index": 8
-        }
-      ],
       "targetPackIds": ["dark-fantasy-legends-and-stealth"],
       "tier": null,
       "transparency": {
@@ -3256,24 +4155,42 @@
       },
       "jp": {
         "term": "遺跡",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
       },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
+      },
       "needsSorting": ["romaji", "gloss", "tier"]
     },
     {
       "id": "to-write:arcade-secrets-and-meta:2",
       "status": "to-write",
-      "sources": [
-        {
-          "type": "planned-word",
-          "packId": "arcade-secrets-and-meta",
-          "index": 2
-        }
-      ],
       "targetPackIds": ["arcade-secrets-and-meta"],
       "tier": null,
       "transparency": {
@@ -3282,11 +4199,36 @@
       },
       "jp": {
         "term": "隠し要素",
+        "reading": "",
         "romaji": ""
       },
       "gloss": {
         "fr": "",
         "en": ""
+      },
+      "definition": {
+        "fr": "",
+        "en": ""
+      },
+      "hints": {
+        "hint1": {
+          "fr": "",
+          "en": ""
+        },
+        "hint2": {
+          "fr": "",
+          "en": ""
+        }
+      },
+      "explanation": {
+        "fr": "",
+        "en": ""
+      },
+      "quiz": {
+        "distractors": {
+          "fr": [],
+          "en": []
+        }
       },
       "needsSorting": ["romaji", "gloss", "tier"]
     }

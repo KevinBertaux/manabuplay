@@ -2315,6 +2315,78 @@ html {
   gap: 12px;
 }
 
+.reserve-contract-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.reserve-contract-card,
+.reserve-status-card {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02)),
+    rgba(12, 10, 22, 0.72);
+}
+
+.reserve-contract-card strong,
+.reserve-status-card strong {
+  color: #fff;
+  font:
+    900 1.02rem/1.25 "Chakra Petch",
+    sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.reserve-contract-card p,
+.reserve-status-card p {
+  margin: 0;
+  color: #a9a3c3;
+  font:
+    600 0.92rem/1.5 "Chakra Petch",
+    sans-serif;
+}
+
+.reserve-status-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.reserve-status-card strong {
+  color: #22d3ee;
+  font-size: 1.72rem;
+  line-height: 1;
+}
+
+.reserve-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.reserve-tier-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(34, 211, 238, 0.14);
+  background: rgba(34, 211, 238, 0.055);
+}
+
+.reserve-tier-card strong {
+  color: #d7fbff;
+  font:
+    900 1.8rem/1 "Chakra Petch",
+    sans-serif;
+}
+
 .catalog-tier-drawers {
   display: grid;
   gap: 10px;
@@ -3757,6 +3829,12 @@ html {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .reserve-contract-grid,
+  .reserve-status-grid,
+  .reserve-tier-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .reader-cartouche {
     top: 68px;
   }
@@ -3907,7 +3985,10 @@ html {
   }
 
   .catalog-word-grid,
-  .catalog-word-gloss {
+  .catalog-word-gloss,
+  .reserve-contract-grid,
+  .reserve-status-grid,
+  .reserve-tier-grid {
     grid-template-columns: 1fr;
   }
 

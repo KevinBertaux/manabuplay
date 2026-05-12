@@ -25,8 +25,24 @@ describe("editorial reserve", () => {
     expect(
       reserve.entries
         .filter((entry) => entry.status !== "active")
-        .flatMap((entry) => entry.sources || []).length,
-    ).toBeGreaterThan(96);
+        .some((entry) => "sources" in entry || "sourcePackId" in entry || "sourceWordId" in entry),
+    ).toBe(false);
+    expect(
+      reserve.entries
+        .filter((entry) => entry.status !== "active")
+        .every(
+          (entry) =>
+            entry.jp &&
+            "term" in entry.jp &&
+            "reading" in entry.jp &&
+            "romaji" in entry.jp &&
+            entry.definition &&
+            entry.hints?.hint1 &&
+            entry.hints?.hint2 &&
+            entry.explanation &&
+            entry.quiz?.distractors,
+        ),
+    ).toBe(true);
     expect(reserve.entries.length).toBe(reserve.stats.total);
     expect(reserve.futurePacks.length).toBeGreaterThan(0);
     expect(reserve.rejectedDistractors).toHaveLength(21);

@@ -30,6 +30,47 @@ const visibleReserveCount =
   reserve.stats.removedFromPack +
   reserve.stats.retiredPackSource +
   reserve.stats.toWrite;
+const tierSummary = [
+  { label: "T1", value: tierGroups.find((group) => group.tier === 1)?.entries.length || 0 },
+  { label: "T2", value: tierGroups.find((group) => group.tier === 2)?.entries.length || 0 },
+  { label: "T3", value: tierGroups.find((group) => group.tier === 3)?.entries.length || 0 },
+  { label: "T4", value: tierGroups.find((group) => group.tier === 4)?.entries.length || 0 },
+  {
+    label: "À compléter",
+    value: tierGroups.find((group) => group.tier === null)?.entries.length || 0,
+  },
+];
+const statusGroups = [
+  {
+    label: "Candidats prêts",
+    value: reserve.stats.candidate,
+    copy: "Mots déjà structurés, piochables pour un futur pack.",
+  },
+  {
+    label: "Seeds legacy",
+    value: reserve.stats.seedLegacy,
+    copy: "Anciennes pistes gardées, à requalifier avant usage produit.",
+  },
+  {
+    label: "Sortis de packs",
+    value: reserve.stats.removedFromPack,
+    copy: "Mots retirés des packs actifs, conservés sans perte.",
+  },
+  {
+    label: "Sources retirées",
+    value: reserve.stats.retiredPackSource,
+    copy: "Contenu issu d’anciens brouillons de packs démantelés.",
+  },
+  {
+    label: "À écrire",
+    value: reserve.stats.toWrite,
+    copy: "Intentions conservées même quand romaji/gloss/hints manquent.",
+  },
+];
+const reservePathLabel = "shared/data/manabuplay/reserve/word-reserve.json";
+const packsPathLabel = "shared/data/manabuplay/packs/*.json";
+const rejectedDistractorsPathLabel = "word-reserve.json · rejectedDistractors";
+const futurePacksPathLabel = "word-reserve.json · futurePacks";
 
 function getStatusLabel(status: EditorialReserveEntry["status"]) {
   switch (status) {
@@ -52,6 +93,27 @@ function getTransparencyLabel(entry: EditorialReserveEntry) {
   return `${entry.transparency.level} · ${entry.transparency.weight} pt`;
 }
 
+function getTransparencyTitle(entry: EditorialReserveEntry) {
+  switch (entry.transparency.level) {
+    case "strict":
+      return "Transparent strict";
+    case "editorial":
+      return "Transparent éditorial";
+    case "filler":
+      return "Filler";
+    default:
+      return "Non transparent";
+  }
+}
+
+function displayText(value?: string | null) {
+  return value && value.trim() ? value : "N/A";
+}
+
+function displayList(values?: string[]) {
+  return values?.length ? values : ["N/A"];
+}
+
 function getTierLabel(entry: EditorialReserveEntry) {
   return entry.tier ? `T${entry.tier}` : "À trier";
 }
@@ -72,11 +134,49 @@ function getTierTitle(tier: number | null) {
 }
 
 function getRomaji(entry: EditorialReserveEntry) {
-  return entry.jp?.romaji || "romaji à trier";
+  return displayText(entry.jp?.romaji);
 }
 
 function getGloss(entry: EditorialReserveEntry, locale: "fr" | "en") {
-  return entry.gloss[locale] || `${locale.toUpperCase()} à écrire`;
+  return displayText(entry.gloss[locale]);
+}
+
+function getTerm(entry: EditorialReserveEntry) {
+  return displayText(entry.jp?.term);
+}
+
+function getReading(entry: EditorialReserveEntry) {
+  return displayText(entry.jp?.reading);
+}
+
+function getDefinition(entry: EditorialReserveEntry, locale: "fr" | "en") {
+  return displayText(entry.definition?.[locale]);
+}
+
+function getHint(entry: EditorialReserveEntry, hint: "hint1" | "hint2", locale: "fr" | "en") {
+  return displayText(entry.hints?.[hint]?.[locale]);
+}
+
+function getExplanation(entry: EditorialReserveEntry, locale: "fr" | "en") {
+  return displayText(entry.explanation?.[locale]);
+}
+
+function getAnswerOptions(entry: EditorialReserveEntry, locale: "fr" | "en") {
+  return Array.from(new Set([getGloss(entry, locale), ...displayList(entry.quiz?.distractors?.[locale])]))
+    .slice(0, 4);
+}
+
+function getNeedsSortingLabel(field: string) {
+  switch (field) {
+    case "tier":
+      return "tier";
+    case "romaji":
+      return "romaji";
+    case "gloss":
+      return "gloss FR/EN";
+    default:
+      return field;
+  }
 }
 
 function getTierClass(entry: EditorialReserveEntry) {
@@ -112,29 +212,29 @@ function getTierClassFromTier(tier: number | null) {
 >
   <section class="catalog-card catalog-hero">
     <span class="catalog-eyebrow">Réserve éditoriale</span>
-    <h1 class="catalog-title">Un stock propre <span>pour piocher les mots</span></h1>
+    <h1 class="catalog-title">Une réserve unique <span>hors packs actifs</span></h1>
     <p class="catalog-copy">
-      Cette page affiche les mots hors packs actifs : candidats, seeds legacy, mots sortis, anciens brouillons et mots à écrire. Les mots actifs restent cachés ici pour garder une réserve exploitable quand le corpus grossira.
+      Cette page reflète la nouvelle règle data : les packs actifs restent dans les JSON canoniques, et tout ce qui n'est pas dans un pack actif vit dans une seule réserve structurée. Aucun mot ne doit être perdu, même incomplet.
     </p>
     <div class="catalog-notes">
       {reserve.notes.map((note) => <p class="catalog-note">{note}</p>)}
     </div>
     <div class="catalog-stats">
       <div class="catalog-stat">
-        <span class="catalog-stat-label">Visibles</span>
+        <span class="catalog-stat-label">Mots en réserve</span>
         <span class="catalog-stat-value">{visibleReserveCount}</span>
       </div>
       <div class="catalog-stat">
-        <span class="catalog-stat-label">Actifs cachés</span>
+        <span class="catalog-stat-label">Mots actifs hors page</span>
         <span class="catalog-stat-value">{reserve.stats.active}</span>
       </div>
       <div class="catalog-stat">
-        <span class="catalog-stat-label">Candidats</span>
-        <span class="catalog-stat-value">{reserve.stats.candidate}</span>
+        <span class="catalog-stat-label">Pistes futures</span>
+        <span class="catalog-stat-value">{reserve.futurePacks.length}</span>
       </div>
       <div class="catalog-stat">
-        <span class="catalog-stat-label">Champs manquants</span>
-        <span class="catalog-stat-value">{reserve.stats.needsSorting}</span>
+        <span class="catalog-stat-label">Distracteurs rejetés</span>
+        <span class="catalog-stat-value">{reserve.rejectedDistractors.length}</span>
       </div>
     </div>
   </section>
@@ -142,8 +242,69 @@ function getTierClassFromTier(tier: number | null) {
   <section class="catalog-card catalog-section">
     <div class="catalog-section-head">
       <div>
+        <h2 class="catalog-section-title">Contrat de gestion</h2>
+        <p class="catalog-section-copy">Lecture admin du nouveau rangement data. Les packs actifs ne sont pas édités ici : la réserve sert à préparer, conserver et trier les prochains mots.</p>
+      </div>
+    </div>
+    <div class="reserve-contract-grid">
+      <article class="reserve-contract-card">
+        <span class="catalog-field">Packs actifs</span>
+        <strong>{packsPathLabel}</strong>
+        <p>Source canonique des 5 packs publiables, 34 mots chacun. Ces 170 mots sont comptés mais masqués sur cette page.</p>
+      </article>
+      <article class="reserve-contract-card">
+        <span class="catalog-field">Réserve</span>
+        <strong>{reservePathLabel}</strong>
+        <p>Un seul JSON pour candidats, mots sortis, anciens brouillons, pistes futures et mots encore incomplets.</p>
+      </article>
+      <article class="reserve-contract-card">
+        <span class="catalog-field">Règle produit</span>
+        <strong>Pas d’ajout caché, pas de perte</strong>
+        <p>Un mot incomplet reste visible avec ses champs à compléter au lieu d’être supprimé ou dupliqué ailleurs.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="catalog-card catalog-section">
+    <div class="catalog-section-head">
+      <div>
+        <h2 class="catalog-section-title">Répartition exploitable</h2>
+        <p class="catalog-section-copy">Vue rapide pour savoir combien de mots peuvent être piochés par tier, et combien restent à compléter avant d’être utilisables.</p>
+      </div>
+    </div>
+    <div class="reserve-tier-grid">
+      {tierSummary.map((tier) => (
+        <article class="reserve-tier-card">
+          <span class="catalog-stat-label">{tier.label}</span>
+          <strong>{tier.value}</strong>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="catalog-card catalog-section">
+    <div class="catalog-section-head">
+      <div>
+        <h2 class="catalog-section-title">Statuts de réserve</h2>
+        <p class="catalog-section-copy">Les statuts décrivent pourquoi le mot est en réserve. Ils ne remplacent pas le tier ni la transparence.</p>
+      </div>
+    </div>
+    <div class="reserve-status-grid">
+      {statusGroups.map((group) => (
+        <article class="reserve-status-card">
+          <span class="catalog-stat-label">{group.label}</span>
+          <strong>{group.value}</strong>
+          <p>{group.copy}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="catalog-card catalog-section">
+    <div class="catalog-section-head">
+      <div>
         <h2 class="catalog-section-title">Mots de réserve</h2>
-        <p class="catalog-section-copy">{candidateEntries.length} candidats, {seedEntries.length} seeds legacy, {removedEntries.length} sortis de packs, {retiredPackEntries.length} issus d'un ancien brouillon et {toWriteEntries.length} à écrire.</p>
+        <p class="catalog-section-copy">{reserveEntries.length} entrées hors packs actifs, rangées par tier pour piocher vite sans mélanger avec le catalogue publié.</p>
       </div>
     </div>
     <div class="catalog-tier-drawers">
@@ -154,42 +315,84 @@ function getTierClassFromTier(tier: number | null) {
               <span class:list={["pack-tier-chip", getTierClassFromTier(group.tier)]}>
                 {group.title}
               </span>
-              <span class="catalog-tier-summary-copy">Mots de réserve prêts à piocher</span>
+              <span class="catalog-tier-summary-copy">{group.tier ? "Mots classés et piochables" : "Intentions conservées mais incomplètes"}</span>
             </span>
             <span class="catalog-roadmap-count">{group.entries.length}</span>
             <span class="catalog-roadmap-chevron">▾</span>
           </summary>
-          <div class="catalog-word-grid">
-            {group.entries.map((entry) => (
-              <article class:list={["catalog-word-card", getTierClass(entry), getTransparencyClass(entry)]}>
-                <header class="catalog-word-head">
-                  <span class="catalog-chip source-distractor">{getStatusLabel(entry.status)}</span>
-                  <span class:list={["pack-tier-chip", getTierClass(entry)]}>{getTierLabel(entry)}</span>
-                  <span class:list={["catalog-transparency", getTransparencyClass(entry)]}>
-                    {getTransparencyLabel(entry)}
-                  </span>
-                </header>
-                <div class="catalog-word-main">
-                  {entry.jp?.term && <div class="catalog-word-jp">{entry.jp.term}</div>}
-                  <div class="catalog-word-romaji">{getRomaji(entry)}</div>
-                  <div class="catalog-word-gloss">
-                    <span>{getGloss(entry, "fr")}</span>
-                    <span>{getGloss(entry, "en")}</span>
+          <div class="reader-grid reserve-reader-grid">
+            {group.entries.map((entry, entryIndex) => (
+              <article class:list={["review-card", "review-reserve-card", `review-${entry.status}`]} data-state="revealed" tabindex="0">
+                <div class="review-meta">
+                  <div class="review-meta-left">
+                    <span class="review-order">Réserve {entryIndex + 1}</span>
+                    <span class:list={["review-tier", getTierClass(entry)]}>{getTierLabel(entry)}</span>
+                    <span class="review-status needs-review">{getStatusLabel(entry.status)}</span>
+                    <span class:list={["catalog-transparency", getTransparencyClass(entry)]}>
+                      {getTransparencyTitle(entry)} · {getTransparencyLabel(entry)}
+                    </span>
+                  </div>
+                  <div class="review-tools">
+                    <span class="review-id">{entry.id}</span>
                   </div>
                 </div>
-                <div class="catalog-word-meta">
-                  <div>
-                    <div class="catalog-field">Packs possibles</div>
-                    <div class="catalog-pack-row">
-                      {entry.targetPackIds.length ? entry.targetPackIds.map((packId) => <span class="catalog-pack">{packId}</span>) : <span class="catalog-pack">libre</span>}
+
+                <div class="review-word-wrap">
+                  <div class="review-assist">{getRomaji(entry)}</div>
+                  <div class="review-word">{getTerm(entry)}</div>
+                  <div class="review-reading">{getReading(entry)}</div>
+                </div>
+
+                <div class="review-section">
+                  <p class="review-question">Que signifie ce mot ici ?</p>
+                </div>
+
+                <div class="review-section">
+                  <span class="review-label">Hints</span>
+                  <div class="review-hints">
+                    <div class="review-hint"><span class="review-hint-prefix">1.</span> {getHint(entry, "hint1", "fr")}</div>
+                    <div class="review-hint"><span class="review-hint-prefix">2.</span> {getHint(entry, "hint2", "fr")}</div>
+                  </div>
+                </div>
+
+                <div class="review-section">
+                  <span class="review-label">Réponses</span>
+                  <div class="review-answers">
+                    {getAnswerOptions(entry, "fr").map((answer, answerIndex) => (
+                      <button class:list={["reader-answer-btn", { correct: answerIndex === 0 }]} type="button">
+                        <span class="reader-answer-key">{answerIndex + 1}</span>
+                        <span class="reader-answer-copy">{answer}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div class="review-section review-definition-section">
+                  <span class="review-label">Définition</span>
+                  <div class="review-definition">{getDefinition(entry, "fr")}</div>
+                </div>
+
+                <div class="review-section review-exp-section">
+                  <span class="review-label">Explication</span>
+                  <div class="review-exp">{getExplanation(entry, "fr")}</div>
+                </div>
+
+                <div class="review-section reserve-card-meta">
+                  <span class="review-label">Réserve</span>
+                  <div class="catalog-word-meta">
+                    <div>
+                      <div class="catalog-field">Packs possibles</div>
+                      <div class="catalog-pack-row">
+                        {displayList(entry.targetPackIds).map((packId) => <span class="catalog-pack">{packId}</span>)}
+                      </div>
+                    </div>
+                    <div>
+                      <div class="catalog-field">État de base</div>
+                      <div class="catalog-pack-row">
+                        {entry.needsSorting.length ? entry.needsSorting.map((field) => <span class="catalog-pack">À compléter : {getNeedsSortingLabel(field)}</span>) : <span class="catalog-pack">Base renseignée</span>}
+                      </div>
                     </div>
                   </div>
-                  {entry.sourceWordId && (
-                    <div>
-                      <div class="catalog-field">Source</div>
-                      <div class="catalog-value">{entry.sourceWordId}</div>
-                    </div>
-                  )}
                 </div>
               </article>
             ))}
@@ -203,7 +406,7 @@ function getTierClassFromTier(tier: number | null) {
     <div class="catalog-section-head">
       <div>
         <h2 class="catalog-section-title">Pistes futures</h2>
-        <p class="catalog-section-copy">Lecture brute utile pour migration progressive : idées de packs, candidats associés et mots à écrire déjà versés dans la réserve.</p>
+        <p class="catalog-section-copy">Conservé comme section de planification dans <strong>{futurePacksPathLabel}</strong>. Ce n’est pas un pack : c’est une intention de regroupement à transformer plus tard en vrais mots de réserve puis en pack canonique.</p>
       </div>
     </div>
     <div class="catalog-roadmap">
@@ -245,7 +448,7 @@ function getTierClassFromTier(tier: number | null) {
     <div class="catalog-section-head">
       <div>
         <h2 class="catalog-section-title">Distracteurs rejetés</h2>
-        <p class="catalog-section-copy">Ancienne liste conservée en bas pour lecture, sans entrée active dans la réserve.</p>
+        <p class="catalog-section-copy">Conservés à part dans <strong>{rejectedDistractorsPathLabel}</strong>. Ce ne sont pas des mots de réserve : ce sont des réponses à ne pas réutiliser comme distracteurs.</p>
       </div>
     </div>
     <div class="catalog-rejects">

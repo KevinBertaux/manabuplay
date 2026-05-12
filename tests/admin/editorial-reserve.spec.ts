@@ -9,11 +9,22 @@ test.describe("admin editorial reserve", () => {
 
     await expect(page).toHaveTitle(/Réserve éditoriale/i);
     await expect(page.locator(".catalog-hero")).toContainText("Réserve éditoriale");
-    await expect(page.locator(".catalog-stats")).toContainText("Actifs cachés");
+    await expect(page.locator(".catalog-stats")).toContainText("Mots actifs hors page");
     await expect(page.locator(".catalog-stats")).toContainText("170");
-    await expect(page.locator(".catalog-stats")).toContainText("0");
+    await expect(page.locator(".catalog-stats")).toContainText("96");
     await expect(page.locator(".catalog-stats")).toHaveCSS("display", "grid");
     await expect(page.locator(".catalog-stats")).toHaveCSS("grid-template-columns", /.+ .+ .+ .+/);
+    await expect(page.getByRole("heading", { name: "Répartition exploitable" })).toBeVisible();
+    await expect(page.locator(".reserve-tier-grid")).toContainText("T1");
+    await expect(page.locator(".reserve-tier-grid")).toContainText("36");
+    await expect(page.locator(".reserve-tier-grid")).toContainText("T2");
+    await expect(page.locator(".reserve-tier-grid")).toContainText("17");
+    await expect(page.locator(".reserve-tier-grid")).toContainText("T3");
+    await expect(page.locator(".reserve-tier-grid")).toContainText("14");
+    await expect(page.locator(".reserve-tier-grid")).toContainText("T4");
+    await expect(page.locator(".reserve-tier-grid")).toContainText("9");
+    await expect(page.locator(".reserve-tier-grid")).toContainText("À compléter");
+    await expect(page.locator(".reserve-tier-grid")).toContainText("20");
     await expect(page.getByRole("heading", { name: "Champs obligatoires" })).toHaveCount(0);
     await expect(page.getByText("Tier à trier")).toHaveCount(0);
     await expect(page.getByText("romaji à trier")).toHaveCount(20);
