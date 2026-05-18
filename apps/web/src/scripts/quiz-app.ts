@@ -166,11 +166,11 @@ function formatComboMultiplier(value: number) {
 
 function getCompletedDailyRunRecord() {
   if (MANABUPLAY_MODE !== "daily") return null;
-  return getDailyRunRecord(LS, SESSION_DATE_KEY);
+  return getDailyRunRecord(LS, sessionDateKey);
 }
 
 function isDailyRunLocked() {
-  return MANABUPLAY_MODE === "daily" && hasCompletedDailyRun(LS, SESSION_DATE_KEY);
+  return MANABUPLAY_MODE === "daily" && hasCompletedDailyRun(LS, sessionDateKey);
 }
 
 function getDailyLockedButtonLabel() {
@@ -214,19 +214,22 @@ function syncResultReplayControls() {
 }
 
 const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
-const SESSION_DATE_KEY = getSessionDateKey({
+let sessionDateKey = getSessionDateKey({
   mode: MANABUPLAY_MODE,
   archiveConfig: MANABUPLAY_BOOT.archive || {},
   search: window.location.search,
 });
-const QUIZ_DATA =
-  MANABUPLAY_MODE === "daily" || MANABUPLAY_MODE === "archives"
+function buildQuizDataForSessionDate(dateKey: string): QuizQuestion[] {
+  return MANABUPLAY_MODE === "daily" || MANABUPLAY_MODE === "archives"
     ? buildDailyQuizData({
         pool: RAW_QUIZ_DATA,
-        dateKey: SESSION_DATE_KEY,
+        dateKey,
         dailyConfig: MANABUPLAY_BOOT.daily || {},
       })
     : RAW_QUIZ_DATA;
+}
+
+let quizData = buildQuizDataForSessionDate(sessionDateKey);
 
 function localizedPath(lang: string, route: string): string {
   return `/${lang}/${route ? `${route}/` : ""}`;
@@ -291,11 +294,11 @@ function buildQuestionsForCurrentDiff(wordCount: number): QuizQuestion[] {
   return buildQuestions({
     mode: MANABUPLAY_MODE,
     count: wordCount,
-    quizData: QUIZ_DATA,
+    quizData,
     rawQuizData: RAW_QUIZ_DATA,
     currentLang,
     currentDiff,
-    sessionDateKey: SESSION_DATE_KEY,
+    sessionDateKey,
     boot: MANABUPLAY_BOOT,
     storage: LS,
     historyKey: PRACTICE_HISTORY_KEY,
@@ -505,7 +508,7 @@ function primeCompletedDailyShareState(
 function renderSingleRunTitleScreen() {
   if (!IS_SINGLE_RUN_MODE) return;
 
-  const formattedDate = formatSessionDate(SESSION_DATE_KEY);
+  const formattedDate = formatSessionDate(sessionDateKey);
   const isArchiveMode = MANABUPLAY_MODE === "archives";
   const completedDaily = getCompletedDailyRunRecord();
   const metaSecondary = document.getElementById("quizTitleMetaSecondary");
@@ -539,29 +542,29 @@ function renderSingleRunTitleScreen() {
     "quizTitleKicker",
     currentLang === "fr"
       ? isArchiveMode
-        ? "Archive sélectionnée"
+        ? getTranslatedText("archive_title_kicker", "Archive")
         : "Défi du jour"
       : isArchiveMode
-        ? "Selected archive"
+        ? getTranslatedText("archive_title_kicker", "Archive")
         : "Today's run",
   );
   setElementText(
     "quizTitleHeadline",
     currentLang === "fr"
       ? isArchiveMode
-        ? `Archive du ${formattedDate}`
+        ? formattedDate
         : `Quotidien du ${formattedDate}`
       : isArchiveMode
-        ? `${formattedDate} archive`
+        ? formattedDate
         : `${formattedDate} daily`,
   );
   setTitleCopyText(
     currentLang === "fr"
       ? isArchiveMode
-        ? "Rejoue une ancienne run quotidienne."
+        ? getTranslatedText("archive_title_copy", "Rejoue ce quotidien en 10 questions.")
         : "Une run de 10 questions, renouvelée chaque jour."
       : isArchiveMode
-        ? "Replay a previous daily run."
+        ? getTranslatedText("archive_title_copy", "Replay this 10-question daily run.")
         : "A 10-question run, refreshed every day.",
   );
   setElementText("quizTitleMetaPrimary", currentLang === "fr" ? "10 questions" : "10 questions");
@@ -570,6 +573,35 @@ function renderSingleRunTitleScreen() {
     metaSecondary.hidden = true;
   }
   syncDailyLaunchControls();
+}
+
+function resetQuizToTitleScreen() {
+  showElement(getRequiredElement<HTMLElement>("diffArea"), "block");
+  hideElement(getRequiredElement<HTMLElement>("progressRow"));
+  hideElement(getRequiredElement<HTMLElement>("hudRow"));
+  hideElement(getRequiredElement<HTMLElement>("quizArea"));
+  hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
+  renderSingleRunTitleScreen();
+}
+
+function selectArchiveDate(dateKey: string) {
+  if (MANABUPLAY_MODE !== "archives" || !/^\d{4}-\d{2}-\d{2}$/.test(dateKey)) return;
+  if (dateKey === sessionDateKey) return;
+
+  sessionDateKey = dateKey;
+  quizData = buildQuizDataForSessionDate(sessionDateKey);
+  currentDiff = DIFFICULTIES[0] ?? null;
+  state = {
+    questions: [],
+    currentIndex: 0,
+    score: 0,
+    streak: 0,
+    bestStreak: 0,
+    answered: false,
+    correct: 0,
+  };
+  resetQuizToTitleScreen();
+  updateLocalizedLinks();
 }
 
 function setQuizHash() {
@@ -937,7 +969,7 @@ function showResults() {
   if (MANABUPLAY_MODE === "daily") {
     saveDailyRunCompletion({
       storage: LS,
-      dateKey: SESSION_DATE_KEY,
+      dateKey: sessionDateKey,
       score: state.score,
       correct: state.correct,
       total,
@@ -948,7 +980,7 @@ function showResults() {
   } else if (MANABUPLAY_MODE === "archives") {
     saveArchiveRunCompletion({
       storage: LS,
-      dateKey: SESSION_DATE_KEY,
+      dateKey: sessionDateKey,
       score: state.score,
       correct: state.correct,
       total,
@@ -1091,6 +1123,12 @@ function bindQuizActions() {
     });
   });
 }
+
+window.addEventListener("manabuplay:archive-date-selected", (event) => {
+  if (!(event instanceof CustomEvent)) return;
+  const dateKey = event.detail?.dateKey;
+  if (typeof dateKey === "string") selectArchiveDate(dateKey);
+});
 
 applyLang();
 renderDiffGrid();

@@ -212,11 +212,30 @@ test.describe("public flow", () => {
       "[data-archive-date='2026-04-16'][data-archive-tone='archive']",
     );
     await expect(archiveCell).toHaveClass(/has-record/);
-    await expect(archiveCell.locator("[data-archive-status]")).toHaveText("Déjà joué");
-    await expect(archiveCell.locator("[data-archive-score]")).toHaveText("132 pts max");
+    await expect(archiveCell.locator("[data-archive-status]")).toHaveCount(0);
+    await expect(archiveCell.locator("[data-archive-medal]")).toBeVisible();
+    await expect(archiveCell.locator("[data-archive-score]")).toHaveText("132/200");
     await expect(archiveCell.locator("[data-archive-attempts]")).toHaveText("2 tentatives");
     await archiveCell.click();
-    await expect(page).toHaveURL(/date=2026-04-16/);
+    await expect(page).not.toHaveURL(/#quiz/);
+    await archiveCell.locator("[data-archive-action]").click();
+    await expect(page).toHaveURL(/#quiz/);
+  });
+
+  test("selects archive dates without reloading or jumping to the quiz", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
+
+    const nextArchiveCell = page.locator(
+      "[data-archive-date='2026-04-17'][data-archive-tone='archive']",
+    );
+    await nextArchiveCell.click();
+
+    await expect(page).toHaveURL(/date=2026-04-17/);
+    await expect(page).not.toHaveURL(/#quiz/);
+    await expect(nextArchiveCell).toHaveClass(/is-active/);
+    await expect(page.locator("#archiveSelectedLabel")).toContainText("17 avril 2026");
+    await expect(page.locator("#quizTitleHeadline")).toContainText("17 avril 2026");
+    await expect(page.locator("#quizArea")).toBeHidden();
   });
 
   test("stores archive completion and keeps archives replayable", async ({ page }) => {

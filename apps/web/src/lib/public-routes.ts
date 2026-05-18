@@ -39,10 +39,10 @@ export const PUBLIC_MODE_COPY: Record<
   },
   archives: {
     navLabel: { en: "Archives", fr: "Archives" },
-    title: { en: "Quiz archives", fr: "Archives des quiz" },
+    title: { en: "Archives", fr: "Archives" },
     description: {
-      en: "Replay previous daily quizzes by date and keep track of your best scores locally.",
-      fr: "Rejoue les anciens quiz quotidiens par date et garde tes meilleurs scores en local.",
+      en: "Replay past daily runs by date and keep track of your best scores locally.",
+      fr: "Rejoue les anciens quotidiens par date et garde tes meilleurs scores en local.",
     },
   },
 };

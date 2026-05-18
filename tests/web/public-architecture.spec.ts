@@ -124,7 +124,7 @@ test.describe("public localized architecture", () => {
     await prepareQuizPage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("h1")).toHaveText("Archives des quiz");
+    await expect(page.locator("h1")).toHaveText("Archives");
     await expect(page.getByRole("link", { name: "Accueil" })).toHaveAttribute("href", "/fr/");
     await expect(
       page.locator("[data-archive-date='2026-04-16'][data-archive-tone='archive']"),

@@ -40,6 +40,69 @@ export interface ArchiveMonthGroup {
   cells: ArchiveCalendarCell[];
 }
 
+export type ArchiveCalendarCopy = {
+  sectionLabel: string;
+  selectedPrefix: string;
+  intro: string;
+  kind: Record<Exclude<ArchiveCalendarTone, "empty">, string>;
+  scoreBestSuffix: string;
+  defaultScoreLabel: string;
+  noAttemptLabel: string;
+  playAction: string;
+  replayAction: string;
+  attemptSingular: string;
+  attemptPlural: string;
+  summaryPlayed: string;
+  summaryRemaining: string;
+};
+
+const ARCHIVE_CALENDAR_COPY = {
+  en: {
+    sectionLabel: "ARCHIVES",
+    selectedPrefix: "Selected day",
+    intro: "Pick a past daily run to replay. Scores and attempts stay on this device.",
+    kind: {
+      archive: "",
+      today: "Today",
+      future: "",
+      unavailable: "",
+    },
+    scoreBestSuffix: "/200",
+    defaultScoreLabel: "0/200",
+    noAttemptLabel: "0 attempts",
+    playAction: "Play",
+    replayAction: "Replay",
+    attemptSingular: "attempt",
+    attemptPlural: "attempts",
+    summaryPlayed: "played",
+    summaryRemaining: "left",
+  },
+  fr: {
+    sectionLabel: "ARCHIVES",
+    selectedPrefix: "Jour sélectionné",
+    intro: "Choisis un ancien quotidien à rejouer. Scores et tentatives restent sur cet appareil.",
+    kind: {
+      archive: "",
+      today: "Aujourd'hui",
+      future: "",
+      unavailable: "",
+    },
+    scoreBestSuffix: "/200",
+    defaultScoreLabel: "0/200",
+    noAttemptLabel: "0 tentative",
+    playAction: "Jouer",
+    replayAction: "Rejouer",
+    attemptSingular: "tentative",
+    attemptPlural: "tentatives",
+    summaryPlayed: "joués",
+    summaryRemaining: "restants",
+  },
+} as const satisfies Record<"en" | "fr", ArchiveCalendarCopy>;
+
+export function getArchiveCalendarCopy(locale: string): ArchiveCalendarCopy {
+  return locale === "fr" ? ARCHIVE_CALENDAR_COPY.fr : ARCHIVE_CALENDAR_COPY.en;
+}
+
 function formatDateKey(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -98,9 +161,9 @@ function getCalendarSummary({
   locale: string;
 }) {
   if (locale === "fr") {
-    return `${archiveCount} archives · ${futureCount} à venir`;
+    return `${archiveCount} jours · ${futureCount} à venir`;
   }
-  return `${archiveCount} archives · ${futureCount} upcoming`;
+  return `${archiveCount} days · ${futureCount} upcoming`;
 }
 
 export function getLatestArchiveDateKey(referenceDate = new Date()) {
@@ -180,7 +243,7 @@ export function getArchiveMonthGroups({
             tone: "today",
             dateKey,
             day,
-            href: `/${locale}/daily/`,
+            disabled: true,
             isSelected,
           };
         }
@@ -258,23 +321,27 @@ export function buildArchivesBootData(selectedDate = getLatestArchiveDateKey()) 
       ...base.lang,
       en: {
         ...base.lang.en,
-        quiz_label: "// PAST RUN",
-        quiz_title: "Selected Archive",
-        quiz_sub: "Replay a past 10-question daily run.",
-        diff_title: "SELECTED ARCHIVE",
+        quiz_label: "// ARCHIVE",
+        quiz_title: "Selected Day",
+        quiz_sub: "Replay this 10-question daily run.",
+        diff_title: "ARCHIVE",
         diff_archive: "ARCHIVE",
-        diff_start: "▶ PLAY THIS ARCHIVE",
+        diff_start: "▶ PLAY THIS DAY",
         result_change_diff: "BACK TO ARCHIVES",
+        archive_title_kicker: "Archive",
+        archive_title_copy: "Replay this 10-question daily run.",
       },
       fr: {
         ...base.lang.fr,
-        quiz_label: "// ANCIENNE RUN",
-        quiz_title: "Archive sélectionnée",
-        quiz_sub: "Rejoue un ancien quotidien en 10 questions.",
-        diff_title: "ARCHIVE SÉLECTIONNÉE",
+        quiz_label: "// ARCHIVE",
+        quiz_title: "Jour sélectionné",
+        quiz_sub: "Rejoue ce quotidien en 10 questions.",
+        diff_title: "ARCHIVE",
         diff_archive: "ARCHIVE",
-        diff_start: "▶ JOUER CETTE ARCHIVE",
+        diff_start: "▶ JOUER CE JOUR",
         result_change_diff: "RETOUR AUX ARCHIVES",
+        archive_title_kicker: "Archive",
+        archive_title_copy: "Rejoue ce quotidien en 10 questions.",
       },
     },
     quizData: buildCatalogQuizData(),

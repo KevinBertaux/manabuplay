@@ -34,7 +34,7 @@ const mayDays: ArchiveDay[] = [
     title: "Quotidien du 4 mai",
     pack: "Gacha & Rewards",
     status: "Joué aujourd'hui",
-    score: "124 pts max",
+    score: "124/200",
     attempts: "1 tentative",
     tone: "current",
   },
@@ -44,7 +44,7 @@ const mayDays: ArchiveDay[] = [
     title: "Archive du 3 mai",
     pack: "Anime Codes",
     status: "Déjà joué",
-    score: "118 pts max",
+    score: "118/200",
     attempts: "2 tentatives",
     tone: "played",
   },
@@ -54,8 +54,8 @@ const mayDays: ArchiveDay[] = [
     title: "Archive du 2 mai",
     pack: "Builds & Gear",
     status: "Disponible",
-    score: "0 pt",
-    attempts: "Aucune tentative",
+    score: "0/200",
+    attempts: "0 tentative",
     tone: "open",
   },
   {
@@ -64,7 +64,7 @@ const mayDays: ArchiveDay[] = [
     title: "Archive du 1 mai",
     pack: "JRPG Questline",
     status: "Déjà joué",
-    score: "132 pts max",
+    score: "132/200",
     attempts: "1 tentative",
     tone: "played",
   },
@@ -77,8 +77,8 @@ const aprilDays: ArchiveDay[] = [
     title: "Archive du 30 avril",
     pack: "Gacha & Rewards",
     status: "Disponible",
-    score: "0 pt",
-    attempts: "Aucune tentative",
+    score: "0/200",
+    attempts: "0 tentative",
     tone: "open",
   },
   {
@@ -87,7 +87,7 @@ const aprilDays: ArchiveDay[] = [
     title: "Archive du 29 avril",
     pack: "Anime Codes",
     status: "Déjà joué",
-    score: "108 pts max",
+    score: "108/200",
     attempts: "3 tentatives",
     tone: "played",
   },
@@ -97,8 +97,8 @@ const aprilDays: ArchiveDay[] = [
     title: "Archive du 28 avril",
     pack: "Builds & Gear",
     status: "Disponible",
-    score: "0 pt",
-    attempts: "Aucune tentative",
+    score: "0/200",
+    attempts: "0 tentative",
     tone: "open",
   },
 ];
@@ -123,6 +123,80 @@ const variants = [
     fit: "Meilleur choix si on veut une page plus premium, mais encore sobre et rapide à lire.",
   },
 ];
+
+const cardStyleProposals = [
+  {
+    id: "quiet",
+    label: "Style 1",
+    title: "Calme éditorial",
+    intent:
+      "Peu de badges, beaucoup d'air. Le jaune ne sert plus à dire 'tenté' : il reste réservé au score dans le texte.",
+  },
+  {
+    id: "arcade",
+    label: "Style 2",
+    title: "Arcade compact",
+    intent:
+      "Plus game, mais sans bulle vide. Les états sont portés par bordure, fond et CTA de sélection.",
+  },
+  {
+    id: "score",
+    label: "Style 3",
+    title: "Score d'abord",
+    intent:
+      "Le regard tombe sur le score ou sur 'Pas encore joué'. Bon si on veut valoriser la progression personnelle.",
+  },
+  {
+    id: "minimal",
+    label: "Style 4",
+    title: "Minimal calendrier",
+    intent:
+      "Version la plus proche d'un calendrier classique. Très peu de texte dans la case, détail seulement à la sélection.",
+  },
+] as const;
+
+const cardStateMatrix = [
+  {
+    id: "played-unselected",
+    label: "Tenté · non sélectionné",
+    day: "16",
+    title: "Avril",
+    score: "132/200",
+    attempts: "2 tentatives",
+    played: true,
+    selected: false,
+  },
+  {
+    id: "unplayed-unselected",
+    label: "Pas tenté · non sélectionné",
+    day: "17",
+    title: "Avril",
+    score: "0/200",
+    attempts: "0 tentative",
+    played: false,
+    selected: false,
+  },
+  {
+    id: "played-selected",
+    label: "Tenté · sélectionné",
+    day: "18",
+    title: "Avril",
+    score: "98/200",
+    attempts: "1 tentative",
+    played: true,
+    selected: true,
+  },
+  {
+    id: "unplayed-selected",
+    label: "Pas tenté · sélectionné",
+    day: "19",
+    title: "Avril",
+    score: "0/200",
+    attempts: "0 tentative",
+    played: false,
+    selected: true,
+  },
+] as const;
 
 const statusClass = {
   current: "archive-status archive-status--current",
@@ -150,7 +224,7 @@ const archiveCalendarDetails: Partial<Record<number, Omit<CalendarCell, "day" | 
     title: "Archive du 1 mai",
     pack: "JRPG Questline",
     status: "Déjà joué",
-    score: "132 pts max",
+    score: "132/200",
     attempts: "1 tentative",
     href: "/fr/archives/2026-05-01/",
     tone: "played",
@@ -159,8 +233,8 @@ const archiveCalendarDetails: Partial<Record<number, Omit<CalendarCell, "day" | 
     title: "Archive du 2 mai",
     pack: "Builds & Gear",
     status: "Disponible",
-    score: "0 pt",
-    attempts: "Aucune tentative",
+    score: "0/200",
+    attempts: "0 tentative",
     href: "/fr/archives/2026-05-02/",
     tone: "open",
   },
@@ -168,7 +242,7 @@ const archiveCalendarDetails: Partial<Record<number, Omit<CalendarCell, "day" | 
     title: "Archive du 3 mai",
     pack: "Anime Codes",
     status: "Déjà joué",
-    score: "118 pts max",
+    score: "118/200",
     attempts: "2 tentatives",
     href: "/fr/archives/2026-05-03/",
     tone: "played",
@@ -177,7 +251,7 @@ const archiveCalendarDetails: Partial<Record<number, Omit<CalendarCell, "day" | 
     title: "Quotidien du 4 mai",
     pack: "Gacha & Rewards",
     status: "Joué aujourd'hui",
-    score: "124 pts max",
+    score: "124/200",
     attempts: "1 tentative",
     href: "/fr/daily/",
     tone: "current",
@@ -241,7 +315,7 @@ const currentCalendarDay = archiveCalendarDetails[4]!;
       <h1>Archives du quotidien</h1>
       <p>
         Hypothèse cadrée : le quotidien du jour ne se rejoue pas, les archives sont rejouables, et chaque archive affiche le
-        meilleur score plus le nombre de tentatives.
+        score sur 200 plus le nombre de tentatives.
       </p>
     </div>
     <div class="archive-mockup-rulecard">
@@ -258,12 +332,67 @@ const currentCalendarDay = archiveCalendarDetails[4]!;
     </article>
     <article>
       <strong>Archives</strong>
-      <span>Replay libre, mais historique lisible : score max + tentatives.</span>
+      <span>Replay libre, mais historique lisible : score sur 200 + tentatives.</span>
     </article>
     <article>
       <strong>Rangement</strong>
       <span>Drawers par mois, mois courant ouvert, mois précédents repliés.</span>
     </article>
+  </section>
+
+  <section class="archive-card-lab" aria-labelledby="archive-card-lab-title">
+    <header class="archive-card-lab-head">
+      <div>
+        <p class="archive-mockup-kicker">Décision UI · Cartes calendrier</p>
+        <h2 id="archive-card-lab-title">États de carte à comparer</h2>
+      </div>
+      <p>
+        Objectif : supprimer la bulle bleue vide des jours jamais joués, éviter que le jaune signifie seulement “tenté”,
+        et afficher un bouton d'action dès qu'un jour passé est sélectionné.
+      </p>
+    </header>
+
+    <div class="archive-card-style-grid">
+      {cardStyleProposals.map((style) => (
+        <article class:list={["archive-card-style", `archive-card-style--${style.id}`]}>
+          <header class="archive-card-style-head">
+            <span>{style.label}</span>
+            <div>
+              <h3>{style.title}</h3>
+              <p>{style.intent}</p>
+            </div>
+          </header>
+
+          <div class="archive-state-grid" aria-label={`${style.title} states`}>
+            {cardStateMatrix.map((state) => (
+              <article
+                class:list={[
+                  "archive-state-card",
+                  `archive-state-card--${style.id}`,
+                  state.played ? "is-played" : "is-unplayed",
+                  state.selected && "is-selected",
+                ]}
+              >
+                <div class="archive-state-card-top">
+                  <strong>{state.day}</strong>
+                  <span>{state.label}</span>
+                </div>
+                <div class="archive-state-card-body">
+                  <h4>Score</h4>
+                  <p class="archive-state-card-score">{state.score}</p>
+                  <small>{state.attempts}</small>
+                </div>
+                {state.selected && (
+                  <a href="#quiz" class="archive-state-card-cta">
+                    {state.played ? "Rejouer" : "Jouer"}
+                  </a>
+                )}
+              </article>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
   </section>
 
   <section class="archive-variant-grid" aria-label="Variantes archives">

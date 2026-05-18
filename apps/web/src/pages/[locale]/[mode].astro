@@ -2,7 +2,13 @@
 import PublicLayout from "../../layouts/PublicLayout.astro";
 import PublicQuiz from "../../components/PublicQuiz.astro";
 import { buildCatalogBootData } from "../../../../../shared/data/manabuplay/catalog";
-import { buildArchivesBootData, getArchiveMonthGroups, getLatestArchiveDateKey } from "../../../../../shared/lib/manabuplay-archives";
+import {
+  buildArchivesBootData,
+  getArchiveCalendarCopy,
+  getArchiveMonthGroups,
+  getLatestArchiveDateKey,
+  type ArchiveCalendarTone,
+} from "../../../../../shared/lib/manabuplay-archives";
 import { buildDailyBootData } from "../../../../../shared/lib/manabuplay-daily";
 import { buildPracticeBootData } from "../../../../../shared/lib/manabuplay-practice";
 import { normalizePublicLocale } from "../../lib/public-locales";
@@ -29,6 +35,7 @@ const latestArchiveDate = isArchivesMode ? getLatestArchiveDateKey() : null;
 const archiveMonthGroups = isArchivesMode
   ? getArchiveMonthGroups({ locale, selectedDate: latestArchiveDate })
   : [];
+const archiveCalendarCopy = getArchiveCalendarCopy(locale);
 const bootData = isDailyMode
   ? buildDailyBootData()
   : isArcadeMode
@@ -49,22 +56,6 @@ const modeDescriptionClass =
 const archiveSelectedLineClass =
   "mx-auto mb-2 max-w-[720px] text-center text-[.9rem] font-bold uppercase tracking-[.04em] text-[var(--cyan)]";
 
-const archiveStatusCopy = {
-  archive: locale === "fr" ? "Disponible" : "Available",
-  today: locale === "fr" ? "Quotidien" : "Daily",
-  future: locale === "fr" ? "À venir" : "Upcoming",
-  unavailable: locale === "fr" ? "Indisponible" : "Unavailable",
-  empty: "",
-} as const;
-
-const archiveKindCopy = {
-  archive: locale === "fr" ? "Archive" : "Archive",
-  today: locale === "fr" ? "Quotidien" : "Daily",
-  future: locale === "fr" ? "À venir" : "Upcoming",
-  unavailable: locale === "fr" ? "Indisponible" : "Unavailable",
-  empty: "",
-} as const;
-
 const formatArchiveShortDate = (dateKey: string) =>
   new Intl.DateTimeFormat(locale, {
     day: "numeric",
@@ -72,15 +63,24 @@ const formatArchiveShortDate = (dateKey: string) =>
   }).format(new Date(`${dateKey}T12:00:00`));
 
 const getArchiveCellTitle = (dateKey: string, tone: string) => {
-  if (tone === "today") return locale === "fr" ? "Quotidien du jour" : "Today's daily";
+  if (tone === "today") return locale === "fr" ? "Quiz du jour" : "Today's quiz";
   if (tone === "archive") {
-    return locale === "fr" ? `Archive du ${formatArchiveShortDate(dateKey)}` : `${formatArchiveShortDate(dateKey)} archive`;
+    return locale === "fr" ? `Rejouer le ${formatArchiveShortDate(dateKey)}` : `Replay ${formatArchiveShortDate(dateKey)}`;
   }
   return formatArchiveShortDate(dateKey);
 };
 
-const noAttemptLabel = locale === "fr" ? "Aucune tentative" : "No attempt";
-const defaultScoreLabel = locale === "fr" ? "0 pt" : "0 pts";
+const getArchiveCellNote = (tone: ArchiveCalendarTone) => {
+  if (tone === "today") return locale === "fr" ? "Dans Quotidien" : "In Daily";
+  return "";
+};
+
+type VisibleArchiveTone = Exclude<ArchiveCalendarTone, "empty">;
+const getArchiveKindCopy = (tone: ArchiveCalendarTone) =>
+  tone === "empty" ? "" : archiveCalendarCopy.kind[tone as VisibleArchiveTone];
+
+const noAttemptLabel = archiveCalendarCopy.noAttemptLabel;
+const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
 
 const modePageHomeRowClass = `mx-auto mb-2 flex w-full justify-start sm:mb-4 ${isArchivesMode ? "max-w-[980px]" : "max-w-5xl"}`;
 const modePageHomeLinkClass =
@@ -127,26 +127,32 @@ const modePageHomeLinkClass =
           {PUBLIC_NAV_HOME_LABEL[locale]}
         </a>
       </div>
-      <section class="archive-calendar-shell mx-auto w-full" id="archives-list" data-default-date={latestArchiveDate ?? ""}>
+      <section
+        class="archive-calendar-shell mx-auto w-full"
+        id="archives-list"
+        data-default-date={latestArchiveDate ?? ""}
+        data-selected-prefix={archiveCalendarCopy.selectedPrefix}
+        data-score-best-suffix={archiveCalendarCopy.scoreBestSuffix}
+        data-attempt-singular={archiveCalendarCopy.attemptSingular}
+        data-attempt-plural={archiveCalendarCopy.attemptPlural}
+        data-summary-played={archiveCalendarCopy.summaryPlayed}
+        data-summary-remaining={archiveCalendarCopy.summaryRemaining}
+        data-play-action={archiveCalendarCopy.playAction}
+        data-replay-action={archiveCalendarCopy.replayAction}
+      >
         <div class="archive-calendar-intro">
           <p class="section-label text-[var(--violet)]">
-            {locale === "fr" ? "ARCHIVES DISPONIBLES" : "AVAILABLE ARCHIVES"}
+            {archiveCalendarCopy.sectionLabel}
           </p>
           <p
             class={archiveSelectedLineClass}
             id="archiveSelectedLabel"
             data-default-date={latestArchiveDate ?? ""}
-            data-prefix-fr="Archive sélectionnée"
-            data-prefix-en="Selected archive"
           >
-            {locale === "fr"
-              ? `Archive sélectionnée : ${latestArchiveDate}`
-              : `Selected archive: ${latestArchiveDate}`}
+            {`${archiveCalendarCopy.selectedPrefix} : ${latestArchiveDate}`}
           </p>
           <p class={modeDescriptionClass}>
-            {locale === "fr"
-              ? "Chaque mois regroupe les quotidiens passés. Les archives sont rejouables, avec score max et tentatives."
-              : "Each month groups past dailies. Archives are replayable, with best score and attempts."}
+            {archiveCalendarCopy.intro}
           </p>
         </div>
 
@@ -183,15 +189,13 @@ const modePageHomeLinkClass =
                     >
                       <span class="archive-calendar-cell-top">
                         <strong>{cell.day}</strong>
-                        <small>{archiveKindCopy[cell.tone]}</small>
+                        {getArchiveKindCopy(cell.tone) && <small>{getArchiveKindCopy(cell.tone)}</small>}
                       </span>
                       <span class="archive-calendar-cell-title">
                         {getArchiveCellTitle(cell.dateKey!, cell.tone)}
                       </span>
-                      {cell.tone !== "future" && (
-                        <span class="archive-calendar-status" data-archive-status>
-                          {archiveStatusCopy[cell.tone]}
-                        </span>
+                      {getArchiveCellNote(cell.tone) && (
+                        <span class="archive-calendar-cell-note">{getArchiveCellNote(cell.tone)}</span>
                       )}
                     </span>
                   ) : (
@@ -208,17 +212,25 @@ const modePageHomeLinkClass =
                     >
                       <span class="archive-calendar-cell-top">
                         <strong>{cell.day}</strong>
-                        <small>{archiveKindCopy[cell.tone]}</small>
+                        <span
+                          class="archive-calendar-medal"
+                          data-archive-medal
+                          hidden
+                          aria-label={locale === "fr" ? "Déjà joué" : "Played"}
+                          title={locale === "fr" ? "Déjà joué" : "Played"}
+                        >
+                          ★
+                        </span>
                       </span>
                       <span class="archive-calendar-cell-title">
                         {getArchiveCellTitle(cell.dateKey!, cell.tone)}
                       </span>
-                      <span class="archive-calendar-status" data-archive-status>
-                        {archiveStatusCopy[cell.tone]}
-                      </span>
                       <span class="archive-calendar-cell-meta">
                         <span data-archive-score>{defaultScoreLabel}</span>
                         <span data-archive-attempts>{noAttemptLabel}</span>
+                      </span>
+                      <span class="archive-calendar-action" data-archive-action>
+                        {archiveCalendarCopy.playAction}
                       </span>
                     </a>
                   )
