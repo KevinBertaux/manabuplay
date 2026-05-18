@@ -189,7 +189,7 @@ const modePageHomeLinkClass =
                     >
                       <span class="archive-calendar-cell-top">
                         <strong>{cell.day}</strong>
-                        {getArchiveKindCopy(cell.tone) && <small>{getArchiveKindCopy(cell.tone)}</small>}
+                        {cell.tone !== "today" && getArchiveKindCopy(cell.tone) && <small>{getArchiveKindCopy(cell.tone)}</small>}
                       </span>
                       <span class="archive-calendar-cell-title">
                         {getArchiveCellTitle(cell.dateKey!, cell.tone)}

@@ -198,10 +198,16 @@
     border-color: rgba(34, 211, 238, 0.42);
     background: linear-gradient(135deg, rgba(34, 211, 238, 0.24), rgba(139, 92, 246, 0.2));
     color: #e0fbff;
+    font-size: 0;
     letter-spacing: 0.08em;
     transition:
       opacity 150ms ease,
       visibility 150ms ease;
+  }
+
+  .archive-calendar-action::before {
+    content: "▶";
+    font-size: 0.62rem;
   }
 
   .archive-calendar-cell.is-active .archive-calendar-action {
@@ -754,6 +760,14 @@
   }
 
   @media (min-width: 640px) {
+    .archive-calendar-action {
+      font-size: 0.62rem;
+    }
+
+    .archive-calendar-action::before {
+      content: none;
+    }
+
     .answer-btn {
       grid-template-columns: 1.75rem minmax(0, 1fr);
     }

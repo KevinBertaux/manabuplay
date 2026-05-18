@@ -19,7 +19,7 @@ export const CURRENT_PRODUCT_COPY = {
     stat_diff: "DIFFICULTY LEVELS",
     stat_free: "ACCOUNT REQUIRED",
     features_label: "// WHY IT WORKS",
-    features_title: `You already have <span class="text-[var(--fuchsia)]">context</span>`,
+    features_title: "You already have context",
     features_sub:
       "ManabuPlay starts from words you see in games and pop culture, then turns recognition into meaning.",
     feat1_title: "WORDS WITH CONTEXT",
@@ -136,7 +136,7 @@ export const CURRENT_PRODUCT_COPY = {
     stat_diff: "NIVEAUX DE DIFFICULTÉ",
     stat_free: "COMPTE À CRÉER",
     features_label: "// POURQUOI ÇA MARCHE",
-    features_title: `Tu as déjà le <span class="text-[var(--fuchsia)]">contexte</span>`,
+    features_title: "Tu as déjà le contexte",
     features_sub:
       "ManabuPlay part des mots que tu croises dans les jeux et la pop culture, puis transforme la reconnaissance en compréhension.",
     feat1_title: "DES MOTS AVEC CONTEXTE",
