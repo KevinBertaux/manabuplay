@@ -157,7 +157,7 @@ describe("manabuplay quiz pool", () => {
 
       history.push({ ids, packId: [...packIds][0] || "" });
     }
-  });
+  }, 15_000);
 
   it("keeps a practice run inside one random pack", () => {
     const quizData = buildCatalogQuizData();

@@ -17,6 +17,7 @@ import type {
   BootTranslationValue,
   Difficulty,
   QuizBootData,
+  QuizEntry,
   QuizQuestion,
   ResultTier,
   RuntimeState,
@@ -48,7 +49,7 @@ const WAITLIST_FORM_NAME = "manabuplay-waitlist";
 const WAITLIST_SUCCESS_BUTTON_DELAY = 2800;
 const WAITLIST_SUCCESS_MESSAGE_DELAY = 4000;
 const SUPPORTED_LANGS = ["en", "fr"] as const;
-const LOCALIZED_ROUTES = ["daily", "practice", "archives"] as const;
+const LOCALIZED_ROUTES = ["daily", "arcade", "archives"] as const;
 const PRACTICE_HISTORY_KEY = "practice_sessions";
 const PRACTICE_HISTORY_LIMIT = 8;
 const LANG = MANABUPLAY_BOOT.lang;
@@ -126,26 +127,22 @@ function getResults(): ResultTier[] {
 
 function formatBestScoreMessage(score: number, diff: string): string {
   return currentLang === "fr"
-    ? `Ton record en ${diff} : <strong class="best-score-highlight">${score} pts</strong>`
-    : `Your best on ${diff}: <strong class="best-score-highlight">${score} pts</strong>`;
+    ? `Meilleur score en ${diff} : <strong class="best-score-highlight">${score} pts</strong>`
+    : `Best score on ${diff}: <strong class="best-score-highlight">${score} pts</strong>`;
 }
 
 function formatCorrectFeedback(points: number): string {
-  return currentLang === "fr"
-    ? `✓ 正解! (Seikai) — Correct ! +${points} pts`
-    : `✓ 正解! (Seikai) — Correct! +${points} pts`;
+  return currentLang === "fr" ? `✓ Correct ! +${points} pts` : `✓ Correct! +${points} pts`;
 }
 
 function formatComboFeedback(streak: number, points: number): string {
   return currentLang === "fr"
-    ? `🔥 COMBO x${streak} ! +${points} pts base — 正解!`
-    : `🔥 COMBO x${streak}! +${points} base pts — 正解!`;
+    ? `🔥 Série x${streak} ! +${points} pts`
+    : `🔥 Streak x${streak}! +${points} pts`;
 }
 
 function formatWrongFeedback(answer: string): string {
-  return currentLang === "fr"
-    ? `✗ 不正解 (Fuseikai) — La réponse : "${answer}"`
-    : `✗ 不正解 (Fuseikai) — The answer: "${answer}"`;
+  return currentLang === "fr" ? `✗ Réponse : "${answer}"` : `✗ Answer: "${answer}"`;
 }
 
 function getHintAdjustedQuestionPoints(hintsUsed: number): number {
@@ -170,15 +167,15 @@ function formatComboMultiplier(value: number) {
 
 function getCompletedDailyRunRecord() {
   if (MANABUPLAY_MODE !== "daily") return null;
-  return getDailyRunRecord(LS, SESSION_DATE_KEY);
+  return getDailyRunRecord(LS, sessionDateKey);
 }
 
 function isDailyRunLocked() {
-  return MANABUPLAY_MODE === "daily" && hasCompletedDailyRun(LS, SESSION_DATE_KEY);
+  return MANABUPLAY_MODE === "daily" && hasCompletedDailyRun(LS, sessionDateKey);
 }
 
 function getDailyLockedButtonLabel() {
-  return currentLang === "fr" ? "Quotidien déjà joué" : "Daily already played";
+  return currentLang === "fr" ? "Déjà joué aujourd'hui" : "Already played today";
 }
 
 function syncDailyLaunchControls() {
@@ -213,24 +210,27 @@ function syncResultReplayControls() {
   replayButton.setAttribute("aria-disabled", isDailyResultLocked ? "true" : "false");
 
   if (isDailyResultLocked) {
-    replayButton.textContent = currentLang === "fr" ? "Terminé aujourd'hui" : "Done today";
+    replayButton.textContent = currentLang === "fr" ? "Déjà joué" : "Already played";
   }
 }
 
 const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
-const SESSION_DATE_KEY = getSessionDateKey({
+let sessionDateKey = getSessionDateKey({
   mode: MANABUPLAY_MODE,
   archiveConfig: MANABUPLAY_BOOT.archive || {},
   search: window.location.search,
 });
-const QUIZ_DATA =
-  MANABUPLAY_MODE === "daily" || MANABUPLAY_MODE === "archives"
+function buildQuizDataForSessionDate(dateKey: string): QuizEntry[] {
+  return MANABUPLAY_MODE === "daily" || MANABUPLAY_MODE === "archives"
     ? buildDailyQuizData({
         pool: RAW_QUIZ_DATA,
-        dateKey: SESSION_DATE_KEY,
+        dateKey,
         dailyConfig: MANABUPLAY_BOOT.daily || {},
       })
     : RAW_QUIZ_DATA;
+}
+
+let quizData = buildQuizDataForSessionDate(sessionDateKey);
 
 function localizedPath(lang: string, route: string): string {
   return `/${lang}/${route ? `${route}/` : ""}`;
@@ -295,11 +295,11 @@ function buildQuestionsForCurrentDiff(wordCount: number): QuizQuestion[] {
   return buildQuestions({
     mode: MANABUPLAY_MODE,
     count: wordCount,
-    quizData: QUIZ_DATA,
+    quizData,
     rawQuizData: RAW_QUIZ_DATA,
     currentLang,
     currentDiff,
-    sessionDateKey: SESSION_DATE_KEY,
+    sessionDateKey,
     boot: MANABUPLAY_BOOT,
     storage: LS,
     historyKey: PRACTICE_HISTORY_KEY,
@@ -342,6 +342,10 @@ function applyLang() {
   document.querySelectorAll<HTMLInputElement>("[data-i18n-ph]").forEach((element) => {
     const value = t(element.dataset.i18nPh || "");
     element.placeholder = typeof value === "string" ? value : "";
+  });
+  document.querySelectorAll<HTMLElement>("[data-aria-label-en]").forEach((element) => {
+    const label = currentLang === "fr" ? element.dataset.ariaLabelFr : element.dataset.ariaLabelEn;
+    if (label) element.setAttribute("aria-label", label);
   });
   document.getElementById("btnEN")?.classList.toggle("active", currentLang === "en");
   document.getElementById("btnFR")?.classList.toggle("active", currentLang === "fr");
@@ -505,7 +509,7 @@ function primeCompletedDailyShareState(
 function renderSingleRunTitleScreen() {
   if (!IS_SINGLE_RUN_MODE) return;
 
-  const formattedDate = formatSessionDate(SESSION_DATE_KEY);
+  const formattedDate = formatSessionDate(sessionDateKey);
   const isArchiveMode = MANABUPLAY_MODE === "archives";
   const completedDaily = getCompletedDailyRunRecord();
   const metaSecondary = document.getElementById("quizTitleMetaSecondary");
@@ -514,12 +518,9 @@ function renderSingleRunTitleScreen() {
     primeCompletedDailyShareState(completedDaily);
     setElementText(
       "quizTitleKicker",
-      currentLang === "fr" ? "Déjà joué aujourd'hui" : "Already played today",
+      currentLang === "fr" ? "Run du jour jouée" : "Today's run played",
     );
-    setElementText(
-      "quizTitleHeadline",
-      currentLang === "fr" ? "Quotidien terminé" : "Daily complete",
-    );
+    setElementText("quizTitleHeadline", currentLang === "fr" ? "Quotidien terminé" : "Daily done");
     setCompletedDailyTitleCopy(
       currentLang === "fr"
         ? `Score max : ${completedDaily.bestScore} pts`
@@ -532,7 +533,7 @@ function renderSingleRunTitleScreen() {
     if (metaSecondary instanceof HTMLElement) {
       metaSecondary.hidden = false;
       metaSecondary.textContent =
-        currentLang === "fr" ? "Archive visible demain" : "Archive visible tomorrow";
+        currentLang === "fr" ? "Archive disponible demain" : "Archived tomorrow";
     }
     syncDailyLaunchControls();
     return;
@@ -542,29 +543,29 @@ function renderSingleRunTitleScreen() {
     "quizTitleKicker",
     currentLang === "fr"
       ? isArchiveMode
-        ? "Archive sélectionnée"
+        ? getTranslatedText("archive_title_kicker", "Archive")
         : "Défi du jour"
       : isArchiveMode
-        ? "Selected archive"
-        : "Today's challenge",
+        ? getTranslatedText("archive_title_kicker", "Archive")
+        : "Today's run",
   );
   setElementText(
     "quizTitleHeadline",
     currentLang === "fr"
       ? isArchiveMode
-        ? `Archive du ${formattedDate}`
+        ? formattedDate
         : `Quotidien du ${formattedDate}`
       : isArchiveMode
-        ? `${formattedDate} archive`
+        ? formattedDate
         : `${formattedDate} daily`,
   );
   setTitleCopyText(
     currentLang === "fr"
       ? isArchiveMode
-        ? "Rejoue une ancienne run quotidienne. Le partage reste désactivé pour les archives."
+        ? getTranslatedText("archive_title_copy", "Rejoue ce quotidien en 10 questions.")
         : "Une run de 10 questions, renouvelée chaque jour."
       : isArchiveMode
-        ? "Replay a past daily run. Sharing stays disabled for archives."
+        ? getTranslatedText("archive_title_copy", "Replay this 10-question daily run.")
         : "A 10-question run, refreshed every day.",
   );
   setElementText("quizTitleMetaPrimary", currentLang === "fr" ? "10 questions" : "10 questions");
@@ -573,6 +574,35 @@ function renderSingleRunTitleScreen() {
     metaSecondary.hidden = true;
   }
   syncDailyLaunchControls();
+}
+
+function resetQuizToTitleScreen() {
+  showElement(getRequiredElement<HTMLElement>("diffArea"), "block");
+  hideElement(getRequiredElement<HTMLElement>("progressRow"));
+  hideElement(getRequiredElement<HTMLElement>("hudRow"));
+  hideElement(getRequiredElement<HTMLElement>("quizArea"));
+  hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
+  renderSingleRunTitleScreen();
+}
+
+function selectArchiveDate(dateKey: string) {
+  if (MANABUPLAY_MODE !== "archives" || !/^\d{4}-\d{2}-\d{2}$/.test(dateKey)) return;
+  if (dateKey === sessionDateKey) return;
+
+  sessionDateKey = dateKey;
+  quizData = buildQuizDataForSessionDate(sessionDateKey);
+  currentDiff = DIFFICULTIES[0] ?? null;
+  state = {
+    questions: [],
+    currentIndex: 0,
+    score: 0,
+    streak: 0,
+    bestStreak: 0,
+    answered: false,
+    correct: 0,
+  };
+  resetQuizToTitleScreen();
+  updateLocalizedLinks();
 }
 
 function setQuizHash() {
@@ -589,7 +619,7 @@ function scrollQuizSectionIntoView() {
 
   const nav = document.querySelector<HTMLElement>("nav");
   const navHeight = nav?.getBoundingClientRect().height ?? 72;
-  const topOffset = navHeight + 12;
+  const topOffset = navHeight + 24;
   const targetTop = target.getBoundingClientRect().top + window.scrollY - topOffset;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -924,11 +954,11 @@ function showResults() {
   animateScoreCounter(getRequiredElement<HTMLElement>("finalScore"), finalScore);
   getRequiredElement<HTMLElement>("finalBaseScore").textContent = `${baseScore} pts`;
   getRequiredElement<HTMLElement>("finalBaseScoreLabel").textContent =
-    currentLang === "fr" ? "Score base" : "Base score";
+    currentLang === "fr" ? "Points" : "Points";
   getRequiredElement<HTMLElement>("finalComboMultiplier").textContent =
     formatComboMultiplier(comboMultiplier);
   getRequiredElement<HTMLElement>("finalComboLabel").textContent =
-    currentLang === "fr" ? `Combo max x${state.bestStreak}` : `Best combo x${state.bestStreak}`;
+    currentLang === "fr" ? `Série x${state.bestStreak}` : `Streak x${state.bestStreak}`;
   getRequiredElement<HTMLElement>("finalCorrect").textContent = `${state.correct}/${total}`;
   getRequiredElement<HTMLElement>("finalPercent").textContent = `${pct}%`;
   getRequiredElement<HTMLElement>("finalStreak").textContent = String(state.bestStreak);
@@ -940,7 +970,7 @@ function showResults() {
   if (MANABUPLAY_MODE === "daily") {
     saveDailyRunCompletion({
       storage: LS,
-      dateKey: SESSION_DATE_KEY,
+      dateKey: sessionDateKey,
       score: state.score,
       correct: state.correct,
       total,
@@ -951,7 +981,7 @@ function showResults() {
   } else if (MANABUPLAY_MODE === "archives") {
     saveArchiveRunCompletion({
       storage: LS,
-      dateKey: SESSION_DATE_KEY,
+      dateKey: sessionDateKey,
       score: state.score,
       correct: state.correct,
       total,
@@ -961,7 +991,7 @@ function showResults() {
   }
   syncResultReplayControls();
 
-  if (MANABUPLAY_MODE === "practice" && currentDiff) {
+  if ((MANABUPLAY_MODE === "arcade" || MANABUPLAY_MODE === "practice") && currentDiff) {
     savePracticeSession({
       storage: LS,
       historyKey: PRACTICE_HISTORY_KEY,
@@ -1094,6 +1124,12 @@ function bindQuizActions() {
     });
   });
 }
+
+window.addEventListener("manabuplay:archive-date-selected", (event) => {
+  if (!(event instanceof CustomEvent)) return;
+  const dateKey = event.detail?.dateKey;
+  if (typeof dateKey === "string") selectArchiveDate(dateKey);
+});
 
 applyLang();
 renderDiffGrid();

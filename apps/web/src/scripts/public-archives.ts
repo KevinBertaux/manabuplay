@@ -5,6 +5,7 @@ type ArchiveRunRecord = {
 };
 
 const label = document.getElementById("archiveSelectedLabel");
+const archiveShell = document.getElementById("archives-list");
 const params = new URLSearchParams(window.location.search);
 const selectedDate = params.get("date");
 const fallbackDate = label?.getAttribute("data-default-date") || "";
@@ -13,8 +14,9 @@ const selectedDateKey = hasSelectedDateFormat ? selectedDate : null;
 const selectedArchive = selectedDateKey
   ? document.querySelector(`[data-archive-date='${selectedDateKey}'][data-archive-tone='archive']`)
   : null;
-const activeDate = selectedDateKey && selectedArchive ? selectedDateKey : fallbackDate;
+let activeDate = selectedDateKey && selectedArchive ? selectedDateKey : fallbackDate;
 const isFrench = document.documentElement.lang === "fr";
+const archiveLabels = archiveShell?.dataset || {};
 
 function readArchiveRecords() {
   try {
@@ -41,9 +43,7 @@ function readArchiveRecords() {
 }
 
 function formatSelectedLabel(dateKey: string) {
-  const prefix = isFrench
-    ? label?.getAttribute("data-prefix-fr")
-    : label?.getAttribute("data-prefix-en");
+  const prefix = archiveLabels.selectedPrefix || "Selected day";
   const formatted = new Intl.DateTimeFormat(isFrench ? "fr-FR" : "en-US", {
     day: "numeric",
     month: "long",
@@ -54,37 +54,38 @@ function formatSelectedLabel(dateKey: string) {
 }
 
 function formatAttemptLabel(attempts: number) {
-  if (isFrench) return attempts > 1 ? `${attempts} tentatives` : "1 tentative";
-  return attempts > 1 ? `${attempts} attempts` : "1 attempt";
+  const singular = archiveLabels.attemptSingular || "attempt";
+  const plural = archiveLabels.attemptPlural || "attempts";
+  return `${attempts} ${attempts > 1 ? plural : singular}`;
 }
 
 function updateCellFromRecord(cell: Element, record: ArchiveRunRecord | undefined) {
-  const status = cell.querySelector("[data-archive-status]");
   const score = cell.querySelector("[data-archive-score]");
   const attempts = cell.querySelector("[data-archive-attempts]");
-  const tone = cell.getAttribute("data-archive-tone");
+  const action = cell.querySelector("[data-archive-action]");
+  const medal = cell.querySelector("[data-archive-medal]");
 
   cell.classList.toggle("has-record", Boolean(record));
+  if (medal instanceof HTMLElement) medal.hidden = !record;
 
   if (!record) {
+    if (action) {
+      action.textContent = archiveLabels.playAction || "Play";
+    }
     return;
   }
 
-  if (status) {
-    status.textContent =
-      tone === "today"
-        ? isFrench
-          ? "Joué aujourd'hui"
-          : "Played today"
-        : isFrench
-          ? "Déjà joué"
-          : "Played";
-  }
   if (score) {
-    score.textContent = isFrench ? `${record.bestScore} pts max` : `${record.bestScore} pts best`;
+    const suffix = archiveLabels.scoreBestSuffix || "pts best";
+    score.textContent = suffix.startsWith("/")
+      ? `${record.bestScore}${suffix}`
+      : `${record.bestScore} ${suffix}`;
   }
   if (attempts) {
     attempts.textContent = formatAttemptLabel(record.attempts);
+  }
+  if (action) {
+    action.textContent = archiveLabels.replayAction || "Replay";
   }
 }
 
@@ -97,8 +98,8 @@ function updateMonthSummary(drawer: Element) {
   const availableCount = playableCells.length - playedCount;
 
   summary.textContent = isFrench
-    ? `${playedCount}/${playableCells.length} joués · ${availableCount} disponibles`
-    : `${playedCount}/${playableCells.length} played · ${availableCount} available`;
+    ? `${playedCount}/${playableCells.length} ${archiveLabels.summaryPlayed || "played"} · ${availableCount} ${archiveLabels.summaryRemaining || "left"}`
+    : `${playedCount}/${playableCells.length} ${archiveLabels.summaryPlayed || "played"} · ${availableCount} ${archiveLabels.summaryRemaining || "left"}`;
 }
 
 function bindArchiveMonthAccordion() {
@@ -122,12 +123,62 @@ if (label && activeDate) {
   label.textContent = formatSelectedLabel(activeDate);
 }
 
+function syncActiveArchiveDate(dateKey: string, options: { updateUrl?: boolean } = {}) {
+  activeDate = dateKey;
+  if (label) label.textContent = formatSelectedLabel(activeDate);
+
+  let nextActiveDrawer: HTMLDetailsElement | null = null;
+  document.querySelectorAll("[data-archive-date]").forEach((cell) => {
+    if (!(cell instanceof HTMLElement)) return;
+    const isActive = cell.getAttribute("data-archive-date") === activeDate;
+    cell.classList.toggle("is-active", isActive);
+    if (isActive) {
+      const drawer = cell.closest("details");
+      if (drawer instanceof HTMLDetailsElement) nextActiveDrawer = drawer;
+    }
+  });
+
+  if (nextActiveDrawer) {
+    document.querySelectorAll("[data-archive-month]").forEach((drawer) => {
+      if (drawer instanceof HTMLDetailsElement) drawer.open = drawer === nextActiveDrawer;
+    });
+  }
+
+  if (options.updateUrl) {
+    const nextUrl = new URL(window.location.href);
+    nextUrl.searchParams.set("date", activeDate);
+    nextUrl.hash = "";
+    history.replaceState(null, "", nextUrl);
+  }
+
+  window.dispatchEvent(
+    new CustomEvent("manabuplay:archive-date-selected", { detail: { dateKey: activeDate } }),
+  );
+}
+
 document.querySelectorAll("[data-archive-date]").forEach((cell) => {
   if (!(cell instanceof HTMLElement)) return;
 
   const dateKey = cell.getAttribute("data-archive-date") || "";
   const isActive = dateKey === activeDate && cell.getAttribute("data-archive-tone") === "archive";
   cell.classList.toggle("is-active", isActive);
+  if (cell instanceof HTMLAnchorElement) {
+    cell.addEventListener("click", (event) => {
+      event.preventDefault();
+      const isActionClick =
+        event.target instanceof Element && Boolean(event.target.closest("[data-archive-action]"));
+
+      if (!cell.classList.contains("is-active")) {
+        syncActiveArchiveDate(dateKey, { updateUrl: true });
+        return;
+      }
+
+      if (isActionClick) {
+        document.getElementById("quiz")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.replaceState(null, "", `${window.location.pathname}${window.location.search}#quiz`);
+      }
+    });
+  }
   updateCellFromRecord(cell, records[dateKey]);
 
   if (isActive) {

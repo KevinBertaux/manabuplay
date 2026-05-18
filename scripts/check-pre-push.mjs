@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 
 const ZERO_SHA = "0000000000000000000000000000000000000000";
 const dryRun = process.argv.includes("--dry-run");
+const filesArg = process.argv.find((arg) => arg.startsWith("--files="));
 
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
@@ -48,6 +49,12 @@ function runNpmScript(scriptName) {
 
 function normalizePath(filePath) {
   return filePath.replaceAll("\\", "/").trim();
+}
+
+function getCliFiles() {
+  if (!filesArg) return [];
+
+  return filesArg.slice("--files=".length).split(",").map(normalizePath).filter(Boolean);
 }
 
 function getDefaultRemoteRef() {
@@ -133,13 +140,19 @@ function isAdminPath(filePath) {
   return filePath.startsWith("apps/admin/") || filePath.startsWith("tests/admin/");
 }
 
-function isGlobalPath(filePath) {
+function isSharedDataPath(filePath) {
+  return filePath.startsWith("shared/data/");
+}
+
+function isSharedLibPath(filePath) {
+  return filePath.startsWith("shared/lib/") || filePath.startsWith("tests/shared/");
+}
+
+function isHeavyGlobalPath(filePath) {
   return (
-    filePath.startsWith("shared/") ||
     filePath.startsWith("scripts/") ||
     filePath.startsWith(".github/") ||
     filePath.startsWith(".githooks/") ||
-    filePath.startsWith("tests/shared/") ||
     filePath === "package.json" ||
     filePath === "package-lock.json" ||
     filePath === "eslint.config.mjs" ||
@@ -153,40 +166,86 @@ function isGlobalPath(filePath) {
   );
 }
 
+function addChecks(target, checks) {
+  for (const check of checks) {
+    target.add(check);
+  }
+}
+
 function selectChecks(files) {
   if (files.length === 0) return [];
   if (files.every(isDocsOnlyPath)) return ["check:quick"];
 
   const touchesWeb = files.some(isWebPath);
   const touchesAdmin = files.some(isAdminPath);
-  const touchesGlobal = files.some(isGlobalPath);
+  const touchesSharedData = files.some(isSharedDataPath);
+  const touchesSharedLib = files.some(isSharedLibPath);
+  const touchesHeavyGlobal = files.some(isHeavyGlobalPath);
 
-  if (touchesGlobal || (touchesWeb && touchesAdmin) || (!touchesWeb && !touchesAdmin)) {
+  if (
+    touchesHeavyGlobal ||
+    (touchesWeb && touchesAdmin) ||
+    (!touchesWeb && !touchesAdmin && !touchesSharedData && !touchesSharedLib)
+  ) {
     return ["check"];
   }
 
+  const checks = new Set();
+
   if (touchesWeb) {
-    return [
+    addChecks(checks, [
       "check:web",
       "check:quick",
       "check:inline-usage",
       "check:web-inline-zero",
       "check:canonical-boundaries",
-    ];
+    ]);
   }
 
-  return ["check:admin", "check:quick", "check:canonical-boundaries"];
+  if (touchesAdmin) {
+    addChecks(checks, ["check:admin", "check:quick", "check:canonical-boundaries"]);
+  }
+
+  if (touchesSharedData) {
+    addChecks(checks, ["check:web", "check:quick", "check:canonical-boundaries"]);
+  }
+
+  if (touchesSharedLib) {
+    addChecks(checks, [
+      "check:web",
+      "check:admin",
+      "check:quick",
+      "test:unit",
+      "check:canonical-boundaries",
+    ]);
+  }
+
+  return [...checks];
 }
 
-const updates = readPushUpdates();
+function needsBrowserRecommendation(filePath) {
+  return (
+    filePath.startsWith("apps/web/src/pages/") ||
+    filePath.startsWith("apps/web/src/components/") ||
+    filePath.startsWith("apps/web/src/scripts/") ||
+    filePath.startsWith("apps/web/src/styles/") ||
+    filePath === "shared/data/manabuplay/product-copy.ts" ||
+    filePath.startsWith("shared/lib/manabuplay-")
+  );
+}
+
+const cliFiles = getCliFiles();
+const updates = cliFiles.length > 0 ? [] : readPushUpdates();
 const changedFiles =
-  updates.length > 0
-    ? [
-        ...new Set(
-          updates.flatMap((update) => getChangedFiles(update.localSha, update.remoteSha)).sort(),
-        ),
-      ]
-    : getWorkingTreeFiles();
+  cliFiles.length > 0
+    ? [...new Set(cliFiles)].sort()
+    : updates.length > 0
+      ? [
+          ...new Set(
+            updates.flatMap((update) => getChangedFiles(update.localSha, update.remoteSha)).sort(),
+          ),
+        ]
+      : getWorkingTreeFiles();
 
 if (changedFiles.length === 0) {
   console.log("Skipping pre-push checks for ref deletion or empty push.");
@@ -195,12 +254,20 @@ if (changedFiles.length === 0) {
 
 const checks = selectChecks(changedFiles);
 
-if (updates.length === 0) {
+if (cliFiles.length > 0) {
+  console.log("Using explicit file list for pre-push check selection.");
+} else if (updates.length === 0) {
   console.log("No pre-push refs received; using working tree changes.");
 }
 console.log("Adaptive pre-push changed files:");
 changedFiles.forEach((filePath) => console.log(`- ${filePath}`));
 console.log(`Adaptive pre-push checks: ${checks.map((check) => `npm run ${check}`).join(" && ")}`);
+
+if (changedFiles.some(needsBrowserRecommendation)) {
+  console.log(
+    "Browser-facing change detected. Run `npm run test:e2e:critical` when navigation, storage, forms, or quiz behavior changed.",
+  );
+}
 
 for (const check of checks) {
   runNpmScript(check);

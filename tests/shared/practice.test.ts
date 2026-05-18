@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { buildPracticeBootData } from "../../shared/lib/manabuplay-practice";
 
 describe("practice boot data", () => {
-  it("exposes the four framed practice recipes and cooldown settings", () => {
+  it("exposes the four framed arcade recipes and cooldown settings", () => {
     const bootData = buildPracticeBootData();
 
-    expect(bootData.mode).toBe("practice");
+    expect(bootData.mode).toBe("arcade");
     expect(bootData.practice.questionCount).toBe(10);
     expect(bootData.practice.cooldownSessions).toBe(2);
     expect(bootData.practice.recipes).toEqual({

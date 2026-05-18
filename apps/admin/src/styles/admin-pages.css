@@ -4105,6 +4105,260 @@ html {
   line-height: 1.55;
 }
 
+.archive-card-lab {
+  display: grid;
+  gap: 16px;
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(34, 211, 238, 0.1), transparent 30%),
+    rgba(8, 10, 24, 0.78);
+  padding: 16px;
+}
+
+.archive-card-lab-head {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(280px, 1.2fr);
+  gap: 16px;
+  align-items: end;
+}
+
+.archive-card-lab-head h2 {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-pixel);
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.archive-card-lab-head p {
+  margin: 0;
+  color: #c7c2df;
+  line-height: 1.65;
+}
+
+.archive-card-style-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.archive-card-style {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(2, 6, 23, 0.66);
+  padding: 12px;
+}
+
+.archive-card-style-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.archive-card-style-head > span {
+  display: inline-flex;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 8px;
+  background: rgba(139, 92, 246, 0.12);
+  color: #ddd6fe;
+  font-family: var(--font-pixel);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  padding: 8px;
+  text-transform: uppercase;
+}
+
+.archive-card-style-head h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 0.98rem;
+}
+
+.archive-card-style-head p {
+  margin: 4px 0 0;
+  color: #bdb7d8;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.archive-state-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.archive-state-card {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-height: 148px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.78);
+  padding: 10px;
+}
+
+.archive-state-card-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.archive-state-card-top strong {
+  color: #fff;
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+}
+
+.archive-state-card-top span {
+  max-width: 86px;
+  color: #9ca3af;
+  font-size: 0.58rem;
+  font-weight: 950;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.archive-state-card-body {
+  display: grid;
+  gap: 4px;
+}
+
+.archive-state-card-body h4 {
+  margin: 0;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.archive-state-card-body p,
+.archive-state-card-body small {
+  margin: 0;
+  color: #c7c2df;
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
+.archive-state-card-body .archive-state-card-score {
+  color: #facc15;
+  font-family: var(--font-pixel);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+}
+
+.archive-state-card-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  margin-top: auto;
+  border: 1px solid rgba(34, 211, 238, 0.42);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.24), rgba(139, 92, 246, 0.2));
+  color: #e0fbff;
+  font-family: var(--font-pixel);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.archive-state-card--quiet.is-played:not(.is-selected) {
+  border-color: rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.archive-state-card--quiet.is-unplayed:not(.is-selected) {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.44);
+}
+
+.archive-state-card--quiet.is-unplayed:not(.is-selected) .archive-state-card-body small {
+  color: #8b849e;
+}
+
+.archive-state-card--quiet.is-selected {
+  border-color: rgba(34, 211, 238, 0.46);
+  background: rgba(34, 211, 238, 0.09);
+  box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.08);
+}
+
+.archive-state-card--arcade {
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(34, 211, 238, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.04) 1px, transparent 1px), rgba(2, 6, 23, 0.86);
+  background-size: 12px 12px;
+}
+
+.archive-state-card--arcade.is-played {
+  border-color: rgba(139, 92, 246, 0.42);
+}
+
+.archive-state-card--arcade.is-unplayed {
+  border-color: rgba(71, 85, 105, 0.5);
+  opacity: 0.84;
+}
+
+.archive-state-card--arcade.is-selected {
+  border-color: rgba(236, 72, 153, 0.58);
+  box-shadow:
+    0 0 0 1px rgba(236, 72, 153, 0.18),
+    0 0 22px rgba(236, 72, 153, 0.16);
+  opacity: 1;
+}
+
+.archive-state-card--score {
+  border-left-width: 4px;
+}
+
+.archive-state-card--score.is-played {
+  border-left-color: rgba(250, 204, 21, 0.72);
+}
+
+.archive-state-card--score.is-unplayed {
+  border-left-color: rgba(148, 163, 184, 0.42);
+}
+
+.archive-state-card--score.is-selected {
+  border-color: rgba(34, 211, 238, 0.5);
+  border-left-color: rgba(34, 211, 238, 0.85);
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.12), rgba(15, 23, 42, 0.78));
+}
+
+.archive-state-card--minimal {
+  min-height: 108px;
+  gap: 4px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.52);
+}
+
+.archive-state-card--minimal .archive-state-card-top span,
+.archive-state-card--minimal .archive-state-card-body small {
+  display: none;
+}
+
+.archive-state-card--minimal.is-played .archive-state-card-score {
+  color: #fde68a;
+}
+
+.archive-state-card--minimal.is-unplayed .archive-state-card-score {
+  color: #facc15;
+}
+
+.archive-state-card--minimal.is-selected {
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .archive-variant-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -4613,6 +4867,8 @@ html {
 @media (max-width: 1120px) {
   .archive-variant-grid,
   .archive-mockup-hero,
+  .archive-card-lab-head,
+  .archive-card-style-grid,
   .archive-option-d-shell {
     grid-template-columns: 1fr;
   }
@@ -4634,6 +4890,7 @@ html {
   }
 
   .archive-mockup-summary,
+  .archive-state-grid,
   .archive-calendar-grid {
     grid-template-columns: 1fr;
   }

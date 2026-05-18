@@ -95,12 +95,12 @@ test.describe("public flow", () => {
   test("switches language and keeps the hero CTA prominent", async ({ page }) => {
     await preparePage(page, ASTRO_HOME_URL);
 
-    await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Start the quiz");
+    await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Play today's quiz");
     await page.locator("#btnFR").click();
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Lancer le quiz");
+    await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Jouer le quiz du jour");
     await expect(page.locator("[data-i18n='hero_tagline']")).toContainText(
-      "Apprends du vocabulaire japonais",
+      "Transforme les mots japonais",
     );
     await expect(page.locator("#btnES")).toHaveCount(0);
   });
@@ -134,9 +134,7 @@ test.describe("public flow", () => {
     await expect(page.locator("#answersGrid .answer-btn.correct")).toHaveCount(1);
   });
 
-  test("keeps Daily as a one-click run without the Practice difficulty picker", async ({
-    page,
-  }) => {
+  test("keeps Daily as a one-click run without the Arcade difficulty picker", async ({ page }) => {
     await prepareModePage(page, `${ASTRO_URL}fr/daily/`);
 
     await expect(page.locator("#quizTitleScreen")).toBeVisible();
@@ -214,11 +212,30 @@ test.describe("public flow", () => {
       "[data-archive-date='2026-04-16'][data-archive-tone='archive']",
     );
     await expect(archiveCell).toHaveClass(/has-record/);
-    await expect(archiveCell.locator("[data-archive-status]")).toHaveText("Déjà joué");
-    await expect(archiveCell.locator("[data-archive-score]")).toHaveText("132 pts max");
+    await expect(archiveCell.locator("[data-archive-status]")).toHaveCount(0);
+    await expect(archiveCell.locator("[data-archive-medal]")).toBeVisible();
+    await expect(archiveCell.locator("[data-archive-score]")).toHaveText("132/200");
     await expect(archiveCell.locator("[data-archive-attempts]")).toHaveText("2 tentatives");
     await archiveCell.click();
-    await expect(page).toHaveURL(/date=2026-04-16/);
+    await expect(page).not.toHaveURL(/#quiz/);
+    await archiveCell.locator("[data-archive-action]").click();
+    await expect(page).toHaveURL(/#quiz/);
+  });
+
+  test("selects archive dates without reloading or jumping to the quiz", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
+
+    const nextArchiveCell = page.locator(
+      "[data-archive-date='2026-04-17'][data-archive-tone='archive']",
+    );
+    await nextArchiveCell.click();
+
+    await expect(page).toHaveURL(/date=2026-04-17/);
+    await expect(page).not.toHaveURL(/#quiz/);
+    await expect(nextArchiveCell).toHaveClass(/is-active/);
+    await expect(page.locator("#archiveSelectedLabel")).toContainText("17 avril 2026");
+    await expect(page.locator("#quizTitleHeadline")).toContainText("17 avril 2026");
+    await expect(page.locator("#quizArea")).toBeHidden();
   });
 
   test("stores archive completion and keeps archives replayable", async ({ page }) => {
@@ -255,8 +272,8 @@ test.describe("public flow", () => {
     await expect(page.locator("[data-archive-month='2026-04']")).not.toHaveAttribute("open", "");
   });
 
-  test("keeps Practice as the only mode with explicit difficulty selection", async ({ page }) => {
-    await prepareModePage(page, `${ASTRO_URL}fr/practice/`);
+  test("keeps Arcade as the only mode with explicit difficulty selection", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/arcade/`);
 
     await expect(page.locator("#diffGrid")).toBeVisible();
     await expect(page.locator(".diff-card")).toHaveCount(4);
@@ -265,8 +282,8 @@ test.describe("public flow", () => {
     await expect(page.locator("#quizArea")).toBeVisible();
   });
 
-  test("keeps Practice browser sessions inside one random pack", async ({ page }) => {
-    await prepareModePage(page, `${ASTRO_URL}fr/practice/`);
+  test("keeps Arcade browser sessions inside one random pack", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/arcade/`);
 
     await page.locator("#diffGrid .diff-card").nth(1).click();
     await page.locator("#startBtn").click();
@@ -392,7 +409,7 @@ test.describe("public flow", () => {
     await input.fill("first+site@mail.tld");
     await submit.click();
     await expect(success).toBeVisible();
-    await expect(success).toContainText("Thanks, you're on the list.");
+    await expect(success).toContainText("You're on the list.");
     await expect(submit).toHaveText("Saved");
     await expect(input).toHaveValue("");
 

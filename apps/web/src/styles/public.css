@@ -7,7 +7,8 @@
 
 @layer components {
   .public-quiz-section {
-    @apply relative overflow-hidden px-6 py-14 scroll-mt-40;
+    /* Hash links (e.g. footer "Play quiz"): leave room under fixed nav + wrapped rows */
+    @apply relative overflow-hidden px-6 py-14 scroll-mt-48;
   }
 
   .public-quiz-container {
@@ -15,11 +16,11 @@
   }
 
   .public-quiz-intro {
-    @apply mx-auto mb-8 max-w-2xl text-center;
+    @apply mx-auto max-w-2xl border-b border-[rgba(139,92,246,0.22)] pb-4 text-center sm:pb-5;
   }
 
   .public-quiz-heading {
-    @apply mt-4 text-white;
+    @apply mt-3 text-white sm:mt-4;
   }
 
   .public-quiz-subtitle {
@@ -27,7 +28,7 @@
   }
 
   .archive-calendar-shell {
-    @apply mt-[-16px] grid w-full max-w-[980px] gap-5 rounded-xl border px-4 py-6 text-left sm:px-6 sm:py-8 lg:p-10;
+    @apply mt-0 grid w-full max-w-[980px] gap-5 rounded-xl border px-4 py-6 text-left sm:px-6 sm:py-8 lg:p-10;
     border-color: rgba(139, 92, 246, 0.34);
     background: rgba(15, 12, 26, 0.94);
     box-shadow:
@@ -82,13 +83,16 @@
   }
 
   .archive-calendar-grid {
-    @apply pb-4;
+    @apply auto-rows-fr items-stretch pb-4;
   }
 
   .archive-calendar-cell {
-    @apply grid min-h-16 content-start gap-1 rounded-lg border p-2 font-body no-underline transition-colors duration-150 sm:min-h-24;
-    border-color: rgba(139, 92, 246, 0.18);
-    background: rgba(26, 22, 48, 0.46);
+    @apply grid h-full min-h-16 gap-1 rounded-lg border p-2 font-body no-underline transition-colors duration-150 sm:min-h-24;
+    border-color: rgba(139, 92, 246, 0.24);
+    background:
+      linear-gradient(rgba(34, 211, 238, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34, 211, 238, 0.035) 1px, transparent 1px), rgba(13, 16, 36, 0.82);
+    background-size: 12px 12px;
     color: rgba(226, 217, 243, 0.82);
   }
 
@@ -99,11 +103,15 @@
   }
 
   .archive-calendar-cell.is-active {
-    border-color: rgba(232, 121, 249, 0.5);
-    background: rgba(232, 121, 249, 0.12);
+    border-color: rgba(236, 72, 153, 0.58);
+    background:
+      linear-gradient(rgba(34, 211, 238, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34, 211, 238, 0.035) 1px, transparent 1px),
+      rgba(236, 72, 153, 0.12);
+    background-size: 12px 12px;
     box-shadow:
-      0 0 0 1px rgba(232, 121, 249, 0.18),
-      0 0 18px rgba(232, 121, 249, 0.12);
+      0 0 0 1px rgba(236, 72, 153, 0.18),
+      0 0 22px rgba(236, 72, 153, 0.16);
     color: #fff;
   }
 
@@ -138,10 +146,7 @@
   }
 
   .archive-calendar-cell.has-record {
-    border-color: rgba(250, 204, 21, 0.32);
-    background:
-      radial-gradient(circle at 12% 0%, rgba(250, 204, 21, 0.12), transparent 34%),
-      rgba(26, 22, 48, 0.52);
+    border-color: rgba(139, 92, 246, 0.42);
   }
 
   .archive-calendar-cell-top {
@@ -152,33 +157,61 @@
     @apply font-pixel text-sm text-white sm:text-base;
   }
 
-  .archive-calendar-cell-top small {
-    @apply text-right text-[0.54rem] font-black uppercase leading-tight;
-    color: rgba(34, 211, 238, 0.72);
-    letter-spacing: 0.05em;
+  .archive-calendar-medal {
+    @apply grid h-5 w-5 place-items-center rounded-full border text-[0.64rem] font-black leading-none;
+    border-color: rgba(250, 204, 21, 0.34);
+    background: rgba(250, 204, 21, 0.12);
+    color: #facc15;
+    box-shadow: 0 0 10px rgba(250, 204, 21, 0.12);
   }
 
   .archive-calendar-cell-title {
     @apply hidden;
   }
 
-  .archive-calendar-status {
-    @apply inline-flex w-fit rounded-md border px-1.5 py-1 text-[0.56rem] font-black uppercase;
-    border-color: rgba(34, 211, 238, 0.16);
-    background: rgba(34, 211, 238, 0.07);
-    color: rgba(34, 211, 238, 0.86);
-    letter-spacing: 0.06em;
+  .archive-calendar-cell-note {
+    @apply hidden text-[0.68rem] font-black uppercase leading-tight sm:block;
+    color: rgba(34, 211, 238, 0.74);
+    letter-spacing: 0.05em;
   }
 
-  .archive-calendar-cell.has-record .archive-calendar-status {
-    border-color: rgba(250, 204, 21, 0.22);
-    background: rgba(250, 204, 21, 0.1);
-    color: #fde68a;
+  .archive-calendar-cell--today .archive-calendar-cell-title {
+    @apply block text-[0.68rem] font-black uppercase leading-tight;
+    color: #cffafe;
+    letter-spacing: 0.05em;
   }
 
   .archive-calendar-cell-meta {
-    @apply mt-auto hidden gap-1 text-[0.68rem] font-bold leading-tight sm:grid;
+    @apply hidden gap-1 text-[0.68rem] font-bold leading-tight sm:grid;
     color: rgba(226, 217, 243, 0.68);
+  }
+
+  .archive-calendar-cell-meta [data-archive-score] {
+    color: #facc15;
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+  }
+
+  .archive-calendar-action {
+    @apply pointer-events-none invisible mt-1 inline-flex min-h-8 items-center justify-center rounded-md border px-2 font-pixel text-[0.62rem] uppercase no-underline opacity-0;
+    border-color: rgba(34, 211, 238, 0.42);
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.24), rgba(139, 92, 246, 0.2));
+    color: #e0fbff;
+    font-size: 0;
+    letter-spacing: 0.08em;
+    transition:
+      opacity 150ms ease,
+      visibility 150ms ease;
+  }
+
+  .archive-calendar-action::before {
+    content: "▶";
+    font-size: 0.62rem;
+  }
+
+  .archive-calendar-cell.is-active .archive-calendar-action {
+    @apply pointer-events-auto visible opacity-100;
   }
 
   .quiz-section-glow {
@@ -727,6 +760,14 @@
   }
 
   @media (min-width: 640px) {
+    .archive-calendar-action {
+      font-size: 0.62rem;
+    }
+
+    .archive-calendar-action::before {
+      content: none;
+    }
+
     .answer-btn {
       grid-template-columns: 1.75rem minmax(0, 1fr);
     }

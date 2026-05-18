@@ -10,10 +10,69 @@ on:
       - "refactor/**"
       - "fix/**"
       - "feat/**"
+      # Product / landing passes (e.g. landing-placement-pass-2)
+      - "landing-*"
   pull_request:
 
 jobs:
-  validate:
+  static:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Static checks
+        run: npm run check
+
+  unit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm run test:unit
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build apps
+        run: npm run build
+
+  e2e-critical:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,8 +91,11 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Formatting check
-        run: npm run format:check
+      - name: Build web app
+        run: npm run build:web
 
-      - name: Project feature checks
-        run: npm run check:feature
+      - name: Public UI guards
+        run: npm run test:e2e:ui-guards
+
+      - name: Critical public flows
+        run: npm run test:e2e:critical

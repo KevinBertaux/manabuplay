@@ -1,79 +1,66 @@
-import { PUBLIC_LOCALES, type KnownPublicLocale, type PublicLocale } from "./public-locales";
+import { PUBLIC_LOCALES, type PublicLocale } from "./public-locales";
 
-export const PUBLIC_MODE_KEYS = ["daily", "practice", "archives"] as const;
+export const PUBLIC_MODE_KEYS = ["daily", "arcade", "archives"] as const;
 
 export type PublicModeKey = (typeof PUBLIC_MODE_KEYS)[number];
 
-type LocalizedCopy = Record<KnownPublicLocale, string>;
+/** Locales actually built for the public web (`PUBLIC_LOCALES`). Spanish is planned, not shipped here. */
+type LocalizedCopy = Record<PublicLocale, string>;
+
+/** Link back to the localized landing page (mode routes have no other in-page "home" affordance). */
+export const PUBLIC_NAV_HOME_LABEL: Record<PublicLocale, string> = {
+  en: "Home",
+  fr: "Accueil",
+};
 
 export const PUBLIC_MODE_COPY: Record<
   PublicModeKey,
   {
     navLabel: LocalizedCopy;
     title: LocalizedCopy;
-    kicker: LocalizedCopy;
     description: LocalizedCopy;
-    status: LocalizedCopy;
   }
 > = {
   daily: {
-    navLabel: { en: "Daily", fr: "Quotidien", es: "Diario" },
-    title: { en: "Daily quiz", fr: "Quiz quotidien", es: "Quiz diario" },
-    kicker: {
-      en: "One shared run per day",
-      fr: "Une run commune par jour",
-      es: "Una partida común al día",
-    },
+    navLabel: { en: "Daily", fr: "Quotidien" },
+    title: { en: "Daily Japanese quiz", fr: "Quiz japonais du jour" },
     description: {
-      en: "Play the shared 10-question daily quiz: one challenge per day, no account required.",
-      fr: "Joue le quiz quotidien commun de 10 questions : un défi par jour, sans compte.",
-      es: "La ruta Diario alojará el quiz de 10 preguntas con seed: un reto al día, sin cuenta.",
-    },
-    status: {
-      en: "v0.1: deterministic daily quiz wired from the pack catalog.",
-      fr: "v0.1 : quiz quotidien déterministe branché sur le catalogue de packs.",
-      es: "Esqueleto v0.1: ruta lista, integración de gameplay después.",
+      en: "Play today's 10-question Japanese vocabulary quiz. Same challenge for everyone, no account required.",
+      fr: "Joue le quiz japonais du jour en 10 questions. Le même défi pour tout le monde, sans compte.",
     },
   },
-  practice: {
-    navLabel: { en: "Practice", fr: "Libre", es: "Práctica" },
-    title: { en: "Practice mode", fr: "Mode Libre", es: "Modo práctica" },
-    kicker: {
-      en: "Four difficulties, longer sessions",
-      fr: "Quatre difficultés, sessions plus longues",
-      es: "Cuatro dificultades, sesiones más largas",
-    },
+  arcade: {
+    navLabel: { en: "Arcade", fr: "Arcade" },
+    title: { en: "Arcade mode", fr: "Mode Arcade" },
     description: {
-      en: "Train freely across four difficulties, with 10-question sessions and a 2-session word cooldown.",
-      fr: "Entraîne-toi librement sur quatre difficultés, avec des sessions de 10 questions et un cooldown de deux sessions par mot.",
-      es: "Práctica permitirá entrenar libremente en cuatro dificultades con cooldown de dos sesiones por palabra.",
-    },
-    status: {
-      en: "v0.1: Practice mode is live with four recipes and session cooldown.",
-      fr: "v0.1 : le mode Libre est branché avec quatre recettes et cooldown de session.",
-      es: "Esqueleto v0.1: marco definido, constructor de sesión después.",
+      en: "Play quick 10-question Japanese vocabulary runs across four difficulty levels. No account, no lesson plan: just one more run when you want it.",
+      fr: "Enchaîne des runs rapides de 10 questions de vocabulaire japonais sur quatre difficultés. Pas de compte, pas de leçon figée : juste une petite dernière quand tu veux.",
     },
   },
   archives: {
-    navLabel: { en: "Archives", fr: "Archives", es: "Archivo" },
-    title: { en: "Archives", fr: "Archives", es: "Archivo" },
-    kicker: {
-      en: "Past daily quizzes, no sharing",
-      fr: "Anciens quotidiens, sans partage",
-      es: "Diarios anteriores, sin compartir",
-    },
+    navLabel: { en: "Archives", fr: "Archives" },
+    title: { en: "Archives", fr: "Archives" },
     description: {
-      en: "Replay past daily quizzes by date, with the same 10-question seeded run and no sharing in v0.1.",
-      fr: "Rejoue les anciens quotidiens par date, avec la même run seedée de 10 questions et sans partage en v0.1.",
-      es: "Archivo expondrá diarios anteriores generados por fecha, sin mecánica de compartir en v0.1.",
-    },
-    status: {
-      en: "v0.1: Archives are live by date, without sharing.",
-      fr: "v0.1 : les Archives sont jouables par date, sans partage.",
-      es: "Esqueleto v0.1: ruta lista, gestión de fechas después.",
+      en: "Replay past daily runs by date and keep track of your best scores locally.",
+      fr: "Rejoue les anciens quotidiens par date et garde tes meilleurs scores en local.",
     },
   },
 };
+
+/**
+ * Paths generated for end users (marketing + quiz). Excludes `/internal/*`, assets, and `404.html`.
+ * Use for audits, sitemaps, or checks — keep in sync with `src/pages/`.
+ */
+export function listPublicUserFacingPaths(): readonly string[] {
+  const paths: string[] = ["/"];
+  for (const locale of PUBLIC_LOCALES) {
+    paths.push(getLocalizedHomePath(locale));
+    for (const mode of PUBLIC_MODE_KEYS) {
+      paths.push(getLocalizedModePath(locale, mode));
+    }
+  }
+  return paths;
+}
 
 export function getLocalizedHomePath(locale: PublicLocale) {
   return `/${locale}/`;

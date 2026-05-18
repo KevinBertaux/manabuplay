@@ -30,6 +30,7 @@ const heroSubClass =
 const statValueClass = "font-pixel text-2xl";
 const featureIconBaseClass =
   "mb-4 flex h-11 w-11 items-center justify-center rounded-lg border text-2xl";
+const noAccountStatValue = "0";
 ---
 <PublicLayout
   locale={locale}
@@ -78,7 +79,7 @@ const featureIconBaseClass =
         </div>
         <div class="w-px h-10 bg-slate-800 hidden sm:block"></div>
         <div class="text-center min-w-24">
-          <div class:list={[statValueClass, "text-[var(--cyan)]"]}>Free</div>
+          <div class:list={[statValueClass, "text-[var(--cyan)]"]}>{noAccountStatValue}</div>
           <div class="stat-label text-slate-500 mt-1" data-i18n="stat_free"></div>
         </div>
       </div>

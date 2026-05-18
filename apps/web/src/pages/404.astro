@@ -1,0 +1,32 @@
+---
+import "../styles/public.css";
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, follow" />
+    <title>404 — ManabuPlay</title>
+    <meta name="theme-color" content="#0a0911" />
+  </head>
+  <body class="m-0 min-h-[100svh] bg-[#0a0911] font-sans text-slate-200">
+    <main class="grid min-h-[100svh] place-content-center gap-6 px-6 py-12 text-center">
+      <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">404</p>
+      <h1 class="text-2xl font-semibold text-white">Page not found</h1>
+      <p class="max-w-md text-balance text-slate-400">
+        This URL is not part of the public site. Pick a language below or open the home quiz.
+      </p>
+      <p class="max-w-md text-balance text-sm text-slate-500" lang="fr">
+        Cette adresse ne correspond pas au site public. Choisis une langue ci-dessous ou ouvre l’accueil.
+      </p>
+      <nav class="flex flex-wrap items-center justify-center gap-2 text-sm" aria-label="Home">
+        <a class="rounded-md px-3 py-2 text-[#22d3ee] hover:bg-[rgba(34,211,238,.08)] hover:underline" href="/">Language</a>
+        <span class="text-slate-600" aria-hidden="true">·</span>
+        <a class="rounded-md px-3 py-2 text-[#22d3ee] hover:bg-[rgba(34,211,238,.08)] hover:underline" href="/en/">English</a>
+        <span class="text-slate-600" aria-hidden="true">·</span>
+        <a class="rounded-md px-3 py-2 text-[#22d3ee] hover:bg-[rgba(34,211,238,.08)] hover:underline" href="/fr/">Français</a>
+      </nav>
+    </main>
+  </body>
+</html>
