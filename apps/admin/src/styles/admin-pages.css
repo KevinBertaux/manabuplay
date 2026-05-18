@@ -4149,7 +4149,7 @@ html {
   gap: 12px;
   min-width: 0;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
+  border-radius: 12px;
   background: rgba(2, 6, 23, 0.66);
   padding: 12px;
 }
@@ -4170,7 +4170,7 @@ html {
   font-family: var(--font-pixel);
   font-size: 0.64rem;
   letter-spacing: 0.08em;
-  padding: 7px 8px;
+  padding: 8px;
   text-transform: uppercase;
 }
 
@@ -4230,7 +4230,7 @@ html {
 
 .archive-state-card-body {
   display: grid;
-  gap: 3px;
+  gap: 4px;
 }
 
 .archive-state-card-body h4 {
@@ -4336,8 +4336,8 @@ html {
 
 .archive-state-card--minimal {
   min-height: 108px;
-  gap: 5px;
-  border-radius: 10px;
+  gap: 4px;
+  border-radius: 8px;
   background: rgba(15, 23, 42, 0.52);
 }
 

@@ -17,6 +17,7 @@ import type {
   BootTranslationValue,
   Difficulty,
   QuizBootData,
+  QuizEntry,
   QuizQuestion,
   ResultTier,
   RuntimeState,
@@ -219,7 +220,7 @@ let sessionDateKey = getSessionDateKey({
   archiveConfig: MANABUPLAY_BOOT.archive || {},
   search: window.location.search,
 });
-function buildQuizDataForSessionDate(dateKey: string): QuizQuestion[] {
+function buildQuizDataForSessionDate(dateKey: string): QuizEntry[] {
   return MANABUPLAY_MODE === "daily" || MANABUPLAY_MODE === "archives"
     ? buildDailyQuizData({
         pool: RAW_QUIZ_DATA,
