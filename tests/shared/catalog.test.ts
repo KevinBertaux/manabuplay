@@ -94,7 +94,7 @@ describe("catalog", () => {
     expect(payload.difficulties).toEqual(DIFFICULTIES);
     expect(payload.lang).toHaveProperty("en");
     expect(payload.lang).toHaveProperty("fr");
-    expect(payload.lang.en.stat_words).toBe("170 WORDS");
-    expect(payload.lang.fr.stat_words).toBe("170 MOTS");
+    expect(payload.lang.en.stat_words).toBe("WORDS IN PLAY");
+    expect(payload.lang.fr.stat_words).toBe("MOTS EN JEU");
   });
 });

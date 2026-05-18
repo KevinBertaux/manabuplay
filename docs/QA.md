@@ -1,39 +1,29 @@
 # QA Locale
 
-Objectif : tester assez tot pour eviter les regressions, sans lancer la suite lourde pour une modification qui ne touche pas l'UX.
+Objectif : garder un feedback utile sans lancer toute la batterie pour une modification faible risque.
 
 ## Regle De Base
 
-Les E2E sont reserves aux changements qui touchent l'UX/UI visible, la navigation, les formulaires, le stockage navigateur, le bridge web/admin, le responsive ou une integration navigateur.
+Les validations sont separees en quatre moments :
 
-Par défaut, l'admin ne déclenche plus de grosse QA Playwright bloquante. C'est un outil interne : on garde `check:admin`, lint, format, build et unit tests, puis on lance Playwright admin seulement quand la modification touche une interaction admin critique.
+- Pendant le dev : lancer le plus petit check qui couvre le risque modifie.
+- Avant push : laisser le hook adaptatif bloquer les erreurs probables.
+- En PR : CI lisible par couche, avec statique, unit, build et E2E publics critiques separes.
+- En release : coverage, visuels, parite legacy et suites lourdes.
 
-Pour les donnees, le scoring, le catalogue, les packs, les helpers TypeScript et la logique shared, utiliser d'abord les tests standards : unit tests cibles, `check:web`, `check:admin` ou `check`.
+Les E2E ne sont pas un reflexe automatique. Ils sont reserves aux changements qui touchent l'UX visible, la navigation, les formulaires, le stockage navigateur, le bridge web/admin, le responsive ou une integration navigateur.
 
-## Niveaux
+## Commandes Utiles
 
-| Niveau      | Quand                                           | Commande                     |
-| ----------- | ----------------------------------------------- | ---------------------------- |
-| Light web   | Modif web non UI ou controle rapide             | `npm run verify:web:light`   |
-| Light admin | Modif admin non UI ou controle rapide           | `npm run verify:admin:light` |
-| Quick repo  | Lint + format sans Astro check complet          | `npm run check:quick`        |
-| Pre-push    | Hook adaptatif selon fichiers pousses           | `npm run check:pre-push`     |
-| E2E web     | UX/UI web, navigation web, responsive web       | `npm run verify:web:e2e`     |
-| E2E admin   | Manuel, seulement si interaction admin critique | `npm run verify:admin:e2e`   |
-| Bridge      | Waitlist, localStorage, bridge web/admin        | `npm run verify:bridge`      |
-| Merge       | Avant merge ou gros lot sensible                | `npm run verify:merge`       |
-
-## Matrice D'Impact
-
-| Changement                 | Pendant dev                                                                     | Avant push                                | Avant merge            |
-| -------------------------- | ------------------------------------------------------------------------------- | ----------------------------------------- | ---------------------- |
-| Donnees, packs, catalogue  | Unit tests cibles                                                               | `npm run check` + unit tests cibles       | `npm run verify:merge` |
-| Logique `shared`           | Unit tests cibles                                                               | `npm run check` + unit tests cibles       | `npm run verify:merge` |
-| Astro sans impact visuel   | `npm run verify:web:light` ou `npm run verify:admin:light`                      | `npm run check`                           | `npm run verify:merge` |
-| UX/UI web                  | E2E web cible                                                                   | `npm run check` + E2E cible               | `npm run verify:merge` |
-| UX/UI admin                | `npm run verify:admin:light`, E2E admin cible seulement si interaction critique | `npm run check`                           | `npm run verify:merge` |
-| Bridge, waitlist, stockage | `npm run verify:bridge`                                                         | `npm run check` + `npm run verify:bridge` | `npm run verify:merge` |
-| CSS, layout, responsive    | E2E ou screenshot cible                                                         | `npm run check` + E2E cible               | `npm run verify:merge` |
+- `npm run check:quick` : lint + format. Premier reflexe pour copy, docs, petits changements TypeScript.
+- `npm run check:web` : Astro check web + garde px.
+- `npm run check:admin` : Astro check admin + garde px.
+- `npm run check` : socle statique complet, sans E2E ni coverage.
+- `npm run test:unit` : tests unitaires shared/admin.
+- `npm run test:e2e:critical` : parcours publics critiques.
+- `npm run test:e2e:ui-guards` : garde layout web cible.
+- `npm run verify:merge` : validation lourde avant merge sensible.
+- `npm run qa:release` : validation release, incluant coverage et parite legacy.
 
 ## Pre-Push Adaptatif
 
@@ -41,28 +31,35 @@ Le hook versionne dans `.githooks/pre-push` appelle `scripts/check-pre-push.mjs`
 
 Il lit les fichiers reellement pousses :
 
-| Impact detecte                          | Validation pre-push                                                     |
-| --------------------------------------- | ----------------------------------------------------------------------- |
-| Docs uniquement                         | `npm run check:quick`                                                   |
-| Web uniquement                          | `npm run check:web` + `npm run check:quick` + audits inline/canonical   |
-| Admin uniquement                        | `npm run check:admin` + `npm run check:quick` + audits inline/canonical |
-| `shared`, scripts, config, hooks, mixte | `npm run check`                                                         |
+- Docs uniquement : `npm run check:quick`.
+- Web uniquement : `check:web`, `check:quick`, audits inline/canonical publics.
+- Admin uniquement : `check:admin`, `check:quick`, audit canonical.
+- `shared/data/**` : `check:web`, `check:quick`, audit canonical. Les changements copy/data ne declenchent plus le socle complet par defaut.
+- `shared/lib/**` ou `tests/shared/**` : `check:web`, `check:admin`, `check:quick`, `test:unit`, audit canonical.
+- Scripts, workflows, hooks, configs racine, lockfile ou mix web/admin : `npm run check`.
 
-Le hook reste volontairement plus leger qu'un `verify:merge`. Les E2E restent a lancer explicitement quand le lot touche l'UX/UI, la navigation, le stockage navigateur ou le responsive.
+Quand un changement peut affecter le navigateur, le hook affiche une recommandation E2E au lieu de bloquer automatiquement sur Playwright.
 
-Pour l'admin seul, le pre-push ne lance plus l'audit inline global. Le garde-fou inline strict est maintenant public : `apps/web/src` doit rester a zero inline via `npm run check:web-inline-zero`.
+Pour simuler la selection sans lancer les commandes :
 
-## Ports De Test
+```sh
+node scripts/check-pre-push.mjs --dry-run --files=shared/data/manabuplay/product-copy.ts
+```
 
-Les tests web servent `dist/web` sur `4174`.
+## CI
 
-Les tests admin servent `dist/admin` sur `4175` et `dist/web` sur `4176`.
+La CI GitHub est volontairement decoupee :
 
-Les ports dev restent separes : web `4321`, admin `4322`. Les E2E admin ne doivent plus obliger a tuer le serveur admin local.
+- `static` : `npm run check`.
+- `unit` : `npm run test:unit`.
+- `build` : `npm run build`.
+- `e2e-critical` : installation Playwright, `build:web`, `test:e2e:ui-guards`, `test:e2e:critical`.
+
+Une CI rouge doit dire quelle couche est cassee. On evite les scripts monolithiques qui relancent les memes checks plusieurs fois.
 
 ## Admin Playwright
 
-Playwright admin reste disponible, mais n'est plus appele par `check:feature`, `qa:release` ni `verify:merge`.
+Playwright admin reste disponible, mais ne doit pas etre lance par defaut.
 
 On le lance explicitement seulement pour :
 
@@ -72,3 +69,11 @@ On le lance explicitement seulement pour :
 - reader pack / reserve editoriale si l'affichage manipule des donnees critiques
 
 Le reste de l'admin est protege par `check:admin`, les tests unitaires et le build.
+
+## Ports De Test
+
+Les tests web servent `dist/web` sur `4174`.
+
+Les tests admin servent `dist/admin` sur `4175` et `dist/web` sur `4176`.
+
+Les ports dev restent separes : web `4321`, admin `4322`.
