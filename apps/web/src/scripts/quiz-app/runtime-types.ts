@@ -1,5 +1,5 @@
 export type RuntimeLocale = "en" | "fr";
-export type RuntimeMode = "legacy" | "daily" | "practice" | "archives";
+export type RuntimeMode = "legacy" | "daily" | "arcade" | "practice" | "archives";
 
 export interface LocalizedTextMap {
   en: string;

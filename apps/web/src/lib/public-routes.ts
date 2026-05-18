@@ -1,6 +1,6 @@
 import { PUBLIC_LOCALES, type PublicLocale } from "./public-locales";
 
-export const PUBLIC_MODE_KEYS = ["daily", "practice", "archives"] as const;
+export const PUBLIC_MODE_KEYS = ["daily", "arcade", "archives"] as const;
 
 export type PublicModeKey = (typeof PUBLIC_MODE_KEYS)[number];
 
@@ -18,57 +18,31 @@ export const PUBLIC_MODE_COPY: Record<
   {
     navLabel: LocalizedCopy;
     title: LocalizedCopy;
-    kicker: LocalizedCopy;
     description: LocalizedCopy;
-    status: LocalizedCopy;
   }
 > = {
   daily: {
     navLabel: { en: "Daily", fr: "Quotidien" },
-    title: { en: "Daily quiz", fr: "Quiz quotidien" },
-    kicker: {
-      en: "One shared run per day",
-      fr: "Une run commune par jour",
-    },
+    title: { en: "Daily Japanese quiz", fr: "Quiz japonais du jour" },
     description: {
-      en: "Play the shared 10-question daily quiz: one challenge per day, no account required.",
-      fr: "Joue le quiz quotidien commun de 10 questions : un défi par jour, sans compte.",
-    },
-    status: {
-      en: "v0.1: deterministic daily quiz wired from the pack catalog.",
-      fr: "v0.1 : quiz quotidien déterministe branché sur le catalogue de packs.",
+      en: "Play today's 10-question Japanese vocabulary quiz. Same challenge for everyone, no account required.",
+      fr: "Joue le quiz japonais du jour en 10 questions. Le même défi pour tout le monde, sans compte.",
     },
   },
-  practice: {
-    navLabel: { en: "Practice", fr: "Entraînement" },
-    title: { en: "Practice mode", fr: "Mode Libre" },
-    kicker: {
-      en: "Four difficulties, longer sessions",
-      fr: "Quatre difficultés, sessions plus longues",
-    },
+  arcade: {
+    navLabel: { en: "Arcade", fr: "Arcade" },
+    title: { en: "Arcade mode", fr: "Mode Arcade" },
     description: {
-      en: "Train freely across four difficulties, with 10-question sessions and a 2-session word cooldown.",
-      fr: "Entraîne-toi librement sur quatre difficultés, avec des sessions de 10 questions et un cooldown de deux sessions par mot.",
-    },
-    status: {
-      en: "v0.1: Practice mode is live with four recipes and session cooldown.",
-      fr: "v0.1 : le mode Libre est branché avec quatre recettes et cooldown de session.",
+      en: "Play quick 10-question Japanese vocabulary runs across four difficulty levels. No account, no lesson plan: just one more run when you want it.",
+      fr: "Enchaîne des runs rapides de 10 questions de vocabulaire japonais sur quatre difficultés. Pas de compte, pas de leçon figée : juste une petite dernière quand tu veux.",
     },
   },
   archives: {
     navLabel: { en: "Archives", fr: "Archives" },
-    title: { en: "Archives", fr: "Archives" },
-    kicker: {
-      en: "Past daily quizzes, no sharing",
-      fr: "Anciens quotidiens, sans partage",
-    },
+    title: { en: "Quiz archives", fr: "Archives des quiz" },
     description: {
-      en: "Replay past daily quizzes by date, with the same 10-question seeded run and no sharing in v0.1.",
-      fr: "Rejoue les anciens quotidiens par date, avec la même run seedée de 10 questions et sans partage en v0.1.",
-    },
-    status: {
-      en: "v0.1: Archives are live by date, without sharing.",
-      fr: "v0.1 : les Archives sont jouables par date, sans partage.",
+      en: "Replay previous daily quizzes by date and keep track of your best scores locally.",
+      fr: "Rejoue les anciens quiz quotidiens par date et garde tes meilleurs scores en local.",
     },
   },
 };

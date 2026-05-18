@@ -22,16 +22,16 @@ const locale = normalizePublicLocale(Astro.params.locale);
 const mode = Astro.params.mode as PublicModeKey;
 const copy = PUBLIC_MODE_COPY[mode] ?? PUBLIC_MODE_COPY.daily;
 const isDailyMode = mode === "daily";
-const isPracticeMode = mode === "practice";
+const isArcadeMode = mode === "arcade";
 const isArchivesMode = mode === "archives";
-const isQuizMode = isDailyMode || isPracticeMode || isArchivesMode;
+const isQuizMode = isDailyMode || isArcadeMode || isArchivesMode;
 const latestArchiveDate = isArchivesMode ? getLatestArchiveDateKey() : null;
 const archiveMonthGroups = isArchivesMode
   ? getArchiveMonthGroups({ locale, selectedDate: latestArchiveDate })
   : [];
 const bootData = isDailyMode
   ? buildDailyBootData()
-  : isPracticeMode
+  : isArcadeMode
     ? buildPracticeBootData()
     : isArchivesMode
       ? buildArchivesBootData(latestArchiveDate ?? undefined)
@@ -107,7 +107,7 @@ const modePageHomeLinkClass =
       </div>
       <PublicQuiz />
     </main>
-  ) : isPracticeMode ? (
+  ) : isArcadeMode ? (
     <main class={modeMainClass}>
       <h1 class="sr-only">{copy.title[locale]}</h1>
       <div class={modePageHomeRowClass}>

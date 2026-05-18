@@ -134,9 +134,7 @@ test.describe("public flow", () => {
     await expect(page.locator("#answersGrid .answer-btn.correct")).toHaveCount(1);
   });
 
-  test("keeps Daily as a one-click run without the Practice difficulty picker", async ({
-    page,
-  }) => {
+  test("keeps Daily as a one-click run without the Arcade difficulty picker", async ({ page }) => {
     await prepareModePage(page, `${ASTRO_URL}fr/daily/`);
 
     await expect(page.locator("#quizTitleScreen")).toBeVisible();
@@ -255,8 +253,8 @@ test.describe("public flow", () => {
     await expect(page.locator("[data-archive-month='2026-04']")).not.toHaveAttribute("open", "");
   });
 
-  test("keeps Practice as the only mode with explicit difficulty selection", async ({ page }) => {
-    await prepareModePage(page, `${ASTRO_URL}fr/practice/`);
+  test("keeps Arcade as the only mode with explicit difficulty selection", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/arcade/`);
 
     await expect(page.locator("#diffGrid")).toBeVisible();
     await expect(page.locator(".diff-card")).toHaveCount(4);
@@ -265,8 +263,8 @@ test.describe("public flow", () => {
     await expect(page.locator("#quizArea")).toBeVisible();
   });
 
-  test("keeps Practice browser sessions inside one random pack", async ({ page }) => {
-    await prepareModePage(page, `${ASTRO_URL}fr/practice/`);
+  test("keeps Arcade browser sessions inside one random pack", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}fr/arcade/`);
 
     await page.locator("#diffGrid .diff-card").nth(1).click();
     await page.locator("#startBtn").click();

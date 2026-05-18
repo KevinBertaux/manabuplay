@@ -48,7 +48,7 @@ const WAITLIST_FORM_NAME = "manabuplay-waitlist";
 const WAITLIST_SUCCESS_BUTTON_DELAY = 2800;
 const WAITLIST_SUCCESS_MESSAGE_DELAY = 4000;
 const SUPPORTED_LANGS = ["en", "fr"] as const;
-const LOCALIZED_ROUTES = ["daily", "practice", "archives"] as const;
+const LOCALIZED_ROUTES = ["daily", "arcade", "archives"] as const;
 const PRACTICE_HISTORY_KEY = "practice_sessions";
 const PRACTICE_HISTORY_LIMIT = 8;
 const LANG = MANABUPLAY_BOOT.lang;
@@ -961,7 +961,7 @@ function showResults() {
   }
   syncResultReplayControls();
 
-  if (MANABUPLAY_MODE === "practice" && currentDiff) {
+  if ((MANABUPLAY_MODE === "arcade" || MANABUPLAY_MODE === "practice") && currentDiff) {
     savePracticeSession({
       storage: LS,
       historyKey: PRACTICE_HISTORY_KEY,

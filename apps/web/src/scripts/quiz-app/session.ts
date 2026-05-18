@@ -567,7 +567,7 @@ export function buildQuestions({
 }): QuizQuestion[] {
   const isDailyMode = mode === "daily";
   const isArchivesMode = mode === "archives";
-  const isPracticeMode = mode === "practice";
+  const isPracticeMode = mode === "arcade" || mode === "practice";
   const isSeededMode = isDailyMode || isArchivesMode;
   const practiceConfig = getPracticeConfig(boot);
   const pool = isSeededMode
