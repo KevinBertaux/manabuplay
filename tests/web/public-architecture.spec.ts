@@ -2,10 +2,15 @@ import { expect, test, type Page } from "@playwright/test";
 import { ASTRO_URL } from "../helpers/visual";
 
 const LOCALES = [
-  { locale: "en", tagline: "Learn Japanese vocabulary", daily: "Daily", arcade: "Arcade" },
+  {
+    locale: "en",
+    tagline: "Turn familiar Japanese words into vocabulary",
+    daily: "Daily",
+    arcade: "Arcade",
+  },
   {
     locale: "fr",
-    tagline: "Apprends du vocabulaire japonais",
+    tagline: "Transforme les mots japonais que tu repères déjà",
     daily: "Quotidien",
     arcade: "Arcade",
   },
