@@ -95,12 +95,12 @@ test.describe("public flow", () => {
   test("switches language and keeps the hero CTA prominent", async ({ page }) => {
     await preparePage(page, ASTRO_HOME_URL);
 
-    await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Start the quiz");
+    await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Play today's quiz");
     await page.locator("#btnFR").click();
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Lancer le quiz");
+    await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Jouer le quiz du jour");
     await expect(page.locator("[data-i18n='hero_tagline']")).toContainText(
-      "Apprends du vocabulaire japonais",
+      "Transforme les mots japonais",
     );
     await expect(page.locator("#btnES")).toHaveCount(0);
   });
@@ -390,7 +390,7 @@ test.describe("public flow", () => {
     await input.fill("first+site@mail.tld");
     await submit.click();
     await expect(success).toBeVisible();
-    await expect(success).toContainText("Thanks, you're on the list.");
+    await expect(success).toContainText("You're on the list.");
     await expect(submit).toHaveText("Saved");
     await expect(input).toHaveValue("");
 

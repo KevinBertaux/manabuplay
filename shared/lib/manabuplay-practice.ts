@@ -56,8 +56,8 @@ export function buildPracticeBootData() {
       ...base.lang,
       en: {
         ...base.lang.en,
-        quiz_label: "// ARCADE MODE",
-        quiz_title: `Arcade Japanese<br/><span class="text-[var(--fuchsia)]">Vocab Quiz</span>`,
+        quiz_label: "// 4 DIFFICULTIES",
+        quiz_title: "Arcade Run",
         quiz_sub: "Pick a difficulty and play another 10-question run.",
         diff_title: "CHOOSE YOUR RUN",
         diff_normal: "STANDARD",
@@ -66,8 +66,8 @@ export function buildPracticeBootData() {
       },
       fr: {
         ...base.lang.fr,
-        quiz_label: "// MODE ARCADE",
-        quiz_title: `Mode Arcade<br/><span class="text-[var(--fuchsia)]">Vocab japonais</span>`,
+        quiz_label: "// 4 DIFFICULTÉS",
+        quiz_title: "Mode Arcade",
         quiz_sub: "Choisis une difficulté et relance une run de 10 questions.",
         diff_title: "CHOISIS TA RUN",
         diff_normal: "STANDARD",

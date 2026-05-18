@@ -39,8 +39,8 @@ export function buildDailyBootData() {
       ...base.lang,
       en: {
         ...base.lang.en,
-        quiz_label: "// DAILY CHALLENGE",
-        quiz_title: `Daily Japanese<br/><span class="text-[var(--fuchsia)]">Vocab Quiz</span>`,
+        quiz_label: "// 10 QUESTIONS",
+        quiz_title: "Daily Quiz",
         quiz_sub: "One shared 10-word run, refreshed every day.",
         diff_title: "TODAY'S RUN",
         diff_daily: "DAILY",
@@ -49,8 +49,8 @@ export function buildDailyBootData() {
       },
       fr: {
         ...base.lang.fr,
-        quiz_label: "// DÉFI QUOTIDIEN",
-        quiz_title: `Quiz quotidien<br/><span class="text-[var(--fuchsia)]">Vocab japonais</span>`,
+        quiz_label: "// 10 QUESTIONS",
+        quiz_title: "Quiz du jour",
         quiz_sub: "Une run commune de 10 mots, renouvelée chaque jour.",
         diff_title: "RUN DU JOUR",
         diff_daily: "QUOTIDIEN",

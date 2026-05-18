@@ -126,26 +126,22 @@ function getResults(): ResultTier[] {
 
 function formatBestScoreMessage(score: number, diff: string): string {
   return currentLang === "fr"
-    ? `Ton record en ${diff} : <strong class="best-score-highlight">${score} pts</strong>`
-    : `Your best on ${diff}: <strong class="best-score-highlight">${score} pts</strong>`;
+    ? `Meilleur score en ${diff} : <strong class="best-score-highlight">${score} pts</strong>`
+    : `Best score on ${diff}: <strong class="best-score-highlight">${score} pts</strong>`;
 }
 
 function formatCorrectFeedback(points: number): string {
-  return currentLang === "fr"
-    ? `✓ 正解! (Seikai) — Correct ! +${points} pts`
-    : `✓ 正解! (Seikai) — Correct! +${points} pts`;
+  return currentLang === "fr" ? `✓ Correct ! +${points} pts` : `✓ Correct! +${points} pts`;
 }
 
 function formatComboFeedback(streak: number, points: number): string {
   return currentLang === "fr"
-    ? `🔥 COMBO x${streak} ! +${points} pts base — 正解!`
-    : `🔥 COMBO x${streak}! +${points} base pts — 正解!`;
+    ? `🔥 Série x${streak} ! +${points} pts`
+    : `🔥 Streak x${streak}! +${points} pts`;
 }
 
 function formatWrongFeedback(answer: string): string {
-  return currentLang === "fr"
-    ? `✗ 不正解 (Fuseikai) — La réponse : "${answer}"`
-    : `✗ 不正解 (Fuseikai) — The answer: "${answer}"`;
+  return currentLang === "fr" ? `✗ Réponse : "${answer}"` : `✗ Answer: "${answer}"`;
 }
 
 function getHintAdjustedQuestionPoints(hintsUsed: number): number {
@@ -178,7 +174,7 @@ function isDailyRunLocked() {
 }
 
 function getDailyLockedButtonLabel() {
-  return currentLang === "fr" ? "Quotidien déjà joué" : "Daily already played";
+  return currentLang === "fr" ? "Déjà joué aujourd'hui" : "Already played today";
 }
 
 function syncDailyLaunchControls() {
@@ -213,7 +209,7 @@ function syncResultReplayControls() {
   replayButton.setAttribute("aria-disabled", isDailyResultLocked ? "true" : "false");
 
   if (isDailyResultLocked) {
-    replayButton.textContent = currentLang === "fr" ? "Terminé aujourd'hui" : "Done today";
+    replayButton.textContent = currentLang === "fr" ? "Déjà joué" : "Already played";
   }
 }
 
@@ -342,6 +338,10 @@ function applyLang() {
   document.querySelectorAll<HTMLInputElement>("[data-i18n-ph]").forEach((element) => {
     const value = t(element.dataset.i18nPh || "");
     element.placeholder = typeof value === "string" ? value : "";
+  });
+  document.querySelectorAll<HTMLElement>("[data-aria-label-en]").forEach((element) => {
+    const label = currentLang === "fr" ? element.dataset.ariaLabelFr : element.dataset.ariaLabelEn;
+    if (label) element.setAttribute("aria-label", label);
   });
   document.getElementById("btnEN")?.classList.toggle("active", currentLang === "en");
   document.getElementById("btnFR")?.classList.toggle("active", currentLang === "fr");
@@ -514,12 +514,9 @@ function renderSingleRunTitleScreen() {
     primeCompletedDailyShareState(completedDaily);
     setElementText(
       "quizTitleKicker",
-      currentLang === "fr" ? "Déjà joué aujourd'hui" : "Already played today",
+      currentLang === "fr" ? "Run du jour jouée" : "Today's run played",
     );
-    setElementText(
-      "quizTitleHeadline",
-      currentLang === "fr" ? "Quotidien terminé" : "Daily complete",
-    );
+    setElementText("quizTitleHeadline", currentLang === "fr" ? "Quotidien terminé" : "Daily done");
     setCompletedDailyTitleCopy(
       currentLang === "fr"
         ? `Score max : ${completedDaily.bestScore} pts`
@@ -532,7 +529,7 @@ function renderSingleRunTitleScreen() {
     if (metaSecondary instanceof HTMLElement) {
       metaSecondary.hidden = false;
       metaSecondary.textContent =
-        currentLang === "fr" ? "Archive visible demain" : "Archive visible tomorrow";
+        currentLang === "fr" ? "Archive disponible demain" : "Archived tomorrow";
     }
     syncDailyLaunchControls();
     return;
@@ -546,7 +543,7 @@ function renderSingleRunTitleScreen() {
         : "Défi du jour"
       : isArchiveMode
         ? "Selected archive"
-        : "Today's challenge",
+        : "Today's run",
   );
   setElementText(
     "quizTitleHeadline",
@@ -561,10 +558,10 @@ function renderSingleRunTitleScreen() {
   setTitleCopyText(
     currentLang === "fr"
       ? isArchiveMode
-        ? "Rejoue une ancienne run quotidienne. Le partage reste désactivé pour les archives."
+        ? "Rejoue une ancienne run quotidienne."
         : "Une run de 10 questions, renouvelée chaque jour."
       : isArchiveMode
-        ? "Replay a past daily run. Sharing stays disabled for archives."
+        ? "Replay a previous daily run."
         : "A 10-question run, refreshed every day.",
   );
   setElementText("quizTitleMetaPrimary", currentLang === "fr" ? "10 questions" : "10 questions");
@@ -924,11 +921,11 @@ function showResults() {
   animateScoreCounter(getRequiredElement<HTMLElement>("finalScore"), finalScore);
   getRequiredElement<HTMLElement>("finalBaseScore").textContent = `${baseScore} pts`;
   getRequiredElement<HTMLElement>("finalBaseScoreLabel").textContent =
-    currentLang === "fr" ? "Score base" : "Base score";
+    currentLang === "fr" ? "Points" : "Points";
   getRequiredElement<HTMLElement>("finalComboMultiplier").textContent =
     formatComboMultiplier(comboMultiplier);
   getRequiredElement<HTMLElement>("finalComboLabel").textContent =
-    currentLang === "fr" ? `Combo max x${state.bestStreak}` : `Best combo x${state.bestStreak}`;
+    currentLang === "fr" ? `Série x${state.bestStreak}` : `Streak x${state.bestStreak}`;
   getRequiredElement<HTMLElement>("finalCorrect").textContent = `${state.correct}/${total}`;
   getRequiredElement<HTMLElement>("finalPercent").textContent = `${pct}%`;
   getRequiredElement<HTMLElement>("finalStreak").textContent = String(state.bestStreak);
