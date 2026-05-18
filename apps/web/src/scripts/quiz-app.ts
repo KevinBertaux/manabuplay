@@ -589,7 +589,7 @@ function scrollQuizSectionIntoView() {
 
   const nav = document.querySelector<HTMLElement>("nav");
   const navHeight = nav?.getBoundingClientRect().height ?? 72;
-  const topOffset = navHeight + 12;
+  const topOffset = navHeight + 24;
   const targetTop = target.getBoundingClientRect().top + window.scrollY - topOffset;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

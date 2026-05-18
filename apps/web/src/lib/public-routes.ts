@@ -7,6 +7,12 @@ export type PublicModeKey = (typeof PUBLIC_MODE_KEYS)[number];
 /** Locales actually built for the public web (`PUBLIC_LOCALES`). Spanish is planned, not shipped here. */
 type LocalizedCopy = Record<PublicLocale, string>;
 
+/** Link back to the localized landing page (mode routes have no other in-page "home" affordance). */
+export const PUBLIC_NAV_HOME_LABEL: Record<PublicLocale, string> = {
+  en: "Home",
+  fr: "Accueil",
+};
+
 export const PUBLIC_MODE_COPY: Record<
   PublicModeKey,
   {
@@ -34,7 +40,7 @@ export const PUBLIC_MODE_COPY: Record<
     },
   },
   practice: {
-    navLabel: { en: "Practice", fr: "Libre" },
+    navLabel: { en: "Practice", fr: "Entraînement" },
     title: { en: "Practice mode", fr: "Mode Libre" },
     kicker: {
       en: "Four difficulties, longer sessions",

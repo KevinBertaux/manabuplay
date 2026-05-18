@@ -122,7 +122,7 @@ export const CURRENT_PRODUCT_COPY = {
       "Un quiz quotidien de japonais pour les fans de jeu vidéo et de pop culture qui veulent enfin comprendre des mots qu’ils reconnaissent déjà.",
     nav_cta: "Jouer au Quiz →",
     nav_daily: "Quotidien",
-    nav_practice: "Libre",
+    nav_practice: "Entraînement",
     nav_archives: "Archives",
     hero_badge: "Quiz quotidien · Sans inscription · Mode entraînement · 4 difficultés",
     hero_tagline: "Apprends du vocabulaire japonais à travers le jeu vidéo et la pop culture.",

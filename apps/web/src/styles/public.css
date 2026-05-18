@@ -7,7 +7,8 @@
 
 @layer components {
   .public-quiz-section {
-    @apply relative overflow-hidden px-6 py-14 scroll-mt-40;
+    /* Hash links (e.g. footer "Play quiz"): leave room under fixed nav + wrapped rows */
+    @apply relative overflow-hidden px-6 py-14 scroll-mt-48;
   }
 
   .public-quiz-container {
@@ -15,11 +16,11 @@
   }
 
   .public-quiz-intro {
-    @apply mx-auto mb-8 max-w-2xl text-center;
+    @apply mx-auto max-w-2xl border-b border-[rgba(139,92,246,0.22)] pb-4 text-center sm:pb-5;
   }
 
   .public-quiz-heading {
-    @apply mt-4 text-white;
+    @apply mt-3 text-white sm:mt-4;
   }
 
   .public-quiz-subtitle {

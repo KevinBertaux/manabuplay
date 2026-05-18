@@ -8,6 +8,7 @@ import { buildPracticeBootData } from "../../../../../shared/lib/manabuplay-prac
 import { normalizePublicLocale } from "../../lib/public-locales";
 import {
   PUBLIC_MODE_COPY,
+  PUBLIC_NAV_HOME_LABEL,
   type PublicModeKey,
   getLocalizedHomePath,
   getPublicStaticModePaths,
@@ -35,7 +36,6 @@ const bootData = isDailyMode
     : isArchivesMode
       ? buildArchivesBootData(latestArchiveDate ?? undefined)
     : buildCatalogBootData();
-const lang = bootData.lang[locale] ?? bootData.lang.en;
 const bootPayload = {
   locale,
   mode,
@@ -81,6 +81,10 @@ const getArchiveCellTitle = (dateKey: string, tone: string) => {
 
 const noAttemptLabel = locale === "fr" ? "Aucune tentative" : "No attempt";
 const defaultScoreLabel = locale === "fr" ? "0 pt" : "0 pts";
+
+const modePageHomeRowClass = `mx-auto mb-2 flex w-full justify-start sm:mb-4 ${isArchivesMode ? "max-w-[980px]" : "max-w-5xl"}`;
+const modePageHomeLinkClass =
+  "inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 no-underline transition-colors hover:text-[var(--cyan)]";
 ---
 <PublicLayout
   locale={locale}
@@ -95,16 +99,34 @@ const defaultScoreLabel = locale === "fr" ? "0 pt" : "0 pts";
   {isDailyMode ? (
     <main class={modeMainClass}>
       <h1 class="sr-only">{copy.title[locale]}</h1>
+      <div class={modePageHomeRowClass}>
+        <a class={modePageHomeLinkClass} href={getLocalizedHomePath(locale)}>
+          <span aria-hidden="true">←</span>
+          {PUBLIC_NAV_HOME_LABEL[locale]}
+        </a>
+      </div>
       <PublicQuiz />
     </main>
   ) : isPracticeMode ? (
     <main class={modeMainClass}>
       <h1 class="sr-only">{copy.title[locale]}</h1>
+      <div class={modePageHomeRowClass}>
+        <a class={modePageHomeLinkClass} href={getLocalizedHomePath(locale)}>
+          <span aria-hidden="true">←</span>
+          {PUBLIC_NAV_HOME_LABEL[locale]}
+        </a>
+      </div>
       <PublicQuiz />
     </main>
   ) : isArchivesMode ? (
     <main class={modeMainClass}>
       <h1 class="sr-only">{copy.title[locale]}</h1>
+      <div class={modePageHomeRowClass}>
+        <a class={modePageHomeLinkClass} href={getLocalizedHomePath(locale)}>
+          <span aria-hidden="true">←</span>
+          {PUBLIC_NAV_HOME_LABEL[locale]}
+        </a>
+      </div>
       <section class="archive-calendar-shell mx-auto w-full" id="archives-list" data-default-date={latestArchiveDate ?? ""}>
         <div class="archive-calendar-intro">
           <p class="section-label text-[var(--violet)]">
@@ -215,13 +237,14 @@ const defaultScoreLabel = locale === "fr" ? "0 pt" : "0 pts";
   ) : (
     <main class={modeMainClass}>
       <h1 class="sr-only">{copy.title[locale]}</h1>
+      <div class={modePageHomeRowClass}>
+        <a class={modePageHomeLinkClass} href={getLocalizedHomePath(locale)}>
+          <span aria-hidden="true">←</span>
+          {PUBLIC_NAV_HOME_LABEL[locale]}
+        </a>
+      </div>
       <p class={`${modeDescriptionClass} text-center`}>
         Mode: {mode} · Locale: {locale}
-      </p>
-      <p class="text-center">
-        <a class="font-bold text-[var(--cyan)] no-underline hover:underline" href={getLocalizedHomePath(locale)}>
-          {lang.footer_quiz}
-        </a>
       </p>
     </main>
   )}
