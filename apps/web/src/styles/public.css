@@ -787,6 +787,10 @@
     letter-spacing: 0.02em;
   }
 
+  .public-legal-section a {
+    text-decoration-thickness: 1px;
+  }
+
   .email-consent-label {
     max-width: 36rem;
     margin-inline: auto;

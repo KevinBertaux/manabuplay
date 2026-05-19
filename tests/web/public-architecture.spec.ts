@@ -62,7 +62,7 @@ test.describe("public localized architecture", () => {
         `/${locale}/archives/`,
       );
       await expect(page.locator(".public-site-footer")).toContainText(
-        locale === "fr" ? "Mentions légales" : "Legal notice",
+        locale === "fr" ? "Site réalisé par Kxis" : "Built by Kxis",
       );
     });
   }

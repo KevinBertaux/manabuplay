@@ -1,0 +1,47 @@
+name: E2E (manual)
+
+# Playwright n'est pas lance automatiquement sur push/PR.
+# Declencher depuis l'onglet Actions quand Kevin le demande explicitement.
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: "Suite a lancer"
+        required: true
+        default: critical
+        type: choice
+        options:
+          - critical
+          - ui-guards
+          - all-public-critical
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Build web app
+        run: npm run build:web
+
+      - name: UI guards
+        if: inputs.suite == 'ui-guards' || inputs.suite == 'all-public-critical'
+        run: npm run test:e2e:ui-guards
+
+      - name: Critical public flows
+        if: inputs.suite == 'critical' || inputs.suite == 'all-public-critical'
+        run: npm run test:e2e:critical

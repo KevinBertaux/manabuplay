@@ -1,0 +1,22 @@
+---
+import "../../styles/public.css";
+import PublicFooter from "../../components/PublicFooter.astro";
+import { normalizePublicLocale, type PublicLocale } from "../../lib/public-locales";
+
+const locale = normalizePublicLocale(Astro.url.searchParams.get("locale") ?? "fr");
+const locales: PublicLocale[] = ["fr", "en"];
+---
+
+<!DOCTYPE html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Footer preview — ManabuPlay</title>
+  </head>
+  <body class="flex min-h-[100svh] flex-col justify-end bg-[#0a0911] text-slate-200">
+    <PublicFooter locale={locale} />
+    <p class="sr-only">Preview interne. Paramètre locale : {locales.join(", ")}.</p>
+  </body>
+</html>

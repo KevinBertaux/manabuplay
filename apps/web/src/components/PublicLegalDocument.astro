@@ -11,7 +11,30 @@ interface Props {
 
 const { locale, document, activeDocument } = Astro.props;
 const homePath = getLocalizedHomePath(locale);
-const otherDocument = activeDocument === "legal" ? "privacy" : "legal";
+const privacyPath = getLocalizedLegalPath(locale, "privacy");
+const privacyLinkClass =
+  "font-semibold text-[var(--cyan)] underline underline-offset-2 transition-colors hover:text-white";
+
+const PERSONAL_DATA_HEADING = { fr: "Données personnelles", en: "Personal data" } as const;
+const PRIVACY_PHRASE = { fr: "politique de confidentialité", en: "Privacy Policy" } as const;
+
+type LegalSection = LegalDocument["sections"][number];
+
+function splitPrivacyPhrase(section: LegalSection, paragraph: string) {
+  if (activeDocument !== "legal" || section.heading !== PERSONAL_DATA_HEADING[locale]) {
+    return null;
+  }
+  const phrase = PRIVACY_PHRASE[locale];
+  const index = paragraph.indexOf(phrase);
+  if (index === -1) {
+    return null;
+  }
+  return {
+    before: paragraph.slice(0, index),
+    after: paragraph.slice(index + phrase.length),
+    phrase,
+  };
+}
 ---
 
 <main class="public-legal-page mx-auto max-w-3xl px-6 pb-16 pt-28">
@@ -25,7 +48,7 @@ const otherDocument = activeDocument === "legal" ? "privacy" : "legal";
     <h1 class="pixel-heading-md text-white">{document.title}</h1>
     <p class="mt-3 font-body text-sm text-slate-500">
       {locale === "fr" ? "Dernière mise à jour : " : "Last updated: "}
-      <time datetime="2026-05-19">{document.updatedAt}</time>
+      <time datetime="2026-05-20">{document.updatedAt}</time>
     </p>
   </header>
 
@@ -34,27 +57,26 @@ const otherDocument = activeDocument === "legal" ? "privacy" : "legal";
       <section class="public-legal-section">
         <h2 class="font-body text-lg font-bold text-slate-200">{section.heading}</h2>
         <div class="mt-3 space-y-3">
-          {section.paragraphs.map((paragraph) => (
-            <p class="font-body text-base leading-relaxed text-slate-400">{paragraph}</p>
-          ))}
+          {section.paragraphs.map((paragraph) => {
+            const privacyParts = splitPrivacyPhrase(section, paragraph);
+            return (
+              <p class="font-body text-base leading-relaxed text-slate-400">
+                {privacyParts ? (
+                  <>
+                    {privacyParts.before}
+                    <a href={privacyPath} class={privacyLinkClass}>
+                      {privacyParts.phrase}
+                    </a>
+                    {privacyParts.after}
+                  </>
+                ) : (
+                  paragraph
+                )}
+              </p>
+            );
+          })}
         </div>
       </section>
     ))}
   </div>
-
-  <nav class="public-legal-related mt-12 border-t border-[rgba(139,92,246,.15)] pt-6" aria-label={locale === "fr" ? "Pages légales" : "Legal pages"}>
-    <a
-      class="font-body text-sm font-semibold text-slate-500 no-underline hover:text-[var(--cyan)]"
-      href={getLocalizedLegalPath(locale, otherDocument)}
-      aria-current={undefined}
-    >
-      {activeDocument === "legal"
-        ? locale === "fr"
-          ? "Politique de confidentialité →"
-          : "Privacy Policy →"
-        : locale === "fr"
-          ? "Mentions légales →"
-          : "Legal notice →"}
-    </a>
-  </nav>
 </main>

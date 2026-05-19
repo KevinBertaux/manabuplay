@@ -1,0 +1,28 @@
+---
+description: Cadre de collaboration Kevin / agent sur ManabuPlay
+alwaysApply: true
+---
+
+# Collaboration ManabuPlay
+
+## Avant de coder
+
+- Discuter et cadrer le besoin (objectif, périmètre, copy, contraintes légales, UX) **avant** toute implémentation.
+- Ne pas enchaîner design + code + tests + commit + push sans validation explicite de Kevin.
+- Si la demande est vague (« une branche pour X »), créer la branche vide ou un squelette minimal seulement si demandé ; sinon proposer un plan et attendre le OK.
+- Ne pas corriger ou étendre un sujet non validé (ex. pages légales, footer, RGPD) en supposant le contenu métier.
+
+## Contexte produit
+
+- **Kxis** est la marque agence web (EI Kevin) : sites clients + projets perso dont ManabuPlay. Footer : « Site réalisé par Kxis » / « Built by Kxis » ; l’éditeur juridique (EI) se cale dans les mentions légales.
+
+## Playwright / E2E
+
+- **Ne jamais lancer Playwright** (`npm run test:e2e:*`, `verify:*:e2e`, `check:ui`, `qa:release:e2e`, workflow E2E) sauf si Kevin le demande **explicitement** dans le message.
+- La CI standard (`ci.yml`) n’exécute plus Playwright ; suite manuelle via Actions → workflow **E2E (manual)** ou en local sur demande.
+- Après des changements navigateur, mentionner brièvement qu’E2E est disponible sur demande — ne pas les lancer ni les bloquer au push par défaut.
+
+## Git
+
+- Commit et push uniquement sur demande explicite.
+- Pas de PR ni de merge sans demande.
