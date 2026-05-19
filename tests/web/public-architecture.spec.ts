@@ -86,14 +86,10 @@ test.describe("public localized architecture", () => {
   test("requires explicit email consent on the home waitlist form", async ({ page }) => {
     await page.goto(`${ASTRO_URL}en/`, { waitUntil: "domcontentloaded" });
     await page.locator("#emailInput").fill("player@example.com");
-    await page.locator('form[name="manabuplay-waitlist"]').evaluate((form) => {
-      form.requestSubmit();
-    });
+    await page.locator('form[name="manabuplay-waitlist"] button[type="submit"]').click();
     await expect(page.locator("#emailConsent")).toBeFocused();
     await page.locator("#emailConsent").check();
-    await page.locator('form[name="manabuplay-waitlist"]').evaluate((form) => {
-      form.requestSubmit();
-    });
+    await page.locator('form[name="manabuplay-waitlist"] button[type="submit"]').click();
     await expect(page.locator("#emailSuccess")).toBeVisible();
   });
 
