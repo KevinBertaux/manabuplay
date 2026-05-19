@@ -128,8 +128,7 @@ const LEGAL_DOCUMENTS: Record<LegalLocale, Record<LegalDocumentKey, LegalDocumen
   fr: {
     legal: {
       seoTitle: "Mentions légales — ManabuPlay",
-      seoDescription:
-        "Éditeur, hébergement et contact du site ManabuPlay.",
+      seoDescription: "Éditeur, hébergement et contact du site ManabuPlay.",
       title: "Mentions légales",
       updatedAt: "19 mai 2026",
       backLabel: "Retour à l'accueil",
