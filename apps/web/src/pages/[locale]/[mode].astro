@@ -1,5 +1,6 @@
 ---
 import PublicLayout from "../../layouts/PublicLayout.astro";
+import PublicFooter from "../../components/PublicFooter.astro";
 import PublicQuiz from "../../components/PublicQuiz.astro";
 import { buildCatalogBootData } from "../../../../../shared/data/manabuplay/catalog";
 import {
@@ -260,4 +261,5 @@ const modePageHomeLinkClass =
       </p>
     </main>
   )}
+  <PublicFooter locale={locale} />
 </PublicLayout>

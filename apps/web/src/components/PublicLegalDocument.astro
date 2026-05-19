@@ -1,0 +1,60 @@
+---
+import type { LegalDocument } from "../../../../shared/data/manabuplay/legal-copy";
+import { getLocalizedHomePath, getLocalizedLegalPath } from "../lib/public-routes";
+import type { PublicLocale } from "../lib/public-locales";
+
+interface Props {
+  locale: PublicLocale;
+  document: LegalDocument;
+  activeDocument: "legal" | "privacy";
+}
+
+const { locale, document, activeDocument } = Astro.props;
+const homePath = getLocalizedHomePath(locale);
+const otherDocument = activeDocument === "legal" ? "privacy" : "legal";
+---
+
+<main class="public-legal-page mx-auto max-w-3xl px-6 pb-16 pt-28">
+  <a class="public-legal-back font-body text-sm font-semibold text-slate-500 no-underline hover:text-[var(--cyan)]" href={homePath}>
+    <span aria-hidden="true">←</span>
+    {document.backLabel}
+  </a>
+
+  <header class="public-legal-header mt-6">
+    <p class="section-label mb-3 text-[var(--fuchsia)]">// LEGAL</p>
+    <h1 class="pixel-heading-md text-white">{document.title}</h1>
+    <p class="mt-3 font-body text-sm text-slate-500">
+      {locale === "fr" ? "Dernière mise à jour : " : "Last updated: "}
+      <time datetime="2026-05-19">{document.updatedAt}</time>
+    </p>
+  </header>
+
+  <div class="public-legal-body mt-10 space-y-8">
+    {document.sections.map((section) => (
+      <section class="public-legal-section">
+        <h2 class="font-body text-lg font-bold text-slate-200">{section.heading}</h2>
+        <div class="mt-3 space-y-3">
+          {section.paragraphs.map((paragraph) => (
+            <p class="font-body text-base leading-relaxed text-slate-400">{paragraph}</p>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <nav class="public-legal-related mt-12 border-t border-[rgba(139,92,246,.15)] pt-6" aria-label={locale === "fr" ? "Pages légales" : "Legal pages"}>
+    <a
+      class="font-body text-sm font-semibold text-slate-500 no-underline hover:text-[var(--cyan)]"
+      href={getLocalizedLegalPath(locale, otherDocument)}
+      aria-current={undefined}
+    >
+      {activeDocument === "legal"
+        ? locale === "fr"
+          ? "Politique de confidentialité →"
+          : "Privacy Policy →"
+        : locale === "fr"
+          ? "Mentions légales →"
+          : "Legal notice →"}
+    </a>
+  </nav>
+</main>

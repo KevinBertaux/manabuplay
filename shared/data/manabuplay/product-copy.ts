@@ -75,11 +75,15 @@ export const CURRENT_PRODUCT_COPY = {
     email_cta: "JOIN",
     email_ok: "✓ You're on the list.",
     email_saved_cta: "Saved",
+    email_consent:
+      'I agree to receive ManabuPlay updates by email. Read the <a href="/en/privacy/" class="email-consent-link">Privacy Policy</a>.',
     email_legal: "No spam. Unsubscribe anytime.",
     footer_by: "A project by",
     footer_quote: "学ぶ (Manabu) = to learn. 遊ぶ (Asobu) = to play.",
     footer_quiz: "Play the quiz",
     footer_updates: "Updates",
+    footer_legal: "Legal notice",
+    footer_privacy: "Privacy",
     next_word: "NEXT WORD →",
     see_results: "SEE RESULTS →",
     results: [
@@ -192,11 +196,15 @@ export const CURRENT_PRODUCT_COPY = {
     email_cta: "SUIVRE",
     email_ok: "✓ C'est noté, tu es sur la liste.",
     email_saved_cta: "Noté",
+    email_consent:
+      'J\'accepte de recevoir les annonces ManabuPlay par email. Voir la <a href="/fr/privacy/" class="email-consent-link">politique de confidentialité</a>.',
     email_legal: "Zéro spam. Désabonnement à tout moment.",
     footer_by: "Un projet de",
     footer_quote: "学ぶ (Manabu) = apprendre. 遊ぶ (Asobu) = jouer.",
     footer_quiz: "Jouer le quiz",
     footer_updates: "Actus",
+    footer_legal: "Mentions légales",
+    footer_privacy: "Confidentialité",
     next_word: "MOT SUIVANT →",
     see_results: "VOIR LES RÉSULTATS →",
     results: [

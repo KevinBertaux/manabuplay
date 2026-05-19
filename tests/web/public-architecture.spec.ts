@@ -46,22 +46,56 @@ test.describe("public localized architecture", () => {
 
       await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", locale);
       await expect(page.locator("h1")).toContainText(tagline);
-      await expect(page.locator("[data-public-route='daily']")).toContainText(daily);
-      await expect(page.locator("[data-public-route='arcade']")).toContainText(arcade);
-      await expect(page.locator("[data-public-route='daily']")).toHaveAttribute(
+      const productNav = page.getByLabel("Product navigation");
+      await expect(productNav.locator("[data-public-route='daily']")).toContainText(daily);
+      await expect(productNav.locator("[data-public-route='arcade']")).toContainText(arcade);
+      await expect(productNav.locator("[data-public-route='daily']")).toHaveAttribute(
         "href",
         `/${locale}/daily/`,
       );
-      await expect(page.locator("[data-public-route='arcade']")).toHaveAttribute(
+      await expect(productNav.locator("[data-public-route='arcade']")).toHaveAttribute(
         "href",
         `/${locale}/arcade/`,
       );
-      await expect(page.locator("[data-public-route='archives']")).toHaveAttribute(
+      await expect(productNav.locator("[data-public-route='archives']")).toHaveAttribute(
         "href",
         `/${locale}/archives/`,
       );
+      await expect(page.locator(".public-site-footer")).toContainText(
+        locale === "fr" ? "Mentions légales" : "Legal notice",
+      );
     });
   }
+
+  test("renders localized legal pages and footer links", async ({ page }) => {
+    await page.goto(`${ASTRO_URL}fr/legal/`, { waitUntil: "domcontentloaded" });
+
+    await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
+    await expect(page.locator("h1")).toContainText("Mentions légales");
+    await expect(page.locator(".public-site-footer a[href='/fr/privacy/']")).toContainText(
+      "Confidentialité",
+    );
+
+    await page.goto(`${ASTRO_URL}en/privacy/`, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("h1")).toContainText("Privacy Policy");
+    await expect(page.locator(".public-site-footer a[href='/en/legal/']")).toContainText(
+      "Legal notice",
+    );
+  });
+
+  test("requires explicit email consent on the home waitlist form", async ({ page }) => {
+    await page.goto(`${ASTRO_URL}en/`, { waitUntil: "domcontentloaded" });
+    await page.locator("#emailInput").fill("player@example.com");
+    await page.locator('form[name="manabuplay-waitlist"]').evaluate((form) => {
+      form.requestSubmit();
+    });
+    await expect(page.locator("#emailConsent")).toBeFocused();
+    await page.locator("#emailConsent").check();
+    await page.locator('form[name="manabuplay-waitlist"]').evaluate((form) => {
+      form.requestSubmit();
+    });
+    await expect(page.locator("#emailSuccess")).toBeVisible();
+  });
 
   test("preserves the current product mode when switching locale", async ({ page }) => {
     await page.goto(`${ASTRO_URL}fr/arcade/`, { waitUntil: "domcontentloaded" });

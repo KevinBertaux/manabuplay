@@ -1,5 +1,6 @@
 ---
 import PublicLayout from "../../layouts/PublicLayout.astro";
+import PublicFooter from "../../components/PublicFooter.astro";
 import PublicQuiz from "../../components/PublicQuiz.astro";
 import { buildDailyBootData } from "../../../../../shared/lib/manabuplay-daily";
 
@@ -128,13 +129,18 @@ const noAccountStatValue = "0";
       <p class="font-body text-xl text-slate-400 mb-8" data-i18n="email_sub"></p>
       <!-- Netlify Forms hidden bot-trap (required by Netlify) -->
       <form name="manabuplay-waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field"
-            class="flex flex-col sm:flex-row gap-3">
+            class="flex flex-col gap-4">
         <!-- Hidden fields required by Netlify -->
         <input type="hidden" name="form-name" value="manabuplay-waitlist" />
         <p class="hidden"><label>Don't fill this out: <input name="bot-field"/></label></p>
-        <!-- Visible fields -->
-        <input type="email" id="emailInput" name="email" class="email-input flex-1" data-i18n-ph="email_ph" required autocomplete="email"/>
-        <button type="submit" class="cta-btn whitespace-nowrap text-[.72rem]" data-i18n="email_cta"></button>
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <input type="email" id="emailInput" name="email" class="email-input flex-1" data-i18n-ph="email_ph" required autocomplete="email"/>
+          <button type="submit" class="cta-btn whitespace-nowrap text-[.72rem]" data-i18n="email_cta"></button>
+        </div>
+        <label class="email-consent-label flex items-start gap-3 text-left">
+          <input type="checkbox" id="emailConsent" name="consent" value="yes" class="email-consent-checkbox mt-1" required />
+          <span class="font-body text-sm leading-relaxed text-slate-400" data-i18n="email_consent"></span>
+        </label>
       </form>
       <div id="emailSuccess" class="mt-5 hidden">
         <span class="font-pixel text-[.78rem] text-[var(--cyan)]" data-i18n="email_ok"></span>
@@ -143,20 +149,6 @@ const noAccountStatValue = "0";
     </div>
   </section>
 
-  <!-- ══ FOOTER ══ -->
-  <footer class="border-t border-[rgba(139,92,246,.15)] px-6 py-8">
-    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-      <div class="flex items-center gap-2">
-        <span class="glow-violet font-pixel text-[.78rem] text-[#a78bfa]">Manabu<span class="text-[#e879f9]">Play</span></span>
-        <span class="text-slate-700">•</span>
-        <span class="font-body text-sm text-slate-600"><span data-i18n="footer_by"></span> <span class="text-slate-400 font-600">Kxis</span></span>
-      </div>
-      <div class="font-body text-sm text-slate-700" data-i18n="footer_quote"></div>
-      <div class="flex gap-5">
-        <a href="#quiz"   class="font-body text-sm text-slate-600 hover:text-slate-400 transition-colors" data-i18n="footer_quiz"></a>
-        <a href="#notify" class="font-body text-sm text-slate-600 hover:text-slate-400 transition-colors" data-i18n="footer_updates"></a>
-      </div>
-    </div>
-  </footer>
+  <PublicFooter locale={locale} variant="home" />
 
 </PublicLayout>

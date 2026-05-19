@@ -121,6 +121,11 @@ export function createWaitlistController({
     }
 
     input.value = "";
+    const consentInput = document.getElementById("emailConsent");
+    if (consentInput instanceof HTMLInputElement) {
+      consentInput.checked = false;
+      consentInput.setCustomValidity("");
+    }
     window.setTimeout(() => input.focus(), 150);
 
     if (submitButton) {
@@ -157,13 +162,26 @@ export function createWaitlistController({
     if (!(form instanceof HTMLFormElement)) return;
 
     const input = document.getElementById("emailInput");
+    const consent = document.getElementById("emailConsent");
     const success = document.getElementById("emailSuccess");
     if (!(input instanceof HTMLInputElement) || !(success instanceof HTMLElement)) return;
 
     const email = normalizeEmail(input.value);
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const consentInput = consent instanceof HTMLInputElement ? consent : null;
 
     input.setCustomValidity("");
+    if (consentInput && !consentInput.checked) {
+      consentInput.setCustomValidity(
+        currentLangRef() === "fr"
+          ? "Coche la case pour confirmer ton consentement."
+          : "Check the box to confirm your consent.",
+      );
+      consentInput.reportValidity();
+      return;
+    }
+    consentInput?.setCustomValidity("");
+
     if (!input.validity.valid || !isValidWaitlistEmail(email)) {
       input.setCustomValidity(
         currentLangRef() === "fr"
@@ -191,6 +209,7 @@ export function createWaitlistController({
         "form-name": waitlistFormName,
         email,
         lang: currentLangRef(),
+        consent: "yes",
       });
 
       const response = await fetch("/", {

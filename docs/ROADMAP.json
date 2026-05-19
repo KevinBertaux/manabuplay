@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-05-18",
+    "updatedAt": "2026-05-19",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "Backlog" },
@@ -384,26 +384,26 @@
         {
           "id": "v01-legal-rgpd",
           "title": "Poser les mentions legales et le socle RGPD pour la collecte d'emails",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "business",
           "type": "feature",
-          "notes": "Inclut les mentions legales minimales, la politique de confidentialite, le consentement explicite et les infos utiles autour de la waitlist / newsletter.",
+          "notes": "Pages /legal/ et /privacy/ FR-EN, footer partage avec liens legaux, consentement explicite waitlist + champ Netlify consent.",
           "children": [
             {
               "id": "legal-mentions",
               "title": "Publier les mentions legales minimales",
-              "status": "todo"
+              "status": "done"
             },
             {
               "id": "privacy-policy",
               "title": "Publier une politique de confidentialite claire",
-              "status": "todo"
+              "status": "done"
             },
             {
               "id": "email-consent",
               "title": "Rendre le consentement email explicite dans la collecte",
-              "status": "todo"
+              "status": "done"
             }
           ]
         },

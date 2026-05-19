@@ -1,6 +1,12 @@
 import { expect, test, type Page } from "@playwright/test";
 import { ASTRO_HOME_URL, ASTRO_URL, preparePage } from "../helpers/visual";
 
+async function submitWaitlistForm(page: Page, email: string) {
+  await page.locator("#emailInput").fill(email);
+  await page.locator("#emailConsent").check();
+  await page.locator("form[name='manabuplay-waitlist'] button[type='submit']").click();
+}
+
 async function prepareModePage(page: Parameters<typeof preparePage>[0], url: string) {
   await page.goto(url, { waitUntil: "domcontentloaded" });
   await page.waitForFunction(
@@ -365,8 +371,7 @@ test.describe("public flow", () => {
   test("stores local waitlist submissions and accepts plus addressing", async ({ page }) => {
     await preparePage(page, ASTRO_HOME_URL);
 
-    await page.locator("#emailInput").fill("machin.truc+site@mail.tld");
-    await page.locator("form[name='manabuplay-waitlist'] button[type='submit']").click();
+    await submitWaitlistForm(page, "machin.truc+site@mail.tld");
 
     await expect(page.locator("form[name='manabuplay-waitlist']")).toBeVisible();
     await expect(page.locator("#emailSuccess")).toBeVisible();
@@ -387,6 +392,7 @@ test.describe("public flow", () => {
     await preparePage(page, ASTRO_HOME_URL);
 
     await page.locator("#emailInput").fill("https//espaceclient.linxea.com/epargne@o.o");
+    await page.locator("#emailConsent").check();
     await page.locator("form[name='manabuplay-waitlist'] button[type='submit']").click();
 
     await expect(page.locator("#emailInput")).toHaveJSProperty(
@@ -406,15 +412,13 @@ test.describe("public flow", () => {
     const submit = page.locator("form[name='manabuplay-waitlist'] button[type='submit']");
     const success = page.locator("#emailSuccess");
 
-    await input.fill("first+site@mail.tld");
-    await submit.click();
+    await submitWaitlistForm(page, "first+site@mail.tld");
     await expect(success).toBeVisible();
     await expect(success).toContainText("You're on the list.");
     await expect(submit).toHaveText("Saved");
     await expect(input).toHaveValue("");
 
-    await input.fill("second+site@mail.tld");
-    await submit.click();
+    await submitWaitlistForm(page, "second+site@mail.tld");
     await expect(success).toHaveClass(/waitlist-success-pop/);
     await expect(submit).toHaveText("Saved");
 

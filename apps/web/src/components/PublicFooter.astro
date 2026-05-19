@@ -1,0 +1,68 @@
+---
+import { CURRENT_PRODUCT_COPY } from "../../../../shared/data/manabuplay/product-copy";
+import type { PublicLocale } from "../lib/public-locales";
+import {
+  PUBLIC_MODE_COPY,
+  PUBLIC_MODE_KEYS,
+  getLocalizedHomePath,
+  getLocalizedLegalPath,
+  getLocalizedModePath,
+} from "../lib/public-routes";
+
+interface Props {
+  locale: PublicLocale;
+  /** `home` keeps in-page anchors; `site` links back to the landing sections. */
+  variant?: "home" | "site";
+}
+
+const { locale, variant = "site" } = Astro.props;
+const copy = CURRENT_PRODUCT_COPY[locale];
+const homePath = getLocalizedHomePath(locale);
+const quizHref = variant === "home" ? "#quiz" : `${homePath}#quiz`;
+const updatesHref = variant === "home" ? "#notify" : `${homePath}#notify`;
+const linkClass =
+  "font-body text-sm text-slate-600 no-underline transition-colors hover:text-slate-400";
+---
+
+<footer class="public-site-footer border-t border-[rgba(139,92,246,.15)] px-6 py-8">
+  <div class="mx-auto flex max-w-5xl flex-col gap-6">
+    <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+      <div class="flex items-center gap-2">
+        <a href={homePath} class="no-underline">
+          <span class="glow-violet font-pixel text-[.78rem] text-[#a78bfa]">
+            Manabu<span class="text-[#e879f9]">Play</span>
+          </span>
+        </a>
+        <span class="text-slate-700" aria-hidden="true">•</span>
+        <span class="font-body text-sm text-slate-600">
+          {variant === "home" ? <span data-i18n="footer_by" /> : copy.footer_by}
+          <span class="font-semibold text-slate-400"> Kxis</span>
+        </span>
+      </div>
+      <p
+        class="text-center font-body text-sm text-slate-700 sm:text-right"
+        {...(variant === "home" ? { "data-i18n": "footer_quote" } : {})}
+      >
+        {variant === "home" ? null : copy.footer_quote}
+      </p>
+    </div>
+
+    <nav
+      class="public-site-footer-nav flex flex-wrap items-center justify-center gap-x-5 gap-y-2"
+      aria-label={locale === "fr" ? "Liens du site" : "Site links"}
+    >
+      {PUBLIC_MODE_KEYS.map((modeKey) => (
+        <a
+          href={getLocalizedModePath(locale, modeKey)}
+          class={linkClass}
+        >
+          {PUBLIC_MODE_COPY[modeKey].navLabel[locale]}
+        </a>
+      ))}
+      <a href={quizHref} class={linkClass}>{copy.footer_quiz}</a>
+      <a href={updatesHref} class={linkClass}>{copy.footer_updates}</a>
+      <a href={getLocalizedLegalPath(locale, "legal")} class={linkClass}>{copy.footer_legal}</a>
+      <a href={getLocalizedLegalPath(locale, "privacy")} class={linkClass}>{copy.footer_privacy}</a>
+    </nav>
+  </div>
+</footer>
