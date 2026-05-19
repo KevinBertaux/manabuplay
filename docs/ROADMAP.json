@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-04-23",
+    "updatedAt": "2026-05-18",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "Backlog" },
@@ -53,7 +53,7 @@
       "id": "v0.1",
       "label": "v0.1",
       "kind": "current",
-      "summary": "Stabiliser le site public vocab-first, lancer le coeur produit Quotidien / Libre / Archives et poser la nouvelle architecture publique.",
+      "summary": "Coeur produit Quotidien / Arcade / Archives en place. Reste la finition release : QA mobile reelle, waitlist prod, metriques, RGPD et smoke finale.",
       "items": [
         {
           "id": "v01-data-foundation",
@@ -232,10 +232,11 @@
         {
           "id": "v01-landing-placement-pass-2",
           "title": "Faire une seconde passe fine de placement sur la landing",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "landing",
-          "type": "ux"
+          "type": "ux",
+          "notes": "Merge PR #40 : panneaux mode retires, copy landing/quiz, route Arcade, archives fluides sans reload, calendrier compact, 404 public, QA rationalisee."
         },
         {
           "id": "v01-tailwind-surface-1",
@@ -244,7 +245,7 @@
           "priority": "P1",
           "area": "landing",
           "type": "ux",
-          "notes": "Premiere surface migree : navigation publique + routes Daily / Practice / Archives. Les animations, le quiz et les references design restent hors migration tant qu'il n'y a pas de gain net."
+          "notes": "Premiere surface migree : navigation publique + routes Daily / Arcade / Archives. Les animations, le quiz et les references design restent hors migration tant qu'il n'y a pas de gain net."
         },
         {
           "id": "v01-public-quiz-hints",
@@ -273,12 +274,12 @@
         },
         {
           "id": "v01-free",
-          "title": "Lancer le mode Libre",
+          "title": "Lancer le mode Arcade (ex-Libre)",
           "status": "done",
           "priority": "P0",
           "area": "quiz",
           "type": "feature",
-          "notes": "Le mode Libre est deja cadre : 4 difficultes, 10 questions, cooldown de 2 sessions."
+          "notes": "Route publique /arcade/, 4 difficultes, 10 questions, cooldown de 2 sessions. Label public Arcade pour eviter la promesse entrainement."
         },
         {
           "id": "v01-archives",
@@ -287,7 +288,7 @@
           "priority": "P1",
           "area": "quiz",
           "type": "feature",
-          "notes": "Sans partage dans un premier temps."
+          "notes": "Calendrier localise, scores locaux, selection de date sans reload, case aujourd'hui explicite, CTA mobile compact. Sans partage dans un premier temps."
         },
         {
           "id": "v01-hint-score-gameplay",
@@ -324,7 +325,8 @@
           "status": "todo",
           "priority": "P1",
           "area": "landing",
-          "type": "ux"
+          "type": "ux",
+          "notes": "Desktop et Playwright couvrent deja les flux critiques. Reste une verification manuelle iOS/Android : quiz, archives, nav et formulaire waitlist."
         },
         {
           "id": "v01-playwright",
@@ -412,7 +414,7 @@
           "priority": "P0",
           "area": "landing",
           "type": "ux",
-          "notes": "Nettoyer la home monolithique, sortir le faux CTA nav et preparer un header Daily / Practice / Archives."
+          "notes": "Nettoyer la home monolithique, sortir le faux CTA nav et preparer un header Daily / Arcade / Archives."
         },
         {
           "id": "v01-public-routes-foundation",
@@ -429,7 +431,7 @@
             },
             {
               "id": "public-routes-daily-practice-archives",
-              "title": "Preparer les routes Daily / Practice / Archives par locale",
+              "title": "Preparer les routes Daily / Arcade / Archives par locale",
               "status": "done"
             },
             {
@@ -446,7 +448,7 @@
           "priority": "P1",
           "area": "packs",
           "type": "content",
-          "notes": "Le cadrage est fait et applique : les packs actifs v0.1 sont a 34 mots, ratio 12 / 9 / 8 / 5.",
+          "notes": "Le cadrage est fait et applique : les packs actifs v0.1 sont a 34 mots, ratio 12 / 9 / 8 / 5 (Quotidien / Arcade).",
           "children": [
             {
               "id": "tier-ratios-cadrage",

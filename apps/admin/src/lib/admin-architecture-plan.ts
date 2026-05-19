@@ -40,14 +40,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Critique", en: "Critical" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 1,
-    progress: 75,
+    progress: 90,
     whyNow: {
       fr: "C'est le coeur métier : sans quiz jouable, distracteurs fiables, hints masqués/révélés au bon moment et feedback clair, le reste ne sert à rien.",
       en: "This is the product core: without a playable quiz, reliable distractors, correctly hidden/revealed hints, and clear feedback, the rest does not matter.",
     },
     note: {
-      fr: "Correctif en cours : masquage fiable des blocs, réponse/explication cachée avant interaction et génération robuste de 4 choix uniques. Reste une passe UX dédiée.",
-      en: "Fix in progress: reliable block hiding, answer/explanation hidden before interaction, and robust generation of 4 unique choices. A dedicated UX pass remains.",
+      fr: "Quotidien, Arcade et Archives sont jouables. Reste surtout une passe UX mobile réelle et quelques micro-finitions de feedback.",
+      en: "Daily, Arcade, and Archives are playable. What remains is mostly a real mobile UX pass and a few feedback micro-polishes.",
     },
   },
   {
@@ -87,18 +87,18 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
   {
     id: "practice",
     rank: 4,
-    title: { fr: "Lancer le mode Libre", en: "Launch Practice mode" },
+    title: { fr: "Lancer le mode Arcade", en: "Launch Arcade mode" },
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 4,
     progress: 100,
     whyNow: {
-      fr: "Le Libre donne de la profondeur de session et évite que le produit soit seulement un rendez-vous quotidien.",
-      en: "Practice adds session depth and prevents the product from being only a daily rendezvous.",
+      fr: "L'Arcade donne de la profondeur de session et évite que le produit soit seulement un rendez-vous quotidien.",
+      en: "Arcade adds session depth and prevents the product from being only a daily rendezvous.",
     },
     note: {
-      fr: "Le mode Libre est branché : 4 difficultés, 10 questions par session et cooldown de 2 sessions par mot.",
-      en: "Practice mode is wired: 4 difficulties, 10 questions per session, and a 2-session cooldown per word.",
+      fr: "Route publique /arcade/ en place : 4 difficultés, 10 questions par session et cooldown de 2 sessions par mot.",
+      en: "Public /arcade/ route is live: 4 difficulties, 10 questions per session, and a 2-session cooldown per word.",
     },
   },
   {
@@ -114,8 +114,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "Archives make Daily durable and add accessible content without inventing another mode.",
     },
     note: {
-      fr: "Les Archives sont jouables par date passée, sans partage. Pour le lot 5 de la prochaine branche, option D retenue : calendrier 7 colonnes localisé avec score max, tentatives et jours futurs désactivés.",
-      en: "Archives are playable by past date, without sharing. For lot 5 of the next branch, option D is selected: localized 7-column calendar with best score, attempts, and disabled future days.",
+      fr: "Calendrier 7 colonnes localisé, scores xxx/200, sélection sans reload, case aujourd'hui explicite et CTA mobile compact. Sans partage.",
+      en: "Localized 7-column calendar, xxx/200 scores, no-reload date selection, explicit today cell, and compact mobile CTA. No sharing.",
     },
   },
   {
@@ -193,14 +193,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Moyen", en: "Medium" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 10,
-    progress: 25,
+    progress: 90,
     whyNow: {
       fr: "Head, nav et hero sont traités. Le reste de la page doit maintenant soutenir les vrais modes, pas vendre un prototype.",
       en: "Head, nav, and hero are handled. The rest should now support the real modes instead of selling a prototype.",
     },
     note: {
-      fr: "A reprendre après stabilisation UX du quiz.",
-      en: "Revisit after quiz UX stabilization.",
+      fr: "Landing pass 2 mergé : copy features/quiz, titres unifiés, stats et newsletter allégée. Reste surtout une relecture finale avant release.",
+      en: "Landing pass 2 merged: features/quiz copy, unified titles, stats, and lighter newsletter. Mostly a final read before release remains.",
     },
   },
   {
@@ -233,8 +233,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "The product can no longer stay as a landing with a quiz anchor. Modes need real routes.",
     },
     note: {
-      fr: "Shell public, locale par URL, routes Daily / Practice / Archives en vrai et switch de langue cohérent sont en place. ES reste prévu côté architecture pour v1.0+, mais invisible en v0.1.",
-      en: "Public shell, locale-by-URL, real Daily / Practice / Archives routes, and coherent language switching are in place. ES remains planned in the architecture for v1.0+, but hidden in v0.1.",
+      fr: "Shell public, locale par URL, routes Daily / Arcade / Archives en vrai et switch de langue cohérent sont en place. ES reste prévu côté architecture pour v1.0+, mais invisible en v0.1.",
+      en: "Public shell, locale-by-URL, real Daily / Arcade / Archives routes, and coherent language switching are in place. ES remains planned in the architecture for v1.0+, but hidden in v0.1.",
     },
   },
   {
@@ -267,8 +267,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "The suite is now stable, but future Daily / Practice / Archives flows must be added.",
     },
     note: {
-      fr: "Base solide : tests admin/public couvrent maintenant Daily, Libre et Archives.",
-      en: "Solid base: admin/public tests now cover Daily, Practice, and Archives.",
+      fr: "Base solide : tests admin/public couvrent Daily, Arcade et Archives, dont la sélection d'archive sans reload.",
+      en: "Solid base: admin/public tests cover Daily, Arcade, and Archives, including no-reload archive selection.",
     },
   },
   {
@@ -391,7 +391,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     id: "product-routes",
     order: 3,
     progress: 100,
-    title: { fr: "Créer Daily / Practice / Archives", en: "Create Daily / Practice / Archives" },
+    title: { fr: "Créer Daily / Arcade / Archives", en: "Create Daily / Arcade / Archives" },
     goal: {
       fr: "Donner une route réelle à chaque mode du coeur produit.",
       en: "Give each core product mode a real route.",
@@ -409,8 +409,8 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         path: "apps/web/src/pages/[locale]/[mode].astro",
         action: "create",
         note: {
-          fr: "Entrées Daily / Practice / Archives pour FR / EN.",
-          en: "Daily / Practice / Archives entries for FR / EN.",
+          fr: "Entrées Daily / Arcade / Archives pour FR / EN.",
+          en: "Daily / Arcade / Archives entries for FR / EN.",
         },
       },
     ],
@@ -421,8 +421,8 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     progress: 100,
     title: { fr: "Séparer les payloads de session", en: "Split session payloads" },
     goal: {
-      fr: "Remplacer le boot mono-pack par des builders Daily / Practice / Archives.",
-      en: "Replace the single-pack boot with Daily / Practice / Archives builders.",
+      fr: "Remplacer le boot mono-pack par des builders Daily / Arcade / Archives.",
+      en: "Replace the single-pack boot with Daily / Arcade / Archives builders.",
     },
     guardrail: {
       fr: "Un seul moteur de quiz, mais des payloads explicites par mode.",
@@ -439,8 +439,8 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         path: "shared/lib/manabuplay-practice.ts",
         action: "create",
         note: {
-          fr: "Tirage Libre + 4 difficultés + cooldown sessions.",
-          en: "Practice draw + 4 difficulties + session cooldown.",
+          fr: "Tirage Arcade + 4 difficultés + cooldown sessions.",
+          en: "Arcade draw + 4 difficulties + session cooldown.",
         },
       },
       {
@@ -505,7 +505,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "release-hardening",
     order: 6,
-    progress: 0,
+    progress: 35,
     title: { fr: "Durcir la fin de v0.1", en: "Harden the end of v0.1" },
     goal: {
       fr: "Fermer release, QA, métriques et légal une fois le produit presque en place.",
@@ -532,8 +532,8 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         path: "tests/web/public-flow.spec.ts",
         action: "update",
         note: {
-          fr: "Couvrir Daily / Practice / Archives + waitlist.",
-          en: "Cover Daily / Practice / Archives + waitlist.",
+          fr: "Couvrir Daily / Arcade / Archives + waitlist.",
+          en: "Cover Daily / Arcade / Archives + waitlist.",
         },
       },
       {
