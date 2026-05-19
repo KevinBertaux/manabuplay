@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-05-18",
+    "updatedAt": "2026-05-20",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "Backlog" },
@@ -53,7 +53,7 @@
       "id": "v0.1",
       "label": "v0.1",
       "kind": "current",
-      "summary": "Coeur produit Quotidien / Arcade / Archives en place. Reste la finition release : QA mobile reelle, waitlist prod, metriques, RGPD et smoke finale.",
+      "summary": "Coeur produit Quotidien / Arcade / Archives en place. Reste release : QA mobile, waitlist prod, metriques, identite legale EI Senpai Surprise (mentions/privacy publiables), smoke finale. WizLev et ManabuPlay ont des cadres juridiques distincts.",
       "items": [
         {
           "id": "v01-data-foundation",
@@ -343,7 +343,7 @@
           "priority": "P1",
           "area": "landing",
           "type": "feature",
-          "notes": "v0.1 expose FR / EN uniquement. La racine / redirige selon la locale navigateur vers /fr/ ou /en/, fallback anglais. L'architecture garde ES sous le coude pour v1.0+, sans surface visible en prod."
+          "notes": "v0.1 expose FR / EN uniquement. La racine / redirige selon la locale navigateur vers /fr/ ou /en/, fallback anglais. L'architecture garde ES sous le coude pour v1.0+, sans surface visible en prod. Copy produit : CURRENT_PRODUCT_COPY + data-i18n cote client ; pas de refacto i18n bloquante en v0.1."
         },
         {
           "id": "v01-waitlist",
@@ -376,33 +376,51 @@
             },
             {
               "id": "waitlist-rgpd-link",
-              "title": "Relier le formulaire au cadrage RGPD v0.1 une fois la collecte locale validee",
-              "status": "todo"
+              "title": "Valider waitlist prod une fois mentions/privacy EI publiables",
+              "status": "todo",
+              "notes": "Depend de legal-ei-identity-block et legal-prod-review. Contact : contact@manabuplay.com."
             }
           ]
         },
         {
           "id": "v01-legal-rgpd",
-          "title": "Poser les mentions legales et le socle RGPD pour la collecte d'emails",
+          "title": "Finaliser mentions legales et RGPD prod (EI Senpai Surprise)",
           "status": "todo",
           "priority": "P0",
           "area": "business",
           "type": "feature",
-          "notes": "Inclut les mentions legales minimales, la politique de confidentialite, le consentement explicite et les infos utiles autour de la waitlist / newsletter.",
+          "notes": "Brouillon FR/EN : legal-copy.ts, /legal/, /privacy/, footer minimal (Site realise par Kxis), consentement waitlist, contact@manabuplay.com. Editeur juridique = EI Senpai Surprise (pas Kxis). WizLev (repo wizlev) = editeur non pro + anonymat LCEN public : ne pas copier ce modele. ManabuPlay = activite pro (email, puis Stripe v0.2) : adresse entreprise + SIRET/SIREN obligatoires en mentions — domiciliation commerciale possible pour ne pas afficher le domicile familial. CGU en v0.2+.",
           "children": [
             {
-              "id": "legal-mentions",
-              "title": "Publier les mentions legales minimales",
-              "status": "todo"
-            },
-            {
-              "id": "privacy-policy",
-              "title": "Publier une politique de confidentialite claire",
-              "status": "todo"
+              "id": "legal-pages-draft",
+              "title": "Brouillon pages legales FR/EN et footer",
+              "status": "done"
             },
             {
               "id": "email-consent",
-              "title": "Rendre le consentement email explicite dans la collecte",
+              "title": "Consentement explicite waitlist + champ Netlify",
+              "status": "done"
+            },
+            {
+              "id": "legal-wizlev-vs-manabuplay",
+              "title": "Documenter l'ecart juridique WizLev (non pro) vs ManabuPlay (EI)",
+              "status": "done"
+            },
+            {
+              "id": "legal-domiciliation-choice",
+              "title": "Choisir adresse publique : domicile EI ou domiciliation commerciale",
+              "status": "done",
+              "notes": "v0.1 : adresse etablissement INPI/Kbis (4 rue Shelley, Apt 255, 37200 Tours). Reevaluer domiciliation commerciale si besoin de ne plus exposer le domicile."
+            },
+            {
+              "id": "legal-ei-identity-block",
+              "title": "Renseigner LEGAL_PUBLISHER (adresse, SIRET/SIREN, directeur publication)",
+              "status": "done",
+              "notes": "Source INPI J00109697292 + Kbis RCS Tours 13/12/2024. Kevin BERTAUX EI, nom commercial Senpai Surprise, SIREN 938401767, SIRET 93840176700018."
+            },
+            {
+              "id": "legal-prod-review",
+              "title": "Relecture mentions + privacy pre-prod (strict necessaire, vie privee minimale)",
               "status": "todo"
             }
           ]
@@ -495,8 +513,37 @@
       "id": "v0.2",
       "label": "v0.2",
       "kind": "planned",
-      "summary": "Durcir la boucle de retour, renforcer la persistence et lancer la premiere vague de packs roadmap.",
+      "summary": "Persistence, Stripe + OTP, cadre legal paiements (CGU, privacy Stripe), refacto i18n, premiere vague de packs. Abonnement recurrent reporte en v1.0.",
       "items": [
+        {
+          "id": "v02-i18n-refactor",
+          "title": "Unifier le wording i18n et retirer les ternaires locale",
+          "status": "todo",
+          "priority": "P1",
+          "area": "core",
+          "type": "infra",
+          "notes": "v0.1 garde le socle sain : CURRENT_PRODUCT_COPY (landing, footer, quiz via boot + data-i18n), PUBLIC_MODE_COPY, legal-copy, ARCHIVE_CALENDAR_COPY. v0.2 : eliminer les textes en dur du type locale === \"fr\" ? ... dans Astro, scripts et tests ; centraliser aria-labels UI, messages validation waitlist, libelles calendrier Archives restants ; faire importer product-copy (ou fichiers dedies) aux specs Playwright.",
+          "children": [
+            {
+              "id": "i18n-astro-ternaries",
+              "title": "Remplacer les ternaires locale dans les pages/composants Astro",
+              "status": "todo",
+              "notes": "Cibles connues : apps/web/src/pages/[locale]/[mode].astro (CTA archives), PublicLegalDocument.astro, PublicFooter.astro (aria-label)."
+            },
+            {
+              "id": "i18n-runtime-messages",
+              "title": "Sortir les messages JS inline (validation, erreurs) vers la copy partagee",
+              "status": "todo",
+              "notes": "Ex. apps/web/src/scripts/quiz-app/engagement.ts."
+            },
+            {
+              "id": "i18n-tests-source",
+              "title": "Faire pointer les tests E2E vers la meme source de copy",
+              "status": "todo",
+              "notes": "Eviter locale === \"fr\" ? \"...\" : \"...\" dans tests/web/*.spec.ts ; importer CURRENT_PRODUCT_COPY ou fixtures derivees."
+            }
+          ]
+        },
         {
           "id": "v02-daily-persistence",
           "title": "Durcir la persistence du Quotidien et des tentatives",
@@ -521,6 +568,38 @@
           "area": "landing",
           "type": "ux",
           "notes": "Faire du hero un vrai point d'entree Daily et retirer le flux ancre legacy une fois les nouvelles routes validees."
+        },
+        {
+          "id": "v02-legal-payments",
+          "title": "Cadre legal et technique Stripe + OTP (sans abonnement)",
+          "status": "todo",
+          "priority": "P0",
+          "area": "business",
+          "type": "feature",
+          "notes": "Hebergement Netlify (US). Responsable traitement = EI Senpai Surprise. Sous-traitant paiement : Stripe. Mise a jour privacy (donnees paiement, transferts). Pas de page Actus en v0.1.",
+          "children": [
+            {
+              "id": "v02-stripe-otp-product",
+              "title": "Integrer Stripe et le parcours OTP / achat ponctuel",
+              "status": "todo"
+            },
+            {
+              "id": "v02-terms-of-use",
+              "title": "Publier les CGU (inspire wizlev/src/views/LegalTermsView.vue)",
+              "status": "todo",
+              "notes": "Route FR/EN type /terms/ ou /legal/terms-of-use. Quiz, compte OTP, responsabilite, PI."
+            },
+            {
+              "id": "v02-sales-terms-digital",
+              "title": "Poser conditions de vente prestation numerique (achat OTP)",
+              "status": "todo"
+            },
+            {
+              "id": "v02-privacy-stripe",
+              "title": "Mettre a jour la privacy (Stripe, donnees de facturation)",
+              "status": "todo"
+            }
+          ]
         },
         {
           "id": "v02-newsletter-confirmation-email",
@@ -672,7 +751,20 @@
           "status": "todo",
           "priority": "P1",
           "area": "business",
-          "type": "feature"
+          "type": "feature",
+          "notes": "Abonnement mensuel/annuel apres OTP Stripe en v0.2. Mettre a jour CGU, privacy, informations precontractuelles et gestion resiliation.",
+          "children": [
+            {
+              "id": "v10-subscription-legal",
+              "title": "Adapter le cadre legal abonnement (renouvellement, resiliation, prix)",
+              "status": "todo"
+            },
+            {
+              "id": "v10-stripe-billing",
+              "title": "Brancher facturation recurrente Stripe",
+              "status": "todo"
+            }
+          ]
         },
         {
           "id": "v10-pricing-experiment",

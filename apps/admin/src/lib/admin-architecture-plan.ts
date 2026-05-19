@@ -284,8 +284,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "Required before shipping if emails are collected, but it should wrap an already-working email flow.",
     },
     note: {
-      fr: "A traiter en fin de v0.1 : mentions, privacy, consentement explicite.",
-      en: "Handle toward the end of v0.1: legal notice, privacy, explicit consent.",
+      fr: "Brouillon en place. Prod bloquee : identite EI Senpai Surprise (adresse/SIRET, domiciliation ?). WizLev = non pro anonyme ; ManabuPlay = EI + email + Stripe v0.2.",
+      en: "Draft in place. Prod blocked: Senpai Surprise business identity (address/SIRET, domiciliation?). WizLev = non-pro anonymous; ManabuPlay = business + email + Stripe in v0.2.",
     },
   },
 ];

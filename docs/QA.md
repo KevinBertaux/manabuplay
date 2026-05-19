@@ -8,10 +8,26 @@ Les validations sont separees en quatre moments :
 
 - Pendant le dev : lancer le plus petit check qui couvre le risque modifie.
 - Avant push : laisser le hook adaptatif bloquer les erreurs probables.
-- En PR : CI lisible par couche, avec statique, unit, build et E2E publics critiques separes.
+- En PR : CI lisible par couche, avec statique, unit et build. Playwright uniquement sur demande explicite (local ou workflow manuel).
 - En release : coverage, visuels, parite legacy et suites lourdes.
 
 Les E2E ne sont pas un reflexe automatique. Ils sont reserves aux changements qui touchent l'UX visible, la navigation, les formulaires, le stockage navigateur, le bridge web/admin, le responsive ou une integration navigateur.
+
+## i18n (v0.1 vs v0.2)
+
+**Socle v0.1 (a conserver tel quel pour la release) :**
+
+- `shared/data/manabuplay/product-copy.ts` : `CURRENT_PRODUCT_COPY` FR / EN (landing, footer, quiz, email).
+- Cote client : boot JSON + `data-i18n` / `applyLang()` dans `quiz-app.ts`.
+- Astro : `CURRENT_PRODUCT_COPY[locale].cle` (ex. `PublicFooter` → `copy.footer_agency`).
+- Autres fichiers dedies : `legal-copy.ts`, `PUBLIC_MODE_COPY`, `ARCHIVE_CALENDAR_COPY`.
+
+**Hors scope v0.1 (refacto planifiee v0.2, voir `v02-i18n-refactor` dans `ROADMAP.json`) :**
+
+- Ternaires `locale === "fr" ? "..." : "..."` pour du wording (pages mode, legal, aria-labels, tests Playwright).
+- Messages utilisateur en dur dans les scripts (`engagement.ts`, etc.).
+
+Regle jusqu'a v0.2 : nouvelle copy visible → cle dans `product-copy` (ou fichier thematique), pas de ternaire locale dans le code applicatif.
 
 ## Commandes Utiles
 
@@ -20,8 +36,8 @@ Les E2E ne sont pas un reflexe automatique. Ils sont reserves aux changements qu
 - `npm run check:admin` : Astro check admin + garde px.
 - `npm run check` : socle statique complet, sans E2E ni coverage.
 - `npm run test:unit` : tests unitaires shared/admin.
-- `npm run test:e2e:critical` : parcours publics critiques.
-- `npm run test:e2e:ui-guards` : garde layout web cible.
+- `npm run test:e2e:critical` : parcours publics critiques (**sur demande explicite uniquement**).
+- `npm run test:e2e:ui-guards` : garde layout web cible (**sur demande explicite uniquement**).
 - `npm run verify:merge` : validation lourde avant merge sensible.
 - `npm run qa:release` : validation release, incluant coverage et parite legacy.
 
@@ -38,7 +54,7 @@ Il lit les fichiers reellement pousses :
 - `shared/lib/**` ou `tests/shared/**` : `check:web`, `check:admin`, `check:quick`, `test:unit`, audit canonical.
 - Scripts, workflows, hooks, configs racine, lockfile ou mix web/admin : `npm run check`.
 
-Quand un changement peut affecter le navigateur, le hook affiche une recommandation E2E au lieu de bloquer automatiquement sur Playwright.
+Le pre-push ne lance ni ne recommande Playwright. Kevin decide quand lancer les E2E.
 
 Pour simuler la selection sans lancer les commandes :
 
@@ -53,7 +69,11 @@ La CI GitHub est volontairement decoupee :
 - `static` : `npm run check`.
 - `unit` : `npm run test:unit`.
 - `build` : `npm run build`.
-- `e2e-critical` : installation Playwright, `build:web`, `test:e2e:ui-guards`, `test:e2e:critical`.
+
+Playwright (hors CI automatique) :
+
+- Workflow GitHub **E2E (manual)** (`workflow_dispatch`) : choix `critical`, `ui-guards` ou `all-public-critical`.
+- Local : `npm run test:e2e:critical`, `test:e2e:ui-guards`, etc. seulement quand Kevin le demande.
 
 Une CI rouge doit dire quelle couche est cassee. On evite les scripts monolithiques qui relancent les memes checks plusieurs fois.
 

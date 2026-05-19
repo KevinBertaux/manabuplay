@@ -1,0 +1,20 @@
+---
+import PublicLayout from "../../layouts/PublicLayout.astro";
+import PublicFooter from "../../components/PublicFooter.astro";
+import PublicLegalDocument from "../../components/PublicLegalDocument.astro";
+import { getLegalDocument } from "../../../../../shared/data/manabuplay/legal-copy";
+import { normalizePublicLocale } from "../../lib/public-locales";
+import { getPublicStaticLocalePaths } from "../../lib/public-routes";
+
+export function getStaticPaths() {
+  return getPublicStaticLocalePaths();
+}
+
+const locale = normalizePublicLocale(Astro.params.locale);
+const document = getLegalDocument(locale, "privacy");
+---
+
+<PublicLayout locale={locale} title={document.seoTitle} description={document.seoDescription}>
+  <PublicLegalDocument locale={locale} document={document} activeDocument="privacy" />
+  <PublicFooter locale={locale} />
+</PublicLayout>

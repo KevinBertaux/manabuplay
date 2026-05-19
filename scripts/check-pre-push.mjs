@@ -223,17 +223,6 @@ function selectChecks(files) {
   return [...checks];
 }
 
-function needsBrowserRecommendation(filePath) {
-  return (
-    filePath.startsWith("apps/web/src/pages/") ||
-    filePath.startsWith("apps/web/src/components/") ||
-    filePath.startsWith("apps/web/src/scripts/") ||
-    filePath.startsWith("apps/web/src/styles/") ||
-    filePath === "shared/data/manabuplay/product-copy.ts" ||
-    filePath.startsWith("shared/lib/manabuplay-")
-  );
-}
-
 const cliFiles = getCliFiles();
 const updates = cliFiles.length > 0 ? [] : readPushUpdates();
 const changedFiles =
@@ -262,12 +251,6 @@ if (cliFiles.length > 0) {
 console.log("Adaptive pre-push changed files:");
 changedFiles.forEach((filePath) => console.log(`- ${filePath}`));
 console.log(`Adaptive pre-push checks: ${checks.map((check) => `npm run ${check}`).join(" && ")}`);
-
-if (changedFiles.some(needsBrowserRecommendation)) {
-  console.log(
-    "Browser-facing change detected. Run `npm run test:e2e:critical` when navigation, storage, forms, or quiz behavior changed.",
-  );
-}
 
 for (const check of checks) {
   runNpmScript(check);

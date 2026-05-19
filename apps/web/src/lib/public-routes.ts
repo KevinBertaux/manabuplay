@@ -4,6 +4,10 @@ export const PUBLIC_MODE_KEYS = ["daily", "arcade", "archives"] as const;
 
 export type PublicModeKey = (typeof PUBLIC_MODE_KEYS)[number];
 
+export const PUBLIC_LEGAL_KEYS = ["legal", "privacy"] as const;
+
+export type PublicLegalKey = (typeof PUBLIC_LEGAL_KEYS)[number];
+
 /** Locales actually built for the public web (`PUBLIC_LOCALES`). Spanish is planned, not shipped here. */
 type LocalizedCopy = Record<PublicLocale, string>;
 
@@ -58,6 +62,9 @@ export function listPublicUserFacingPaths(): readonly string[] {
     for (const mode of PUBLIC_MODE_KEYS) {
       paths.push(getLocalizedModePath(locale, mode));
     }
+    for (const legalKey of PUBLIC_LEGAL_KEYS) {
+      paths.push(getLocalizedLegalPath(locale, legalKey));
+    }
   }
   return paths;
 }
@@ -68,6 +75,10 @@ export function getLocalizedHomePath(locale: PublicLocale) {
 
 export function getLocalizedModePath(locale: PublicLocale, mode: PublicModeKey) {
   return `/${locale}/${mode}/`;
+}
+
+export function getLocalizedLegalPath(locale: PublicLocale, key: PublicLegalKey) {
+  return `/${locale}/${key}/`;
 }
 
 export function getPublicStaticLocalePaths() {

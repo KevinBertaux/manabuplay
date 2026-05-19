@@ -48,7 +48,8 @@ Validation levels:
 - `npm run check`: Astro diagnostics + px guard + ESLint + Prettier + inline-usage ratchet
 - `npm run lint`: ESLint on repo sources
 - `npm run format:check`: Prettier verification
-- `npm run check:feature`: unit tests + build + critical public Playwright flows
+- `npm run check:feature`: static checks + unit tests + build (sans Playwright)
+- `npm run test:e2e:critical` / `test:e2e:ui-guards` : Playwright **sur demande explicite** (voir workflow GitHub `E2E (manual)`)
 - `npm run qa:release`: feature checks + coverage + admin E2E + legacy parity
 
 Inline usage policy:
