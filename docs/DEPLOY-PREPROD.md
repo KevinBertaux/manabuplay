@@ -7,12 +7,12 @@ Il n’y avait **pas** de branche deploy ni de règles Netlify écrites dans le 
 
 ## Principe retenu
 
-| Environnement | Où | Coût Netlify | Usage |
-|---------------|-----|--------------|--------|
-| **Dev** | `npm run dev` | 0 | Quotidien |
-| **Pré-prod locale** | `npm run build` + `npm run preview` | 0 | Relecture légal, UI, Playwright, Insight captures |
-| **Pré-prod en ligne** (optionnel) | Branche `deploy/preprod-v01` → **un** build Netlify quand tu pousses volontairement | 1 build / push sur cette branche | Partage URL, test mobile réel, smoke léger |
-| **Production** | `main` (ou branche prod dédiée) | 1 build / deploy prod | Domaine public, Netlify Forms, Clarity |
+| Environnement                     | Où                                                                                  | Coût Netlify                     | Usage                                             |
+| --------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------- |
+| **Dev**                           | `npm run dev`                                                                       | 0                                | Quotidien                                         |
+| **Pré-prod locale**               | `npm run build` + `npm run preview`                                                 | 0                                | Relecture légal, UI, Playwright, Insight captures |
+| **Pré-prod en ligne** (optionnel) | Branche `deploy/preprod-v01` → **un** build Netlify quand tu pousses volontairement | 1 build / push sur cette branche | Partage URL, test mobile réel, smoke léger        |
+| **Production**                    | `main` (ou branche prod dédiée)                                                     | 1 build / deploy prod            | Domaine public, Netlify Forms, Clarity            |
 
 **Économie de crédits :**
 
