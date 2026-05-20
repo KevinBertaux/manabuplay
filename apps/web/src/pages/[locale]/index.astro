@@ -133,6 +133,7 @@ const noAccountStatValue = "0";
             class="flex flex-col gap-4">
         <!-- Hidden fields required by Netlify -->
         <input type="hidden" name="form-name" value="manabuplay-waitlist" />
+        <input type="hidden" name="lang" value={locale} />
         <p class="hidden"><label>Don't fill this out: <input name="bot-field"/></label></p>
         <div class="flex flex-col gap-3 sm:flex-row">
           <input type="email" id="emailInput" name="email" class="email-input flex-1" data-i18n-ph="email_ph" required autocomplete="email"/>

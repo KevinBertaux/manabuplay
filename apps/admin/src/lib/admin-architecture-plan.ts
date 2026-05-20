@@ -261,14 +261,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 14,
-    progress: 0,
+    progress: 50,
     whyNow: {
-      fr: "Comprendre le comportement des premiers visiteurs réels après le deploy prod.",
-      en: "Understand real visitor behavior after the production deploy.",
+      fr: "Privacy et bannière consentement sont prêtes ; il reste à brancher le project ID Clarity sur le deploy prod.",
+      en: "Privacy and consent banner are ready; Clarity project ID still needs to be set on production deploy.",
     },
     note: {
-      fr: "À faire au premier deploy prod : script analytics, MAJ privacy/consentement, smoke waitlist. Hub : /pilotage/clarity/.",
-      en: "On first production deploy: analytics script, privacy/consent updates, waitlist smoke. Hub: /pilotage/clarity/.",
+      fr: "Préparé : analytics-clarity.js, public-analytics.ts, PUBLIC_CLARITY_PROJECT_ID. Deploy prod : définir la variable, smoke dashboard + waitlist Netlify.",
+      en: "Prepared: analytics-clarity.js, public-analytics.ts, PUBLIC_CLARITY_PROJECT_ID. On prod deploy: set env var, smoke dashboard + Netlify waitlist.",
     },
   },
   {
@@ -295,14 +295,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 16,
-    progress: 90,
+    progress: 100,
     whyNow: {
-      fr: "Pages et consentement waitlist sont sur main ; la waitlist prod reste à valider une fois le déploiement à jour.",
-      en: "Pages and waitlist consent are on main; production waitlist still needs validation once deploy is up to date.",
+      fr: "Mentions et privacy doivent être publiables telles quelles avant deploy prod (Clarity et waitlist décrits comme en production).",
+      en: "Legal and privacy must be publishable as-is before production deploy (Clarity and waitlist described as in production).",
     },
     note: {
-      fr: "Mergé : /legal/, /privacy/ FR/EN (EI Senpai Surprise, SIREN, adresse Tours), footer minimal Kxis, consentement explicite, lien inline confidentialité. Reste : smoke Netlify Forms prod.",
-      en: "Merged: FR/EN /legal/, /privacy/ (Senpai Surprise business, SIREN, Tours address), minimal Kxis footer, explicit consent, inline privacy link. Remaining: production Netlify Forms smoke.",
+      fr: "Copy FR/EN : EI Senpai Surprise, Netlify Forms prod, Clarity + bannière consentement, waitlist locale vs prod. Reste opérationnel : smoke Netlify Forms prod.",
+      en: "FR/EN copy: Senpai Surprise business, production Netlify Forms, Clarity + consent banner, local vs prod waitlist. Remaining ops: production Netlify Forms smoke.",
     },
   },
 ];

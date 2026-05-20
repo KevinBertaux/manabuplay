@@ -53,6 +53,7 @@ const localeSwitchClass = "flex items-center gap-1 rounded-md border border-[rgb
 const brandIconClass =
   "flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-[linear-gradient(135deg,var(--violet),var(--fuchsia))] text-white";
 const brandWordmarkClass = "glow-violet font-pixel text-[.94rem] text-[#a78bfa]";
+const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? "";
 ---
 <!DOCTYPE html>
 <html lang={locale} id="htmlRoot">
@@ -70,7 +71,7 @@ const brandWordmarkClass = "glow-violet font-pixel text-[.94rem] text-[#a78bfa]"
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="shortcut icon" href="/favicon.ico" />
 </head>
-<body class="text-slate-200">
+<body class="text-slate-200" data-clarity-project-id={clarityProjectId || undefined}>
   <nav class={topNavClass}>
     <a class={brandLinkClass} href={getLocalizedHomePath(locale)} aria-label="ManabuPlay">
       <span class={brandIconClass}>
@@ -126,5 +127,6 @@ const brandWordmarkClass = "glow-violet font-pixel text-[.94rem] text-[#a78bfa]"
   {includeQuizRuntime && (
     <script src="../scripts/quiz-app.ts"></script>
   )}
+  <script src="../scripts/public-analytics.ts"></script>
 </body>
 </html>

@@ -315,7 +315,7 @@
           "priority": "P0",
           "area": "growth",
           "type": "infra",
-          "notes": "Apres premier deploy prod + smoke waitlist Netlify. Script analytics, MAJ privacy/consentement. Hub admin /pilotage/clarity/."
+          "notes": "Legal OK (privacy + banniere). Reste : PUBLIC_CLARITY_PROJECT_ID sur deploy prod, smoke sessions dashboard, smoke waitlist Netlify."
         },
         {
           "id": "v01-mobile-qa",
@@ -383,7 +383,7 @@
         {
           "id": "v01-legal-rgpd",
           "title": "Finaliser mentions legales et RGPD prod (EI Senpai Surprise)",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "business",
           "type": "feature",
@@ -419,7 +419,8 @@
             {
               "id": "legal-prod-review",
               "title": "Relecture mentions + privacy pre-prod (strict necessaire, vie privee minimale)",
-              "status": "todo"
+              "status": "done",
+              "notes": "Copy FR/EN : EI Senpai Surprise, Netlify Forms prod, Clarity (cookies analytics + banniere consentement), waitlist locale vs prod explicite."
             }
           ]
         },
@@ -492,6 +493,12 @@
           "type": "feature",
           "children": [
             { "id": "freeze-v01", "title": "Figer le scope v0.1", "status": "todo" },
+            {
+              "id": "deploy-preprod-netlify",
+              "title": "Cadrer pre-prod Netlify (branche deploy/preprod-v01, previews PR off)",
+              "status": "todo",
+              "notes": "Doc docs/DEPLOY-PREPROD.md. Branche deploy/preprod-v01 = build volontaire. Quotidien : npm run preview (0 credit)."
+            },
             { "id": "smoke-v01", "title": "Faire une smoke pass finale", "status": "todo" },
             { "id": "release-branch-v01", "title": "Preparer la branche de prod", "status": "todo" }
           ]

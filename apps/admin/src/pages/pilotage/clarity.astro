@@ -1,6 +1,7 @@
 ---
 import AdminLayout from "../../layouts/AdminLayout.astro";
 import {
+  CLARITY_ENV_VAR,
   CLARITY_SETUP_CHECKLIST,
   CLARITY_TOUCH_FILES,
   MICROSOFT_CLARITY_APP_URL,
@@ -18,8 +19,8 @@ import {
     <span class="arch-eyebrow">Microsoft Clarity</span>
     <h1 class="arch-title">Clarity post-deploy</h1>
     <p class="arch-copy">
-      À activer <strong>après le premier deploy prod</strong>, une fois la waitlist smoke-testée. Pas sur preview
-      local ni pre-prod v0.1.
+      Privacy et bannière consentement sont prêtes. Sur deploy prod, définir <code>{CLARITY_ENV_VAR}</code> dans
+      Netlify pour activer la mesure. Sans variable, rien ne se charge (local / preview inchangés).
     </p>
   </section>
 

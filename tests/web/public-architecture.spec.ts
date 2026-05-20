@@ -72,12 +72,17 @@ test.describe("public localized architecture", () => {
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
     await expect(page.locator("h1")).toContainText("Mentions légales");
+    await expect(page.locator("body")).toContainText("938 401 767");
+    await expect(page.locator("body")).toContainText("Senpai Surprise");
+    await expect(page.locator("body")).toContainText("Microsoft Clarity");
     await expect(page.locator(".public-site-footer a[href='/fr/privacy/']")).toContainText(
       "Confidentialité",
     );
 
     await page.goto(`${ASTRO_URL}en/privacy/`, { waitUntil: "domcontentloaded" });
     await expect(page.locator("h1")).toContainText("Privacy Policy");
+    await expect(page.locator("body")).toContainText("Netlify Forms");
+    await expect(page.locator("body")).toContainText("Microsoft Clarity");
     await expect(page.locator(".public-site-footer a[href='/en/legal/']")).toContainText(
       "Legal notice",
     );

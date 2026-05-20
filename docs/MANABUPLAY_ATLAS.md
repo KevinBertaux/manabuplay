@@ -271,7 +271,8 @@ Ordre cible actuel :
 Validation retenue :
 
 - avant release `v0.1` : `Attention Insight` — captures viewport par section (`fr-desktop-hero.png`, etc.), pas de PNG pleine page (surcoût Insight)
-- au premier deploy prod : `Microsoft Clarity` (script + privacy) après smoke waitlist Netlify
+- au premier deploy prod : `Microsoft Clarity` — privacy + bannière consentement prêtes ; activer via `PUBLIC_CLARITY_PROJECT_ID` sur Netlify, puis smoke waitlist + dashboard Clarity
+- pré-prod sans crédits Netlify : preview local (`npm run preview`) ; URL en ligne optionnelle via branche `deploy/preprod-v01` — voir [DEPLOY-PREPROD.md](./DEPLOY-PREPROD.md)
 
 ---
 
