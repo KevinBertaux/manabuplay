@@ -1,7 +1,10 @@
-# Monorepo ManabuPlay — site public = apps/web (deps Astro à la racine).
+# Monorepo ManabuPlay — build depuis la racine (pas apps/web).
+# UI Netlify : Base directory = vide. Ne pas écraser command/publish ici.
 [build]
-  command = "npm run build:web"
+  command = "npm ci && npm run build:web"
   publish = "dist/web"
 
 [build.environment]
   NODE_VERSION = "22.12.0"
+  # Astro/Tailwind/Vite sont en devDependencies — requis pour le build.
+  NPM_CONFIG_PRODUCTION = "false"
