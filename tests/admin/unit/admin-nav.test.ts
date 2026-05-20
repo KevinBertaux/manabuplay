@@ -20,6 +20,7 @@ describe("admin nav", () => {
       "Backlog",
       "Architecture",
       "Insight",
+      "Clarity",
       "Business",
       "Wording",
       "Guide",

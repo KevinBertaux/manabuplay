@@ -1,0 +1,54 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import {
+  CLARITY_SETUP_CHECKLIST,
+  CLARITY_TOUCH_FILES,
+  MICROSOFT_CLARITY_APP_URL,
+} from "../../lib/clarity-workflow";
+---
+
+<AdminLayout
+  title="Admin — Microsoft Clarity"
+  activeNav="clarity"
+  description="Activer Clarity au premier deploy prod : script, privacy et vérification dashboard."
+  bodyClass="text-slate-200 arch-shell"
+  containerClass="arch-wrap"
+>
+  <section class="arch-hero">
+    <span class="arch-eyebrow">Microsoft Clarity</span>
+    <h1 class="arch-title">Clarity post-deploy</h1>
+    <p class="arch-copy">
+      À activer <strong>après le premier deploy prod</strong>, une fois la waitlist smoke-testée. Pas sur preview
+      local ni pre-prod v0.1.
+    </p>
+  </section>
+
+  <section class="arch-card arch-section-head">
+    <div class="arch-section-title">Checklist</div>
+    <ol class="arch-section-copy list-decimal space-y-2 pl-5">
+      {
+        CLARITY_SETUP_CHECKLIST.map((step) => (
+          <li data-admin-i18n data-admin-fr={step.fr} data-admin-en={step.en}>
+            {step.fr}
+          </li>
+        ))
+      }
+    </ol>
+    <p class="arch-section-copy mt-4">
+      <a class="text-[var(--cyan)]" href={MICROSOFT_CLARITY_APP_URL} target="_blank" rel="noreferrer">
+        Ouvrir Microsoft Clarity →
+      </a>
+    </p>
+  </section>
+
+  <section class="arch-card arch-section-head">
+    <div class="arch-section-title">Fichiers concernés</div>
+    <ul class="arch-section-copy list-disc space-y-1 pl-5">
+      {CLARITY_TOUCH_FILES.map((file) => (
+        <li>
+          <code>{file}</code>
+        </li>
+      ))}
+    </ul>
+  </section>
+</AdminLayout>

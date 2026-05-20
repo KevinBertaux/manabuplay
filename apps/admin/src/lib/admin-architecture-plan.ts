@@ -238,29 +238,46 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     },
   },
   {
-    id: "metrics",
+    id: "attention-insight",
     rank: 13,
-    title: { fr: "Métriques produit minimales", en: "Minimal product metrics" },
+    title: { fr: "Passe Attention Insight", en: "Attention Insight pass" },
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 13,
-    progress: 60,
+    progress: 100,
     whyNow: {
-      fr: "Passe Insight pre-release terminee ; Clarity au premier deploy prod (privacy + consentement).",
-      en: "Pre-release Insight pass done; Clarity on first production deploy (privacy + consent).",
+      fr: "Valider clarté et CTA de la landing avant release, sans attendre du trafic réel.",
+      en: "Validate landing clarity and CTAs before release, without waiting for real traffic.",
     },
     note: {
-      fr: "Insight OK (hero + quiz FR, go release). Outil : insight:capture + /pilotage/insight/. Reste : Clarity apres deploy.",
-      en: "Insight OK (FR hero + quiz, release go). Tooling: insight:capture + /pilotage/insight/. Remaining: Clarity after deploy.",
+      fr: "Terminé : hero + quiz FR desktop (go release). Outil : npm run insight:capture + /pilotage/insight/.",
+      en: "Done: FR desktop hero + quiz (release go). Tooling: npm run insight:capture + /pilotage/insight/.",
+    },
+  },
+  {
+    id: "clarity",
+    rank: 14,
+    title: { fr: "Microsoft Clarity", en: "Microsoft Clarity" },
+    impact: { fr: "Fort", en: "High" },
+    effort: { fr: "Moyen", en: "Medium" },
+    priority: 14,
+    progress: 0,
+    whyNow: {
+      fr: "Comprendre le comportement des premiers visiteurs réels après le deploy prod.",
+      en: "Understand real visitor behavior after the production deploy.",
+    },
+    note: {
+      fr: "À faire au premier deploy prod : script analytics, MAJ privacy/consentement, smoke waitlist. Hub : /pilotage/clarity/.",
+      en: "On first production deploy: analytics script, privacy/consent updates, waitlist smoke. Hub: /pilotage/clarity/.",
     },
   },
   {
     id: "playwright",
-    rank: 14,
+    rank: 15,
     title: { fr: "Playwright fin de v0.1", en: "End-of-v0.1 Playwright" },
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
-    priority: 14,
+    priority: 15,
     progress: 100,
     whyNow: {
       fr: "La suite est maintenant stabilisée, mais les futurs parcours Daily / Practice / Archives devront être ajoutés.",
@@ -273,11 +290,11 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
   },
   {
     id: "legal-rgpd",
-    rank: 15,
+    rank: 16,
     title: { fr: "Mentions légales / RGPD", en: "Legal / GDPR" },
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
-    priority: 15,
+    priority: 16,
     progress: 90,
     whyNow: {
       fr: "Pages et consentement waitlist sont sur main ; la waitlist prod reste à valider une fois le déploiement à jour.",
@@ -508,8 +525,8 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     progress: 70,
     title: { fr: "Durcir la fin de v0.1", en: "Harden the end of v0.1" },
     goal: {
-      fr: "Fermer release, QA prod et métriques ; légal et consentement waitlist sont mergés sur main.",
-      en: "Close release, production QA, and metrics; legal and waitlist consent are merged on main.",
+      fr: "Fermer release et QA prod ; Insight fait, Clarity au deploy ; légal et consentement waitlist mergés sur main.",
+      en: "Close release and production QA; Insight done, Clarity on deploy; legal and waitlist consent merged on main.",
     },
     guardrail: {
       fr: "Ne pas activer la waitlist prod tant que Netlify Forms n'a pas été testé sur un deploy à jour.",
@@ -662,7 +679,7 @@ export function getArchitectureStatusLabel(progress: number): LocalizedText {
     case "active":
       return { fr: "En cours", en: "In progress" };
     case "framed":
-      return { fr: "Prêt", en: "Ready" };
+      return { fr: "Amorcé", en: "Started" };
     default:
       return { fr: "Backlog", en: "Backlog" };
   }

@@ -28,17 +28,17 @@ const implementationSummary = getArchitectureImplementationSummary();
       <h1 class="arch-title">
         <span data-admin-i18n data-admin-fr="Plan" data-admin-en="Plan">Plan</span>
         <span>·</span>
-        <span data-admin-i18n data-admin-fr="programme 15 étapes + migration IA produit" data-admin-en="15-step program + product IA migration">
-          programme 15 étapes + migration IA produit
+        <span data-admin-i18n data-admin-fr="programme 16 étapes + migration IA produit" data-admin-en="16-step program + product IA migration">
+          programme 16 étapes + migration IA produit
         </span>
       </h1>
       <p class="arch-copy">
         <span
           data-admin-i18n
-          data-admin-fr="Légal mergé, Playwright manuel en CI. Passe Insight pre-release faite (hero + quiz FR, go release). Clarity au deploy prod."
-          data-admin-en="Legal merged, manual Playwright in CI. Pre-release Insight pass done (FR hero + quiz, release go). Clarity on production deploy."
+          data-admin-fr="Légal mergé, Playwright manuel en CI. Insight terminé (hero + quiz FR). Clarity au premier deploy prod."
+          data-admin-en="Legal merged, manual Playwright in CI. Insight done (FR hero + quiz). Clarity on first production deploy."
         >
-          Légal mergé, Playwright manuel en CI. Passe Insight pre-release faite (hero + quiz FR, go release). Clarity au deploy prod.
+          Légal mergé, Playwright manuel en CI. Insight terminé (hero + quiz FR). Clarity au premier deploy prod.
         </span>
       </p>
     </section>
@@ -65,6 +65,11 @@ const implementationSummary = getArchitectureImplementationSummary();
         </div>
         <div class="arch-chip-row">
           <span class="arch-chip">
+            <span data-admin-i18n data-admin-fr={`${summary.done} terminés`} data-admin-en={`${summary.done} done`}>
+              {summary.done} terminés
+            </span>
+          </span>
+          <span class="arch-chip">
             <span data-admin-i18n data-admin-fr={`${summary.advanced} en validation`} data-admin-en={`${summary.advanced} in validation`}>
               {summary.advanced} en validation
             </span>
@@ -74,11 +79,13 @@ const implementationSummary = getArchitectureImplementationSummary();
               {summary.active} en cours
             </span>
           </span>
-          <span class="arch-chip">
-            <span data-admin-i18n data-admin-fr={`${summary.framed} prêts`} data-admin-en={`${summary.framed} ready`}>
-              {summary.framed} prêts
+          {summary.framed > 0 ? (
+            <span class="arch-chip">
+              <span data-admin-i18n data-admin-fr={`${summary.framed} amorcés`} data-admin-en={`${summary.framed} started`}>
+                {summary.framed} amorcés
+              </span>
             </span>
-          </span>
+          ) : null}
           <span class="arch-chip">
             <span data-admin-i18n data-admin-fr={`${summary.cold} backlog`} data-admin-en={`${summary.cold} backlog`}>
               {summary.cold} backlog
@@ -99,6 +106,15 @@ const implementationSummary = getArchitectureImplementationSummary();
         </div>
         <div class="arch-chip-row">
           <span class="arch-chip">
+            <span
+              data-admin-i18n
+              data-admin-fr={`${implementationSummary.done} terminées`}
+              data-admin-en={`${implementationSummary.done} done`}
+            >
+              {implementationSummary.done} terminées
+            </span>
+          </span>
+          <span class="arch-chip">
             <span data-admin-i18n data-admin-fr={`${implementationSummary.advanced} en validation`} data-admin-en={`${implementationSummary.advanced} in validation`}>
               {implementationSummary.advanced} en validation
             </span>
@@ -108,11 +124,17 @@ const implementationSummary = getArchitectureImplementationSummary();
               {implementationSummary.active} en cours
             </span>
           </span>
-          <span class="arch-chip">
-            <span data-admin-i18n data-admin-fr={`${implementationSummary.framed} prêts`} data-admin-en={`${implementationSummary.framed} ready`}>
-              {implementationSummary.framed} prêts
+          {implementationSummary.framed > 0 ? (
+            <span class="arch-chip">
+              <span
+                data-admin-i18n
+                data-admin-fr={`${implementationSummary.framed} amorcées`}
+                data-admin-en={`${implementationSummary.framed} started`}
+              >
+                {implementationSummary.framed} amorcées
+              </span>
             </span>
-          </span>
+          ) : null}
           <span class="arch-chip">
             <span data-admin-i18n data-admin-fr={`${implementationSummary.cold} backlog`} data-admin-en={`${implementationSummary.cold} backlog`}>
               {implementationSummary.cold} backlog
@@ -136,10 +158,10 @@ const implementationSummary = getArchitectureImplementationSummary();
         <p class="arch-section-copy">
           <span
             data-admin-i18n
-            data-admin-fr="Tableau stratégique repris du chantier produit. La colonne avancement reste volontairement estimative : elle sert à lire les sujets comme un kanban : en validation, en cours, prêt ou backlog."
-            data-admin-en="This is the strategic program reused from the product discussion. The progress column stays deliberately approximate: it reads the work as a kanban: in validation, in progress, ready, or backlog."
+            data-admin-fr="Tableau stratégique repris du chantier produit. La colonne avancement reste volontairement estimative : elle sert à lire les sujets comme un kanban : terminé, en validation, en cours, amorcé ou backlog."
+            data-admin-en="This is the strategic program reused from the product discussion. The progress column stays deliberately approximate: it reads the work as a kanban: done, in validation, in progress, started, or backlog."
           >
-            Tableau stratégique repris du chantier produit. La colonne avancement reste volontairement estimative : elle sert à lire les sujets comme un kanban : en validation, en cours, prêt ou backlog.
+            Tableau stratégique repris du chantier produit. La colonne avancement reste volontairement estimative : elle sert à lire les sujets comme un kanban : terminé, en validation, en cours, amorcé ou backlog.
           </span>
         </p>
       </div>
@@ -254,16 +276,19 @@ const implementationSummary = getArchitectureImplementationSummary();
         <p class="arch-section-copy">
           <span
             data-admin-i18n
-            data-admin-fr="Phases 1–5 faites ; phase 6 : légal mergé, passe Insight landing (hors site), deploy prod, smoke waitlist, puis Clarity (script + privacy)."
-            data-admin-en="Phases 1–5 done; phase 6: legal merged, off-site Insight landing pass, production deploy, waitlist smoke, then Clarity (script + privacy)."
+            data-admin-fr="Phases 1–5 faites ; phase 6 : légal mergé, Insight terminé, deploy prod + smoke waitlist, puis Clarity (script + privacy)."
+            data-admin-en="Phases 1–5 done; phase 6: legal merged, Insight done, production deploy + waitlist smoke, then Clarity (script + privacy)."
           >
-            Phases 1–5 faites ; phase 6 : légal mergé, passe Insight landing (hors site), deploy prod, smoke waitlist, puis Clarity (script + privacy).
+            Phases 1–5 faites ; phase 6 : légal mergé, Insight terminé, deploy prod + smoke waitlist, puis Clarity (script + privacy).
           </span>
         </p>
       </div>
 
       <div class="arch-phases">
-        {phases.map((phase) => (
+        {phases.map((phase) => {
+          const phaseStatus = getArchitectureStatusLabel(phase.progress);
+          const phaseTone = getArchitectureStatusTone(phase.progress);
+          return (
           <article class="arch-phase">
             <div class="arch-phase-head">
               <div>
@@ -281,7 +306,23 @@ const implementationSummary = getArchitectureImplementationSummary();
                   {phase.title.fr}
                 </div>
               </div>
-              <span class="arch-pill priority">#{phase.order}</span>
+              <div class="arch-progress-cell arch-phase-progress">
+                <div class="arch-progress-meta">
+                  <span>{phase.progress}%</span>
+                  <span class:list={["arch-status", phaseTone]}>
+                    <span
+                      data-admin-i18n
+                      data-admin-fr={phaseStatus.fr}
+                      data-admin-en={phaseStatus.en}
+                    >
+                      {phaseStatus.fr}
+                    </span>
+                  </span>
+                </div>
+                <progress class="arch-progress-mini" max="100" value={phase.progress}>
+                  {phase.progress}
+                </progress>
+              </div>
             </div>
 
             <p
@@ -359,7 +400,8 @@ const implementationSummary = getArchitectureImplementationSummary();
               })}
             </div>
           </article>
-        ))}
+          );
+        })}
       </div>
 
       <section class="arch-card arch-section-head">
