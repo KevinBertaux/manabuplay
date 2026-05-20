@@ -31,3 +31,6 @@ coverage/
 # local comparison artifacts
 .codex-temp/
 tmp/
+artifacts/insight/
+apps/admin/public/insight-captures/*
+!apps/admin/public/insight-captures/manifest.json

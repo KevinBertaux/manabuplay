@@ -8,6 +8,7 @@ const pageLoaders: Record<string, () => Promise<unknown>> = {
   maintenance: () => import("./admin-maintenance"),
   "pack-reader": () => import("./admin-pack-reader"),
   waitlist: () => import("./admin-waitlist"),
+  insight: () => import("./admin-insight"),
 };
 
 if (pageId && pageLoaders[pageId]) {

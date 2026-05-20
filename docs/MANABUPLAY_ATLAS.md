@@ -268,14 +268,10 @@ Ordre cible actuel :
 - `features`
 - `waitlist`
 
-Validation retenue avant et juste après livraison :
+Validation retenue :
 
-- avant release `v0.1` :
-  - `1` passe prédictive d'attention sur la landing
-  - outil retenu : `Attention Insight`
-- sur les premiers visiteurs réels :
-  - heatmaps et recordings
-  - outil retenu : `Microsoft Clarity`
+- avant release `v0.1` : `Attention Insight` — captures viewport par section (`fr-desktop-hero.png`, etc.), pas de PNG pleine page (surcoût Insight)
+- au premier deploy prod : `Microsoft Clarity` (script + privacy) après smoke waitlist Netlify
 
 ---
 
