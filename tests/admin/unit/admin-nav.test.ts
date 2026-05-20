@@ -19,6 +19,8 @@ describe("admin nav", () => {
     expect(pilotageGroup?.items.map((item) => item.label)).toEqual([
       "Backlog",
       "Architecture",
+      "Insight",
+      "Clarity",
       "Business",
       "Wording",
       "Guide",

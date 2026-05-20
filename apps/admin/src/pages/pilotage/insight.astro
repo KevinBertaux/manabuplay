@@ -1,0 +1,60 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import {
+  ATTENTION_INSIGHT_APP_URL,
+  ATTENTION_INSIGHT_EXTENSION_URL,
+  INSIGHT_CAPTURE_COMMAND,
+  INSIGHT_LANDING_BLOCKS,
+} from "../../lib/insight-workflow";
+---
+
+<AdminLayout
+  title="Admin — Attention Insight"
+  activeNav="insight"
+  pageId="insight"
+  description="Captures landing FR/EN pour une passe Attention Insight avant release v0.1."
+  bodyClass="text-slate-200 arch-shell"
+  containerClass="arch-wrap"
+>
+  <section class="arch-hero">
+    <span class="arch-eyebrow">Attention Insight</span>
+    <h1 class="arch-title">Attention Insight</h1>
+    <p class="arch-copy">
+      Upload dans Insight : <strong>une image par section</strong> (<code>hero</code>, <code>quiz</code>,
+      <code>features</code>, <code>waitlist</code>) — pas de PNG pleine page (évite le surcoût « Long image »).
+    </p>
+  </section>
+
+  <section class="arch-card arch-section-head">
+    <div class="arch-section-title">1. Générer les captures</div>
+    <p class="arch-section-copy">
+      <code>{INSIGHT_CAPTURE_COMMAND}</code> — 16 PNG viewport (4 sections × FR/EN × desktop/mobile). Variante dev :
+      <code>npm run insight:capture:dev</code>.
+    </p>
+    <p class="arch-section-copy">
+      Nom des fichiers : <code>fr-desktop-hero.png</code>, <code>fr-mobile-waitlist.png</code>, etc.
+    </p>
+  </section>
+
+  <section class="arch-card arch-section-head">
+    <div class="arch-section-title">2. Analyser dans Insight</div>
+    <p class="arch-section-copy">
+      Blocs : <code>{INSIGHT_LANDING_BLOCKS.join(" → ")}</code>
+    </p>
+    <p class="arch-section-copy">
+      <a class="text-[var(--cyan)]" href={ATTENTION_INSIGHT_APP_URL} target="_blank" rel="noreferrer">
+        Ouvrir Attention Insight →
+      </a>
+      {" · "}
+      <a class="text-[var(--cyan)]" href={ATTENTION_INSIGHT_EXTENSION_URL} target="_blank" rel="noreferrer">
+        Extension Chrome
+      </a>
+    </p>
+  </section>
+
+  <section class="arch-card arch-section-head">
+    <div class="arch-section-title">3. Captures locales</div>
+    <p class="arch-section-copy" id="insight-captures-status">Chargement…</p>
+    <div class="mt-4 grid gap-6 sm:grid-cols-2" id="insight-captures-grid"></div>
+  </section>
+</AdminLayout>

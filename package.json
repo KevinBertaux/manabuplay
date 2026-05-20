@@ -49,6 +49,8 @@
     "verify:bridge": "npm run build && playwright test -c playwright.admin.config.ts tests/admin/waitlist.spec.ts --workers=1",
     "verify:merge": "npm run check:feature && npm run test:coverage",
     "test:e2e:ui-guards": "playwright test -c playwright.web.config.ts tests/web/home-layout.spec.ts --workers=1",
+    "insight:capture": "node scripts/capture-insight-landing.mjs --clean",
+    "insight:capture:dev": "node scripts/capture-insight-landing.mjs",
     "test:e2e:critical": "playwright test -c playwright.web.config.ts tests/web/public-architecture.spec.ts tests/web/public-flow.spec.ts --workers=1",
     "test:e2e:admin": "playwright test -c playwright.admin.config.ts tests/admin/architecture.spec.ts tests/admin/backlog.spec.ts tests/admin/business.spec.ts tests/admin/packs.spec.ts tests/admin/waitlist.spec.ts tests/admin/wording.spec.ts --workers=1",
     "test:e2e:legacy-parity": "playwright test -c playwright.web.config.ts tests/web/visual-compare.spec.ts --workers=1",

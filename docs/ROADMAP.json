@@ -300,24 +300,22 @@
           "notes": "Fait via le commit d88e5d1 : les points sont ajustes par hint utilise (10/8/5), le combo multiplier et le scoring final refletent deja l'usage des hints."
         },
         {
-          "id": "v01-metrics",
-          "title": "Instrumenter les metriques produit et marketing essentielles",
+          "id": "attention-insight-pass",
+          "title": "Faire 1 passe Attention Insight avant la release v0.1",
+          "status": "done",
+          "priority": "P0",
+          "area": "growth",
+          "type": "ux",
+          "notes": "npm run insight:capture + admin /pilotage/insight/. Passe FR desktop hero + quiz (captures viewport par section). Clarte 65-75%, CTA OK. Pas de P0 release. Faux positif Insight : badge au-dessus du titre tague CTA."
+        },
+        {
+          "id": "clarity-setup",
+          "title": "Poser Microsoft Clarity pour les premiers visiteurs reels",
           "status": "todo",
           "priority": "P0",
           "area": "growth",
           "type": "infra",
-          "children": [
-            {
-              "id": "attention-insight-pass",
-              "title": "Faire 1 passe Attention Insight avant la release v0.1",
-              "status": "todo"
-            },
-            {
-              "id": "clarity-setup",
-              "title": "Poser Microsoft Clarity pour les premiers visiteurs reels",
-              "status": "todo"
-            }
-          ]
+          "notes": "Apres premier deploy prod + smoke waitlist Netlify. Script analytics, MAJ privacy/consentement. Hub admin /pilotage/clarity/."
         },
         {
           "id": "v01-mobile-qa",

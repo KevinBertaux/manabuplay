@@ -210,14 +210,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 11,
-    progress: 75,
+    progress: 85,
     whyNow: {
       fr: "Important business, mais secondaire tant que le quiz public n'est pas irréprochable.",
       en: "Important business work, but secondary until the public quiz is solid.",
     },
     note: {
-      fr: "Local validé : saisie multi-utilisateur, validation email, feedback, admin, export CSV. Reste à vérifier Netlify Forms sur un déploiement réel.",
-      en: "Local flow validated: multi-user input, email validation, feedback, admin, CSV export. Netlify Forms still needs a real-deploy smoke test.",
+      fr: "Local validé + case consentement RGPD et champ Netlify `consent`. Reste : smoke Netlify Forms sur deploy prod.",
+      en: "Local flow validated + GDPR consent checkbox and Netlify `consent` field. Remaining: Netlify Forms smoke on production deploy.",
     },
   },
   {
@@ -238,54 +238,71 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     },
   },
   {
-    id: "metrics",
+    id: "attention-insight",
     rank: 13,
-    title: { fr: "Métriques produit minimales", en: "Minimal product metrics" },
+    title: { fr: "Passe Attention Insight", en: "Attention Insight pass" },
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 13,
-    progress: 10,
+    progress: 100,
     whyNow: {
-      fr: "Les outils sont choisis, mais l'intégration vient après les surfaces produit importantes.",
-      en: "Tools are chosen, but integration comes after the important product surfaces.",
+      fr: "Valider clarté et CTA de la landing avant release, sans attendre du trafic réel.",
+      en: "Validate landing clarity and CTAs before release, without waiting for real traffic.",
     },
     note: {
-      fr: "Attention Insight avant release, Clarity pour les premiers visiteurs.",
-      en: "Attention Insight before release, Clarity for first visitors.",
+      fr: "Terminé : hero + quiz FR desktop (go release). Outil : npm run insight:capture + /pilotage/insight/.",
+      en: "Done: FR desktop hero + quiz (release go). Tooling: npm run insight:capture + /pilotage/insight/.",
+    },
+  },
+  {
+    id: "clarity",
+    rank: 14,
+    title: { fr: "Microsoft Clarity", en: "Microsoft Clarity" },
+    impact: { fr: "Fort", en: "High" },
+    effort: { fr: "Moyen", en: "Medium" },
+    priority: 14,
+    progress: 0,
+    whyNow: {
+      fr: "Comprendre le comportement des premiers visiteurs réels après le deploy prod.",
+      en: "Understand real visitor behavior after the production deploy.",
+    },
+    note: {
+      fr: "À faire au premier deploy prod : script analytics, MAJ privacy/consentement, smoke waitlist. Hub : /pilotage/clarity/.",
+      en: "On first production deploy: analytics script, privacy/consent updates, waitlist smoke. Hub: /pilotage/clarity/.",
     },
   },
   {
     id: "playwright",
-    rank: 14,
+    rank: 15,
     title: { fr: "Playwright fin de v0.1", en: "End-of-v0.1 Playwright" },
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
-    priority: 14,
+    priority: 15,
     progress: 100,
     whyNow: {
       fr: "La suite est maintenant stabilisée, mais les futurs parcours Daily / Practice / Archives devront être ajoutés.",
       en: "The suite is now stable, but future Daily / Practice / Archives flows must be added.",
     },
     note: {
-      fr: "Base solide : tests admin/public couvrent Daily, Arcade et Archives, dont la sélection d'archive sans reload.",
-      en: "Solid base: admin/public tests cover Daily, Arcade, and Archives, including no-reload archive selection.",
+      fr: "Suite stabilisée (Daily, Arcade, Archives, waitlist). CI : plus de Playwright auto sur push/PR — workflow GitHub « E2E (manual) » sur demande.",
+      en: "Stable suite (Daily, Arcade, Archives, waitlist). CI: no automatic Playwright on push/PR — GitHub « E2E (manual) » workflow on request.",
     },
   },
   {
     id: "legal-rgpd",
-    rank: 15,
+    rank: 16,
     title: { fr: "Mentions légales / RGPD", en: "Legal / GDPR" },
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
-    priority: 15,
-    progress: 0,
+    priority: 16,
+    progress: 90,
     whyNow: {
-      fr: "Indispensable avant livraison si on collecte des emails, mais à poser autour d'un flux mail déjà fonctionnel.",
-      en: "Required before shipping if emails are collected, but it should wrap an already-working email flow.",
+      fr: "Pages et consentement waitlist sont sur main ; la waitlist prod reste à valider une fois le déploiement à jour.",
+      en: "Pages and waitlist consent are on main; production waitlist still needs validation once deploy is up to date.",
     },
     note: {
-      fr: "Brouillon en place. Prod bloquee : identite EI Senpai Surprise (adresse/SIRET, domiciliation ?). WizLev = non pro anonyme ; ManabuPlay = EI + email + Stripe v0.2.",
-      en: "Draft in place. Prod blocked: Senpai Surprise business identity (address/SIRET, domiciliation?). WizLev = non-pro anonymous; ManabuPlay = business + email + Stripe in v0.2.",
+      fr: "Mergé : /legal/, /privacy/ FR/EN (EI Senpai Surprise, SIREN, adresse Tours), footer minimal Kxis, consentement explicite, lien inline confidentialité. Reste : smoke Netlify Forms prod.",
+      en: "Merged: FR/EN /legal/, /privacy/ (Senpai Surprise business, SIREN, Tours address), minimal Kxis footer, explicit consent, inline privacy link. Remaining: production Netlify Forms smoke.",
     },
   },
 ];
@@ -294,7 +311,7 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "local-email",
     order: 1,
-    progress: 75,
+    progress: 85,
     title: { fr: "Faire marcher la collecte mail locale", en: "Make local email collection work" },
     goal: {
       fr: "Waitlist locale testable et exploitable via admin, avant smoke test Netlify.",
@@ -505,15 +522,15 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "release-hardening",
     order: 6,
-    progress: 35,
+    progress: 70,
     title: { fr: "Durcir la fin de v0.1", en: "Harden the end of v0.1" },
     goal: {
-      fr: "Fermer release, QA, métriques et légal une fois le produit presque en place.",
-      en: "Close release, QA, metrics, and legal once the product is nearly in place.",
+      fr: "Fermer release et QA prod ; Insight fait, Clarity au deploy ; légal et consentement waitlist mergés sur main.",
+      en: "Close release and production QA; Insight done, Clarity on deploy; legal and waitlist consent merged on main.",
     },
     guardrail: {
-      fr: "RGPD et mentions légales arrivent ici, pas avant la collecte mail fonctionnelle.",
-      en: "GDPR and legal notices arrive here, not before the email collection works.",
+      fr: "Ne pas activer la waitlist prod tant que Netlify Forms n'a pas été testé sur un deploy à jour.",
+      en: "Do not treat production waitlist as validated until Netlify Forms is tested on an up-to-date deploy.",
     },
     risk: {
       fr: "Moyen : dernière ligne droite avec beaucoup de petites surfaces.",
@@ -537,17 +554,60 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         },
       },
       {
-        path: "apps/web/src/pages/legal/*.astro",
-        action: "create",
+        path: "shared/data/manabuplay/legal-copy.ts",
+        action: "update",
         note: {
-          fr: "Mentions légales, privacy et consentement email explicite.",
-          en: "Legal notice, privacy, and explicit email consent.",
+          fr: "Copy FR/EN EI Senpai Surprise + hébergeur Netlify.",
+          en: "FR/EN copy for Senpai Surprise business + Netlify hosting.",
+        },
+      },
+      {
+        path: "apps/web/src/pages/[locale]/legal.astro",
+        action: "update",
+        note: {
+          fr: "Mentions légales ; lien inline vers la politique de confidentialité.",
+          en: "Legal notice; inline link to the privacy policy.",
+        },
+      },
+      {
+        path: "apps/web/src/pages/[locale]/privacy.astro",
+        action: "update",
+        note: {
+          fr: "Politique de confidentialité (waitlist, localStorage, logs).",
+          en: "Privacy policy (waitlist, localStorage, logs).",
+        },
+      },
+      {
+        path: "apps/web/src/components/PublicFooter.astro",
+        action: "update",
+        note: {
+          fr: "Footer minimal : ManabuPlay · Kxis · liens légaux.",
+          en: "Minimal footer: ManabuPlay · Kxis · legal links.",
+        },
+      },
+      {
+        path: "scripts/capture-insight-landing.mjs",
+        action: "update",
+        note: {
+          fr: "Captures landing FR/EN pour Attention Insight.",
+          en: "FR/EN landing captures for Attention Insight.",
+        },
+      },
+      {
+        path: "apps/admin/src/pages/pilotage/insight.astro",
+        action: "update",
+        note: {
+          fr: "Hub admin : commande, liens Insight, prévisualisation PNG.",
+          en: "Admin hub: command, Insight links, PNG preview.",
         },
       },
       {
         path: "apps/web/public/scripts/analytics*.js",
         action: "create",
-        note: { fr: "Clarity et métriques minimales.", en: "Clarity and minimal metrics." },
+        note: {
+          fr: "Clarity uniquement au premier deploy prod (pas en v0.1 pre-prod).",
+          en: "Clarity only on first production deploy (not in pre-prod v0.1).",
+        },
       },
     ],
   },
@@ -619,7 +679,7 @@ export function getArchitectureStatusLabel(progress: number): LocalizedText {
     case "active":
       return { fr: "En cours", en: "In progress" };
     case "framed":
-      return { fr: "Prêt", en: "Ready" };
+      return { fr: "Amorcé", en: "Started" };
     default:
       return { fr: "Backlog", en: "Backlog" };
   }
