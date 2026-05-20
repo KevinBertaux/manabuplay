@@ -37,11 +37,11 @@ Il n’y avait **pas** de branche deploy ni de règles Netlify écrites dans le 
 2. **Build & deploy → Deploy Previews**
    - **Désactivé** (évite un build par PR).
 
-3. **Build settings** (monorepo — ne pas builder depuis `apps/web` seul)
-   - **Base directory** : racine du repo (`.` / vide) — **pas** `apps/web` (sinon `netlify.toml` et `npm ci` sont ignorés)
-   - **Build / Publish** : laisser `netlify.toml` (`npm ci && npm run build:web`, publish `dist/web`)
-   - Dans l’UI, **effacer** toute override « Build command » / « Publish » si elle pointe encore vers `astro build` ou `apps/web/dist`
-   - Erreurs typiques : `astro: command not found` ; build qui échoue en ~10 s si la base est mauvaise
+3. **Build settings** (monorepo)
+   - **`netlify.toml` à la racine** impose `base = "."` (écrase l’UI si elle met `apps/web`)
+   - **Ne pas** mettre Base directory = `apps/web` dans l’UI : sinon `Missing script: build:web` (le script est au **root**, pas dans `apps/web/package.json`)
+   - Publish : `dist/web` (pas `apps/web/dist`)
+   - `shared/` est inclus automatiquement au build (imports depuis `apps/web`)
 
 4. **Environment variables**
    - **Production** (`main`) : `PUBLIC_CLARITY_PROJECT_ID` = id Clarity quand tu actives la mesure.
