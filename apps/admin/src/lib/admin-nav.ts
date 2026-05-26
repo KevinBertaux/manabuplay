@@ -87,6 +87,12 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
             href: "/design/mockups/typography",
             label: "Typo",
           },
+          {
+            activeKey: "mockups",
+            exact: true,
+            href: "/design/mockups/favicon",
+            label: "Favicon",
+          },
         ],
       },
       { activeKey: "references", href: "/design/references/hero", label: "Références" },

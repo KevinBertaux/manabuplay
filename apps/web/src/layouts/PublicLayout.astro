@@ -50,8 +50,7 @@ const navLinkBaseClass = "whitespace-nowrap rounded-lg border bg-[rgba(26,22,48,
 const navLinkInactiveClass = "border-[rgba(139,92,246,.14)] hover:border-[rgba(34,211,238,.38)] hover:bg-[rgba(34,211,238,.08)] hover:text-white";
 const navLinkActiveClass = "border-[rgba(34,211,238,.38)] bg-[rgba(34,211,238,.08)] text-white";
 const localeSwitchClass = "flex items-center gap-1 rounded-md border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1 text-[rgba(139,92,246,.25)]";
-const brandIconClass =
-  "flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-[linear-gradient(135deg,var(--violet),var(--fuchsia))] text-white";
+const brandMarkClass = "block h-9 w-9 flex-shrink-0 rounded-md";
 const brandWordmarkClass = "glow-violet font-pixel text-[.94rem] text-[#a78bfa]";
 const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? "";
 ---
@@ -73,11 +72,14 @@ const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? ""
 <body class="text-slate-200" data-clarity-project-id={clarityProjectId || undefined}>
   <nav class={topNavClass}>
     <a class={brandLinkClass} href={getLocalizedHomePath(locale)} aria-label="ManabuPlay">
-      <span class={brandIconClass}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-        </svg>
-      </span>
+      <img
+        src="/favicon.svg"
+        alt=""
+        width="36"
+        height="36"
+        class={brandMarkClass}
+        decoding="async"
+      />
       <span class={brandWordmarkClass}>
         Manabu<span class="text-[#e879f9]">Play</span>
       </span>
