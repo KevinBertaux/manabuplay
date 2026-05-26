@@ -55,6 +55,12 @@ function isLocalWaitlistMode(): boolean {
   );
 }
 
+function getWaitlistSubmitPath(form: HTMLFormElement): string {
+  const action = form.getAttribute("action")?.trim();
+  if (action) return action;
+  return window.location.pathname;
+}
+
 export function createWaitlistController({
   storage,
   currentLangRef,
@@ -210,9 +216,10 @@ export function createWaitlistController({
         email,
         lang: currentLangRef(),
         consent: "yes",
+        "bot-field": "",
       });
 
-      const response = await fetch("/", {
+      const response = await fetch(getWaitlistSubmitPath(form), {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: body.toString(),

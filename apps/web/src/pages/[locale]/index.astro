@@ -5,13 +5,14 @@ import PublicQuiz from "../../components/PublicQuiz.astro";
 import { buildDailyBootData } from "../../../../../shared/lib/manabuplay-daily";
 
 import { normalizePublicLocale } from "../../lib/public-locales";
-import { getPublicStaticLocalePaths } from "../../lib/public-routes";
+import { getLocalizedHomePath, getPublicStaticLocalePaths } from "../../lib/public-routes";
 
 export function getStaticPaths() {
   return getPublicStaticLocalePaths();
 }
 
 const locale = normalizePublicLocale(Astro.params.locale);
+const waitlistAction = getLocalizedHomePath(locale);
 const bootData = buildDailyBootData();
 const lang = bootData.lang[locale] ?? bootData.lang.en;
 const bootPayload = {
@@ -129,7 +130,7 @@ const noAccountStatValue = "0";
       <h2 class="pixel-heading-md text-white leading-relaxed mb-4" data-i18n="email_title"></h2>
       <p class="font-body text-xl text-slate-400 mb-8" data-i18n="email_sub"></p>
       <!-- Netlify Forms hidden bot-trap (required by Netlify) -->
-      <form name="manabuplay-waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field"
+      <form name="manabuplay-waitlist" method="POST" action={waitlistAction} data-netlify="true" netlify-honeypot="bot-field"
             class="flex flex-col gap-4">
         <!-- Hidden fields required by Netlify -->
         <input type="hidden" name="form-name" value="manabuplay-waitlist" />

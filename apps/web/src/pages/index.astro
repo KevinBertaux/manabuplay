@@ -13,10 +13,20 @@ const redirectPayload = {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, follow" />
   <title>ManabuPlay</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
   <template id="public-root-redirect-data">{JSON.stringify(redirectPayload)}</template>
   <script src="../scripts/public-root-redirect.ts"></script>
 </head>
 <body class="m-0 bg-[#0a0911] font-sans text-[#f3f1ff]">
+  <!-- Netlify Forms: static detection hook (submissions use /fr/ or /en/ action) -->
+  <form name="manabuplay-waitlist" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="manabuplay-waitlist" />
+    <input type="email" name="email" />
+    <input type="text" name="lang" />
+    <input type="text" name="consent" />
+    <input type="text" name="bot-field" />
+  </form>
   <main class="grid min-h-[100svh] place-items-center p-6 text-center">
     <div>
       <h1>ManabuPlay</h1>
