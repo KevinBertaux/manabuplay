@@ -8,6 +8,12 @@ const repoRoot = path.resolve(scriptsDir, "..");
 
 const scanTargets = ["apps", "shared", "tailwind.config.cjs"];
 
+const blockedPatterns = [
+  { label: "Rajdhani", pattern: /\bRajdhani\b/g },
+  { label: "Google Fonts CSS", pattern: /fonts\.googleapis\.com/g },
+  { label: "Google Fonts static", pattern: /fonts\.gstatic\.com/g },
+];
+
 const ignoredDirectories = new Set([".astro", "dist", "node_modules"]);
 const scannedExtensions = new Set([".astro", ".css", ".js", ".mjs", ".ts", ".cjs"]);
 const violations = [];
@@ -45,11 +51,12 @@ for (const target of scanTargets) {
   for (const filePath of collectFiles(target)) {
     const relativePath = normalizePath(filePath);
     const source = fs.readFileSync(filePath, "utf8");
-    const count = (source.match(/\bRajdhani\b/g) || []).length;
 
-    if (count === 0) continue;
-
-    violations.push({ filePath: relativePath, count });
+    for (const blocked of blockedPatterns) {
+      const count = (source.match(blocked.pattern) || []).length;
+      if (count === 0) continue;
+      violations.push({ filePath: relativePath, label: blocked.label, count });
+    }
   }
 }
 
@@ -57,10 +64,11 @@ console.log("Canonical fonts audit");
 
 if (violations.length > 0) {
   for (const violation of violations) {
-    console.error(`- ${violation.filePath}: Rajdhani usage (${violation.count})`);
+    console.error(`- ${violation.filePath}: ${violation.label} (${violation.count})`);
   }
   console.error("\nCanonical font violations detected.");
   process.exit(1);
 }
 
 console.log("- no Rajdhani usage in rendered app/shared code");
+console.log("- no Google Fonts CDN usage in rendered app/shared code");
