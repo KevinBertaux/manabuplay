@@ -18,8 +18,8 @@ export const CLARITY_SETUP_CHECKLIST = [
   },
   {
     id: "waitlist-smoke",
-    fr: "Smoke Netlify Forms sur la waitlist prod.",
-    en: "Netlify Forms smoke test on production waitlist.",
+    fr: "Smoke Netlify Forms waitlist validé (deploy pré-prod, notification mail reçue).",
+    en: "Netlify Forms waitlist smoke test passed (pre-production deploy, notification email received).",
   },
   {
     id: "verify",

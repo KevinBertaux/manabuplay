@@ -61,6 +61,40 @@ function getWaitlistSubmitPath(form: HTMLFormElement): string {
   return window.location.pathname;
 }
 
+function prefersReducedMotion(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+type WaitlistFeedbackFocus = "consent" | "email";
+
+function getWaitlistFeedbackElements() {
+  const emailInput = document.getElementById("emailInput");
+  const consentInput = document.getElementById("emailConsent");
+  const waitlistFocus = document.getElementById("emailWaitlistFocus");
+  const waitlistHint = document.getElementById("emailWaitlistHint");
+  if (
+    !(emailInput instanceof HTMLInputElement) ||
+    !(consentInput instanceof HTMLInputElement) ||
+    !(waitlistFocus instanceof HTMLElement) ||
+    !(waitlistHint instanceof HTMLElement)
+  ) {
+    return null;
+  }
+  return { emailInput, consentInput, waitlistFocus, waitlistHint };
+}
+
+function resolveCopy(
+  t: TranslateFn,
+  key: string,
+  fallbackFr: string,
+  fallbackEn: string,
+  lang: string,
+): string {
+  const value = t(key);
+  if (typeof value === "string") return value;
+  return lang === "fr" ? fallbackFr : fallbackEn;
+}
+
 export function createWaitlistController({
   storage,
   currentLangRef,
@@ -80,6 +114,80 @@ export function createWaitlistController({
 }) {
   let waitlistButtonTimer: number | null = null;
   let waitlistMessageTimer: number | null = null;
+
+  function clearWaitlistErrorFeedback() {
+    const elements = getWaitlistFeedbackElements();
+    if (!elements) return;
+    const { emailInput, consentInput, waitlistFocus, waitlistHint } = elements;
+
+    waitlistHint.hidden = true;
+    waitlistHint.textContent = "";
+    waitlistFocus.classList.remove("is-waitlist-pulse", "is-waitlist-error");
+    emailInput.removeAttribute("aria-invalid");
+    emailInput.removeAttribute("aria-describedby");
+    emailInput.setCustomValidity("");
+    consentInput.removeAttribute("aria-invalid");
+    consentInput.removeAttribute("aria-describedby");
+    consentInput.setCustomValidity("");
+  }
+
+  function showWaitlistErrorFeedback(message: string, focusTarget: WaitlistFeedbackFocus) {
+    const elements = getWaitlistFeedbackElements();
+    if (!elements) return;
+    const { emailInput, consentInput, waitlistFocus, waitlistHint } = elements;
+
+    waitlistHint.textContent = message;
+    waitlistHint.hidden = false;
+    emailInput.removeAttribute("aria-invalid");
+    emailInput.removeAttribute("aria-describedby");
+    emailInput.setCustomValidity("");
+    consentInput.removeAttribute("aria-invalid");
+    consentInput.removeAttribute("aria-describedby");
+    consentInput.setCustomValidity("");
+
+    if (focusTarget === "consent") {
+      consentInput.setAttribute("aria-invalid", "true");
+      consentInput.setAttribute("aria-describedby", "emailWaitlistHint");
+    } else {
+      emailInput.setAttribute("aria-invalid", "true");
+      emailInput.setAttribute("aria-describedby", "emailWaitlistHint");
+    }
+
+    waitlistFocus.classList.remove("is-waitlist-pulse");
+    waitlistFocus.classList.add("is-waitlist-error");
+
+    if (!prefersReducedMotion()) {
+      void waitlistFocus.offsetWidth;
+      waitlistFocus.classList.add("is-waitlist-pulse");
+      waitlistFocus.addEventListener(
+        "animationend",
+        () => {
+          waitlistFocus.classList.remove("is-waitlist-pulse");
+        },
+        { once: true },
+      );
+    }
+
+    const focusEl = focusTarget === "consent" ? consentInput : emailInput;
+    focusEl.focus({ preventScroll: true });
+  }
+
+  function bindWaitlistFeedback() {
+    const elements = getWaitlistFeedbackElements();
+    if (!elements) return;
+
+    elements.consentInput.addEventListener("change", () => {
+      if (elements.consentInput.checked) {
+        clearWaitlistErrorFeedback();
+      }
+    });
+
+    elements.emailInput.addEventListener("input", () => {
+      if (elements.emailInput.value.trim()) {
+        clearWaitlistErrorFeedback();
+      }
+    });
+  }
 
   function readWaitlistSubmissions(): WaitlistSubmission[] {
     const submissions = storage.get(waitlistStorageKey);
@@ -130,8 +238,8 @@ export function createWaitlistController({
     const consentInput = document.getElementById("emailConsent");
     if (consentInput instanceof HTMLInputElement) {
       consentInput.checked = false;
-      consentInput.setCustomValidity("");
     }
+    clearWaitlistErrorFeedback();
     window.setTimeout(() => input.focus(), 150);
 
     if (submitButton) {
@@ -176,25 +284,48 @@ export function createWaitlistController({
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     const consentInput = consent instanceof HTMLInputElement ? consent : null;
 
-    input.setCustomValidity("");
+    const lang = currentLangRef();
+    clearWaitlistErrorFeedback();
+
     if (consentInput && !consentInput.checked) {
-      consentInput.setCustomValidity(
-        currentLangRef() === "fr"
-          ? "Coche la case pour confirmer ton consentement."
-          : "Check the box to confirm your consent.",
+      showWaitlistErrorFeedback(
+        resolveCopy(
+          t,
+          "email_consent_hint",
+          "Consentement requis : coche la case ci-dessus pour envoyer ton email.",
+          "Consent required: check the box above to submit your email.",
+          lang,
+        ),
+        "consent",
       );
-      consentInput.reportValidity();
       return;
     }
-    consentInput?.setCustomValidity("");
 
-    if (!input.validity.valid || !isValidWaitlistEmail(email)) {
-      input.setCustomValidity(
-        currentLangRef() === "fr"
-          ? "Entre une adresse email valide."
-          : "Enter a valid email address.",
+    if (!email) {
+      showWaitlistErrorFeedback(
+        resolveCopy(
+          t,
+          "email_empty_hint",
+          "Indique ton adresse email pour continuer.",
+          "Enter your email address to continue.",
+          lang,
+        ),
+        "email",
       );
-      input.reportValidity();
+      return;
+    }
+
+    if (!isValidWaitlistEmail(email)) {
+      showWaitlistErrorFeedback(
+        resolveCopy(
+          t,
+          "email_invalid_hint",
+          "Entre une adresse email valide.",
+          "Enter a valid email address.",
+          lang,
+        ),
+        "email",
+      );
       return;
     }
 
@@ -246,6 +377,8 @@ export function createWaitlistController({
       }
     }
   }
+
+  bindWaitlistFeedback();
 
   return { handleEmailSubmit };
 }

@@ -789,9 +789,84 @@
     text-decoration-thickness: 1px;
   }
 
-  .email-consent-label {
+  .email-waitlist-focus {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding: var(--space-4);
+    border-radius: var(--radius-8);
+    outline: 3px solid transparent;
+    outline-offset: 6px;
+    box-shadow: none;
+    transition:
+      outline-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  /* Trait rouge + halo orange fin (un seul rendu, pas de double liseré) */
+  .email-waitlist-focus.is-waitlist-error {
+    outline-color: #ef4444;
+    box-shadow: 0 0 16px rgba(251, 146, 60, 0.48);
+  }
+
+  .email-waitlist-focus.is-waitlist-pulse {
+    animation: email-waitlist-focus-pulse 0.45s ease-in-out 3;
+  }
+
+  @keyframes email-waitlist-focus-pulse {
+    0%,
+    100% {
+      outline-color: #ef4444;
+      box-shadow: 0 0 12px rgba(251, 146, 60, 0.42);
+    }
+
+    50% {
+      outline-color: #f87171;
+      box-shadow: 0 0 22px rgba(251, 146, 60, 0.62);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .email-waitlist-focus.is-waitlist-pulse {
+      animation: none;
+    }
+  }
+
+  .email-waitlist-focus.is-waitlist-error .email-input {
+    border-color: rgba(239, 68, 68, 0.75);
+  }
+
+  .email-consent-field {
     max-width: 36rem;
     margin-inline: auto;
+    width: 100%;
+    padding: 0;
+  }
+
+  .email-consent-label {
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  .email-waitlist-hint {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.5;
+    /* ~5.2:1 sur fond #0a0911 (AA texte court / gras) */
+    color: #fda4af;
+    text-align: left;
+  }
+
+  .email-waitlist-hint[hidden] {
+    display: none;
+  }
+
+  .email-waitlist-focus.is-waitlist-error .email-consent-checkbox {
+    accent-color: #ef4444;
   }
 
   .email-consent-checkbox {

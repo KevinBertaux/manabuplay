@@ -77,7 +77,10 @@ export const CURRENT_PRODUCT_COPY = {
     email_ok: "✓ You're on the list.",
     email_saved_cta: "Saved",
     email_consent:
-      'I agree to receive ManabuPlay updates by email. Read the <a href="/en/privacy/" class="email-consent-link">Privacy Policy</a>.',
+      'I agree to receive ManabuPlay updates by email.<br>Read the <a href="/en/privacy/" class="email-consent-link">Privacy Policy</a>.',
+    email_consent_hint: "Consent required: check the box above to submit your email.",
+    email_empty_hint: "Enter your email address to continue.",
+    email_invalid_hint: "Enter a valid email address.",
     email_legal: "No spam. Unsubscribe anytime.",
     footer_agency: "Built by Kxis",
     footer_legal: "Legal notice",
@@ -196,7 +199,10 @@ export const CURRENT_PRODUCT_COPY = {
     email_ok: "✓ C'est noté, tu es sur la liste.",
     email_saved_cta: "Noté",
     email_consent:
-      'J\'accepte de recevoir les annonces ManabuPlay par email. Voir la <a href="/fr/privacy/" class="email-consent-link">politique de confidentialité</a>.',
+      'J\'accepte de recevoir les annonces ManabuPlay par email.<br>Voir la <a href="/fr/privacy/" class="email-consent-link">politique de confidentialité</a>.',
+    email_consent_hint: "Consentement requis : coche la case ci-dessus pour envoyer ton email.",
+    email_empty_hint: "Indique ton adresse email pour continuer.",
+    email_invalid_hint: "Entre une adresse email valide.",
     email_legal: "Zéro spam. Désabonnement à tout moment.",
     footer_agency: "Site réalisé par Kxis",
     footer_legal: "Mentions légales",

@@ -210,14 +210,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 11,
-    progress: 85,
+    progress: 100,
     whyNow: {
       fr: "Important business, mais secondaire tant que le quiz public n'est pas irréprochable.",
       en: "Important business work, but secondary until the public quiz is solid.",
     },
     note: {
-      fr: "Local validé + case consentement RGPD et champ Netlify `consent`. Reste : smoke Netlify Forms sur deploy prod.",
-      en: "Local flow validated + GDPR consent checkbox and Netlify `consent` field. Remaining: Netlify Forms smoke on production deploy.",
+      fr: "Terminé : local + RGPD (consent + privacy) + Netlify Forms validé en pré-prod (mail OK).",
+      en: "Done: local flow + GDPR (consent + privacy) + Netlify Forms validated on pre-production (email OK).",
     },
   },
   {
@@ -267,8 +267,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "Privacy and consent banner are ready; Clarity project ID still needs to be set on production deploy.",
     },
     note: {
-      fr: "Préparé : analytics-clarity.js, public-analytics.ts, PUBLIC_CLARITY_PROJECT_ID. Deploy prod : définir la variable, smoke dashboard + waitlist Netlify.",
-      en: "Prepared: analytics-clarity.js, public-analytics.ts, PUBLIC_CLARITY_PROJECT_ID. On prod deploy: set env var, smoke dashboard + Netlify waitlist.",
+      fr: "Préparé : analytics-clarity.js, public-analytics.ts, PUBLIC_CLARITY_PROJECT_ID. Deploy prod : définir la variable, smoke dashboard Clarity. Waitlist Netlify déjà validée en pré-prod.",
+      en: "Prepared: analytics-clarity.js, public-analytics.ts, PUBLIC_CLARITY_PROJECT_ID. On production deploy: set env var, smoke Clarity dashboard. Netlify waitlist already validated on pre-production.",
     },
   },
   {
@@ -301,8 +301,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "Legal and privacy must be publishable as-is before production deploy (Clarity and waitlist described as in production).",
     },
     note: {
-      fr: "Copy FR/EN : EI Senpai Surprise, Netlify Forms prod, Clarity + bannière consentement, waitlist locale vs prod. Reste opérationnel : smoke Netlify Forms prod.",
-      en: "FR/EN copy: Senpai Surprise business, production Netlify Forms, Clarity + consent banner, local vs prod waitlist. Remaining ops: production Netlify Forms smoke.",
+      fr: "Copy FR/EN : EI Senpai Surprise, Netlify Forms, Clarity + bannière consentement, waitlist locale vs prod. Smoke Netlify (mail) OK en pré-prod.",
+      en: "FR/EN copy: Senpai Surprise business, Netlify Forms, Clarity + consent banner, local vs production waitlist. Netlify smoke (email) passed on pre-production.",
     },
   },
 ];
@@ -311,15 +311,15 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "local-email",
     order: 1,
-    progress: 85,
+    progress: 100,
     title: { fr: "Faire marcher la collecte mail locale", en: "Make local email collection work" },
     goal: {
-      fr: "Waitlist locale testable et exploitable via admin, avant smoke test Netlify.",
-      en: "Local waitlist is testable and usable through admin, before the Netlify smoke test.",
+      fr: "Waitlist locale + Netlify Forms + RGPD : validé (pré-prod OK).",
+      en: "Local waitlist + Netlify Forms + GDPR: validated (pre-production OK).",
     },
     guardrail: {
-      fr: "Ne pas marquer terminé tant que Netlify Forms n'a pas été testé sur un deploy.",
-      en: "Do not mark complete until Netlify Forms has been tested on a deploy.",
+      fr: "Go-live prod : même formulaire Netlify ; re-smoke optionnel.",
+      en: "Production go-live: same Netlify form; optional re-smoke.",
     },
     risk: {
       fr: "Faible à moyen : périmètre local et isolable.",
@@ -522,15 +522,15 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "release-hardening",
     order: 6,
-    progress: 70,
+    progress: 78,
     title: { fr: "Durcir la fin de v0.1", en: "Harden the end of v0.1" },
     goal: {
-      fr: "Fermer release et QA prod ; Insight fait, Clarity au deploy ; légal et consentement waitlist mergés sur main.",
-      en: "Close release and production QA; Insight done, Clarity on deploy; legal and waitlist consent merged on main.",
+      fr: "Fermer release et QA prod ; Insight et waitlist faits, Clarity au deploy prod.",
+      en: "Close release and production QA; Insight and waitlist done, Clarity on production deploy.",
     },
     guardrail: {
-      fr: "Ne pas activer la waitlist prod tant que Netlify Forms n'a pas été testé sur un deploy à jour.",
-      en: "Do not treat production waitlist as validated until Netlify Forms is tested on an up-to-date deploy.",
+      fr: "Deploy prod : brancher Clarity (PUBLIC_CLARITY_PROJECT_ID) et QA mobile.",
+      en: "Production deploy: enable Clarity (PUBLIC_CLARITY_PROJECT_ID) and mobile QA.",
     },
     risk: {
       fr: "Moyen : dernière ligne droite avec beaucoup de petites surfaces.",

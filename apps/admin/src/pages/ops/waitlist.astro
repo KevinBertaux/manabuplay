@@ -10,12 +10,12 @@ import AdminLayout from "../../layouts/AdminLayout.astro";
   containerClass="waitlist-wrap"
 >
     <section class="waitlist-card waitlist-hero">
-      <span class="waitlist-eyebrow">0.1 waitlist</span>
+      <span class="waitlist-eyebrow">0.1 waitlist · validée</span>
       <h1 class="waitlist-title">Collecte email locale</h1>
       <p class="waitlist-copy">
         Cette page interroge le stockage du site public via un bridge local entre le dashboard et ManabuPlay.
-        En production, le formulaire public reste câblé pour Netlify Forms et doit encore être vérifié sur un déploiement réel.
         En local, le dashboard vise l’app publique sur le même host en port <code>4321</code>.
+        Côté deploy, Netlify Forms (<code>manabuplay-waitlist</code>) et le cadrage RGPD sont validés sur la pré-prod (soumission + mail OK).
       </p>
     </section>
 
@@ -66,8 +66,8 @@ import AdminLayout from "../../layouts/AdminLayout.astro";
       </div>
 
       <p class="waitlist-note">
-        Stockage lu côté site public : <code>mp_waitlist_submissions</code>. Cette sauvegarde locale valide le parcours,
-        pas la délivrabilité réelle d’un email ni la réception Netlify.
+        Stockage lu côté site public : <code>mp_waitlist_submissions</code>. La sauvegarde locale valide le parcours UX ;
+        la réception Netlify (mail de notification) et le lien privacy/consentement ont été validés sur la pré-prod. Chantier waitlist v0.1 : done.
       </p>
     </section>
 </AdminLayout>

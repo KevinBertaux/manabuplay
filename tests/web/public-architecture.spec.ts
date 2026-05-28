@@ -93,6 +93,8 @@ test.describe("public localized architecture", () => {
     await page.locator("#emailInput").fill("player@example.com");
     await page.locator('form[name="manabuplay-waitlist"] button[type="submit"]').click();
     await expect(page.locator("#emailConsent")).toBeFocused();
+    await expect(page.locator("#emailWaitlistHint")).toBeVisible();
+    await expect(page.locator("#emailConsent")).toHaveAttribute("aria-invalid", "true");
     await page.locator("#emailConsent").check();
     await page.locator('form[name="manabuplay-waitlist"] button[type="submit"]').click();
     await expect(page.locator("#emailSuccess")).toBeVisible();

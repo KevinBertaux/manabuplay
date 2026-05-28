@@ -53,7 +53,7 @@
       "id": "v0.1",
       "label": "v0.1",
       "kind": "current",
-      "summary": "Coeur produit Quotidien / Arcade / Archives en place. Reste release : QA mobile, waitlist prod, metriques, identite legale EI Senpai Surprise (mentions/privacy publiables), smoke finale. WizLev et ManabuPlay ont des cadres juridiques distincts.",
+      "summary": "Coeur produit Quotidien / Arcade / Archives en place. Waitlist validee (local + Netlify Forms + RGPD, preprod OK). Reste release : QA mobile, metriques (Clarity), smoke finale. WizLev et ManabuPlay ont des cadres juridiques distincts.",
       "items": [
         {
           "id": "v01-data-foundation",
@@ -315,7 +315,7 @@
           "priority": "P0",
           "area": "growth",
           "type": "infra",
-          "notes": "Legal OK (privacy + banniere). Reste : PUBLIC_CLARITY_PROJECT_ID sur deploy prod, smoke sessions dashboard, smoke waitlist Netlify."
+          "notes": "Legal OK (privacy + banniere). Waitlist Netlify Forms validee (deploy preprod, mail OK). Reste : PUBLIC_CLARITY_PROJECT_ID sur deploy prod, smoke sessions dashboard Clarity."
         },
         {
           "id": "v01-mobile-qa",
@@ -324,7 +324,7 @@
           "priority": "P1",
           "area": "landing",
           "type": "ux",
-          "notes": "Desktop et Playwright couvrent deja les flux critiques. Reste une verification manuelle iOS/Android : quiz, archives, nav et formulaire waitlist."
+          "notes": "Desktop et Playwright couvrent deja les flux critiques. Reste une verification manuelle iOS/Android : quiz, archives, nav (waitlist deja validee en preprod)."
         },
         {
           "id": "v01-playwright",
@@ -346,11 +346,11 @@
         {
           "id": "v01-waitlist",
           "title": "Stabiliser la waitlist pour la prod",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "growth",
           "type": "feature",
-          "notes": "Le flux local est valide : localStorage, page admin, export CSV date, validation email et feedback multi-inscription. Il reste la verification Netlify Forms en deploy et le lien avec le cadrage RGPD.",
+          "notes": "Valide : flux local (localStorage, admin, export CSV), consentement RGPD + lien privacy, Netlify Forms sur preprod (manabuplay-waitlist, mail OK). Go-live prod : meme wiring, re-smoke optionnel.",
           "children": [
             {
               "id": "waitlist-local-submit",
@@ -370,13 +370,14 @@
             {
               "id": "waitlist-netlify-smoke",
               "title": "Verifier sur deploy que Netlify Forms detecte et recoit les soumissions",
-              "status": "todo"
+              "status": "done",
+              "notes": "Test mail OK sur deploy preprod (branch deploy/preprod-v01). Formulaire Netlify manabuplay-waitlist : soumission detectee et notification recue."
             },
             {
               "id": "waitlist-rgpd-link",
               "title": "Valider waitlist prod une fois mentions/privacy EI publiables",
-              "status": "todo",
-              "notes": "Depend de legal-ei-identity-block et legal-prod-review. Contact : contact@manabuplay.com."
+              "status": "done",
+              "notes": "Valide sur preprod : pages legales + privacy, consentement explicite, Netlify Forms et notification mail. Contact retrait : contact@manabuplay.com."
             }
           ]
         },

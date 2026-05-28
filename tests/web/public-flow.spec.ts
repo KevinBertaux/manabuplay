@@ -395,10 +395,9 @@ test.describe("public flow", () => {
     await page.locator("#emailConsent").check();
     await page.locator("form[name='manabuplay-waitlist'] button[type='submit']").click();
 
-    await expect(page.locator("#emailInput")).toHaveJSProperty(
-      "validationMessage",
-      "Enter a valid email address.",
-    );
+    await expect(page.locator("#emailWaitlistHint")).toBeVisible();
+    await expect(page.locator("#emailWaitlistHint")).toContainText("valid email");
+    await expect(page.locator("#emailInput")).toHaveAttribute("aria-invalid", "true");
     await expect(page.locator("#emailSuccess")).toBeHidden();
     const submissions = await page.evaluate(() =>
       JSON.parse(localStorage.getItem("mp_waitlist_submissions") || "[]"),
