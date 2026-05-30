@@ -22,10 +22,10 @@ Il n’y avait **pas** de branche deploy ni de règles Netlify écrites dans le 
 
 ## Workflow Git (2 branches — validé)
 
-| Branche | Rôle | Statut |
-| ------- | ---- | ------ |
-| `main` | Production Netlify (`PUBLIC_CLARITY_PROJECT_ID`, Clarity actif, rapports reçus) | OK — auto-deploy off recommandé |
-| `deploy/preprod-v01` | Pré-prod en ligne (branch deploy) | OK — push volontaire |
+| Branche              | Rôle                                                                            | Statut                          |
+| -------------------- | ------------------------------------------------------------------------------- | ------------------------------- |
+| `main`               | Production Netlify (`PUBLIC_CLARITY_PROJECT_ID`, Clarity actif, rapports reçus) | OK — auto-deploy off recommandé |
+| `deploy/preprod-v01` | Pré-prod en ligne (branch deploy)                                               | OK — push volontaire            |
 
 Pas de 3ᵉ branche « prod » : `main` = prod, `deploy/preprod-v01` = pré-prod.
 
