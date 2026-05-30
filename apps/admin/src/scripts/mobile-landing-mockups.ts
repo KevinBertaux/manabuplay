@@ -11,7 +11,7 @@ new MutationObserver(hideAdminDevToolbar).observe(document.documentElement, {
 });
 
 const localeButtons = document.querySelectorAll("[data-preview-locale]");
-const frames = document.querySelectorAll(".mobile-mockup-frame");
+const mockupFrames = document.querySelectorAll(".mobile-mockup-frame");
 const viewports = document.querySelectorAll(".mobile-mockup-viewport");
 
 function forwardWheelToFrame(viewport: Element, event: WheelEvent) {
@@ -44,7 +44,7 @@ function setLocale(nextLocale: string) {
     );
   });
 
-  frames.forEach((frame) => {
+  mockupFrames.forEach((frame: Element) => {
     if (!(frame instanceof HTMLIFrameElement)) return;
     const template = frame.dataset.previewSrcTemplate;
     if (!template) return;
