@@ -37,17 +37,25 @@ const initialLocale = "fr";
           <h2>{mockup.title}</h2>
           <p>{mockup.pitch}</p>
           <p class="mobile-mockup-hint">{mockup.decisionHint}</p>
-          <div class="mobile-mockup-device" style={`--mockup-width: ${MOBILE_MOCKUP_VIEWPORT.width}px; --mockup-height: ${MOBILE_MOCKUP_VIEWPORT.height}px;`}>
+          <div
+            class="mobile-mockup-device"
+            style={`--mockup-width: ${MOBILE_MOCKUP_VIEWPORT.width}px; --mockup-height: ${MOBILE_MOCKUP_VIEWPORT.height}px;`}
+          >
             <div class="mobile-mockup-device-chrome">
               <span>{MOBILE_MOCKUP_VIEWPORT.label}</span>
+              <span class="mobile-mockup-device-hint">Molette dans le cadre pour scroller</span>
             </div>
-            <iframe
-              class="mobile-mockup-frame"
-              title={`Preview ${mockup.title}`}
-              src={mockup.buildHref(initialLocale, webOrigin)}
-              data-preview-src-template={mockup.buildHref("__LOCALE__", webOrigin)}
-              loading="lazy"
-            ></iframe>
+            <div class="mobile-mockup-viewport" tabindex="0" role="region" aria-label={`Preview ${mockup.title}`}>
+              <iframe
+                class="mobile-mockup-frame"
+                title={`Preview ${mockup.title}`}
+                src={mockup.buildHref(initialLocale, webOrigin)}
+                data-preview-src-template={mockup.buildHref("__LOCALE__", webOrigin)}
+                width={MOBILE_MOCKUP_VIEWPORT.width}
+                height={MOBILE_MOCKUP_VIEWPORT.height}
+                loading="lazy"
+              ></iframe>
+            </div>
           </div>
         </article>
       ))
@@ -68,6 +76,29 @@ const initialLocale = "fr";
 <script is:inline>
   const localeButtons = document.querySelectorAll("[data-preview-locale]");
   const frames = document.querySelectorAll(".mobile-mockup-frame");
+  const viewports = document.querySelectorAll(".mobile-mockup-viewport");
+
+  function forwardWheelToFrame(viewport, event) {
+    const frame = viewport.querySelector("iframe");
+    if (!(frame instanceof HTMLIFrameElement) || !frame.contentWindow) return;
+    try {
+      frame.contentWindow.scrollBy({ top: event.deltaY, left: event.deltaX, behavior: "auto" });
+      event.preventDefault();
+    } catch {
+      /* cross-origin: le scroll natif dans l'iframe prend le relais si la souris est dessus */
+    }
+  }
+
+  viewports.forEach((viewport) => {
+    viewport.addEventListener(
+      "wheel",
+      (event) => {
+        if (!(event instanceof WheelEvent)) return;
+        forwardWheelToFrame(viewport, event);
+      },
+      { passive: false },
+    );
+  });
 
   function setLocale(nextLocale) {
     localeButtons.forEach((button) => {
