@@ -22,11 +22,12 @@ const bootPayload = {
 const heroSectionClass =
   "hero-bg grid-bg relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 pb-12 pt-24 text-center max-[760px]:pt-[7.75rem]";
 const heroBadgeClass =
-  "mb-8 inline-flex max-w-[min(100%,22rem)] items-center gap-2 rounded-full border border-[rgba(34,211,238,.3)] bg-[rgba(34,211,238,.07)] px-4 py-2 font-body text-base font-[600] leading-snug text-[var(--cyan)] sm:max-w-none";
+  "mb-8 inline-flex items-center gap-2 rounded-full border border-[rgba(34,211,238,.3)] bg-[rgba(34,211,238,.07)] px-4 py-2 font-body text-base font-[600] leading-snug text-[var(--cyan)]";
 const heroBadgeDotClass =
   "mt-[0.35rem] h-2 w-2 shrink-0 self-start rounded-full bg-[var(--cyan)] [animation:pulse_2s_infinite] sm:mt-0 sm:self-center";
 const heroBadgeCopyClass =
-  "hero-badge-copy text-center [&>span]:block [&>span]:sm:inline";
+  "hero-badge-copy flex flex-col items-center gap-0 sm:flex-row sm:flex-wrap sm:justify-center";
+const heroBadgeLeadClass = "whitespace-nowrap max-[760px]:text-[0.94rem]";
 const heroTitleClass =
   "relative mb-6 flex flex-wrap items-center justify-center gap-3 font-pixel text-[clamp(1.52rem,3.2vw,2.5rem)] leading-relaxed";
 const heroTaglineClass =
@@ -59,7 +60,7 @@ const noAccountStatValue = "0";
       <div class={heroBadgeClass}>
         <span class={heroBadgeDotClass}></span>
         <span class={heroBadgeCopyClass}>
-          <span data-i18n="hero_badge_lead"></span>
+          <span class={heroBadgeLeadClass} data-i18n="hero_badge_lead"></span>
           <span class="hidden sm:inline" aria-hidden="true"> · </span>
           <span data-i18n="hero_badge_tail"></span>
         </span>
