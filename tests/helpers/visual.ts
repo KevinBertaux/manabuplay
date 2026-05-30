@@ -87,7 +87,7 @@ export async function preparePage(page: Page, url: string): Promise<void> {
   await page.goto(url, { waitUntil: "domcontentloaded" });
   await page.waitForFunction(
     () => {
-      const badge = document.querySelector("[data-i18n='hero_badge']");
+      const badge = document.querySelector("[data-i18n='hero_badge_lead']");
       return Boolean(badge?.textContent?.trim().length);
     },
     undefined,

@@ -140,7 +140,7 @@ async function preparePage(page, url) {
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30_000 });
   await page.waitForFunction(
     () => {
-      const badge = document.querySelector("[data-i18n='hero_badge']");
+      const badge = document.querySelector("[data-i18n='hero_badge_lead']");
       return Boolean(badge?.textContent?.trim().length);
     },
     undefined,
