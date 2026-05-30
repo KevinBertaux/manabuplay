@@ -1,0 +1,27 @@
+---
+interface Props {
+  /** Show at the bottom of the mobile hero fold (≤760px). Hidden on production landing by default. */
+  mobileVisible?: boolean;
+  /** Pin to the viewport bottom when the hero is taller than one screen (legacy preview). */
+  viewportFixed?: boolean;
+}
+
+const { mobileVisible = false, viewportFixed = false } = Astro.props;
+const showDesktopChevron = !viewportFixed;
+---
+<div
+  class:list={[
+    "hero-scroll-chevron",
+    {
+      "hero-scroll-chevron--mobile-visible": mobileVisible,
+      "hero-scroll-chevron--desktop-only": showDesktopChevron,
+      "hero-scroll-chevron--viewport-fixed": viewportFixed,
+    },
+  ]}
+  aria-hidden="true"
+>
+  <div class="hero-scroll-chevron-line"></div>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2.25">
+    <path d="M6 9l6 6 6-6"></path>
+  </svg>
+</div>

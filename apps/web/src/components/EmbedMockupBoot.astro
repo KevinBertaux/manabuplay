@@ -1,0 +1,19 @@
+<script is:inline>
+  (function () {
+    if (new URLSearchParams(window.location.search).get("embed") !== "mockup") return;
+
+    document.documentElement.classList.add("embed-mockup");
+
+    function hideDevToolbar() {
+      document.querySelectorAll("astro-dev-toolbar").forEach(function (el) {
+        el.style.setProperty("display", "none", "important");
+      });
+    }
+
+    hideDevToolbar();
+    new MutationObserver(hideDevToolbar).observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+  })();
+</script>

@@ -1,5 +1,10 @@
 ---
+export const prerender = false;
+
 import "../../styles/public.css";
+import EmbedMockupBoot from "../../components/EmbedMockupBoot.astro";
+import DevMobileToolbarHide from "../../components/DevMobileToolbarHide.astro";
+import HeroScrollChevron from "../../components/HeroScrollChevron.astro";
 import { CURRENT_PRODUCT_COPY } from "../../../../../shared/data/manabuplay/product-copy";
 import { normalizePublicLocale } from "../../lib/public-locales";
 import { PUBLIC_MODE_COPY, PUBLIC_MODE_KEYS, getLocalizedHomePath, getLocalizedModePath } from "../../lib/public-routes";
@@ -9,7 +14,7 @@ const variantParam = Astro.url.searchParams.get("variant") ?? "with-scroll";
 const variant = variantParam === "legacy-centered" ? "legacy-centered" : "with-scroll";
 const copy = CURRENT_PRODUCT_COPY[locale];
 const isLegacy = variant === "legacy-centered";
-const showScrollChevron = true;
+const showMobileScrollChevron = variant === "with-scroll";
 const noAccountStatValue = "0";
 
 const heroSectionClass = isLegacy
@@ -26,11 +31,14 @@ const navLinkBaseClass =
 const navLinkInactiveClass = "border-[rgba(139,92,246,.14)]";
 const burgerClass =
   "inline-flex items-center justify-center rounded-lg border border-[rgba(139,92,246,.14)] bg-[rgba(26,22,48,.34)] px-2.5 py-2";
+const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
 ---
 <!DOCTYPE html>
-<html lang={locale}>
+<html lang={locale} class:list={[{ "embed-mockup": isEmbedMockup }]}>
   <head>
     <meta charset="UTF-8" />
+    <EmbedMockupBoot />
+    <DevMobileToolbarHide />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Mobile landing preview — {variant}</title>
@@ -109,27 +117,23 @@ const burgerClass =
 
         {
           !isLegacy ? (
-            <div class="hero-actions">
-              <a href="#preview-end" class="cta-btn hero-cta inline-flex items-center justify-center">{copy.hero_cta}</a>
-              <a href="#preview-end" class="font-body font-600 text-slate-400 text-lg">{copy.hero_how}</a>
+            <div class="hero-home-bottom">
+              <div class="hero-actions">
+                <a href="#preview-end" class="cta-btn hero-cta inline-flex items-center justify-center">{copy.hero_cta}</a>
+                <a href="#preview-end" class="hero-secondary-link">{copy.hero_how}</a>
+              </div>
+              {showMobileScrollChevron ? <HeroScrollChevron mobileVisible /> : null}
             </div>
           ) : (
             <div class="hero-actions mt-8">
               <a href="#preview-end" class="cta-btn hero-cta inline-flex items-center justify-center">{copy.hero_cta}</a>
-              <a href="#preview-end" class="font-body font-600 text-slate-400 text-lg">{copy.hero_how}</a>
+              <a href="#preview-end" class="hero-secondary-link">{copy.hero_how}</a>
             </div>
           )
         }
       </div>
 
-      {
-        showScrollChevron ? (
-          <div class:list={["absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1 opacity-40", { flex: !isLegacy, hidden: false }]}>
-            <div class="h-8 w-px bg-[linear-gradient(to_bottom,transparent,var(--violet))]"></div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
-          </div>
-        ) : null
-      }
+      {isLegacy ? <HeroScrollChevron viewportFixed /> : null}
     </section>
 
     {

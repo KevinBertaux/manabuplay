@@ -7,6 +7,82 @@
   --public-nav-h: 3.25rem;
 }
 
+html.embed-mockup {
+  scrollbar-width: none;
+}
+
+html.embed-mockup body {
+  scrollbar-width: none;
+}
+
+html.embed-mockup ::-webkit-scrollbar,
+html.embed-mockup body ::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+html.embed-mockup astro-dev-toolbar {
+  display: none !important;
+}
+
+.hero-scroll-chevron {
+  @apply flex flex-col items-center gap-1;
+  opacity: 0.4;
+}
+
+.hero-scroll-chevron-line {
+  @apply h-8 w-px;
+  background: linear-gradient(to bottom, transparent, var(--violet));
+}
+
+.hero-scroll-chevron--desktop-only {
+  @apply hidden min-[761px]:flex;
+}
+
+@media (min-width: 761px) {
+  .hero-scroll-chevron--desktop-only {
+    @apply absolute bottom-8 left-1/2 -translate-x-1/2;
+  }
+}
+
+.hero-scroll-chevron--viewport-fixed {
+  @apply fixed bottom-8 left-1/2 z-20 -translate-x-1/2;
+  opacity: 0.88;
+}
+
+.hero-scroll-chevron--viewport-fixed .hero-scroll-chevron-line {
+  background: linear-gradient(to bottom, transparent, var(--cyan));
+}
+
+.hero-scroll-chevron--viewport-fixed svg {
+  stroke: var(--cyan);
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.45));
+}
+
+@media (max-width: 760px) {
+  .hero-scroll-chevron--mobile-visible {
+    position: relative;
+    z-index: 0;
+    display: flex;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+    gap: 0;
+    opacity: 0.72;
+  }
+
+  .hero-scroll-chevron--mobile-visible .hero-scroll-chevron-line {
+    display: none;
+  }
+
+  .hero-scroll-chevron--mobile-visible svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--violet);
+    filter: none;
+  }
+}
+
 @layer components {
   .hero-home-fold {
     @apply relative flex flex-col items-center overflow-hidden px-6 text-center;
@@ -33,6 +109,13 @@
     }
 
     .hero-home-copy {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-home-bottom {
       display: flex;
       width: 100%;
       flex-direction: column;
@@ -66,7 +149,8 @@
     .hero-home-fold .hero-actions {
       margin-top: 0;
       margin-bottom: 0;
-      padding-top: 0.25rem;
+      gap: 10px;
+      padding-top: 0.125rem;
       padding-bottom: 0;
     }
   }

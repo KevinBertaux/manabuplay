@@ -1,5 +1,7 @@
 ---
 import "../styles/public.css";
+import EmbedMockupBoot from "../components/EmbedMockupBoot.astro";
+import DevMobileToolbarHide from "../components/DevMobileToolbarHide.astro";
 import { CURRENT_PRODUCT_COPY } from "../../../../shared/data/manabuplay/product-copy";
 import {
   PUBLIC_LOCALES,
@@ -68,11 +70,14 @@ const mobileModePanelLinkClass = "block w-full rounded-md px-3 py-2 text-left fo
 const brandMarkClass = "block h-9 w-9 flex-shrink-0 rounded-md";
 const brandWordmarkClass = "glow-violet font-pixel text-[.94rem] text-[#a78bfa]";
 const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? "";
+const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
 ---
 <!DOCTYPE html>
-<html lang={locale} id="htmlRoot">
+<html lang={locale} id="htmlRoot" class:list={[{ "embed-mockup": isEmbedMockup }]}>
 <head>
   <meta charset="UTF-8" />
+  <EmbedMockupBoot />
+  <DevMobileToolbarHide />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />

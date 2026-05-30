@@ -19,14 +19,18 @@ export function resolveWebPreviewOrigin(value: string | undefined) {
   return trimmed && trimmed.length > 0 ? trimmed.replace(/\/$/, "") : DEFAULT_WEB_PREVIEW_ORIGIN;
 }
 
+export function appendEmbedMockup(href: string): string {
+  return href.includes("?") ? `${href}&embed=mockup` : `${href}?embed=mockup`;
+}
+
 export const MOBILE_LANDING_MOCKUPS: MobileLandingMockup[] = [
   {
     id: "current",
     title: "Actuel (branch adjust/v01-mobile-nav)",
     pitch:
-      "Hero pill → CTA dans le viewport mobile, stats en section dédiée sous le fold, burger ≡ seul, chevron scroll masqué.",
+      "Hero pill → CTA dans le viewport mobile, chevron scroll cyan sous le CTA, stats en section dédiée sous le fold, burger ≡ seul.",
     decisionHint: "Référence de validation — iframe vers la landing live.",
-    buildHref: (locale, webOrigin) => `${webOrigin}/${locale}/`,
+    buildHref: (locale, webOrigin) => appendEmbedMockup(`${webOrigin}/${locale}/`),
   },
   {
     id: "with-scroll",
@@ -35,7 +39,9 @@ export const MOBILE_LANDING_MOCKUPS: MobileLandingMockup[] = [
       "Même fold pill → CTA, stats hors hero, mais chevron scroll visible en bas du hero pour inviter à scroller.",
     decisionHint: "À comparer si Clarity montre peu de scroll sous le CTA.",
     buildHref: (locale, webOrigin) =>
-      `${webOrigin}/internal/mobile-landing-preview?variant=with-scroll&locale=${locale}`,
+      appendEmbedMockup(
+        `${webOrigin}/internal/mobile-landing-preview?variant=with-scroll&locale=${locale}`,
+      ),
   },
   {
     id: "legacy-centered",
@@ -44,7 +50,9 @@ export const MOBILE_LANDING_MOCKUPS: MobileLandingMockup[] = [
       "Hero centré sur 100svh, stats dans le hero, chevron scroll, nav modes en scroll horizontal (sans burger).",
     decisionHint: "Ancien layout — utile pour juger le gain vertical du fold actuel.",
     buildHref: (locale, webOrigin) =>
-      `${webOrigin}/internal/mobile-landing-preview?variant=legacy-centered&locale=${locale}`,
+      appendEmbedMockup(
+        `${webOrigin}/internal/mobile-landing-preview?variant=legacy-centered&locale=${locale}`,
+      ),
   },
 ];
 

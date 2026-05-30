@@ -103,6 +103,33 @@
   min-height: 56px;
 }
 
+.hero-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-body, "DM Sans", sans-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--cyan);
+  text-decoration: underline;
+  text-decoration-color: rgba(34, 211, 238, 0.55);
+  text-underline-offset: 0.22em;
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+}
+
+.hero-secondary-link:hover {
+  color: #67e8f9;
+  text-decoration-color: rgba(103, 232, 249, 0.95);
+}
+
+.hero-secondary-link:focus-visible {
+  border-radius: 8px;
+  outline: 2px solid rgba(34, 211, 238, 0.55);
+  outline-offset: 4px;
+}
+
 .cta-btn:not(.is-disabled):not(:disabled):hover {
   transform: translateY(-2px);
   box-shadow:

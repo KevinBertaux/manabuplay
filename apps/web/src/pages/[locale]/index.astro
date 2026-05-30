@@ -2,6 +2,7 @@
 import PublicLayout from "../../layouts/PublicLayout.astro";
 import PublicFooter from "../../components/PublicFooter.astro";
 import PublicQuiz from "../../components/PublicQuiz.astro";
+import HeroScrollChevron from "../../components/HeroScrollChevron.astro";
 import { buildDailyBootData } from "../../../../../shared/lib/manabuplay-daily";
 
 import { normalizePublicLocale } from "../../lib/public-locales";
@@ -74,15 +75,13 @@ const noAccountStatValue = "0";
         <p class={heroSubClass} data-i18n="hero_sub"></p>
       </div>
 
-      <div class="hero-actions">
-        <a href="#quiz" class="cta-btn hero-cta inline-flex items-center justify-center" data-i18n="hero_cta" data-quiz-action="launchQuiz"></a>
-        <a href="#features" class="font-body font-600 text-slate-400 hover:text-slate-200 transition-colors text-lg" data-i18n="hero_how"></a>
+      <div class="hero-home-bottom">
+        <div class="hero-actions">
+          <a href="#quiz" class="cta-btn hero-cta inline-flex items-center justify-center" data-i18n="hero_cta" data-quiz-action="launchQuiz"></a>
+          <a href="#features" class="hero-secondary-link" data-i18n="hero_how"></a>
+        </div>
+        <HeroScrollChevron mobileVisible />
       </div>
-    </div>
-
-    <div class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1 opacity-40 min-[761px]:flex">
-      <div class="h-8 w-px bg-[linear-gradient(to_bottom,transparent,var(--violet))]"></div>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
     </div>
   </section>
 
