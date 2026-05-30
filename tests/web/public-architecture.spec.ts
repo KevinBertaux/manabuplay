@@ -107,6 +107,25 @@ test.describe("public localized architecture", () => {
     await expect(page.locator(".public-locale-switch")).toBeHidden();
   });
 
+  test("opens the mobile mode burger menu", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${ASTRO_URL}fr/arcade/`, { waitUntil: "domcontentloaded" });
+
+    await expect(page.locator(".public-mode-nav-desktop")).toBeHidden();
+    await expect(page.locator(".public-mode-menu-trigger")).toContainText("Arcade");
+    await expect(page.locator("#public-mode-menu-panel")).toBeHidden();
+
+    await page.locator("#public-mode-menu-trigger").click();
+    await expect(page.locator("#public-mode-menu-panel")).toBeVisible();
+    await expect(page.locator("#public-mode-menu-panel [data-public-route='daily']")).toHaveAttribute(
+      "href",
+      "/fr/daily/",
+    );
+    await expect(page.locator("#public-mode-menu-panel [data-public-route='archives']")).toContainText(
+      "Archives",
+    );
+  });
+
   test("preserves the current product mode when switching locale", async ({ page }) => {
     await page.goto(`${ASTRO_URL}fr/arcade/`, { waitUntil: "domcontentloaded" });
 

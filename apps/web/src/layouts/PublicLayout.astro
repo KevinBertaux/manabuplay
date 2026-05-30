@@ -1,5 +1,6 @@
 ---
 import "../styles/public.css";
+import { CURRENT_PRODUCT_COPY } from "../../../../shared/data/manabuplay/product-copy";
 import {
   PUBLIC_LOCALES,
   PUBLIC_LOCALE_LABELS,
@@ -35,6 +36,11 @@ const {
   includeQuizRuntime = false,
 } = Astro.props;
 
+const productCopy = CURRENT_PRODUCT_COPY[locale];
+const mobileModeTriggerLabel = activeMode
+  ? PUBLIC_MODE_COPY[activeMode].navLabel[locale]
+  : productCopy.mode_nav_menu;
+
 const encodedBootPayload = bootPayload
   ? Buffer.from(JSON.stringify(bootPayload), "utf8").toString("base64")
   : "";
@@ -43,13 +49,25 @@ function getLocaleHref(targetLocale: PublicLocale) {
   return activeMode ? getLocalizedModePath(targetLocale, activeMode) : getLocalizedHomePath(targetLocale);
 }
 
-const topNavClass = "fixed inset-x-0 top-0 z-50 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 border-b border-[rgba(139,92,246,.15)] bg-[rgba(10,9,17,.85)] px-6 py-2 backdrop-blur-[16px] max-[760px]:grid-cols-1 max-[760px]:gap-2 max-[760px]:px-3";
-const localeSwitchClass = "flex items-center gap-1 rounded-md border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1 text-[rgba(139,92,246,.25)] max-[760px]:hidden";
+const topNavClass =
+  "fixed inset-x-0 top-0 z-50 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 border-b border-[rgba(139,92,246,.15)] bg-[rgba(10,9,17,.85)] px-6 py-2 backdrop-blur-[16px] max-[760px]:grid-cols-[1fr_auto] max-[760px]:gap-2 max-[760px]:px-3";
+const localeSwitchClass =
+  "flex items-center gap-1 rounded-md border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1 text-[rgba(139,92,246,.25)] max-[760px]:hidden";
 const brandLinkClass = "flex min-w-0 items-center gap-3 no-underline";
-const navGroupClass = "flex min-w-0 items-center justify-center gap-2 max-[760px]:col-span-full max-[760px]:justify-start max-[760px]:overflow-x-auto max-[760px]:pb-[2px]";
-const navLinkBaseClass = "whitespace-nowrap rounded-lg border bg-[rgba(26,22,48,.34)] px-3 py-2 font-body text-[.98rem] font-bold text-[rgba(226,217,243,.72)] transition-[color,border-color,background] duration-150";
-const navLinkInactiveClass = "border-[rgba(139,92,246,.14)] hover:border-[rgba(34,211,238,.38)] hover:bg-[rgba(34,211,238,.08)] hover:text-white";
-const navLinkActiveClass = "border-[rgba(34,211,238,.38)] bg-[rgba(34,211,238,.08)] text-white";
+const navGroupClass =
+  "public-mode-nav-desktop flex min-w-0 items-center justify-center gap-2 max-[760px]:hidden";
+const navLinkBaseClass =
+  "whitespace-nowrap rounded-lg border bg-[rgba(26,22,48,.34)] px-3 py-2 font-body text-[.98rem] font-bold text-[rgba(226,217,243,.72)] transition-[color,border-color,background] duration-150";
+const navLinkInactiveClass =
+  "border-[rgba(139,92,246,.14)] hover:border-[rgba(34,211,238,.38)] hover:bg-[rgba(34,211,238,.08)] hover:text-white";
+const navLinkActiveClass =
+  "border-[rgba(34,211,238,.38)] bg-[rgba(34,211,238,.08)] text-white";
+const mobileModeMenuClass = "public-mode-menu relative min-[761px]:hidden";
+const mobileModeTriggerClass =
+  "public-mode-menu-trigger inline-flex items-center gap-2 rounded-lg border bg-[rgba(26,22,48,.34)] px-3 py-2 font-body text-[.9rem] font-bold text-[rgba(226,217,243,.72)] transition-[color,border-color,background] duration-150";
+const mobileModePanelClass =
+  "public-mode-menu-panel absolute right-0 top-[calc(100%+0.35rem)] z-[60] flex min-w-[10.5rem] flex-col gap-1 rounded-lg border border-[rgba(139,92,246,.22)] bg-[rgba(10,9,17,.96)] p-1.5 shadow-[0_12px_32px_rgba(0,0,0,.45)] backdrop-blur-[12px]";
+const mobileModePanelLinkClass = "block w-full rounded-md px-3 py-2 text-left font-body text-[.9rem] font-bold";
 const brandMarkClass = "block h-9 w-9 flex-shrink-0 rounded-md";
 const brandWordmarkClass = "glow-violet font-pixel text-[.94rem] text-[#a78bfa]";
 const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? "";
@@ -93,27 +111,65 @@ const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? ""
           class:list={[
             navLinkBaseClass,
             modeKey === activeMode ? navLinkActiveClass : navLinkInactiveClass,
-            { "max-[760px]:text-[.9rem]": true },
           ]}
         >
           {PUBLIC_MODE_COPY[modeKey].navLabel[locale]}
         </a>
       ))}
     </div>
-    <div class={`${localeSwitchClass} public-locale-switch`}>
-      {PUBLIC_LOCALES.map((targetLocale, index) => (
-        <>
-          {index > 0 && <span>|</span>}
-          <a
-            id={`btn${PUBLIC_LOCALE_LABELS[targetLocale]}`}
-            class:list={["lang-btn", { active: locale === targetLocale }]}
-            data-locale-home={targetLocale}
-            href={getLocaleHref(targetLocale)}
-          >
-            {PUBLIC_LOCALE_LABELS[targetLocale]}
-          </a>
-        </>
-      ))}
+    <div class="flex items-center gap-2 max-[760px]:col-start-2 max-[760px]:row-start-1">
+      <nav class={mobileModeMenuClass} aria-label="Product navigation">
+        <button
+          type="button"
+          id="public-mode-menu-trigger"
+          class:list={[
+            mobileModeTriggerClass,
+            activeMode ? navLinkActiveClass : navLinkInactiveClass,
+          ]}
+          aria-expanded="false"
+          aria-controls="public-mode-menu-panel"
+        >
+          <span class="flex flex-col gap-[3px]" aria-hidden="true">
+            <span class="block h-[2px] w-4 rounded-full bg-current opacity-90"></span>
+            <span class="block h-[2px] w-4 rounded-full bg-current opacity-90"></span>
+            <span class="block h-[2px] w-4 rounded-full bg-current opacity-90"></span>
+          </span>
+          <span class="public-mode-menu-label">{mobileModeTriggerLabel}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M6 9l6 6 6-6"></path>
+          </svg>
+        </button>
+        <div id="public-mode-menu-panel" class={mobileModePanelClass} hidden>
+          {PUBLIC_MODE_KEYS.map((modeKey) => (
+            <a
+              href={getLocalizedModePath(locale, modeKey)}
+              data-public-route={modeKey}
+              aria-current={modeKey === activeMode ? "page" : undefined}
+              class:list={[
+                mobileModePanelLinkClass,
+                modeKey === activeMode ? navLinkActiveClass : navLinkInactiveClass,
+              ]}
+            >
+              {PUBLIC_MODE_COPY[modeKey].navLabel[locale]}
+            </a>
+          ))}
+        </div>
+      </nav>
+      <div class={`${localeSwitchClass} public-locale-switch`}>
+        {PUBLIC_LOCALES.map((targetLocale, index) => (
+          <>
+            {index > 0 && <span>|</span>}
+            <a
+              id={`btn${PUBLIC_LOCALE_LABELS[targetLocale]}`}
+              class:list={["lang-btn", { active: locale === targetLocale }]}
+              data-locale-home={targetLocale}
+              href={getLocaleHref(targetLocale)}
+            >
+              {PUBLIC_LOCALE_LABELS[targetLocale]}
+            </a>
+          </>
+        ))}
+      </div>
     </div>
   </nav>
 
@@ -128,6 +184,7 @@ const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? ""
   {includeQuizRuntime && (
     <script src="../scripts/quiz-app.ts"></script>
   )}
+  <script src="../scripts/public-mode-menu.ts"></script>
   <script src="../scripts/public-analytics.ts"></script>
 </body>
 </html>

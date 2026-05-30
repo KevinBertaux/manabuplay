@@ -6,6 +6,7 @@ export const CURRENT_PRODUCT_COPY = {
     og_description:
       "Short Japanese vocabulary quizzes built around games, manga, anime, and pop culture.",
     nav_cta: "Play Quiz →",
+    mode_nav_menu: "Modes",
     nav_daily: "Daily",
     nav_practice: "Arcade",
     nav_archives: "Archives",
@@ -129,6 +130,7 @@ export const CURRENT_PRODUCT_COPY = {
     og_description:
       "Des quiz courts de vocabulaire japonais autour du jeu vidéo, du manga, de l'anime et de la pop culture.",
     nav_cta: "Jouer au Quiz →",
+    mode_nav_menu: "Modes",
     nav_daily: "Quotidien",
     nav_practice: "Arcade",
     nav_archives: "Archives",
