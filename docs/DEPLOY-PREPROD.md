@@ -12,7 +12,7 @@ Il n’y avait **pas** de branche deploy ni de règles Netlify écrites dans le 
 | **Dev**                           | `npm run dev`                                                                       | 0                                | Quotidien                                         |
 | **Pré-prod locale**               | `npm run build` + `npm run preview`                                                 | 0                                | Relecture légal, UI, Playwright, Insight captures |
 | **Pré-prod en ligne** (optionnel) | Branche `deploy/preprod-v01` → **un** build Netlify quand tu pousses volontairement | 1 build / push sur cette branche | Partage URL, test mobile réel, smoke léger        |
-| **Production**                    | `main` (ou branche prod dédiée)                                                     | 1 build / deploy prod            | Domaine public, Netlify Forms, Clarity            |
+| **Production**                    | `main` (2 branches, pas de 3ᵉ branche prod)                                         | 1 build / deploy prod manuel     | Domaine public, Netlify Forms, Clarity            |
 
 **Économie de crédits :**
 
@@ -20,11 +20,19 @@ Il n’y avait **pas** de branche deploy ni de règles Netlify écrites dans le 
 2. Ne pas auto-déployer **toutes** les branches — seulement la branche deploy prévue ci-dessous (+ `main` quand tu passes en prod).
 3. Faire la majorité des vérifs en **preview local** (port 4321 web, 4322 admin).
 
+## Workflow Git (2 branches — validé)
+
+| Branche | Rôle | Statut |
+| ------- | ---- | ------ |
+| `main` | Production Netlify (`PUBLIC_CLARITY_PROJECT_ID`, Clarity actif, rapports reçus) | OK — auto-deploy off recommandé |
+| `deploy/preprod-v01` | Pré-prod en ligne (branch deploy) | OK — push volontaire |
+
+Pas de 3ᵉ branche « prod » : `main` = prod, `deploy/preprod-v01` = pré-prod.
+
 ## Branche `deploy/preprod-v01`
 
-- Créée à partir de `main` après merge du chantier légal / Clarity.
 - Tu merges ou pousses dessus **uniquement** quand tu veux une URL Netlify de pré-prod.
-- `main` peut rester sans deploy auto jusqu’au go release (réglage Netlify UI).
+- `main` peut rester sans deploy auto (réglage Netlify UI) : deploy prod **manuel** = 0 crédit tant que tu ne déclenches pas.
 
 ## Réglages Netlify recommandés (UI)
 
@@ -44,19 +52,41 @@ Il n’y avait **pas** de branche deploy ni de règles Netlify écrites dans le 
    - `shared/` est inclus automatiquement au build (imports depuis `apps/web`)
 
 4. **Environment variables**
-   - **Production** (`main`) : `PUBLIC_CLARITY_PROJECT_ID` = id Clarity quand tu actives la mesure.
+   - **Production** (`main`) : `PUBLIC_CLARITY_PROJECT_ID` = id Clarity — **fait** (rapports de visites reçus).
    - **Branch deploy `deploy/preprod-v01`** : ne pas définir `PUBLIC_CLARITY_PROJECT_ID` (pas de bannière / pas de Clarity sur la pré-prod en ligne sauf test volontaire).
    - Waitlist : sur URL Netlify de pré-prod, le formulaire reste en mode **localStorage** (hostname ≠ prod) — normal pour ne pas polluer Netlify Forms.
 
 5. **Deploys**
    - Préférer **Trigger deploy** manuel si tu veux un build seulement sur demande.
 
-## Checklist avant prod
+## DNS et SSL — Infomaniak → Netlify (à faire, P0 v0.1)
 
-- [ ] Merge `deploy/preprod-v01` → `main` (ou deploy prod depuis `main`)
-- [ ] Smoke **Netlify Forms** sur le domaine prod
-- [ ] `PUBLIC_CLARITY_PROJECT_ID` en prod + test bannière + sessions Clarity
+Le domaine **manabuplay.com** est détenu chez **Infomaniak**. Le site est aussi ajouté côté **Netlify**, mais les deux ne sont pas encore reliés par la DNS publique.
+
+**État observé (mai 2026)** : zone Infomaniak avec SOA seulement — pas d’enregistrement **A** / **AAAA** / **CNAME** vers Netlify. Conséquence : `https://manabuplay.com` et `https://www.manabuplay.com` ne répondent pas.
+
+### Option recommandée (garder Infomaniak comme registrar)
+
+1. Netlify → **Domain management** → `manabuplay.com` → noter les cibles DNS proposées (souvent load balancer Netlify pour l’apex, CNAME pour `www`).
+2. Infomaniak → DNS du domaine → créer les enregistrements indiqués par Netlify (apex + `www`).
+3. Attendre la propagation (quelques minutes à 48 h).
+4. Netlify : vérifier **HTTPS** / certificat Let’s Encrypt pour apex et `www`.
+5. Netlify : redirection `www` ↔ apex (ou l’inverse) selon l’URL canonique choisie.
+6. Tester : `https://manabuplay.com` et `https://www.manabuplay.com` servent le deploy prod.
+
+### Alternative
+
+Déléguer la zone DNS entière à Netlify (changer les nameservers chez Infomaniak) — plus simple côté Netlify, moins de panneaux.
+
+## Checklist avant go-live public
+
+- [x] Workflow 2 branches Netlify (`main` + `deploy/preprod-v01`)
+- [x] Clarity en prod (`PUBLIC_CLARITY_PROJECT_ID`, rapports reçus)
+- [x] Waitlist validée (pré-prod ; prod = même wiring au domaine public)
+- [ ] **DNS + SSL** Infomaniak → Netlify (`manabuplay.com` + `www`)
+- [ ] Smoke **Netlify Forms** sur le domaine prod (hostname public)
 - [ ] QA mobile sur l’URL pré-prod ou prod
+- [ ] Smoke pass finale v0.1
 
 ## Commandes locales (0 crédit Netlify)
 

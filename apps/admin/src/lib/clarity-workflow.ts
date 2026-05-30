@@ -3,18 +3,18 @@ export const MICROSOFT_CLARITY_APP_URL = "https://clarity.microsoft.com/";
 export const CLARITY_SETUP_CHECKLIST = [
   {
     id: "legal",
-    fr: "Pages légales / privacy à jour (Clarity + waitlist prod décrits) — fait sur la branche.",
-    en: "Legal / privacy pages updated (Clarity + production waitlist described) — done on branch.",
+    fr: "Pages légales / privacy à jour (Clarity + waitlist prod décrits) — fait.",
+    en: "Legal / privacy pages updated (Clarity + production waitlist described) — done.",
   },
   {
     id: "env",
-    fr: "Définir PUBLIC_CLARITY_PROJECT_ID sur Netlify (deploy prod). Sans variable, la bannière analytics ne s’affiche pas.",
-    en: "Set PUBLIC_CLARITY_PROJECT_ID on Netlify (production deploy). Without it, the analytics banner does not appear.",
+    fr: "PUBLIC_CLARITY_PROJECT_ID défini sur Netlify (deploy prod / main) — fait.",
+    en: "PUBLIC_CLARITY_PROJECT_ID set on Netlify (production deploy / main) — done.",
   },
   {
     id: "deploy",
-    fr: "Premier deploy prod à jour (landing + waitlist + pages légales).",
-    en: "First production deploy is up to date (landing + waitlist + legal pages).",
+    fr: "Deploy prod à jour (landing + waitlist + pages légales) — fait.",
+    en: "Production deploy up to date (landing + waitlist + legal pages) — done.",
   },
   {
     id: "waitlist-smoke",
@@ -23,8 +23,8 @@ export const CLARITY_SETUP_CHECKLIST = [
   },
   {
     id: "verify",
-    fr: "Accepter la bannière cookies sur le site live, puis vérifier les sessions dans le dashboard Clarity.",
-    en: "Accept the cookie banner on the live site, then verify sessions in the Clarity dashboard.",
+    fr: "Rapports de visites Clarity reçus — mesure active en prod.",
+    en: "Clarity visit reports received — measurement active in production.",
   },
 ] as const;
 

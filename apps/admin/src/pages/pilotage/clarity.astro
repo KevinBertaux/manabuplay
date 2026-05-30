@@ -11,16 +11,16 @@ import {
 <AdminLayout
   title="Admin — Microsoft Clarity"
   activeNav="clarity"
-  description="Activer Clarity au premier deploy prod : script, privacy et vérification dashboard."
+  description="Microsoft Clarity actif en production : script, privacy, variable Netlify et rapports de visites."
   bodyClass="text-slate-200 arch-shell"
   containerClass="arch-wrap"
 >
   <section class="arch-hero">
     <span class="arch-eyebrow">Microsoft Clarity</span>
-    <h1 class="arch-title">Clarity post-deploy</h1>
+    <h1 class="arch-title">Clarity en production</h1>
     <p class="arch-copy">
-      Privacy et bannière consentement sont prêtes. Sur deploy prod, définir <code>{CLARITY_ENV_VAR}</code> dans
-      Netlify pour activer la mesure. Sans variable, rien ne se charge (local / preview inchangés).
+      <code>{CLARITY_ENV_VAR}</code> est configuré sur Netlify (deploy prod / <code>main</code>). Les rapports de
+      visites arrivent déjà. Local et preview restent sans mesure tant que la variable n’y est pas définie.
     </p>
   </section>
 

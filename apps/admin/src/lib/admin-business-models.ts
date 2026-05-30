@@ -15,7 +15,7 @@ export interface PricingRow {
 
 export function getBusinessCoreProblem(): Localized {
   return {
-    fr: "Le coeur gratuit est deja fort. Si on ne borne pas mieux le free, Stripe vendra une offre artificielle au lieu d'une vraie profondeur de produit.",
+    fr: "Le cœur gratuit est déjà fort. Si on ne borne pas mieux le free, Stripe vendra une offre artificielle au lieu d'une vraie profondeur de produit.",
     en: "The free core is already strong. If we do not bound free more clearly, Stripe will sell an artificial offer instead of real product depth.",
   };
 }
@@ -23,14 +23,14 @@ export function getBusinessCoreProblem(): Localized {
 export function getPremiumLibraryModel() {
   return {
     title: { fr: "Bibliotheque premium", en: "Premium library" },
-    kicker: { fr: "Modele retenu", en: "Selected model" },
+    kicker: { fr: "Modèle retenu", en: "Selected model" },
     score: 88,
     summary: {
       fr: "Le free garde le Quotidien et une vraie decouverte. Le premium vend la profondeur : plus de packs, plus d'archives, plus de contenu et plus de confort d'usage.",
       en: "Free keeps Daily and real discovery. Premium sells depth: more packs, more archives, more content, and more usage comfort.",
     },
     whyNow: {
-      fr: "C'est le seul modele qui rend Stripe OTP credible assez tot sans casser le moteur de retour du Quotidien.",
+      fr: "C'est le seul modèle qui rend Stripe OTP crédible assez tôt sans casser le moteur de retour du Quotidien.",
       en: "It is the only model that makes Stripe OTP credible early enough without breaking the Daily retention loop.",
     },
     timing: {

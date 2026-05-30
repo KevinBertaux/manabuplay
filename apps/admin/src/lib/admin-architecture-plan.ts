@@ -261,14 +261,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Fort", en: "High" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 14,
-    progress: 50,
+    progress: 100,
     whyNow: {
-      fr: "Privacy et bannière consentement sont prêtes ; il reste à brancher le project ID Clarity sur le deploy prod.",
-      en: "Privacy and consent banner are ready; Clarity project ID still needs to be set on production deploy.",
+      fr: "Mesure d'audience utile dès les premiers visiteurs réels sur le domaine prod.",
+      en: "Audience measurement is useful from the first real visitors on the production domain.",
     },
     note: {
-      fr: "Préparé : analytics-clarity.js, public-analytics.ts, PUBLIC_CLARITY_PROJECT_ID. Deploy prod : définir la variable, smoke dashboard Clarity. Waitlist Netlify déjà validée en pré-prod.",
-      en: "Prepared: analytics-clarity.js, public-analytics.ts, PUBLIC_CLARITY_PROJECT_ID. On production deploy: set env var, smoke Clarity dashboard. Netlify waitlist already validated on pre-production.",
+      fr: "Actif : PUBLIC_CLARITY_PROJECT_ID sur Netlify (main), rapports Clarity reçus. Code : analytics-clarity.js, public-analytics.ts, bannière consentement.",
+      en: "Active: PUBLIC_CLARITY_PROJECT_ID on Netlify (main), Clarity reports received. Code: analytics-clarity.js, public-analytics.ts, consent banner.",
     },
   },
   {
@@ -525,12 +525,12 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     progress: 78,
     title: { fr: "Durcir la fin de v0.1", en: "Harden the end of v0.1" },
     goal: {
-      fr: "Fermer release et QA prod ; Insight et waitlist faits, Clarity au deploy prod.",
-      en: "Close release and production QA; Insight and waitlist done, Clarity on production deploy.",
+      fr: "Fermer release v0.1 : DNS/SSL Infomaniak → Netlify, QA mobile, smoke finale.",
+      en: "Close v0.1 release: Infomaniak → Netlify DNS/SSL, mobile QA, final smoke pass.",
     },
     guardrail: {
-      fr: "Deploy prod : brancher Clarity (PUBLIC_CLARITY_PROJECT_ID) et QA mobile.",
-      en: "Production deploy: enable Clarity (PUBLIC_CLARITY_PROJECT_ID) and mobile QA.",
+      fr: "Ne pas considérer le go-live public terminé tant que manabuplay.com et www ne résolvent pas vers Netlify en HTTPS.",
+      en: "Do not treat public go-live as complete until manabuplay.com and www resolve to Netlify over HTTPS.",
     },
     risk: {
       fr: "Moyen : dernière ligne droite avec beaucoup de petites surfaces.",
@@ -605,8 +605,8 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         path: "apps/web/public/scripts/analytics*.js",
         action: "create",
         note: {
-          fr: "Clarity uniquement au premier deploy prod (pas en v0.1 pre-prod).",
-          en: "Clarity only on first production deploy (not in pre-prod v0.1).",
+          fr: "Clarity actif en prod (main). Pré-prod sans Clarity sauf test volontaire.",
+          en: "Clarity active in production (main). Pre-production without Clarity unless tested on purpose.",
         },
       },
     ],

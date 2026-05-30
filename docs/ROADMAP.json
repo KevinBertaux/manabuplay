@@ -53,7 +53,7 @@
       "id": "v0.1",
       "label": "v0.1",
       "kind": "current",
-      "summary": "Coeur produit Quotidien / Arcade / Archives en place. Waitlist validee (local + Netlify Forms + RGPD, preprod OK). Reste release : QA mobile, metriques (Clarity), smoke finale. WizLev et ManabuPlay ont des cadres juridiques distincts.",
+      "summary": "Coeur produit Quotidien / Arcade / Archives en place. Waitlist, Clarity (prod), workflow Netlify 2 branches (main + deploy/preprod-v01) OK. Reste : DNS/SSL Infomaniak → Netlify (manabuplay.com + www), QA mobile, smoke finale v0.1.",
       "items": [
         {
           "id": "v01-data-foundation",
@@ -311,11 +311,11 @@
         {
           "id": "clarity-setup",
           "title": "Poser Microsoft Clarity pour les premiers visiteurs reels",
-          "status": "todo",
+          "status": "done",
           "priority": "P0",
           "area": "growth",
           "type": "infra",
-          "notes": "Legal OK (privacy + banniere). Waitlist Netlify Forms validee (deploy preprod, mail OK). Reste : PUBLIC_CLARITY_PROJECT_ID sur deploy prod, smoke sessions dashboard Clarity."
+          "notes": "PUBLIC_CLARITY_PROJECT_ID sur Netlify (deploy prod / main). Rapports de visites deja recus. Legal + banniere consentement en place."
         },
         {
           "id": "v01-mobile-qa",
@@ -497,11 +497,25 @@
             {
               "id": "deploy-preprod-netlify",
               "title": "Cadrer pre-prod Netlify (branche deploy/preprod-v01, previews PR off)",
-              "status": "todo",
-              "notes": "Doc docs/DEPLOY-PREPROD.md. Branche deploy/preprod-v01 = build volontaire. Quotidien : npm run preview (0 credit)."
+              "status": "done",
+              "notes": "Doc docs/DEPLOY-PREPROD.md. Branches Netlify OK : deploy/preprod-v01 (preprod) + main (prod, auto-deploy off). Previews PR off."
             },
-            { "id": "smoke-v01", "title": "Faire une smoke pass finale", "status": "todo" },
-            { "id": "release-branch-v01", "title": "Preparer la branche de prod", "status": "todo" }
+            {
+              "id": "release-workflow-main",
+              "title": "Valider le workflow prod sur main (2 branches, deploy manuel)",
+              "status": "done",
+              "notes": "Pas de 3e branche prod : main = production, deploy/preprod-v01 = preprod en ligne. Merge preprod → main puis deploy prod declenche manuellement."
+            },
+            {
+              "id": "v01-dns-ssl-infomaniak",
+              "title": "Brancher DNS et SSL manabuplay.com (Infomaniak → Netlify)",
+              "status": "todo",
+              "priority": "P0",
+              "area": "infra",
+              "type": "infra",
+              "notes": "Domaine detenu chez Infomaniak ; domaine ajoute cote Netlify. A faire : enregistrements DNS apex + www vers Netlify, certificat SSL, redirection www ↔ apex. Etat observe : zone Infomaniak sans A/CNAME publics — manabuplay.com et www injoignables."
+            },
+            { "id": "smoke-v01", "title": "Faire une smoke pass finale", "status": "todo" }
           ]
         },
         {

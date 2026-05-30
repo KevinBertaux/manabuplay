@@ -32,24 +32,24 @@ const sections = [
       "`npm --workspace @manabuplay/admin run dev` : lance l'app admin depuis son propre package workspace.",
       "`npm run build` : build des 2 apps quand elles sont prêtes.",
       "`npm run build:web` / `npm run build:admin` : build ciblé.",
-      "`npm run check` : socle local complet, avec Astro check, ESLint, Prettier, ratchet inline, web inline zero et garde-fous canoniques. Le pre-push utilise maintenant un controle adaptatif plus cible.",
-      "`npm run check:pre-push` : controle adaptatif du hook Git selon les fichiers pousses.",
+      "`npm run check` : socle local complet, avec Astro check, ESLint, Prettier, ratchet inline, web inline zero et garde-fous canoniques. Le pre-push utilise maintenant un contrôle adaptatif plus ciblé.",
+      "`npm run check:pre-push` : contrôle adaptatif du hook Git selon les fichiers poussés.",
       "`npm run check:quick` : lint + format seulement. Ce n'est pas un feu vert produit, juste un controle rapide.",
       "`npm run check:feature` : validation plus large avant merge, sans grosse QA Playwright admin par defaut.",
       "`npm run verify:web:light` / `npm run verify:admin:light` : Astro check cible pour une app, sans E2E.",
       "`npm run verify:web:e2e` / `npm run verify:admin:e2e` : build cible + E2E cible quand on touche l'UX/UI.",
-      "`npm run verify:bridge` : build des 2 apps + test waitlist quand on touche au bridge, au stockage navigateur ou a l'integration web/admin.",
-      "`npm run verify:merge` : validation lourde avant merge, centree sur le public et le coeur produit. Playwright admin reste manuel.",
-      "`npm run test:coverage` : verification de couverture du coeur teste.",
+      "`npm run verify:bridge` : build des 2 apps + test waitlist quand on touche au bridge, au stockage navigateur ou à l'intégration web/admin.",
+      "`npm run verify:merge` : validation lourde avant merge, centrée sur le public et le cœur produit. Playwright admin reste manuel.",
+      "`npm run test:coverage` : vérification de couverture du cœur testé.",
     ],
   },
   {
     title: "Stratégie QA",
     items: [
-      "Regle : les E2E ne sont pas automatiques. On les lance quand on touche l'UX/UI publique, la navigation publique, les formulaires, le responsive, le stockage navigateur ou une integration entre apps.",
-      "Pour les donnees, packs, catalogue, scoring et logique `shared`, on privilegie les unit tests cibles et `check:web` / `check:admin`.",
+      "Règle : les E2E ne sont pas automatiques. On les lance quand on touche l'UX/UI publique, la navigation publique, les formulaires, le responsive, le stockage navigateur ou une intégration entre apps.",
+      "Pour les données, packs, catalogue, scoring et logique `shared`, on privilégie les unit tests ciblés et `check:web` / `check:admin`.",
       "Pendant les modifs, on utilise le niveau le plus petit qui couvre le risque. Avant merge, on sort le porte-avions avec `npm run verify:merge`.",
-      "Playwright admin n'est plus bloquant par defaut. On le lance seulement sur interaction admin critique : waitlist, bridge, maintenance, reader pack ou nav admin modifiee.",
+      "Playwright admin n'est plus bloquant par défaut. On le lance seulement sur interaction admin critique : waitlist, bridge, maintenance, reader pack ou nav admin modifiée.",
       "Les E2E admin utilisent des ports de test dedies : admin `4175`, web `4176`. Les ports dev restent admin `4322` et web `4321`.",
       "Le guide complet est dans `docs/QA.md`.",
     ],
@@ -62,7 +62,7 @@ const sections = [
       "Le repo suit une ratchet sur les pages artisanales : pas de regression autorisee sur les attributs de style inline, les handlers inline, les scripts inline et les blocs de style de page tant que le nettoyage est en cours.",
       "Cote app publique, la regle est plus dure : `apps/web/src` doit rester a zero inline. Pas d'attribut style HTML, pas de handler inline, pas de bloc style de page, pas de script inline Astro.",
       "Standard vise : separation maximale HTML / CSS / JS. Les exceptions techniques doivent rester rares, explicites et defendables.",
-      "Niveau actuel suivi par la ratchet globale : 78 attributs de style inline, 11 handlers inline, 2 scripts inline, 4 blocs de style. C'est mieux qu'avant, mais ce n'est pas considere comme un etat final acceptable hors app publique.",
+      "Niveau actuel suivi par la ratchet globale : 78 attributs de style inline, 11 handlers inline, 2 scripts inline, 4 blocs de style. C'est mieux qu'avant, mais ce n'est pas considéré comme un état final acceptable hors app publique.",
     ],
   },
   {
@@ -71,7 +71,7 @@ const sections = [
       "Le site public vit dans `apps/web`.",
       "Le dashboard vit dans `apps/admin`.",
       "Le dashboard a maintenant son propre package workspace, son branding de tête et ses scripts locaux. Il n'est plus seulement piloté comme une annexe implicite du repo racine.",
-      "Le metier partage vit dans `shared` : logique quiz, donnees communes et couches de styles transverses.",
+      "Le métier partagé vit dans `shared` : logique quiz, données communes et couches de styles transverses.",
       "La tête de l'app admin est centralisée dans les layouts : meta, robots, favicon, generator et theme-color ne se redéclarent pas page par page.",
       "Tant qu'une app n'est pas prête, les commandes ciblées doivent échouer clairement, pas fallback silencieusement.",
       "Le dashboard suit maintenant les memes conventions d'interaction de base que le public sur les cards et les hovers. Les fixes visuels ne doivent plus partir dans des exceptions locales improvisées.",
@@ -82,9 +82,9 @@ const sections = [
     items: [
       "Le canon actif est maintenant pack-first. Le catalogue produit, le quiz pool et les builders Daily / Practice / Archives lisent la meme source.",
       "La réserve éditoriale vit sur `/content/editorial-reserve` et sert à piocher des mots candidats hors packs actifs. Ses champs obligatoires sont renseignés pour tous les mots : romaji, FR, EN, tier et transparence.",
-      "L'ancien snapshot genere archive dans `legacy/data-archive/` reste uniquement une memoire de migration. Il ne doit plus reapparaitre dans les chemins actifs.",
-      "Le repo a un audit de frontieres canoniques : on ne reintroduit plus l'ancien snapshot genere, les anciens marqueurs seed-legacy, l'ancien script de comparaison legacy ni l'ancien chemin de landing historique dans le code courant.",
-      "Le legacy utile reste `legacy/reference-landing.html` pour la parite visuelle et certains audits, rien de plus.",
+      "L'ancien snapshot généré archivé dans `legacy/data-archive/` reste uniquement une mémoire de migration. Il ne doit plus réapparaître dans les chemins actifs.",
+      "Le repo a un audit de frontières canoniques : on ne réintroduit plus l'ancien snapshot généré, les anciens marqueurs seed-legacy, l'ancien script de comparaison legacy ni l'ancien chemin de landing historique dans le code courant.",
+      "Le legacy utile reste `legacy/reference-landing.html` pour la parité visuelle et certains audits, rien de plus.",
     ],
   },
   {
@@ -93,20 +93,20 @@ const sections = [
       "`AdminLayout` : pages dashboard normales avec nav et shell admin.",
       "`DesignDocLayout` : documents design qui gardent leur surface dédiée mais héritent du layout racine admin.",
       "`AdminReferenceLayout` : mires internes isolées sans nav dashboard, pour les références hero / quiz et les usages similaires.",
-      "Règle : une nouvelle page admin choisit un de ces 3 layouts. On n'ecrit plus `html/head/body` directement dans une page.",
-      "Les references design chargent maintenant leur runtime via un point d'entree TS bundle cote admin, pas via un vieux script public partage a la main.",
+      "Règle : une nouvelle page admin choisit un de ces 3 layouts. On n'écrit plus `html/head/body` directement dans une page.",
+      "Les références design chargent maintenant leur runtime via un point d'entrée TS bundlé côté admin, pas via un vieux script public partagé à la main.",
     ],
   },
   {
     title: "CSS / Tailwind v4",
     items: [
-      "Tailwind v4 est deja branche dans les 2 apps, mais le repo reste volontairement en mode hybride : utilities Tailwind + couches CSS partagees.",
-      "Les couches communes vivent dans `shared/styles`, agregees par `shared.css` au-dessus de `foundation.css`, `animations.css`, `controls.css`, `quiz.css` et `typography.css`.",
-      "Regle de migration : ne pas refaire tout le site en Tailwind d'un coup. On migre par surface stable, avec un avant/apres lisible et sans casser le rendu.",
-      "Ordre retenu jusque-la : shell public et routes, puis admin standard, puis runtime quiz. Le chantier n'est pas considere fini tant qu'il reste des surfaces normales trop artisanales.",
-      "Le lecteur de packs admin utilise maintenant sa propre variante de bouton de reponse au lieu de subir la classe globale `answer-btn`. Quand une collision de styles existe, on cree une variante dediee au lieu d'empiler des exceptions.",
-      "Ce qui doit rester hors Tailwind tant qu'il n'y a pas de gain net : animations complexes, styles de reference design, pages mockup, et rustines historiques qu'on prevoit de supprimer.",
-      "Objectif concret : faire tendre les surfaces normales vers zero attribut de style inline, zero bloc de style repetitif et zero script inline evitable.",
+      "Tailwind v4 est déjà branché dans les 2 apps, mais le repo reste volontairement en mode hybride : utilities Tailwind + couches CSS partagées.",
+      "Les couches communes vivent dans `shared/styles`, agrégées par `shared.css` au-dessus de `foundation.css`, `animations.css`, `controls.css`, `quiz.css` et `typography.css`.",
+      "Règle de migration : ne pas refaire tout le site en Tailwind d'un coup. On migre par surface stable, avec un avant/après lisible et sans casser le rendu.",
+      "Ordre retenu jusqu'ici : shell public et routes, puis admin standard, puis runtime quiz. Le chantier n'est pas considéré fini tant qu'il reste des surfaces normales trop artisanales.",
+      "Le lecteur de packs admin utilise maintenant sa propre variante de bouton de réponse au lieu de subir la classe globale `answer-btn`. Quand une collision de styles existe, on crée une variante dédiée au lieu d'empiler des exceptions.",
+      "Ce qui doit rester hors Tailwind tant qu'il n'y a pas de gain net : animations complexes, styles de référence design, pages mockup, et rustines historiques qu'on prévoit de supprimer.",
+      "Objectif concret : faire tendre les surfaces normales vers zéro attribut de style inline, zéro bloc de style répétitif et zéro script inline évitable.",
     ],
   },
 ];
@@ -122,9 +122,9 @@ const sections = [
       <span class="guide-eyebrow">Guide local</span>
       <h1 class="guide-title">Repères du dashboard</h1>
       <p class="guide-copy">
-        Cette page sert de rappel rapide : comment le repo est decoupe, quelles commandes lancer, et quelles regles de qualite sont
-        maintenant obligatoires. Elle sert aussi de doctrine legere pour le CSS et Tailwind v4, afin d'eviter un refactor UI diffus
-        et mal sequence.
+        Cette page sert de rappel rapide : comment le repo est découpé, quelles commandes lancer, et quelles règles de qualité sont
+        maintenant obligatoires. Elle sert aussi de doctrine légère pour le CSS et Tailwind v4, afin d'éviter un refactor UI diffus
+        et mal séquencé.
       </p>
     </section>
 
