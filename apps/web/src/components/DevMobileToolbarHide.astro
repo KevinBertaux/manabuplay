@@ -6,7 +6,7 @@ const enabled = import.meta.env.DEV;
   enabled ? (
     <script is:inline>
       (function () {
-        var mobileQuery = window.matchMedia("(max-width: 760px)");
+        const mobileQuery = window.matchMedia("(max-width: 760px)");
 
         function syncDevToolbar() {
           document.querySelectorAll("astro-dev-toolbar").forEach(function (el) {
