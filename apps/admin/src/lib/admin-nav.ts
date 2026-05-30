@@ -11,7 +11,6 @@ export type AdminNavKey =
   | "reserve"
   | "brand"
   | "mockups"
-  | "references"
   | "maintenance"
   | "waitlist";
 
@@ -56,7 +55,7 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
   },
   {
     label: "Design",
-    keys: ["brand", "mockups", "references"],
+    keys: ["brand", "mockups"],
     items: [
       { key: "brand", href: "/design/brand-system", label: "Charte" },
       {
@@ -90,12 +89,17 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
           {
             activeKey: "mockups",
             exact: true,
+            href: "/design/mockups/mobile-landing",
+            label: "Landing mobile",
+          },
+          {
+            activeKey: "mockups",
+            exact: true,
             href: "/design/mockups/favicon",
             label: "Favicon",
           },
         ],
       },
-      { activeKey: "references", href: "/design/references/hero", label: "Références" },
     ],
   },
   {

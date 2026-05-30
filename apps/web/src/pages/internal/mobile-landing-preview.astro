@@ -1,0 +1,158 @@
+---
+import "../../styles/public.css";
+import { CURRENT_PRODUCT_COPY } from "../../../../../shared/data/manabuplay/product-copy";
+import { normalizePublicLocale } from "../../lib/public-locales";
+import { PUBLIC_MODE_COPY, PUBLIC_MODE_KEYS, getLocalizedHomePath, getLocalizedModePath } from "../../lib/public-routes";
+
+const locale = normalizePublicLocale(Astro.url.searchParams.get("locale") ?? undefined);
+const variantParam = Astro.url.searchParams.get("variant") ?? "with-scroll";
+const variant = variantParam === "legacy-centered" ? "legacy-centered" : "with-scroll";
+const copy = CURRENT_PRODUCT_COPY[locale];
+const isLegacy = variant === "legacy-centered";
+const showScrollChevron = true;
+const noAccountStatValue = "0";
+
+const heroSectionClass = isLegacy
+  ? "hero-bg grid-bg relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 pb-12 pt-[7.75rem] text-center"
+  : "hero-bg grid-bg hero-home-fold";
+
+const navClass = isLegacy
+  ? "fixed inset-x-0 top-0 z-50 flex flex-col gap-2 border-b border-[rgba(139,92,246,.15)] bg-[rgba(10,9,17,.85)] px-3 py-2 backdrop-blur-[16px]"
+  : "fixed inset-x-0 top-0 z-50 grid grid-cols-[1fr_auto] items-center gap-2 border-b border-[rgba(139,92,246,.15)] bg-[rgba(10,9,17,.85)] px-3 py-2 backdrop-blur-[16px]";
+
+const legacyNavGroupClass = "flex min-w-0 items-center justify-start gap-2 overflow-x-auto pb-[2px]";
+const navLinkBaseClass =
+  "whitespace-nowrap rounded-lg border bg-[rgba(26,22,48,.34)] px-3 py-2 font-body text-[.9rem] font-bold text-[rgba(226,217,243,.72)]";
+const navLinkInactiveClass = "border-[rgba(139,92,246,.14)]";
+const burgerClass =
+  "inline-flex items-center justify-center rounded-lg border border-[rgba(139,92,246,.14)] bg-[rgba(26,22,48,.34)] px-2.5 py-2";
+---
+<!DOCTYPE html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Mobile landing preview — {variant}</title>
+  </head>
+  <body class="bg-[#0a0911] text-slate-200">
+    <nav class={navClass} aria-label="Preview navigation">
+      <a class="flex min-w-0 items-center gap-3 no-underline" href={getLocalizedHomePath(locale)}>
+        <img src="/favicon.svg" alt="" width="36" height="36" class="block h-9 w-9 rounded-md" decoding="async" />
+        <span class="glow-violet font-pixel text-[.94rem] text-[#a78bfa]">
+          Manabu<span class="text-[#e879f9]">Play</span>
+        </span>
+      </a>
+      {
+        isLegacy ? (
+          <div class={legacyNavGroupClass} aria-label="Product navigation">
+            {PUBLIC_MODE_KEYS.map((modeKey) => (
+              <a href={getLocalizedModePath(locale, modeKey)} class:list={[navLinkBaseClass, navLinkInactiveClass]}>
+                {PUBLIC_MODE_COPY[modeKey].navLabel[locale]}
+              </a>
+            ))}
+          </div>
+        ) : (
+          <button type="button" class:list={[burgerClass, "justify-self-end"]} aria-label={copy.mode_nav_aria}>
+            <span class="flex flex-col gap-[3px]" aria-hidden="true">
+              <span class="block h-[2px] w-4 rounded-full bg-[rgba(226,217,243,.72)]"></span>
+              <span class="block h-[2px] w-4 rounded-full bg-[rgba(226,217,243,.72)]"></span>
+              <span class="block h-[2px] w-4 rounded-full bg-[rgba(226,217,243,.72)]"></span>
+            </span>
+          </button>
+        )
+      }
+    </nav>
+
+    <section class={heroSectionClass}>
+      <span class="kanji-bg left-[-2%] top-[5%] rotate-[-15deg] text-[var(--violet)]">学</span>
+      <span class="kanji-bg bottom-[5%] right-[-2%] rotate-[10deg] text-[var(--fuchsia)]">遊</span>
+
+      <div class:list={["w-full max-w-4xl mx-auto flex flex-col items-center", { "hero-home-stack": !isLegacy }]}>
+        <div class:list={[{ "hero-home-copy flex flex-col items-center": !isLegacy }]}>
+          <div class="hero-badge mb-8 inline-flex items-center gap-2 rounded-full border border-[rgba(34,211,238,.3)] bg-[rgba(34,211,238,.07)] px-4 py-2 font-body text-base font-[600] leading-snug text-[var(--cyan)] max-[760px]:mb-4">
+            <span class="mt-[0.35rem] h-2 w-2 shrink-0 self-start rounded-full bg-[var(--cyan)] sm:mt-0 sm:self-center"></span>
+            <span class="hero-badge-copy flex flex-col items-center gap-0 sm:flex-row sm:flex-wrap sm:justify-center">
+              <span class="whitespace-nowrap max-[760px]:text-[0.94rem]">{copy.hero_badge_lead}</span>
+              <span class="hidden sm:inline" aria-hidden="true"> · </span>
+              <span>{copy.hero_badge_tail}</span>
+            </span>
+          </div>
+
+          <div class="hero-title relative mb-6 flex flex-wrap items-center justify-center gap-3 font-pixel text-[clamp(1.52rem,3.2vw,2.5rem)] leading-relaxed">
+            <span class="glitch-text text-white" data-text="MANABU">MANABU</span>
+            <span class="glow-fuchsia text-[var(--fuchsia)]">PLAY</span>
+          </div>
+          <p class="hero-brand-line mb-3 font-body text-sm font-semibold tracking-wide text-slate-500">{copy.hero_brand_line}</p>
+          <h1 class="hero-tagline mb-4 max-w-4xl font-body text-[clamp(1.56rem,2.5vw,2.35rem)] font-[600] leading-snug text-slate-300">{copy.hero_tagline}</h1>
+          <p class="hero-sub mb-8 max-w-3xl font-body text-[clamp(1.02rem,1.55vw,1.38rem)] leading-relaxed text-slate-400">{copy.hero_sub}</p>
+
+          {
+            isLegacy ? (
+              <div class="flex gap-8 mt-12 flex-wrap justify-center items-center">
+                <div class="text-center min-w-24">
+                  <div class="font-pixel text-2xl text-[var(--violet)]">170</div>
+                  <div class="stat-label text-slate-500 mt-1">{copy.stat_words}</div>
+                </div>
+                <div class="text-center min-w-24">
+                  <div class="font-pixel text-2xl text-[var(--fuchsia)]">4</div>
+                  <div class="stat-label text-slate-500 mt-1">{copy.stat_diff}</div>
+                </div>
+                <div class="text-center min-w-24">
+                  <div class="font-pixel text-2xl text-[var(--cyan)]">{noAccountStatValue}</div>
+                  <div class="stat-label text-slate-500 mt-1">{copy.stat_free}</div>
+                </div>
+              </div>
+            ) : null
+          }
+        </div>
+
+        {
+          !isLegacy ? (
+            <div class="hero-actions">
+              <a href="#preview-end" class="cta-btn hero-cta inline-flex items-center justify-center">{copy.hero_cta}</a>
+              <a href="#preview-end" class="font-body font-600 text-slate-400 text-lg">{copy.hero_how}</a>
+            </div>
+          ) : (
+            <div class="hero-actions mt-8">
+              <a href="#preview-end" class="cta-btn hero-cta inline-flex items-center justify-center">{copy.hero_cta}</a>
+              <a href="#preview-end" class="font-body font-600 text-slate-400 text-lg">{copy.hero_how}</a>
+            </div>
+          )
+        }
+      </div>
+
+      {
+        showScrollChevron ? (
+          <div class:list={["absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1 opacity-40", { flex: !isLegacy, hidden: false }]}>
+            <div class="h-8 w-px bg-[linear-gradient(to_bottom,transparent,var(--violet))]"></div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+          </div>
+        ) : null
+      }
+    </section>
+
+    {
+      !isLegacy ? (
+        <section class="hero-stats" id="preview-end">
+          <div class="hero-stats-grid">
+            <div class="text-center min-w-24">
+              <div class="font-pixel text-2xl text-[var(--violet)]">170</div>
+              <div class="stat-label text-slate-500 mt-1">{copy.stat_words}</div>
+            </div>
+            <div class="text-center min-w-24">
+              <div class="font-pixel text-2xl text-[var(--fuchsia)]">4</div>
+              <div class="stat-label text-slate-500 mt-1">{copy.stat_diff}</div>
+            </div>
+            <div class="text-center min-w-24">
+              <div class="font-pixel text-2xl text-[var(--cyan)]">{noAccountStatValue}</div>
+              <div class="stat-label text-slate-500 mt-1">{copy.stat_free}</div>
+            </div>
+          </div>
+        </section>
+      ) : (
+        <section id="preview-end" class="px-6 py-8 text-center text-sm text-slate-600">Suite landing (quiz, features…) — preview hero seulement.</section>
+      )
+    }
+  </body>
+</html>

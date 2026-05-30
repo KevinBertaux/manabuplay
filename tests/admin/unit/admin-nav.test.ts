@@ -44,11 +44,7 @@ describe("admin nav", () => {
   it("keeps grouped design routes under the right drawers", () => {
     const designGroup = ADMIN_GROUPS.find((group) => group.label === "Design");
 
-    expect(designGroup?.items.map((item) => item.label)).toEqual([
-      "Charte",
-      "Mockups",
-      "Références",
-    ]);
+    expect(designGroup?.items.map((item) => item.label)).toEqual(["Charte", "Mockups"]);
     const mockupsItem = designGroup?.items.find((item) => item.label === "Mockups");
 
     expect(mockupsItem?.activeKey).toBe("mockups");
@@ -57,6 +53,8 @@ describe("admin nav", () => {
       "Tiers",
       "Archives",
       "Typo",
+      "Landing mobile",
+      "Favicon",
     ]);
     expect(mockupsItem?.children?.find((item) => item.label === "Archives")?.href).toBe(
       "/design/mockups/archives",
@@ -64,8 +62,8 @@ describe("admin nav", () => {
     expect(mockupsItem?.children?.find((item) => item.label === "Typo")?.href).toBe(
       "/design/mockups/typography",
     );
-    expect(designGroup?.items.find((item) => item.label === "Références")?.activeKey).toBe(
-      "references",
+    expect(mockupsItem?.children?.find((item) => item.label === "Landing mobile")?.href).toBe(
+      "/design/mockups/mobile-landing",
     );
   });
 

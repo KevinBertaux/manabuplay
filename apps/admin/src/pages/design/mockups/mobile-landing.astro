@@ -1,0 +1,95 @@
+---
+import DesignDocLayout from "../../../layouts/DesignDocLayout.astro";
+import {
+  MOBILE_LANDING_MOCKUPS,
+  MOBILE_MOCKUP_VIEWPORT,
+  resolveWebPreviewOrigin,
+} from "../../../lib/mobile-landing-mockups";
+
+const webOrigin = resolveWebPreviewOrigin(import.meta.env.PUBLIC_WEB_PREVIEW_ORIGIN);
+const initialLocale = "fr";
+---
+<DesignDocLayout
+  title="Mockups landing mobile"
+  active="mockups"
+  description="Comparatif mobile landing : fold hero, stats, burger et chevron scroll."
+  containerClass="admin-wrap font-lab-page mobile-landing-mockups-page"
+>
+  <section class="font-lab-hero">
+    <p class="font-lab-eyebrow">Design · Landing mobile</p>
+    <h1>Mockups landing mobile</h1>
+    <p>
+      Prévisualisation {MOBILE_MOCKUP_VIEWPORT.label}. Nécessite l’app web en local (
+      <code>npm run dev:web</code> → {webOrigin}). Origin configurable via{" "}
+      <code>PUBLIC_WEB_PREVIEW_ORIGIN</code>.
+    </p>
+    <div class="mobile-mockup-locale-row" role="group" aria-label="Locale preview">
+      <button type="button" class="mobile-mockup-locale-btn is-active" data-preview-locale="fr">FR</button>
+      <button type="button" class="mobile-mockup-locale-btn" data-preview-locale="en">EN</button>
+    </div>
+  </section>
+
+  <section class="mobile-mockup-grid">
+    {
+      MOBILE_LANDING_MOCKUPS.map((mockup) => (
+        <article class="font-lab-card mobile-mockup-card" data-mockup-id={mockup.id}>
+          <p class="font-lab-card-kicker">{mockup.id}</p>
+          <h2>{mockup.title}</h2>
+          <p>{mockup.pitch}</p>
+          <p class="mobile-mockup-hint">{mockup.decisionHint}</p>
+          <div class="mobile-mockup-device" style={`--mockup-width: ${MOBILE_MOCKUP_VIEWPORT.width}px; --mockup-height: ${MOBILE_MOCKUP_VIEWPORT.height}px;`}>
+            <div class="mobile-mockup-device-chrome">
+              <span>{MOBILE_MOCKUP_VIEWPORT.label}</span>
+            </div>
+            <iframe
+              class="mobile-mockup-frame"
+              title={`Preview ${mockup.title}`}
+              src={mockup.buildHref(initialLocale, webOrigin)}
+              data-preview-src-template={mockup.buildHref("__LOCALE__", webOrigin)}
+              loading="lazy"
+            ></iframe>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="font-lab-section mobile-mockup-notes">
+    <h2>Lecture rapide</h2>
+    <ul>
+      <li><strong>Actuel</strong> — iframe vers <code>/fr/</code> ou <code>/en/</code> (code prod de la branche).</li>
+      <li><strong>Chevron scroll</strong> — preview interne web : même fold, chevron visible sous le CTA.</li>
+      <li><strong>Legacy</strong> — hero centré + stats intégrées + nav modes scrollables (référence avant refonte).</li>
+      <li>Burger ≡ seul sur actuel et chevron ; Clarity indiquera si les utilisateurs ouvrent le menu.</li>
+    </ul>
+  </section>
+</DesignDocLayout>
+
+<script is:inline>
+  const localeButtons = document.querySelectorAll("[data-preview-locale]");
+  const frames = document.querySelectorAll(".mobile-mockup-frame");
+
+  function setLocale(nextLocale) {
+    localeButtons.forEach((button) => {
+      button.classList.toggle(
+        "is-active",
+        button instanceof HTMLButtonElement && button.dataset.previewLocale === nextLocale,
+      );
+    });
+
+    frames.forEach((frame) => {
+      if (!(frame instanceof HTMLIFrameElement)) return;
+      const template = frame.dataset.previewSrcTemplate;
+      if (!template) return;
+      frame.src = template.replace("__LOCALE__", nextLocale);
+    });
+  }
+
+  localeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!(button instanceof HTMLButtonElement)) return;
+      const locale = button.dataset.previewLocale;
+      if (locale === "fr" || locale === "en") setLocale(locale);
+    });
+  });
+</script>
