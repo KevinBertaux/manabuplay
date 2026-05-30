@@ -10,6 +10,8 @@ export const CURRENT_PRODUCT_COPY = {
     nav_practice: "Arcade",
     nav_archives: "Archives",
     hero_badge: "Daily quiz · Arcade runs · No sign-up",
+    hero_badge_lead: "Daily quiz · Arcade runs",
+    hero_badge_tail: "No sign-up",
     hero_brand_line: "Manabu · learn — Asobu · play",
     hero_tagline: "Turn familiar Japanese words into vocabulary you understand.",
     hero_sub:
@@ -131,6 +133,8 @@ export const CURRENT_PRODUCT_COPY = {
     nav_practice: "Arcade",
     nav_archives: "Archives",
     hero_badge: "Quiz quotidien · Runs Arcade · Sans inscription",
+    hero_badge_lead: "Quiz quotidien · Runs Arcade",
+    hero_badge_tail: "Sans inscription",
     hero_brand_line: "Manabu · apprendre — Asobu · jouer",
     hero_tagline:
       "Transforme les mots japonais que tu repères déjà en vocabulaire que tu comprends.",
