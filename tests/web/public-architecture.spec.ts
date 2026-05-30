@@ -118,13 +118,12 @@ test.describe("public localized architecture", () => {
 
     await page.locator("#public-mode-menu-trigger").click();
     await expect(page.locator("#public-mode-menu-panel")).toBeVisible();
-    await expect(page.locator("#public-mode-menu-panel [data-public-route='daily']")).toHaveAttribute(
-      "href",
-      "/fr/daily/",
-    );
-    await expect(page.locator("#public-mode-menu-panel [data-public-route='archives']")).toContainText(
-      "Archives",
-    );
+    await expect(
+      page.locator("#public-mode-menu-panel [data-public-route='daily']"),
+    ).toHaveAttribute("href", "/fr/daily/");
+    await expect(
+      page.locator("#public-mode-menu-panel [data-public-route='archives']"),
+    ).toContainText("Archives");
   });
 
   test("preserves the current product mode when switching locale", async ({ page }) => {
