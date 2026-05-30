@@ -1,7 +1,5 @@
 ---
 import "../styles/public.css";
-import EmbedMockupBoot from "../components/EmbedMockupBoot.astro";
-import DevMobileToolbarHide from "../components/DevMobileToolbarHide.astro";
 import { CURRENT_PRODUCT_COPY } from "../../../../shared/data/manabuplay/product-copy";
 import {
   PUBLIC_LOCALES,
@@ -76,8 +74,8 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
 <html lang={locale} id="htmlRoot" class:list={[{ "embed-mockup": isEmbedMockup }]}>
 <head>
   <meta charset="UTF-8" />
-  <EmbedMockupBoot />
-  <DevMobileToolbarHide />
+  <script src="/scripts/embed-mockup-boot.js"></script>
+  {import.meta.env.DEV ? <script src="/scripts/dev-mobile-toolbar-hide.js"></script> : null}
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
