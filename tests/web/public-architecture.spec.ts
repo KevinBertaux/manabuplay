@@ -112,7 +112,8 @@ test.describe("public localized architecture", () => {
     await page.goto(`${ASTRO_URL}fr/arcade/`, { waitUntil: "domcontentloaded" });
 
     await expect(page.locator(".public-mode-nav-desktop")).toBeHidden();
-    await expect(page.locator(".public-mode-menu-trigger")).toContainText("Arcade");
+    await expect(page.locator("#public-mode-menu-trigger")).toBeVisible();
+    await expect(page.locator("#public-mode-menu-trigger")).toHaveAttribute("aria-label", "Menu");
     await expect(page.locator("#public-mode-menu-panel")).toBeHidden();
 
     await page.locator("#public-mode-menu-trigger").click();

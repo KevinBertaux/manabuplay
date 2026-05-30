@@ -37,9 +37,6 @@ const {
 } = Astro.props;
 
 const productCopy = CURRENT_PRODUCT_COPY[locale];
-const mobileModeTriggerLabel = activeMode
-  ? PUBLIC_MODE_COPY[activeMode].navLabel[locale]
-  : productCopy.mode_nav_menu;
 
 const encodedBootPayload = bootPayload
   ? Buffer.from(JSON.stringify(bootPayload), "utf8").toString("base64")
@@ -64,7 +61,7 @@ const navLinkActiveClass =
   "border-[rgba(34,211,238,.38)] bg-[rgba(34,211,238,.08)] text-white";
 const mobileModeMenuClass = "public-mode-menu relative min-[761px]:hidden";
 const mobileModeTriggerClass =
-  "public-mode-menu-trigger inline-flex items-center gap-2 rounded-lg border bg-[rgba(26,22,48,.34)] px-3 py-2 font-body text-[.9rem] font-bold text-[rgba(226,217,243,.72)] transition-[color,border-color,background] duration-150";
+  "public-mode-menu-trigger inline-flex items-center justify-center rounded-lg border bg-[rgba(26,22,48,.34)] px-2.5 py-2 font-body text-[rgba(226,217,243,.72)] transition-[color,border-color,background] duration-150";
 const mobileModePanelClass =
   "public-mode-menu-panel absolute right-0 top-[calc(100%+0.35rem)] z-[60] flex min-w-[10.5rem] flex-col gap-1 rounded-lg border border-[rgba(139,92,246,.22)] bg-[rgba(10,9,17,.96)] p-1.5 shadow-[0_12px_32px_rgba(0,0,0,.45)] backdrop-blur-[12px]";
 const mobileModePanelLinkClass = "block w-full rounded-md px-3 py-2 text-left font-body text-[.9rem] font-bold";
@@ -128,16 +125,13 @@ const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? ""
           ]}
           aria-expanded="false"
           aria-controls="public-mode-menu-panel"
+          aria-label={productCopy.mode_nav_aria}
         >
           <span class="flex flex-col gap-[3px]" aria-hidden="true">
             <span class="block h-[2px] w-4 rounded-full bg-current opacity-90"></span>
             <span class="block h-[2px] w-4 rounded-full bg-current opacity-90"></span>
             <span class="block h-[2px] w-4 rounded-full bg-current opacity-90"></span>
           </span>
-          <span class="public-mode-menu-label">{mobileModeTriggerLabel}</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M6 9l6 6 6-6"></path>
-          </svg>
         </button>
         <div id="public-mode-menu-panel" class={mobileModePanelClass} hidden>
           {PUBLIC_MODE_KEYS.map((modeKey) => (
