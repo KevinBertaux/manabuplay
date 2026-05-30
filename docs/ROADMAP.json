@@ -324,7 +324,28 @@
           "priority": "P1",
           "area": "landing",
           "type": "ux",
-          "notes": "Desktop et Playwright couvrent deja les flux critiques. Reste une verification manuelle iOS/Android : quiz, archives, nav (waitlist deja validee en preprod)."
+          "notes": "Desktop et Playwright couvrent deja les flux critiques. Selecteur EN|FR masque sur mobile (<760px) pour liberer la nav. Reste verification manuelle iOS/Android : quiz, archives, nav."
+        },
+        {
+          "id": "v01-public-settings-cog",
+          "title": "Remplacer le selecteur EN|FR par une icone cog (panneau options + mini profil local)",
+          "status": "todo",
+          "priority": "P2",
+          "area": "ux",
+          "type": "feature",
+          "notes": "Backlog : icone engrenage dans la nav (desktop puis mobile). Panneau : changement de langue FR/EN + options futures. Inclure une mini vue profil utilisateur basee sur localStorage uniquement (pas de compte). Compatible i18n par URL (/fr/, /en/). v0.1 livre le masquage mobile du selecteur actuel.",
+          "children": [
+            {
+              "id": "settings-cog-nav",
+              "title": "Icone cog et menu options (langue, preferences)",
+              "status": "todo"
+            },
+            {
+              "id": "settings-local-profile",
+              "title": "Mini profil utilisateur local dans le panneau (localStorage)",
+              "status": "todo"
+            }
+          ]
         },
         {
           "id": "v01-playwright",

@@ -100,6 +100,13 @@ test.describe("public localized architecture", () => {
     await expect(page.locator("#emailSuccess")).toBeVisible();
   });
 
+  test("hides the locale switch on mobile viewports", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${ASTRO_URL}fr/`, { waitUntil: "domcontentloaded" });
+
+    await expect(page.locator(".public-locale-switch")).toBeHidden();
+  });
+
   test("preserves the current product mode when switching locale", async ({ page }) => {
     await page.goto(`${ASTRO_URL}fr/arcade/`, { waitUntil: "domcontentloaded" });
 

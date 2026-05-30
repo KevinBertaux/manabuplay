@@ -43,13 +43,13 @@ function getLocaleHref(targetLocale: PublicLocale) {
   return activeMode ? getLocalizedModePath(targetLocale, activeMode) : getLocalizedHomePath(targetLocale);
 }
 
-const topNavClass = "fixed inset-x-0 top-0 z-50 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 border-b border-[rgba(139,92,246,.15)] bg-[rgba(10,9,17,.85)] px-6 py-2 backdrop-blur-[16px] max-[760px]:grid-cols-[1fr_auto] max-[760px]:gap-2 max-[760px]:px-3";
+const topNavClass = "fixed inset-x-0 top-0 z-50 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 border-b border-[rgba(139,92,246,.15)] bg-[rgba(10,9,17,.85)] px-6 py-2 backdrop-blur-[16px] max-[760px]:grid-cols-1 max-[760px]:gap-2 max-[760px]:px-3";
+const localeSwitchClass = "flex items-center gap-1 rounded-md border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1 text-[rgba(139,92,246,.25)] max-[760px]:hidden";
 const brandLinkClass = "flex min-w-0 items-center gap-3 no-underline";
 const navGroupClass = "flex min-w-0 items-center justify-center gap-2 max-[760px]:col-span-full max-[760px]:justify-start max-[760px]:overflow-x-auto max-[760px]:pb-[2px]";
 const navLinkBaseClass = "whitespace-nowrap rounded-lg border bg-[rgba(26,22,48,.34)] px-3 py-2 font-body text-[.98rem] font-bold text-[rgba(226,217,243,.72)] transition-[color,border-color,background] duration-150";
 const navLinkInactiveClass = "border-[rgba(139,92,246,.14)] hover:border-[rgba(34,211,238,.38)] hover:bg-[rgba(34,211,238,.08)] hover:text-white";
 const navLinkActiveClass = "border-[rgba(34,211,238,.38)] bg-[rgba(34,211,238,.08)] text-white";
-const localeSwitchClass = "flex items-center gap-1 rounded-md border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1 text-[rgba(139,92,246,.25)]";
 const brandMarkClass = "block h-9 w-9 flex-shrink-0 rounded-md";
 const brandWordmarkClass = "glow-violet font-pixel text-[.94rem] text-[#a78bfa]";
 const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? "";
