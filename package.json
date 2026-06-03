@@ -62,7 +62,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.1.2"
+    "astro": "6.1.10"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",

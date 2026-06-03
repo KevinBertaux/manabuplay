@@ -8,6 +8,7 @@ const appDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(appDir, "../..");
 
 export default defineConfig({
+  output: "static",
   root: appDir,
   srcDir: path.join(appDir, "src"),
   publicDir: path.join(appDir, "public"),
