@@ -189,7 +189,9 @@ test.describe("public localized architecture", () => {
     await prepareQuizPage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("a[data-public-route='archives'][aria-current='page']")).toBeVisible();
+    await expect(
+      page.locator("a[data-public-route='archives'][aria-current='page']"),
+    ).toBeVisible();
     await expect(
       page.locator("[data-archive-date='2026-04-16'][data-archive-tone='archive']"),
     ).toHaveClass(/is-active/);
