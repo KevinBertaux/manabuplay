@@ -54,11 +54,14 @@ test.describe("home layout", () => {
     await expectNoHorizontalOverflow(page);
     await expectContained(page, [
       "nav",
+      ".public-top-nav-inner",
+      ".public-mode-nav-segmented",
       "section.hero-bg",
       "#features",
       "#quiz .border-glow",
       "#notify form",
       "footer",
+      ".public-site-footer-inner",
     ]);
   });
 
@@ -69,10 +72,13 @@ test.describe("home layout", () => {
     await expectNoHorizontalOverflow(page);
     await expectContained(page, [
       "nav",
+      ".public-top-nav-inner",
+      "#public-mode-menu-trigger",
       "section.hero-bg",
       "#quiz .border-glow",
       "#notify form",
       "footer",
+      ".public-site-footer-inner",
     ]);
   });
 });

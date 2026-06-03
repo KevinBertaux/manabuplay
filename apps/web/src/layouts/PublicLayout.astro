@@ -58,17 +58,16 @@ const topNavShellClass =
 const topNavInnerClass =
   "public-top-nav-inner public-shell-inner grid grid-cols-[1fr_auto] items-center gap-2 px-3 py-2 md:grid-cols-[auto_minmax(0,1fr)_auto] md:gap-4 md:px-6";
 const localeSwitchClass =
-  "public-locale-switch hidden items-center gap-2 rounded-lg border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1 text-[rgba(139,92,246,.25)] md:flex";
+  "public-locale-switch items-center gap-2 rounded-lg border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1 text-[rgba(139,92,246,.25)]";
 const brandLinkClass = "flex min-w-0 items-center gap-3 no-underline";
-const navGroupClass =
-  "public-mode-nav-desktop public-mode-nav-segmented hidden min-w-0 md:grid";
+const navGroupClass = "public-mode-nav-desktop public-mode-nav-segmented min-w-0";
 const navSegClass =
   "public-mode-seg font-body text-sm font-bold text-[rgba(226,217,243,.72)] no-underline transition-[color,background,box-shadow] duration-150";
 const navLinkInactiveClass =
   "border-[rgba(139,92,246,.14)] hover:border-[rgba(34,211,238,.38)] hover:bg-[rgba(34,211,238,.08)] hover:text-white";
 const navLinkActiveClass =
   "border-[rgba(34,211,238,.38)] bg-[rgba(34,211,238,.08)] text-white";
-const mobileModeMenuClass = "public-mode-menu relative md:hidden";
+const mobileModeMenuClass = "public-mode-menu relative";
 const mobileModeTriggerClass =
   "public-mode-menu-trigger inline-flex items-center justify-center rounded-lg border bg-[rgba(26,22,48,.34)] px-2 py-2 font-body text-[rgba(226,217,243,.72)] transition-[color,border-color,background] duration-150";
 const mobileModePanelClass =
@@ -129,7 +128,7 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
       ))}
     </div>
     <div class="col-start-2 row-start-1 flex items-center gap-2 md:col-auto md:row-auto">
-      <nav class={mobileModeMenuClass} aria-label="Product navigation">
+      <nav class={mobileModeMenuClass} aria-label={locale === "fr" ? "Menu des modes" : "Modes menu"}>
         <button
           type="button"
           id="public-mode-menu-trigger"

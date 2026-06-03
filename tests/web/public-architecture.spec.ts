@@ -1,5 +1,15 @@
 import { expect, test, type Page } from "@playwright/test";
 import { ASTRO_URL } from "../helpers/visual";
+import {
+  DESKTOP_VIEWPORT,
+  MOBILE_VIEWPORT,
+  VIEWPORT_BELOW_MD,
+  VIEWPORT_MD,
+  desktopModeNav,
+  localeSwitch,
+  mobileModeMenuPanel,
+  mobileModeMenuTrigger,
+} from "../helpers/public-shell";
 
 const LOCALES = [
   {
@@ -7,12 +17,16 @@ const LOCALES = [
     tagline: "Turn familiar Japanese words into vocabulary",
     daily: "Daily",
     arcade: "Arcade",
+    archives: "Archives",
+    footerTagline: "Daily vocabulary quizzes — gaming & pop culture",
   },
   {
     locale: "fr",
     tagline: "Transforme les mots japonais que tu repères déjà",
     daily: "Quotidien",
     arcade: "Arcade",
+    archives: "Archives",
+    footerTagline: "Quiz quotidiens de vocabulaire — gaming & pop culture",
   },
 ] as const;
 
@@ -40,37 +54,69 @@ test.describe("public localized architecture", () => {
     await fallbackContext.close();
   });
 
-  for (const { locale, tagline, daily, arcade } of LOCALES) {
+  for (const { locale, tagline, daily, arcade, archives, footerTagline } of LOCALES) {
     test(`renders localized home for ${locale}`, async ({ page }) => {
+      await page.setViewportSize(DESKTOP_VIEWPORT);
       await page.goto(`${ASTRO_URL}${locale}/`, { waitUntil: "domcontentloaded" });
 
       await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", locale);
       await expect(page.locator("h1")).toContainText(tagline);
-      const productNav = page.getByLabel("Product navigation");
-      await expect(productNav.locator("[data-public-route='daily']")).toContainText(daily);
-      await expect(productNav.locator("[data-public-route='arcade']")).toContainText(arcade);
-      await expect(productNav.locator("[data-public-route='daily']")).toHaveAttribute(
+
+      const segmentedNav = desktopModeNav(page);
+      await expect(segmentedNav).toBeVisible();
+      await expect(segmentedNav.locator("[data-public-route='daily']")).toContainText(daily);
+      await expect(segmentedNav.locator("[data-public-route='arcade']")).toContainText(arcade);
+      await expect(segmentedNav.locator("[data-public-route='archives']")).toContainText(archives);
+      await expect(segmentedNav.locator("[data-public-route='daily']")).toHaveAttribute(
         "href",
         `/${locale}/daily/`,
       );
-      await expect(productNav.locator("[data-public-route='arcade']")).toHaveAttribute(
+      await expect(segmentedNav.locator("[data-public-route='arcade']")).toHaveAttribute(
         "href",
         `/${locale}/arcade/`,
       );
-      await expect(productNav.locator("[data-public-route='archives']")).toHaveAttribute(
+      await expect(segmentedNav.locator("[data-public-route='archives']")).toHaveAttribute(
         "href",
         `/${locale}/archives/`,
       );
+
       await expect(page.locator(".public-site-footer")).toContainText(
         locale === "fr" ? "Site réalisé par Kxis" : "Built by Kxis",
       );
-      await expect(page.locator(".public-site-footer-zone--tagline")).toContainText(
-        locale === "fr"
-          ? "Quiz quotidiens de vocabulaire — gaming & pop culture"
-          : "Daily vocabulary quizzes — gaming & pop culture",
-      );
+      await expect(page.locator(".public-site-footer-zone--tagline")).toContainText(footerTagline);
     });
   }
+
+  test("renders segmented desktop nav as a single control group", async ({ page }) => {
+    await page.setViewportSize(DESKTOP_VIEWPORT);
+    await page.goto(`${ASTRO_URL}fr/`, { waitUntil: "domcontentloaded" });
+
+    const segmentedNav = desktopModeNav(page);
+    await expect(segmentedNav).toHaveClass(/public-mode-nav-segmented/);
+    await expect(segmentedNav.locator(".public-mode-seg")).toHaveCount(3);
+    await expect(segmentedNav.locator(".public-mode-seg--first")).toHaveCount(1);
+    await expect(segmentedNav.locator(".public-mode-seg--last")).toHaveCount(1);
+    await expect(mobileModeMenuTrigger(page)).toBeHidden();
+    await expect(localeSwitch(page)).toBeVisible();
+  });
+
+  test("hides locale switch and desktop nav below md", async ({ page }) => {
+    await page.setViewportSize(VIEWPORT_BELOW_MD);
+    await page.goto(`${ASTRO_URL}fr/`, { waitUntil: "domcontentloaded" });
+
+    await expect(localeSwitch(page)).toBeHidden();
+    await expect(desktopModeNav(page)).toBeHidden();
+    await expect(mobileModeMenuTrigger(page)).toBeVisible();
+  });
+
+  test("shows locale switch and desktop nav from md", async ({ page }) => {
+    await page.setViewportSize(VIEWPORT_MD);
+    await page.goto(`${ASTRO_URL}fr/`, { waitUntil: "domcontentloaded" });
+
+    await expect(localeSwitch(page)).toBeVisible();
+    await expect(desktopModeNav(page)).toBeVisible();
+    await expect(mobileModeMenuTrigger(page)).toBeHidden();
+  });
 
   test("renders localized legal pages and footer links", async ({ page }) => {
     await page.goto(`${ASTRO_URL}fr/legal/`, { waitUntil: "domcontentloaded" });
@@ -106,48 +152,55 @@ test.describe("public localized architecture", () => {
   });
 
   test("hides the locale switch on mobile viewports", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
+    await page.setViewportSize(MOBILE_VIEWPORT);
     await page.goto(`${ASTRO_URL}fr/`, { waitUntil: "domcontentloaded" });
 
-    await expect(page.locator(".public-locale-switch")).toBeHidden();
+    await expect(localeSwitch(page)).toBeHidden();
   });
 
   test("opens the mobile mode burger menu", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
+    await page.setViewportSize(MOBILE_VIEWPORT);
     await page.goto(`${ASTRO_URL}fr/arcade/`, { waitUntil: "domcontentloaded" });
 
-    await expect(page.locator(".public-mode-nav-desktop")).toBeHidden();
-    await expect(page.locator("#public-mode-menu-trigger")).toBeVisible();
-    await expect(page.locator("#public-mode-menu-trigger")).toHaveAttribute("aria-label", "Menu");
-    await expect(page.locator("#public-mode-menu-panel")).toBeHidden();
+    await expect(desktopModeNav(page)).toBeHidden();
+    await expect(mobileModeMenuTrigger(page)).toBeVisible();
+    await expect(mobileModeMenuTrigger(page)).toHaveAttribute("aria-label", "Menu");
+    await expect(mobileModeMenuPanel(page)).toBeHidden();
 
-    await page.locator("#public-mode-menu-trigger").click();
-    await expect(page.locator("#public-mode-menu-panel")).toBeVisible();
-    await expect(
-      page.locator("#public-mode-menu-panel [data-public-route='daily']"),
-    ).toHaveAttribute("href", "/fr/daily/");
-    await expect(
-      page.locator("#public-mode-menu-panel [data-public-route='archives']"),
-    ).toContainText("Archives");
+    await mobileModeMenuTrigger(page).click();
+    await expect(mobileModeMenuPanel(page)).toBeVisible();
+    await expect(mobileModeMenuPanel(page).locator("[data-public-route='daily']")).toHaveAttribute(
+      "href",
+      "/fr/daily/",
+    );
+    await expect(mobileModeMenuPanel(page).locator("[data-public-route='archives']")).toContainText(
+      "Archives",
+    );
   });
 
   test("preserves the current product mode when switching locale", async ({ page }) => {
+    await page.setViewportSize(DESKTOP_VIEWPORT);
     await page.goto(`${ASTRO_URL}fr/arcade/`, { waitUntil: "domcontentloaded" });
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("a[data-public-route='arcade'][aria-current='page']")).toBeVisible();
-    await expect(page.locator(".public-locale-switch a", { hasText: "EN" })).toHaveAttribute(
+    await expect(
+      desktopModeNav(page).locator("a[data-public-route='arcade'][aria-current='page']"),
+    ).toBeVisible();
+    await expect(localeSwitch(page).locator("a", { hasText: "EN" })).toHaveAttribute(
       "href",
       "/en/arcade/",
     );
-    await expect(page.locator(".public-locale-switch a", { hasText: "ES" })).toHaveCount(0);
+    await expect(localeSwitch(page).locator("a", { hasText: "ES" })).toHaveCount(0);
   });
 
   test("renders the real localized daily quiz", async ({ page }) => {
+    await page.setViewportSize(DESKTOP_VIEWPORT);
     await prepareQuizPage(page, `${ASTRO_URL}fr/daily/`);
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("a[data-public-route='daily'][aria-current='page']")).toBeVisible();
+    await expect(
+      desktopModeNav(page).locator("a[data-public-route='daily'][aria-current='page']"),
+    ).toBeVisible();
     await expect(page.locator("#quizTitleScreen")).toBeVisible();
     await expect(page.locator("#quizTitleHeadline")).toContainText("Quotidien du");
     await expect(page.locator("#diffGrid")).toBeHidden();
@@ -162,10 +215,13 @@ test.describe("public localized architecture", () => {
   });
 
   test("renders the real localized arcade quiz", async ({ page }) => {
+    await page.setViewportSize(DESKTOP_VIEWPORT);
     await prepareQuizPage(page, `${ASTRO_URL}fr/arcade/`);
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("a[data-public-route='arcade'][aria-current='page']")).toBeVisible();
+    await expect(
+      desktopModeNav(page).locator("a[data-public-route='arcade'][aria-current='page']"),
+    ).toBeVisible();
     await expect(page.locator("#diffGrid .diff-card")).toHaveCount(4);
     await expect(page.locator("#diffGrid .diff-card").nth(1)).toContainText("STANDARD");
 
@@ -186,11 +242,12 @@ test.describe("public localized architecture", () => {
   });
 
   test("renders archives by date and plays the selected archive", async ({ page }) => {
+    await page.setViewportSize(DESKTOP_VIEWPORT);
     await prepareQuizPage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
     await expect(
-      page.locator("a[data-public-route='archives'][aria-current='page']"),
+      desktopModeNav(page).locator("a[data-public-route='archives'][aria-current='page']"),
     ).toBeVisible();
     await expect(
       page.locator("[data-archive-date='2026-04-16'][data-archive-tone='archive']"),

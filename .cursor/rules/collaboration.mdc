@@ -12,6 +12,20 @@ alwaysApply: true
 - Si la demande est vague (« une branche pour X »), créer la branche vide ou un squelette minimal seulement si demandé ; sinon proposer un plan et attendre le OK.
 - Ne pas corriger ou étendre un sujet non validé (ex. pages légales, footer, RGPD) en supposant le contenu métier.
 
+## Signaux explicites
+
+- **GO** = « go », « oui fais-le », « applique », « commit », « push », « merge » — pas un « ? », pas un « c’est ok ? », pas un silence après une proposition.
+- **Question ou avis** (« ? », « ton avis », « qu’en penses-tu ») → réponse texte uniquement, **aucun** fichier, `npm install`, commit ou push.
+
+## Interdits sans GO (même sur une branche dédiée)
+
+- Monter / pin des dépendances (`npm install`, `package.json`, lockfile).
+- Merge ou push vers `deploy/preprod-v01`, `main`, ou toute branche distante.
+
+## Branche seule
+
+- « Crée une branche pour X » = `git checkout -b …` depuis la base indiquée (ou la branche courante si non précisé), **sans** autre commit que le strict nécessaire à la création de branche (idéalement aucun).
+
 ## Contexte produit
 
 - **Kxis** est la marque agence web (EI Kevin) : sites clients + projets perso dont ManabuPlay. Footer : « Site réalisé par Kxis » / « Built by Kxis » ; l’éditeur juridique (EI) se cale dans les mentions légales.

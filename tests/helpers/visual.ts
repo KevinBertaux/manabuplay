@@ -51,7 +51,7 @@ export const SECTIONS: SectionSpec[] = [
 
 export const TYPOGRAPHY_SPECS: TypographySpec[] = [
   { name: "brand", selector: "nav .glow-violet" },
-  { name: "hero-title", selector: "h1.font-pixel" },
+  { name: "hero-title", selector: "h1.hero-tagline, h1[data-i18n='hero_tagline']" },
   { name: "hero-tagline", selector: "[data-i18n='hero_tagline']" },
   { name: "hero-sub", selector: "[data-i18n='hero_sub']" },
   { name: "hero-cta", selector: ".cta-btn" },

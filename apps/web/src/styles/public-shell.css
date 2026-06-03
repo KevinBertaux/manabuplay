@@ -47,10 +47,20 @@
   font: inherit;
 }
 
-/* Nav desktop : groupe type lecteur K7 (segments collés, radius aux extrémités). */
+.public-mode-menu {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .public-mode-menu {
+    display: none;
+  }
+}
+
+/* Nav desktop : groupe type lecteur K7, visible à partir de md (768px). */
 .public-mode-nav-segmented {
   box-sizing: border-box;
-  display: inline-grid;
+  display: none;
   width: max-content;
   max-width: 100%;
   grid-template-columns: repeat(3, 88px);
@@ -63,6 +73,24 @@
     0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
+@media (min-width: 768px) {
+  .public-mode-nav-segmented {
+    display: inline-grid;
+    justify-self: center;
+  }
+}
+
+/* locale switch : masqué sous md (aligné Tailwind md:flex sur le markup). */
+.public-locale-switch {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .public-locale-switch {
+    display: flex;
+  }
+}
+
 .public-mode-seg {
   box-sizing: border-box;
   min-width: 0;
@@ -72,12 +100,6 @@
   text-align: center;
   white-space: nowrap;
   background: rgba(26, 22, 48, 0.5);
-}
-
-@media (min-width: 768px) {
-  .public-mode-nav-segmented {
-    justify-self: center;
-  }
 }
 
 .public-mode-seg--first {
