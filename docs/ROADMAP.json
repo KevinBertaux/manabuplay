@@ -324,7 +324,7 @@
           "priority": "P1",
           "area": "landing",
           "type": "ux",
-          "notes": "Desktop et Playwright couvrent deja les flux critiques. Selecteur EN|FR masque sur mobile (<760px) pour liberer la nav. Reste verification manuelle iOS/Android : quiz, archives, nav."
+          "notes": "Desktop et Playwright couvrent deja les flux critiques. Selecteur EN|FR masque sous md (<768px) pour liberer la nav. Reste verification manuelle iOS/Android : quiz, archives, nav."
         },
         {
           "id": "v01-public-settings-cog",

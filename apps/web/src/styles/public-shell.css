@@ -1,0 +1,152 @@
+/*
+ * Nav + footer publics (shell).
+ * Mobile-first : défaut = mobile, un seul palier md (768px).
+ * Géométrie layout : spacing/tailles px pairs (docs/UI-RULES.fr.md §2).
+ * Exempt : border-width, blur, shadow, filter, etc. (§2 border, §4 effets).
+ */
+
+:root {
+  --public-nav-h: 3.25rem; /* 52px — py-2 + marque 36px */
+}
+
+.public-site-footer {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.public-site-footer-inner {
+  display: grid;
+  gap: 1rem;
+  padding-top: 0.25rem;
+  text-align: center;
+}
+
+.public-site-footer-zone--brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.public-site-footer-zone--legal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.public-site-footer-nav {
+  justify-content: center;
+}
+
+.public-site-footer-cookie-btn {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+}
+
+/* Nav desktop : groupe type lecteur K7 (segments collés, radius aux extrémités). */
+.public-mode-nav-segmented {
+  box-sizing: border-box;
+  display: inline-grid;
+  width: max-content;
+  max-width: 100%;
+  grid-template-columns: repeat(3, 88px);
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 92, 246, 0.22);
+  background: rgba(14, 12, 24, 0.96);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.48),
+    0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.public-mode-seg {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 8px 8px;
+  border: 0;
+  border-radius: 0;
+  text-align: center;
+  white-space: nowrap;
+  background: rgba(26, 22, 48, 0.5);
+}
+
+@media (min-width: 768px) {
+  .public-mode-nav-segmented {
+    justify-self: center;
+  }
+}
+
+.public-mode-seg--first {
+  border-radius: 8px 0 0 8px;
+}
+
+.public-mode-seg--last {
+  border-radius: 0 8px 8px 0;
+}
+
+.public-mode-seg--mid,
+.public-mode-seg--last {
+  border-left: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.public-mode-seg:hover {
+  color: #fff;
+  background: rgba(34, 211, 238, 0.08);
+}
+
+.public-mode-seg[aria-current="page"] {
+  color: #fff;
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.16), rgba(26, 22, 48, 0.72));
+  box-shadow: inset 0 1px 0 rgba(34, 211, 238, 0.4);
+}
+
+.public-mode-menu-panel {
+  top: 100%;
+  margin-top: 0.5rem;
+  min-width: 168px;
+  gap: 0.5rem;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .public-site-footer {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .public-site-footer-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 1.5rem 2rem;
+  }
+
+  .public-site-footer-zone--brand {
+    align-items: flex-start;
+    justify-self: start;
+    text-align: left;
+  }
+
+  .public-site-footer-zone--tagline {
+    justify-self: center;
+    text-align: center;
+  }
+
+  .public-site-footer-zone--legal {
+    align-items: flex-end;
+    justify-self: end;
+    text-align: right;
+  }
+
+  .public-site-footer-nav {
+    justify-content: flex-end;
+  }
+
+  .public-site-footer-copy {
+    text-align: right;
+  }
+}

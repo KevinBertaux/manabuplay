@@ -37,7 +37,10 @@ function walkDirectory(directoryPath) {
     const fileCounters = {
       styleAttributes: countMatches(source, /\bstyle=/g),
       inlineEventHandlers: countMatches(source, /\bon[a-z]+=/g),
-      inlineScripts: countMatches(source, /<script\b(?=[^>]*(?:set:html=|is:inline))[^>]*>/g),
+      /* is:inline + src="/public/..." is required by Astro for public assets; not inline JS. */
+      inlineScripts:
+        countMatches(source, /<script\b[^>]*\bset:html=/g) +
+        countMatches(source, /<script\b(?=[^>]*\bis:inline\b)(?![^>]*\bsrc=)[^>]*>/g),
       styleBlocks: countMatches(source, /<style\b/g),
     };
 
