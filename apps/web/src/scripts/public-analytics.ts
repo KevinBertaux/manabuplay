@@ -52,10 +52,16 @@ function getPrivacyPath(locale: keyof typeof COPY): string {
   return locale === "fr" ? "/fr/privacy/" : "/en/privacy/";
 }
 
+function removeConsentBanner() {
+  document.querySelector(".public-analytics-consent")?.remove();
+}
+
 function showConsentBanner(projectId: string) {
   const locale = getLocale();
   const strings = COPY[locale];
   const privacyPath = getPrivacyPath(locale);
+
+  removeConsentBanner();
 
   const banner = document.createElement("aside");
   banner.className = "public-analytics-consent";
@@ -104,8 +110,32 @@ function showConsentBanner(projectId: string) {
   document.body.append(banner);
 }
 
+export function openAnalyticsConsentPreferences() {
+  const projectId = getProjectId();
+  if (!projectId) {
+    return;
+  }
+  showConsentBanner(projectId);
+}
+
+function bindConsentPreferencesTriggers() {
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) {
+      return;
+    }
+    if (!target.closest("[data-open-analytics-consent]")) {
+      return;
+    }
+    event.preventDefault();
+    openAnalyticsConsentPreferences();
+  });
+}
+
 function initPublicAnalytics() {
   const projectId = getProjectId();
+  bindConsentPreferencesTriggers();
+
   if (!projectId) {
     return;
   }
@@ -123,5 +153,3 @@ function initPublicAnalytics() {
 }
 
 initPublicAnalytics();
-
-export {};

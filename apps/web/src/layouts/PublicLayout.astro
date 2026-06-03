@@ -46,8 +46,10 @@ function getLocaleHref(targetLocale: PublicLocale) {
   return activeMode ? getLocalizedModePath(targetLocale, activeMode) : getLocalizedHomePath(targetLocale);
 }
 
-const topNavClass =
-  "fixed inset-x-0 top-0 z-50 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 border-b border-[rgba(139,92,246,.15)] bg-[rgba(10,9,17,.85)] px-6 py-2 backdrop-blur-[16px] max-[760px]:grid-cols-[1fr_auto] max-[760px]:gap-2 max-[760px]:px-3";
+const topNavShellClass =
+  "public-top-nav fixed inset-x-0 top-0 z-50 border-b border-[rgba(139,92,246,.15)] bg-[rgba(10,9,17,.85)] backdrop-blur-[16px]";
+const topNavInnerClass =
+  "public-top-nav-inner public-shell-inner grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-6 py-2.5 min-[1024px]:gap-6 min-[1024px]:py-3 max-[760px]:grid-cols-[1fr_auto] max-[760px]:gap-2 max-[760px]:px-3";
 const localeSwitchClass =
   "flex items-center gap-1 rounded-md border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1 text-[rgba(139,92,246,.25)] max-[760px]:hidden";
 const brandLinkClass = "flex min-w-0 items-center gap-3 no-underline";
@@ -74,8 +76,8 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
 <html lang={locale} id="htmlRoot" class:list={[{ "embed-mockup": isEmbedMockup }]}>
 <head>
   <meta charset="UTF-8" />
-  <script src="/scripts/embed-mockup-boot.js"></script>
-  {import.meta.env.DEV ? <script src="/scripts/dev-mobile-toolbar-hide.js"></script> : null}
+  <script is:inline src="/scripts/embed-mockup-boot.js"></script>
+  {import.meta.env.DEV ? <script is:inline src="/scripts/dev-mobile-toolbar-hide.js"></script> : null}
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
@@ -87,8 +89,9 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
 </head>
-<body class="text-slate-200" data-clarity-project-id={clarityProjectId || undefined}>
-  <nav class={topNavClass}>
+<body class="public-site-body text-slate-200" data-clarity-project-id={clarityProjectId || undefined}>
+  <nav class={topNavShellClass} aria-label="Site">
+    <div class={topNavInnerClass}>
     <a class={brandLinkClass} href={getLocalizedHomePath(locale)} aria-label="ManabuPlay">
       <img
         src="/favicon.svg"
@@ -167,6 +170,7 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
           </>
         ))}
       </div>
+    </div>
     </div>
   </nav>
 

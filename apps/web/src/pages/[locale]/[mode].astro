@@ -15,9 +15,7 @@ import { buildPracticeBootData } from "../../../../../shared/lib/manabuplay-prac
 import { normalizePublicLocale } from "../../lib/public-locales";
 import {
   PUBLIC_MODE_COPY,
-  PUBLIC_NAV_HOME_LABEL,
   type PublicModeKey,
-  getLocalizedHomePath,
   getPublicStaticModePaths,
 } from "../../lib/public-routes";
 
@@ -51,7 +49,7 @@ const bootPayload = {
 };
 
 const modeMainClass =
-  "hero-bg flex min-h-[100svh] flex-col px-6 pb-12 pt-24 sm:pt-28";
+  "hero-bg flex flex-1 flex-col px-6 pb-12 pt-24 sm:pt-28";
 const modeDescriptionClass =
   "mx-auto mb-6 max-w-[720px] text-[clamp(1.05rem,1.7vw,1.28rem)] leading-[1.7] text-[rgba(226,217,243,.74)]";
 const archiveSelectedLineClass =
@@ -82,10 +80,6 @@ const getArchiveKindCopy = (tone: ArchiveCalendarTone) =>
 
 const noAttemptLabel = archiveCalendarCopy.noAttemptLabel;
 const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
-
-const modePageHomeRowClass = `mx-auto mb-2 flex w-full justify-start sm:mb-4 ${isArchivesMode ? "max-w-[980px]" : "max-w-5xl"}`;
-const modePageHomeLinkClass =
-  "inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 no-underline transition-colors hover:text-[var(--cyan)]";
 ---
 <PublicLayout
   locale={locale}
@@ -99,35 +93,14 @@ const modePageHomeLinkClass =
 >
   {isDailyMode ? (
     <main class={modeMainClass}>
-      <h1 class="sr-only">{copy.title[locale]}</h1>
-      <div class={modePageHomeRowClass}>
-        <a class={modePageHomeLinkClass} href={getLocalizedHomePath(locale)}>
-          <span aria-hidden="true">←</span>
-          {PUBLIC_NAV_HOME_LABEL[locale]}
-        </a>
-      </div>
       <PublicQuiz />
     </main>
   ) : isArcadeMode ? (
     <main class={modeMainClass}>
-      <h1 class="sr-only">{copy.title[locale]}</h1>
-      <div class={modePageHomeRowClass}>
-        <a class={modePageHomeLinkClass} href={getLocalizedHomePath(locale)}>
-          <span aria-hidden="true">←</span>
-          {PUBLIC_NAV_HOME_LABEL[locale]}
-        </a>
-      </div>
       <PublicQuiz />
     </main>
   ) : isArchivesMode ? (
     <main class={modeMainClass}>
-      <h1 class="sr-only">{copy.title[locale]}</h1>
-      <div class={modePageHomeRowClass}>
-        <a class={modePageHomeLinkClass} href={getLocalizedHomePath(locale)}>
-          <span aria-hidden="true">←</span>
-          {PUBLIC_NAV_HOME_LABEL[locale]}
-        </a>
-      </div>
       <section
         class="archive-calendar-shell mx-auto w-full"
         id="archives-list"
@@ -249,13 +222,6 @@ const modePageHomeLinkClass =
     </main>
   ) : (
     <main class={modeMainClass}>
-      <h1 class="sr-only">{copy.title[locale]}</h1>
-      <div class={modePageHomeRowClass}>
-        <a class={modePageHomeLinkClass} href={getLocalizedHomePath(locale)}>
-          <span aria-hidden="true">←</span>
-          {PUBLIC_NAV_HOME_LABEL[locale]}
-        </a>
-      </div>
       <p class={`${modeDescriptionClass} text-center`}>
         Mode: {mode} · Locale: {locale}
       </p>

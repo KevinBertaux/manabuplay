@@ -15,8 +15,12 @@ const locales: PublicLocale[] = ["fr", "en"];
     <meta name="robots" content="noindex, nofollow" />
     <title>Footer preview — ManabuPlay</title>
   </head>
-  <body class="flex min-h-[100svh] flex-col justify-end bg-[#0a0911] text-slate-200">
-    <PublicFooter locale={locale} />
+  <body
+    class="public-site-body flex min-h-[100svh] flex-col justify-end bg-[#0a0911] text-slate-200"
+    data-clarity-project-id="preview"
+  >
+    <PublicFooter locale={locale} forceCookiePreferences />
+    <script src="../../scripts/public-analytics.ts"></script>
     <p class="sr-only">Preview interne. Paramètre locale : {locales.join(", ")}.</p>
   </body>
 </html>

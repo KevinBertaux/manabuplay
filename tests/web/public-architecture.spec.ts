@@ -64,6 +64,11 @@ test.describe("public localized architecture", () => {
       await expect(page.locator(".public-site-footer")).toContainText(
         locale === "fr" ? "Site réalisé par Kxis" : "Built by Kxis",
       );
+      await expect(page.locator(".public-site-footer-zone--tagline")).toContainText(
+        locale === "fr"
+          ? "Quiz quotidiens de vocabulaire — gaming & pop culture"
+          : "Daily vocabulary quizzes — gaming & pop culture",
+      );
     });
   }
 
@@ -130,8 +135,7 @@ test.describe("public localized architecture", () => {
     await page.goto(`${ASTRO_URL}fr/arcade/`, { waitUntil: "domcontentloaded" });
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("h1")).toHaveText("Mode Arcade");
-    await expect(page.getByRole("link", { name: "Accueil" })).toHaveAttribute("href", "/fr/");
+    await expect(page.locator("a[data-public-route='arcade'][aria-current='page']")).toBeVisible();
     await expect(page.locator(".public-locale-switch a", { hasText: "EN" })).toHaveAttribute(
       "href",
       "/en/arcade/",
@@ -143,8 +147,7 @@ test.describe("public localized architecture", () => {
     await prepareQuizPage(page, `${ASTRO_URL}fr/daily/`);
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("h1")).toHaveText("Quiz japonais du jour");
-    await expect(page.getByRole("link", { name: "Accueil" })).toHaveAttribute("href", "/fr/");
+    await expect(page.locator("a[data-public-route='daily'][aria-current='page']")).toBeVisible();
     await expect(page.locator("#quizTitleScreen")).toBeVisible();
     await expect(page.locator("#quizTitleHeadline")).toContainText("Quotidien du");
     await expect(page.locator("#diffGrid")).toBeHidden();
@@ -162,8 +165,7 @@ test.describe("public localized architecture", () => {
     await prepareQuizPage(page, `${ASTRO_URL}fr/arcade/`);
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("h1")).toHaveText("Mode Arcade");
-    await expect(page.getByRole("link", { name: "Accueil" })).toHaveAttribute("href", "/fr/");
+    await expect(page.locator("a[data-public-route='arcade'][aria-current='page']")).toBeVisible();
     await expect(page.locator("#diffGrid .diff-card")).toHaveCount(4);
     await expect(page.locator("#diffGrid .diff-card").nth(1)).toContainText("STANDARD");
 
@@ -187,8 +189,7 @@ test.describe("public localized architecture", () => {
     await prepareQuizPage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
 
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
-    await expect(page.locator("h1")).toHaveText("Archives");
-    await expect(page.getByRole("link", { name: "Accueil" })).toHaveAttribute("href", "/fr/");
+    await expect(page.locator("a[data-public-route='archives'][aria-current='page']")).toBeVisible();
     await expect(
       page.locator("[data-archive-date='2026-04-16'][data-archive-tone='archive']"),
     ).toHaveClass(/is-active/);

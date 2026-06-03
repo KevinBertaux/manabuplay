@@ -35,8 +35,8 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
 <html lang={locale} class:list={[{ "embed-mockup": isEmbedMockup }]}>
   <head>
     <meta charset="UTF-8" />
-    <script src="/scripts/embed-mockup-boot.js"></script>
-    {import.meta.env.DEV ? <script src="/scripts/dev-mobile-toolbar-hide.js"></script> : null}
+    <script is:inline src="/scripts/embed-mockup-boot.js"></script>
+    {import.meta.env.DEV ? <script is:inline src="/scripts/dev-mobile-toolbar-hide.js"></script> : null}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Mobile landing preview — {variant}</title>

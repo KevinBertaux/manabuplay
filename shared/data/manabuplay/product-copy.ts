@@ -87,8 +87,10 @@ export const CURRENT_PRODUCT_COPY = {
     email_invalid_hint: "Enter a valid email address.",
     email_legal: "No spam. Unsubscribe anytime.",
     footer_agency: "Built by Kxis",
+    footer_tagline: "Daily vocabulary quizzes — gaming & pop culture",
     footer_legal: "Legal notice",
     footer_privacy: "Privacy",
+    footer_cookies: "Cookie preferences",
     next_word: "NEXT WORD →",
     see_results: "SEE RESULTS →",
     results: [
@@ -213,8 +215,10 @@ export const CURRENT_PRODUCT_COPY = {
     email_invalid_hint: "Entre une adresse email valide.",
     email_legal: "Zéro spam. Désabonnement à tout moment.",
     footer_agency: "Site réalisé par Kxis",
+    footer_tagline: "Quiz quotidiens de vocabulaire — gaming & pop culture",
     footer_legal: "Mentions légales",
     footer_privacy: "Confidentialité",
+    footer_cookies: "Préférences cookies",
     next_word: "MOT SUIVANT →",
     see_results: "VOIR LES RÉSULTATS →",
     results: [
