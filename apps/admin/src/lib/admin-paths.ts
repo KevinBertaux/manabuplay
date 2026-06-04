@@ -8,4 +8,12 @@ export const ADMIN_APP_ROOT = path.resolve(adminSrcDir, "../..");
 
 export const ADMIN_PUBLIC_DIR = path.join(ADMIN_APP_ROOT, "public");
 
-export const INSIGHT_CAPTURES_DIR = path.join(ADMIN_PUBLIC_DIR, "insight-captures");
+/** Captures Insight générées localement (`npm run insight:capture`). */
+export const INSIGHT_CAPTURES_DIR = path.join(
+  ADMIN_APP_ROOT,
+  "..",
+  "..",
+  "tmp",
+  "captures",
+  "insight",
+);

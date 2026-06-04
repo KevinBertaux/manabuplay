@@ -15,7 +15,7 @@ const TARGET_DIRS = [
 const TARGET_EXTENSIONS = new Set([".astro", ".css", ".html"]);
 const IGNORED_DIRS = new Set([
   ".astro",
-  ".codex-temp",
+  "tmp",
   "dist",
   "legacy",
   "node_modules",

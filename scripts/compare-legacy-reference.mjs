@@ -7,7 +7,7 @@ import { PNG } from "pngjs";
 import pixelmatch from "pixelmatch";
 
 const root = process.cwd();
-const tempDir = path.join(root, ".codex-temp", "visual-compare");
+const tempDir = path.join(root, "tmp", "compare", "visual-compare");
 const reportPath = path.join(tempDir, "report.json");
 const browserCandidates = [
   "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",

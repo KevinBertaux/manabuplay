@@ -1,27 +1,9 @@
-# Legacy
+# Legacy (parité visuelle)
 
-Le legacy encore conservé dans le repo est volontairement limité.
+Seul fichier encore requis par le tooling :
 
-## Utile
+- `reference-landing.html` — référence statique pour `scripts/compare-legacy-reference.mjs` et les tests de parité Playwright.
 
-- `legacy/reference-landing.html`
-  Référence statique encore utilisée pour les comparaisons visuelles et certains scripts de parité.
+Archives documentaires et données de migration : voir `docs/archive/`.
 
-## Archivé
-
-- `legacy/docs-archive/`
-  Snapshots documentaires gardés pour mémoire de migration uniquement.
-  Ce ne sont plus des sources actives du projet.
-
-- `legacy/data-archive/raw.generated.js`
-  Snapshot généré de l'ancien seed, conservé uniquement pour mémoire de migration.
-
-## Source canonique actuelle
-
-Les sources actives vivent ici :
-
-- `docs/ROADMAP.json`
-- `docs/MANABUPLAY_ATLAS.md`
-- `docs/BUSINESS.md`
-
-Si un document legacy contredit ces fichiers, le legacy a tort.
+Sources actives : `docs/ROADMAP.json`, `docs/MANABUPLAY_ATLAS.md`, `docs/BUSINESS.md`.

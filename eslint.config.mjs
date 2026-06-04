@@ -10,8 +10,6 @@ export default tseslint.config(
     ignores: [
       ".astro/**",
       "**/.astro/**",
-      ".codex-temp/**",
-      "**/.codex-temp/**",
       "coverage/**",
       "**/coverage/**",
       "dist/**",

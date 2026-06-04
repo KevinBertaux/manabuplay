@@ -12,7 +12,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
 # environment variables
 .env
 .env.production
@@ -28,9 +27,12 @@ playwright-report/
 test-results/
 coverage/
 
-# local comparison artifacts
-.codex-temp/
+# local residues (captures, audits, compare outputs)
 tmp/
+.codex-temp/
 artifacts/
-apps/admin/public/insight-captures/*
-!apps/admin/public/insight-captures/manifest.json
+
+# Cursor local state (keep shared rules)
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**

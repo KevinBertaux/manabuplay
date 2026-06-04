@@ -7,8 +7,9 @@ Repository for `v0.1`, now split into two Astro apps.
 - `apps/web`: public ManabuPlay site
 - `apps/admin`: local admin dashboard
 - `shared`: shared quiz data and business logic
-- `docs`: roadmap, atlas, business notes
-- `legacy`: only the archived parity reference, data snapshots and document archives kept for migration memory
+- `docs`: roadmap, atlas, business notes (`docs/archive/` for frozen snapshots)
+- `legacy`: `reference-landing.html` only (visual parity scripts)
+- `tmp/`: local captures, audits, compare outputs (gitignored)
 
 Current repo state:
 
@@ -16,7 +17,7 @@ Current repo state:
 - local `check` and CI now enforce the same base quality contract
 - the critical quiz runtime now lives in typed source modules, not in a single legacy public JS file
 - active catalog data, quiz pool and builders now run on the pack-first canon
-- legacy generated data has been pushed out of active code paths into `legacy/data-archive`
+- legacy generated data lives in `docs/archive/migration-data/` (not in active code paths)
 - a visual audit against `90f13f8` was completed and the main admin pack-card regressions were fixed on `main`
 
 ## Stack
@@ -72,5 +73,6 @@ Ports:
 
 - Product roadmap source: `docs/ROADMAP.json`
 - Product atlas: `docs/MANABUPLAY_ATLAS.md`
+- Repo layout: `docs/REPO_LAYOUT.md`
 - Business strategy: `docs/BUSINESS.md`
 - Target domain: `https://manabuplay.com`

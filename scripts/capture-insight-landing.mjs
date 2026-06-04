@@ -1,13 +1,11 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { ASTRO_BIN, ROOT_DIR } from "./workspace-utils.mjs";
 
-const ADMIN_CAPTURES_DIR = path.join(ROOT_DIR, "apps", "admin", "public", "insight-captures");
+const INSIGHT_CAPTURES_DIR = path.join(ROOT_DIR, "tmp", "captures", "insight");
 
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const useCleanPreview = process.argv.includes("--clean") || process.env.INSIGHT_CLEAN === "1";
 const previewPort = Number(process.env.INSIGHT_PREVIEW_PORT ?? "4179");
 const baseUrl = (
@@ -30,8 +28,7 @@ const SECTIONS = [
   { key: "waitlist", selector: "#notify" },
 ];
 
-const artifactDir = path.join(repoRoot, "artifacts", "insight");
-const adminPublicDir = ADMIN_CAPTURES_DIR;
+const capturesDir = INSIGHT_CAPTURES_DIR;
 
 const HIDE_DEVTOOLS_CSS = `
   astro-dev-toolbar { display: none !important; }
@@ -106,12 +103,10 @@ function startPreviewServer() {
 }
 
 function clearPngOutputs() {
-  for (const dir of [artifactDir, adminPublicDir]) {
-    fs.mkdirSync(dir, { recursive: true });
-    for (const name of fs.readdirSync(dir)) {
-      if (name.endsWith(".png")) {
-        fs.unlinkSync(path.join(dir, name));
-      }
+  fs.mkdirSync(capturesDir, { recursive: true });
+  for (const name of fs.readdirSync(capturesDir)) {
+    if (name.endsWith(".png")) {
+      fs.unlinkSync(path.join(capturesDir, name));
     }
   }
 }
@@ -166,7 +161,7 @@ function writeManifest(files) {
     files: [...files].sort(),
   };
   fs.writeFileSync(
-    path.join(adminPublicDir, "manifest.json"),
+    path.join(capturesDir, "manifest.json"),
     `${JSON.stringify(manifest, null, 2)}\n`,
     "utf8",
   );
@@ -199,9 +194,8 @@ async function captureAll(previewChild) {
         for (const section of SECTIONS) {
           await captureSectionViewport(page, section.selector);
           const filename = `${locale}-${viewport.suffix}-${section.key}.png`;
-          const artifactPath = path.join(artifactDir, filename);
-          await page.screenshot({ path: artifactPath, fullPage: false });
-          fs.copyFileSync(artifactPath, path.join(adminPublicDir, filename));
+          const outputPath = path.join(capturesDir, filename);
+          await page.screenshot({ path: outputPath, fullPage: false });
           capturedFiles.push(filename);
           console.log(`OK ${filename} ← ${section.key} (${viewport.width}×${viewport.height})`);
         }
@@ -217,7 +211,7 @@ async function captureAll(previewChild) {
   }
 
   writeManifest(capturedFiles);
-  console.log(`\n${capturedFiles.length} captures (viewport / section) : ${adminPublicDir}`);
+  console.log(`\n${capturedFiles.length} captures (viewport / section) : ${capturesDir}`);
   console.log("Insight : uploader chaque PNG séparément (pas de long screenshot).");
   console.log("Admin : http://localhost:4322/pilotage/insight/");
 }
