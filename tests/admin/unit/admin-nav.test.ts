@@ -49,7 +49,7 @@ describe("admin nav", () => {
 
     expect(mockupsItem?.activeKey).toBe("mockups");
     expect(mockupsItem?.children?.map((item) => item.label)).toEqual([
-      "Réponses",
+      "Quiz A/B",
       "Tiers",
       "Archives",
       "Typo",
@@ -70,15 +70,15 @@ describe("admin nav", () => {
   it("marks only the current mockup child active by path", () => {
     const designGroup = ADMIN_GROUPS.find((group) => group.label === "Design");
     const mockupsItem = designGroup?.items.find((item) => item.label === "Mockups");
-    const answerCards = mockupsItem?.children?.find((item) => item.label === "Réponses");
+    const quizChantiers = mockupsItem?.children?.find((item) => item.label === "Quiz A/B");
     const archives = mockupsItem?.children?.find((item) => item.label === "Archives");
 
     expect(mockupsItem).toBeDefined();
-    expect(answerCards).toBeDefined();
+    expect(quizChantiers).toBeDefined();
     expect(archives).toBeDefined();
     expect(isAdminNavItemActive(mockupsItem!, "mockups", "/design/mockups/archives")).toBe(true);
     expect(isAdminNavItemActive(archives!, "mockups", "/design/mockups/archives")).toBe(true);
-    expect(isAdminNavItemActive(answerCards!, "mockups", "/design/mockups/archives")).toBe(false);
+    expect(isAdminNavItemActive(quizChantiers!, "mockups", "/design/mockups/archives")).toBe(false);
   });
 
   it("opens only the drawer matching the current section", () => {

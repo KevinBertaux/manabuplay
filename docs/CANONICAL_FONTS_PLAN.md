@@ -54,7 +54,7 @@ Statut :
 
 - Fait au lot 4 : ajout des variables canoniques `--font-body` et `--font-pixel` dans `shared/styles/foundation.css`.
 - Fait au lot 4 : les `font-family` explicites de `admin-pages.css` utilisent les variables canoniques au lieu de répéter les familles.
-- Fait au lot 4 : les mockups actifs `answer-cards` et `tier-breakdown` s'appuient sur `--font-body`.
+- Fait au lot 4 : les mockups actifs `quiz-chantiers` et `tier-breakdown` s'appuient sur `--font-body`.
 - Traité au lot 5 : les pages design legacy `brand-system`, `references/hero` et `references/quiz` ont été alignées sur les variables canoniques.
 
 ## Lot 5 - Pages design legacy
