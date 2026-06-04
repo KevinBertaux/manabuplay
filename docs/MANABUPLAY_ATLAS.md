@@ -299,6 +299,49 @@ Répartition de travail actuelle :
 - `2 T3`
 - `1 T4`
 
+#### Date du quotidien et fuseau (décision actuelle)
+
+Règle retenue pour l’instant : **minuit local du visiteur** (modèle proche de Wordle), pas une heure serveur Netlify ni un reset worldwide unique.
+
+Implémentation actuelle :
+
+- clé du jour : `YYYY-MM-DD` via `getLocalDateKey()` dans le navigateur (`apps/web/src/scripts/quiz-app/session.ts`) ;
+- libellé affiché (« Quotidien · … ») : formaté côté client à partir de cette clé ;
+- verrou « déjà joué aujourd’hui » et `localStorage` : même clé locale ;
+- génération déterministe du quiz : seedée par cette date.
+
+Ce n’est **pas** :
+
+- l’heure du déploiement Netlify au moment du jeu ;
+- un flip global à heure fixe pour tous (ex. minuit Pacific sur LinkedIn Games).
+
+Comparaison utile :
+
+| Modèle                    | Référence                        | Effet                                                                                                      |
+| ------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Minuit **local visiteur** | Wordle (NYT)                     | Chaque joueur change de jour à 00h chez lui ; même contenu global, pas le même instant calendaire partout. |
+| Minuit **Pacific** global | LinkedIn Games (aide officielle) | Un seul instant worldwide ; en France le nouveau puzzle arrive le matin, à Los Angeles à minuit.           |
+| Minuit **UTC**            | Jeux serveur classiques          | Déterministe côté ops ; moins intuitif pour le joueur.                                                     |
+
+LinkedIn ne publie pas « à 9h partout » : c’est **00:00 PT pour tout le monde**. À 9h en France, le puzzle du jour global est déjà actif depuis plusieurs heures.
+
+Wordle fait l’inverse : à 9h en France tu es sur le puzzle du jour français ; à 3h du matin à New York tu peux encore être sur la veille.
+
+Conséquence produit ManabuPlay :
+
+- on garde le **local** tant qu’on n’a pas besoin que deux joueurs qui partagent à la même heure wall-clock aient **obligatoirement** la même date affichée ;
+- un passage futur à PT ou UTC serait un **choix produit explicite** (copy utilisateur + éventuelle logique serveur).
+
+Nuance archives :
+
+- le **jeu** archive / quotidien côté runtime suit le local du navigateur ;
+- le **calendrier** HTML statique des archives est encore figé à la date du **build** (`getArchiveMonthGroups` au build Astro) — à hydrater côté client si la case « aujourd’hui » doit être live sans redeploy.
+
+Questions ouvertes (non bloquantes) :
+
+- faut-il un jour aligner le partage social sur un fuseau global (PT / UTC) ?
+- hydrate-t-on le calendrier archives au chargement pour refléter le « aujourd’hui » du visiteur ?
+
 ### Archives
 
 Les `Archives` :

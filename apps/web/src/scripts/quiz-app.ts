@@ -368,13 +368,36 @@ function applyLang() {
   }
 }
 
+function syncShellLaunchLayout() {
+  const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
+  const diffArea = document.getElementById("diffArea");
+  const quizArea = document.getElementById("quizArea");
+  const resultsArea = document.getElementById("resultsArea");
+  const quizSection = document.getElementById("quiz");
+  const isPreLaunch =
+    diffArea instanceof HTMLElement &&
+    !diffArea.hidden &&
+    quizArea instanceof HTMLElement &&
+    quizArea.hidden &&
+    resultsArea instanceof HTMLElement &&
+    resultsArea.hidden;
+
+  quizShell?.classList.toggle("is-pre-launch", isPreLaunch);
+  quizSection?.classList.toggle("public-quiz-section--pre-launch", isPreLaunch);
+}
+
 function renderDiffGrid() {
   const grid = document.getElementById("diffGrid");
   const titleScreen = document.getElementById("quizTitleScreen");
+  const pickerTitle = document.getElementById("diffPickerTitle");
   const startButton = getRequiredElement<HTMLButtonElement>("startBtn");
   const defaultStartSlot = document.getElementById("defaultStartSlot");
   const singleRunStartSlot = document.getElementById("singleRunStartSlot");
   if (!(grid instanceof HTMLElement)) return;
+
+  if (pickerTitle instanceof HTMLElement) {
+    pickerTitle.hidden = IS_SINGLE_RUN_MODE;
+  }
 
   grid.innerHTML = "";
   grid.hidden = IS_SINGLE_RUN_MODE;
@@ -393,6 +416,7 @@ function renderDiffGrid() {
     if (currentDiff) {
       startButton.classList.add("ready");
     }
+    syncShellLaunchLayout();
     return;
   }
 
@@ -424,6 +448,8 @@ function renderDiffGrid() {
     card.addEventListener("click", () => selectDiff(difficulty));
     grid.appendChild(card);
   });
+
+  syncShellLaunchLayout();
 }
 
 function selectDiff(difficulty: Difficulty) {
@@ -506,20 +532,33 @@ function primeCompletedDailyShareState(
   };
 }
 
+function formatSingleRunHeadline(formattedDate: string, isArchiveMode: boolean) {
+  if (isArchiveMode) return formattedDate;
+  return currentLang === "fr" ? `Quotidien · ${formattedDate}` : `Daily · ${formattedDate}`;
+}
+
+function formatSingleRunPreCopy(isArchiveMode: boolean) {
+  const key = isArchiveMode ? "quiz_pre_copy_archive" : "quiz_pre_copy_daily";
+  const fallback =
+    currentLang === "fr"
+      ? isArchiveMode
+        ? "10 questions · rejoue ce quotidien"
+        : "10 questions · renouvelée chaque jour"
+      : isArchiveMode
+        ? "10 questions · replay this daily run"
+        : "10 questions · refreshed every day";
+  return getTranslatedText(key, fallback);
+}
+
 function renderSingleRunTitleScreen() {
   if (!IS_SINGLE_RUN_MODE) return;
 
   const formattedDate = formatSessionDate(sessionDateKey);
   const isArchiveMode = MANABUPLAY_MODE === "archives";
   const completedDaily = getCompletedDailyRunRecord();
-  const metaSecondary = document.getElementById("quizTitleMetaSecondary");
 
   if (completedDaily) {
     primeCompletedDailyShareState(completedDaily);
-    setElementText(
-      "quizTitleKicker",
-      currentLang === "fr" ? "Run du jour jouée" : "Today's run played",
-    );
     setElementText("quizTitleHeadline", currentLang === "fr" ? "Quotidien terminé" : "Daily done");
     setCompletedDailyTitleCopy(
       currentLang === "fr"
@@ -529,50 +568,12 @@ function renderSingleRunTitleScreen() {
         ? "Reviens demain pour une nouvelle run."
         : "Come back tomorrow for a new run.",
     );
-    setElementText("quizTitleMetaPrimary", `${completedDaily.correct}/${completedDaily.total}`);
-    if (metaSecondary instanceof HTMLElement) {
-      metaSecondary.hidden = false;
-      metaSecondary.textContent =
-        currentLang === "fr" ? "Archive disponible demain" : "Archived tomorrow";
-    }
     syncDailyLaunchControls();
     return;
   }
 
-  setElementText(
-    "quizTitleKicker",
-    currentLang === "fr"
-      ? isArchiveMode
-        ? getTranslatedText("archive_title_kicker", "Archive")
-        : "Défi du jour"
-      : isArchiveMode
-        ? getTranslatedText("archive_title_kicker", "Archive")
-        : "Today's run",
-  );
-  setElementText(
-    "quizTitleHeadline",
-    currentLang === "fr"
-      ? isArchiveMode
-        ? formattedDate
-        : `Quotidien du ${formattedDate}`
-      : isArchiveMode
-        ? formattedDate
-        : `${formattedDate} daily`,
-  );
-  setTitleCopyText(
-    currentLang === "fr"
-      ? isArchiveMode
-        ? getTranslatedText("archive_title_copy", "Rejoue ce quotidien en 10 questions.")
-        : "Une run de 10 questions, renouvelée chaque jour."
-      : isArchiveMode
-        ? getTranslatedText("archive_title_copy", "Replay this 10-question daily run.")
-        : "A 10-question run, refreshed every day.",
-  );
-  setElementText("quizTitleMetaPrimary", currentLang === "fr" ? "10 questions" : "10 questions");
-  if (metaSecondary instanceof HTMLElement) {
-    metaSecondary.textContent = "";
-    metaSecondary.hidden = true;
-  }
+  setElementText("quizTitleHeadline", formatSingleRunHeadline(formattedDate, isArchiveMode));
+  setTitleCopyText(formatSingleRunPreCopy(isArchiveMode));
   syncDailyLaunchControls();
 }
 
@@ -583,6 +584,7 @@ function resetQuizToTitleScreen() {
   hideElement(getRequiredElement<HTMLElement>("quizArea"));
   hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   renderSingleRunTitleScreen();
+  syncShellLaunchLayout();
 }
 
 function selectArchiveDate(dateKey: string) {
@@ -1054,6 +1056,7 @@ function launchQuiz() {
   showElement(getRequiredElement<HTMLElement>("hudRow"));
   showElement(getRequiredElement<HTMLElement>("quizArea"));
   hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
+  syncShellLaunchLayout();
   renderQuestion();
   requestAnimationFrame(() => {
     scrollQuizSectionIntoView();

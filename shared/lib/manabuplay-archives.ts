@@ -27,6 +27,7 @@ export interface ArchiveCalendarCell {
   dateKey?: string;
   day?: string;
   href?: string;
+  dailyHref?: string;
   disabled?: boolean;
   isSelected?: boolean;
 }
@@ -50,6 +51,7 @@ export type ArchiveCalendarCopy = {
   noAttemptLabel: string;
   playAction: string;
   replayAction: string;
+  goToDaily: string;
   attemptSingular: string;
   attemptPlural: string;
   summaryPlayed: string;
@@ -72,6 +74,7 @@ const ARCHIVE_CALENDAR_COPY = {
     noAttemptLabel: "0 attempts",
     playAction: "Play",
     replayAction: "Replay",
+    goToDaily: "Daily",
     attemptSingular: "attempt",
     attemptPlural: "attempts",
     summaryPlayed: "played",
@@ -92,6 +95,7 @@ const ARCHIVE_CALENDAR_COPY = {
     noAttemptLabel: "0 tentative",
     playAction: "Jouer",
     replayAction: "Rejouer",
+    goToDaily: "Quotidien",
     attemptSingular: "tentative",
     attemptPlural: "tentatives",
     summaryPlayed: "joués",
@@ -243,8 +247,9 @@ export function getArchiveMonthGroups({
             tone: "today",
             dateKey,
             day,
+            dailyHref: `/${locale}/daily/`,
             disabled: true,
-            isSelected,
+            isSelected: false,
           };
         }
 

@@ -12,6 +12,20 @@ const removedLayers = [
   "Défi du jour · traits décor (meter)",
   "10 questions en meta doublon",
 ];
+
+const retouchLayers = [
+  "Un seul cadre (plus shell grille + panneau interne)",
+  "Carte hauteur contenu (plus min-height 440px)",
+  "Vue mode : 100dvh + spacers (pattern B)",
+  "Titre date en body bold · CTA pixel seulement",
+];
+
+/** Exemple de libellé si rendu côté visiteur (fuseau local du navigateur). */
+const mockVisitorDateLabel = new Intl.DateTimeFormat("fr-FR", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+}).format(new Date());
 ---
 
 <DesignDocLayout
@@ -69,7 +83,9 @@ const removedLayers = [
             </div>
           </div>
         </div>
-        <p class="qc-shot-note">Arcade : grille 4 difficultés + CTA, sans bloc intro.</p>
+        <p class="qc-shot-note">
+          v1 validée copy · coque encore trop haute en web. Voir <a href="#chantier-a-retouches">retouches A+B</a>.
+        </p>
       </article>
 
       <article class="qc-shot">
@@ -92,6 +108,94 @@ const removedLayers = [
         </div>
       </article>
     </div>
+  </section>
+
+  <section
+    class="qc-chantier qc-chantier--retouches"
+    id="chantier-a-retouches"
+    aria-labelledby="chantier-a-retouches-title"
+  >
+    <div class="qc-chantier-head">
+      <span class="qc-chantier-tag">Retouches · post-capture</span>
+      <h2 id="chantier-a-retouches-title">A compact + layout B (cible web)</h2>
+      <p>
+        Réponse à la capture <code>/fr/daily/</code> : même texte, mais carte à hauteur contenu, un seul
+        cadre, typo homogène sur la date, espace dans la vue pas dans la coque vide.
+      </p>
+      <ul class="qc-retouches" aria-label="Retouches proposées">
+        {retouchLayers.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <p class="qc-shot-note">
+        Date d’exemple : <strong>Quotidien · {mockVisitorDateLabel}</strong>. Règle fuseau → atlas §9.
+      </p>
+    </div>
+
+    <div class="qc-pair" aria-label="Mockups retouches quotidien">
+      <article class="qc-shot">
+        <h3>Desktop</h3>
+        <div class="qc-device qc-device--desktop" style={`--w: ${DESKTOP_W}px; --h: ${DESKTOP_H}px;`}>
+          <div class="qc-device-chrome"><span>{DESKTOP_W}px · 100dvh</span></div>
+          <div class="qc-canvas qc-canvas--a-v2">
+            <div class="qc-nav qc-nav--desktop">
+              <span class="qc-brand">ManabuPlay</span>
+              <span class="qc-nav-modes">
+                <span class="is-active">Quotidien</span>
+                <span>Arcade</span>
+                <span>Archives</span>
+              </span>
+              <span class="qc-locale">FR | EN</span>
+            </div>
+            <main class="qc-viewport">
+              <div class="qc-view-breathe qc-view-breathe--top" aria-hidden="true">
+                <span>espace vue</span>
+              </div>
+              <div class="qc-shell qc-shell--pre-v2">
+                <p class="qc-shell-date-v2">Quotidien · {mockVisitorDateLabel}</p>
+                <p class="qc-shell-note-v2">10 questions · renouvelée chaque jour</p>
+                <button type="button" class="qc-cta">Jouer</button>
+              </div>
+              <div class="qc-view-breathe qc-view-breathe--bottom" aria-hidden="true">
+                <span>espace vue</span>
+              </div>
+            </main>
+            <footer class="qc-footer-stub">ManabuPlay · footer visible si place</footer>
+          </div>
+        </div>
+      </article>
+
+      <article class="qc-shot">
+        <h3>Mobile</h3>
+        <div class="qc-device qc-device--mobile" style={`--w: ${MOBILE_W}px; --h: ${MOBILE_H}px;`}>
+          <div class="qc-device-chrome"><span>{MOBILE_W}×{MOBILE_H}</span></div>
+          <div class="qc-canvas qc-canvas--a-v2 qc-canvas--a-v2-mobile">
+            <div class="qc-nav qc-nav--mobile">
+              <span class="qc-brand">ManabuPlay</span>
+              <span class="qc-burger" aria-hidden="true">≡</span>
+            </div>
+            <main class="qc-viewport">
+              <div class="qc-view-breathe qc-view-breathe--top" aria-hidden="true">
+                <span>espace vue</span>
+              </div>
+              <div class="qc-shell qc-shell--pre-v2">
+                <p class="qc-shell-date-v2">Quotidien · {mockVisitorDateLabel}</p>
+                <p class="qc-shell-note-v2">10 questions · renouvelée chaque jour</p>
+                <button type="button" class="qc-cta">Jouer</button>
+              </div>
+              <div class="qc-view-breathe qc-view-breathe--bottom" aria-hidden="true">
+                <span>espace vue</span>
+              </div>
+            </main>
+            <footer class="qc-footer-stub">ManabuPlay · footer</footer>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="qc-shot-note">
+      Nav / footer repoussés hors écran <strong>uniquement</strong> si la carte quiz remplit la hauteur (voir
+      chantier B en jeu).
+    </p>
   </section>
 
   <section class="qc-chantier qc-chantier--b" id="chantier-b" aria-labelledby="chantier-b-title">
@@ -246,7 +350,7 @@ const removedLayers = [
                 </div>
               </article>
               <div class="qc-view-breathe qc-view-breathe--bottom" aria-hidden="true">
-                <span>espace vue · footer hors vue</span>
+                <span>espace vue · quiz plein</span>
               </div>
             </main>
           </div>
@@ -306,6 +410,25 @@ const removedLayers = [
   .qc-chantier--b {
     border-color: rgba(34, 211, 238, 0.28);
     box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.06);
+  }
+
+  .qc-chantier--retouches {
+    border-color: rgba(232, 121, 249, 0.32);
+  }
+
+  .qc-retouches {
+    margin: 0.85rem 0 0;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background: rgba(232, 121, 249, 0.08);
+    border: 1px dashed rgba(232, 121, 249, 0.35);
+    color: #f5d0fe;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .qc-retouches li + li {
+    margin-top: 0.25rem;
   }
 
   .qc-chantier-head h2 {
@@ -422,6 +545,66 @@ const removedLayers = [
     --qc-card-gap: 0.5rem;
     --qc-panel-gap: 0.4rem;
     --qc-tight-gap: 0.3rem;
+  }
+
+  .qc-canvas--a-v2 {
+    display: flex;
+    flex-direction: column;
+    height: var(--h);
+    min-height: var(--h);
+    overflow: hidden;
+    --qc-view-pad-x: 1rem;
+    --qc-breathe-min: 0.85rem;
+  }
+
+  .qc-canvas--a-v2-mobile {
+    --qc-view-pad-x: 0.65rem;
+    --qc-breathe-min: 1.1rem;
+  }
+
+  .qc-canvas--a-v2 .qc-viewport {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .qc-footer-stub {
+    flex-shrink: 0;
+    padding: 0.45rem 0.75rem 0.55rem;
+    text-align: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: rgba(148, 163, 184, 0.72);
+    border-top: 1px solid rgba(139, 92, 246, 0.18);
+    background: rgba(10, 9, 17, 0.94);
+  }
+
+  .qc-shell--pre-v2 {
+    flex: 0 0 auto;
+    width: min(100%, 22rem);
+    margin: 0 auto;
+    padding: 1.1rem 1rem 1.15rem;
+    border-radius: 12px;
+    border: 1px solid rgba(139, 92, 246, 0.45);
+    background: rgba(10, 8, 20, 0.96);
+    box-shadow: 0 0 24px rgba(139, 92, 246, 0.1);
+    display: grid;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .qc-shell-date-v2 {
+    margin: 0;
+    font-size: clamp(1rem, 2.6vw, 1.12rem);
+    font-weight: 800;
+    line-height: 1.4;
+    color: #fff;
+  }
+
+  .qc-shell-note-v2 {
+    margin: 0;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #94a3b8;
   }
 
   .qc-dvh-label {

@@ -50,6 +50,10 @@ const bootPayload = {
 
 const modeMainClass =
   "hero-bg flex flex-1 flex-col px-6 pb-12 pt-24 sm:pt-28";
+const modeCenteredMainClass =
+  "public-mode-main hero-bg flex min-h-0 flex-1 flex-col px-6 pb-6 pt-[calc(var(--public-nav-h)+0.75rem)] sm:pb-8";
+const modeViewportClass = "public-mode-viewport flex min-h-0 flex-1 flex-col";
+const modeSpacerClass = "public-mode-spacer flex-1";
 const modeDescriptionClass =
   "mx-auto mb-6 max-w-[720px] text-[clamp(1.05rem,1.7vw,1.28rem)] leading-[1.7] text-[rgba(226,217,243,.74)]";
 const archiveSelectedLineClass =
@@ -61,17 +65,19 @@ const formatArchiveShortDate = (dateKey: string) =>
     month: "short",
   }).format(new Date(`${dateKey}T12:00:00`));
 
+const formatArchiveLongDate = (dateKey: string) =>
+  new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(`${dateKey}T12:00:00`));
+
 const getArchiveCellTitle = (dateKey: string, tone: string) => {
   if (tone === "today") return locale === "fr" ? "Quiz du jour" : "Today's quiz";
   if (tone === "archive") {
     return locale === "fr" ? `Rejouer le ${formatArchiveShortDate(dateKey)}` : `Replay ${formatArchiveShortDate(dateKey)}`;
   }
   return formatArchiveShortDate(dateKey);
-};
-
-const getArchiveCellNote = (tone: ArchiveCalendarTone) => {
-  if (tone === "today") return locale === "fr" ? "Dans Quotidien" : "In Daily";
-  return "";
 };
 
 type VisibleArchiveTone = Exclude<ArchiveCalendarTone, "empty">;
@@ -92,12 +98,20 @@ const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
   includeQuizRuntime={isQuizMode}
 >
   {isDailyMode ? (
-    <main class={modeMainClass}>
-      <PublicQuiz />
+    <main class={modeCenteredMainClass}>
+      <div class={modeViewportClass}>
+        <div class={modeSpacerClass} aria-hidden="true"></div>
+        <PublicQuiz />
+        <div class={modeSpacerClass} aria-hidden="true"></div>
+      </div>
     </main>
   ) : isArcadeMode ? (
-    <main class={modeMainClass}>
-      <PublicQuiz />
+    <main class={modeCenteredMainClass}>
+      <div class={modeViewportClass}>
+        <div class={modeSpacerClass} aria-hidden="true"></div>
+        <PublicQuiz />
+        <div class={modeSpacerClass} aria-hidden="true"></div>
+      </div>
     </main>
   ) : isArchivesMode ? (
     <main class={modeMainClass}>
@@ -150,6 +164,30 @@ const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
                 {month.cells.map((cell) =>
                   cell.tone === "empty" ? (
                     <span class="archive-calendar-cell archive-calendar-cell--empty" aria-hidden="true"></span>
+                  ) : cell.tone === "today" ? (
+                    <div
+                      class="archive-calendar-cell archive-calendar-cell--today"
+                      data-archive-date={cell.dateKey}
+                      data-archive-tone={cell.tone}
+                    >
+                      <span class="archive-calendar-cell-top">
+                        <strong>{cell.day}</strong>
+                        {getArchiveKindCopy(cell.tone) && <small>{getArchiveKindCopy(cell.tone)}</small>}
+                      </span>
+                      <span class="archive-calendar-cell-date">
+                        {formatArchiveLongDate(cell.dateKey!)}
+                      </span>
+                      <span class="archive-calendar-cell-title">
+                        {getArchiveCellTitle(cell.dateKey!, cell.tone)}
+                      </span>
+                      <a
+                        class="archive-calendar-daily-link"
+                        href={cell.dailyHref ?? `/${locale}/daily/`}
+                        data-archive-daily-link
+                      >
+                        {archiveCalendarCopy.goToDaily}
+                      </a>
+                    </div>
                   ) : cell.disabled ? (
                     <span
                       class:list={[
@@ -163,14 +201,11 @@ const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
                     >
                       <span class="archive-calendar-cell-top">
                         <strong>{cell.day}</strong>
-                        {cell.tone !== "today" && getArchiveKindCopy(cell.tone) && <small>{getArchiveKindCopy(cell.tone)}</small>}
+                        {getArchiveKindCopy(cell.tone) && <small>{getArchiveKindCopy(cell.tone)}</small>}
                       </span>
                       <span class="archive-calendar-cell-title">
                         {getArchiveCellTitle(cell.dateKey!, cell.tone)}
                       </span>
-                      {getArchiveCellNote(cell.tone) && (
-                        <span class="archive-calendar-cell-note">{getArchiveCellNote(cell.tone)}</span>
-                      )}
                     </span>
                   ) : (
                     <a

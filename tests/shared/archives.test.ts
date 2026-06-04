@@ -47,6 +47,8 @@ describe("buildArchivesBootData", () => {
     expect(may.cells.find((cell) => cell.dateKey === "2026-05-05")).toMatchObject({
       tone: "today",
       disabled: true,
+      dailyHref: "/fr/daily/",
+      isSelected: false,
     });
     expect(may.cells.find((cell) => cell.dateKey === "2026-05-06")).toMatchObject({
       tone: "future",

@@ -202,7 +202,7 @@ test.describe("public localized architecture", () => {
       desktopModeNav(page).locator("a[data-public-route='daily'][aria-current='page']"),
     ).toBeVisible();
     await expect(page.locator("#quizTitleScreen")).toBeVisible();
-    await expect(page.locator("#quizTitleHeadline")).toContainText("Quotidien du");
+    await expect(page.locator("#quizTitleHeadline")).toContainText("Quotidien ·");
     await expect(page.locator("#diffGrid")).toBeHidden();
     await expect(page.locator(".diff-card")).toHaveCount(0);
 
@@ -239,6 +239,22 @@ test.describe("public localized architecture", () => {
     await expect(page.locator("#hintTextSecondary")).toHaveClass(/is-revealed/);
     await page.locator("#answersGrid .answer-btn").first().click();
     await expect(page.locator("#explanationBox")).toBeVisible();
+  });
+
+  test("marks today on the archive calendar with a Daily link", async ({ page }) => {
+    await page.setViewportSize(DESKTOP_VIEWPORT);
+    await prepareQuizPage(page, `${ASTRO_URL}fr/archives/`);
+
+    const todayCell = page.locator("[data-archive-tone='today']");
+    await expect(todayCell).toBeVisible();
+    await expect(todayCell).toContainText("Aujourd'hui");
+    await expect(todayCell).toContainText("Quiz du jour");
+    await expect(todayCell.locator(".archive-calendar-daily-link")).toHaveAttribute(
+      "href",
+      /\/fr\/daily\/?$/,
+    );
+    await expect(todayCell.locator(".archive-calendar-daily-link")).toHaveText("Quotidien");
+    await expect(todayCell.locator(".archive-calendar-daily-link")).toBeVisible();
   });
 
   test("renders archives by date and plays the selected archive", async ({ page }) => {

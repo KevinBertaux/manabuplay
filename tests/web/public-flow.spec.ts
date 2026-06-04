@@ -144,7 +144,7 @@ test.describe("public flow", () => {
     await prepareModePage(page, `${ASTRO_URL}fr/daily/`);
 
     await expect(page.locator("#quizTitleScreen")).toBeVisible();
-    await expect(page.locator("#quizTitleHeadline")).toContainText("Quotidien du");
+    await expect(page.locator("#quizTitleHeadline")).toContainText("Quotidien ·");
     await expect(page.locator("#diffGrid")).toBeHidden();
     await expect(page.locator(".diff-card")).toHaveCount(0);
     await page.locator("[data-quiz-action='launchQuiz']").first().click();

@@ -124,7 +124,7 @@ async function waitForLandingReady(page) {
   await page.waitForFunction(
     () => {
       const tagline = document.querySelector('[data-i18n="hero_tagline"]');
-      const quizHeading = document.querySelector(".public-quiz-heading");
+      const quizHeading = document.querySelector("#quizTitleHeadline");
       const titleScreen = document.querySelector("#quizTitleScreen");
       const titleHeadline = document.querySelector("#quizTitleHeadline");
       const startBtn = document.querySelector("#startBtn");

@@ -4,25 +4,18 @@
     <div class="public-quiz-container">
 
       <div class="border-glow quiz-shell reveal">
-        <div class="public-quiz-intro">
-          <p class="section-label quiz-label-violet" data-i18n="quiz_label"></p>
-          <h2 class="public-quiz-heading pixel-heading-md" data-i18n="quiz_title"></h2>
-          <p class="public-quiz-subtitle" data-i18n="quiz_sub"></p>
-        </div>
-
         <!-- ══ DIFFICULTY PICKER ══ -->
         <div id="diffArea">
-          <p class="quiz-picker-title section-label quiz-label-fuchsia" data-i18n="diff_title"></p>
+          <p id="diffPickerTitle" class="quiz-picker-title section-label quiz-label-fuchsia" data-i18n="diff_title"></p>
           <section
             id="quizTitleScreen"
             hidden
-            class="quiz-title-screen"
+            class="quiz-pre-launch"
             aria-label="Quiz start screen"
             data-aria-label-en="Quiz start screen"
             data-aria-label-fr="Écran de lancement du quiz"
           >
-            <div class="quiz-title-screen-frame">
-              <span class="quiz-title-kicker" id="quizTitleKicker"></span>
+            <div class="quiz-pre-launch-inner">
               <strong class="quiz-title-headline" id="quizTitleHeadline"></strong>
               <p class="quiz-title-copy" id="quizTitleCopy">
                 <span class="quiz-title-copy-text" id="quizTitleCopyText"></span>
@@ -43,15 +36,6 @@
                   <span data-share-copy-label data-i18n="result_share_copy"></span>
                 </button>
               </div>
-              <div class="quiz-title-meter" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <div class="quiz-title-meta">
-                <span id="quizTitleMetaPrimary"></span>
-                <span id="quizTitleMetaSecondary"></span>
-              </div>
               <div class="quiz-start-row quiz-title-action" id="singleRunStartSlot"></div>
             </div>
           </section>
@@ -59,7 +43,7 @@
             <!-- injected by JS -->
           </div>
           <div class="quiz-start-row" id="defaultStartSlot">
-            <button class="start-btn" id="startBtn" data-quiz-action="launchQuiz" data-i18n="diff_start"></button>
+            <button class="start-btn" id="startBtn" data-quiz-action="launchQuiz" data-i18n="quiz_play"></button>
           </div>
         </div>
 

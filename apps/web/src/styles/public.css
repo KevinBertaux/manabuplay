@@ -189,25 +189,37 @@ html.embed-mockup astro-dev-toolbar {
     @apply mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-8;
   }
 
+  .public-mode-main {
+    @apply min-h-0 w-full;
+  }
+
+  .public-mode-viewport {
+    @apply min-h-0 w-full flex-1;
+  }
+
+  .public-mode-spacer {
+    min-height: 0.5rem;
+  }
+
+  .public-mode-main .public-quiz-section {
+    @apply relative z-10 flex-none scroll-mt-48 px-0 py-0;
+  }
+
+  .public-mode-main .public-quiz-container {
+    @apply mx-auto w-full max-w-5xl;
+  }
+
   .public-quiz-section {
     /* Hash links (e.g. footer "Play quiz"): leave room under fixed nav + wrapped rows */
     @apply relative overflow-hidden px-6 py-14 scroll-mt-48;
   }
 
+  .public-quiz-section--pre-launch {
+    @apply py-0;
+  }
+
   .public-quiz-container {
     @apply relative z-10 mx-auto max-w-5xl;
-  }
-
-  .public-quiz-intro {
-    @apply mx-auto max-w-2xl border-b border-[rgba(139,92,246,0.22)] pb-4 text-center sm:pb-5;
-  }
-
-  .public-quiz-heading {
-    @apply mt-3 text-white sm:mt-4;
-  }
-
-  .public-quiz-subtitle {
-    @apply mt-4 font-body text-xl text-slate-400;
   }
 
   .archive-calendar-shell {
@@ -358,6 +370,11 @@ html.embed-mockup astro-dev-toolbar {
     letter-spacing: 0.05em;
   }
 
+  .archive-calendar-cell-date {
+    @apply block text-[0.68rem] font-bold leading-tight;
+    color: rgba(207, 250, 254, 0.92);
+  }
+
   .archive-calendar-cell--today .archive-calendar-cell-title {
     @apply block text-[0.68rem] font-black uppercase leading-tight;
     color: #cffafe;
@@ -397,13 +414,30 @@ html.embed-mockup astro-dev-toolbar {
     @apply pointer-events-auto visible opacity-100;
   }
 
+  /* Lien Quotidien sur la case « aujourd'hui » — hors règles .archive-calendar-action (masquées par défaut). */
+  .archive-calendar-daily-link {
+    @apply pointer-events-auto visible mt-1 inline-flex min-h-8 items-center justify-center rounded-md border px-2 font-pixel text-[0.62rem] uppercase no-underline opacity-100;
+    border-color: rgba(34, 211, 238, 0.42);
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.24), rgba(139, 92, 246, 0.2));
+    color: #e0fbff;
+    letter-spacing: 0.08em;
+    transition:
+      opacity 150ms ease,
+      visibility 150ms ease,
+      transform 150ms ease;
+  }
+
+  .archive-calendar-daily-link:hover {
+    transform: translateY(-1px);
+    border-color: rgba(34, 211, 238, 0.55);
+  }
+
   .quiz-section-glow {
     @apply absolute inset-0;
   }
 
   .quiz-shell {
     @apply grid gap-2 rounded-xl border p-2 sm:gap-3 sm:p-4;
-    min-height: 440px;
     border-color: rgba(139, 92, 246, 0.45);
     background:
       linear-gradient(90deg, rgba(139, 92, 246, 0.08) 1px, transparent 1px),
@@ -413,6 +447,16 @@ html.embed-mockup astro-dev-toolbar {
       48px 48px,
       auto;
     backdrop-filter: blur(14px);
+  }
+
+  .quiz-shell.is-pre-launch {
+    min-height: 0;
+    gap: 0.65rem;
+    padding: 1rem 1rem 1.1rem;
+  }
+
+  .quiz-shell:not(.is-pre-launch) {
+    min-height: 440px;
   }
 
   .quiz-shell.is-launching {
@@ -432,36 +476,25 @@ html.embed-mockup astro-dev-toolbar {
     @apply mb-6 text-center;
   }
 
-  .quiz-title-screen {
-    @apply mb-4 grid min-h-64 place-items-center overflow-hidden rounded-xl border px-4 py-5 text-center;
-    border-color: rgba(34, 211, 238, 0.18);
-    background:
-      radial-gradient(circle at 50% 12%, rgba(34, 211, 238, 0.14), transparent 34%),
-      linear-gradient(180deg, rgba(21, 28, 55, 0.72), rgba(10, 8, 20, 0.88));
+  .quiz-pre-launch {
+    @apply mb-0 grid w-full place-items-center px-1 py-2 text-center sm:py-3;
   }
 
-  .quiz-title-screen-frame {
-    @apply grid max-w-xl gap-3 justify-items-center;
-  }
-
-  .quiz-title-kicker {
-    @apply font-body font-black uppercase;
-    color: var(--cyan);
-    font-size: 0.78rem;
-    letter-spacing: 0.14em;
+  .quiz-pre-launch-inner {
+    @apply grid w-full max-w-md gap-3.5 justify-items-center sm:gap-4;
   }
 
   .quiz-title-headline {
-    @apply font-pixel text-white;
-    font-size: clamp(1rem, 4.8vw, 1.45rem);
-    letter-spacing: 0.08em;
-    line-height: 1.7;
-    text-shadow: 0 0 16px rgba(139, 92, 246, 0.42);
+    @apply font-body font-black text-white;
+    font-size: clamp(1.05rem, 4.2vw, 1.28rem);
+    letter-spacing: 0.04em;
+    line-height: 1.45;
+    text-wrap: balance;
   }
 
   .quiz-title-copy {
-    @apply m-0 grid max-w-xl justify-items-center gap-2 font-body font-bold leading-relaxed text-slate-300;
-    font-size: 1rem;
+    @apply m-0 grid max-w-md justify-items-center gap-2 font-body font-semibold leading-relaxed text-slate-400;
+    font-size: 0.95rem;
     text-wrap: balance;
   }
 
@@ -497,31 +530,8 @@ html.embed-mockup astro-dev-toolbar {
     @apply hidden;
   }
 
-  .quiz-title-meter {
-    @apply grid w-full max-w-xs grid-cols-3 gap-2;
-  }
-
-  .quiz-title-meter span {
-    @apply h-2 rounded-full;
-    background: linear-gradient(90deg, rgba(34, 211, 238, 0.42), rgba(232, 121, 249, 0.52));
-    box-shadow: 0 0 14px rgba(34, 211, 238, 0.16);
-  }
-
-  .quiz-title-meta {
-    @apply flex flex-wrap justify-center gap-2;
-  }
-
-  .quiz-title-meta span {
-    @apply rounded-lg border px-3 py-1 font-body font-black uppercase;
-    border-color: rgba(139, 92, 246, 0.28);
-    background: rgba(139, 92, 246, 0.09);
-    color: #d6c6ff;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-  }
-
   .quiz-title-action {
-    @apply pt-3;
+    @apply pt-1;
   }
 
   .quiz-diff-grid {
@@ -865,12 +875,12 @@ html.embed-mockup astro-dev-toolbar {
   }
 
   @media (min-width: 640px) {
-    .quiz-shell {
+    .quiz-shell:not(.is-pre-launch) {
       min-height: 520px;
     }
 
-    .quiz-title-screen {
-      @apply min-h-72;
+    .quiz-shell.is-pre-launch {
+      padding: 1.15rem 1.25rem 1.2rem;
     }
 
     .quiz-word-category {
@@ -895,42 +905,21 @@ html.embed-mockup astro-dev-toolbar {
   }
 
   @media (min-width: 1024px) {
-    .quiz-shell {
+    .quiz-shell:not(.is-pre-launch) {
       min-height: 560px;
     }
 
-    .quiz-title-screen {
-      min-height: 448px;
-      padding-block: 48px;
-      padding-inline: 40px;
-    }
-
-    .quiz-title-screen-frame {
-      max-width: 720px;
-      gap: 24px;
-    }
-
-    .quiz-title-kicker {
-      font-size: 0.86rem;
+    .quiz-pre-launch-inner {
+      max-width: 28rem;
+      gap: 1.25rem;
     }
 
     .quiz-title-headline {
-      font-size: clamp(1.35rem, 2vw, 1.72rem);
-      letter-spacing: 0.06em;
-      line-height: 1.8;
+      font-size: 1.28rem;
     }
 
     .quiz-title-copy {
-      max-width: 680px;
-      font-size: 1.08rem;
-    }
-
-    .quiz-title-meter {
-      max-width: 420px;
-    }
-
-    .quiz-title-action {
-      padding-top: 24px;
+      font-size: 1rem;
     }
 
     .quiz-area {
