@@ -141,8 +141,108 @@ function formatComboFeedback(streak: number, points: number): string {
     : `🔥 Streak x${streak}! +${points} pts`;
 }
 
-function formatWrongFeedback(answer: string): string {
-  return currentLang === "fr" ? `✗ Réponse : "${answer}"` : `✗ Answer: "${answer}"`;
+function formatWrongFeedback() {
+  return getTranslatedText(
+    "feedback_wrong",
+    currentLang === "fr" ? "✗ Mauvaise réponse" : "✗ Not quite",
+  );
+}
+
+function formatQuestionProgress(questionNumber: number, total: number) {
+  const label = getTranslatedText("hud_question", "Question");
+  return `${label} ${questionNumber}/${total}`;
+}
+
+const QUIZ_TOAST_VISIBLE_MS = 4000;
+const QUIZ_TOAST_TRANSITION_MS = 200;
+
+let quizToastDismissTimer = 0;
+
+function getScoreLevel(score: number) {
+  return score < 30 ? "I" : score < 80 ? "II" : score < 180 ? "III" : "IV";
+}
+
+function syncHudDisplay() {
+  const total = state.questions.length || 10;
+  const questionNumber = state.questions.length ? state.currentIndex + 1 : 1;
+
+  getRequiredElement<HTMLElement>("progressCurrent").textContent = String(questionNumber);
+  getRequiredElement<HTMLElement>("progressTotal").textContent = String(total);
+  getRequiredElement<HTMLElement>("progressText").textContent = formatQuestionProgress(
+    questionNumber,
+    total,
+  );
+  getRequiredElement<HTMLElement>("scoreDisplay").textContent = String(state.score);
+  getRequiredElement<HTMLElement>("levelDisplay").textContent = getScoreLevel(state.score);
+
+  const streakMetaPart = document.getElementById("streakMetaPart");
+  const streakDisplay = getRequiredElement<HTMLElement>("streakDisplay");
+  if (state.streak >= 2) {
+    streakDisplay.textContent = `🔥 x${state.streak}`;
+    if (streakMetaPart instanceof HTMLElement) showElement(streakMetaPart, "inline-flex");
+  } else {
+    streakDisplay.textContent = "";
+    if (streakMetaPart instanceof HTMLElement) hideElement(streakMetaPart, "inline-flex");
+  }
+}
+
+function formatAnswerTagPoints(points: number) {
+  return `+${points} pts`;
+}
+
+function formatAnswerTagWrong() {
+  return getTranslatedText("feedback_tag_wrong", currentLang === "fr" ? "Faux" : "Wrong");
+}
+
+function setAnswerButtonTag(button: HTMLButtonElement, label: string, tone: "correct" | "wrong") {
+  const tag = document.createElement("span");
+  tag.className = `answer-btn-tag is-${tone}`;
+  tag.textContent = label;
+  button.appendChild(tag);
+}
+
+function finishQuizToastHide(toast: HTMLElement) {
+  toast.classList.remove("is-correct", "is-wrong");
+  toast.textContent = "";
+  hideElement(toast);
+  quizToastDismissTimer = 0;
+}
+
+function hideQuizToast() {
+  const toast = document.getElementById("quizToast");
+  if (!(toast instanceof HTMLElement)) return;
+  window.clearTimeout(quizToastDismissTimer);
+
+  if (!toast.classList.contains("is-visible")) {
+    finishQuizToastHide(toast);
+    return;
+  }
+
+  toast.classList.remove("is-visible");
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  quizToastDismissTimer = window.setTimeout(
+    () => finishQuizToastHide(toast),
+    prefersReducedMotion ? 0 : QUIZ_TOAST_TRANSITION_MS,
+  );
+}
+
+function showQuizToast(message: string, tone: "correct" | "wrong") {
+  const toast = getRequiredElement<HTMLElement>("quizToast");
+  window.clearTimeout(quizToastDismissTimer);
+
+  toast.textContent = message;
+  toast.classList.remove("is-correct", "is-wrong", "is-visible");
+  toast.classList.add(tone === "correct" ? "is-correct" : "is-wrong");
+  showElement(toast, "flex");
+  void toast.offsetWidth;
+  requestAnimationFrame(() => toast.classList.add("is-visible"));
+
+  quizToastDismissTimer = window.setTimeout(() => hideQuizToast(), QUIZ_TOAST_VISIBLE_MS);
+}
+
+function setArchiveInPlay(active: boolean) {
+  if (MANABUPLAY_MODE !== "archives") return;
+  window.dispatchEvent(new CustomEvent("manabuplay:archive-in-play", { detail: { active } }));
 }
 
 function getHintAdjustedQuestionPoints(hintsUsed: number): number {
@@ -599,9 +699,10 @@ function renderSingleRunTitleScreen() {
 }
 
 function resetQuizToTitleScreen() {
+  hideQuizToast();
+  setArchiveInPlay(false);
   showElement(getRequiredElement<HTMLElement>("diffArea"), "block");
   hideElement(getRequiredElement<HTMLElement>("progressRow"));
-  hideElement(getRequiredElement<HTMLElement>("hudRow"));
   hideElement(getRequiredElement<HTMLElement>("quizArea"));
   hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   renderSingleRunTitleScreen();
@@ -635,6 +736,7 @@ function setQuizHash() {
 
 function scrollQuizSectionIntoView() {
   const modeMain = document.querySelector(".public-mode-main");
+  const archiveMain = document.querySelector(".archive-mode-main");
   if (modeMain instanceof HTMLElement && window.matchMedia("(min-width: 761px)").matches) {
     return;
   }
@@ -647,7 +749,7 @@ function scrollQuizSectionIntoView() {
 
   const nav = document.querySelector<HTMLElement>("nav");
   const navHeight = nav?.getBoundingClientRect().height ?? 72;
-  const topOffset = navHeight + 24;
+  const topOffset = archiveMain instanceof HTMLElement ? navHeight + 8 : navHeight + 24;
   const targetTop = target.getBoundingClientRect().top + window.scrollY - topOffset;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -674,11 +776,45 @@ function getHintChipElements() {
     chips: document.getElementById("hintChips"),
     chip1: document.getElementById("hintChip1"),
     chip2: document.getElementById("hintChip2"),
+    drawer: document.getElementById("hintRevealsDrawer"),
+    drawerCount: document.getElementById("hintDrawerCount"),
     reveal1: document.getElementById("hintReveal1"),
     reveal2: document.getElementById("hintReveal2"),
     content1: document.getElementById("hintContent"),
     content2: document.getElementById("hint2Content"),
   };
+}
+
+function syncHintDrawer() {
+  const { drawer, drawerCount, reveal1, reveal2 } = getHintChipElements();
+  if (!(drawer instanceof HTMLDetailsElement)) return;
+
+  const openHints =
+    (reveal1 instanceof HTMLElement && !reveal1.hidden ? 1 : 0) +
+    (reveal2 instanceof HTMLElement && !reveal2.hidden ? 1 : 0);
+
+  if (openHints === 0) {
+    drawer.hidden = true;
+    drawer.open = false;
+    if (drawerCount) drawerCount.textContent = "";
+    return;
+  }
+
+  drawer.hidden = false;
+  if (drawerCount) {
+    drawerCount.textContent = isFrenchLocale()
+      ? `· ${openHints} ouvert${openHints > 1 ? "s" : ""}`
+      : `· ${openHints} open`;
+  }
+  if (!drawer.open) drawer.open = true;
+}
+
+function isFrenchLocale() {
+  return document.documentElement.lang === "fr";
+}
+
+function getQuizPlayPanel() {
+  return document.querySelector<HTMLElement>(".quiz-play-panel");
 }
 
 function hideHintReveal(reveal: HTMLElement | null, content: HTMLElement | null) {
@@ -687,6 +823,7 @@ function hideHintReveal(reveal: HTMLElement | null, content: HTMLElement | null)
     content.textContent = "";
     content.classList.remove("hint-revealed");
   }
+  syncHintDrawer();
 }
 
 function showHintReveal(reveal: HTMLElement | null, content: HTMLElement | null, text: string) {
@@ -694,6 +831,7 @@ function showHintReveal(reveal: HTMLElement | null, content: HTMLElement | null,
   content.textContent = text;
   showElement(reveal, "grid");
   animateReveal(content);
+  syncHintDrawer();
 }
 
 function syncHintChipStates(primaryHint: string, secondaryHint: string) {
@@ -722,6 +860,7 @@ function setupHintControls(question: QuizQuestion) {
 
   hideHintReveal(reveal1, content1);
   hideHintReveal(reveal2, content2);
+  syncHintDrawer();
 
   if (!primaryHint && !secondaryHint) {
     if (chips instanceof HTMLElement) hideElement(chips, "flex");
@@ -783,11 +922,19 @@ function resetExplanation() {
 }
 
 function resetHintDisclosure() {
-  const { chips, reveal1, reveal2, content1, content2 } = getHintChipElements();
+  const { chips, drawer, drawerCount, reveal1, reveal2, content1, content2 } =
+    getHintChipElements();
 
   if (chips instanceof HTMLElement) hideElement(chips, "flex");
   hideHintReveal(reveal1, content1);
   hideHintReveal(reveal2, content2);
+
+  if (drawer instanceof HTMLDetailsElement) {
+    drawer.open = false;
+    hideElement(drawer);
+    if (drawerCount) drawerCount.textContent = "";
+  }
+
   hintStage = 0;
 }
 
@@ -850,18 +997,9 @@ function revealHint(trigger?: HTMLElement) {
 
 function renderQuestion() {
   const question = state.questions[state.currentIndex];
-  const total = state.questions.length;
 
-  const progressBar = getRequiredElement<HTMLProgressElement>("progressBar");
-  progressBar.max = total;
-  progressBar.value = state.currentIndex;
-  getRequiredElement<HTMLElement>("progressText").textContent = `${state.currentIndex}/${total}`;
-  getRequiredElement<HTMLElement>("scoreDisplay").textContent = String(state.score);
-  getRequiredElement<HTMLElement>("streakDisplay").textContent =
-    state.streak >= 2 ? `🔥 x${state.streak}` : "";
-
-  const level = state.score < 30 ? "I" : state.score < 80 ? "II" : state.score < 180 ? "III" : "IV";
-  getRequiredElement<HTMLElement>("levelDisplay").textContent = level;
+  syncHudDisplay();
+  hideQuizToast();
   getRequiredElement<HTMLElement>("wordRomaji").textContent =
     question.romaji || question.kana || question.word;
   getRequiredElement<HTMLElement>("wordKana").textContent = question.kana;
@@ -880,13 +1018,10 @@ function renderQuestion() {
     answersGrid.appendChild(button);
   });
 
-  const feedback = getRequiredElement<HTMLElement>("feedback");
-  hideElement(feedback);
-  feedback.classList.remove("is-correct", "is-wrong");
-  feedback.textContent = "";
   const nextButton = getRequiredElement<HTMLElement>("nextBtn");
   nextButton.classList.add("opacity-0", "pointer-events-none");
   state.answered = false;
+  getQuizPlayPanel()?.classList.remove("is-answered");
   syncShellLaunchLayout();
 }
 
@@ -904,9 +1039,6 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
   renderExplanation(getLocalizedField(question?.explanation), true);
 
   const isCorrect = chosen === correct;
-  const feedback = getRequiredElement<HTMLElement>("feedback");
-  showElement(feedback, "block");
-  feedback.classList.remove("is-correct", "is-wrong");
 
   if (isCorrect) {
     button.classList.add("correct");
@@ -915,26 +1047,25 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
     if (state.streak > state.bestStreak) state.bestStreak = state.streak;
     const points = getHintAdjustedQuestionPoints(hintsUsed);
     state.score += points;
-    feedback.classList.add("is-correct");
-    feedback.textContent =
-      state.streak >= 2 ? formatComboFeedback(state.streak, points) : formatCorrectFeedback(points);
+    setAnswerButtonTag(button, formatAnswerTagPoints(points), "correct");
+    showQuizToast(
+      state.streak >= 2 ? formatComboFeedback(state.streak, points) : formatCorrectFeedback(points),
+      "correct",
+    );
   } else {
     button.classList.add("wrong");
     state.streak = 0;
+    setAnswerButtonTag(button, formatAnswerTagWrong(), "wrong");
     document.querySelectorAll<HTMLButtonElement>(".answer-btn").forEach((answerButton) => {
       if (answerButton.querySelector(".answer-copy")?.textContent === correct) {
         answerButton.classList.add("correct");
       }
     });
-    feedback.classList.add("is-wrong");
-    const shortAnswer =
-      correct.split(" ").slice(0, 7).join(" ") + (correct.split(" ").length > 7 ? "…" : "");
-    feedback.textContent = formatWrongFeedback(shortAnswer);
+    showQuizToast(formatWrongFeedback(), "wrong");
   }
 
-  getRequiredElement<HTMLElement>("scoreDisplay").textContent = String(state.score);
-  getRequiredElement<HTMLElement>("streakDisplay").textContent =
-    state.streak >= 2 ? `🔥 x${state.streak}` : "";
+  getQuizPlayPanel()?.classList.add("is-answered");
+  syncHudDisplay();
 
   const nextButton = getRequiredElement<HTMLElement>("nextBtn");
   nextButton.classList.remove("opacity-0", "pointer-events-none");
@@ -945,8 +1076,9 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
 }
 
 function showResults() {
+  hideQuizToast();
+  setArchiveInPlay(false);
   hideElement(getRequiredElement<HTMLElement>("progressRow"));
-  hideElement(getRequiredElement<HTMLElement>("hudRow"));
   hideElement(getRequiredElement<HTMLElement>("quizArea"));
   showElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
 
@@ -973,11 +1105,6 @@ function showResults() {
   getRequiredElement<HTMLElement>("finalCorrect").textContent = `${state.correct}/${total}`;
   getRequiredElement<HTMLElement>("finalPercent").textContent = `${pct}%`;
   getRequiredElement<HTMLElement>("finalStreak").textContent = String(state.bestStreak);
-  const progressBar = getRequiredElement<HTMLProgressElement>("progressBar");
-  progressBar.max = total;
-  progressBar.value = total;
-  getRequiredElement<HTMLElement>("progressText").textContent = `${total}/${total}`;
-
   if (MANABUPLAY_MODE === "daily") {
     saveDailyRunCompletion({
       storage: LS,
@@ -1063,8 +1190,9 @@ function launchQuiz() {
 
   hideElement(getRequiredElement<HTMLElement>("diffArea"));
   showElement(getRequiredElement<HTMLElement>("progressRow"));
-  showElement(getRequiredElement<HTMLElement>("hudRow"));
   showElement(getRequiredElement<HTMLElement>("quizArea"));
+  setArchiveInPlay(MANABUPLAY_MODE === "archives");
+  if (MANABUPLAY_MODE === "archives") setQuizHash();
   hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   syncShellLaunchLayout();
   renderQuestion();
@@ -1075,9 +1203,10 @@ function launchQuiz() {
 }
 
 function goToDiffPicker() {
+  hideQuizToast();
+  setArchiveInPlay(false);
   showElement(getRequiredElement<HTMLElement>("diffArea"), "block");
   hideElement(getRequiredElement<HTMLElement>("progressRow"));
-  hideElement(getRequiredElement<HTMLElement>("hudRow"));
   hideElement(getRequiredElement<HTMLElement>("quizArea"));
   hideElement(getRequiredElement<HTMLElement>("resultsArea"), "block");
   renderDiffGrid();

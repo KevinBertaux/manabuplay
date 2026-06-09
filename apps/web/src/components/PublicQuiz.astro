@@ -47,22 +47,40 @@
           </div>
         </div>
 
-        <!-- ══ COMMAND HUD ══ -->
-        <div id="progressRow" hidden class="quiz-progress-row">
-          <span class="quiz-progress-text" id="progressText">0/10</span>
-          <progress class="progress-bar quiz-progress" id="progressBar" value="0" max="10"></progress>
+        <!-- ══ COMMAND BAR (HUD D — focus question) ══ -->
+        <div id="progressRow" hidden class="quiz-command-bar quiz-command-bar--focus">
+          <p class="quiz-command-focus-q" aria-hidden="true">
+            <span class="quiz-command-focus-num" id="progressCurrent">1</span>
+            <span class="quiz-command-focus-sep">/</span>
+            <span class="quiz-command-focus-total" id="progressTotal">10</span>
+          </p>
+          <p class="quiz-command-focus-meta">
+            <span class="quiz-command-meta-part">
+              <span class="quiz-command-key" data-i18n="hud_score"></span>
+              <span class="quiz-command-val" id="scoreDisplay">0</span>
+            </span>
+            <span id="streakMetaPart" class="quiz-command-meta-part" hidden>
+              <span class="quiz-command-dot" aria-hidden="true">·</span>
+              <span class="quiz-command-val" id="streakDisplay"></span>
+            </span>
+            <span class="quiz-command-meta-part">
+              <span class="quiz-command-dot" aria-hidden="true">·</span>
+              <span class="quiz-command-key" data-i18n="hud_level"></span>
+              <span class="quiz-command-val" id="levelDisplay">I</span>
+            </span>
+          </p>
+          <span id="progressText" class="quiz-sr-only">Question 1/10</span>
         </div>
 
-        <div id="hudRow" hidden class="quiz-hud">
-          <div class="quiz-hud-stat">
-            <span class="quiz-hud-label" data-i18n="hud_score"></span>
-            <span class="quiz-score-value quiz-hud-value" id="scoreDisplay">0</span>
-          </div>
-          <span class="quiz-streak-value quiz-streak" id="streakDisplay"></span>
-          <div class="quiz-hud-stat">
-            <span class="quiz-hud-label" data-i18n="hud_level"></span>
-            <span class="quiz-hud-value quiz-level-value" id="levelDisplay">I</span>
-          </div>
+        <div class="quiz-toast-anchor" aria-hidden="true">
+          <div
+            id="quizToast"
+            class="quiz-toast"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            hidden
+          ></div>
         </div>
 
         <!-- ══ QUIZ AREA ══ -->
@@ -115,18 +133,22 @@
               </div>
             </div>
 
-            <p class="quiz-feedback quiz-feedback-copy" id="feedback" hidden></p>
-
-            <div id="hintReveals" class="quiz-hint-reveals">
-              <div id="hintReveal1" class="quiz-hint-reveal" hidden>
-                <span class="quiz-hint-label" data-i18n="hint_label_one"></span>
-                <p class="quiz-hint-copy" id="hintContent"></p>
+            <details id="hintRevealsDrawer" class="quiz-hint-drawer" hidden>
+              <summary class="quiz-hint-drawer-summary">
+                <span class="quiz-hint-drawer-label" data-i18n="hint_drawer_label"></span>
+                <span class="quiz-hint-drawer-count" id="hintDrawerCount" aria-hidden="true"></span>
+              </summary>
+              <div id="hintReveals" class="quiz-hint-reveals">
+                <div id="hintReveal1" class="quiz-hint-reveal" hidden>
+                  <span class="quiz-hint-label" data-i18n="hint_label_one"></span>
+                  <p class="quiz-hint-copy" id="hintContent"></p>
+                </div>
+                <div id="hintReveal2" class="quiz-hint-reveal" hidden>
+                  <span class="quiz-hint-label" data-i18n="hint_label_two"></span>
+                  <p class="quiz-hint-copy" id="hint2Content"></p>
+                </div>
               </div>
-              <div id="hintReveal2" class="quiz-hint-reveal" hidden>
-                <span class="quiz-hint-label" data-i18n="hint_label_two"></span>
-                <p class="quiz-hint-copy" id="hint2Content"></p>
-              </div>
-            </div>
+            </details>
 
             <div class="quiz-answer-grid" id="answersGrid"></div>
 

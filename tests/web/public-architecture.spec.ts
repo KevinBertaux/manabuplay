@@ -214,7 +214,7 @@ test.describe("public localized architecture", () => {
 
     await expect(page.locator("#quizArea")).toBeVisible();
     await expect(page.locator("#quizTitleScreen")).toBeHidden();
-    await expect(page.locator("#progressText")).toHaveText("0/10");
+    await expect(page.locator("#progressText")).toHaveText("Question 1/10");
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
   });
 
@@ -233,7 +233,7 @@ test.describe("public localized architecture", () => {
     await page.locator("#startBtn").click();
 
     await expect(page.locator("#quizArea")).toBeVisible();
-    await expect(page.locator("#progressText")).toHaveText("0/10");
+    await expect(page.locator("#progressText")).toHaveText("Question 1/10");
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
     await hintChip1(page).click();
     await expect(hintChip1(page)).toHaveClass(/is-revealed/);
@@ -290,7 +290,8 @@ test.describe("public localized architecture", () => {
 
     await expect(page.locator("#quizArea")).toBeVisible();
     await expect(page.locator("#quizTitleScreen")).toBeHidden();
-    await expect(page.locator("#progressText")).toHaveText("0/10");
+    await expect(page.locator("#archives-list")).toBeVisible();
+    await expect(page.locator("#progressText")).toHaveText("Question 1/10");
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
   });
 });

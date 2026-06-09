@@ -129,7 +129,7 @@ test.describe("public flow", () => {
     await expect(page.locator("#hintReveal1")).toBeHidden();
     await expect(page.locator("#hintReveal2")).toBeHidden();
     await expect(page.locator("#explanationBox")).toBeHidden();
-    await expect(page.locator("#feedback")).toBeHidden();
+    await expect(page.locator("#quizToast")).toBeHidden();
     await expect(page.locator("#nextBtn")).toHaveClass(/opacity-0/);
 
     await page.locator("#hintChip1").click();
@@ -142,7 +142,7 @@ test.describe("public flow", () => {
     await expect(page.locator("#explanationBox")).toBeHidden();
 
     await page.locator("#answersGrid .answer-btn").first().click();
-    await expect(page.locator("#feedback")).toBeVisible();
+    await expect(page.locator("#quizToast")).toHaveClass(/is-visible/);
     await expect(page.locator("#explanationBox")).toBeVisible();
     await expect(page.locator("#nextBtn")).not.toHaveClass(/opacity-0/);
     await expect(page.locator("#answersGrid .answer-btn.correct")).toHaveCount(1);

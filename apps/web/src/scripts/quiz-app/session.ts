@@ -7,6 +7,9 @@ import type {
   StorageAdapter,
 } from "./runtime-types";
 
+/** Daily/archives runs are resolved in the browser from the embedded catalog pool (local date key).
+ *  Builds ship the full pool only — never SSG question sets per date. */
+
 export const DAILY_RUN_RECORDS_KEY = "daily_runs";
 
 export interface DailyRunRecord {

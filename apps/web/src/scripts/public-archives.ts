@@ -97,11 +97,8 @@ function updateMonthSummary(drawer: Element) {
     ...drawer.querySelectorAll(".archive-calendar-view--grid [data-archive-tone='archive']"),
   ];
   const playedCount = playableCells.filter((cell) => cell.classList.contains("has-record")).length;
-  const availableCount = playableCells.length - playedCount;
 
-  summary.textContent = isFrench
-    ? `${playedCount}/${playableCells.length} ${archiveLabels.summaryPlayed || "played"} · ${availableCount} ${archiveLabels.summaryRemaining || "left"}`
-    : `${playedCount}/${playableCells.length} ${archiveLabels.summaryPlayed || "played"} · ${availableCount} ${archiveLabels.summaryRemaining || "left"}`;
+  summary.textContent = `${playedCount}/${playableCells.length} ${archiveLabels.summaryPlayed || "played"}`;
 }
 
 function bindArchiveMonthAccordion() {
@@ -120,6 +117,23 @@ function bindArchiveMonthAccordion() {
 
 const records = readArchiveRecords();
 let activeDrawer: HTMLDetailsElement | null = null;
+const archiveBackCalendar = document.getElementById("archiveBackCalendar");
+const archivesList = document.getElementById("archives-list");
+
+function setArchiveInPlay(active: boolean) {
+  if (archiveBackCalendar instanceof HTMLButtonElement) {
+    archiveBackCalendar.hidden = !active;
+  }
+}
+
+window.addEventListener("manabuplay:archive-in-play", (event) => {
+  const detail = (event as CustomEvent<{ active?: boolean }>).detail;
+  setArchiveInPlay(Boolean(detail?.active));
+});
+
+archiveBackCalendar?.addEventListener("click", () => {
+  archivesList?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
 
 if (label && activeDate) {
   label.textContent = formatSelectedLabel(activeDate);
@@ -176,8 +190,8 @@ document.querySelectorAll("[data-archive-date]").forEach((cell) => {
       }
 
       if (isActionClick) {
-        document.getElementById("quiz")?.scrollIntoView({ behavior: "smooth", block: "start" });
         history.replaceState(null, "", `${window.location.pathname}${window.location.search}#quiz`);
+        document.getElementById("quiz")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     });
   }

@@ -1,0 +1,748 @@
+---
+import DesignDocLayout from "../../../layouts/DesignDocLayout.astro";
+
+const MOBILE_W = 390;
+
+const hudOptions = [
+  {
+    id: "A",
+    name: "Rail",
+    pitch: "Une ligne continue, séparateurs ·. Compact, lisible desktop et mobile.",
+    tradeoff: "Peu de hiérarchie visuelle entre les stats.",
+  },
+  {
+    id: "B",
+    name: "Chips",
+    pitch: "Chaque stat dans une pastille. Scan rapide, style jeu mobile.",
+    tradeoff: "Prend plus de hauteur si la série apparaît.",
+  },
+  {
+    id: "C",
+    name: "Jauge + ligne",
+    pitch: "10 points de progression + ligne de stats dessous. Progression tangible.",
+    tradeoff: "Deux lignes = plus de hauteur en mode tight.",
+  },
+  {
+    id: "D",
+    name: "Focus question",
+    pitch: "Le compteur question domine ; score et niveau en sous-ligne discrète.",
+    tradeoff: "Série moins visible (à intégrer dans la sous-ligne).",
+  },
+] as const;
+
+const feedbackOptions = [
+  {
+    id: "1",
+    name: "Toast flottant",
+    pitch: "Pill bas-centre, ~4 s, n'interrompt pas la grille ni l'explication.",
+    tradeoff: "Recouvre parfois le bas de l'écran (décaler si bouton archives).",
+    interactive: true,
+  },
+  {
+    id: "2",
+    name: "Bandeau calé",
+    pitch: "Bande pleine largeur sous la grille, couleur sémantique. Zéro overlay.",
+    tradeoff: "Pousse l'explication vers le bas d'un cran.",
+    interactive: false,
+  },
+  {
+    id: "3",
+    name: "Pulse HUD",
+    pitch: "Pas de message séparé : le score (ou la série) pulse + flash vert/rouge.",
+    tradeoff: "Moins explicite pour un faux (« Mauvaise réponse » absent).",
+    interactive: false,
+  },
+  {
+    id: "4",
+    name: "Étiquette bouton",
+    pitch: "Micro-label au-dessus du bouton tapé (+20 pts / Faux). Très local.",
+    tradeoff: "Peu visible si le doigt cache le label ; combo streak invisible.",
+    interactive: false,
+  },
+] as const;
+---
+
+<DesignDocLayout
+  title="Mockup — HUD & feedback quiz"
+  active="mockups"
+  description="4 directions HUD + 4 directions feedback — choisis une combinaison à implémenter."
+  containerClass="ht-page"
+  bodyClass="ht-body"
+>
+  <header class="ht-hero">
+    <p class="ht-kicker">Design public · Quiz</p>
+    <h1>HUD &amp; feedback — options</h1>
+    <p class="ht-lead">
+      Quatre propositions de barre de stats et quatre propositions de retour après réponse.
+      Choisis <strong>une lettre HUD</strong> + <strong>un chiffre feedback</strong> — on
+      implémente la combinaison retenue sur le web public.
+    </p>
+    <p class="ht-pick-hint ht-pick-hint--chosen">
+      Retenu pour le web public : <strong>HUD D + FB 1 + FB 4</strong>
+    </p>
+  </header>
+
+  <section class="ht-block" aria-labelledby="ht-hud-title">
+    <h2 id="ht-hud-title">HUD — barre de stats en jeu</h2>
+    <div class="ht-grid">
+      {hudOptions.map((opt) => (
+        <article class="ht-option" id={`hud-${opt.id}`}>
+          <div class="ht-option-head">
+            <span class="ht-option-id">HUD {opt.id}</span>
+            <h3>{opt.name}</h3>
+          </div>
+          <p class="ht-option-pitch">{opt.pitch}</p>
+          <p class="ht-option-trade">{opt.tradeoff}</p>
+          <div class="ht-device" style={`--w: ${MOBILE_W}px;`}>
+            <div class="ht-device-chrome">
+              <span>{MOBILE_W}px · HUD {opt.id}</span>
+            </div>
+            <div class="ht-shell">
+              {opt.id === "A" && (
+                <div class="ht-rail">
+                  <span class="ht-rail-q">Question 3/10</span>
+                  <span class="ht-rail-dot">·</span>
+                  <span class="ht-rail-part"><small>Score</small> 42</span>
+                  <span class="ht-rail-dot">·</span>
+                  <span class="ht-rail-part">🔥 x3</span>
+                  <span class="ht-rail-dot">·</span>
+                  <span class="ht-rail-part"><small>Niveau</small> III</span>
+                </div>
+              )}
+              {opt.id === "B" && (
+                <div class="ht-chips">
+                  <span class="ht-chip ht-chip--q">3/10</span>
+                  <span class="ht-chip">Score <strong>42</strong></span>
+                  <span class="ht-chip ht-chip--streak">🔥 x3</span>
+                  <span class="ht-chip">Niv. <strong>III</strong></span>
+                </div>
+              )}
+              {opt.id === "C" && (
+                <div class="ht-gauge-wrap">
+                  <div class="ht-dots" aria-hidden="true">
+                    <span class="is-done" />
+                    <span class="is-done" />
+                    <span class="is-done" />
+                    <span class="is-current" />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                  <p class="ht-gauge-line">
+                    Score <strong>42</strong>
+                    <span class="ht-rail-dot">·</span>
+                    🔥 x3
+                    <span class="ht-rail-dot">·</span>
+                    Niveau <strong>III</strong>
+                  </p>
+                </div>
+              )}
+              {opt.id === "D" && (
+                <div class="ht-focus">
+                  <p class="ht-focus-q">
+                    <span class="ht-focus-num">3</span>
+                    <span class="ht-focus-sep">/</span>
+                    <span class="ht-focus-total">10</span>
+                  </p>
+                  <p class="ht-focus-meta">
+                    Score 42 · 🔥 x3 · Niveau III
+                  </p>
+                </div>
+              )}
+              <p class="ht-zone-stub" aria-hidden="true">[ mot + grille réponses ]</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="ht-block" aria-labelledby="ht-fb-title">
+    <h2 id="ht-fb-title">Feedback — après avoir tapé une réponse</h2>
+    <div class="ht-grid">
+      {feedbackOptions.map((opt) => (
+        <article class="ht-option" id={`fb-${opt.id}`}>
+          <div class="ht-option-head">
+            <span class="ht-option-id">FB {opt.id}</span>
+            <h3>{opt.name}</h3>
+          </div>
+          <p class="ht-option-pitch">{opt.pitch}</p>
+          <p class="ht-option-trade">{opt.tradeoff}</p>
+          <div
+            class="ht-device ht-device--fb"
+            style={`--w: ${MOBILE_W}px;`}
+            data-ht-fb={opt.id}
+            data-ht-interactive={opt.interactive ? "true" : undefined}
+          >
+            <div class="ht-device-chrome">
+              <span>{MOBILE_W}px · FB {opt.id}</span>
+            </div>
+            <div class="ht-play">
+              <div class="ht-rail ht-rail--mini">
+                <span class="ht-rail-q">Question 3/10</span>
+                <span class="ht-rail-dot">·</span>
+                <span class="ht-rail-part" data-ht-score-wrap={opt.id === "3" ? "true" : undefined}>
+                  <small>Score</small> <span data-ht-score>38</span>
+                </span>
+              </div>
+              {opt.id === "1" && (
+                <div class="ht-toast-anchor" aria-hidden="true">
+                  <div class="ht-float-toast is-wrong" data-ht-toast hidden>
+                    ✗ Mauvaise réponse
+                  </div>
+                </div>
+              )}
+              <div class="ht-answers">
+                <span class="ht-answer">1</span>
+                <span class="ht-answer is-wrong" data-ht-tapped={opt.id === "4" ? "true" : undefined}>
+                  2
+                  {opt.id === "4" && <span class="ht-tag is-wrong">Faux</span>}
+                </span>
+                <span
+                  class="ht-answer is-correct"
+                  data-ht-tapped={opt.id === "4" ? "correct" : undefined}
+                >
+                  3
+                  {opt.id === "4" && <span class="ht-tag is-correct">+18 pts</span>}
+                </span>
+                <span class="ht-answer">4</span>
+              </div>
+              {opt.id === "2" && (
+                <div class="ht-strip is-wrong">✗ Mauvaise réponse</div>
+              )}
+              <div class="ht-explanation">
+                <span class="ht-explanation-label">Pourquoi cette réponse</span>
+                <p>Explication pédagogique — toujours sous la zone de réponse.</p>
+              </div>
+            </div>
+            {opt.interactive && (
+              <button type="button" class="ht-sim-btn" data-ht-sim>
+                Simuler le toast (4 s)
+              </button>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="ht-block ht-combos" aria-labelledby="ht-combo-title">
+    <h2 id="ht-combo-title">Combinaisons qui se marient bien</h2>
+    <ul class="ht-combo-list">
+      <li>
+        <strong>A + 1</strong> — minimaliste, peu de hauteur, feedback non intrusif.
+      </li>
+      <li>
+        <strong>B + 2</strong> — look arcade, bandeau structuré, tout reste dans le flux.
+      </li>
+      <li>
+        <strong>C + 3</strong> — progression très lisible, feedback ultra discret.
+      </li>
+      <li>
+        <strong>D + 4</strong> — focus sur la question, retour collé au geste.
+      </li>
+    </ul>
+  </section>
+</DesignDocLayout>
+
+<script src="../../../scripts/hud-toast-mockup.ts"></script>
+
+<style>
+  .ht-body {
+    background: #080911;
+  }
+
+  .ht-page {
+    display: grid;
+    gap: 2.5rem;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-bottom: 3rem;
+    color: #e8e4f4;
+    font-family: var(--font-body, "Chakra Petch", sans-serif);
+  }
+
+  .ht-hero h1 {
+    margin: 0.35rem 0 0.5rem;
+    font-family: var(--font-pixel, "Joystix", sans-serif);
+    font-size: 1.35rem;
+    color: #c4b5fd;
+  }
+
+  .ht-kicker {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(167, 139, 250, 0.75);
+  }
+
+  .ht-lead {
+    margin: 0;
+    max-width: 52rem;
+    line-height: 1.55;
+    color: rgba(226, 217, 243, 0.78);
+  }
+
+  .ht-pick-hint {
+    margin: 0.65rem 0 0;
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: rgba(34, 211, 238, 0.88);
+  }
+
+  .ht-pick-hint--chosen {
+    color: #bbf7d0;
+  }
+
+  .ht-block h2 {
+    margin: 0 0 1rem;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #f8f3ff;
+  }
+
+  .ht-grid {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 720px) {
+    .ht-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .ht-option {
+    display: grid;
+    gap: 0.45rem;
+    align-content: start;
+  }
+
+  .ht-option-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.45rem;
+  }
+
+  .ht-option-id {
+    border-radius: 8px;
+    padding: 0.2rem 0.5rem;
+    background: rgba(139, 92, 246, 0.22);
+    color: #e9d5ff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+  }
+
+  .ht-option h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #f8f3ff;
+  }
+
+  .ht-option-pitch {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: rgba(226, 217, 243, 0.82);
+  }
+
+  .ht-option-trade {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: rgba(148, 163, 184, 0.72);
+  }
+
+  .ht-device {
+    width: min(100%, var(--w));
+    border: 1px solid rgba(139, 92, 246, 0.28);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0a0911;
+  }
+
+  .ht-device-chrome {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #8b93a7;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(210, 220, 255, 0.08);
+  }
+
+  .ht-shell,
+  .ht-play {
+    padding: 0.5rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .ht-play {
+    position: relative;
+    min-height: 220px;
+  }
+
+  .ht-zone-stub {
+    margin: 0;
+    padding: 1.25rem 0.5rem;
+    border-radius: 8px;
+    border: 1px dashed rgba(148, 163, 184, 0.22);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: rgba(148, 163, 184, 0.45);
+    text-align: center;
+  }
+
+  /* HUD A — rail */
+  .ht-rail {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 8px;
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    background: rgba(12, 18, 34, 0.88);
+    font-size: 0.8125rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ht-rail--mini {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.55rem;
+  }
+
+  .ht-rail-q {
+    color: #22d3ee;
+  }
+
+  .ht-rail-dot {
+    color: rgba(148, 163, 184, 0.42);
+  }
+
+  .ht-rail-part small {
+    margin-right: 0.2rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(148, 163, 184, 0.65);
+  }
+
+  /* HUD B — chips */
+  .ht-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .ht-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.35rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid rgba(139, 92, 246, 0.32);
+    background: rgba(18, 14, 32, 0.92);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: rgba(226, 232, 240, 0.9);
+  }
+
+  .ht-chip strong {
+    color: #fff;
+  }
+
+  .ht-chip--q {
+    border-color: rgba(34, 211, 238, 0.35);
+    color: #22d3ee;
+  }
+
+  .ht-chip--streak {
+    border-color: rgba(251, 191, 36, 0.35);
+    color: #fde68a;
+  }
+
+  /* HUD C — gauge */
+  .ht-gauge-wrap {
+    display: grid;
+    gap: 0.4rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 8px;
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    background: rgba(12, 18, 34, 0.88);
+  }
+
+  .ht-dots {
+    display: flex;
+    gap: 4px;
+    justify-content: space-between;
+  }
+
+  .ht-dots span {
+    flex: 1;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.2);
+  }
+
+  .ht-dots .is-done {
+    background: rgba(34, 211, 238, 0.55);
+  }
+
+  .ht-dots .is-current {
+    background: #22d3ee;
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.45);
+  }
+
+  .ht-gauge-line {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: rgba(226, 232, 240, 0.9);
+  }
+
+  .ht-gauge-line strong {
+    color: #fff;
+  }
+
+  /* HUD D — focus */
+  .ht-focus {
+    padding: 0.25rem 0.55rem 0.3rem;
+    border-radius: 8px;
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    background: rgba(12, 18, 34, 0.88);
+    text-align: center;
+  }
+
+  .ht-focus-q {
+    margin: 0;
+    line-height: 1;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ht-focus-num,
+  .ht-focus-total {
+    font-size: 1.375rem;
+  }
+
+  .ht-focus-num {
+    color: #22d3ee;
+  }
+
+  .ht-focus-sep {
+    margin: 0 0.1rem;
+    font-size: 1.125rem;
+    color: rgba(148, 163, 184, 0.55);
+  }
+
+  .ht-focus-total {
+    color: rgba(226, 232, 240, 0.82);
+  }
+
+  .ht-focus-meta {
+    margin: 0.125rem 0 0;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: rgba(148, 163, 184, 0.78);
+  }
+
+  /* Feedback shared */
+  .ht-answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+  }
+
+  .ht-answer {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 3.125rem;
+    border-radius: 8px;
+    border: 1px solid rgba(139, 92, 246, 0.28);
+    background: rgba(18, 22, 40, 0.92);
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #ddd6fe;
+  }
+
+  .ht-answer.is-correct {
+    border-color: rgba(74, 222, 128, 0.5);
+    background: rgba(74, 222, 128, 0.12);
+    color: #bbf7d0;
+  }
+
+  .ht-answer.is-wrong {
+    border-color: rgba(248, 113, 113, 0.5);
+    background: rgba(248, 113, 113, 0.12);
+    color: #fecaca;
+  }
+
+  .ht-tag {
+    position: absolute;
+    top: -0.45rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    font-size: 0.62rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .ht-tag.is-correct {
+    background: rgba(74, 222, 128, 0.9);
+    color: #052e16;
+  }
+
+  .ht-tag.is-wrong {
+    background: rgba(248, 113, 113, 0.9);
+    color: #450a0a;
+  }
+
+  .ht-strip {
+    padding: 0.45rem 0.65rem;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .ht-strip.is-correct {
+    background: rgba(74, 222, 128, 0.14);
+    color: #bbf7d0;
+    border: 1px solid rgba(74, 222, 128, 0.35);
+  }
+
+  .ht-strip.is-wrong {
+    background: rgba(248, 113, 113, 0.14);
+    color: #fecaca;
+    border: 1px solid rgba(248, 113, 113, 0.35);
+  }
+
+  .ht-toast-anchor {
+    position: relative;
+    z-index: 5;
+    height: 0;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .ht-float-toast {
+    position: absolute;
+    top: 0.35rem;
+    left: 50%;
+    z-index: 5;
+    width: max-content;
+    max-width: calc(100% - 2rem);
+    min-height: 2.5rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: 12px;
+    border: 1px solid rgba(248, 113, 113, 0.68);
+    border-left-width: 3px;
+    border-left-color: #f87171;
+    background: rgba(69, 10, 18, 0.97);
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: #fee2e2;
+    text-align: center;
+    white-space: nowrap;
+    box-shadow: 0 10px 24px rgba(69, 10, 18, 0.55);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -1.625rem);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .ht-float-toast.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+  }
+
+  [data-ht-score-wrap].is-pulse-correct [data-ht-score] {
+    color: #4ade80;
+    animation: ht-pulse 0.55s ease;
+  }
+
+  [data-ht-score-wrap].is-pulse-wrong [data-ht-score] {
+    color: #f87171;
+    animation: ht-pulse 0.55s ease;
+  }
+
+  @keyframes ht-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.12);
+    }
+  }
+
+  .ht-explanation {
+    border-radius: 8px;
+    border: 1px solid rgba(139, 92, 246, 0.22);
+    background: rgba(15, 12, 28, 0.92);
+    padding: 0.5rem 0.65rem;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: rgba(226, 217, 243, 0.78);
+  }
+
+  .ht-explanation-label {
+    display: block;
+    margin-bottom: 0.2rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(167, 139, 250, 0.8);
+  }
+
+  .ht-explanation p {
+    margin: 0;
+  }
+
+  .ht-sim-btn {
+    width: 100%;
+    border: 0;
+    border-top: 1px solid rgba(210, 220, 255, 0.08);
+    padding: 0.55rem;
+    background: rgba(34, 211, 238, 0.08);
+    color: #d7fbff;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .ht-sim-btn:hover {
+    background: rgba(34, 211, 238, 0.14);
+  }
+
+  .ht-combo-list {
+    margin: 0;
+    padding-left: 1.15rem;
+    line-height: 1.55;
+    color: rgba(226, 217, 243, 0.75);
+    font-size: 0.88rem;
+  }
+
+  .ht-combo-list li + li {
+    margin-top: 0.35rem;
+  }
+</style>

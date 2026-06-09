@@ -52,7 +52,7 @@ const bootPayload = {
 const modeMainClass =
   "hero-bg flex flex-1 flex-col px-6 pb-12 pt-24 sm:pt-28";
 const archiveMainClass =
-  "hero-bg flex flex-col px-6 pb-12 pt-24 sm:pt-28";
+  "archive-mode-main hero-bg flex flex-col px-2 pb-4 pt-[calc(var(--public-nav-h)+0.5rem)] sm:px-6 sm:pb-8 sm:pt-[calc(var(--public-nav-h)+0.75rem)]";
 const modeCenteredMainClass =
   "public-mode-main hero-bg flex min-h-0 flex-1 flex-col px-2 pb-4 pt-[calc(var(--public-nav-h)+0.5rem)] sm:px-6 sm:pb-8 sm:pt-[calc(var(--public-nav-h)+0.75rem)]";
 const modeViewportClass = "public-mode-viewport flex min-h-0 flex-1 flex-col";
@@ -127,7 +127,6 @@ const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
         data-attempt-singular={archiveCalendarCopy.attemptSingular}
         data-attempt-plural={archiveCalendarCopy.attemptPlural}
         data-summary-played={archiveCalendarCopy.summaryPlayed}
-        data-summary-remaining={archiveCalendarCopy.summaryRemaining}
         data-play-action={archiveCalendarCopy.playAction}
         data-replay-action={archiveCalendarCopy.replayAction}
       >
@@ -281,9 +280,27 @@ const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
         </div>
       </section>
 
-      <div class="mx-auto mt-10 w-full max-w-[980px] flex-1">
+      <div class="archive-quiz-slot mx-auto w-full max-w-[980px] flex-1">
         <PublicQuiz />
       </div>
+      <button
+        type="button"
+        id="archiveBackCalendar"
+        class="archive-scroll-back"
+        hidden
+        aria-label={locale === "fr" ? "Retour au calendrier des archives" : "Back to archive calendar"}
+      >
+        <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false">
+          <path
+            d="M11 15 5 10l6-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
       <script src="../../scripts/public-archives.ts"></script>
     </main>
   ) : (

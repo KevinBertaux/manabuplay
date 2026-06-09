@@ -14,10 +14,18 @@
 .answer-btn.correct .answer-key {
   color: #04130a;
   background: var(--green);
+  border-color: rgba(4, 19, 10, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(4, 19, 10, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 .answer-btn.wrong .answer-key {
   color: #1b0606;
   background: var(--red);
+  border-color: rgba(27, 6, 6, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(27, 6, 6, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 .answer-btn:disabled {
   cursor: not-allowed;

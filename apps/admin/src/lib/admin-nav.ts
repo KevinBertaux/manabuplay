@@ -77,6 +77,12 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
           {
             activeKey: "mockups",
             exact: true,
+            href: "/design/mockups/hud-toast",
+            label: "HUD & toast",
+          },
+          {
+            activeKey: "mockups",
+            exact: true,
             href: "/design/mockups/archives",
             label: "Archives",
           },

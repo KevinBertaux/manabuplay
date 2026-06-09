@@ -55,7 +55,6 @@ export type ArchiveCalendarCopy = {
   attemptSingular: string;
   attemptPlural: string;
   summaryPlayed: string;
-  summaryRemaining: string;
 };
 
 const ARCHIVE_CALENDAR_COPY = {
@@ -78,7 +77,6 @@ const ARCHIVE_CALENDAR_COPY = {
     attemptSingular: "attempt",
     attemptPlural: "attempts",
     summaryPlayed: "played",
-    summaryRemaining: "left",
   },
   fr: {
     sectionLabel: "ARCHIVES",
@@ -99,7 +97,6 @@ const ARCHIVE_CALENDAR_COPY = {
     attemptSingular: "tentative",
     attemptPlural: "tentatives",
     summaryPlayed: "joués",
-    summaryRemaining: "restants",
   },
 } as const satisfies Record<"en" | "fr", ArchiveCalendarCopy>;
 
