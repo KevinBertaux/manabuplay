@@ -71,8 +71,8 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
           {
             activeKey: "mockups",
             exact: true,
-            href: "/design/mockups/tier-breakdown",
-            label: "Tiers",
+            href: "/design/mockups/hint-section",
+            label: "Indices quiz",
           },
           {
             activeKey: "mockups",
@@ -85,18 +85,6 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
             exact: true,
             href: "/design/mockups/typography",
             label: "Typo",
-          },
-          {
-            activeKey: "mockups",
-            exact: true,
-            href: "/design/mockups/mobile-landing",
-            label: "Landing mobile",
-          },
-          {
-            activeKey: "mockups",
-            exact: true,
-            href: "/design/mockups/favicon",
-            label: "Favicon",
           },
         ],
       },

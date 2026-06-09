@@ -5,7 +5,11 @@ import {
   MOBILE_VIEWPORT,
   VIEWPORT_BELOW_MD,
   VIEWPORT_MD,
+  archiveGridArchiveCell,
+  archiveGridTodayCell,
   desktopModeNav,
+  hintChip1,
+  hintChip2,
   localeSwitch,
   mobileModeMenuPanel,
   mobileModeMenuTrigger,
@@ -231,12 +235,18 @@ test.describe("public localized architecture", () => {
     await expect(page.locator("#quizArea")).toBeVisible();
     await expect(page.locator("#progressText")).toHaveText("0/10");
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
-    await page.locator("#hintBtn").click();
-    await expect(page.locator("#hintText")).toHaveClass(/is-revealed/);
-    await expect(page.locator("#hintTextSecondary")).toHaveClass(/is-locked/);
+    await hintChip1(page).click();
+    await expect(hintChip1(page)).toHaveClass(/is-revealed/);
+    await expect(page.locator("#hintReveal1")).toBeVisible();
     await expect(page.locator("#hintContent")).toBeVisible();
-    await page.locator("#hintBtn").click();
-    await expect(page.locator("#hintTextSecondary")).toHaveClass(/is-revealed/);
+    const chip2 = hintChip2(page);
+    if (await chip2.isVisible()) {
+      await expect(chip2).not.toHaveClass(/is-locked/);
+      await expect(chip2).toBeEnabled();
+      await chip2.click();
+      await expect(chip2).toHaveClass(/is-revealed/);
+      await expect(page.locator("#hintReveal2")).toBeVisible();
+    }
     await page.locator("#answersGrid .answer-btn").first().click();
     await expect(page.locator("#explanationBox")).toBeVisible();
   });
@@ -245,7 +255,7 @@ test.describe("public localized architecture", () => {
     await page.setViewportSize(DESKTOP_VIEWPORT);
     await prepareQuizPage(page, `${ASTRO_URL}fr/archives/`);
 
-    const todayCell = page.locator("[data-archive-tone='today']");
+    const todayCell = archiveGridTodayCell(page);
     await expect(todayCell).toBeVisible();
     await expect(todayCell).toContainText("Aujourd'hui");
     await expect(todayCell).toContainText("Quiz du jour");
@@ -265,9 +275,7 @@ test.describe("public localized architecture", () => {
     await expect(
       desktopModeNav(page).locator("a[data-public-route='archives'][aria-current='page']"),
     ).toBeVisible();
-    await expect(
-      page.locator("[data-archive-date='2026-04-16'][data-archive-tone='archive']"),
-    ).toHaveClass(/is-active/);
+    await expect(archiveGridArchiveCell(page, "2026-04-16")).toHaveClass(/is-active/);
     await expect(page.locator("#archiveSelectedLabel")).toContainText("16 avril 2026");
     await expect(page.locator("[data-archive-month='2026-04']")).toHaveAttribute("open", "");
     await expect(

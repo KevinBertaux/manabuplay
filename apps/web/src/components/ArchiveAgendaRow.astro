@@ -1,0 +1,110 @@
+---
+import type { ArchiveCalendarCell } from "../../../../shared/lib/manabuplay-archives";
+
+interface Props {
+  cell: ArchiveCalendarCell;
+  locale: string;
+  title: string;
+  kindLabel: string;
+  defaultScoreLabel: string;
+  noAttemptLabel: string;
+  playAction: string;
+  goToDaily: string;
+}
+
+const { cell, locale, title, kindLabel, defaultScoreLabel, noAttemptLabel, playAction, goToDaily } =
+  Astro.props;
+
+const monthShort =
+  cell.dateKey &&
+  new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-US", { month: "short" }).format(
+    new Date(`${cell.dateKey}T12:00:00`),
+  );
+
+const futureLabel = locale === "fr" ? "À venir" : "Upcoming";
+---
+
+{
+  cell.tone === "today" ? (
+    <div
+      class="archive-agenda-row archive-agenda-row--today"
+      data-archive-date={cell.dateKey}
+      data-archive-tone={cell.tone}
+    >
+      <span class="archive-agenda-date">
+        <strong>{cell.day}</strong>
+        {monthShort && <small>{monthShort}</small>}
+      </span>
+      <span class="archive-agenda-main">
+        <span class="archive-agenda-title">{title}</span>
+        {kindLabel && <span class="archive-agenda-status">{kindLabel}</span>}
+      </span>
+      <a
+        class="archive-calendar-daily-link archive-agenda-daily-link"
+        href={cell.dailyHref ?? `/${locale}/daily/`}
+        data-archive-daily-link
+      >
+        {goToDaily}
+      </a>
+    </div>
+  ) : cell.disabled ? (
+    <span
+      class:list={["archive-agenda-row", `archive-agenda-row--${cell.tone}`, "is-disabled"]}
+      data-archive-date={cell.dateKey}
+      data-archive-tone={cell.tone}
+      aria-disabled="true"
+    >
+      <span class="archive-agenda-date">
+        <strong>{cell.day}</strong>
+        {monthShort && <small>{monthShort}</small>}
+      </span>
+      <span class="archive-agenda-main">
+        <span class="archive-agenda-title">{title}</span>
+        <span class="archive-agenda-status">{cell.tone === "future" ? futureLabel : title}</span>
+      </span>
+      <span class="archive-agenda-score" aria-hidden="true">
+        —
+      </span>
+    </span>
+  ) : (
+    <a
+      class:list={[
+        "archive-agenda-row",
+        `archive-agenda-row--${cell.tone}`,
+        cell.isSelected && "is-active",
+      ]}
+      href={cell.href}
+      data-archive-date={cell.dateKey}
+      data-archive-tone={cell.tone}
+      aria-label={title}
+    >
+      <span class="archive-agenda-date">
+        <strong>{cell.day}</strong>
+        {monthShort && <small>{monthShort}</small>}
+      </span>
+      <span class="archive-agenda-main">
+        <span class="archive-agenda-title">{title}</span>
+        <span class="archive-agenda-status" data-archive-attempts>
+          {noAttemptLabel}
+        </span>
+      </span>
+      <span class="archive-agenda-side">
+        <span class="archive-agenda-score" data-archive-score>
+          {defaultScoreLabel}
+        </span>
+        <span class="archive-agenda-action" data-archive-action>
+          {playAction}
+        </span>
+        <span
+          class="archive-calendar-medal archive-agenda-medal"
+          data-archive-medal
+          hidden
+          aria-label={locale === "fr" ? "Déjà joué" : "Played"}
+          title={locale === "fr" ? "Déjà joué" : "Played"}
+        >
+          ★
+        </span>
+      </span>
+    </a>
+  )
+}

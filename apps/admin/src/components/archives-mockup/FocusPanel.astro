@@ -1,0 +1,26 @@
+---
+import { getMayDayDetail, DEFAULT_SELECTED_DAY } from "../../lib/archives-mockup-data";
+
+const defaultFocus = getMayDayDetail(DEFAULT_SELECTED_DAY)!;
+---
+
+<div class="ar-focus" data-ar-focus data-ar-tone={defaultFocus.tone}>
+  <p class="ar-focus-status" data-ar-focus-status data-ar-tone={defaultFocus.tone}>
+    {defaultFocus.status}
+  </p>
+  <h3 class="ar-focus-title" data-ar-focus-title>
+    {defaultFocus.title}
+  </h3>
+  <p class="ar-focus-pack" data-ar-focus-pack>
+    {defaultFocus.pack}
+  </p>
+  <div class="ar-focus-stats">
+    <span>
+      <strong data-ar-focus-score>{defaultFocus.score}</strong> pts
+    </span>
+    <span data-ar-focus-attempts>{defaultFocus.attempts}</span>
+  </div>
+  <button type="button" class="ar-focus-cta" data-ar-focus-cta>
+    {defaultFocus.cta}
+  </button>
+</div>

@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { archiveGridArchiveCell } from "../helpers/public-shell";
 import { ASTRO_HOME_URL, ASTRO_URL, preparePage } from "../helpers/visual";
 
 async function submitWaitlistForm(page: Page, email: string) {
@@ -120,17 +121,24 @@ test.describe("public flow", () => {
     await expect(page.locator("#quizArea")).toBeVisible();
     await expect(page.locator("#progressRow")).toBeVisible();
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);
-    await expect(page.locator("#hintBtn")).toBeVisible();
-    await expect(page.locator("#hintZone")).toBeVisible();
-    await expect(page.locator("#hintText")).toHaveClass(/is-locked/);
-    await expect(page.locator("#hintTextSecondary")).toHaveClass(/is-locked/);
+    await expect(page.locator("#hintChip1")).toBeVisible();
+    const hintChip2Locator = page.locator("#hintChip2");
+    if (await hintChip2Locator.isVisible()) {
+      await expect(hintChip2Locator).toHaveClass(/is-locked/);
+    }
+    await expect(page.locator("#hintReveal1")).toBeHidden();
+    await expect(page.locator("#hintReveal2")).toBeHidden();
     await expect(page.locator("#explanationBox")).toBeHidden();
     await expect(page.locator("#feedback")).toBeHidden();
     await expect(page.locator("#nextBtn")).toHaveClass(/opacity-0/);
 
-    await page.locator("#hintBtn").click();
-    await expect(page.locator("#hintText")).toHaveClass(/is-revealed/);
-    await expect(page.locator("#hintTextSecondary")).toHaveClass(/is-locked/);
+    await page.locator("#hintChip1").click();
+    await expect(page.locator("#hintChip1")).toHaveClass(/is-revealed/);
+    if (await hintChip2Locator.isVisible()) {
+      await expect(hintChip2Locator).not.toHaveClass(/is-locked/);
+      await expect(hintChip2Locator).toBeEnabled();
+    }
+    await expect(page.locator("#hintReveal1")).toBeVisible();
     await expect(page.locator("#explanationBox")).toBeHidden();
 
     await page.locator("#answersGrid .answer-btn").first().click();
@@ -214,9 +222,7 @@ test.describe("public flow", () => {
     });
     await prepareModePage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
 
-    const archiveCell = page.locator(
-      "[data-archive-date='2026-04-16'][data-archive-tone='archive']",
-    );
+    const archiveCell = archiveGridArchiveCell(page, "2026-04-16");
     await expect(archiveCell).toHaveClass(/has-record/);
     await expect(archiveCell.locator("[data-archive-status]")).toHaveCount(0);
     await expect(archiveCell.locator("[data-archive-medal]")).toBeVisible();
@@ -231,9 +237,7 @@ test.describe("public flow", () => {
   test("selects archive dates without reloading or jumping to the quiz", async ({ page }) => {
     await prepareModePage(page, `${ASTRO_URL}fr/archives/?date=2026-04-16`);
 
-    const nextArchiveCell = page.locator(
-      "[data-archive-date='2026-04-17'][data-archive-tone='archive']",
-    );
+    const nextArchiveCell = archiveGridArchiveCell(page, "2026-04-17");
     await nextArchiveCell.click();
 
     await expect(page).toHaveURL(/date=2026-04-17/);
@@ -313,15 +317,21 @@ test.describe("public flow", () => {
     await prepareModePage(page, `${ASTRO_URL}fr/daily/`);
 
     await page.locator("[data-quiz-action='launchQuiz']").first().click();
-    await page.locator("#hintBtn").click();
+    await page.locator("#hintChip1").click();
     await chooseCurrentCorrectAnswer(page);
     await expect(page.locator("#scoreDisplay")).toHaveText("8");
 
     await page.locator("#nextBtn").click();
-    await page.locator("#hintBtn").click();
-    await page.locator("#hintBtn").click();
-    await chooseCurrentCorrectAnswer(page);
-    await expect(page.locator("#scoreDisplay")).toHaveText("13");
+    await page.locator("#hintChip1").click();
+    const hintChip2Locator = page.locator("#hintChip2");
+    if (await hintChip2Locator.isVisible()) {
+      await hintChip2Locator.click();
+      await chooseCurrentCorrectAnswer(page);
+      await expect(page.locator("#scoreDisplay")).toHaveText("13");
+    } else {
+      await chooseCurrentCorrectAnswer(page);
+      await expect(page.locator("#scoreDisplay")).toHaveText("16");
+    }
   });
 
   test("scores a perfect no-hint run at 200 after the combo multiplier", async ({ page }) => {

@@ -37,6 +37,7 @@ const {
 } = Astro.props;
 
 const productCopy = CURRENT_PRODUCT_COPY[locale];
+const isModeViewport = activeMode === "daily" || activeMode === "arcade";
 
 const encodedBootPayload = bootPayload
   ? Buffer.from(JSON.stringify(bootPayload), "utf8").toString("base64")
@@ -96,7 +97,11 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
 </head>
-<body class="public-site-body text-slate-200" data-clarity-project-id={clarityProjectId || undefined}>
+<body
+  class="public-site-body text-slate-200"
+  data-clarity-project-id={clarityProjectId || undefined}
+  data-public-viewport={isModeViewport ? "mode" : undefined}
+>
   <nav class={topNavShellClass} aria-label="Site">
     <div class={topNavInnerClass}>
     <a class={brandLinkClass} href={getLocalizedHomePath(locale)} aria-label="ManabuPlay">

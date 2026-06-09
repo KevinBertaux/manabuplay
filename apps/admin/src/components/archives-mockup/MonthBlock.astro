@@ -1,0 +1,43 @@
+---
+import CalendarDay from "./CalendarDay.astro";
+import AgendaRow from "./AgendaRow.astro";
+import FocusPanel from "./FocusPanel.astro";
+import { AGENDA_DAYS, MAY_CELLS, MAY_SUMMARY, WEEKDAYS } from "../../lib/archives-mockup-data";
+---
+
+<details class="ar-month" open>
+  <summary class="ar-month-summary">
+    <span class="ar-month-summary-title">Mai 2026</span>
+    <span class="ar-month-summary-end">
+      <strong>{MAY_SUMMARY}</strong>
+      <span class="ar-month-chevron" aria-hidden="true">
+        <svg viewBox="0 0 12 12" fill="none" focusable="false">
+          <path d="M2.5 4.5 6 8.5l3.5-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+    </span>
+  </summary>
+
+  <div class="ar-cal ar-cal--grid">
+    <div class="ar-weekdays" aria-hidden="true">
+      {WEEKDAYS.map((d) => (
+        <span>{d}</span>
+      ))}
+    </div>
+    <div class="ar-grid">
+      {MAY_CELLS.map((cell) => (
+        <CalendarDay cell={cell} />
+      ))}
+    </div>
+  </div>
+
+  <div class="ar-cal ar-cal--agenda">
+    <div class="ar-agenda-list">
+      {AGENDA_DAYS.map((cell) => (
+        <AgendaRow cell={cell} />
+      ))}
+    </div>
+  </div>
+
+  <FocusPanel />
+</details>

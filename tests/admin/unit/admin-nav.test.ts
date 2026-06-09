@@ -50,20 +50,15 @@ describe("admin nav", () => {
     expect(mockupsItem?.activeKey).toBe("mockups");
     expect(mockupsItem?.children?.map((item) => item.label)).toEqual([
       "Quiz A/B",
-      "Tiers",
+      "Indices quiz",
       "Archives",
       "Typo",
-      "Landing mobile",
-      "Favicon",
     ]);
     expect(mockupsItem?.children?.find((item) => item.label === "Archives")?.href).toBe(
       "/design/mockups/archives",
     );
     expect(mockupsItem?.children?.find((item) => item.label === "Typo")?.href).toBe(
       "/design/mockups/typography",
-    );
-    expect(mockupsItem?.children?.find((item) => item.label === "Landing mobile")?.href).toBe(
-      "/design/mockups/mobile-landing",
     );
   });
 

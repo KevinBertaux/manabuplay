@@ -1,644 +1,749 @@
 ---
 import DesignDocLayout from "../../../layouts/DesignDocLayout.astro";
-
-type ArchiveDay = {
-  day: string;
-  weekday: string;
-  title: string;
-  pack: string;
-  status: string;
-  score: string;
-  attempts: string;
-  tone: "played" | "current" | "open" | "locked";
-};
-
-type CalendarTone = ArchiveDay["tone"] | "future" | "empty";
-
-type CalendarCell = {
-  key: string;
-  day?: string;
-  title?: string;
-  pack?: string;
-  status?: string;
-  score?: string;
-  attempts?: string;
-  href?: string;
-  tone: CalendarTone;
-  disabled?: boolean;
-};
-
-const mayDays: ArchiveDay[] = [
-  {
-    day: "04",
-    weekday: "Lun.",
-    title: "Quotidien du 4 mai",
-    pack: "Gacha & Rewards",
-    status: "Joué aujourd'hui",
-    score: "124/200",
-    attempts: "1 tentative",
-    tone: "current",
-  },
-  {
-    day: "03",
-    weekday: "Dim.",
-    title: "Archive du 3 mai",
-    pack: "Anime Codes",
-    status: "Déjà joué",
-    score: "118/200",
-    attempts: "2 tentatives",
-    tone: "played",
-  },
-  {
-    day: "02",
-    weekday: "Sam.",
-    title: "Archive du 2 mai",
-    pack: "Builds & Gear",
-    status: "Disponible",
-    score: "0/200",
-    attempts: "0 tentative",
-    tone: "open",
-  },
-  {
-    day: "01",
-    weekday: "Ven.",
-    title: "Archive du 1 mai",
-    pack: "JRPG Questline",
-    status: "Déjà joué",
-    score: "132/200",
-    attempts: "1 tentative",
-    tone: "played",
-  },
-];
-
-const aprilDays: ArchiveDay[] = [
-  {
-    day: "30",
-    weekday: "Jeu.",
-    title: "Archive du 30 avril",
-    pack: "Gacha & Rewards",
-    status: "Disponible",
-    score: "0/200",
-    attempts: "0 tentative",
-    tone: "open",
-  },
-  {
-    day: "29",
-    weekday: "Mer.",
-    title: "Archive du 29 avril",
-    pack: "Anime Codes",
-    status: "Déjà joué",
-    score: "108/200",
-    attempts: "3 tentatives",
-    tone: "played",
-  },
-  {
-    day: "28",
-    weekday: "Mar.",
-    title: "Archive du 28 avril",
-    pack: "Builds & Gear",
-    status: "Disponible",
-    score: "0/200",
-    attempts: "0 tentative",
-    tone: "open",
-  },
-];
-
-const variants = [
-  {
-    id: "A",
-    title: "Journal de bord",
-    intent: "Lecture très claire, proche d'une page d'archives de journal : mois, date, statut, score, action.",
-    fit: "Meilleur choix si on veut réduire la charge mentale et montrer les complétions sans effet calendrier.",
-  },
-  {
-    id: "B",
-    title: "Calendrier compact",
-    intent: "Vue plus ludique : chaque jour devient une case scannable, utile quand plusieurs mois seront remplis.",
-    fit: "Meilleur choix si on veut un effet collection/completion, avec moins de texte par entrée.",
-  },
-  {
-    id: "C",
-    title: "Éditions mensuelles",
-    intent: "Entre journal et jeu quotidien : les jours sont des numéros d'édition, avec score et tentatives en première ligne.",
-    fit: "Meilleur choix si on veut une page plus premium, mais encore sobre et rapide à lire.",
-  },
-];
-
-const cardStyleProposals = [
-  {
-    id: "quiet",
-    label: "Style 1",
-    title: "Calme éditorial",
-    intent:
-      "Peu de badges, beaucoup d'air. Le jaune ne sert plus à dire 'tenté' : il reste réservé au score dans le texte.",
-  },
-  {
-    id: "arcade",
-    label: "Style 2",
-    title: "Arcade compact",
-    intent:
-      "Plus game, mais sans bulle vide. Les états sont portés par bordure, fond et CTA de sélection.",
-  },
-  {
-    id: "score",
-    label: "Style 3",
-    title: "Score d'abord",
-    intent:
-      "Le regard tombe sur le score ou sur 'Pas encore joué'. Bon si on veut valoriser la progression personnelle.",
-  },
-  {
-    id: "minimal",
-    label: "Style 4",
-    title: "Minimal calendrier",
-    intent:
-      "Version la plus proche d'un calendrier classique. Très peu de texte dans la case, détail seulement à la sélection.",
-  },
-] as const;
-
-const cardStateMatrix = [
-  {
-    id: "played-unselected",
-    label: "Tenté · non sélectionné",
-    day: "16",
-    title: "Avril",
-    score: "132/200",
-    attempts: "2 tentatives",
-    played: true,
-    selected: false,
-  },
-  {
-    id: "unplayed-unselected",
-    label: "Pas tenté · non sélectionné",
-    day: "17",
-    title: "Avril",
-    score: "0/200",
-    attempts: "0 tentative",
-    played: false,
-    selected: false,
-  },
-  {
-    id: "played-selected",
-    label: "Tenté · sélectionné",
-    day: "18",
-    title: "Avril",
-    score: "98/200",
-    attempts: "1 tentative",
-    played: true,
-    selected: true,
-  },
-  {
-    id: "unplayed-selected",
-    label: "Pas tenté · sélectionné",
-    day: "19",
-    title: "Avril",
-    score: "0/200",
-    attempts: "0 tentative",
-    played: false,
-    selected: true,
-  },
-] as const;
-
-const statusClass = {
-  current: "archive-status archive-status--current",
-  locked: "archive-status archive-status--locked",
-  open: "archive-status archive-status--open",
-  played: "archive-status archive-status--played",
-} satisfies Record<ArchiveDay["tone"], string>;
-
-const calendarStatusClass = {
-  ...statusClass,
-  empty: "archive-status archive-status--locked",
-  future: "archive-status archive-status--locked",
-} satisfies Record<CalendarTone, string>;
-
-const calendarLocale = {
-  code: "fr-FR",
-  label: "France",
-  weekStartsOn: 1,
-  weekdays: ["Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.", "Dim."],
-  fallback: "en-US démarre dimanche.",
-} as const;
-
-const archiveCalendarDetails: Partial<Record<number, Omit<CalendarCell, "day" | "key">>> = {
-  1: {
-    title: "Archive du 1 mai",
-    pack: "JRPG Questline",
-    status: "Déjà joué",
-    score: "132/200",
-    attempts: "1 tentative",
-    href: "/fr/archives/2026-05-01/",
-    tone: "played",
-  },
-  2: {
-    title: "Archive du 2 mai",
-    pack: "Builds & Gear",
-    status: "Disponible",
-    score: "0/200",
-    attempts: "0 tentative",
-    href: "/fr/archives/2026-05-02/",
-    tone: "open",
-  },
-  3: {
-    title: "Archive du 3 mai",
-    pack: "Anime Codes",
-    status: "Déjà joué",
-    score: "118/200",
-    attempts: "2 tentatives",
-    href: "/fr/archives/2026-05-03/",
-    tone: "played",
-  },
-  4: {
-    title: "Quotidien du 4 mai",
-    pack: "Gacha & Rewards",
-    status: "Joué aujourd'hui",
-    score: "124/200",
-    attempts: "1 tentative",
-    href: "/fr/daily/",
-    tone: "current",
-  },
-};
-
-const buildCalendarCells = (): CalendarCell[] => {
-  const mayFirstSundayIndex = 5;
-  const leadingCount = (mayFirstSundayIndex - calendarLocale.weekStartsOn + 7) % 7;
-  const leadingCells: CalendarCell[] = Array.from({ length: leadingCount }, (_, index) => ({
-    key: `empty-start-${index}`,
-    tone: "empty",
-  }));
-
-  const monthCells: CalendarCell[] = Array.from({ length: 31 }, (_, index) => {
-    const dayNumber = index + 1;
-    const day = String(dayNumber).padStart(2, "0");
-    const knownDay = archiveCalendarDetails[dayNumber];
-
-    if (knownDay) {
-      return {
-        key: `2026-05-${day}`,
-        day,
-        ...knownDay,
-      };
-    }
-
-    return {
-      key: `2026-05-${day}`,
-      day,
-      title: `${day} mai`,
-      status: "À venir",
-      tone: "future",
-      disabled: true,
-    };
-  });
-
-  const cells = [...leadingCells, ...monthCells];
-  const trailingCount = (7 - (cells.length % 7)) % 7;
-  const trailingCells: CalendarCell[] = Array.from({ length: trailingCount }, (_, index) => ({
-    key: `empty-end-${index}`,
-    tone: "empty",
-  }));
-
-  return [...cells, ...trailingCells];
-};
-
-const calendarCells = buildCalendarCells();
-const currentCalendarDay = archiveCalendarDetails[4]!;
+import DeviceFrame from "../../../components/archives-mockup/DeviceFrame.astro";
+import { DESKTOP_DEVICE, MOBILE_DEVICES, VARIANTS } from "../../../lib/archives-mockup-data";
 ---
 
 <DesignDocLayout
-  title="Mockups archives quotidien"
+  title="Mockup — calendrier Archives"
   active="mockups"
-  description="Prototypes internes pour la future page Archives du quiz public."
-  containerClass="page archive-mockups"
+  description="3 variantes responsive : iPhone XR, autre mobile, desktop. Clique un jour pour mettre à jour le panneau focus."
+  containerClass="page admin-wrap"
+  bodyClass="ar-body"
 >
-  <header class="archive-mockup-hero">
-    <div>
-      <p class="archive-mockup-kicker">Design public · Archives</p>
-      <h1>Archives du quotidien</h1>
-      <p>
-        Hypothèse cadrée : le quotidien du jour ne se rejoue pas, les archives sont rejouables, et chaque archive affiche le
-        score sur 200 plus le nombre de tentatives.
-      </p>
-    </div>
-    <div class="archive-mockup-rulecard">
-      <strong>Cas de référence</strong>
-      <span>Utilisateur normal le 4 mai 2026 : quotidien joué, archives 1-3 mai visibles, mai groupé en drawer.</span>
-      <span>Le 5 mai 2026, le 4 mai passe dans les archives avec le même visuel “déjà joué”.</span>
-    </div>
+  <div class="ar-page">
+  <header class="ar-hero">
+    <p class="ar-kicker">Design public · Archives</p>
+    <h1>Calendrier archives — 3 options</h1>
+    <p class="ar-lead">
+      Refonte du mockup : comparaison par device, interaction sur la sélection de jour. Hypothèse produit inchangée —
+      drawers par mois, score + tentatives, quotidien du jour distinct des archives rejouables.
+    </p>
+    <ul class="ar-rules">
+      <li><strong>Mobile</strong> : cible tactile 44px, grille 7 colonnes ou agenda selon variante.</li>
+      <li><strong>Desktop</strong> : cartes plus denses, CTA visible sur le jour sélectionné.</li>
+      <li><strong>Natif</strong> : on ne remplace pas par un picker OS — inspiration iOS/Android pour densité et pastilles.</li>
+    </ul>
   </header>
 
-  <section class="archive-mockup-summary" aria-label="Règles de comportement">
-    <article>
-      <strong>Quotidien</strong>
-      <span>1 tentative comptée par jour. Pas de replay utilisateur le jour même.</span>
-    </article>
-    <article>
-      <strong>Archives</strong>
-      <span>Replay libre, mais historique lisible : score sur 200 + tentatives.</span>
-    </article>
-    <article>
-      <strong>Rangement</strong>
-      <span>Drawers par mois, mois courant ouvert, mois précédents repliés.</span>
-    </article>
-  </section>
+  {
+    VARIANTS.map((variant) => (
+      <section class:list={["ar-variant", `ar-v-${variant.id}`]} data-ar-variant={variant.id} aria-labelledby={`ar-v-${variant.id}-title`}>
+        <header class="ar-variant-head">
+          <div class="ar-variant-title-row">
+            {variant.badge && <span class="ar-badge">{variant.badge}</span>}
+            <span class="ar-variant-id">Option {variant.id.toUpperCase()}</span>
+            <h2 id={`ar-v-${variant.id}-title`}>{variant.title}</h2>
+          </div>
+          <p class="ar-variant-intent">{variant.intent}</p>
+          <p class="ar-variant-fit">
+            <strong>Quand choisir :</strong> {variant.fit}
+          </p>
+        </header>
 
-  <section class="archive-card-lab" aria-labelledby="archive-card-lab-title">
-    <header class="archive-card-lab-head">
-      <div>
-        <p class="archive-mockup-kicker">Décision UI · Cartes calendrier</p>
-        <h2 id="archive-card-lab-title">États de carte à comparer</h2>
-      </div>
-      <p>
-        Objectif : supprimer la bulle bleue vide des jours jamais joués, éviter que le jaune signifie seulement “tenté”,
-        et afficher un bouton d'action dès qu'un jour passé est sélectionné.
-      </p>
-    </header>
-
-    <div class="archive-card-style-grid">
-      {cardStyleProposals.map((style) => (
-        <article class:list={["archive-card-style", `archive-card-style--${style.id}`]}>
-          <header class="archive-card-style-head">
-            <span>{style.label}</span>
-            <div>
-              <h3>{style.title}</h3>
-              <p>{style.intent}</p>
-            </div>
-          </header>
-
-          <div class="archive-state-grid" aria-label={`${style.title} states`}>
-            {cardStateMatrix.map((state) => (
-              <article
-                class:list={[
-                  "archive-state-card",
-                  `archive-state-card--${style.id}`,
-                  state.played ? "is-played" : "is-unplayed",
-                  state.selected && "is-selected",
-                ]}
-              >
-                <div class="archive-state-card-top">
-                  <strong>{state.day}</strong>
-                  <span>{state.label}</span>
-                </div>
-                <div class="archive-state-card-body">
-                  <h4>Score</h4>
-                  <p class="archive-state-card-score">{state.score}</p>
-                  <small>{state.attempts}</small>
-                </div>
-                {state.selected && (
-                  <a href="#quiz" class="archive-state-card-cta">
-                    {state.played ? "Rejouer" : "Jouer"}
-                  </a>
-                )}
-              </article>
+        <div class="ar-device-stack">
+          <div class="ar-device-row ar-device-row--mobile">
+            {MOBILE_DEVICES.map((device) => (
+              <DeviceFrame id={device.id} label={device.label} width={device.width} form={device.form} />
             ))}
           </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="archive-variant-grid" aria-label="Variantes archives">
-    {variants.map((variant) => (
-      <article class:list={["archive-variant", `archive-variant--${variant.id.toLowerCase()}`]}>
-        <header class="archive-variant-head">
-          <span class="archive-variant-id">Version {variant.id}</span>
-          <div>
-            <h2>{variant.title}</h2>
-            <p>{variant.intent}</p>
-          </div>
-        </header>
-
-        <p class="archive-variant-fit">{variant.fit}</p>
-
-        {variant.id === "A" && (
-          <div class="archive-board archive-board--ledger">
-            <details class="archive-month" open>
-              <summary>
-                <span>Mai 2026</span>
-                <strong>4 entrées · 3 jouées</strong>
-              </summary>
-              <div class="archive-ledger-list">
-                {mayDays.map((day) => (
-                  <article class:list={["archive-day-card", `archive-day-card--${day.tone}`]}>
-                    <div class="archive-date-block">
-                      <span>{day.weekday}</span>
-                      <strong>{day.day}</strong>
-                    </div>
-                    <div class="archive-day-main">
-                      <h3>{day.title}</h3>
-                      <p>{day.pack}</p>
-                    </div>
-                    <div class="archive-day-meta">
-                      <span class={statusClass[day.tone]}>{day.status}</span>
-                      <span>{day.score}</span>
-                      <span>{day.attempts}</span>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </details>
-            <details class="archive-month">
-              <summary>
-                <span>Avril 2026</span>
-                <strong>3 entrées · 1 jouée</strong>
-              </summary>
-              <div class="archive-ledger-list">
-                {aprilDays.map((day) => (
-                  <article class:list={["archive-day-card", `archive-day-card--${day.tone}`]}>
-                    <div class="archive-date-block">
-                      <span>{day.weekday}</span>
-                      <strong>{day.day}</strong>
-                    </div>
-                    <div class="archive-day-main">
-                      <h3>{day.title}</h3>
-                      <p>{day.pack}</p>
-                    </div>
-                    <div class="archive-day-meta">
-                      <span class={statusClass[day.tone]}>{day.status}</span>
-                      <span>{day.score}</span>
-                      <span>{day.attempts}</span>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </details>
-          </div>
-        )}
-
-        {variant.id === "B" && (
-          <div class="archive-board archive-board--calendar">
-            <details class="archive-month" open>
-              <summary>
-                <span>Mai 2026</span>
-                <strong>Progression 75%</strong>
-              </summary>
-              <div class="archive-calendar-grid">
-                {mayDays.map((day) => (
-                  <article class:list={["archive-calendar-day", `archive-calendar-day--${day.tone}`]}>
-                    <span class="archive-calendar-weekday">{day.weekday}</span>
-                    <strong>{day.day}</strong>
-                    <span class={statusClass[day.tone]}>{day.status}</span>
-                    <span>{day.score}</span>
-                    <small>{day.attempts}</small>
-                  </article>
-                ))}
-              </div>
-            </details>
-            <details class="archive-month">
-              <summary>
-                <span>Avril 2026</span>
-                <strong>Progression 33%</strong>
-              </summary>
-            </details>
-          </div>
-        )}
-
-        {variant.id === "C" && (
-          <div class="archive-board archive-board--issues">
-            <details class="archive-month" open>
-              <summary>
-                <span>Mai 2026</span>
-                <strong>Dernières éditions</strong>
-              </summary>
-              <div class="archive-issue-list">
-                {mayDays.map((day) => (
-                  <article class:list={["archive-issue", `archive-issue--${day.tone}`]}>
-                    <div class="archive-issue-number">
-                      <span>{day.weekday}</span>
-                      <strong>{day.day}</strong>
-                    </div>
-                    <div class="archive-issue-copy">
-                      <h3>{day.title}</h3>
-                      <p>{day.pack} · {day.score} · {day.attempts}</p>
-                    </div>
-                    <span class={statusClass[day.tone]}>{day.status}</span>
-                  </article>
-                ))}
-              </div>
-            </details>
-          </div>
-        )}
-      </article>
-    ))}
-  </section>
-
-  <section class="archive-variant archive-variant--d" aria-labelledby="archive-option-d-title">
-    <header class="archive-variant-head archive-variant-head--wide">
-      <span class="archive-variant-id">Version D</span>
-      <div>
-        <h2 id="archive-option-d-title">Calendrier mensuel</h2>
-        <p>
-          Grille 7 colonnes pilotée par la locale : ici {calendarLocale.code}, donc semaine lundi-dimanche.
-          {calendarLocale.fallback} Les jours passés pointent vers leur archive, le jour courant vers le quotidien.
-        </p>
-      </div>
-    </header>
-
-    <div class="archive-option-d-shell">
-      <article class="archive-device archive-device--desktop" aria-label="Version desktop calendrier">
-        <header class="archive-device-bar">
-          <span>Desktop</span>
-          <strong>{calendarLocale.label} · semaine lundi</strong>
-        </header>
-        <div class="archive-calendar-panel">
-          <div class="archive-calendar-panel-head">
-            <div>
-              <span class="archive-calendar-eyebrow">Archives</span>
-              <h3>Mai 2026</h3>
-            </div>
-            <p>3 joués · 1 disponible · 27 à venir</p>
-          </div>
-
-          <div class="archive-calendar-weekdays" aria-hidden="true">
-            {calendarLocale.weekdays.map((weekday) => <span>{weekday}</span>)}
-          </div>
-
-          <div class="archive-calendar-month archive-calendar-month--desktop">
-            {calendarCells.map((cell) =>
-              cell.tone === "empty" ? (
-                <span class="archive-calendar-cell archive-calendar-cell--empty" aria-hidden="true"></span>
-              ) : cell.disabled ? (
-                <span
-                  class:list={["archive-calendar-cell", `archive-calendar-cell--${cell.tone}`]}
-                  aria-disabled="true"
-                >
-                  <span class="archive-calendar-cell-top">
-                    <strong>{cell.day}</strong>
-                    <small>À venir</small>
-                  </span>
-                  <span class="archive-calendar-cell-title">{cell.title}</span>
-                  <span class={calendarStatusClass[cell.tone]}>{cell.status}</span>
-                </span>
-              ) : (
-                <a class:list={["archive-calendar-cell", `archive-calendar-cell--${cell.tone}`]} href={cell.href}>
-                  <span class="archive-calendar-cell-top">
-                    <strong>{cell.day}</strong>
-                    <small>{cell.tone === "current" ? "Quotidien" : "Archive"}</small>
-                  </span>
-                  <span class="archive-calendar-cell-title">{cell.title}</span>
-                  <span class="archive-calendar-cell-pack">{cell.pack}</span>
-                  <span class={calendarStatusClass[cell.tone]}>{cell.status}</span>
-                  <span class="archive-calendar-cell-meta">
-                    <span>{cell.score}</span>
-                    <span>{cell.attempts}</span>
-                  </span>
-                </a>
-              )
-            )}
+          <div class="ar-device-row ar-device-row--desktop">
+            <p class="ar-device-row-label">Desktop</p>
+            <DeviceFrame
+              id={DESKTOP_DEVICE.id}
+              label={DESKTOP_DEVICE.label}
+              width={DESKTOP_DEVICE.width}
+              form={DESKTOP_DEVICE.form}
+            />
           </div>
         </div>
-      </article>
-
-      <article class="archive-device archive-device--mobile" aria-label="Version mobile calendrier">
-        <header class="archive-device-bar">
-          <span>Mobile</span>
-          <strong>Compact</strong>
-        </header>
-        <div class="archive-calendar-panel archive-calendar-panel--mobile">
-          <div class="archive-calendar-panel-head">
-            <div>
-              <span class="archive-calendar-eyebrow">Archives</span>
-              <h3>Mai 2026</h3>
-            </div>
-            <p>3/4 ouverts</p>
-          </div>
-
-          <div class="archive-calendar-weekdays" aria-hidden="true">
-            {calendarLocale.weekdays.map((weekday) => <span>{weekday}</span>)}
-          </div>
-
-          <div class="archive-calendar-month archive-calendar-month--mobile">
-            {calendarCells.map((cell) =>
-              cell.tone === "empty" ? (
-                <span class="archive-calendar-cell archive-calendar-cell--empty" aria-hidden="true"></span>
-              ) : cell.disabled ? (
-                <span
-                  class:list={["archive-calendar-cell", `archive-calendar-cell--${cell.tone}`]}
-                  aria-disabled="true"
-                >
-                  <span class="archive-calendar-cell-top">
-                    <strong>{cell.day}</strong>
-                  </span>
-                </span>
-              ) : (
-                <a class:list={["archive-calendar-cell", `archive-calendar-cell--${cell.tone}`]} href={cell.href}>
-                  <span class="archive-calendar-cell-top">
-                    <strong>{cell.day}</strong>
-                  </span>
-                  <span class="archive-calendar-cell-meta">
-                    <span>{cell.score}</span>
-                    <span>{cell.attempts}</span>
-                  </span>
-                </a>
-              )
-            )}
-          </div>
-
-          <div class="archive-mobile-focus">
-            <span class={statusClass.current}>{currentCalendarDay.status}</span>
-            <strong>04 · {currentCalendarDay.title}</strong>
-            <p>{currentCalendarDay.pack} · {currentCalendarDay.score} · {currentCalendarDay.attempts}</p>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
+      </section>
+    ))
+  }
+  </div>
 </DesignDocLayout>
+
+<script src="../../../scripts/archives-mockup.ts"></script>
+
+<style is:global>
+  .ar-body {
+    background: #080911;
+  }
+
+  .ar-page {
+    color: #e8e4f4;
+    font-family: var(--font-body, "Chakra Petch", sans-serif);
+  }
+  .ar-page {
+    display: grid;
+    gap: 28px;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-bottom: 48px;
+  }
+
+  .ar-hero {
+    display: grid;
+    gap: 12px;
+    padding: 22px;
+    border: 1px solid rgba(139, 92, 246, 0.28);
+    border-radius: 12px;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(34, 211, 238, 0.12), transparent 34%),
+      rgba(12, 10, 24, 0.96);
+  }
+
+  .ar-kicker,
+  .ar-variant-id {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    margin: 0;
+    padding: 6px 10px;
+    border: 1px solid rgba(34, 211, 238, 0.28);
+    border-radius: 8px;
+    background: rgba(34, 211, 238, 0.08);
+    color: #67e8f9;
+    font-family: var(--font-pixel);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ar-hero h1 {
+    margin: 0;
+    color: #fff;
+    font-family: var(--font-pixel);
+    font-size: clamp(1.2rem, 2.4vw, 1.85rem);
+    letter-spacing: 0.04em;
+  }
+
+  .ar-lead,
+  .ar-variant-intent,
+  .ar-variant-fit {
+    margin: 0;
+    color: #c7c2df;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .ar-rules {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: #a7a1be;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .ar-variant {
+    display: grid;
+    gap: 16px;
+    padding: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    background: rgba(8, 7, 18, 0.72);
+  }
+
+  .ar-variant-head {
+    display: grid;
+    gap: 8px;
+  }
+
+  .ar-variant-title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ar-variant-title-row h2 {
+    margin: 0;
+    flex: 1 1 100%;
+    color: #fff;
+    font-family: var(--font-pixel);
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .ar-badge {
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: rgba(236, 72, 153, 0.16);
+    border: 1px solid rgba(236, 72, 153, 0.38);
+    color: #fbcfe8;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .ar-device-stack {
+    display: grid;
+    gap: 20px;
+  }
+
+  .ar-device-row--mobile {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .ar-device-row--desktop {
+    display: grid;
+    gap: 10px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(139, 92, 246, 0.18);
+  }
+
+  .ar-device-row-label {
+    margin: 0;
+    color: rgba(34, 211, 238, 0.72);
+    font-family: var(--font-pixel);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ar-device-row--desktop .ar-device {
+    width: min(100%, var(--ar-device-w));
+    justify-self: stretch;
+    max-width: 100%;
+  }
+
+  .ar-device {
+    width: min(100%, var(--ar-device-w));
+    justify-self: center;
+    border: 1px solid rgba(139, 92, 246, 0.24);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #05040a;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.32);
+  }
+
+  .ar-device-chrome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.16);
+    color: rgba(167, 139, 250, 0.78);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .ar-device-chrome strong {
+    color: #8deeff;
+  }
+
+  .ar-device-body {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(15, 12, 26, 0.94);
+  }
+
+  .ar-shell-intro {
+    text-align: center;
+  }
+
+  .ar-shell-label {
+    margin: 0;
+    color: #ec4899;
+    font-family: var(--font-pixel);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ar-shell-selected {
+    margin: 4px 0 0;
+    color: #cffafe;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .ar-month {
+    border: 1px solid rgba(139, 92, 246, 0.22);
+    border-radius: 8px;
+    background: rgba(12, 10, 24, 0.88);
+    overflow: hidden;
+  }
+
+  .ar-month-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    list-style: none;
+    color: #f8f3ff;
+    font-weight: 800;
+  }
+
+  .ar-month-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .ar-month-summary-end {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ar-month-summary strong {
+    color: rgba(34, 211, 238, 0.78);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .ar-month-chevron {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1px solid rgba(139, 92, 246, 0.28);
+    border-radius: 8px;
+    background: rgba(139, 92, 246, 0.1);
+    color: rgba(167, 139, 250, 0.92);
+    transition: transform 160ms ease;
+  }
+
+  .ar-month-chevron svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+
+  .ar-month[open] .ar-month-chevron {
+    transform: rotate(180deg);
+    border-color: rgba(34, 211, 238, 0.34);
+    background: rgba(34, 211, 238, 0.1);
+    color: rgba(103, 232, 249, 0.95);
+  }
+
+  .ar-weekdays,
+  .ar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 8px;
+  }
+
+  .ar-weekdays {
+    padding-top: 4px;
+    color: rgba(167, 139, 250, 0.62);
+    font-size: 0.58rem;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .ar-grid {
+    padding-bottom: 8px;
+  }
+
+  .ar-day {
+    display: grid;
+    gap: 2px;
+    align-content: start;
+    min-width: 0;
+    min-height: 2.75rem;
+    aspect-ratio: 1;
+    padding: 4px;
+    border: 1px solid rgba(139, 92, 246, 0.22);
+    border-radius: 8px;
+    background: rgba(13, 16, 36, 0.82);
+    color: rgba(226, 217, 243, 0.88);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      border-color 140ms ease,
+      box-shadow 140ms ease;
+  }
+
+  .ar-day--empty {
+    opacity: 0;
+    pointer-events: none;
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .ar-day.is-disabled {
+    opacity: 0.42;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .ar-day--played.has-record {
+    border-color: rgba(250, 204, 21, 0.32);
+  }
+
+  .ar-day--current {
+    border-color: rgba(34, 211, 238, 0.42);
+    background: rgba(34, 211, 238, 0.1);
+  }
+
+  .ar-day--open {
+    border-color: rgba(45, 212, 191, 0.28);
+  }
+
+  .ar-day.is-selected {
+    border-color: rgba(236, 72, 153, 0.58);
+    box-shadow:
+      0 0 0 1px rgba(236, 72, 153, 0.2),
+      0 0 16px rgba(236, 72, 153, 0.14);
+  }
+
+  .ar-day-top {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 2px;
+  }
+
+  .ar-day-top strong {
+    font-family: var(--font-pixel);
+    font-size: 0.72rem;
+    color: #fff;
+  }
+
+  .ar-day-medal {
+    display: grid;
+    place-items: center;
+    width: 0.95rem;
+    height: 0.95rem;
+    border-radius: 999px;
+    border: 1px solid rgba(250, 204, 21, 0.34);
+    background: rgba(250, 204, 21, 0.12);
+    color: #facc15;
+    font-size: 0.52rem;
+    line-height: 1;
+  }
+
+  .ar-day-dot {
+    justify-self: center;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.35);
+  }
+
+  .ar-day--played .ar-day-dot,
+  .ar-day--current .ar-day-dot {
+    background: #facc15;
+  }
+
+  .ar-day--open .ar-day-dot {
+    background: #2dd4bf;
+  }
+
+  .ar-day--current .ar-day-dot {
+    background: #22d3ee;
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+  }
+
+  .ar-day-score {
+    font-size: 0.58rem;
+    font-weight: 850;
+    color: #dbeafe;
+    line-height: 1.1;
+  }
+
+  .ar-day-title,
+  .ar-day-meta,
+  .ar-day-cta {
+    display: none;
+  }
+
+  .ar-focus {
+    display: grid;
+    gap: 6px;
+    margin: 0 8px 8px;
+    padding: 10px 12px;
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 8px;
+    background: rgba(2, 10, 22, 0.72);
+  }
+
+  .ar-focus-status {
+    margin: 0;
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #67e8f9;
+  }
+
+  .ar-focus-status[data-ar-tone="played"] {
+    color: #facc15;
+  }
+
+  .ar-focus-title {
+    margin: 0;
+    color: #fff;
+    font-size: 0.88rem;
+    font-weight: 900;
+  }
+
+  .ar-focus-pack {
+    margin: 0;
+    color: #a7a1be;
+    font-size: 0.76rem;
+  }
+
+  .ar-focus-stats {
+    display: flex;
+    gap: 10px;
+    color: #dbeafe;
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  .ar-focus-stats strong {
+    color: #facc15;
+    font-family: var(--font-pixel);
+    font-size: 0.82rem;
+  }
+
+  .ar-focus-cta {
+    justify-self: start;
+    min-height: 2.25rem;
+    padding: 0 12px;
+    border: 1px solid rgba(34, 211, 238, 0.42);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.24), rgba(139, 92, 246, 0.2));
+    color: #e0fbff;
+    font-family: var(--font-pixel);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .ar-reset {
+    justify-self: center;
+    border: 1px solid rgba(139, 92, 246, 0.28);
+    border-radius: 8px;
+    background: rgba(26, 22, 48, 0.55);
+    color: rgba(226, 217, 243, 0.78);
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+
+  .ar-quiz-stub {
+    margin: 0;
+    text-align: center;
+    color: rgba(148, 163, 184, 0.45);
+    font-size: 0.68rem;
+  }
+
+  /* —— Option A : dense + focus (mobile) ; cartes (desktop) —— */
+  .ar-v-a .ar-device--narrow .ar-day-title,
+  .ar-v-a .ar-device--narrow .ar-day-meta,
+  .ar-v-a .ar-device--narrow .ar-day-cta {
+    display: none;
+  }
+
+  .ar-v-a .ar-device--narrow .ar-day-dot {
+    display: none;
+  }
+
+  .ar-v-a .ar-device--desktop .ar-day {
+    aspect-ratio: auto;
+    min-height: 5.5rem;
+    gap: 4px;
+    padding: 8px;
+  }
+
+  .ar-v-a .ar-device--desktop .ar-day-dot {
+    display: none;
+  }
+
+  .ar-v-a .ar-device--desktop .ar-day-title,
+  .ar-v-a .ar-device--desktop .ar-day-meta {
+    display: block;
+    font-size: 0.68rem;
+    line-height: 1.25;
+  }
+
+  .ar-v-a .ar-device--desktop .ar-day-meta {
+    display: grid;
+    gap: 2px;
+    color: rgba(226, 217, 243, 0.68);
+  }
+
+  .ar-v-a .ar-device--desktop .ar-day.is-selected .ar-day-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.6rem;
+    margin-top: 2px;
+    padding: 0 8px;
+    border: 1px solid rgba(34, 211, 238, 0.42);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.22), rgba(139, 92, 246, 0.18));
+    color: #e0fbff;
+    font-family: var(--font-pixel);
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .ar-v-a .ar-device--desktop .ar-focus {
+    display: none;
+  }
+
+  /* —— Option B : pastilles —— */
+  .ar-v-b .ar-day-score,
+  .ar-v-b .ar-day-title,
+  .ar-v-b .ar-day-meta,
+  .ar-v-b .ar-day-cta,
+  .ar-v-b .ar-day-medal {
+    display: none !important;
+  }
+
+  .ar-v-b .ar-day-top {
+    justify-content: center;
+  }
+
+  .ar-v-b .ar-day-dot {
+    display: block;
+  }
+
+  .ar-v-b .ar-device--desktop .ar-day-score {
+    display: block !important;
+    text-align: center;
+    font-size: 0.6rem;
+  }
+
+  /* —— Option C : agenda sur narrow, grille sur desktop —— */
+  .ar-v-c .ar-cal--agenda {
+    display: none;
+  }
+
+  .ar-v-c .ar-device--narrow .ar-cal--grid {
+    display: none;
+  }
+
+  .ar-v-c .ar-device--narrow .ar-cal--agenda {
+    display: block;
+    padding: 0 8px 8px;
+  }
+
+  .ar-v-c .ar-device--desktop .ar-focus {
+    display: none;
+  }
+
+  .ar-v-c .ar-device--desktop .ar-day {
+    aspect-ratio: auto;
+    min-height: 5.25rem;
+    padding: 8px;
+  }
+
+  .ar-v-c .ar-device--desktop .ar-day-dot {
+    display: none;
+  }
+
+  .ar-v-c .ar-device--desktop .ar-day-title,
+  .ar-v-c .ar-device--desktop .ar-day-meta {
+    display: block;
+    font-size: 0.66rem;
+  }
+
+  .ar-v-c .ar-device--desktop .ar-day-meta {
+    display: grid;
+  }
+
+  .ar-v-c .ar-device--desktop .ar-day.is-selected .ar-day-cta {
+    display: inline-flex;
+    min-height: 1.5rem;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(34, 211, 238, 0.4);
+    font-family: var(--font-pixel);
+    font-size: 0.56rem;
+    text-transform: uppercase;
+    color: #e0fbff;
+  }
+
+  .ar-agenda-list {
+    display: grid;
+    gap: 6px;
+  }
+
+  .ar-agenda-row {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 8px;
+    background: rgba(13, 16, 36, 0.82);
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .ar-agenda-row.is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .ar-agenda-row.is-selected {
+    border-color: rgba(236, 72, 153, 0.55);
+    box-shadow: 0 0 14px rgba(236, 72, 153, 0.12);
+  }
+
+  .ar-agenda-date strong {
+    display: block;
+    font-family: var(--font-pixel);
+    color: #fff;
+    font-size: 0.82rem;
+  }
+
+  .ar-agenda-date small {
+    color: #8deeff;
+    font-size: 0.58rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .ar-agenda-title {
+    display: block;
+    color: #fff;
+    font-size: 0.76rem;
+    font-weight: 900;
+  }
+
+  .ar-agenda-status {
+    display: block;
+    color: #a7a1be;
+    font-size: 0.66rem;
+  }
+
+  .ar-agenda-score {
+    color: #facc15;
+    font-family: var(--font-pixel);
+    font-size: 0.68rem;
+  }
+
+  @media (max-width: 860px) {
+    .ar-device-row--mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

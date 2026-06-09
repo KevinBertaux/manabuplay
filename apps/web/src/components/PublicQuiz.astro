@@ -68,9 +68,6 @@
         <!-- ══ QUIZ AREA ══ -->
         <div id="quizArea" hidden class="quiz-area">
           <section class="quiz-word-panel">
-            <div class="quiz-word-category-badge">
-              <span class="quiz-word-category" id="wordCategory"></span>
-            </div>
             <div class="quiz-word-romaji" id="wordRomaji"></div>
             <div class="quiz-word-forms">
               <span id="wordKana" class="quiz-word-kana"></span>
@@ -79,28 +76,55 @@
           </section>
 
           <section class="quiz-play-panel">
-            <div class="quiz-prompt-row">
-              <div>
-                <p class="quiz-prompt-title" data-i18n="quiz_prompt_title"></p>
-                <p class="quiz-prompt-context" data-i18n="quiz_prompt_context"></p>
-                <p class="quiz-feedback quiz-feedback-copy" id="feedback" hidden></p>
+            <div class="quiz-prompt-head">
+              <p class="quiz-prompt-title" data-i18n="quiz_prompt_title"></p>
+              <div
+                id="hintChips"
+                class="quiz-hint-chips"
+                hidden
+                role="group"
+                data-aria-label-en="Hints"
+                data-aria-label-fr="Indices"
+              >
+                <button
+                  type="button"
+                  class="quiz-hint-chip"
+                  id="hintChip1"
+                  data-quiz-action="revealHint"
+                  data-hint-stage="1"
+                  aria-pressed="false"
+                >
+                  <span class="quiz-hint-chip-icon" aria-hidden="true">💡</span>
+                  <span class="quiz-hint-chip-num">1</span>
+                  <span class="quiz-hint-chip-cost" data-i18n="hint_cost_one"></span>
+                </button>
+                <button
+                  type="button"
+                  class="quiz-hint-chip is-locked"
+                  id="hintChip2"
+                  data-quiz-action="revealHint"
+                  data-hint-stage="2"
+                  disabled
+                  hidden
+                  aria-pressed="false"
+                >
+                  <span class="quiz-hint-chip-icon" aria-hidden="true">💡</span>
+                  <span class="quiz-hint-chip-num">2</span>
+                  <span class="quiz-hint-chip-cost" data-i18n="hint_cost_two"></span>
+                </button>
               </div>
-              <button class="quiz-hint-button" id="hintBtn" data-quiz-action="revealHint">
-                <span class="quiz-hint-button-mark">?</span>
-                <span data-i18n="hint_btn"></span>
-              </button>
             </div>
 
-            <div id="hintZone" hidden class="quiz-hint-zone">
-              <div class="quiz-hint-stack">
-                <div id="hintText" class="quiz-hint-card is-locked">
-                  <span class="quiz-hint-label" data-i18n="hint_label_one"></span>
-                  <span class="quiz-hint-copy" id="hintContent"></span>
-                </div>
-                <div id="hintTextSecondary" class="quiz-hint-card is-locked">
-                  <span class="quiz-hint-label" data-i18n="hint_label_two"></span>
-                  <span class="quiz-hint-copy" id="hint2Content"></span>
-                </div>
+            <p class="quiz-feedback quiz-feedback-copy" id="feedback" hidden></p>
+
+            <div id="hintReveals" class="quiz-hint-reveals">
+              <div id="hintReveal1" class="quiz-hint-reveal" hidden>
+                <span class="quiz-hint-label" data-i18n="hint_label_one"></span>
+                <p class="quiz-hint-copy" id="hintContent"></p>
+              </div>
+              <div id="hintReveal2" class="quiz-hint-reveal" hidden>
+                <span class="quiz-hint-label" data-i18n="hint_label_two"></span>
+                <p class="quiz-hint-copy" id="hint2Content"></p>
               </div>
             </div>
 

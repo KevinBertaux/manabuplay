@@ -368,6 +368,19 @@ function applyLang() {
   }
 }
 
+function isQuizDensityTight() {
+  const hintReveal1 = document.getElementById("hintReveal1");
+  const hintReveal2 = document.getElementById("hintReveal2");
+  const explanationBox = document.getElementById("explanationBox");
+
+  const hintsOpen =
+    (hintReveal1 instanceof HTMLElement && !hintReveal1.hidden) ||
+    (hintReveal2 instanceof HTMLElement && !hintReveal2.hidden);
+  const explanationOpen = explanationBox instanceof HTMLElement && !explanationBox.hidden;
+
+  return hintsOpen || explanationOpen;
+}
+
 function syncShellLaunchLayout() {
   const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
   const diffArea = document.getElementById("diffArea");
@@ -381,9 +394,17 @@ function syncShellLaunchLayout() {
     quizArea.hidden &&
     resultsArea instanceof HTMLElement &&
     resultsArea.hidden;
+  const isInPlay = quizArea instanceof HTMLElement && !quizArea.hidden;
+  const isInResults = resultsArea instanceof HTMLElement && !resultsArea.hidden;
+  const densityTight = isInPlay && isQuizDensityTight();
 
   quizShell?.classList.toggle("is-pre-launch", isPreLaunch);
+  quizShell?.classList.toggle("is-in-play", isInPlay);
+  quizShell?.classList.toggle("is-in-results", isInResults);
+  quizShell?.classList.toggle("is-density-tight", densityTight);
   quizSection?.classList.toggle("public-quiz-section--pre-launch", isPreLaunch);
+  quizSection?.classList.toggle("public-quiz-section--in-play", isInPlay);
+  quizSection?.classList.toggle("public-quiz-section--in-results", isInResults);
 }
 
 function renderDiffGrid() {
@@ -613,6 +634,11 @@ function setQuizHash() {
 }
 
 function scrollQuizSectionIntoView() {
+  const modeMain = document.querySelector(".public-mode-main");
+  if (modeMain instanceof HTMLElement && window.matchMedia("(min-width: 761px)").matches) {
+    return;
+  }
+
   const quizSection = document.getElementById("quiz");
   const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
   const target = quizSection || quizShell;
@@ -638,45 +664,96 @@ function animateReveal(node: HTMLElement | null) {
   node.classList.add("hint-revealed");
 }
 
-function setHintButtonLabel(key: string) {
-  const hintButton = document.getElementById("hintBtn");
-  if (!(hintButton instanceof HTMLElement)) return;
-  const label = hintButton.querySelector<HTMLElement>("[data-i18n]");
-  if (!label) return;
-  const text = t(key);
-  label.textContent = typeof text === "string" ? text : "";
-}
-
-function hideHintButton() {
-  const hintButton = document.getElementById("hintBtn");
-  if (hintButton instanceof HTMLElement) hideElement(hintButton, "inline-flex");
-}
-
 function getTranslatedText(key: string, fallback: string) {
   const value = t(key);
   return typeof value === "string" ? value : fallback;
 }
 
-function setHintCardState({
-  card,
-  copy,
-  text,
-  revealed,
-  available,
-}: {
-  card: HTMLElement | null;
-  copy: HTMLElement | null;
-  text: string;
-  revealed: boolean;
-  available: boolean;
-}) {
-  if (!(card instanceof HTMLElement) || !(copy instanceof HTMLElement)) return;
+function getHintChipElements() {
+  return {
+    chips: document.getElementById("hintChips"),
+    chip1: document.getElementById("hintChip1"),
+    chip2: document.getElementById("hintChip2"),
+    reveal1: document.getElementById("hintReveal1"),
+    reveal2: document.getElementById("hintReveal2"),
+    content1: document.getElementById("hintContent"),
+    content2: document.getElementById("hint2Content"),
+  };
+}
 
-  copy.textContent = text;
-  copy.classList.remove("hint-revealed");
-  card.classList.toggle("is-locked", available && !revealed);
-  card.classList.toggle("is-revealed", available && revealed);
-  card.classList.toggle("is-unavailable", !available);
+function hideHintReveal(reveal: HTMLElement | null, content: HTMLElement | null) {
+  if (reveal instanceof HTMLElement) hideElement(reveal, "grid");
+  if (content instanceof HTMLElement) {
+    content.textContent = "";
+    content.classList.remove("hint-revealed");
+  }
+}
+
+function showHintReveal(reveal: HTMLElement | null, content: HTMLElement | null, text: string) {
+  if (!(content instanceof HTMLElement) || !(reveal instanceof HTMLElement)) return;
+  content.textContent = text;
+  showElement(reveal, "grid");
+  animateReveal(content);
+}
+
+function syncHintChipStates(primaryHint: string, secondaryHint: string) {
+  const { chip1, chip2 } = getHintChipElements();
+
+  if (chip1 instanceof HTMLButtonElement && primaryHint) {
+    chip1.classList.toggle("is-revealed", hintStage >= 1);
+    chip1.setAttribute("aria-pressed", hintStage >= 1 ? "true" : "false");
+    chip1.disabled = hintStage >= 1;
+  }
+
+  if (chip2 instanceof HTMLButtonElement && secondaryHint) {
+    const unlocked = hintStage >= 1;
+    chip2.classList.toggle("is-locked", !unlocked);
+    chip2.disabled = !unlocked || hintStage >= 2;
+    chip2.classList.toggle("is-revealed", hintStage >= 2);
+    chip2.setAttribute("aria-pressed", hintStage >= 2 ? "true" : "false");
+  }
+}
+
+function setupHintControls(question: QuizQuestion) {
+  const { chips, chip1, chip2, reveal1, reveal2, content1, content2 } = getHintChipElements();
+  const primaryHint = getLocalizedField(question.hint);
+  const secondaryHint = getLocalizedField(question.hint2);
+  hintStage = 0;
+
+  hideHintReveal(reveal1, content1);
+  hideHintReveal(reveal2, content2);
+
+  if (!primaryHint && !secondaryHint) {
+    if (chips instanceof HTMLElement) hideElement(chips, "flex");
+    return;
+  }
+
+  if (chips instanceof HTMLElement) showElement(chips, "flex");
+
+  if (chip1 instanceof HTMLButtonElement) {
+    if (primaryHint) {
+      showElement(chip1, "inline-flex");
+      chip1.classList.remove("is-revealed", "is-locked");
+      chip1.disabled = false;
+      chip1.setAttribute("aria-pressed", "false");
+    } else {
+      hideElement(chip1, "inline-flex");
+    }
+  }
+
+  if (chip2 instanceof HTMLButtonElement) {
+    if (secondaryHint) {
+      showElement(chip2, "inline-flex");
+      chip2.classList.add("is-locked");
+      chip2.classList.remove("is-revealed");
+      chip2.disabled = true;
+      chip2.setAttribute("aria-pressed", "false");
+    } else {
+      hideElement(chip2, "inline-flex");
+    }
+  }
+
+  syncHintChipStates(primaryHint, secondaryHint);
 }
 
 function renderExplanation(text: string, reveal = false) {
@@ -694,6 +771,7 @@ function renderExplanation(text: string, reveal = false) {
   explanationContent.textContent = text;
   showElement(explanationBox, "grid");
   if (reveal) animateReveal(explanationBox);
+  syncShellLaunchLayout();
 }
 
 function resetExplanation() {
@@ -701,14 +779,16 @@ function resetExplanation() {
   const explanationContent = document.getElementById("explanationContent");
   if (explanationBox instanceof HTMLElement) hideElement(explanationBox, "grid");
   if (explanationContent instanceof HTMLElement) explanationContent.textContent = "";
+  syncShellLaunchLayout();
 }
 
 function resetHintDisclosure() {
-  const hintButton = document.getElementById("hintBtn");
-  const hintZone = document.getElementById("hintZone");
+  const { chips, reveal1, reveal2, content1, content2 } = getHintChipElements();
 
-  if (hintButton instanceof HTMLElement) hideElement(hintButton, "inline-flex");
-  if (hintZone instanceof HTMLElement) hideElement(hintZone, "grid");
+  if (chips instanceof HTMLElement) hideElement(chips, "flex");
+  hideHintReveal(reveal1, content1);
+  hideHintReveal(reveal2, content2);
+  hintStage = 0;
 }
 
 function animateScoreCounter(element: HTMLElement, target: number) {
@@ -741,58 +821,31 @@ function animateScoreCounter(element: HTMLElement, target: number) {
   window.requestAnimationFrame(tick);
 }
 
-function revealHint(forceAll = false) {
+function revealHint(trigger?: HTMLElement) {
+  if (state.answered) return;
+
   const question = state.questions[state.currentIndex];
   if (!question) return;
 
   const hintPrimary = getLocalizedField(question.hint);
   const hintSecondary = getLocalizedField(question.hint2);
-  const previousStage = hintStage;
-  const zone = document.getElementById("hintZone");
-  const primaryCard = document.getElementById("hintText");
-  const primaryContent = document.getElementById("hintContent");
-  const secondaryRow = document.getElementById("hintTextSecondary");
-  const secondaryContent = document.getElementById("hint2Content");
+  const targetStage = trigger?.dataset.hintStage === "2" ? 2 : 1;
+  const { reveal1, reveal2, content1, content2 } = getHintChipElements();
 
-  if (!(zone instanceof HTMLElement) || !(primaryContent instanceof HTMLElement)) return;
-
-  showElement(zone, "grid");
-
-  if ((hintStage === 0 || forceAll) && hintPrimary) {
-    setHintCardState({
-      card: primaryCard,
-      copy: primaryContent,
-      text: hintPrimary,
-      revealed: true,
-      available: true,
-    });
-    animateReveal(primaryContent);
+  if (targetStage === 1) {
+    if (hintStage > 0 || !hintPrimary) return;
+    showHintReveal(reveal1, content1, hintPrimary);
     hintStage = 1;
-  }
-
-  if (
-    (forceAll || previousStage >= 1) &&
-    hintSecondary &&
-    secondaryRow instanceof HTMLElement &&
-    secondaryContent instanceof HTMLElement
-  ) {
-    setHintCardState({
-      card: secondaryRow,
-      copy: secondaryContent,
-      text: hintSecondary,
-      revealed: true,
-      available: true,
-    });
-    animateReveal(secondaryContent);
-    hintStage = 2;
-  }
-
-  if (forceAll || !hintSecondary || hintStage >= 2) {
-    hideHintButton();
+    syncHintChipStates(hintPrimary, hintSecondary);
+    syncShellLaunchLayout();
     return;
   }
 
-  setHintButtonLabel("hint_btn_more");
+  if (hintStage < 1 || hintStage >= 2 || !hintSecondary) return;
+  showHintReveal(reveal2, content2, hintSecondary);
+  hintStage = 2;
+  syncHintChipStates(hintPrimary, hintSecondary);
+  syncShellLaunchLayout();
 }
 
 function renderQuestion() {
@@ -813,54 +866,8 @@ function renderQuestion() {
     question.romaji || question.kana || question.word;
   getRequiredElement<HTMLElement>("wordKana").textContent = question.kana;
   getRequiredElement<HTMLElement>("wordDisplay").textContent = question.word;
-  getRequiredElement<HTMLElement>("wordCategory").textContent =
-    question.cat[currentLang] || question.cat.en;
 
-  const hintButton = document.getElementById("hintBtn");
-  const hintZone = document.getElementById("hintZone");
-  const hintText = document.getElementById("hintText");
-  const hintContent = document.getElementById("hintContent");
-  const hintTextSecondary = document.getElementById("hintTextSecondary");
-  const hint2Content = document.getElementById("hint2Content");
-  const primaryHint = getLocalizedField(question.hint);
-  const secondaryHint = getLocalizedField(question.hint2);
-  hintStage = 0;
-
-  if (hintButton instanceof HTMLElement) {
-    if (primaryHint || secondaryHint) {
-      showElement(hintButton, "inline-flex");
-    } else {
-      hideElement(hintButton, "inline-flex");
-    }
-    setHintButtonLabel("hint_btn");
-  }
-
-  if (hintZone instanceof HTMLElement) {
-    if (primaryHint || secondaryHint) {
-      showElement(hintZone, "grid");
-    } else {
-      hideElement(hintZone, "grid");
-    }
-  }
-
-  setHintCardState({
-    card: hintText,
-    copy: hintContent,
-    text: primaryHint
-      ? getTranslatedText("hint_locked_one", "Locked · -2 pts if revealed")
-      : getTranslatedText("hint_unavailable", "No hint available"),
-    revealed: false,
-    available: Boolean(primaryHint),
-  });
-  setHintCardState({
-    card: hintTextSecondary,
-    copy: hint2Content,
-    text: secondaryHint
-      ? getTranslatedText("hint_locked_two", "Locked · -5 pts if revealed")
-      : getTranslatedText("hint_unavailable", "No hint available"),
-    revealed: false,
-    available: Boolean(secondaryHint),
-  });
+  setupHintControls(question);
   resetExplanation();
 
   const answersGrid = getRequiredElement<HTMLElement>("answersGrid");
@@ -880,6 +887,7 @@ function renderQuestion() {
   const nextButton = getRequiredElement<HTMLElement>("nextBtn");
   nextButton.classList.add("opacity-0", "pointer-events-none");
   state.answered = false;
+  syncShellLaunchLayout();
 }
 
 function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string) {
@@ -933,6 +941,7 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
   const label =
     state.currentIndex >= state.questions.length - 1 ? t("see_results") : t("next_word");
   nextButton.textContent = typeof label === "string" ? label : "";
+  syncShellLaunchLayout();
 }
 
 function showResults() {
@@ -1028,6 +1037,7 @@ function showResults() {
   }
 
   renderDiffGrid();
+  syncShellLaunchLayout();
 }
 
 function launchQuiz() {
@@ -1106,7 +1116,7 @@ const shareController = createShareController({
 
 const actionHandlers: Record<QuizAction, QuizActionHandler> = {
   launchQuiz: () => launchQuiz(),
-  revealHint: () => revealHint(),
+  revealHint: (element) => revealHint(element),
   nextQuestion: () => nextQuestion(),
   replayDifficulty: () => replayDifficulty(),
   goToDiffPicker: () => goToDiffPicker(),

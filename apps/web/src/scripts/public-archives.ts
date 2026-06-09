@@ -93,7 +93,9 @@ function updateMonthSummary(drawer: Element) {
   const summary = drawer.querySelector("[data-archive-month-summary]");
   if (!summary) return;
 
-  const playableCells = [...drawer.querySelectorAll("[data-archive-tone='archive']")];
+  const playableCells = [
+    ...drawer.querySelectorAll(".archive-calendar-view--grid [data-archive-tone='archive']"),
+  ];
   const playedCount = playableCells.filter((cell) => cell.classList.contains("has-record")).length;
   const availableCount = playableCells.length - playedCount;
 

@@ -1,0 +1,79 @@
+---
+import { getMayDayDetail, DEFAULT_SELECTED_DAY, type CalendarCell } from "../../lib/archives-mockup-data";
+
+interface Props {
+  cell: CalendarCell;
+}
+
+const { cell } = Astro.props;
+const isEmpty = cell.tone === "empty";
+const selected = cell.day === DEFAULT_SELECTED_DAY;
+const scoreLabel = cell.score && cell.score !== "—" ? `${cell.score}` : "—";
+const played = cell.tone === "played" || cell.tone === "current";
+const detail = cell.day ? getMayDayDetail(cell.day) : undefined;
+
+const classList = [
+  "ar-day",
+  `ar-day--${cell.tone}`,
+  selected && "is-selected",
+  played && "has-record",
+  cell.disabled && "is-disabled",
+];
+
+const dataAttrs = {
+  "data-ar-day": "",
+  "data-ar-day-num": cell.day,
+  "data-ar-disabled": cell.disabled ? "true" : "false",
+  "data-ar-tone": cell.tone,
+  "data-ar-title": detail?.title ?? cell.title ?? "",
+  "data-ar-pack": detail?.pack ?? "",
+  "data-ar-status": detail?.status ?? cell.status ?? "",
+  "data-ar-score": detail?.score ?? cell.score ?? "",
+  "data-ar-attempts": detail?.attempts ?? cell.attempts ?? "",
+  "data-ar-cta": detail?.cta ?? "Jouer",
+};
+---
+
+{
+  isEmpty ? (
+    <span class="ar-day ar-day--empty" aria-hidden="true" />
+  ) : cell.disabled ? (
+    <span class:list={classList} {...dataAttrs}>
+      <span class="ar-day-top">
+        <strong>{cell.day}</strong>
+        {played && (
+          <span class="ar-day-medal" aria-hidden="true">
+            ★
+          </span>
+        )}
+      </span>
+      <span class="ar-day-dot" aria-hidden="true" />
+      <span class="ar-day-score">{scoreLabel}</span>
+      <span class="ar-day-title">{cell.title}</span>
+      <span class="ar-day-meta">
+        <span>{cell.score === "—" ? "Pas joué" : `${cell.score}/200`}</span>
+        <span>{cell.attempts}</span>
+      </span>
+      <span class="ar-day-cta">{detail?.cta ?? "Jouer"}</span>
+    </span>
+  ) : (
+    <button type="button" class:list={classList} {...dataAttrs}>
+      <span class="ar-day-top">
+        <strong>{cell.day}</strong>
+        {played && (
+          <span class="ar-day-medal" aria-hidden="true">
+            ★
+          </span>
+        )}
+      </span>
+      <span class="ar-day-dot" aria-hidden="true" />
+      <span class="ar-day-score">{scoreLabel}</span>
+      <span class="ar-day-title">{cell.title}</span>
+      <span class="ar-day-meta">
+        <span>{cell.score === "—" ? "Pas joué" : `${cell.score}/200`}</span>
+        <span>{cell.attempts}</span>
+      </span>
+      <span class="ar-day-cta">{detail?.cta ?? "Jouer"}</span>
+    </button>
+  )
+}

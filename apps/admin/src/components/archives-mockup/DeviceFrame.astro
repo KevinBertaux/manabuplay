@@ -1,0 +1,41 @@
+---
+import MonthBlock from "./MonthBlock.astro";
+
+interface Props {
+  id: string;
+  label: string;
+  width: number;
+  form: "narrow" | "desktop";
+}
+
+const { id, label, width, form } = Astro.props;
+---
+
+<article
+  class:list={["ar-device", form === "desktop" ? "ar-device--desktop" : "ar-device--narrow"]}
+  style={`--ar-device-w: ${width}px`}
+  data-ar-scope
+  data-ar-device={id}
+>
+  <div class="ar-device-chrome">
+    <span>{label}</span>
+    <strong>{width}px</strong>
+  </div>
+
+  <div class="ar-device-body">
+    <div class="ar-shell-intro">
+      <p class="ar-shell-label">Archives</p>
+      <p class="ar-shell-selected">Jour sélectionné : 4 mai 2026</p>
+    </div>
+
+    <MonthBlock />
+
+    <button type="button" class="ar-reset" data-ar-reset>
+      Réinitialiser (jour 04)
+    </button>
+
+    <p class="ar-quiz-stub" aria-hidden="true">
+      [ zone quiz en dessous — hors mockup ]
+    </p>
+  </div>
+</article>

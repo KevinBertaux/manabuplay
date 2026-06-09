@@ -249,10 +249,6 @@
 }
 .hint-revealed {
   animation: hintReveal 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  display: inline-block;
-}
-#hintContent {
-  font-size: 1.05rem;
 }
 
 /* LANG */
