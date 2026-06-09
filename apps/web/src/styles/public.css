@@ -1441,7 +1441,6 @@ html.embed-mockup astro-dev-toolbar {
     .quiz-command-bar {
       padding: 0.3125rem 0.5rem;
     }
-
   }
 
   @media (max-width: 390px) {
