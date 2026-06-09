@@ -9,14 +9,7 @@ export const ASTRO_URL = "http://127.0.0.1:4174/";
 export const ASTRO_HOME_URL = `${ASTRO_URL}en/`;
 const WRITE_VISUAL_ARTIFACTS = process.env.PW_DEBUG_ARTIFACTS === "1";
 
-export type SectionName =
-  | "nav"
-  | "hero"
-  | "top-ad"
-  | "features"
-  | "mid-ad"
-  | "notify"
-  | "footer";
+export type SectionName = "nav" | "hero" | "top-ad" | "features" | "mid-ad" | "notify" | "footer";
 
 export interface SectionSpec {
   name: SectionName;
