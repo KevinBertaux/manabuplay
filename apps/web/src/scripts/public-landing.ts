@@ -35,6 +35,18 @@ const storage = {
       // Ignore localStorage write failures in private mode or restricted browsers.
     }
   },
+  getBest() {
+    return 0;
+  },
+  setBest() {
+    return false;
+  },
+  getLang(): string {
+    return storage.get<string>("lang") || "en";
+  },
+  setLang(lang: string) {
+    storage.set("lang", lang);
+  },
 };
 
 const currentLang =
