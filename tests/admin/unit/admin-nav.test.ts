@@ -51,6 +51,7 @@ describe("admin nav", () => {
     expect(mockupsItem?.children?.map((item) => item.label)).toEqual([
       "Quiz A/B",
       "Indices quiz",
+      "HUD & toast",
       "Archives",
       "Typo",
     ]);
