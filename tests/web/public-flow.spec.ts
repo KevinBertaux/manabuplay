@@ -112,12 +112,19 @@ test.describe("public flow", () => {
     await expect(page.locator("#btnES")).toHaveCount(0);
   });
 
-  test("starts a quiz session and reveals answer feedback", async ({ page }) => {
+  test("landing routes the hero CTA to Daily without embedding a quiz", async ({ page }) => {
     await preparePage(page, ASTRO_HOME_URL);
 
+    await expect(page.locator("#quiz")).toHaveCount(0);
     await page.locator("[data-i18n='hero_cta']").click();
-    await expect(page).toHaveURL(/#quiz/);
+    await expect(page).toHaveURL(/\/en\/daily\/$/);
+    await expect(page.locator("#quizTitleScreen")).toBeVisible();
+  });
 
+  test("starts a quiz session and reveals answer feedback", async ({ page }) => {
+    await prepareModePage(page, `${ASTRO_URL}en/daily/`);
+
+    await page.locator("[data-quiz-action='launchQuiz']").first().click();
     await expect(page.locator("#quizArea")).toBeVisible();
     await expect(page.locator("#progressRow")).toBeVisible();
     await expect(page.locator("#answersGrid .answer-btn")).toHaveCount(4);

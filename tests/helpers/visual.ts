@@ -14,7 +14,6 @@ export type SectionName =
   | "hero"
   | "top-ad"
   | "features"
-  | "quiz"
   | "mid-ad"
   | "notify"
   | "footer";
@@ -39,7 +38,6 @@ export const SECTIONS: SectionSpec[] = [
     getLocator: (page) => page.locator(".ad-placeholder").nth(0),
   },
   { name: "features", maxDiffRatio: 0.0025, getLocator: (page) => page.locator("#features") },
-  { name: "quiz", maxDiffRatio: 0.0025, getLocator: (page) => page.locator("#quiz") },
   {
     name: "mid-ad",
     maxDiffRatio: 0.002,
@@ -55,7 +53,6 @@ export const TYPOGRAPHY_SPECS: TypographySpec[] = [
   { name: "hero-tagline", selector: "[data-i18n='hero_tagline']" },
   { name: "hero-sub", selector: "[data-i18n='hero_sub']" },
   { name: "hero-cta", selector: ".cta-btn" },
-  { name: "quiz-title", selector: "#quizTitleHeadline" },
   { name: "email-title", selector: "#notify h2" },
 ];
 

@@ -261,12 +261,16 @@ Règles retenues pour la landing :
 - l'upgrade premium vient plus tard
 - aucune pub display sur la landing `v0.1`
 
-Ordre cible actuel :
+Ordre cible actuel (lot 1 refacto) :
 
-- `hero`
-- `quiz`
+- `hero` — CTA principal vers `/{locale}/daily/` (jeu hors landing)
+- `stats`
 - `features`
 - `waitlist`
+
+Le quiz live n’est plus embarqué sur la home : une seule surface de jeu (`/daily/`, puis island). Génération des questions toujours **côté client** (pool embarqué, date locale).
+
+**Option notée (si la home paraît trop vide)** — teaser / démo **sans runtime quiz** : carte statique ou capture (HUD, toast, grille), copy « 10 questions », lien Daily. Voir `v01-landing-quiz-teaser` dans [ROADMAP.json](./ROADMAP.json).
 
 Validation retenue :
 

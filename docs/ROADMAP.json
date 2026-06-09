@@ -203,7 +203,25 @@
           "priority": "P1",
           "area": "landing",
           "type": "ux",
-          "notes": "Flux actuel : hero -> quiz -> features -> waitlist, sans pub landing."
+          "notes": "Lot 1 (refacto quiz) : hero -> stats -> features -> waitlist ; CTA hero vers /{locale}/daily/. Quiz runtime retire de la landing."
+        },
+        {
+          "id": "v01-landing-daily-cutover-lot1",
+          "title": "Lot 1 — landing marketing seule, jeu sur /daily/",
+          "status": "done",
+          "priority": "P1",
+          "area": "landing",
+          "type": "ux",
+          "notes": "PublicQuiz retire de index.astro ; CTA hero -> /{locale}/daily/ ; public-landing.ts (i18n, reveal, waitlist) a la place de quiz-app sur la home. Generation quiz toujours cote client sur /daily/."
+        },
+        {
+          "id": "v01-landing-quiz-teaser",
+          "title": "Option landing — teaser / demo visuelle du quiz (sans runtime embarque)",
+          "status": "todo",
+          "priority": "P2",
+          "area": "landing",
+          "type": "ux",
+          "notes": "Si la home parait trop vide apres le lot 1 : carte statique ou capture (HUD 3/10, toast, grille reponses) + copy 10 questions + lien /daily/. Pas de PublicQuiz ni quiz-app sur la landing — evite la double experience landing vs daily. Variantes : bloc sous le hero, section Comment ca marche enrichie, ou chevron vers apercu. A trancher apres retour terrain."
         },
         {
           "id": "v01-landing-wording",
@@ -604,11 +622,11 @@
         {
           "id": "v02-home-cutover",
           "title": "Basculer la landing sur la nouvelle architecture publique",
-          "status": "todo",
+          "status": "done",
           "priority": "P1",
           "area": "landing",
           "type": "ux",
-          "notes": "Faire du hero un vrai point d'entree Daily et retirer le flux ancre legacy une fois les nouvelles routes validees."
+          "notes": "Realise en lot 1 (v0.1 refacto) : hero -> /daily/, quiz retire de la home. Suite : lots 2–4 (shell unifie, dataset, QuizIsland). Teaser visuel optionnel : v01-landing-quiz-teaser."
         },
         {
           "id": "v02-legal-payments",

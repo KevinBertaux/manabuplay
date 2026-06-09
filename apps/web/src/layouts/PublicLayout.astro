@@ -23,6 +23,7 @@ interface Props {
   activeMode?: PublicModeKey;
   bootPayload?: unknown;
   includeQuizRuntime?: boolean;
+  includeLandingRuntime?: boolean;
 }
 
 const {
@@ -34,6 +35,7 @@ const {
   activeMode,
   bootPayload,
   includeQuizRuntime = false,
+  includeLandingRuntime = false,
 } = Astro.props;
 
 const productCopy = CURRENT_PRODUCT_COPY[locale];
@@ -193,6 +195,9 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
       <template id="manabuplay-boot" data-payload={encodedBootPayload}></template>
       <script src="../scripts/public-boot.ts"></script>
     </>
+  )}
+  {includeLandingRuntime && (
+    <script src="../scripts/public-landing.ts"></script>
   )}
   {includeQuizRuntime && (
     <script src="../scripts/quiz-app.ts"></script>
