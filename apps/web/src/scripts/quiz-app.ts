@@ -735,9 +735,13 @@ function setQuizHash() {
 }
 
 function scrollQuizSectionIntoView() {
-  const modeMain = document.querySelector(".public-mode-main");
+  const viewportSection = document.querySelector(".public-quiz-section--viewport");
   const archiveMain = document.querySelector(".archive-mode-main");
-  if (modeMain instanceof HTMLElement && window.matchMedia("(min-width: 761px)").matches) {
+  if (
+    viewportSection instanceof HTMLElement &&
+    !(archiveMain instanceof HTMLElement) &&
+    window.matchMedia("(min-width: 761px)").matches
+  ) {
     return;
   }
 

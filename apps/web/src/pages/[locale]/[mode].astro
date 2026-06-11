@@ -3,6 +3,7 @@ import PublicLayout from "../../layouts/PublicLayout.astro";
 import PublicFooter from "../../components/PublicFooter.astro";
 import ArchiveAgendaRow from "../../components/ArchiveAgendaRow.astro";
 import PublicQuiz from "../../components/PublicQuiz.astro";
+import QuizModeShell from "../../components/QuizModeShell.astro";
 import { buildCatalogBootData } from "../../../../../shared/data/manabuplay/catalog";
 import {
   buildArchivesBootData,
@@ -53,10 +54,6 @@ const modeMainClass =
   "hero-bg flex flex-1 flex-col px-6 pb-12 pt-24 sm:pt-28";
 const archiveMainClass =
   "archive-mode-main hero-bg flex flex-col px-2 pb-4 pt-[calc(var(--public-nav-h)+0.5rem)] sm:px-6 sm:pb-8 sm:pt-[calc(var(--public-nav-h)+0.75rem)]";
-const modeCenteredMainClass =
-  "public-mode-main hero-bg flex min-h-0 flex-1 flex-col px-2 pb-4 pt-[calc(var(--public-nav-h)+0.5rem)] sm:px-6 sm:pb-8 sm:pt-[calc(var(--public-nav-h)+0.75rem)]";
-const modeViewportClass = "public-mode-viewport flex min-h-0 flex-1 flex-col";
-const modeSpacerClass = "public-mode-spacer flex-1";
 const modeDescriptionClass =
   "mx-auto mb-6 max-w-[720px] text-[clamp(1.05rem,1.7vw,1.28rem)] leading-[1.7] text-[rgba(226,217,243,.74)]";
 const archiveSelectedLineClass =
@@ -101,21 +98,13 @@ const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
   includeQuizRuntime={isQuizMode}
 >
   {isDailyMode ? (
-    <main class={modeCenteredMainClass}>
-      <div class={modeViewportClass}>
-        <div class={modeSpacerClass} aria-hidden="true"></div>
-        <PublicQuiz />
-        <div class={modeSpacerClass} aria-hidden="true"></div>
-      </div>
-    </main>
+    <QuizModeShell>
+      <PublicQuiz layout="viewport" />
+    </QuizModeShell>
   ) : isArcadeMode ? (
-    <main class={modeCenteredMainClass}>
-      <div class={modeViewportClass}>
-        <div class={modeSpacerClass} aria-hidden="true"></div>
-        <PublicQuiz />
-        <div class={modeSpacerClass} aria-hidden="true"></div>
-      </div>
-    </main>
+    <QuizModeShell>
+      <PublicQuiz layout="viewport" />
+    </QuizModeShell>
   ) : isArchivesMode ? (
     <main class={archiveMainClass}>
       <section
@@ -281,7 +270,7 @@ const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
       </section>
 
       <div class="archive-quiz-slot mx-auto w-full max-w-[980px] flex-1">
-        <PublicQuiz />
+        <PublicQuiz layout="viewport" />
       </div>
       <button
         type="button"

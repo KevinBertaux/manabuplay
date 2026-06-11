@@ -1,0 +1,14 @@
+---
+const modeMainClass =
+  "public-mode-main hero-bg flex min-h-0 flex-1 flex-col px-2 pb-4 pt-[calc(var(--public-nav-h)+0.5rem)] sm:px-6 sm:pb-8 sm:pt-[calc(var(--public-nav-h)+0.75rem)]";
+const modeViewportClass = "public-mode-viewport flex min-h-0 flex-1 flex-col overflow-hidden";
+const modeSpacerClass = "public-mode-spacer flex-1";
+---
+
+<main class={modeMainClass}>
+  <div class={modeViewportClass}>
+    <div class={modeSpacerClass} aria-hidden="true"></div>
+    <slot />
+    <div class={modeSpacerClass} aria-hidden="true"></div>
+  </div>
+</main>

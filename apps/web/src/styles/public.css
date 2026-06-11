@@ -204,16 +204,16 @@ html.embed-mockup astro-dev-toolbar {
     min-height: 0.5rem;
   }
 
-  .public-mode-main .public-quiz-section {
+  .public-quiz-section--viewport {
     @apply relative z-10 min-h-0 flex-none scroll-mt-48 px-0 py-0;
     max-height: 100%;
   }
 
-  .public-mode-main .public-quiz-container {
+  .public-quiz-section--viewport .public-quiz-container {
     @apply mx-auto w-full max-w-5xl;
   }
 
-  .public-mode-main .quiz-shell {
+  .quiz-shell--viewport {
     display: flex;
     flex: 0 0 auto;
     flex-direction: column;
@@ -222,13 +222,13 @@ html.embed-mockup astro-dev-toolbar {
     overflow: hidden;
   }
 
-  .public-mode-main .quiz-shell.is-in-play,
-  .public-mode-main .quiz-shell.is-in-results {
+  .quiz-shell--viewport.is-in-play,
+  .quiz-shell--viewport.is-in-results {
     gap: var(--quiz-mode-card-gap, 0.45rem);
     padding: var(--quiz-mode-card-pad, 0.65rem);
   }
 
-  .public-mode-main .quiz-shell.is-density-tight {
+  .quiz-shell--viewport.is-density-tight {
     --quiz-mode-card-gap: 0.28rem;
     --quiz-mode-card-pad: 0.5rem;
     --quiz-mode-panel-gap: 0.28rem;
@@ -236,35 +236,35 @@ html.embed-mockup astro-dev-toolbar {
     padding: var(--quiz-mode-card-pad);
   }
 
-  .public-mode-main .quiz-shell.is-density-tight .quiz-command-bar {
+  .quiz-shell--viewport.is-density-tight .quiz-command-bar {
     margin-bottom: 0.25rem;
     padding: 0.375rem 0.5rem;
   }
 
-  .public-mode-main .quiz-shell.is-density-tight .quiz-area {
+  .quiz-shell--viewport.is-density-tight .quiz-area {
     gap: var(--quiz-mode-panel-gap, 0.28rem);
   }
 
-  .public-mode-main .quiz-shell.is-density-tight .quiz-word-panel,
-  .public-mode-main .quiz-shell.is-density-tight .quiz-play-panel {
+  .quiz-shell--viewport.is-density-tight .quiz-word-panel,
+  .quiz-shell--viewport.is-density-tight .quiz-play-panel {
     gap: var(--quiz-mode-panel-gap, 0.28rem);
     padding: var(--quiz-mode-panel-gap, 0.28rem);
   }
 
-  .public-mode-main .quiz-shell.is-density-tight .quiz-word-romaji {
+  .quiz-shell--viewport.is-density-tight .quiz-word-romaji {
     font-size: clamp(1.2rem, 5vw, 1.65rem);
   }
 
-  .public-mode-main .quiz-shell.is-density-tight .quiz-hint-reveal,
-  .public-mode-main .quiz-shell.is-density-tight .quiz-explanation-card {
+  .quiz-shell--viewport.is-density-tight .quiz-hint-reveal,
+  .quiz-shell--viewport.is-density-tight .quiz-explanation-card {
     @apply py-1.5 sm:py-2;
   }
 
-  .public-mode-main .quiz-shell.is-in-play #progressRow {
+  .quiz-shell--viewport.is-in-play #progressRow {
     flex-shrink: 0;
   }
 
-  .public-mode-main .quiz-shell.is-in-play .quiz-area {
+  .quiz-shell--viewport.is-in-play .quiz-area {
     @apply min-h-0 flex-1 overflow-hidden;
     display: flex;
     flex-direction: column;
@@ -272,34 +272,34 @@ html.embed-mockup astro-dev-toolbar {
   }
 
   @media (min-width: 1024px) {
-    .public-mode-main .quiz-shell.is-in-play .quiz-area {
+    .quiz-shell--viewport.is-in-play .quiz-area {
       display: grid;
       grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
     }
   }
 
-  .public-mode-main .quiz-shell.is-in-play .quiz-word-panel,
-  .public-mode-main .quiz-shell.is-in-play .quiz-play-panel {
+  .quiz-shell--viewport.is-in-play .quiz-word-panel,
+  .quiz-shell--viewport.is-in-play .quiz-play-panel {
     @apply min-h-0;
   }
 
-  .public-mode-main .quiz-shell.is-in-play .quiz-play-panel {
+  .quiz-shell--viewport.is-in-play .quiz-play-panel {
     @apply min-h-0 overflow-hidden;
     display: flex;
     flex-direction: column;
     gap: var(--quiz-mode-panel-gap, 0.35rem);
   }
 
-  .public-mode-main .quiz-shell.is-in-play .quiz-answer-grid {
+  .quiz-shell--viewport.is-in-play .quiz-answer-grid {
     @apply min-h-0;
   }
 
-  .public-mode-main .quiz-shell.is-in-results .quiz-results {
+  .quiz-shell--viewport.is-in-results .quiz-results {
     @apply min-h-0 overflow-y-auto py-2;
     max-height: 100%;
   }
 
-  .public-mode-main .quiz-shell:not(.is-pre-launch) {
+  .quiz-shell--viewport:not(.is-pre-launch) {
     min-height: 0;
   }
 
@@ -318,15 +318,15 @@ html.embed-mockup astro-dev-toolbar {
       display: none;
     }
 
-    .public-mode-main .public-quiz-section,
-    .public-mode-main .public-quiz-container,
-    .public-mode-main .quiz-shell {
+    .public-quiz-section--viewport,
+    .public-quiz-section--viewport .public-quiz-container,
+    .quiz-shell--viewport {
       max-height: none;
       overflow: visible;
     }
 
-    .public-mode-main .quiz-shell.is-in-play .quiz-area,
-    .public-mode-main .quiz-shell.is-in-play .quiz-play-panel {
+    .quiz-shell--viewport.is-in-play .quiz-area,
+    .quiz-shell--viewport.is-in-play .quiz-play-panel {
       overflow: visible;
       flex: none;
     }
@@ -352,12 +352,12 @@ html.embed-mockup astro-dev-toolbar {
       padding-inline: 0.5rem;
     }
 
-    .public-mode-main .public-quiz-section {
+    .public-quiz-section--viewport {
       padding-inline: 0;
       padding-block: 0.5rem;
     }
 
-    .public-mode-main .public-quiz-container {
+    .public-quiz-section--viewport .public-quiz-container {
       max-width: none;
       width: 100%;
     }
@@ -1473,7 +1473,7 @@ html.embed-mockup astro-dev-toolbar {
       min-height: 520px;
     }
 
-    .public-mode-main .quiz-shell:not(.is-pre-launch) {
+    .quiz-shell--viewport:not(.is-pre-launch) {
       min-height: 0;
     }
 
@@ -1507,7 +1507,7 @@ html.embed-mockup astro-dev-toolbar {
       min-height: 560px;
     }
 
-    .public-mode-main .quiz-shell:not(.is-pre-launch) {
+    .quiz-shell--viewport:not(.is-pre-launch) {
       min-height: 0;
     }
 
@@ -1736,12 +1736,12 @@ html.embed-mockup astro-dev-toolbar {
     padding-inline: 0.5rem;
   }
 
-  .public-mode-main #quiz.public-quiz-section {
+  #quiz.public-quiz-section--viewport {
     padding-inline: 0;
   }
 
-  .public-mode-main .public-quiz-container,
-  .public-mode-main .quiz-shell {
+  .public-quiz-section--viewport .public-quiz-container,
+  .quiz-shell--viewport {
     width: 100%;
     max-width: none;
   }

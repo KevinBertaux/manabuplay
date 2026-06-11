@@ -1,9 +1,21 @@
+---
+export interface Props {
+  layout?: "default" | "viewport";
+}
+
+const { layout = "viewport" } = Astro.props;
+const isViewportLayout = layout === "viewport";
+---
+
   <!-- ══ QUIZ SECTION ══ -->
-  <section id="quiz" class="public-quiz-section">
+  <section
+    id="quiz"
+    class:list={["public-quiz-section", { "public-quiz-section--viewport": isViewportLayout }]}
+  >
     <div class="quiz-section-glow"></div>
     <div class="public-quiz-container">
 
-      <div class="border-glow quiz-shell reveal">
+      <div class:list={["border-glow quiz-shell reveal", { "quiz-shell--viewport": isViewportLayout }]}>
         <!-- ══ DIFFICULTY PICKER ══ -->
         <div id="diffArea">
           <p id="diffPickerTitle" class="quiz-picker-title section-label quiz-label-fuchsia" data-i18n="diff_title"></p>
