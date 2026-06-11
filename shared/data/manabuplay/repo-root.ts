@@ -10,10 +10,7 @@ function hasPackIndex(dir: string) {
 
 /** Trouve la racine monorepo, quel que soit le cwd ou le chunk Astro/Vite. */
 export function findRepoRoot() {
-  const seeds = new Set<string>([
-    process.cwd(),
-    path.dirname(fileURLToPath(import.meta.url)),
-  ]);
+  const seeds = new Set<string>([process.cwd(), path.dirname(fileURLToPath(import.meta.url))]);
 
   for (const seed of seeds) {
     let dir = path.resolve(seed);

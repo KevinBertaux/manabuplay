@@ -615,7 +615,10 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
     id: "quiz-client-refacto",
     order: 7,
     progress: 100,
-    title: { fr: "Refacto quiz client-side (lots 1–4)", en: "Client-side quiz refactor (lots 1–4)" },
+    title: {
+      fr: "Refacto quiz client-side (lots 1–4)",
+      en: "Client-side quiz refactor (lots 1–4)",
+    },
     goal: {
       fr: "Séparer landing et jeu, unifier le shell viewport, centraliser le dataset session et isoler le boot quiz.",
       en: "Separate landing and play, unify viewport shell, centralize session dataset, and isolate quiz boot.",
