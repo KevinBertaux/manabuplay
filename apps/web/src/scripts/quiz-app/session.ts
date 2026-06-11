@@ -1,5 +1,4 @@
 import type {
-  ArchiveConfig,
   PracticeConfig,
   QuizBootData,
   QuizEntry,
@@ -7,8 +6,20 @@ import type {
   StorageAdapter,
 } from "./runtime-types";
 
-/** Daily/archives runs are resolved in the browser from the embedded catalog pool (local date key).
- *  Builds ship the full pool only — never SSG question sets per date. */
+export {
+  buildDailyQuizData,
+  getLocalDateKey,
+  getSessionDateKey,
+  resolveQuizDataset,
+} from "../../../../../shared/lib/quiz-dataset";
+export type {
+  ArchiveQuizConfig,
+  DailyQuizConfig,
+  QuizDatasetBoot,
+  QuizPoolEntry,
+  QuizSessionConfig,
+  ResolveQuizDatasetInput,
+} from "../../../../../shared/lib/quiz-dataset";
 
 export const DAILY_RUN_RECORDS_KEY = "daily_runs";
 
@@ -33,13 +44,6 @@ export function shuffle<T>(items: T[]): T[] {
     [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
   }
   return shuffled;
-}
-
-export function getLocalDateKey(date = new Date()): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
 }
 
 function isDailyRunRecord(value: unknown): value is DailyRunRecord {
@@ -156,32 +160,6 @@ export function saveArchiveRunCompletion({
   return record;
 }
 
-export function getSessionDateKey({
-  mode,
-  archiveConfig = {},
-  search = "",
-}: {
-  mode: string;
-  archiveConfig?: ArchiveConfig;
-  search?: string;
-}): string {
-  if (mode !== "archives") {
-    return getLocalDateKey();
-  }
-
-  const selectedFromQuery = new URLSearchParams(search).get("date");
-  const selectedDate = selectedFromQuery || archiveConfig.selectedDate || getLocalDateKey();
-  const startDate = archiveConfig.startDate || selectedDate;
-  const latestDate = archiveConfig.latestDate || selectedDate;
-  const isValidFormat = /^\d{4}-\d{2}-\d{2}$/.test(selectedDate);
-
-  if (isValidFormat && selectedDate >= startDate && selectedDate <= latestDate) {
-    return selectedDate;
-  }
-
-  return archiveConfig.selectedDate || latestDate || getLocalDateKey();
-}
-
 function hashSeed(input: string): number {
   let hash = 2166136261;
   for (let index = 0; index < input.length; index += 1) {
@@ -226,25 +204,6 @@ function getQuizPackIds(pool: QuizEntry[]) {
   return Array.from(new Set(pool.map((entry) => getEntryPackId(entry)))).filter(Boolean);
 }
 
-function getPreviousDateKey(dateKey: string, daysBack: number) {
-  const [year, month, day] = dateKey.split("-").map(Number);
-  const date = new Date(Date.UTC(year, month - 1, day));
-  date.setUTCDate(date.getUTCDate() - daysBack);
-  return [
-    date.getUTCFullYear(),
-    String(date.getUTCMonth() + 1).padStart(2, "0"),
-    String(date.getUTCDate()).padStart(2, "0"),
-  ].join("-");
-}
-
-function countAvailableTiers(pool: QuizEntry[]) {
-  return pool.reduce<Record<string, number>>((counts, entry) => {
-    const tier = String(entry.tier || 1);
-    counts[tier] = (counts[tier] || 0) + 1;
-    return counts;
-  }, {});
-}
-
 function buildAnswerOptions({
   correctText,
   wrongList,
@@ -287,123 +246,6 @@ function buildAnswerOptions({
   return isSeededMode
     ? seededShuffle(answers.slice(0, 4), `${seedSource}:answers`)
     : shuffle(answers.slice(0, 4));
-}
-
-function buildDailyQuestionsForDate({
-  pool,
-  dateKey,
-  targets,
-  questionCount,
-  excludedWordIds,
-  excludedPackIds,
-}: {
-  pool: QuizEntry[];
-  dateKey: string;
-  targets: Record<string, number>;
-  questionCount: number;
-  excludedWordIds: Set<string>;
-  excludedPackIds: Set<string>;
-}) {
-  const packIds = getQuizPackIds(pool);
-  const shuffledPackIds = seededShuffle(packIds, `${dateKey}:pack`);
-  const canBuildPack = (packId: string) => {
-    const eligiblePackPool = pool.filter(
-      (entry) => getEntryPackId(entry) === packId && !excludedWordIds.has(entry.id),
-    );
-    const tierCounts = countAvailableTiers(eligiblePackPool);
-    const availableCount = Object.entries(targets).reduce(
-      (total, [tier, count]) => total + Math.min(tierCounts[tier] || 0, count),
-      0,
-    );
-
-    return (
-      availableCount >= questionCount &&
-      Object.entries(targets).every(([tier, count]) => (tierCounts[tier] || 0) >= count)
-    );
-  };
-  const selectedPackId =
-    shuffledPackIds.find((packId) => !excludedPackIds.has(packId) && canBuildPack(packId)) ||
-    shuffledPackIds.find(canBuildPack);
-
-  if (!selectedPackId) {
-    throw new Error(
-      `Daily quiz cannot satisfy cooldown and tier targets for ${dateKey}. Add pack capacity or relax daily constraints.`,
-    );
-  }
-
-  const packPool = selectedPackId
-    ? pool.filter((entry) => getEntryPackId(entry) === selectedPackId)
-    : [];
-  const eligiblePackPool = packPool.filter((entry) => !excludedWordIds.has(entry.id));
-  const selected: QuizEntry[] = [];
-  const selectedIds = new Set<string>();
-
-  Object.entries(targets).forEach(([tier, count]) => {
-    const tierPool = eligiblePackPool.filter((entry) => String(entry.tier || 1) === tier);
-    seededShuffle(tierPool, `${dateKey}:tier:${tier}`)
-      .slice(0, count)
-      .forEach((entry) => {
-        selected.push(entry);
-        selectedIds.add(entry.id);
-      });
-  });
-
-  return seededShuffle(selected.slice(0, questionCount), `${dateKey}:order`);
-}
-
-export function buildDailyQuizData({
-  pool,
-  dateKey,
-  dailyConfig = {},
-}: {
-  pool: QuizEntry[];
-  dateKey: string;
-  dailyConfig?: QuizBootData["daily"];
-}): QuizEntry[] {
-  const targets = dailyConfig?.tierTargets || { 1: 4, 2: 3, 3: 2, 4: 1 };
-  const questionCount = dailyConfig?.questionCount || 10;
-  const startDate = dailyConfig?.startDate || "2026-01-01";
-  const wordCooldownDays = dailyConfig?.wordCooldownDays ?? 7;
-  const packCooldownDays = dailyConfig?.packCooldownDays ?? 1;
-  const memo = new Map<string, QuizEntry[]>();
-
-  const buildForDate = (currentDateKey: string): QuizEntry[] => {
-    const cached = memo.get(currentDateKey);
-    if (cached) return cached;
-
-    const previousQuestions: QuizEntry[][] = [];
-    const cooldownWindow = Math.max(wordCooldownDays, packCooldownDays);
-    for (let daysBack = 1; daysBack <= cooldownWindow; daysBack += 1) {
-      const previousDateKey = getPreviousDateKey(currentDateKey, daysBack);
-      if (previousDateKey < startDate) continue;
-      previousQuestions.push(buildForDate(previousDateKey));
-    }
-
-    const excludedWordIds = new Set(
-      previousQuestions
-        .slice(0, wordCooldownDays)
-        .flatMap((questions) => questions.map((question) => question.id)),
-    );
-    const excludedPackIds = new Set(
-      previousQuestions
-        .slice(0, packCooldownDays)
-        .map((questions) => questions[0])
-        .filter((question): question is QuizEntry => Boolean(question))
-        .map(getEntryPackId),
-    );
-    const questions = buildDailyQuestionsForDate({
-      pool,
-      dateKey: currentDateKey,
-      targets,
-      questionCount,
-      excludedWordIds,
-      excludedPackIds,
-    });
-    memo.set(currentDateKey, questions);
-    return questions;
-  };
-
-  return buildForDate(dateKey);
 }
 
 export function getPracticeConfig(boot: QuizBootData): PracticeConfig {

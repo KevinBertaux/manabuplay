@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { buildCatalogQuizData } from "../../shared/data/manabuplay/catalog";
 import { buildV01QuizPool } from "../../shared/lib/manabuplay-quiz-pool";
-import { buildDailyQuizData, buildQuestions } from "../../apps/web/src/scripts/quiz-app/session";
+import { buildDailyQuizData } from "../../shared/lib/quiz-dataset";
+import { buildQuestions } from "../../apps/web/src/scripts/quiz-app/session";
 import type { StorageAdapter } from "../../apps/web/src/scripts/quiz-app/runtime-types";
 
 const storage: StorageAdapter = {

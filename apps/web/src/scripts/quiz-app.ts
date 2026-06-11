@@ -1,13 +1,13 @@
 import {
-  buildDailyQuizData,
   buildQuestions,
   getDailyRunRecord,
-  getSessionDateKey,
   hasCompletedDailyRun,
+  resolveQuizDataset,
   saveArchiveRunCompletion,
   saveDailyRunCompletion,
   savePracticeSession,
 } from "./quiz-app/session";
+import type { QuizSessionConfig } from "../../../../shared/lib/quiz-dataset";
 import {
   createRevealObserver,
   createShareController,
@@ -315,22 +315,23 @@ function syncResultReplayControls() {
 }
 
 const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
-let sessionDateKey = getSessionDateKey({
-  mode: MANABUPLAY_MODE,
-  archiveConfig: MANABUPLAY_BOOT.archive || {},
-  search: window.location.search,
-});
-function buildQuizDataForSessionDate(dateKey: string): QuizEntry[] {
-  return MANABUPLAY_MODE === "daily" || MANABUPLAY_MODE === "archives"
-    ? buildDailyQuizData({
-        pool: RAW_QUIZ_DATA,
-        dateKey,
-        dailyConfig: MANABUPLAY_BOOT.daily || {},
-      })
-    : RAW_QUIZ_DATA;
+
+function applyQuizDataset(resolved: QuizSessionConfig<QuizEntry>) {
+  sessionDateKey = resolved.sessionDateKey;
+  quizData = resolved.quizData;
 }
 
-let quizData = buildQuizDataForSessionDate(sessionDateKey);
+let sessionDateKey: string;
+let quizData: QuizEntry[];
+applyQuizDataset(
+  resolveQuizDataset({
+    mode: MANABUPLAY_MODE,
+    pool: RAW_QUIZ_DATA,
+    boot: MANABUPLAY_BOOT,
+    locale: currentLang,
+    search: window.location.search,
+  }),
+);
 
 function localizedPath(lang: string, route: string): string {
   return `/${lang}/${route ? `${route}/` : ""}`;
@@ -714,7 +715,16 @@ function selectArchiveDate(dateKey: string) {
   if (dateKey === sessionDateKey) return;
 
   sessionDateKey = dateKey;
-  quizData = buildQuizDataForSessionDate(sessionDateKey);
+  applyQuizDataset(
+    resolveQuizDataset({
+      mode: MANABUPLAY_MODE,
+      pool: RAW_QUIZ_DATA,
+      boot: MANABUPLAY_BOOT,
+      locale: currentLang,
+      search: window.location.search,
+      dateKey,
+    }),
+  );
   currentDiff = DIFFICULTIES[0] ?? null;
   state = {
     questions: [],
