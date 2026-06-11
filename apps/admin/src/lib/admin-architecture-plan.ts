@@ -40,14 +40,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Critique", en: "Critical" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 1,
-    progress: 90,
+    progress: 100,
     whyNow: {
       fr: "C'est le coeur métier : sans quiz jouable, distracteurs fiables, hints masqués/révélés au bon moment et feedback clair, le reste ne sert à rien.",
       en: "This is the product core: without a playable quiz, reliable distractors, correctly hidden/revealed hints, and clear feedback, the rest does not matter.",
     },
     note: {
-      fr: "Quotidien, Arcade et Archives sont jouables. Reste surtout une passe UX mobile réelle et quelques micro-finitions de feedback.",
-      en: "Daily, Arcade, and Archives are playable. What remains is mostly a real mobile UX pass and a few feedback micro-polishes.",
+      fr: "Refacto lots 1–4 mergée preprod : landing sans quiz embarqué, shell viewport 100dvh, resolveQuizDataset, QuizIsland + mountQuizApp. HUD D, toast flottant, puces indices, archives agenda mobile.",
+      en: "Refactor lots 1–4 merged to preprod: landing without embedded quiz, 100dvh viewport shell, resolveQuizDataset, QuizIsland + mountQuizApp. HUD D, floating toast, hint chips, mobile archives agenda.",
     },
   },
   {
@@ -114,8 +114,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "Archives make Daily durable and add accessible content without inventing another mode.",
     },
     note: {
-      fr: "Calendrier 7 colonnes localisé, scores xxx/200, sélection sans reload, case aujourd'hui explicite et CTA mobile compact. Sans partage.",
-      en: "Localized 7-column calendar, xxx/200 scores, no-reload date selection, explicit today cell, and compact mobile CTA. No sharing.",
+      fr: "Calendrier 7 colonnes localisé, scores xxx/200, sélection sans reload, agenda mobile + panneau focus, CTA « Jouer » sur jour sélectionné. Mode quiz-focus archives (#quiz).",
+      en: "Localized 7-column calendar, xxx/200 scores, no-reload selection, mobile agenda + focus panel, Play CTA on selected day. Archives quiz-focus mode (#quiz).",
     },
   },
   {
@@ -176,14 +176,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Très fort", en: "Very high" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 9,
-    progress: 0,
+    progress: 30,
     whyNow: {
       fr: "Le quiz est le produit. Il doit être réellement jouable sur iOS et Android avant toute priorité business secondaire.",
       en: "The quiz is the product. It must be truly playable on iOS and Android before any secondary business priority.",
     },
     note: {
-      fr: "Chantier de vérification UX après correction du quiz public.",
-      en: "UX verification work after fixing the public quiz.",
+      fr: "Polish mobile livré (viewport, HUD, toast, indices, archives). Reste la validation terrain iOS/Android sur l’URL preprod deploy/preprod-v01.",
+      en: "Mobile polish shipped (viewport, HUD, toast, hints, archives). Remaining: real iOS/Android validation on deploy/preprod-v01 preprod URL.",
     },
   },
   {
@@ -193,14 +193,14 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
     impact: { fr: "Moyen", en: "Medium" },
     effort: { fr: "Moyen", en: "Medium" },
     priority: 10,
-    progress: 90,
+    progress: 100,
     whyNow: {
       fr: "Head, nav et hero sont traités. Le reste de la page doit maintenant soutenir les vrais modes, pas vendre un prototype.",
       en: "Head, nav, and hero are handled. The rest should now support the real modes instead of selling a prototype.",
     },
     note: {
-      fr: "Landing pass 2 mergé : copy features/quiz, titres unifiés, stats et newsletter allégée. Reste surtout une relecture finale avant release.",
-      en: "Landing pass 2 merged: features/quiz copy, unified titles, stats, and lighter newsletter. Mostly a final read before release remains.",
+      fr: "Landing pass 2 + lot 1 mergés : copy features/quiz, CTA hero vers /daily/, quiz runtime retiré de la home. Preprod à jour (deb2c42).",
+      en: "Landing pass 2 + lot 1 merged: features/quiz copy, hero CTA to /daily/, quiz runtime removed from home. Preprod updated (deb2c42).",
     },
   },
   {
@@ -233,8 +233,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "The product can no longer stay as a landing with a quiz anchor. Modes need real routes.",
     },
     note: {
-      fr: "Shell public, locale par URL, routes Daily / Arcade / Archives en vrai et switch de langue cohérent sont en place. ES reste prévu côté architecture pour v1.0+, mais invisible en v0.1.",
-      en: "Public shell, locale-by-URL, real Daily / Arcade / Archives routes, and coherent language switching are in place. ES remains planned in the architecture for v1.0+, but hidden in v0.1.",
+      fr: "Shell public, locale par URL, routes Daily / Arcade / Archives, switch FR/EN, landing marketing séparée du jeu (lot 1). ES prévu v1.0+, invisible v0.1.",
+      en: "Public shell, locale-by-URL, Daily / Arcade / Archives routes, FR/EN switch, marketing landing separated from play (lot 1). ES planned v1.0+, hidden in v0.1.",
     },
   },
   {
@@ -522,11 +522,11 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "release-hardening",
     order: 6,
-    progress: 78,
+    progress: 92,
     title: { fr: "Durcir la fin de v0.1", en: "Harden the end of v0.1" },
     goal: {
-      fr: "Fermer release v0.1 : DNS/SSL Infomaniak → Netlify, QA mobile, smoke finale.",
-      en: "Close v0.1 release: Infomaniak → Netlify DNS/SSL, mobile QA, final smoke pass.",
+      fr: "Fermer release v0.1 : manabuplay.com en ligne, QA mobile device, smoke finale, cog drawer langue.",
+      en: "Close v0.1 release: manabuplay.com live, device mobile QA, final smoke pass, language settings drawer.",
     },
     guardrail: {
       fr: "Ne pas considérer le go-live public terminé tant que manabuplay.com et www ne résolvent pas vers Netlify en HTTPS.",
@@ -607,6 +607,74 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         note: {
           fr: "Clarity actif en prod (main). Pré-prod sans Clarity sauf test volontaire.",
           en: "Clarity active in production (main). Pre-production without Clarity unless tested on purpose.",
+        },
+      },
+    ],
+  },
+  {
+    id: "quiz-client-refacto",
+    order: 7,
+    progress: 100,
+    title: { fr: "Refacto quiz client-side (lots 1–4)", en: "Client-side quiz refactor (lots 1–4)" },
+    goal: {
+      fr: "Séparer landing et jeu, unifier le shell viewport, centraliser le dataset session et isoler le boot quiz.",
+      en: "Separate landing and play, unify viewport shell, centralize session dataset, and isolate quiz boot.",
+    },
+    guardrail: {
+      fr: "Génération quiz côté client uniquement — jamais de SSG par date. Runtime TS conservé (pas de framework Island pour l’instant).",
+      en: "Client-side quiz generation only — never date-based SSG. TS runtime kept (no framework Island for now).",
+    },
+    risk: {
+      fr: "Moyen : gros diff sur quiz-app et pages modes, mais merge preprod validé (CI verte).",
+      en: "Medium: large diff on quiz-app and mode pages, but preprod merge validated (green CI).",
+    },
+    files: [
+      {
+        path: "apps/web/src/pages/[locale]/index.astro",
+        action: "update",
+        note: {
+          fr: "Lot 1 : landing marketing, CTA vers /daily/, public-landing.ts.",
+          en: "Lot 1: marketing landing, CTA to /daily/, public-landing.ts.",
+        },
+      },
+      {
+        path: "apps/web/src/components/QuizModeShell.astro",
+        action: "create",
+        note: {
+          fr: "Lot 2 : shell viewport unifié Daily / Arcade / Archives.",
+          en: "Lot 2: unified viewport shell for Daily / Arcade / Archives.",
+        },
+      },
+      {
+        path: "shared/lib/quiz-dataset.ts",
+        action: "create",
+        note: {
+          fr: "Lot 3 : resolveQuizDataset, buildDailyQuizData, contrat session.",
+          en: "Lot 3: resolveQuizDataset, buildDailyQuizData, session contract.",
+        },
+      },
+      {
+        path: "apps/web/src/components/QuizIsland.astro",
+        action: "create",
+        note: {
+          fr: "Lot 4 : wrapper [data-quiz-island] + boot après public-boot.",
+          en: "Lot 4: [data-quiz-island] wrapper + boot after public-boot.",
+        },
+      },
+      {
+        path: "apps/web/src/scripts/quiz-app.ts",
+        action: "update",
+        note: {
+          fr: "mountQuizApp exporté, DOM scopé à l’island, polish HUD/toast/indices.",
+          en: "mountQuizApp exported, DOM scoped to island, HUD/toast/hints polish.",
+        },
+      },
+      {
+        path: "shared/data/manabuplay/repo-root.ts",
+        action: "create",
+        note: {
+          fr: "Fix chemins shared/ pour build admin depuis le workspace.",
+          en: "Fix shared/ paths for admin build from workspace.",
         },
       },
     ],

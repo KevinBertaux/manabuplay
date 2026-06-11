@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { REPO_ROOT } from "./admin-paths";
 
 export type RoadmapStatus = "todo" | "done";
 export type RoadmapPriority = "P0" | "P1" | "P2" | "P3";
@@ -86,7 +87,7 @@ export type RoadmapPayload = {
 };
 
 function readRoadmapFile() {
-  const filePath = path.join(process.cwd(), "docs", "ROADMAP.json");
+  const filePath = path.join(REPO_ROOT, "docs", "ROADMAP.json");
   return readFileSync(filePath, "utf8");
 }
 

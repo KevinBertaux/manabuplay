@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { DifficultyConfig, Locale, LocalizedText } from "./schema";
+import { getManabuplayDataDir } from "./repo-root";
 
 export type ExistingWordQuizData = {
   correct: { fr: string; en: string };
@@ -92,7 +93,7 @@ type CanonicalPackIndex = {
   }>;
 };
 
-const packsRoot = path.join(process.cwd(), "shared", "data", "manabuplay", "packs");
+const packsRoot = path.join(getManabuplayDataDir(), "packs");
 
 let indexCache: CanonicalPackIndex | null = null;
 let packsCache: CanonicalPackFile[] | null = null;

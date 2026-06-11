@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-05-20",
+    "updatedAt": "2026-06-12",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "Backlog" },
@@ -53,7 +53,7 @@
       "id": "v0.1",
       "label": "v0.1",
       "kind": "current",
-      "summary": "Coeur produit Quotidien / Arcade / Archives en place. Waitlist, Clarity (prod), workflow Netlify 2 branches (main + deploy/preprod-v01) OK. Reste : DNS/SSL Infomaniak → Netlify (manabuplay.com + www), QA mobile, smoke finale v0.1.",
+      "summary": "Refacto quiz lots 1–4 mergée sur deploy/preprod-v01 (deb2c42). DNS/SSL manabuplay.com OK (Infomaniak → Netlify). Reste : QA mobile device, smoke finale v0.1, cog drawer (langue FR/EN).",
       "items": [
         {
           "id": "v01-data-foundation",
@@ -215,6 +215,51 @@
           "notes": "PublicQuiz retire de index.astro ; CTA hero -> /{locale}/daily/ ; public-landing.ts (i18n, reveal, waitlist) a la place de quiz-app sur la home. Generation quiz toujours cote client sur /daily/."
         },
         {
+          "id": "v01-quiz-refacto-lot2",
+          "title": "Lot 2 — shell quiz viewport unifie (Daily / Arcade / Archives)",
+          "status": "done",
+          "priority": "P1",
+          "area": "quiz",
+          "type": "ux",
+          "notes": "QuizModeShell.astro + PublicQuiz layout viewport, classes quiz-shell--viewport / public-quiz-section--viewport, scrollQuizSectionIntoView. Parcours titre -> Lancer -> run sur daily et archives."
+        },
+        {
+          "id": "v01-quiz-refacto-lot3",
+          "title": "Lot 3 — resolveQuizDataset et contrat session",
+          "status": "done",
+          "priority": "P1",
+          "area": "quiz",
+          "type": "infra",
+          "notes": "shared/lib/quiz-dataset.ts : resolveQuizDataset, buildDailyQuizData, getSessionDateKey. quiz-app.ts consomme le resolver. tests/shared/quiz-dataset.test.ts."
+        },
+        {
+          "id": "v01-quiz-refacto-lot4",
+          "title": "Lot 4 — QuizIsland et mountQuizApp",
+          "status": "done",
+          "priority": "P1",
+          "area": "quiz",
+          "type": "infra",
+          "notes": "QuizIsland.astro + quiz-island.ts : boot apres public-boot, mountQuizApp DOM-scope. Runtime TS conserve (pas de client:load framework). includeQuizIsland dans PublicLayout."
+        },
+        {
+          "id": "v01-quiz-mobile-polish",
+          "title": "Polish quiz mobile (HUD, toast, indices, archives)",
+          "status": "done",
+          "priority": "P1",
+          "area": "quiz",
+          "type": "ux",
+          "notes": "HUD D + toast flottant, puces indices repliables, command bar progress+HUD, archives agenda mobile + focus #quiz, chantier A pre-lancement compact. Mockups admin : quiz-chantiers, hint-section, hud-toast, archives."
+        },
+        {
+          "id": "v01-admin-repo-root-fix",
+          "title": "Fix chemins shared/ pour admin workspace",
+          "status": "done",
+          "priority": "P2",
+          "area": "admin",
+          "type": "infra",
+          "notes": "shared/data/manabuplay/repo-root.ts : findRepoRoot pour pack-source, editorial-reserve et ROADMAP. Scripts workspace @manabuplay/admin passent par scripts racine."
+        },
+        {
           "id": "v01-landing-quiz-teaser",
           "title": "Option landing — teaser / demo visuelle du quiz (sans runtime embarque)",
           "status": "todo",
@@ -342,25 +387,20 @@
           "priority": "P1",
           "area": "landing",
           "type": "ux",
-          "notes": "Desktop et Playwright couvrent deja les flux critiques. Selecteur EN|FR masque sous md (<768px) pour liberer la nav. Reste verification manuelle iOS/Android : quiz, archives, nav."
+          "notes": "Desktop et Playwright couvrent les flux critiques. Polish mobile quiz livre (viewport 100dvh, HUD, toast, indices, archives agenda). Reste verification manuelle iOS/Android sur preprod deploy/preprod-v01 : quiz, archives, nav, waitlist."
         },
         {
           "id": "v01-public-settings-cog",
-          "title": "Remplacer le selecteur EN|FR par une icone cog (panneau options + mini profil local)",
+          "title": "Remplacer le selecteur EN|FR par une icone cog (drawer options)",
           "status": "todo",
           "priority": "P2",
           "area": "ux",
           "type": "feature",
-          "notes": "Backlog : icone engrenage dans la nav (desktop puis mobile). Panneau : changement de langue FR/EN + options futures. Inclure une mini vue profil utilisateur basee sur localStorage uniquement (pas de compte). Compatible i18n par URL (/fr/, /en/). v0.1 livre le masquage mobile du selecteur actuel.",
+          "notes": "Cog dans la nav (mobile + desktop), drawer lateral. Contenu v0.1 : langue FR/EN via navigation /fr/ et /en/ (equivalent de la page courante). Retrait du selecteur EN|FR. Mobile : [ hamburger modes dropdown ] [ cog drawer ] (pattern A). Desktop : segments modes inchanges + cog. Preferences cookies en lien secondaire si pertinent. Mini profil local : voir backlog non scope (settings-local-profile).",
           "children": [
             {
               "id": "settings-cog-nav",
-              "title": "Icone cog et menu options (langue, preferences)",
-              "status": "todo"
-            },
-            {
-              "id": "settings-local-profile",
-              "title": "Mini profil utilisateur local dans le panneau (localStorage)",
+              "title": "Icone cog + drawer (langue FR/EN, preferences)",
               "status": "todo"
             }
           ]
@@ -537,7 +577,7 @@
               "id": "deploy-preprod-netlify",
               "title": "Cadrer pre-prod Netlify (branche deploy/preprod-v01, previews PR off)",
               "status": "done",
-              "notes": "Doc docs/DEPLOY-PREPROD.md. Branches Netlify OK : deploy/preprod-v01 (preprod) + main (prod, auto-deploy off). Previews PR off."
+              "notes": "Doc docs/DEPLOY-PREPROD.md. Branches Netlify OK : deploy/preprod-v01 (preprod) + main (prod, auto-deploy off). Previews PR off. Merge fix/quiz-mobile-height -> deploy/preprod-v01 (deb2c42, 2026-06-11)."
             },
             {
               "id": "release-workflow-main",
@@ -548,11 +588,11 @@
             {
               "id": "v01-dns-ssl-infomaniak",
               "title": "Brancher DNS et SSL manabuplay.com (Infomaniak → Netlify)",
-              "status": "todo",
+              "status": "done",
               "priority": "P0",
               "area": "infra",
               "type": "infra",
-              "notes": "Domaine detenu chez Infomaniak ; domaine ajoute cote Netlify. A faire : enregistrements DNS apex + www vers Netlify, certificat SSL, redirection www ↔ apex. Etat observe : zone Infomaniak sans A/CNAME publics — manabuplay.com et www injoignables."
+              "notes": "Valide juin 2026 : manabuplay.com et www servent le site en HTTPS via Netlify."
             },
             { "id": "smoke-v01", "title": "Faire une smoke pass finale", "status": "todo" }
           ]
@@ -626,7 +666,7 @@
           "priority": "P1",
           "area": "landing",
           "type": "ux",
-          "notes": "Realise en lot 1 (v0.1 refacto) : hero -> /daily/, quiz retire de la home. Suite : lots 2–4 (shell unifie, dataset, QuizIsland). Teaser visuel optionnel : v01-landing-quiz-teaser."
+          "notes": "Realise en v0.1 refacto lots 1–4 : hero -> /daily/, shell viewport, resolveQuizDataset, QuizIsland. Teaser visuel optionnel : v01-landing-quiz-teaser."
         },
         {
           "id": "v02-legal-payments",
@@ -872,7 +912,17 @@
       "label": "Backlog non scope",
       "kind": "backlog",
       "summary": "Sujets gardes de cote tant qu'ils n'ont pas leur bonne version.",
-      "items": []
+      "items": [
+        {
+          "id": "settings-local-profile",
+          "title": "Mini profil utilisateur local dans le drawer options (localStorage)",
+          "status": "todo",
+          "priority": "P2",
+          "area": "quiz",
+          "type": "feature",
+          "notes": "Bloc read-only dans le drawer cog : stats locales (daily, archives, arcade, waitlist) depuis mp_*. Pas de compte, pas d'avatar « connecte ». Formulation : donnees sur cet appareil uniquement. A planifier sans version cible pour l'instant."
+        }
+      ]
     }
   ]
 }

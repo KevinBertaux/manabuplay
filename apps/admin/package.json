@@ -5,9 +5,9 @@
   "version": "0.1.0",
   "description": "Private Astro dashboard for ManabuPlay content, design, operations, and product steering.",
   "scripts": {
-    "dev": "astro dev --host 0.0.0.0 --port 4322",
-    "build": "astro build",
-    "preview": "astro preview --host 0.0.0.0 --port 4322",
-    "check": "astro check"
+    "dev": "node ../../scripts/dev.mjs --app admin",
+    "build": "node ../../scripts/build.mjs --app admin",
+    "preview": "node ../../scripts/preview.mjs --app admin",
+    "check": "node ../../scripts/check.mjs --app admin"
   }
 }

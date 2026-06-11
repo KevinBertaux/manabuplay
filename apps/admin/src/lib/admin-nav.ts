@@ -3,7 +3,6 @@ export type AdminNavKey =
   | "backlog"
   | "architecture"
   | "insight"
-  | "clarity"
   | "business"
   | "wording"
   | "guide"
@@ -42,12 +41,11 @@ export const ADMIN_GROUPS: AdminNavGroup[] = [
   },
   {
     label: "Pilotage",
-    keys: ["backlog", "architecture", "insight", "clarity", "business", "wording", "guide"],
+    keys: ["backlog", "architecture", "insight", "business", "wording", "guide"],
     items: [
       { key: "backlog", href: "/pilotage/backlog", label: "Backlog" },
       { key: "architecture", href: "/pilotage/architecture", label: "Architecture" },
       { key: "insight", href: "/pilotage/insight", label: "Insight" },
-      { key: "clarity", href: "/pilotage/clarity", label: "Clarity" },
       { key: "business", href: "/pilotage/business", label: "Business" },
       { key: "wording", href: "/copy/landing", label: "Wording" },
       { key: "guide", href: "/guide", label: "Guide" },

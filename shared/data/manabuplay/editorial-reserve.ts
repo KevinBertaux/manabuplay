@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { getCanonicalPackFiles, type CanonicalPackWord } from "./pack-source";
+import { getManabuplayDataDir } from "./repo-root";
 
 export type EditorialReserveStatus =
   | "active"
@@ -99,14 +100,7 @@ type WordReserveFile = {
   rejectedDistractors: Array<string | { label: string }>;
 };
 
-const reservePath = path.join(
-  process.cwd(),
-  "shared",
-  "data",
-  "manabuplay",
-  "reserve",
-  "word-reserve.json",
-);
+const reservePath = path.join(getManabuplayDataDir(), "reserve", "word-reserve.json");
 
 function readWordReserve() {
   return JSON.parse(fs.readFileSync(reservePath, "utf8")) as WordReserveFile;
