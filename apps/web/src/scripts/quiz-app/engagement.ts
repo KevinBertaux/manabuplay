@@ -24,8 +24,8 @@ export function createRevealObserver() {
   );
 
   return {
-    observeAll(selector: string) {
-      document.querySelectorAll(selector).forEach((element) => observer.observe(element));
+    observeAll(selector: string, root: ParentNode = document) {
+      root.querySelectorAll(selector).forEach((element) => observer.observe(element));
     },
   };
 }

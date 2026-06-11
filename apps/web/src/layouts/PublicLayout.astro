@@ -22,8 +22,8 @@ interface Props {
   ogDescription?: string;
   activeMode?: PublicModeKey;
   bootPayload?: unknown;
-  includeQuizRuntime?: boolean;
   includeLandingRuntime?: boolean;
+  includeQuizIsland?: boolean;
 }
 
 const {
@@ -34,8 +34,8 @@ const {
   ogDescription = description,
   activeMode,
   bootPayload,
-  includeQuizRuntime = false,
   includeLandingRuntime = false,
+  includeQuizIsland = false,
 } = Astro.props;
 
 const productCopy = CURRENT_PRODUCT_COPY[locale];
@@ -196,11 +196,9 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
       <script src="../scripts/public-boot.ts"></script>
     </>
   )}
+  {includeQuizIsland && <script src="../scripts/quiz-island.ts"></script>}
   {includeLandingRuntime && (
     <script src="../scripts/public-landing.ts"></script>
-  )}
-  {includeQuizRuntime && (
-    <script src="../scripts/quiz-app.ts"></script>
   )}
   <script src="../scripts/public-mode-menu.ts"></script>
   <script src="../scripts/public-analytics.ts"></script>

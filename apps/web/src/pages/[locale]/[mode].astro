@@ -2,7 +2,7 @@
 import PublicLayout from "../../layouts/PublicLayout.astro";
 import PublicFooter from "../../components/PublicFooter.astro";
 import ArchiveAgendaRow from "../../components/ArchiveAgendaRow.astro";
-import PublicQuiz from "../../components/PublicQuiz.astro";
+import QuizIsland from "../../components/QuizIsland.astro";
 import QuizModeShell from "../../components/QuizModeShell.astro";
 import { buildCatalogBootData } from "../../../../../shared/data/manabuplay/catalog";
 import {
@@ -31,7 +31,7 @@ const copy = PUBLIC_MODE_COPY[mode] ?? PUBLIC_MODE_COPY.daily;
 const isDailyMode = mode === "daily";
 const isArcadeMode = mode === "arcade";
 const isArchivesMode = mode === "archives";
-const isQuizMode = isDailyMode || isArcadeMode || isArchivesMode;
+const includeQuizIsland = isDailyMode || isArcadeMode || isArchivesMode;
 const latestArchiveDate = isArchivesMode ? getLatestArchiveDateKey() : null;
 const archiveMonthGroups = isArchivesMode
   ? getArchiveMonthGroups({ locale, selectedDate: latestArchiveDate })
@@ -95,15 +95,15 @@ const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
   ogDescription={copy.description[locale]}
   activeMode={mode}
   bootPayload={bootPayload}
-  includeQuizRuntime={isQuizMode}
+  includeQuizIsland={includeQuizIsland}
 >
   {isDailyMode ? (
     <QuizModeShell>
-      <PublicQuiz layout="viewport" />
+      <QuizIsland layout="viewport" />
     </QuizModeShell>
   ) : isArcadeMode ? (
     <QuizModeShell>
-      <PublicQuiz layout="viewport" />
+      <QuizIsland layout="viewport" />
     </QuizModeShell>
   ) : isArchivesMode ? (
     <main class={archiveMainClass}>
@@ -270,7 +270,7 @@ const defaultScoreLabel = archiveCalendarCopy.defaultScoreLabel;
       </section>
 
       <div class="archive-quiz-slot mx-auto w-full max-w-[980px] flex-1">
-        <PublicQuiz layout="viewport" />
+        <QuizIsland layout="viewport" />
       </div>
       <button
         type="button"

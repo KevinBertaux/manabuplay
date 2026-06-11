@@ -206,6 +206,7 @@ test.describe("public localized architecture", () => {
       desktopModeNav(page).locator("a[data-public-route='daily'][aria-current='page']"),
     ).toBeVisible();
     await expect(page.locator("#quizTitleScreen")).toBeVisible();
+    await expect(page.locator("[data-quiz-island]")).toBeVisible();
     await expect(page.locator("#quiz")).toHaveClass(/public-quiz-section--viewport/);
     await expect(page.locator(".quiz-shell")).toHaveClass(/quiz-shell--viewport/);
     await expect(page.locator("#quizTitleHeadline")).toContainText("Quotidien ·");

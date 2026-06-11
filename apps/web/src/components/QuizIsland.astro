@@ -1,0 +1,13 @@
+---
+import PublicQuiz from "./PublicQuiz.astro";
+
+export interface Props {
+  layout?: "default" | "viewport";
+}
+
+const { layout = "viewport" } = Astro.props;
+---
+
+<div class="quiz-island" data-quiz-island>
+  <PublicQuiz layout={layout} />
+</div>

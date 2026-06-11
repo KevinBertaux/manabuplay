@@ -35,15 +35,37 @@ type QuizAction =
 
 type QuizActionHandler = (element: HTMLElement) => void;
 
-const bootData = window.__MANABUPLAY_DATA__ as QuizBootData | undefined;
-if (!bootData) {
-  throw new Error("ManabuPlay boot data is missing.");
-}
-const MANABUPLAY_BOOT: QuizBootData = bootData;
+let quizIslandRoot: HTMLElement | null = null;
+let mountStarted = false;
 
-const MANABUPLAY_MODE = MANABUPLAY_BOOT.mode || window.__MANABUPLAY_MODE__ || "legacy";
-const DIFFICULTIES = MANABUPLAY_BOOT.difficulties;
-const IS_SINGLE_RUN_MODE = MANABUPLAY_MODE === "daily" || MANABUPLAY_MODE === "archives";
+function readBoot(): QuizBootData {
+  const bootData = window.__MANABUPLAY_DATA__ as QuizBootData | undefined;
+  if (!bootData) {
+    throw new Error("ManabuPlay boot data is missing.");
+  }
+  return bootData;
+}
+
+function quizScope(): ParentNode {
+  return quizIslandRoot ?? document;
+}
+
+function getQuizElementById<T extends HTMLElement>(id: string): T | null {
+  return quizScope().querySelector<T>(`#${CSS.escape(id)}`);
+}
+
+function queryAllInQuiz<T extends Element>(selector: string): NodeListOf<T> {
+  return quizScope().querySelectorAll<T>(selector);
+}
+
+function queryInQuiz<T extends Element>(selector: string): T | null {
+  return quizScope().querySelector<T>(selector);
+}
+
+let MANABUPLAY_BOOT: QuizBootData;
+let MANABUPLAY_MODE: string;
+let DIFFICULTIES: Difficulty[];
+let IS_SINGLE_RUN_MODE: boolean;
 const WAITLIST_STORAGE_KEY = "waitlist_submissions";
 const WAITLIST_FORM_NAME = "manabuplay-waitlist";
 const WAITLIST_SUCCESS_BUTTON_DELAY = 2800;
@@ -52,7 +74,7 @@ const SUPPORTED_LANGS = ["en", "fr"] as const;
 const LOCALIZED_ROUTES = ["daily", "arcade", "archives"] as const;
 const PRACTICE_HISTORY_KEY = "practice_sessions";
 const PRACTICE_HISTORY_LIMIT = 8;
-const LANG = MANABUPLAY_BOOT.lang;
+let LANG: QuizBootData["lang"];
 const ANSWER_BUTTON_CLASS = "answer-btn";
 const ANSWER_KEY_CLASS = "answer-key";
 const ANSWER_COPY_CLASS = "answer-copy";
@@ -60,7 +82,7 @@ const QUESTION_POINTS_BY_HINT_STAGE = [10, 8, 5] as const;
 const COMBO_MULTIPLIER_STEP = 0.1;
 const MAX_COMBO_MULTIPLIER_STREAK = 10;
 
-let currentDiff: Difficulty | null = IS_SINGLE_RUN_MODE ? (DIFFICULTIES[0] ?? null) : null;
+let currentDiff: Difficulty | null = null;
 let hintStage = 0;
 let state: RuntimeState = {
   questions: [],
@@ -106,16 +128,22 @@ const LS: StorageAdapter = {
   },
 };
 
-const pageLocale = SUPPORTED_LANGS.includes(
-  window.__MANABUPLAY_LOCALE__ as (typeof SUPPORTED_LANGS)[number],
-)
-  ? window.__MANABUPLAY_LOCALE__
-  : null;
-const currentLang =
-  pageLocale ||
-  (SUPPORTED_LANGS.includes(LS.getLang() as (typeof SUPPORTED_LANGS)[number])
-    ? LS.getLang()
-    : "en");
+function resolveCurrentLang(): string {
+  const pageLocale = SUPPORTED_LANGS.includes(
+    window.__MANABUPLAY_LOCALE__ as (typeof SUPPORTED_LANGS)[number],
+  )
+    ? window.__MANABUPLAY_LOCALE__
+    : null;
+
+  return (
+    pageLocale ||
+    (SUPPORTED_LANGS.includes(LS.getLang() as (typeof SUPPORTED_LANGS)[number])
+      ? LS.getLang()
+      : "en")
+  );
+}
+
+let currentLang = "en";
 
 const t = (key: string): BootTranslationValue =>
   (LANG[currentLang]?.[key] ?? LANG.en?.[key]) as BootTranslationValue;
@@ -175,7 +203,7 @@ function syncHudDisplay() {
   getRequiredElement<HTMLElement>("scoreDisplay").textContent = String(state.score);
   getRequiredElement<HTMLElement>("levelDisplay").textContent = getScoreLevel(state.score);
 
-  const streakMetaPart = document.getElementById("streakMetaPart");
+  const streakMetaPart = getQuizElementById("streakMetaPart");
   const streakDisplay = getRequiredElement<HTMLElement>("streakDisplay");
   if (state.streak >= 2) {
     streakDisplay.textContent = `🔥 x${state.streak}`;
@@ -209,7 +237,7 @@ function finishQuizToastHide(toast: HTMLElement) {
 }
 
 function hideQuizToast() {
-  const toast = document.getElementById("quizToast");
+  const toast = getQuizElementById("quizToast");
   if (!(toast instanceof HTMLElement)) return;
   window.clearTimeout(quizToastDismissTimer);
 
@@ -280,7 +308,7 @@ function getDailyLockedButtonLabel() {
 
 function syncDailyLaunchControls() {
   const locked = isDailyRunLocked();
-  document.querySelectorAll<HTMLElement>("[data-quiz-action='launchQuiz']").forEach((element) => {
+  queryAllInQuiz<HTMLElement>("[data-quiz-action='launchQuiz']").forEach((element) => {
     element.classList.toggle("is-disabled", locked);
     element.setAttribute("aria-disabled", locked ? "true" : "false");
 
@@ -301,7 +329,7 @@ function syncDailyLaunchControls() {
 }
 
 function syncResultReplayControls() {
-  const replayButton = document.querySelector<HTMLElement>("[data-quiz-action='replayDifficulty']");
+  const replayButton = queryInQuiz<HTMLElement>("[data-quiz-action='replayDifficulty']");
   if (!(replayButton instanceof HTMLButtonElement)) return;
 
   const isDailyResultLocked = MANABUPLAY_MODE === "daily" && isDailyRunLocked();
@@ -314,24 +342,27 @@ function syncResultReplayControls() {
   }
 }
 
-const RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
+let RAW_QUIZ_DATA: QuizEntry[];
+
+function initQuizDataset() {
+  applyQuizDataset(
+    resolveQuizDataset({
+      mode: MANABUPLAY_MODE,
+      pool: RAW_QUIZ_DATA,
+      boot: MANABUPLAY_BOOT,
+      locale: currentLang,
+      search: window.location.search,
+    }),
+  );
+}
+
+let sessionDateKey: string;
+let quizData: QuizEntry[];
 
 function applyQuizDataset(resolved: QuizSessionConfig<QuizEntry>) {
   sessionDateKey = resolved.sessionDateKey;
   quizData = resolved.quizData;
 }
-
-let sessionDateKey: string;
-let quizData: QuizEntry[];
-applyQuizDataset(
-  resolveQuizDataset({
-    mode: MANABUPLAY_MODE,
-    pool: RAW_QUIZ_DATA,
-    boot: MANABUPLAY_BOOT,
-    locale: currentLang,
-    search: window.location.search,
-  }),
-);
 
 function localizedPath(lang: string, route: string): string {
   return `/${lang}/${route ? `${route}/` : ""}`;
@@ -350,7 +381,7 @@ function getLocalizedField(value: string | Record<string, string | undefined> | 
 }
 
 function getRequiredElement<T extends HTMLElement>(id: string): T {
-  const element = document.getElementById(id);
+  const element = getQuizElementById<T>(id);
   if (!(element instanceof HTMLElement)) {
     throw new Error(`Required element #${id} is missing.`);
   }
@@ -436,15 +467,15 @@ function applyLang() {
     }
   }
 
-  document.querySelectorAll<HTMLElement>("[data-i18n]").forEach((element) => {
+  queryAllInQuiz<HTMLElement>("[data-i18n]").forEach((element) => {
     const value = t(element.dataset.i18n || "");
     if (typeof value === "string") element.innerHTML = value;
   });
-  document.querySelectorAll<HTMLInputElement>("[data-i18n-ph]").forEach((element) => {
+  queryAllInQuiz<HTMLInputElement>("[data-i18n-ph]").forEach((element) => {
     const value = t(element.dataset.i18nPh || "");
     element.placeholder = typeof value === "string" ? value : "";
   });
-  document.querySelectorAll<HTMLElement>("[data-aria-label-en]").forEach((element) => {
+  queryAllInQuiz<HTMLElement>("[data-aria-label-en]").forEach((element) => {
     const label = currentLang === "fr" ? element.dataset.ariaLabelFr : element.dataset.ariaLabelEn;
     if (label) element.setAttribute("aria-label", label);
   });
@@ -452,8 +483,8 @@ function applyLang() {
   document.getElementById("btnFR")?.classList.toggle("active", currentLang === "fr");
   updateLocalizedLinks();
 
-  const copyButton = document.getElementById("shareBtnCopy");
-  const copyLabel = document.getElementById("copyBtnLabel");
+  const copyButton = getQuizElementById("shareBtnCopy");
+  const copyLabel = getQuizElementById("copyBtnLabel");
   if (copyButton && copyLabel && !copyButton.classList.contains("copied")) {
     const label = t("result_share_copy");
     copyLabel.textContent = typeof label === "string" ? label : "";
@@ -461,7 +492,7 @@ function applyLang() {
 
   renderDiffGrid();
 
-  const nextButton = document.getElementById("nextBtn");
+  const nextButton = getQuizElementById("nextBtn");
   if (nextButton && !nextButton.classList.contains("opacity-0")) {
     const label =
       state.currentIndex >= state.questions.length - 1 ? t("see_results") : t("next_word");
@@ -470,9 +501,9 @@ function applyLang() {
 }
 
 function isQuizDensityTight() {
-  const hintReveal1 = document.getElementById("hintReveal1");
-  const hintReveal2 = document.getElementById("hintReveal2");
-  const explanationBox = document.getElementById("explanationBox");
+  const hintReveal1 = getQuizElementById("hintReveal1");
+  const hintReveal2 = getQuizElementById("hintReveal2");
+  const explanationBox = getQuizElementById("explanationBox");
 
   const hintsOpen =
     (hintReveal1 instanceof HTMLElement && !hintReveal1.hidden) ||
@@ -483,11 +514,11 @@ function isQuizDensityTight() {
 }
 
 function syncShellLaunchLayout() {
-  const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
-  const diffArea = document.getElementById("diffArea");
-  const quizArea = document.getElementById("quizArea");
-  const resultsArea = document.getElementById("resultsArea");
-  const quizSection = document.getElementById("quiz");
+  const quizShell = queryInQuiz<HTMLElement>(".quiz-shell");
+  const diffArea = getQuizElementById("diffArea");
+  const quizArea = getQuizElementById("quizArea");
+  const resultsArea = getQuizElementById("resultsArea");
+  const quizSection = getQuizElementById("quiz");
   const isPreLaunch =
     diffArea instanceof HTMLElement &&
     !diffArea.hidden &&
@@ -509,12 +540,12 @@ function syncShellLaunchLayout() {
 }
 
 function renderDiffGrid() {
-  const grid = document.getElementById("diffGrid");
-  const titleScreen = document.getElementById("quizTitleScreen");
-  const pickerTitle = document.getElementById("diffPickerTitle");
+  const grid = getQuizElementById("diffGrid");
+  const titleScreen = getQuizElementById("quizTitleScreen");
+  const pickerTitle = getQuizElementById("diffPickerTitle");
   const startButton = getRequiredElement<HTMLButtonElement>("startBtn");
-  const defaultStartSlot = document.getElementById("defaultStartSlot");
-  const singleRunStartSlot = document.getElementById("singleRunStartSlot");
+  const defaultStartSlot = getQuizElementById("defaultStartSlot");
+  const singleRunStartSlot = getQuizElementById("singleRunStartSlot");
   if (!(grid instanceof HTMLElement)) return;
 
   if (pickerTitle instanceof HTMLElement) {
@@ -590,16 +621,16 @@ function formatSessionDate(dateKey: string) {
 }
 
 function setElementText(id: string, value: string) {
-  const element = document.getElementById(id);
+  const element = getQuizElementById(id);
   if (element instanceof HTMLElement) element.textContent = value;
 }
 
 function setTitleCopyText(value: string) {
-  const copy = document.getElementById("quizTitleCopy");
-  const text = document.getElementById("quizTitleCopyText");
-  const score = document.getElementById("quizTitleCopyScore");
-  const returnLine = document.getElementById("quizTitleCopyReturn");
-  const shareRow = document.getElementById("quizTitleShareRow");
+  const copy = getQuizElementById("quizTitleCopy");
+  const text = getQuizElementById("quizTitleCopyText");
+  const score = getQuizElementById("quizTitleCopyScore");
+  const returnLine = getQuizElementById("quizTitleCopyReturn");
+  const shareRow = getQuizElementById("quizTitleShareRow");
 
   copy?.classList.remove("is-completed");
   if (text instanceof HTMLElement) {
@@ -618,11 +649,11 @@ function setTitleCopyText(value: string) {
 }
 
 function setCompletedDailyTitleCopy(scoreLine: string, returnText: string) {
-  const copy = document.getElementById("quizTitleCopy");
-  const text = document.getElementById("quizTitleCopyText");
-  const score = document.getElementById("quizTitleCopyScore");
-  const returnLine = document.getElementById("quizTitleCopyReturn");
-  const shareRow = document.getElementById("quizTitleShareRow");
+  const copy = getQuizElementById("quizTitleCopy");
+  const text = getQuizElementById("quizTitleCopyText");
+  const score = getQuizElementById("quizTitleCopyScore");
+  const returnLine = getQuizElementById("quizTitleCopyReturn");
+  const shareRow = getQuizElementById("quizTitleShareRow");
 
   copy?.classList.add("is-completed");
   if (text instanceof HTMLElement) {
@@ -755,8 +786,8 @@ function scrollQuizSectionIntoView() {
     return;
   }
 
-  const quizSection = document.getElementById("quiz");
-  const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
+  const quizSection = getQuizElementById("quiz");
+  const quizShell = queryInQuiz<HTMLElement>(".quiz-shell");
   const target = quizSection || quizShell;
 
   if (!(target instanceof HTMLElement)) return;
@@ -787,15 +818,15 @@ function getTranslatedText(key: string, fallback: string) {
 
 function getHintChipElements() {
   return {
-    chips: document.getElementById("hintChips"),
-    chip1: document.getElementById("hintChip1"),
-    chip2: document.getElementById("hintChip2"),
-    drawer: document.getElementById("hintRevealsDrawer"),
-    drawerCount: document.getElementById("hintDrawerCount"),
-    reveal1: document.getElementById("hintReveal1"),
-    reveal2: document.getElementById("hintReveal2"),
-    content1: document.getElementById("hintContent"),
-    content2: document.getElementById("hint2Content"),
+    chips: getQuizElementById("hintChips"),
+    chip1: getQuizElementById("hintChip1"),
+    chip2: getQuizElementById("hintChip2"),
+    drawer: getQuizElementById("hintRevealsDrawer"),
+    drawerCount: getQuizElementById("hintDrawerCount"),
+    reveal1: getQuizElementById("hintReveal1"),
+    reveal2: getQuizElementById("hintReveal2"),
+    content1: getQuizElementById("hintContent"),
+    content2: getQuizElementById("hint2Content"),
   };
 }
 
@@ -828,7 +859,7 @@ function isFrenchLocale() {
 }
 
 function getQuizPlayPanel() {
-  return document.querySelector<HTMLElement>(".quiz-play-panel");
+  return queryInQuiz<HTMLElement>(".quiz-play-panel");
 }
 
 function hideHintReveal(reveal: HTMLElement | null, content: HTMLElement | null) {
@@ -910,8 +941,8 @@ function setupHintControls(question: QuizQuestion) {
 }
 
 function renderExplanation(text: string, reveal = false) {
-  const explanationBox = document.getElementById("explanationBox");
-  const explanationContent = document.getElementById("explanationContent");
+  const explanationBox = getQuizElementById("explanationBox");
+  const explanationContent = getQuizElementById("explanationContent");
   if (!(explanationBox instanceof HTMLElement) || !(explanationContent instanceof HTMLElement))
     return;
 
@@ -928,8 +959,8 @@ function renderExplanation(text: string, reveal = false) {
 }
 
 function resetExplanation() {
-  const explanationBox = document.getElementById("explanationBox");
-  const explanationContent = document.getElementById("explanationContent");
+  const explanationBox = getQuizElementById("explanationBox");
+  const explanationContent = getQuizElementById("explanationContent");
   if (explanationBox instanceof HTMLElement) hideElement(explanationBox, "grid");
   if (explanationContent instanceof HTMLElement) explanationContent.textContent = "";
   syncShellLaunchLayout();
@@ -1043,7 +1074,7 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
   if (state.answered) return;
   state.answered = true;
 
-  document.querySelectorAll<HTMLButtonElement>(".answer-btn").forEach((answerButton) => {
+  queryAllInQuiz<HTMLButtonElement>(".answer-btn").forEach((answerButton) => {
     answerButton.disabled = true;
   });
 
@@ -1070,7 +1101,7 @@ function handleAnswer(button: HTMLButtonElement, chosen: string, correct: string
     button.classList.add("wrong");
     state.streak = 0;
     setAnswerButtonTag(button, formatAnswerTagWrong(), "wrong");
-    document.querySelectorAll<HTMLButtonElement>(".answer-btn").forEach((answerButton) => {
+    queryAllInQuiz<HTMLButtonElement>(".answer-btn").forEach((answerButton) => {
       if (answerButton.querySelector(".answer-copy")?.textContent === correct) {
         answerButton.classList.add("correct");
       }
@@ -1155,7 +1186,7 @@ function showResults() {
 
   const badge = getRequiredElement<HTMLElement>("newRecordBadge");
   const bestMessage = getRequiredElement<HTMLElement>("bestScoreMsg");
-  const shareRow = document.getElementById("shareRow");
+  const shareRow = getQuizElementById("shareRow");
   const isArchiveMode = MANABUPLAY_MODE === "archives";
 
   if (isArchiveMode) {
@@ -1189,7 +1220,7 @@ function launchQuiz() {
     return;
   }
 
-  const quizShell = document.querySelector<HTMLElement>(".quiz-shell");
+  const quizShell = queryInQuiz<HTMLElement>(".quiz-shell");
   quizShell?.classList.add("is-launching");
 
   state = {
@@ -1239,23 +1270,8 @@ function nextQuestion() {
   }
 }
 
-const waitlistController = createWaitlistController({
-  storage: LS,
-  currentLangRef: () => currentLang,
-  t,
-  waitlistStorageKey: WAITLIST_STORAGE_KEY,
-  waitlistFormName: WAITLIST_FORM_NAME,
-  successButtonDelay: WAITLIST_SUCCESS_BUTTON_DELAY,
-  successMessageDelay: WAITLIST_SUCCESS_MESSAGE_DELAY,
-});
-
-const shareController = createShareController({
-  getState: () => state,
-  getCurrentDiff: () => currentDiff,
-  getCurrentLang: () => currentLang,
-  getResults,
-  t,
-});
+let waitlistController: ReturnType<typeof createWaitlistController>;
+let shareController: ReturnType<typeof createShareController>;
 
 const actionHandlers: Record<QuizAction, QuizActionHandler> = {
   launchQuiz: () => launchQuiz(),
@@ -1268,7 +1284,7 @@ const actionHandlers: Record<QuizAction, QuizActionHandler> = {
 };
 
 function bindQuizActions() {
-  document.querySelectorAll<HTMLElement>("[data-quiz-action]").forEach((element) => {
+  queryAllInQuiz<HTMLElement>("[data-quiz-action]").forEach((element) => {
     element.addEventListener("click", (event) => {
       const action = element.dataset.quizAction as QuizAction | undefined;
       if (!action) return;
@@ -1281,18 +1297,57 @@ function bindQuizActions() {
   });
 }
 
-window.addEventListener("manabuplay:archive-date-selected", (event) => {
-  if (!(event instanceof CustomEvent)) return;
-  const dateKey = event.detail?.dateKey;
-  if (typeof dateKey === "string") selectArchiveDate(dateKey);
-});
+let archiveDateListenerBound = false;
 
-applyLang();
-renderDiffGrid();
-createRevealObserver().observeAll(".reveal");
-bindQuizActions();
+export function mountQuizApp(islandRoot: HTMLElement) {
+  if (mountStarted) return;
+  mountStarted = true;
+  quizIslandRoot = islandRoot;
 
-const waitlistForm = document.querySelector('form[name="manabuplay-waitlist"]');
-if (waitlistForm instanceof HTMLFormElement) {
-  waitlistForm.addEventListener("submit", waitlistController.handleEmailSubmit);
+  MANABUPLAY_BOOT = readBoot();
+  MANABUPLAY_MODE = MANABUPLAY_BOOT.mode || window.__MANABUPLAY_MODE__ || "legacy";
+  DIFFICULTIES = MANABUPLAY_BOOT.difficulties;
+  IS_SINGLE_RUN_MODE = MANABUPLAY_MODE === "daily" || MANABUPLAY_MODE === "archives";
+  LANG = MANABUPLAY_BOOT.lang;
+  currentLang = resolveCurrentLang();
+  RAW_QUIZ_DATA = MANABUPLAY_BOOT.quizData;
+  currentDiff = IS_SINGLE_RUN_MODE ? (DIFFICULTIES[0] ?? null) : null;
+  initQuizDataset();
+
+  waitlistController = createWaitlistController({
+    storage: LS,
+    currentLangRef: () => currentLang,
+    t,
+    waitlistStorageKey: WAITLIST_STORAGE_KEY,
+    waitlistFormName: WAITLIST_FORM_NAME,
+    successButtonDelay: WAITLIST_SUCCESS_BUTTON_DELAY,
+    successMessageDelay: WAITLIST_SUCCESS_MESSAGE_DELAY,
+  });
+
+  shareController = createShareController({
+    getState: () => state,
+    getCurrentDiff: () => currentDiff,
+    getCurrentLang: () => currentLang,
+    getResults,
+    t,
+  });
+
+  if (!archiveDateListenerBound) {
+    window.addEventListener("manabuplay:archive-date-selected", (event) => {
+      if (!(event instanceof CustomEvent)) return;
+      const dateKey = event.detail?.dateKey;
+      if (typeof dateKey === "string") selectArchiveDate(dateKey);
+    });
+    archiveDateListenerBound = true;
+  }
+
+  applyLang();
+  renderDiffGrid();
+  createRevealObserver().observeAll(".reveal", islandRoot);
+  bindQuizActions();
+
+  const waitlistForm = document.querySelector('form[name="manabuplay-waitlist"]');
+  if (waitlistForm instanceof HTMLFormElement) {
+    waitlistForm.addEventListener("submit", waitlistController.handleEmailSubmit);
+  }
 }

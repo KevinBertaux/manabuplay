@@ -222,6 +222,11 @@ html.embed-mockup astro-dev-toolbar {
     overflow: hidden;
   }
 
+  .quiz-shell--viewport.reveal {
+    opacity: 1;
+    transform: none;
+  }
+
   .quiz-shell--viewport.is-in-play,
   .quiz-shell--viewport.is-in-results {
     gap: var(--quiz-mode-card-gap, 0.45rem);
