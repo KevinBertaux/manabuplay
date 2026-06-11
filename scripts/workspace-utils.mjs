@@ -13,6 +13,12 @@ export const APP_PORTS = {
   admin: 4322,
 };
 
+/** Ports réservés au dev lancé par l'agent Cursor — ne pas utiliser 4321/4322 (Kevin). */
+export const AGENT_DEV_PORTS = {
+  web: 4331,
+  admin: 4332,
+};
+
 const APP_CONFIGS = {
   web: path.join(ROOT_DIR, "apps", "web", "astro.config.mjs"),
   admin: path.join(ROOT_DIR, "apps", "admin", "astro.config.mjs"),

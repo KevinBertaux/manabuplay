@@ -36,6 +36,13 @@ alwaysApply: true
 - La CI standard (`ci.yml`) n’exécute plus Playwright ; suite manuelle via Actions → workflow **E2E (manual)** ou en local sur demande.
 - Après des changements navigateur, mentionner brièvement qu’E2E est disponible sur demande — ne pas les lancer ni les bloquer au push par défaut.
 
+## Serveurs dev (ports Kevin)
+
+- **4321 (web) et 4322 (admin) sont réservés à Kevin** — ne jamais lancer `npm run dev`, `dev:web` ou `dev:admin` sur ces ports.
+- Pour un serveur dev temporaire : `npm run dev:agent:web` (**4331**) ou `npm run dev:agent:admin` (**4332**), ou `--port 4331` / `--port 4332` explicitement.
+- **Ne pas laisser un dev server en arrière-plan** (`block_until_ms: 0`) : préférer `npm run build:*`, `curl` ponctuel, ou arrêter le process à la fin de la tâche.
+- Si un test nécessite un serveur live, utiliser les ports agent et documenter l’URL dans la réponse (ex. `http://127.0.0.1:4331/`).
+
 ## Git
 
 - Commit et push uniquement sur demande explicite.

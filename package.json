@@ -13,6 +13,8 @@
     "dev": "node scripts/dev.mjs",
     "dev:web": "node scripts/dev.mjs --app web",
     "dev:admin": "node scripts/dev.mjs --app admin",
+    "dev:agent:web": "node scripts/dev.mjs --app web -- --host 127.0.0.1 --port 4331",
+    "dev:agent:admin": "node scripts/dev.mjs --app admin -- --host 127.0.0.1 --port 4332",
     "build": "node scripts/build.mjs",
     "build:web": "node scripts/build.mjs --app web",
     "build:admin": "node scripts/build.mjs --app admin",
