@@ -64,9 +64,9 @@ const noAccountStatValue = "0";
         <div class={heroBadgeClass}>
           <span class={heroBadgeDotClass}></span>
           <span class={heroBadgeCopyClass}>
-            <span class={heroBadgeLeadClass} data-i18n="hero_badge_lead"></span>
+            <span class={heroBadgeLeadClass} data-i18n="hero_badge_lead">{lang.hero_badge_lead}</span>
             <span class="hidden sm:inline" aria-hidden="true"> · </span>
-            <span data-i18n="hero_badge_tail"></span>
+            <span data-i18n="hero_badge_tail">{lang.hero_badge_tail}</span>
           </span>
         </div>
 
@@ -74,15 +74,15 @@ const noAccountStatValue = "0";
           <span class="glitch-text text-white" data-text="MANABU">MANABU</span>
           <span class="glow-fuchsia text-[var(--fuchsia)]">PLAY</span>
         </div>
-        <p class="hero-brand-line mb-3 font-body text-sm font-semibold tracking-wide text-slate-500" data-i18n="hero_brand_line"></p>
-        <h1 class={heroTaglineClass} data-i18n="hero_tagline"></h1>
-        <p class={heroSubClass} data-i18n="hero_sub"></p>
+        <p class="hero-brand-line mb-3 font-body text-sm font-semibold tracking-wide text-slate-500" data-i18n="hero_brand_line">{lang.hero_brand_line}</p>
+        <h1 class={heroTaglineClass} data-i18n="hero_tagline">{lang.hero_tagline}</h1>
+        <p class={heroSubClass} data-i18n="hero_sub">{lang.hero_sub}</p>
       </div>
 
       <div class="hero-home-bottom">
         <div class="hero-actions">
-          <a href={dailyPath} class="cta-btn hero-cta inline-flex items-center justify-center" data-i18n="hero_cta"></a>
-          <a href="#features" class="hero-secondary-link" data-i18n="hero_how"></a>
+          <a href={dailyPath} class="cta-btn hero-cta inline-flex items-center justify-center" data-i18n="hero_cta">{lang.hero_cta}</a>
+          <a href="#features" class="hero-secondary-link" data-i18n="hero_how">{lang.hero_how}</a>
         </div>
         <HeroScrollChevron mobileVisible />
       </div>
@@ -94,17 +94,17 @@ const noAccountStatValue = "0";
     <div class="hero-stats-grid">
       <div class="text-center min-w-24">
         <div class:list={[statValueClass, "text-[var(--violet)]"]}>170</div>
-        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_words"></div>
+        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_words">{lang.stat_words}</div>
       </div>
       <div class="w-px h-10 bg-slate-800 hidden sm:block"></div>
       <div class="text-center min-w-24">
         <div class:list={[statValueClass, "text-[var(--fuchsia)]"]}>4</div>
-        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_diff"></div>
+        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_diff">{lang.stat_diff}</div>
       </div>
       <div class="w-px h-10 bg-slate-800 hidden sm:block"></div>
       <div class="text-center min-w-24">
         <div class:list={[statValueClass, "text-[var(--cyan)]"]}>{noAccountStatValue}</div>
-        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_free"></div>
+        <div class="stat-label text-slate-500 mt-1" data-i18n="stat_free">{lang.stat_free}</div>
       </div>
     </div>
   </section>
@@ -112,25 +112,25 @@ const noAccountStatValue = "0";
   <!-- ══ FEATURES ══ -->
   <section id="features" class="py-16 px-6 max-w-5xl mx-auto">
     <div class="text-center mb-12 reveal">
-      <p class="section-label text-[var(--cyan)]" data-i18n="features_label"></p>
-      <h2 class="pixel-heading-md mt-4 text-white" data-i18n="features_title"></h2>
-      <p class="font-body text-xl text-slate-400 mt-4 max-w-2xl mx-auto" data-i18n="features_sub"></p>
+      <p class="section-label text-[var(--cyan)]" data-i18n="features_label">{lang.features_label}</p>
+      <h2 class="pixel-heading-md mt-4 text-white" data-i18n="features_title">{lang.features_title}</h2>
+      <p class="font-body text-xl text-slate-400 mt-4 max-w-2xl mx-auto" data-i18n="features_sub">{lang.features_sub}</p>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div class="feature-card p-6 reveal">
         <div class:list={[featureIconBaseClass, "border-[rgba(139,92,246,.3)] bg-[rgba(139,92,246,.15)]"]}>⚔️</div>
-        <h3 class="pixel-card-title mb-4 text-[#a78bfa]" data-i18n="feat1_title"></h3>
-        <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat1_body"></p>
+        <h3 class="pixel-card-title mb-4 text-[#a78bfa]" data-i18n="feat1_title">{lang.feat1_title}</h3>
+        <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat1_body">{lang.feat1_body}</p>
       </div>
       <div class="feature-card reveal p-6 delay-100">
         <div class:list={[featureIconBaseClass, "border-[rgba(232,121,249,.3)] bg-[rgba(232,121,249,.15)]"]}>🧠</div>
-        <h3 class="pixel-card-title mb-4 text-[#e879f9]" data-i18n="feat2_title"></h3>
-        <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat2_body"></p>
+        <h3 class="pixel-card-title mb-4 text-[#e879f9]" data-i18n="feat2_title">{lang.feat2_title}</h3>
+        <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat2_body">{lang.feat2_body}</p>
       </div>
       <div class="feature-card reveal p-6 delay-200">
         <div class:list={[featureIconBaseClass, "border-[rgba(34,211,238,.2)] bg-[rgba(34,211,238,.1)]"]}>🎮</div>
-        <h3 class="pixel-card-title mb-4 text-[#22d3ee]" data-i18n="feat3_title"></h3>
-        <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat3_body"></p>
+        <h3 class="pixel-card-title mb-4 text-[#22d3ee]" data-i18n="feat3_title">{lang.feat3_title}</h3>
+        <p class="font-body text-lg text-slate-400 leading-relaxed" data-i18n="feat3_body">{lang.feat3_body}</p>
       </div>
     </div>
   </section>
@@ -139,9 +139,9 @@ const noAccountStatValue = "0";
   <section id="notify" class="py-20 px-6 relative overflow-hidden">
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(232,121,249,.07)_0%,transparent_70%)]"></div>
     <div class="max-w-xl mx-auto text-center relative z-10 reveal">
-      <p class="section-label mb-4 text-[var(--fuchsia)]" data-i18n="email_label"></p>
-      <h2 class="pixel-heading-md text-white leading-relaxed mb-4" data-i18n="email_title"></h2>
-      <p class="font-body text-xl text-slate-400 mb-8" data-i18n="email_sub"></p>
+      <p class="section-label mb-4 text-[var(--fuchsia)]" data-i18n="email_label">{lang.email_label}</p>
+      <h2 class="pixel-heading-md text-white leading-relaxed mb-4" data-i18n="email_title" set:html={lang.email_title} />
+      <p class="font-body text-xl text-slate-400 mb-8" data-i18n="email_sub">{lang.email_sub}</p>
       <!-- Netlify Forms hidden bot-trap (required by Netlify) -->
       <form name="manabuplay-waitlist" method="POST" action={waitlistAction} data-netlify="true" netlify-honeypot="bot-field"
             class="flex flex-col gap-4" novalidate>
@@ -151,22 +151,22 @@ const noAccountStatValue = "0";
         <p class="hidden"><label>Don't fill this out: <input name="bot-field"/></label></p>
         <div class="email-waitlist-focus w-full" id="emailWaitlistFocus">
           <div class="flex flex-col gap-3 sm:flex-row">
-            <input type="email" id="emailInput" name="email" class="email-input flex-1" data-i18n-ph="email_ph" autocomplete="email" aria-required="true" />
-            <button type="submit" class="cta-btn whitespace-nowrap text-[.72rem]" data-i18n="email_cta"></button>
+            <input type="email" id="emailInput" name="email" class="email-input flex-1" data-i18n-ph="email_ph" placeholder={lang.email_ph} autocomplete="email" aria-required="true" />
+            <button type="submit" class="cta-btn whitespace-nowrap text-[.72rem]" data-i18n="email_cta">{lang.email_cta}</button>
           </div>
           <p class="email-waitlist-hint" id="emailWaitlistHint" role="alert" aria-live="polite" hidden></p>
           <div class="email-consent-field" id="emailConsentField">
             <label class="email-consent-label flex items-start gap-3 text-left">
               <input type="checkbox" id="emailConsent" name="consent" value="yes" class="email-consent-checkbox mt-1" aria-required="true" />
-              <span class="font-body text-sm leading-relaxed text-slate-400" data-i18n="email_consent"></span>
+              <span class="font-body text-sm leading-relaxed text-slate-400" data-i18n="email_consent" set:html={lang.email_consent} />
             </label>
           </div>
         </div>
       </form>
       <div id="emailSuccess" class="mt-5 hidden">
-        <span class="font-pixel text-[.78rem] text-[var(--cyan)]" data-i18n="email_ok"></span>
+        <span class="font-pixel text-[.78rem] text-[var(--cyan)]" data-i18n="email_ok">{lang.email_ok}</span>
       </div>
-      <p class="font-body text-sm text-slate-600 mt-5" data-i18n="email_legal"></p>
+      <p class="font-body text-sm text-slate-600 mt-5" data-i18n="email_legal">{lang.email_legal}</p>
     </div>
   </section>
 
