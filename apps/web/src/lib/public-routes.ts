@@ -81,6 +81,16 @@ export function getLocalizedLegalPath(locale: PublicLocale, key: PublicLegalKey)
   return `/${locale}/${key}/`;
 }
 
+/** Same page in another locale: swaps `/fr` ↔ `/en` prefix, keeps path tail and query string. */
+export function switchPublicLocalePath(pathname: string, targetLocale: PublicLocale): string {
+  const segments = pathname.split("/").filter(Boolean);
+  if (segments.length === 0 || (segments[0] !== "fr" && segments[0] !== "en")) {
+    return getLocalizedHomePath(targetLocale);
+  }
+  segments[0] = targetLocale;
+  return `/${segments.join("/")}/`;
+}
+
 export function getPublicStaticLocalePaths() {
   return PUBLIC_LOCALES.map((locale) => ({ params: { locale } }));
 }

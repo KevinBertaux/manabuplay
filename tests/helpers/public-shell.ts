@@ -18,8 +18,21 @@ export function mobileModeMenuPanel(page: Page) {
   return page.locator("#public-mode-menu-panel");
 }
 
-export function localeSwitch(page: Page) {
-  return page.locator(".public-locale-switch");
+export function settingsTrigger(page: Page) {
+  return page.locator("#public-settings-trigger");
+}
+
+export function settingsDrawer(page: Page) {
+  return page.locator("#public-settings-drawer");
+}
+
+export function settingsLocaleSwitch(page: Page) {
+  return settingsDrawer(page).locator(".public-settings-locale-switch");
+}
+
+export async function openSettingsDrawer(page: Page) {
+  await settingsTrigger(page).click();
+  await settingsDrawer(page).waitFor({ state: "visible" });
 }
 
 export function archiveCalendarGrid(page: Page) {

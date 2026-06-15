@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { archiveGridArchiveCell } from "../helpers/public-shell";
 import { ASTRO_HOME_URL, ASTRO_URL, preparePage } from "../helpers/visual";
+import { openSettingsDrawer } from "../helpers/public-shell";
 
 async function submitWaitlistForm(page: Page, email: string) {
   await page.locator("#emailInput").fill(email);
@@ -103,6 +104,7 @@ test.describe("public flow", () => {
     await preparePage(page, ASTRO_HOME_URL);
 
     await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Play today's quiz");
+    await openSettingsDrawer(page);
     await page.locator("#btnFR").click();
     await expect(page.locator("#htmlRoot")).toHaveAttribute("lang", "fr");
     await expect(page.locator("[data-i18n='hero_cta']")).toHaveText("Jouer le quiz du jour");

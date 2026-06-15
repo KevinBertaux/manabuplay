@@ -182,8 +182,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "The quiz is the product. It must be truly playable on iOS and Android before any secondary business priority.",
     },
     note: {
-      fr: "Polish mobile livré (viewport, HUD, toast, indices, archives). Reste la validation terrain iOS/Android sur l’URL preprod deploy/preprod-v01.",
-      en: "Mobile polish shipped (viewport, HUD, toast, hints, archives). Remaining: real iOS/Android validation on deploy/preprod-v01 preprod URL.",
+      fr: "Polish mobile livré (viewport, HUD, toast, indices, archives, nav burger/cog). Reste la validation terrain iOS/Android sur l’URL preprod deploy/preprod-v01.",
+      en: "Mobile polish shipped (viewport, HUD, toast, hints, archives, burger/cog nav). Remaining: real iOS/Android validation on deploy/preprod-v01 preprod URL.",
     },
   },
   {
@@ -233,8 +233,8 @@ const EXECUTION_STEPS: ArchitectureExecutionStep[] = [
       en: "The product can no longer stay as a landing with a quiz anchor. Modes need real routes.",
     },
     note: {
-      fr: "Shell public, locale par URL, routes Daily / Arcade / Archives, switch FR/EN, landing marketing séparée du jeu (lot 1). ES prévu v1.0+, invisible v0.1.",
-      en: "Public shell, locale-by-URL, Daily / Arcade / Archives routes, FR/EN switch, marketing landing separated from play (lot 1). ES planned v1.0+, hidden in v0.1.",
+      fr: "Shell public, locale par URL, routes Daily / Arcade / Archives, cog drawer langue FR/EN, landing marketing séparée du jeu (lot 1). ES prévu v1.0+, invisible v0.1.",
+      en: "Public shell, locale-by-URL, Daily / Arcade / Archives routes, language settings drawer, marketing landing separated from play (lot 1). ES planned v1.0+, hidden in v0.1.",
     },
   },
   {
@@ -522,11 +522,11 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
   {
     id: "release-hardening",
     order: 6,
-    progress: 92,
+    progress: 96,
     title: { fr: "Durcir la fin de v0.1", en: "Harden the end of v0.1" },
     goal: {
-      fr: "Fermer release v0.1 : manabuplay.com en ligne, QA mobile device, smoke finale, cog drawer langue.",
-      en: "Close v0.1 release: manabuplay.com live, device mobile QA, final smoke pass, language settings drawer.",
+      fr: "Fermer release v0.1 : manabuplay.com en ligne, cog drawer langue livré. Reste QA mobile device, smoke finale, merge preprod → main.",
+      en: "Close v0.1 release: manabuplay.com live, language settings drawer shipped. Remaining: device mobile QA, final smoke pass, preprod → main merge.",
     },
     guardrail: {
       fr: "Ne pas considérer le go-live public terminé tant que manabuplay.com et www ne résolvent pas vers Netlify en HTTPS.",
@@ -607,6 +607,22 @@ const IMPLEMENTATION_PHASES: ArchitecturePlanPhase[] = [
         note: {
           fr: "Clarity actif en prod (main). Pré-prod sans Clarity sauf test volontaire.",
           en: "Clarity active in production (main). Pre-production without Clarity unless tested on purpose.",
+        },
+      },
+      {
+        path: "apps/web/src/layouts/PublicLayout.astro",
+        action: "update",
+        note: {
+          fr: "Cog drawer réglages : langue FR/EN, cookies ; nav mobile burger + cog alignés.",
+          en: "Settings cog drawer: FR/EN language, cookies; aligned mobile burger + cog nav.",
+        },
+      },
+      {
+        path: "apps/web/src/scripts/public-settings-drawer.ts",
+        action: "create",
+        note: {
+          fr: "Ouverture/fermeture drawer, Escape, focus trap, overlay.",
+          en: "Drawer open/close, Escape, focus trap, overlay.",
         },
       },
     ],

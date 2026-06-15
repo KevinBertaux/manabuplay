@@ -12,6 +12,7 @@ import {
   type PublicModeKey,
   getLocalizedHomePath,
   getLocalizedModePath,
+  switchPublicLocalePath,
 } from "../lib/public-routes";
 
 interface Props {
@@ -45,9 +46,21 @@ const encodedBootPayload = bootPayload
   ? Buffer.from(JSON.stringify(bootPayload), "utf8").toString("base64")
   : "";
 
+const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? "";
+const showCookiePreferences = Boolean(clarityProjectId);
+const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
+
 function getLocaleHref(targetLocale: PublicLocale) {
-  return activeMode ? getLocalizedModePath(targetLocale, activeMode) : getLocalizedHomePath(targetLocale);
+  const path = switchPublicLocalePath(Astro.url.pathname, targetLocale);
+  return Astro.url.search ? `${path}${Astro.url.search}` : path;
 }
+
+const publicNavIconTriggerClass =
+  "public-nav-icon-trigger rounded-lg border bg-[rgba(26,22,48,.34)] font-body text-[rgba(226,217,243,.72)] transition-[color,border-color,background] duration-150";
+const publicNavIconGlyphClass = "public-nav-icon-glyph";
+const settingsDrawerLinkClass =
+  "font-body text-sm text-slate-300 no-underline transition-colors hover:text-white";
+const settingsCookieButtonClass = `${settingsDrawerLinkClass} public-settings-cookie-btn cursor-pointer`;
 
 function getModeSegPosition(index: number, total: number) {
   if (index === 0) return "public-mode-seg--first";
@@ -60,9 +73,7 @@ const topNavShellClass =
 /* Mobile-first : défaut mobile, md 768px = nav desktop (un seul seuil shell). */
 const topNavInnerClass =
   "public-top-nav-inner public-shell-inner grid grid-cols-[1fr_auto] items-center gap-2 px-3 py-2 md:grid-cols-[auto_minmax(0,1fr)_auto] md:gap-4 md:px-6";
-const localeSwitchClass =
-  "public-locale-switch items-center gap-2 rounded-lg border border-[rgba(139,92,246,.15)] bg-[rgba(26,22,48,.8)] px-2 py-1 text-[rgba(139,92,246,.25)]";
-const brandLinkClass = "flex min-w-0 items-center gap-3 no-underline";
+const brandLinkClass = "public-top-nav-brand flex items-center gap-3 no-underline";
 const navGroupClass = "public-mode-nav-desktop public-mode-nav-segmented min-w-0";
 const navSegClass =
   "public-mode-seg font-body text-sm font-bold text-[rgba(226,217,243,.72)] no-underline transition-[color,background,box-shadow] duration-150";
@@ -70,17 +81,14 @@ const navLinkInactiveClass =
   "border-[rgba(139,92,246,.14)] hover:border-[rgba(34,211,238,.38)] hover:bg-[rgba(34,211,238,.08)] hover:text-white";
 const navLinkActiveClass =
   "border-[rgba(34,211,238,.38)] bg-[rgba(34,211,238,.08)] text-white";
-const mobileModeMenuClass = "public-mode-menu relative";
-const mobileModeTriggerClass =
-  "public-mode-menu-trigger inline-flex items-center justify-center rounded-lg border bg-[rgba(26,22,48,.34)] px-2 py-2 font-body text-[rgba(226,217,243,.72)] transition-[color,border-color,background] duration-150";
+const topNavActionsClass = "public-top-nav-actions col-start-2 row-start-1 md:col-auto md:row-auto";
+const mobileModeMenuClass = "public-mode-menu";
 const mobileModePanelClass =
   "public-mode-menu-panel absolute right-0 z-[60] flex flex-col rounded-lg border border-[rgba(139,92,246,.22)] bg-[rgba(10,9,17,.96)] shadow-[0_12px_32px_rgba(0,0,0,.45)] backdrop-blur-[12px]";
 const mobileModePanelLinkClass =
   "block w-full rounded-lg px-3 py-2 text-left font-body text-sm font-bold";
 const brandMarkClass = "block size-9 shrink-0 rounded-lg";
 const brandWordmarkClass = "glow-violet font-pixel text-sm text-[#a78bfa]";
-const clarityProjectId = import.meta.env.PUBLIC_CLARITY_PROJECT_ID?.trim() ?? "";
-const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
 ---
 <!DOCTYPE html>
 <html lang={locale} id="htmlRoot" class:list={[{ "embed-mockup": isEmbedMockup }]}>
@@ -134,23 +142,20 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
         </a>
       ))}
     </div>
-    <div class="col-start-2 row-start-1 flex items-center gap-2 md:col-auto md:row-auto">
+    <div class={topNavActionsClass}>
       <nav class={mobileModeMenuClass} aria-label={locale === "fr" ? "Menu des modes" : "Modes menu"}>
         <button
           type="button"
           id="public-mode-menu-trigger"
-          class:list={[
-            mobileModeTriggerClass,
-            activeMode ? navLinkActiveClass : navLinkInactiveClass,
-          ]}
+          class:list={[publicNavIconTriggerClass, navLinkInactiveClass]}
           aria-expanded="false"
           aria-controls="public-mode-menu-panel"
           aria-label={productCopy.mode_nav_aria}
         >
-          <span class="flex flex-col gap-1" aria-hidden="true">
-            <span class="block h-[2px] w-4 rounded-full bg-current opacity-90"></span>
-            <span class="block h-[2px] w-4 rounded-full bg-current opacity-90"></span>
-            <span class="block h-[2px] w-4 rounded-full bg-current opacity-90"></span>
+          <span class:list={[publicNavIconGlyphClass, "public-nav-icon-glyph--burger"]} aria-hidden="true">
+            <span class="public-nav-icon-burger-bar"></span>
+            <span class="public-nav-icon-burger-bar"></span>
+            <span class="public-nav-icon-burger-bar"></span>
           </span>
         </button>
         <div id="public-mode-menu-panel" class={mobileModePanelClass} hidden>
@@ -169,24 +174,80 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
           ))}
         </div>
       </nav>
-      <div class={localeSwitchClass}>
-        {PUBLIC_LOCALES.map((targetLocale, index) => (
-          <>
-            {index > 0 && <span>|</span>}
+      <button
+        type="button"
+        id="public-settings-trigger"
+        class:list={[publicNavIconTriggerClass, navLinkInactiveClass]}
+        aria-expanded="false"
+        aria-controls="public-settings-drawer"
+        aria-label={productCopy.settings_trigger_aria}
+      >
+        <span class={publicNavIconGlyphClass} aria-hidden="true">
+          <svg
+            class="public-nav-icon-cog"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+            ></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </span>
+      </button>
+    </div>
+    </div>
+  </nav>
+
+  <div id="public-settings-root" class="public-settings-root" hidden>
+    <div class="public-settings-overlay" data-settings-dismiss></div>
+    <aside
+      id="public-settings-drawer"
+      class="public-settings-drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="public-settings-title"
+    >
+      <header class="public-settings-drawer-header">
+        <h2 id="public-settings-title" class="public-settings-drawer-title">
+          {productCopy.settings_drawer_title}
+        </h2>
+        <button
+          type="button"
+          class="public-settings-close"
+          data-settings-close
+          aria-label={productCopy.settings_close_aria}
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+      <section class="public-settings-section">
+        <h3 class="public-settings-section-label">{productCopy.settings_language_label}</h3>
+        <div class="public-settings-locale-switch" role="group" aria-label={productCopy.settings_language_label}>
+          {PUBLIC_LOCALES.map((targetLocale) => (
             <a
               id={`btn${PUBLIC_LOCALE_LABELS[targetLocale]}`}
               class:list={["lang-btn", { active: locale === targetLocale }]}
-              data-locale-home={targetLocale}
               href={getLocaleHref(targetLocale)}
             >
               {PUBLIC_LOCALE_LABELS[targetLocale]}
             </a>
-          </>
-        ))}
-      </div>
-    </div>
-    </div>
-  </nav>
+          ))}
+        </div>
+      </section>
+      {showCookiePreferences ? (
+        <section class="public-settings-section">
+          <button type="button" class={settingsCookieButtonClass} data-open-analytics-consent>
+            {productCopy.footer_cookies}
+          </button>
+        </section>
+      ) : null}
+    </aside>
+  </div>
 
   <slot />
 
@@ -201,6 +262,7 @@ const isEmbedMockup = Astro.url.searchParams.get("embed") === "mockup";
     <script src="../scripts/public-landing.ts"></script>
   )}
   <script src="../scripts/public-mode-menu.ts"></script>
+  <script src="../scripts/public-settings-drawer.ts"></script>
   <script src="../scripts/public-analytics.ts"></script>
 </body>
 </html>

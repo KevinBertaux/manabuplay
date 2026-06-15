@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "ManabuPlay Roadmap",
-    "updatedAt": "2026-06-12",
+    "updatedAt": "2026-05-19",
     "defaultVersionId": "v0.1",
     "statuses": [
       { "id": "todo", "label": "Backlog" },
@@ -53,7 +53,7 @@
       "id": "v0.1",
       "label": "v0.1",
       "kind": "current",
-      "summary": "Refacto quiz lots 1–4 mergée sur deploy/preprod-v01 (deb2c42). DNS/SSL manabuplay.com OK (Infomaniak → Netlify). Reste : QA mobile device, smoke finale v0.1, cog drawer (langue FR/EN).",
+      "summary": "Refacto quiz lots 1–4 mergée sur deploy/preprod-v01 (deb2c42). DNS/SSL manabuplay.com OK. Cog drawer langue livré (feat/public-settings-cog). Reste : QA mobile device, smoke finale v0.1, merge preprod → main.",
       "items": [
         {
           "id": "v01-data-foundation",
@@ -387,21 +387,21 @@
           "priority": "P1",
           "area": "landing",
           "type": "ux",
-          "notes": "Desktop et Playwright couvrent les flux critiques. Polish mobile quiz livre (viewport 100dvh, HUD, toast, indices, archives agenda). Reste verification manuelle iOS/Android sur preprod deploy/preprod-v01 : quiz, archives, nav, waitlist."
+          "notes": "Desktop et Playwright couvrent les flux critiques. Polish mobile quiz livre (viewport 100dvh, HUD, toast, indices, archives agenda). Nav mobile : burger + cog alignes, zone cliquable brand limitee au logo/titre. Reste verification manuelle iOS/Android sur preprod deploy/preprod-v01 : quiz, archives, nav, waitlist."
         },
         {
           "id": "v01-public-settings-cog",
           "title": "Remplacer le selecteur EN|FR par une icone cog (drawer options)",
-          "status": "todo",
+          "status": "done",
           "priority": "P2",
           "area": "ux",
           "type": "feature",
-          "notes": "Cog dans la nav (mobile + desktop), drawer lateral. Contenu v0.1 : langue FR/EN via navigation /fr/ et /en/ (equivalent de la page courante). Retrait du selecteur EN|FR. Mobile : [ hamburger modes dropdown ] [ cog drawer ] (pattern A). Desktop : segments modes inchanges + cog. Preferences cookies en lien secondaire si pertinent. Mini profil local : voir backlog non scope (settings-local-profile).",
+          "notes": "Livre sur feat/public-settings-cog : cog nav mobile + desktop, drawer lateral (langue FR/EN via switchPublicLocalePath + query, preferences cookies si Clarity). Retrait selecteur EN|FR. Mobile pattern A : [ hamburger modes ] [ cog ]. Mini profil local : backlog settings-local-profile.",
           "children": [
             {
               "id": "settings-cog-nav",
               "title": "Icone cog + drawer (langue FR/EN, preferences)",
-              "status": "todo"
+              "status": "done"
             }
           ]
         },

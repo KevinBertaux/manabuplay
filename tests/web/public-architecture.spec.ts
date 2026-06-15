@@ -10,9 +10,11 @@ import {
   desktopModeNav,
   hintChip1,
   hintChip2,
-  localeSwitch,
   mobileModeMenuPanel,
   mobileModeMenuTrigger,
+  openSettingsDrawer,
+  settingsLocaleSwitch,
+  settingsTrigger,
 } from "../helpers/public-shell";
 
 const LOCALES = [
@@ -101,23 +103,23 @@ test.describe("public localized architecture", () => {
     await expect(segmentedNav.locator(".public-mode-seg--first")).toHaveCount(1);
     await expect(segmentedNav.locator(".public-mode-seg--last")).toHaveCount(1);
     await expect(mobileModeMenuTrigger(page)).toBeHidden();
-    await expect(localeSwitch(page)).toBeVisible();
+    await expect(settingsTrigger(page)).toBeVisible();
   });
 
-  test("hides locale switch and desktop nav below md", async ({ page }) => {
+  test("hides desktop nav below md and keeps settings cog visible", async ({ page }) => {
     await page.setViewportSize(VIEWPORT_BELOW_MD);
     await page.goto(`${ASTRO_URL}fr/`, { waitUntil: "domcontentloaded" });
 
-    await expect(localeSwitch(page)).toBeHidden();
+    await expect(settingsTrigger(page)).toBeVisible();
     await expect(desktopModeNav(page)).toBeHidden();
     await expect(mobileModeMenuTrigger(page)).toBeVisible();
   });
 
-  test("shows locale switch and desktop nav from md", async ({ page }) => {
+  test("shows settings cog and desktop nav from md", async ({ page }) => {
     await page.setViewportSize(VIEWPORT_MD);
     await page.goto(`${ASTRO_URL}fr/`, { waitUntil: "domcontentloaded" });
 
-    await expect(localeSwitch(page)).toBeVisible();
+    await expect(settingsTrigger(page)).toBeVisible();
     await expect(desktopModeNav(page)).toBeVisible();
     await expect(mobileModeMenuTrigger(page)).toBeHidden();
   });
@@ -155,11 +157,11 @@ test.describe("public localized architecture", () => {
     await expect(page.locator("#emailSuccess")).toBeVisible();
   });
 
-  test("hides the locale switch on mobile viewports", async ({ page }) => {
+  test("shows settings cog on mobile viewports", async ({ page }) => {
     await page.setViewportSize(MOBILE_VIEWPORT);
     await page.goto(`${ASTRO_URL}fr/`, { waitUntil: "domcontentloaded" });
 
-    await expect(localeSwitch(page)).toBeHidden();
+    await expect(settingsTrigger(page)).toBeVisible();
   });
 
   test("opens the mobile mode burger menu", async ({ page }) => {
@@ -190,11 +192,12 @@ test.describe("public localized architecture", () => {
     await expect(
       desktopModeNav(page).locator("a[data-public-route='arcade'][aria-current='page']"),
     ).toBeVisible();
-    await expect(localeSwitch(page).locator("a", { hasText: "EN" })).toHaveAttribute(
+    await openSettingsDrawer(page);
+    await expect(settingsLocaleSwitch(page).locator("a", { hasText: "EN" })).toHaveAttribute(
       "href",
       "/en/arcade/",
     );
-    await expect(localeSwitch(page).locator("a", { hasText: "ES" })).toHaveCount(0);
+    await expect(settingsLocaleSwitch(page).locator("a", { hasText: "ES" })).toHaveCount(0);
   });
 
   test("renders the real localized daily quiz", async ({ page }) => {
