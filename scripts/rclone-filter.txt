@@ -1,0 +1,13 @@
+# rclone filter — ManabuPlay backup (code + .git, pas les artefacts lourds)
+- node_modules/**
+- dist/**
+- .astro/**
+- coverage/**
+- playwright-report/**
+- test-results/**
+- tmp/**
+- .codex-temp/**
+- artifacts/**
+- .env
+- .env.*
+- **/.DS_Store
